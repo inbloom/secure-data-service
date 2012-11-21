@@ -178,7 +178,7 @@ final class Xsd2UmlConvert {
         
         final XmlSchemaSimpleTypeContent content = simpleType.getContent();
         if (content instanceof XmlSchemaSimpleTypeList) {
-            // FIXME: What's the best way to handle? complexType?
+            // What's the best way to handle? complexType?
             // final XmlSchemaSimpleTypeList simpleTypeList = (XmlSchemaSimpleTypeList)content;
             // final XmlSchemaSimpleType itemType = simpleTypeList.getItemType();
             final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),

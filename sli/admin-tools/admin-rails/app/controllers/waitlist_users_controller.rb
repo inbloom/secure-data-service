@@ -21,14 +21,9 @@ class WaitlistUsersController < ApplicationController
   skip_before_filter :handle_oauth
 
   # GET /waitlist_users/new
-  # GET /waitlist_users/new.json
   def new
-    @waitlist_user = WaitlistUser.new
-
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @waitlist_user }
     end
   end
-
 end

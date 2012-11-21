@@ -24,33 +24,33 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :handle_oauth
   ActionController::Base.request_forgery_protection_token = 'state'
-  
+
   class OutOfOrder < StandardError
   end
-  
+
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
     reset_session
     handle_oauth
   end
-  
+
   rescue_from ActiveResource::ResourceNotFound do |exception|
     logger.info {"Resource not found."}
     render_404
   end
-  
+
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
     reset_session
     render_403
   end
-  
+
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server"}
     reset_session
     SessionResource.access_token = nil
   end
-  
+
   rescue_from OutOfOrder do |exception|
     logger.error {"User has tried to access a resource before the proper steps have been followed"}
     render_realm_help
@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
     return
     #render :nothing => true
   end
-  
+
   def current_url
     request.url
   end
@@ -70,10 +70,10 @@ class ApplicationController < ActionController::Base
   def handle_oauth
     SessionResource.access_token = nil
     oauth = session[:oauth]
-    if oauth == nil 
+    if oauth == nil
       oauth = OauthHelper::Oauth.new()
       session[:entry_url] = current_url
-      session[:oauth] = oauth 
+      session[:oauth] = oauth
     end
     if oauth.enabled?
       if oauth.token != nil
@@ -95,29 +95,29 @@ class ApplicationController < ActionController::Base
       logger.info { "OAuth disabled."}
     end
   end
-  
+
   def render_realm_help
-   respond_to do |format|
-     format.html { render :file => "#{Rails.root}/public/realm_help.html", :status => :not_found }
-     #format.json { :status => :not_found}
-     format.any  { head :not_found }
-   end
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/realm_help.html", :status => :not_found }
+      #format.json { :status => :not_found}
+      format.any  { head :not_found }
+    end
   end
 
   def render_404
-   respond_to do |format|
-     format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
-     #format.json { :status => :not_found}
-     format.any  { head :not_found }
-   end
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
+      #format.json { :status => :not_found}
+      format.any  { head :not_found }
+    end
   end
 
   def render_403
-   respond_to do |format|
-     format.html { render :file => "#{Rails.root}/public/403.html", :status => :forbidden }
-     #format.json { :status => :not_found}
-     format.any  { head :not_found }
-   end
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/403.html", :status => :forbidden }
+      #format.json { :status => :not_found}
+      format.any  { head :not_found }
+    end
   end
 
   def is_developer?
@@ -150,29 +150,29 @@ class ApplicationController < ActionController::Base
 
   def get_tenant
     check = Check.get ""
-   # if APP_CONFIG["is_sandbox"]
-   #   return check["external_id"]
-      #return check["user_id"]
-  #  else
-     return check["tenantId"]
-   # end
+    # if APP_CONFIG["is_sandbox"]
+    #   return check["external_id"]
+    #return check["user_id"]
+    #  else
+    return check["tenantId"]
+    # end
   end
 
 
   def not_found
-  	  raise ActionController::RoutingError.new('Not Found')
+    raise ActionController::RoutingError.new('Not Found')
   end
-  
+
   def set_session
     check = Check.get("")
-    if check['authenticated'] == false 
+    if check['authenticated'] == false
       raise ActiveResource::UnauthorizedAccess, caller
     end
     email = SupportEmail.get("")
     logger.debug { "Email #{email}"}
     session[:support_email] = email
-    session[:full_name] ||= check["full_name"]   
-    session[:email] ||= check["email"]   
+    session[:full_name] ||= check["full_name"]
+    session[:email] ||= check["email"]
     session[:adminRealm] = check["adminRealm"]
     session[:roles] = check["sliRoles"]
     session[:edOrg] = check["edOrg"]

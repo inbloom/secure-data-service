@@ -25,57 +25,57 @@ import org.junit.Test;
 
 public class XmiMappingTest {
 
-	private static final XmiMappingStatus xmiMappingStatus = XmiMappingStatus.UNKNOWN;
+	private static final XmiMappingStatus XMI_MAPPING_STATUS = XmiMappingStatus.UNKNOWN;
 	private static final String TRACKING = "TRACKING";
 	private static final String COMMENT = "COMMENT";
-	private static final XmiFeature lhsFeature = new XmiFeature("foo", true, "bar", true);
-	private static final XmiFeature rhsFeature = new XmiFeature("foo2", true, "bar2", true);
-	private static final XmiMapping xmiMapping = new XmiMapping(lhsFeature, rhsFeature, xmiMappingStatus, TRACKING, COMMENT);
+	private static final XmiFeature LHS_FEATURE = new XmiFeature("foo", true, "bar", true);
+	private static final XmiFeature RHS_FEATURE = new XmiFeature("foo2", true, "bar2", true);
+	private static final XmiMapping XMI_MAPPING = new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, TRACKING, COMMENT);
 
 	
 	@Test
 	public void testCompareTo() {
-		assertTrue(xmiMapping.compareTo(null) == 0);
-		assertTrue(xmiMapping.compareTo(xmiMapping) == 0);
+		assertTrue(XMI_MAPPING.compareTo(null) == 0);
+		assertTrue(XMI_MAPPING.compareTo(XMI_MAPPING) == 0);
 	}
 	
 	@Test
 	public void testGetLhsFeature() {
-		assertEquals(lhsFeature, xmiMapping.getLhsFeature());
+		assertEquals(LHS_FEATURE, XMI_MAPPING.getLhsFeature());
 	}
 	
 	@Test
 	public void testGetRhsFeature() {
-		assertEquals(rhsFeature, xmiMapping.getRhsFeature());
+		assertEquals(RHS_FEATURE, XMI_MAPPING.getRhsFeature());
 	}
 	
 	@Test
 	public void testGetStatus() {
-		assertEquals(xmiMappingStatus, xmiMapping.getStatus());
+		assertEquals(XMI_MAPPING_STATUS, XMI_MAPPING.getStatus());
 	}
 	
 	@Test
 	public void testGetComment() {
-		assertEquals(COMMENT, xmiMapping.getComment());
+		assertEquals(COMMENT, XMI_MAPPING.getComment());
 	}
 	
 	@Test
 	public void testGetTracking() {
-		assertEquals(TRACKING, xmiMapping.getTracking());
+		assertEquals(TRACKING, XMI_MAPPING.getTracking());
 	}
 	
 	@Test
 	public void testToString() {
 		
 		// test not null
-		assertNotNull(xmiMapping.toString());
+		assertNotNull(XMI_MAPPING.toString());
 		
 		//if interested in actual response, re-enable this:
 		
 		/*
 		
 		String expectedResult = "{lhs : {name : foo, exists : true, className : bar, classExists : true}, rhs : {name : foo2, exists : true, className : bar2, classExists : true}, status : UNKNOWN, comment : COMMENT}";
-		String receivedResult = xmiMapping.toString();
+		String receivedResult = XMI_MAPPING.toString();
 		
 		assertEquals(expectedResult, receivedResult);
 		
@@ -84,16 +84,16 @@ public class XmiMappingTest {
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam1() {
-		new XmiMapping(lhsFeature, rhsFeature, null, TRACKING, COMMENT);
+		new XmiMapping(LHS_FEATURE, RHS_FEATURE, null, TRACKING, COMMENT);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam2() {
-		new XmiMapping(lhsFeature, rhsFeature, xmiMappingStatus, null, COMMENT);
+		new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, null, COMMENT);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam3() {
-		new XmiMapping(lhsFeature, rhsFeature, xmiMappingStatus, TRACKING, null);
+		new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, TRACKING, null);
 	}
 }

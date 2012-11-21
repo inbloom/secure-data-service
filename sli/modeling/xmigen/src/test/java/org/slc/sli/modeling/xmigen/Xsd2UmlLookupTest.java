@@ -40,10 +40,6 @@ public void before() throws Exception {
    testObject = new Xsd2UmlLookup<ClassType>();
 } 
 
-@After
-public void after() throws Exception { 
-} 
-
 /** 
 * 
 * Method: from(final T key) 

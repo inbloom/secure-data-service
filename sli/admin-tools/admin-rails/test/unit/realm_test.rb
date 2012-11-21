@@ -25,7 +25,7 @@ class RealmTest < ActiveSupport::TestCase
     assert_not_nil(realms)
     assert_equal(realms.size, @realm_fixtures.size)
   end
-  
+
   test "simple validation" do
     realm = Realm.new
     realm.idp = Realm::Idp.new
@@ -57,7 +57,7 @@ class RealmTest < ActiveSupport::TestCase
     realm.uniqueIdentifier = "RE"
     assert !realm.valid?, "Realm should not be valid (Length)"
   end
-  
+
   test "idp validation" do
     realm = Realm.new
     realm.idp = Realm::Idp.new

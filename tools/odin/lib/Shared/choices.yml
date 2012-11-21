@@ -1,5 +1,9 @@
 raceDistribution: [["White", 60], ["Black", 15], ["Asian", 5], ["Hispanic", 20]]
 hispanicLatinoDist: [[true, 20], [false, 80]]
+economicDisadvantaged: [[true, 10], [false, 90]]
+schoolFood: [['Free', 5], ['Full price', 70], ['Reduced price', 10], ['Unknown', 15]]
+disability: [[true, 5], [false, 95]]
+limitedEnglish: [['Limited', 3], ['Limited Monitored 1', 2], ['Limited Monitored 2', 1], ['NotLimited', 94]]
 city: "New York"
 state: "NY"
 postalCode: "10292"

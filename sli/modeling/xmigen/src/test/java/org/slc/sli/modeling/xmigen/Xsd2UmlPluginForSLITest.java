@@ -54,10 +54,6 @@ public void before() throws Exception {
     pluginForSLI = new Xsd2UmlPluginForSLI();
 }
 
-@After
-public void after() throws Exception { 
-} 
-
 /** 
 * 
 * Method: declareTagDefinitions(final Xsd2UmlPluginHost host) 
@@ -65,7 +61,6 @@ public void after() throws Exception {
 */ 
 @Test
 public void testDeclareTagDefinitions() throws Exception { 
-//TODO: Test goes here...
     Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
     when(host.ensureTagDefinitionId(anyString())).thenReturn(Identifier.random());
     List<TagDefinition> tagDefinitionList = pluginForSLI.declareTagDefinitions(host);
@@ -80,7 +75,6 @@ public void testDeclareTagDefinitions() throws Exception {
 */ 
 @Test
 public void testGetAssociationEndTypeName() throws Exception { 
-//TODO: Test goes here...
     ClassType classType = mock(ClassType.class);
     Attribute attribute = mock(Attribute.class);
     Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
@@ -107,7 +101,6 @@ public void testGetAssociationEndTypeName() throws Exception {
 */ 
 @Test
 public void testIsAssociationEnd() throws Exception { 
-//TODO: Test goes here...
     ClassType classType = mock(ClassType.class);
     Attribute attribute = mock(Attribute.class);
     Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
@@ -126,7 +119,6 @@ public void testIsAssociationEnd() throws Exception {
 }
     @Test
     public void testIsAssociationEndFalse() throws Exception {
-//TODO: Test goes here...
         ClassType classType = mock(ClassType.class);
         Attribute attribute = mock(Attribute.class);
         Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
@@ -151,20 +143,9 @@ public void testIsAssociationEnd() throws Exception {
 */ 
 @Test
 public void testNameAssociation() throws Exception { 
-//TODO: Test goes here...
     AssociationEnd associationEnd = mock(AssociationEnd.class);
     Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
     assertTrue(pluginForSLI.nameAssociation(associationEnd,associationEnd,host).isEmpty());
-} 
-
-/** 
-* 
-* Method: nameFromSchemaTypeName(final QName name) 
-* 
-*/ 
-@Test
-public void testNameFromSchemaTypeName() throws Exception { 
-//TODO: Test goes here... 
 } 
 
 /** 
@@ -218,64 +199,7 @@ public void testTagsFromAppInfo() throws Exception {
 }
 
 
-/** 
-* 
-* Method: makeTagDefinition(final String name, final Occurs lower, final Occurs upper, final Xsd2UmlPluginHost host) 
-* 
-*/ 
-@Test
-public void testMakeTagDefinition() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = Xsd2UmlPluginForSLI.getClass().getMethod("makeTagDefinition", final.class, final.class, final.class, final.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
 
-/** 
-* 
-* Method: stringValue(final NodeList markup) 
-* 
-*/ 
-@Test
-public void testStringValue() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = Xsd2UmlPluginForSLI.getClass().getMethod("stringValue", final.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
 
-/** 
-* 
-* Method: titleCase(final String text) 
-* 
-*/ 
-@Test
-public void testTitleCase() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = Xsd2UmlPluginForSLI.getClass().getMethod("titleCase", final.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
 
 } 

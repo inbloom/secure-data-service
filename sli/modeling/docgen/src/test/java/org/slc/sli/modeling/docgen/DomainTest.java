@@ -86,22 +86,22 @@ public class DomainTest {
 		assertEquals(DIAGRAMS, this.domain.getDiagrams());
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam1() {
 		new Domain<DomainTestType>(null, DESCRIPTION, ENTITIES, DIAGRAMS);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam2() {
 		new Domain<DomainTestType>(TITLE, null, ENTITIES, DIAGRAMS);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam3() {
 		new Domain<DomainTestType>(TITLE, DESCRIPTION, null, DIAGRAMS);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam4() {
 		new Domain<DomainTestType>(TITLE, DESCRIPTION, ENTITIES, null);
 	}

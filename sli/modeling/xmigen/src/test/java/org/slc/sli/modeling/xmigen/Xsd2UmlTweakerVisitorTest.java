@@ -71,42 +71,10 @@ public void before() throws Exception {
     visitor = new Xsd2UmlTweakerVisitor(indexModel);
 } 
 
-@After
-public void after() throws Exception { 
-} 
 @Test (expected = IllegalArgumentException.class)
 public void testInvalidInstance() throws Exception {
    Xsd2UmlTweakerVisitor invalidVisitor = new Xsd2UmlTweakerVisitor(null);
 }
-/** 
-* 
-* Method: beginPackage(final UmlPackage pkg) 
-* 
-*/ 
-@Test
-public void testBeginPackage() throws Exception { 
-//TODO: Test goes here... 
-} 
-
-/** 
-* 
-* Method: endPackage(final UmlPackage pkg) 
-* 
-*/ 
-@Test
-public void testEndPackage() throws Exception { 
-//TODO: Test goes here... 
-} 
-
-/** 
-* 
-* Method: getOwnedElements() 
-* 
-*/ 
-@Test
-public void testGetOwnedElements() throws Exception { 
-//TODO: Test goes here... 
-} 
 
 /** 
 * 
@@ -254,17 +222,6 @@ public void testVisitTaggedValue() throws Exception {
 
 /** 
 * 
-* Method: isExactlyOne(final AssociationEnd end, final ModelIndex model) 
-* 
-*/ 
-@Test
-public void testIsExactlyOne() throws Exception {
-
-
-} 
-
-/** 
-* 
 * Method: transform(final ClassType classType, final ModelIndex model) 
 * 
 */ 
@@ -317,24 +274,5 @@ public void testTransform() throws Exception {
 
 }
 
-    /**
-* 
-* Method: compute(final AssociationEnd end) 
-* 
-*/ 
-@Test
-public void testCompute() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = Xsd2UmlTweakerVisitor.getClass().getMethod("compute", final.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
 
 } 

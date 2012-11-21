@@ -83,12 +83,12 @@ public class EntityTest {
 	}
 	
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam1() {
 		new Entity<EntityType>(null, EntityType.FOO, diagrams);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam2() {
 		new Entity<EntityType>(ENTITY_TITLE, null, diagrams);
 	}

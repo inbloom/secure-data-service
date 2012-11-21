@@ -26,18 +26,17 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.security.mock.Mocker;
+import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.security.mock.Mocker;
-import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.Entity;
 
 /**
  *

@@ -18,14 +18,14 @@ limitations under the License.
 
 
 class OnBoarding < SessionResource
-  
-   API_BASE=APP_CONFIG["api_base"]
 
-   REST_HEADER = {
-       "Content-Type" => "application/json",
-       "content_type" => "json",
-       "accept" => "application/json"
-   }
+  API_BASE=APP_CONFIG["api_base"]
+
+  REST_HEADER = {
+      "Content-Type" => "application/json",
+      "content_type" => "json",
+      "accept" => "application/json"
+  }
 
 
   self.collection_name = "provision"
@@ -34,13 +34,13 @@ class OnBoarding < SessionResource
     string  "tenantId"
     string  "stateOrganizationId"
   end
-  
+
   def preload(tenantUuid,sample_data_select)
-     header = REST_HEADER
-     header['Authorization'] = "bearer " + SessionResource.access_token
-     resource = API_BASE+"/tenants/"+tenantUuid+"/"+"preload"
-     
-     res  = RestClient.post(resource, sample_data_select,header){|response, request, result| response }
+    header = REST_HEADER
+    header['Authorization'] = "bearer " + SessionResource.access_token
+    resource = API_BASE+"/tenants/"+tenantUuid+"/"+"preload"
+
+    res  = RestClient.post(resource, sample_data_select,header){|response, request, result| response }
   end
 
 end
