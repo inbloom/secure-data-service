@@ -60,6 +60,9 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
  elsif human_readable_text == "TENANT"
   value = PropLoader.getProps['tenant']
  end
+  elsif human_readable_text == "CI_IDP_Redirect_URL"
+   value = PropLoader.getProps["ci_idp_redirect_url"]
+ end
 
  value
 end
