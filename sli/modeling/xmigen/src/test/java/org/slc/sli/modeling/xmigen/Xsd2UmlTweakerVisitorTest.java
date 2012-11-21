@@ -71,9 +71,6 @@ public void before() throws Exception {
     visitor = new Xsd2UmlTweakerVisitor(indexModel);
 } 
 
-@After
-public void after() throws Exception { 
-} 
 @Test (expected = IllegalArgumentException.class)
 public void testInvalidInstance() throws Exception {
    Xsd2UmlTweakerVisitor invalidVisitor = new Xsd2UmlTweakerVisitor(null);
@@ -222,17 +219,6 @@ public void testVisitTaggedValue() throws Exception {
     visitor.visit(mock(TaggedValue.class));
 }
 
-
-/** 
-* 
-* Method: isExactlyOne(final AssociationEnd end, final ModelIndex model) 
-* 
-*/ 
-@Test
-public void testIsExactlyOne() throws Exception {
-
-
-} 
 
 /** 
 * 

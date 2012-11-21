@@ -16,17 +16,15 @@ limitations under the License.
 
 =end
 
+require_relative 'baseEntity.rb'
 
-require_relative './baseEntity.rb'
+class Course < BaseEntity
 
-class SeaEducationOrganization < BaseEntity
+  attr_accessor :id, :edOrg
 
-  def initialize(id, rand)
+  def initialize(id, edOrg)
     @id = id
-    @rand = rand
+    @edOrg = edOrg
   end
 
-  def stateOrgId
-    "sea#{@id}"
-  end
 end

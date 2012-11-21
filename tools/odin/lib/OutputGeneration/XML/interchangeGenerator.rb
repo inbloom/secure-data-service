@@ -15,23 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
+class InterchangeGenerator
 
-require_relative './baseEntity.rb'
+  attr_accessor :header, :footer
 
-class LeaEducationOrganization < BaseEntity
-
-  def initialize(id, seaId, rand)
-    @id = id
-    @seaId = seaId
-    @rand = rand
-  end
-
-  def stateOrgId
-    "lea#{@id}"
-  end
-
-  def seaId
-    "sea#{@seaId}"
-  end
 end

@@ -1,4 +1,4 @@
-raceDistribution: [["White", 60], ["Black", 15], ["Asian", 5], ["Hispanic", 20]]
+raceDistribution: [["White", 60], ["Black - African American", 15], ["Asian", 5], ["Native Hawaiian - Pacific Islander", 20]]
 hispanicLatinoDist: [[true, 20], [false, 80]]
 economicDisadvantaged: [[true, 10], [false, 90]]
 schoolFood: [['Free', 5], ['Full price', 70], ['Reduced price', 10], ['Unknown', 15]]

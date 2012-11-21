@@ -63,9 +63,7 @@ public void before() throws Exception {
     model = new Model(CLASSTYPE_ID, "modelName", new ArrayList<TaggedValue>(0), modelElements);
 } 
 
-@After
-public void after() throws Exception { 
-} 
+
 
 /** 
 * 

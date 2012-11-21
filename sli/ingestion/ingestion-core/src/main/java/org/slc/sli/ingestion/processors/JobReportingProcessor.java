@@ -329,10 +329,11 @@ public class JobReportingProcessor implements Processor {
 
                 if (duplicates != null) {
                     String resource = metric.getResourceId();
-                    for (String entity : duplicates.keySet()) {
-                        Long count = duplicates.get(entity);
+                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                        Long count = dupEntry.getValue();
                         if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
+                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                                    + " deltas!");
                         }
                     }
                 }

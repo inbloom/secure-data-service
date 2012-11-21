@@ -87,9 +87,6 @@ public void before() throws Exception {
 
 }
 
-@After
-public void after() throws Exception { 
-}
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidInstance() {
