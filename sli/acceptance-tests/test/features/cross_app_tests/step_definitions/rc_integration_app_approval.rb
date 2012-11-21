@@ -105,8 +105,10 @@ end
 
 Then /^I enter "(.*?)" in the IDP URL field$/ do |url|  
   @driver.find_element(:name, 'realm[idp][id]').send_keys url
+  puts url
 end
 
 Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
+  puts url
 end
