@@ -19,6 +19,33 @@ Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load
 
 class InterchangeGenerator
 
-  attr_accessor :header, :footer
+  attr_accessor :interchange, :header, :footer
+
+  def initialize(filename)
+    @stime = Time.now
+    @entityCount = 0
+    @filename = filename
+  end
+
+  def start()
+    @interchange = File.open("generated/#{@filename}", 'w')
+    @interchange << @header
+  end
+
+  def <<(entities)
+    @entityCount = @entityCount + entities.length
+    if @entityCount % 100000 == 0
+      puts "\t#@entityCount entities created."
+    end
+
+  end
+
+  def finalize()
+    @interchange << @footer
+    @interchange.close()
+
+    elapsed = Time.now - @stime
+    puts "\t#@entityCount written in #{elapsed} seconds."
+  end
 
 end
