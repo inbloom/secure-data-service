@@ -128,8 +128,8 @@ final class Xsd2UmlLinker {
     
     private static final Map<String, Integer> degeneracies(final Map<String, AssociationEnd> sourceAttributes) {
         final Map<Identifier, Integer> typeCounts = new HashMap<Identifier, Integer>();
-        for (final String name : sourceAttributes.keySet()) {
-            final AssociationEnd associationEnd = sourceAttributes.get(name);
+        for (final Map.Entry<String, AssociationEnd> entry: sourceAttributes.entrySet()) {
+            final AssociationEnd associationEnd = entry.getValue();
             final Identifier typeId = associationEnd.getType();
             if (typeCounts.containsKey(typeId)) {
                 typeCounts.put(typeId, typeCounts.get(typeId) + 1);
@@ -138,10 +138,10 @@ final class Xsd2UmlLinker {
             }
         }
         final Map<String, Integer> degeneracies = new HashMap<String, Integer>();
-        for (final String name : sourceAttributes.keySet()) {
-            final AssociationEnd associationEnd = sourceAttributes.get(name);
+        for (final Map.Entry<String, AssociationEnd> entry: sourceAttributes.entrySet()) {
+            final AssociationEnd associationEnd = entry.getValue();
             final Identifier typeId = associationEnd.getType();
-            degeneracies.put(name, typeCounts.get(typeId));
+            degeneracies.put(entry.getKey(), typeCounts.get(typeId));
         }
         return Collections.unmodifiableMap(degeneracies);
     }
@@ -176,8 +176,8 @@ final class Xsd2UmlLinker {
             final Map<Type, Map<String, AssociationEnd>> navigations, final AssociationEnd excludeEnd) {
         if (navigations.containsKey(source)) {
             final Map<String, AssociationEnd> attributes = navigations.get(source);
-            for (final String name : attributes.keySet()) {
-                final AssociationEnd end = attributes.get(name);
+            for (final Map.Entry<String, AssociationEnd> entry : attributes.entrySet()) {
+                final AssociationEnd end = entry.getValue();
                 if (!end.equals(excludeEnd)) {
                     final Identifier endTypeId = end.getType();
                     if (endTypeId.equals(target.getId())) {
@@ -227,12 +227,14 @@ final class Xsd2UmlLinker {
             final ModelIndex lookup, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
         final List<ClassType> associations = new LinkedList<ClassType>();
         // Make sure that every navigation has a reverse navigation.
-        for (final Type lhsType : navigations.keySet()) {
-            final Map<String, AssociationEnd> sourceAttributes = navigations.get(lhsType);
+        for (final Map.Entry<Type, Map<String, AssociationEnd>> navEntry : navigations.entrySet()) {
+            Type lhsType = navEntry.getKey();
+            final Map<String, AssociationEnd> sourceAttributes = navEntry.getValue();
             final Map<String, Integer> degeneracies = degeneracies(sourceAttributes);
-            
-            for (final String rhsEndName : sourceAttributes.keySet()) {
-                final AssociationEnd rhsEnd = sourceAttributes.get(rhsEndName);
+
+            for (final Map.Entry<String, AssociationEnd> saEntry : sourceAttributes.entrySet()) {
+                String rhsEndName = saEntry.getKey();
+                final AssociationEnd rhsEnd = saEntry.getValue();
                 final Type rhsType = lookup.getType(rhsEnd.getType());
                 // Notice roles of source and target are switched to find a reverse navigation.
                 if (!hasNavigation(rhsType, lhsType, navigations, rhsEnd)) {

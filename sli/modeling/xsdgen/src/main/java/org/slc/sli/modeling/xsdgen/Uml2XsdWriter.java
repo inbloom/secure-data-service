@@ -435,15 +435,15 @@ final class Uml2XsdWriter {
         try {
             xsw.writeNamespace(PREFIX_XS, NAMESPACE_XS);
             final Map<String, String> prefixMappings = plugin.declarePrefixMappings();
-            for (final String prefix : prefixMappings.keySet()) {
-                final String namespace = prefixMappings.get(prefix);
+            for (final Map.Entry<String, String> entry : prefixMappings.entrySet()) {
+                final String namespace = entry.getValue();
                 if (namespace == null) {
                     throw new IllegalArgumentException("namespace declared by plugin is null.");
                 }
                 if (namespace.trim().length() == 0) {
                     throw new IllegalArgumentException("namespace declared by plugin is the empty string.");
                 }
-                xsw.writeNamespace(prefix, namespace);
+                xsw.writeNamespace(entry.getKey(), namespace);
             }
 
             final String targetNamespace = plugin.getTargetNamespace();

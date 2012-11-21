@@ -51,7 +51,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     /**
      * Control the massaging of the W3C XML Schema. The less we do the better.
      */
-    private final boolean titleCaseSchemaTypeNames = true;
+    private static final boolean TITLE_CASE_SCHEMA_TYPE_NAMES = true;
 
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {
@@ -139,7 +139,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
 
     @Override
     public String nameFromSchemaTypeName(final QName name) {
-        if (titleCaseSchemaTypeNames) {
+        if (TITLE_CASE_SCHEMA_TYPE_NAMES) {
             return titleCase(name.getLocalPart());
         } else {
             return name.getLocalPart();
