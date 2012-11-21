@@ -83,24 +83,28 @@ public class UserToAnythingResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        EntityDefinition def = store.lookupByEntityType(toEntity.get());
+        String toEntVal = toEntity.get();
+        toEntity.remove();
+        EntityDefinition def = store.lookupByEntityType(toEntVal);
+        
+        
+        // We give access to all admin or to public
+        List<String> ids = new ArrayList<String>();
 
         if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
             info("Granting public sphere to resource: {}", def.getResourceName());
         } else if (ADMIN_SPHERE.equals(provider.getDataSphere(def.getType()))) {
             info("Granting admin sphere to resource: {}", def.getResourceName());
         } else {
-            info("Denying access to all entities of type {}", toEntity);
+            info("Denying access to all entities of type {}", toEntVal);
             return new ArrayList<String>();
         }
-        // We give access to all admin or to public
-        List<String> ids = new ArrayList<String>();
 
         Iterable<String> it = this.repository.findAllIds(def.getStoredCollectionName(), new NeutralQuery());
         for (String id : it) {
             ids.add(id);
         }
-        toEntity.remove();
+        
         return ids;
     }
 
