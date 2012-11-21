@@ -86,9 +86,11 @@ Then /^my tenant database should be cleared$/ do
                   "application",
                   "roles",
                   "customRole"]
+  disable_NOTABLESCAN
   coll_names.each do |coll|
     assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.") if !coll_to_skip.include?(coll)
   end
+  enable_NOTABLESCAN
 end
 
 Then /^I will drop the whole database$/ do

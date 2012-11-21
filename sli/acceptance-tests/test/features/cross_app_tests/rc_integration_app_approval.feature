@@ -74,6 +74,7 @@ And a notification email is sent to "slcoperator-email@slidev.org"
 #When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
 #And I enable my app for all districts
 #And I click on the button Submit
+And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Application Registration"
