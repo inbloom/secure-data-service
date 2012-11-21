@@ -64,7 +64,6 @@ And I am redirected to a new application page
 When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
 And I entered the name "Best.  Description.  Ever." into the field titled "Description"
 And I entered the name "0.0" into the field titled "Version"
-And I entered the name "McDerp" into the field titled "Vendor"
 And I make my app an installed app
 #And I have entered data into the other required fields except for the shared secret and the app id which are read-only
 And I click on the button Submit
@@ -87,7 +86,6 @@ And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
 And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
 And I entered the name "1.0" into the field titled "Version"
-And I entered the name "McDerp" into the field titled "Vendor"
 And I entered the name "http://localhost" into the field titled "Application_URL"
 And I entered the name "http://localhost/redirect" into the field titled "Redirect_URI"
 And I select the app display method to "Full Window App" 
