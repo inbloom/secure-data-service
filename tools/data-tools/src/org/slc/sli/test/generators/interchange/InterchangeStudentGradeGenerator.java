@@ -17,12 +17,11 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -58,6 +57,9 @@ import org.slc.sli.test.edfi.entities.SLCReportCard;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.SLCReportCardIdentityType;
 import org.slc.sli.test.edfi.entities.SLCReportCardReferenceType;
+import org.slc.sli.test.edfi.entities.SLCSessionIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentAcademicRecordIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.SLCSectionIdentityType;
@@ -265,7 +267,7 @@ public final class InterchangeStudentGradeGenerator {
             	// TODO pull this out into an SLCGradingPeriodIdentityType
             	gradingPeriodId.setGradingPeriod(GradingPeriodType.values()[gradingPeriodIndex++]);
             	
-            	// TODO make this date match up with an actual grading period :(
+            	// KLUDGE TODO make this date match up with an actual grading period - perhaps even use reportCardMeta :(
             	gradingPeriodId.setBeginDate(CalendarDateGenerator.generatDate());
             	
             	SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
@@ -304,7 +306,10 @@ public final class InterchangeStudentGradeGenerator {
     private static void generateCourseTranscript(Map<String, StudentMeta> studentMetaMap,
             Map<String, SessionMeta> sessionMetaMap, Map<String, CourseMeta> courseMetaMap, int coursesPerStudent,
             InterchangeWriter<InterchangeStudentGrade> writer) {
+        Random rand = new Random(31);
 
+        String[] sessionIds = sessionMetaMap.keySet().toArray(new String[0]);
+        
         List<String> courseSet = new LinkedList<String>(courseMetaMap.keySet());
         courseSet = courseSet.subList(0, coursesPerStudent);// Every Student has a CourseTranscript
                                                             // for the first N Courses in
@@ -313,6 +318,20 @@ public final class InterchangeStudentGradeGenerator {
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
 
+            SLCStudentAcademicRecordReferenceType sarRef = new SLCStudentAcademicRecordReferenceType();
+            SLCStudentAcademicRecordIdentityType sarId = new SLCStudentAcademicRecordIdentityType();
+            SLCStudentReferenceType studentRef = new SLCStudentReferenceType();
+            SLCStudentIdentityType studentIdType = new SLCStudentIdentityType();
+            studentIdType.setStudentUniqueStateId(studentId);
+            studentRef.setStudentIdentity(studentIdType);
+            sarId.setStudentReference(studentRef);
+            SLCSessionReferenceType sessionRef = new SLCSessionReferenceType();
+            SLCSessionIdentityType sessionId = new SLCSessionIdentityType();
+            sessionId.setSessionName(sessionIds[rand.nextInt(sessionIds.length)]);
+            sessionRef.setSessionIdentity(sessionId);
+            sarId.setSessionReference(sessionRef);
+            sarRef.setStudentAcademicRecordIdentity(sarId);
+            
             for (String cId : courseSet) {
                 CourseMeta courseMeta = courseMetaMap.get(cId);
                 String courseId = courseMeta.id;
@@ -328,14 +347,13 @@ public final class InterchangeStudentGradeGenerator {
                 courseIdentity.setUniqueCourseId(courseMeta.uniqueCourseId);
                 courseRef.setCourseIdentity(courseIdentity);
 
-                SLCStudentAcademicRecordReferenceType sarRef = new SLCStudentAcademicRecordReferenceType();
-
 //              IDREF deprecated
 //              sarRef.setRef(new Ref(ID_PREFIX_STUDENT_ACADEMIC_RECORD + studentId));
 
                 SLCEducationalOrgReferenceType edOrgRef = getEducationalOrgRef(courseSchool);// Reference
                                                                                           // to
                                                                                           // EducationalOrg
+
                 SLCCourseTranscript courseTranscript = StudentGradeGenerator.getCourseTranscript(courseRef, sarRef,
                         edOrgRef);
                 courseTranscript.setId(ID_PREFIX_COURSE_TRANSCRIPT + courseId + "_" + studentId);

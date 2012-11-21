@@ -82,7 +82,6 @@ public class StaffCohortAssociationGenerator {
     	int counter = 0;
     	 while(itr.hasNext()) {
              staffId = (String) itr.next();
-             System.out.println(staffId + " " + counter);
              counter++;
           }
 
