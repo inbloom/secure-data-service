@@ -96,7 +96,7 @@ def runTests(testDirPath)
     @tags ||= ["~@wip", "~@sandbox"]
   end
 
-  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty --format html --out html-report/index.html" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty --format html --out index.html" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
