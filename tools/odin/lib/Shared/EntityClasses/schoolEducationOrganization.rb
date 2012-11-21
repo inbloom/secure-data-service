@@ -16,7 +16,22 @@ limitations under the License.
 
 =end
 
-class InterchangeGenerator
-  attr_accessor :header, :footer
 
+require_relative 'baseEntity.rb'
+
+class SchoolEducationOrganization < BaseEntity
+
+  def initialize(id, leaId, rand)
+    @id = id
+    @leaId = leaId
+    @rand = rand
+  end
+
+  def stateOrgId
+    "school#{@id}"
+  end
+
+  def leaId
+    "lea#{@leaId}"
+  end
 end
