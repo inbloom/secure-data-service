@@ -32,7 +32,7 @@ class Realm < SessionResource
     #Default saml mapping
     self.saml =  { "field" => [ { "clientName" => "roles", "sliName" => "roles", "transform" => "(.+)" }, { "clientName" => "userId", "sliName" => "userId", "transform" => "(.+)" }, { "clientName" => "userName", "sliName" => "userName", "transform" => "(.+)" } ] } if saml.nil?
   end
-   
+
   def idp_and_redirect_cannot_be_blank
     idp.valid?
   end
@@ -45,8 +45,8 @@ class Realm < SessionResource
   class Idp < SessionResource
     validates_presence_of :id, :message => "can't be blank"
     validates_presence_of :redirectEndpoint, :message => "can't be blank"
-      schema do
-        string "id", "redirectEndpoint"
-      end
+    schema do
+      string "id", "redirectEndpoint"
     end
+  end
 end

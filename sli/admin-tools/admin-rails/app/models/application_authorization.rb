@@ -22,7 +22,7 @@ class ApplicationAuthorization < SessionResource
   schema do
     string "authId", "authType"
   end
-  
+
   def apps_for_auths
     apps = App.all
     authorizedApps = self.appIds.map{|appId| apps.detect{|app| app.id == appId}}

@@ -101,9 +101,9 @@ class LandingZone
 
     user_info[:homedir] = result.attributes[:landingZone]
     user_info[:edorg] = edorg_id
-   # if APP_CONFIG["is_sandbox"]
-   #   user_info[:tenant] = tenant
-   # end
+    # if APP_CONFIG["is_sandbox"]
+    #   user_info[:tenant] = tenant
+    # end
 
     begin
       APP_LDAP_CLIENT.update_user_info(user_info)

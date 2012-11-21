@@ -18,13 +18,13 @@ limitations under the License.
 
 
 class Eula
-  
+
   def self.accepted?(params)
     if params[:commit] == "I Accept"
       true
-    else 
+    else
       false
     end
   end
-  
+
 end

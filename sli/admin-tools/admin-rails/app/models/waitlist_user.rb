@@ -21,7 +21,7 @@ require 'rest-client'
 
 class WaitlistUser < SessionResource
   attr_accessor :email
-  
+
   def initialize(waitlist_user = nil)
     @waitlist_user = waitlist_user
   end
@@ -39,7 +39,7 @@ class WaitlistUser < SessionResource
   #  restResult = RestClient.post(APP_CONFIG['api_base']+"/v1/userAccounts/createWaitingListUser", @waitlist_user.to_json, URL_HEADER) {|response, request, result| response }
   #  restResult.code == 201
   #end
-  
+
   def persisted?
     false
   end
