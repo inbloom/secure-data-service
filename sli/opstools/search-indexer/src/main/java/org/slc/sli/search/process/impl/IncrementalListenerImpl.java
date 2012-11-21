@@ -60,10 +60,11 @@ public class IncrementalListenerImpl implements IncrementalLoader, MessageListen
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    @Override
     public void onMessage(Message message) {
         process(message);
     }
-    
+
     /**
      * Process a message from the queue
      *
@@ -142,16 +143,20 @@ public class IncrementalListenerImpl implements IncrementalLoader, MessageListen
         indexer.index(ie);
     }
 
+
     public void setIndexer(Indexer indexer) {
         this.indexer = indexer;
     }
+
 
     public void setIndexEntityConverter(IndexEntityConverter indexEntityConverter) {
         this.indexEntityConverter = indexEntityConverter;
     }
 
+
     @Override
     public String getHealth() {
         return getClass() + "{}";
     }
+
 }

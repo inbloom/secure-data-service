@@ -420,6 +420,8 @@ default:
         sli.search.indexer.broker.username: system
         sli.search.indexer.broker.password: manager
         sli.search.indexer.queue.name: search_events
+        sli.search.indexer.sarje.sub.topic: /topic/agent
+        sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
         sli.search.indexer.env: local
 
 acceptance-tests:

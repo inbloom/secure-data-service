@@ -23,12 +23,12 @@ public interface SourceDatastoreConnector {
     public static class Tenant {
         private final String tenantId;
         private final String dbName;
-        
+
         public Tenant(String tenantId, String dbName) {
             this.tenantId = tenantId;
             this.dbName = dbName;
         }
-        
+
         public String getTenantId() {
             return tenantId;
         }
@@ -38,7 +38,11 @@ public interface SourceDatastoreConnector {
         }
     }
     public List<Tenant> getTenants();
-    
+
     public DBCursor getDBCursor(String collectionName, List<String> fields);
-    
+
+    void save(String collectionName, Object o);
+
+    <T> List<T> findAll(String collectionName, Class<T> entityClass);
+
 }
