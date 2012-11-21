@@ -22,6 +22,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 
+/**
+ * JUnit test for DmComment class.
+ */
 public final class DmCommentTest {
 
     @Test

@@ -26,6 +26,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 
+/**
+ * JUnit test for DmElement class.
+ */
 public final class DmElementTest {
 
     @Test

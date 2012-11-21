@@ -23,6 +23,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for DmDocument class.
+ */
 public class DmDocumentTest {
 
     @Test

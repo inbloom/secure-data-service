@@ -22,6 +22,9 @@ import javax.xml.namespace.QName;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for dmProcessingInstruction class.
+ */
 public class DmProcessingInstructionTest {
 
     @Test

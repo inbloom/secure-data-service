@@ -20,6 +20,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for DmString class.
+ */
 public class DmStringTest {
 
     @Test
