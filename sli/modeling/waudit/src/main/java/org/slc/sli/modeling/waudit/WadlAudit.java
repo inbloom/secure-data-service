@@ -55,6 +55,9 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Command line tool to audit a WADL with PSM (model)
+ */
 public final class WadlAudit {
 
     private static final Logger LOG = LoggerFactory.getLogger(WadlAudit.class);
@@ -191,7 +194,7 @@ public final class WadlAudit {
 
     public static void main(final String[] args) {
         
-    	final OptionParser parser = new OptionParser();
+        final OptionParser parser = new OptionParser();
         final OptionSpec<?> helpSpec = parser.acceptsAll(ARGUMENT_HELP, "Show help");
         final OptionSpec<File> documentFileSpec = optionSpec(parser, ARGUMENT_DOCUMENT_FILE, "Domain file", File.class);
         final OptionSpec<File> wadlFileSpec = optionSpec(parser, ARGUMENT_WADL, "WADL file", File.class);

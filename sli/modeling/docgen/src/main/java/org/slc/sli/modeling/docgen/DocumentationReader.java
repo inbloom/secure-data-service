@@ -17,9 +17,19 @@
 
 package org.slc.sli.modeling.docgen;
 
-import static org.slc.sli.modeling.xml.XMLStreamReaderTools.skipElement;
-import static org.slc.sli.modeling.xml.XmlTools.collapseWhitespace;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ModelElement;
+import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.xmi.XmiAttributeName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -31,35 +41,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+import static org.slc.sli.modeling.xml.XMLStreamReaderTools.skipElement;
+import static org.slc.sli.modeling.xml.XmlTools.collapseWhitespace;
 
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.ModelElement;
-import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.slc.sli.modeling.xmi.XmiAttributeName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+/**
+ *
+ */
 public final class DocumentationReader {
     private static final Logger LOG = LoggerFactory.getLogger(DocumentationReader.class);
-	
-	public DocumentationReader() {
-		throw new UnsupportedOperationException();
-	}
-	
+
+    public DocumentationReader() {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * A programmatic assertion that we have the reader positioned on the correct element.
      *
-     * @param expectLocalName
-     *            The local name that we expect.
-     * @param reader
-     *            The reader.
+     * @param expectLocalName The local name that we expect.
+     * @param reader          The reader.
      */
     private static final void assertName(final QName name, final XMLStreamReader reader) {
         if (!match(name, reader)) {
@@ -193,8 +192,7 @@ public final class DocumentationReader {
     /**
      * Reads XMI from an {@link InputStream}.
      *
-     * @param stream
-     *            The {@link InputStream}.
+     * @param stream The {@link InputStream}.
      * @return The parsed {@link Model}.
      */
     public static final Documentation<Type> readDocumentation(final InputStream stream, final ModelIndex mapper) {

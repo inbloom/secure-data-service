@@ -13,11 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
-  <LocalEducationAgency>
+{{#state_education_agency}}
+  <StateEducationAgency>
     <StateOrganizationId>{{stateOrgId}}</StateOrganizationId>
-    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
     <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
@@ -25,10 +26,5 @@ limitations under the License.
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
-    <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>{{parentId}}</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
+  </StateEducationAgency>
+{{/state_education_agency}}

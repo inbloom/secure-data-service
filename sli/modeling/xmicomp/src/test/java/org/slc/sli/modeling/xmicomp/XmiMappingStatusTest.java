@@ -16,16 +16,19 @@
 
 package org.slc.sli.modeling.xmicomp;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
+/**
+ * JUnit test for XmiMappingStatus class.
+ */
 public class XmiMappingStatusTest {
 
-	@Test
-	public void test() {
-		for (XmiMappingStatus xmiMappingStatus : XmiMappingStatus.values()) {
-			assertEquals(xmiMappingStatus, XmiMappingStatus.valueOf(xmiMappingStatus.toString()));
-		}
-	}
+    @Test
+    public void test() {
+        for (XmiMappingStatus xmiMappingStatus : XmiMappingStatus.values()) {
+            assertEquals(xmiMappingStatus, XmiMappingStatus.valueOf(xmiMappingStatus.toString()));
+        }
+    }
 }

@@ -35,6 +35,9 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Models Java class type.
+ */
 public class ClassTypeHelper {
     private static final Logger LOG = LoggerFactory.getLogger(ClassTypeHelper.class);
 

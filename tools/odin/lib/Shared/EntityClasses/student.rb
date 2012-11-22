@@ -25,24 +25,31 @@ class Student < BaseEntity
                 :email, :hispanicLatino, :economicDisadvantaged, :schoolFood, :limitedEnglish, :race
 
   def initialize(id, year_of, demographics, rand)
-    # TODO : most, if not all of this information, should be set by the entity creator code.
+    @year_of = year_of
+    @demographics = demographics
     @id = id
     @rand = rand
+    randomize
+  end
+
+  # TODO : most, if not all of this information, should be set by the entity creator code.
+  # TODO:  placeholder method until this is completed.
+  def randomize()
     @sex = choose(["Male", "Female"])
-    @birthDay = Date.new(year_of) + @rand.rand(365)
-    @firstName =  choose(sex == "Male" ? demographics.maleNames : demographics.femaleNames)
-    @lastName = choose(demographics.lastNames)
+    @birthDay = Date.new(@year_of) + @rand.rand(365)
+    @firstName =  choose(sex == "Male" ? @demographics.maleNames : @demographics.femaleNames)
+    @lastName = choose(@demographics.lastNames)
     @address = @rand.rand(999).to_s + " " + choose(["North Street", "South Lane", "East Rd", "West Blvd"])
-    @city = demographics.city
-    @state =  demographics.state
-    @postalCode = demographics.postalCode
+    @city = @demographics.city
+    @state =  @demographics.state
+    @postalCode = @demographics.postalCode
     @email = @rand.rand(10000).to_s + "@fakemail.com"
-    @hispanicLatino = wChoose(demographics.hispanicLatinoDist)
+    @hispanicLatino = wChoose(@demographics.hispanicLatinoDist)
     @economicDisadvantaged = choose([true, false])
-    @schoolFood = wChoose(demographics.schoolFood)
-    @limitedEnglish =  wChoose(demographics.limitedEnglish)
-    @disability = wChoose(demographics.disability)
-    @race =  wChoose(demographics.raceDistribution)
+    @schoolFood = wChoose(@demographics.schoolFood)
+    @limitedEnglish =  wChoose(@demographics.limitedEnglish)
+    @disability = wChoose(@demographics.disability)
+    @race =  wChoose(@demographics.raceDistribution)
   end
 
   def distributionTester(inMethod, tracer, lo, hi, iters)

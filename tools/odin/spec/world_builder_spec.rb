@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-require_relative '../world_builder.rb'
+require_relative '../lib/EntityCreation/world_builder.rb'
 
 # specifications for the world builder
 describe "WorldBuilder" do

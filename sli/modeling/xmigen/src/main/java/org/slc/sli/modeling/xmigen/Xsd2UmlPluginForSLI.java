@@ -39,12 +39,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Provides additional configuration information on how to transform an XSD to a UML.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
 
     /**
      * Control the massaging of the W3C XML Schema. The less we do the better.
      */
-    private final boolean titleCaseSchemaTypeNames = true;
+    private static final boolean TITLE_CASE_SCHEMA_TYPE_NAMES = true;
 
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {
@@ -132,7 +139,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
 
     @Override
     public String nameFromSchemaTypeName(final QName name) {
-        if (titleCaseSchemaTypeNames) {
+        if (TITLE_CASE_SCHEMA_TYPE_NAMES) {
             return titleCase(name.getLocalPart());
         } else {
             return name.getLocalPart();
@@ -215,12 +222,10 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                     } else {
                         throw new AssertionError("Unexpected value for appinfo: " + name + " => " + text);
                     }
-                } else if (SliMongoConstants.SLI_SCHEMA_VERSION.equals(name)) {
-                    // ignore
                 } else if (SliMongoConstants.SLI_ASSOCIATION_KEY.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ASSOCIATION_KEY);
                     taggedValues.add(new TaggedValue("true", tagDefinition));
-                } else {
+                } else if (!(SliMongoConstants.SLI_SCHEMA_VERSION.equals(name))) {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }
             }

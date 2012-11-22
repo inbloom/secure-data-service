@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.jgen;
 
+/**
+ * Configuration for Java code generation.
+ */
 public final class JavaGenConfig {
 
     private boolean useDataTypeBase;

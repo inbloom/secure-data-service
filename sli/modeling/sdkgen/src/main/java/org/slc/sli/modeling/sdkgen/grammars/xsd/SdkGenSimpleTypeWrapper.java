@@ -18,6 +18,9 @@ package org.slc.sli.modeling.sdkgen.grammars.xsd;
 
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenType;
 
+/**
+ * Simple type
+ */
 public final class SdkGenSimpleTypeWrapper implements SdkGenType {
 
 }

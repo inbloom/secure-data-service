@@ -15,6 +15,11 @@ task :test do
   end
   RSpec::Core::RakeTask.new(:test) do |t|
     t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/world_builder_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+  RSpec::Core::RakeTask.new(:test) do |t|
+    t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/data_utility_spec.rb'
     t.rspec_path = 'rspec'
   end

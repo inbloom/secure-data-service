@@ -20,6 +20,9 @@ import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaElement;
 
+/**
+ * SDK Grammar
+ */
 public interface SdkGenGrammars {
 
     XmlSchemaElement getElement(final QName name);

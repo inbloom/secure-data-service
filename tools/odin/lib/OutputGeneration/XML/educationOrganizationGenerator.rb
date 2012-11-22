@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require "mustache"
+
 require_relative "./interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"
 
@@ -23,6 +25,51 @@ Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
 
 # event-based education organization interchange generator
 class EducationOrganizationGenerator < InterchangeGenerator
+
+  # state education agency writer
+  class StateEducationAgencyWriter < Mustache
+    def initialize
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/state_education_organization.mustache"
+      @entity = nil
+    end
+    def state_education_agency
+      @entity
+    end
+    def write(entity)
+      @entity = entity
+      render
+    end
+  end
+
+  # local education agency writer
+  class LocalEducationAgencyWriter < Mustache
+    def initialize
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/local_education_organization.mustache"
+      @entity = nil
+    end
+    def local_education_agency
+      @entity
+    end
+    def write(entity)
+      @entity = entity
+      render
+    end
+  end
+
+  # school writer
+  class SchoolWriter < Mustache
+    def initialize
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/school.mustache"
+      @entity = nil
+    end
+    def school
+      @entity
+    end
+    def write(entity)
+      @entity = entity
+      render
+    end
+  end
 
   # initialization will define the header and footer for the education organization interchange
   # writes header to education organization interchange
@@ -38,21 +85,25 @@ HEADER
 FOOTER
     @handle = File.new("generated/InterchangeEducationOrganization.xml", 'w')
     @handle.write(@header)
+
+    @state_education_agency_writer = StateEducationAgencyWriter.new
+    @local_education_agency_writer = LocalEducationAgencyWriter.new
+    @school_writer                 = SchoolWriter.new
   end
 
   # creates and writes state education agency to interchange
   def create_state_education_agency(rand, id)
-    @handle.write SeaEducationOrganization.new(id, rand).render
+    @handle.write @state_education_agency_writer.write(SeaEducationOrganization.new(id, rand))
   end
 
   # creates and writes local education agency to interchange
   def create_local_education_agency(rand, id, parent_id)
-    @handle.write LeaEducationOrganization.new(id, parent_id, rand).render
+    @handle.write @local_education_agency_writer.write(LeaEducationOrganization.new(id, parent_id, rand))
   end
 
   # creates and writes school to interchange
   def create_school(rand, id, parent_id, type)
-    @handle.write SchoolEducationOrganization.new(rand, id, parent_id, type).render
+    @handle.write @school_writer.write(SchoolEducationOrganization.new(rand, id, parent_id, type))
   end
 
   # creates and writes course to interchange

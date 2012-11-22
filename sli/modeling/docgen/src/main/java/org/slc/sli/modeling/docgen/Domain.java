@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @param <TYPE> Feature type.
+ */
 public final class Domain<TYPE> {
     private final String title;
     private final String description;

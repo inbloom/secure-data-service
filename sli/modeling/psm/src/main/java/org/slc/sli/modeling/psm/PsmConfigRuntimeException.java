@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.psm;
 
+/**
+ * PSM-specific exception.
+ */
 public class PsmConfigRuntimeException extends RuntimeException {
 
     public PsmConfigRuntimeException(Throwable cause) {
