@@ -16,22 +16,21 @@ limitations under the License.
 
 =end
 
+require_relative 'baseEntity.rb'
 
-require_relative './baseEntity.rb'
+class StudentSchoolAssociation < BaseEntity
 
-class SchoolEducationOrganization < BaseEntity
-
-  def initialize(id, leaId, rand)
-    @id = id
-    @leaId = leaId
+  def initialize(studentId, schoolId, rand)
+    @studentId = studentId
+    @schoolId = schoolId
     @rand = rand
   end
 
-  def stateOrgId
-    "school#{@id}"
+  def studentId
+    "#{@studentId}"
   end
 
-  def leaId
-    "lea#{@leaId}"
+  def schoolStateOrgId
+    "school#{@schoolId}"
   end
 end

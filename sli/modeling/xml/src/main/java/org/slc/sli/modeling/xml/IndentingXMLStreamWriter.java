@@ -47,7 +47,7 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
 
     private State state = State.SEEN_NOTHING;
 
-    private final String indentStep = "  ";
+    private static final String INDENT_STEP = "  ";
     private int depth = 0;
 
     private final XMLStreamWriter next;
@@ -97,7 +97,7 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
     private void doIndent() throws XMLStreamException {
         if (depth > 0) {
             for (int i = 0; i < depth; i++) {
-                next.writeCharacters(indentStep);
+                next.writeCharacters(INDENT_STEP);
             }
         }
     }

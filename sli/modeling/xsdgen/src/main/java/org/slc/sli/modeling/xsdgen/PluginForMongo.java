@@ -36,6 +36,13 @@ import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+/**
+ * Writes XSD.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 public final class PluginForMongo implements Uml2XsdPlugin {
     
     /**
@@ -131,49 +138,47 @@ public final class PluginForMongo implements Uml2XsdPlugin {
     public void writeAppInfo(final TaggedValue taggedValue, final ModelIndex lookup, final Uml2XsdPluginWriter xsw) {
         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
         xsw.appinfo();
-        {
-            if (SliUmlConstants.TAGDEF_NATURAL_KEY.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_NATURAL_KEY.getLocalPart(),
-                        SliMongoConstants.SLI_NATURAL_KEY.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else if (SliUmlConstants.TAGDEF_APPLY_NATURAL_KEYS.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_APPLY_NATURAL_KEYS.getLocalPart(),
-                        SliMongoConstants.SLI_APPLY_NATURAL_KEYS.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_PII.getLocalPart(), SliMongoConstants.SLI_PII.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else if (SliUmlConstants.TAGDEF_ENFORCE_READ.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_READ_ENFORCEMENT.getLocalPart(),
-                        SliMongoConstants.SLI_READ_ENFORCEMENT.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else if (SliUmlConstants.TAGDEF_ENFORCE_WRITE.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_WRITE_ENFORCEMENT.getLocalPart(),
-                        SliMongoConstants.SLI_WRITE_ENFORCEMENT.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_RELAXEDBLACKLIST.getLocalPart(),
-                        SliMongoConstants.SLI_RELAXEDBLACKLIST.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_SECURITY_SPHERE.getLocalPart(),
-                        SliMongoConstants.SLI_SECURITY_SPHERE.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else if (SliUmlConstants.TAGDEF_ASSOCIATION_KEY.equals(tagDefinition.getName())) {
-                xsw.begin("sli", SliMongoConstants.SLI_ASSOCIATION_KEY.getLocalPart(),
-                        SliMongoConstants.SLI_ASSOCIATION_KEY.getNamespaceURI());
-                xsw.characters(taggedValue.getValue());
-                xsw.end();
-            } else {
-                throw new AssertionError(tagDefinition.getName());
-            }
+        if (SliUmlConstants.TAGDEF_NATURAL_KEY.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_NATURAL_KEY.getLocalPart(),
+                    SliMongoConstants.SLI_NATURAL_KEY.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_APPLY_NATURAL_KEYS.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_APPLY_NATURAL_KEYS.getLocalPart(),
+                    SliMongoConstants.SLI_APPLY_NATURAL_KEYS.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_PII.getLocalPart(), SliMongoConstants.SLI_PII.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_ENFORCE_READ.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_READ_ENFORCEMENT.getLocalPart(),
+                    SliMongoConstants.SLI_READ_ENFORCEMENT.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_ENFORCE_WRITE.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_WRITE_ENFORCEMENT.getLocalPart(),
+                    SliMongoConstants.SLI_WRITE_ENFORCEMENT.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_RELAXEDBLACKLIST.getLocalPart(),
+                    SliMongoConstants.SLI_RELAXEDBLACKLIST.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_SECURITY_SPHERE.getLocalPart(),
+                    SliMongoConstants.SLI_SECURITY_SPHERE.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_ASSOCIATION_KEY.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_ASSOCIATION_KEY.getLocalPart(),
+                    SliMongoConstants.SLI_ASSOCIATION_KEY.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else {
+            throw new AssertionError(tagDefinition.getName());
         }
         xsw.end();
     }
@@ -194,21 +199,15 @@ public final class PluginForMongo implements Uml2XsdPlugin {
                 xsw.type(getTypeName(MONGO_REFERENCE_TYPE));
                 xsw.minOccurs(end.getMultiplicity().getRange().getLower());
                 xsw.maxOccurs(end.getMultiplicity().getRange().getUpper());
-                {
-                    xsw.annotation();
-                    {
-                        PluginHelpers.writeDocumentation(end, model, xsw);
-                        xsw.appinfo();
-                        {
-                            xsw.begin("sli", SliMongoConstants.SLI_REFERENCE_TYPE.getLocalPart(),
-                                    SliMongoConstants.SLI_REFERENCE_TYPE.getNamespaceURI());
-                            xsw.characters(getTypeName(type.getName()).getLocalPart());
-                            xsw.end();
-                        }
-                        xsw.end();
-                    }
-                    xsw.end();
-                }
+                xsw.annotation();
+                PluginHelpers.writeDocumentation(end, model, xsw);
+                xsw.appinfo();
+                xsw.begin("sli", SliMongoConstants.SLI_REFERENCE_TYPE.getLocalPart(),
+                        SliMongoConstants.SLI_REFERENCE_TYPE.getNamespaceURI());
+                xsw.characters(getTypeName(type.getName()).getLocalPart());
+                xsw.end();
+                xsw.end();
+                xsw.end();
             } finally {
                 xsw.end();
             }
@@ -222,9 +221,7 @@ public final class PluginForMongo implements Uml2XsdPlugin {
             final QName name = getElementName(classType);
             xsw.elementName(name);
             final Type elementType = classType.getType();
-            {
-                xsw.type(getQName(elementType, model));
-            }
+            xsw.type(getQName(elementType, model));
             xsw.annotation();
             try {
                 PluginHelpers.writeDocumentation(elementType, model, xsw);

@@ -30,14 +30,14 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:application_authorizations)
   end
-  
+
   test "should create application_authorization" do
     session[:roles] = ["LEA Administrator"]
-    post :create, application_authorization: @appauth_fixtures['new_district']  
+    post :create, application_authorization: @appauth_fixtures['new_district']
     #assert_redirected_to application_authorization_path(assigns(:application_authorization))
     assert_redirected_to assigns(:application_authorization)
   end
-  
+
   test "should fail if we are an operator" do
     session[:roles] = ["SLC Operator"]
     post :index

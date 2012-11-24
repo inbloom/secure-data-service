@@ -26,6 +26,12 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 import org.slc.sli.modeling.xsd.XsdAttributeName;
 
+/**
+ * Implementation of XSD writer (from UML).
+ * 
+ * @author kmyers
+ *
+ */
 final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
 
     private static final String toString(final Occurs value) {

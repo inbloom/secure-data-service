@@ -16,14 +16,17 @@
 
 package org.slc.sli.modeling.xdm;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
+/**
+ * JUnit test for DmString class.
+ */
 public class DmStringTest {
 
-	@Test
-	public void test() {
-		assertTrue(new DmString() != null);
-	}
+    @Test
+    public void test() {
+        assertTrue(new DmString() != null);
+    }
 }

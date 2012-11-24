@@ -21,13 +21,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @param <TYPE> Feature type.
+ */
 public final class Documentation<TYPE> {
     
     private final List<Domain<TYPE>> domains;
     
     public Documentation(final List<Domain<TYPE>> domains) {
         if (domains == null) {
-            throw new NullPointerException("domains");
+            throw new IllegalArgumentException("domains");
         }
         this.domains = Collections.unmodifiableList(new ArrayList<Domain<TYPE>>(domains));
     }

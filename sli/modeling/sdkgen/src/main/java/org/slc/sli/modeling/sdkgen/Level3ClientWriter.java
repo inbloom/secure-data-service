@@ -31,11 +31,21 @@ import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
-import org.slc.sli.modeling.rest.*;
+import org.slc.sli.modeling.rest.Application;
+import org.slc.sli.modeling.rest.Documentation;
+import org.slc.sli.modeling.rest.Method;
+import org.slc.sli.modeling.rest.Representation;
+import org.slc.sli.modeling.rest.Request;
+import org.slc.sli.modeling.rest.Resource;
+import org.slc.sli.modeling.rest.Resources;
+import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 import org.slc.sli.modeling.xdm.DmNode;
 
+/**
+ * Write SDK Client
+ */
 public abstract class Level3ClientWriter implements WadlHandler {
     /**
      * The (reserved) name given to the custom property in the SLI database.
@@ -121,7 +131,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                     if (quietMode) {
                         return JT_MAP_STRING_TO_OBJECT;
                     } else {
-                        throw new SdkGenRuntimeException("Unknown element: " + elementName);
+                        throw new SdkGenRuntimeException("element is null");
                     }
                 }
                 
@@ -160,7 +170,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                     if (quietMode) {
                         return new JavaParam("unknown", JT_MAP_STRING_TO_OBJECT, true);
                     } else {
-                        throw new SdkGenRuntimeException("Unknown element: " + elementName);
+                        throw new SdkGenRuntimeException("element is null");
                     }
                 }
                 

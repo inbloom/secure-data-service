@@ -17,7 +17,6 @@
 package org.slc.sli.modeling.psm;
 
 import org.junit.Test;
-import org.slc.sli.modeling.psm.helpers.PsmHelpers;
 import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
 import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.psm.helpers.TagName;
@@ -29,8 +28,6 @@ import static junit.framework.Assert.assertNotNull;
 public class ConstantsTest {
     @Test
     public void testInit() {
-        final PsmHelpers helpers = new PsmHelpers();
-        assertNotNull(helpers);
         assertNotNull(SliMongoConstants.NAMESPACE_SLI);
         assertNotNull(SliUmlConstants.TAGDEF_APPLY_NATURAL_KEYS);
         assertNotNull(TagName.DOCUMENTATION);

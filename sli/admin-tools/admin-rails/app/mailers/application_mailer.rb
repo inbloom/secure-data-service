@@ -74,7 +74,7 @@ class ApplicationMailer < ActionMailer::Base
     @redirect_email = APP_CONFIG['redirect_slc_url']
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
-  
+
   def auto_provision_email(email_address, firstName, login_user)
     @firstName = firstName
     @portal_link = APP_CONFIG["portal_url"]

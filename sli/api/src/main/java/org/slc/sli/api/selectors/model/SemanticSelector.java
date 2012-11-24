@@ -35,6 +35,8 @@ import java.util.Map;
  */
 public class SemanticSelector extends HashMap<Type, List<SelectorElement>> implements SelectorQueryVisitable {
 
+    private static final long serialVersionUID = -4671870720839644128L;
+
     public void addSelector(final Type type, final SelectorElement se) {
         if (this.containsKey(type)) {
             this.get(type).add(se);

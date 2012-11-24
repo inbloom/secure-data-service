@@ -21,7 +21,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.xml.namespace.QName;
@@ -34,6 +33,9 @@ import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Write an XMI file.
+ */
 public class XmiMappingWriter {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmiMappingWriter.class);

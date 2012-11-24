@@ -16,22 +16,17 @@ limitations under the License.
 
 =end
 
+require_relative 'baseEntity.rb'
 
-require_relative './baseEntity.rb'
+class StudentSectionAssociation < BaseEntity
 
-class LeaEducationOrganization < BaseEntity
+  attr_accessor :studentId, :sectionId, :edOrgId
 
-  def initialize(id, seaId, rand)
-    @id = id
-    @seaId = seaId
+  def initialize(studentId, sectionId, edOrgId, rand)
+    @studentId = studentId
+    @sectionId = sectionId
+    @edOrgId = edOrgId
     @rand = rand
   end
 
-  def stateOrgId
-    "lea#{@id}"
-  end
-
-  def seaId
-    "sea#{@seaId}"
-  end
 end

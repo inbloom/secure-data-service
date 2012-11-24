@@ -16,9 +16,9 @@ limitations under the License.
 
 =end
 
-require_relative '../Shared/baseEntityClasses/student.rb'
-require_relative '../Shared/baseEntityClasses/studentSchoolAssociation.rb'
-require_relative '../Shared/baseEntityClasses/studentSectionAssociation.rb'
+require_relative '../Shared/EntityClasses/student.rb'
+require_relative '../Shared/EntityClasses/studentSchoolAssociation.rb'
+require_relative '../Shared/EntityClasses/studentSectionAssociation.rb'
 
 class StudentBuilder
 

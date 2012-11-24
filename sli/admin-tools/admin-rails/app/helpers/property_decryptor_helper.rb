@@ -18,47 +18,47 @@
 require 'openssl'
 
 module PropertyDecryptorHelper
-    
-    def self.encrypt(toEncrypt)
-        key = getKey()
-        iv = getIV()
-    
-        aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
-        aes.encrypt
-        aes.key = key
-        aes.iv = iv
-        encrypted = aes.update(toEncrypt) + aes.final
-    
-        #convert encrypted strings from binary to hex
-        encryptedHex = encrypted.unpack("H*")[0]
-    
-        return encryptedHex
-    end
 
-    def self.decrypt(toDecrypt)
-        key = getKey()
-        iv = getIV()
+  def self.encrypt(toEncrypt)
+    key = getKey()
+    iv = getIV()
 
-        #convert string to decrypt from hex to binary
-        toDecryptBin = [toDecrypt].pack("H*")
+    aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
+    aes.encrypt
+    aes.key = key
+    aes.iv = iv
+    encrypted = aes.update(toEncrypt) + aes.final
 
-        aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
-        aes.decrypt
-        aes.key = key
-        aes.iv = iv
-        decrypted = aes.update(toDecryptBin) + aes.final
+    #convert encrypted strings from binary to hex
+    encryptedHex = encrypted.unpack("H*")[0]
 
-        return decrypted
-    end
+    return encryptedHex
+  end
 
-    def self.getKey()
-        keyFile = File.open(APP_CONFIG['encryption_keyfile'], 'rb')
-        return keyFile.readline
-    end
+  def self.decrypt(toDecrypt)
+    key = getKey()
+    iv = getIV()
 
-    def self.getIV()
-        return APP_CONFIG['encryption_iv']
-    end
-   
+    #convert string to decrypt from hex to binary
+    toDecryptBin = [toDecrypt].pack("H*")
+
+    aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
+    aes.decrypt
+    aes.key = key
+    aes.iv = iv
+    decrypted = aes.update(toDecryptBin) + aes.final
+
+    return decrypted
+  end
+
+  def self.getKey()
+    keyFile = File.open(APP_CONFIG['encryption_keyfile'], 'rb')
+    return keyFile.readline
+  end
+
+  def self.getIV()
+    return APP_CONFIG['encryption_iv']
+  end
+
 end
 

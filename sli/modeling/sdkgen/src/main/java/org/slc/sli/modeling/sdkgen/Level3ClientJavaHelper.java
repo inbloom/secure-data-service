@@ -35,6 +35,9 @@ import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 
+/**
+ * Helper methods
+ */
 public final class Level3ClientJavaHelper {
 
     public static JavaType toJavaTypeFromSchemaElement(final XmlSchemaElement element, final Stack<QName> elementNames,

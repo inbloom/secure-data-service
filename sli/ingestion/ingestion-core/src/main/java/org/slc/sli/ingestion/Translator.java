@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
 import java.util.HashMap;
@@ -61,9 +60,7 @@ public class Translator {
         Map<String, Object> attributes = new HashMap<String, Object>();
         Map<String, Object> body = instance.getBody();
 
-        for (String key : body.keySet()) {
-            attributes.put(key, body.get(key));
-        }
+        attributes.putAll(body);
 
         neutralRecord.setAttributes(attributes);
 

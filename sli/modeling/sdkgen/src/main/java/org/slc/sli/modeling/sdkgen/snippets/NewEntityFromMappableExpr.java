@@ -25,6 +25,9 @@ import org.slc.sli.modeling.jgen.snippets.NewInstanceExpr;
 import org.slc.sli.modeling.jgen.snippets.StringLiteralExpr;
 import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 
+/**
+ * Make a new entity.
+ */
 public final class NewEntityFromMappableExpr implements JavaSnippetExpr {
 
     private final JavaSnippetExpr rhs;

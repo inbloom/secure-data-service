@@ -17,9 +17,19 @@
 
 package org.slc.sli.modeling.docgen;
 
-import static org.slc.sli.modeling.xml.XMLStreamReaderTools.skipElement;
-import static org.slc.sli.modeling.xml.XmlTools.collapseWhitespace;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ModelElement;
+import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.xmi.XmiAttributeName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -31,32 +41,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+import static org.slc.sli.modeling.xml.XMLStreamReaderTools.skipElement;
+import static org.slc.sli.modeling.xml.XmlTools.collapseWhitespace;
 
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.ModelElement;
-import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.slc.sli.modeling.xmi.XmiAttributeName;
-
+/**
+ *
+ */
 public final class DocumentationReader {
-	
-	public DocumentationReader() {
-		throw new UnsupportedOperationException();
-	}
-	
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentationReader.class);
+
+    public DocumentationReader() {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * A programmatic assertion that we have the reader positioned on the correct element.
      *
-     * @param expectLocalName
-     *            The local name that we expect.
-     * @param reader
-     *            The reader.
+     * @param expectLocalName The local name that we expect.
+     * @param reader          The reader.
      */
     private static final void assertName(final QName name, final XMLStreamReader reader) {
         if (!match(name, reader)) {
@@ -88,7 +90,7 @@ public final class DocumentationReader {
         try {
             closeable.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -190,13 +192,12 @@ public final class DocumentationReader {
     /**
      * Reads XMI from an {@link InputStream}.
      *
-     * @param stream
-     *            The {@link InputStream}.
+     * @param stream The {@link InputStream}.
      * @return The parsed {@link Model}.
      */
     public static final Documentation<Type> readDocumentation(final InputStream stream, final ModelIndex mapper) {
         if (stream == null) {
-            throw new NullPointerException("stream");
+            throw new IllegalArgumentException("stream");
         }
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
@@ -208,14 +209,14 @@ public final class DocumentationReader {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new DocumentGeneratorRuntimeException(e);
         }
     }
 
     public static final Documentation<Type> readDocumentation(final File file, final ModelIndex mapper)
             throws FileNotFoundException {
         if (file == null) {
-            throw new NullPointerException("file");
+            throw new IllegalArgumentException("file");
         }
         final InputStream istream = new BufferedInputStream(new FileInputStream(file));
         try {
@@ -228,7 +229,7 @@ public final class DocumentationReader {
     public static final Documentation<Type> readDocumentation(final String fileName, final ModelIndex mapper)
             throws FileNotFoundException {
         if (fileName == null) {
-            throw new NullPointerException("fileName");
+            throw new IllegalArgumentException("fileName");
         }
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
@@ -327,7 +328,6 @@ public final class DocumentationReader {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
-                    // FIXME: Need to preserve mark-up elements.
                     sb.append(readElementText(reader.getName(), reader));
                     break;
                 }
@@ -446,7 +446,7 @@ public final class DocumentationReader {
         if (obj != null) {
             return obj;
         } else {
-            throw new RuntimeException(msg);
+            throw new DocumentGeneratorRuntimeException(msg);
         }
     }
 }

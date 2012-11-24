@@ -16,40 +16,43 @@
 
 package org.slc.sli.modeling.xdm;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import javax.xml.namespace.QName;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for DmAttribute class.
+ */
 public class DmAttributeTest {
-	
-	@Test
-	public void testConstructorAndGetters() {
-		String key = "foo";
-		String value = "bar";
-		QName qName = new QName(key);
-		DmAttribute dmAttribute = new DmAttribute(qName, value);
-		
-		assertTrue(dmAttribute.getName() == qName);
-		assertTrue(dmAttribute.getChildAxis().size() == 0);
-		assertTrue(dmAttribute.getStringValue() == value);
-		
-	}
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullNameThrowsException() {
-		String value = "bar";
-		new DmAttribute(null, value);
-		
-	}
+    @Test
+    public void testConstructorAndGetters() {
+        String key = "foo";
+        String value = "bar";
+        QName qName = new QName(key);
+        DmAttribute dmAttribute = new DmAttribute(qName, value);
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullValueThrowsException() {
-		String key = "foo";
-		QName qName = new QName(key);
-		new DmAttribute(qName, null);
-		
-	}
-	
+        assertTrue(dmAttribute.getName() == qName);
+        assertTrue(dmAttribute.getChildAxis().size() == 0);
+        assertTrue(dmAttribute.getStringValue() == value);
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullNameThrowsException() {
+        String value = "bar";
+        new DmAttribute(null, value);
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullValueThrowsException() {
+        String key = "foo";
+        QName qName = new QName(key);
+        new DmAttribute(qName, null);
+
+    }
+
 }
