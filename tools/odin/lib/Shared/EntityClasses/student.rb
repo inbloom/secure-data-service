@@ -17,50 +17,34 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
-require_relative '../demographics'
+require_relative '../../EntityCreation/student_builder'
+#require_relative '../demographics'
 
 class Student < BaseEntity
   
   attr_accessor :id, :sex, :birthDay, :firstName, :lastName, :address, :city, :state, :postalCode,
                 :email, :hispanicLatino, :economicDisadvantaged, :schoolFood, :limitedEnglish, :race
 
-  def initialize(id, year_of, demographics, rand)
+  def initialize(id, year_of, builder, rand)
     # TODO : most, if not all of this information, should be set by the entity creator code.
     @id = id
     @rand = rand
-    @sex = choose(["Male", "Female"])
+    @sex = choose(StudentBuilder.sex)
     @birthDay = Date.new(year_of) + @rand.rand(365)
-    @firstName =  choose(sex == "Male" ? demographics.maleNames : demographics.femaleNames)
-    @lastName = choose(demographics.lastNames)
+    @firstName =  choose(sex == "Male" ? StudentBuilder.maleNames : StudentBuilder.femaleNames)
+    @lastName = choose(StudentBuilder.lastNames)
     @address = @rand.rand(999).to_s + " " + choose(["North Street", "South Lane", "East Rd", "West Blvd"])
-    @city = demographics.city
-    @state =  demographics.state
-    @postalCode = demographics.postalCode
-    @email = @rand.rand(10000).to_s + "@fakemail.com"
-    @hispanicLatino = wChoose(demographics.hispanicLatinoDist)
+    @city = StudentBuilder.city
+    @state =  StudentBuilder.state
+    @postalCode = StudentBuilder.postalCode
+    @email = StudentBuilder.email
+    @hispanicLatino = wChoose(StudentBuilder.hispanicLatinoDist)
     @economicDisadvantaged = choose([true, false])
-    @schoolFood = wChoose(demographics.schoolFood)
-    @limitedEnglish =  wChoose(demographics.limitedEnglish)
-    @disability = wChoose(demographics.disability)
-    @race =  wChoose(demographics.raceDistribution)
+    @schoolFood = wChoose(StudentBuilder.schoolFood)
+    @limitedEnglish =  wChoose(StudentBuilder.limitedEnglish)
+    @disability = wChoose(StudentBuilder.disability)
+    @race =  wChoose(StudentBuilder.raceDistribution)
   end
 
-  def distributionTester(inMethod, tracer, lo, hi, iters)
-    i = 0
-    hit = 0
-    while i < iters do
-      if inMethod.call == tracer
-        hit += 1
-      end
-      i += 1
-    end
-    
-    if hit.between?(lo, hi)
-      puts "THE HIT RATIO WAS WITHIN EXPECTED VALUES. #{tracer} was #{hit}/#{iters}."
-      return "true"
-    else
-      puts "FAIL. #{tracer} came back #{hit} times out of #{iters}"
-      return "false"
-    end
-  end
+
 end
