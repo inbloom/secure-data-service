@@ -23,7 +23,7 @@ package org.slc.sli.modeling.docgen;
  * Time: 11:08 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DocumentGeneratorRuntimeException extends RuntimeException{
+public class DocumentGeneratorRuntimeException extends RuntimeException {
     public DocumentGeneratorRuntimeException(Throwable cause) {
         super(cause);
     }

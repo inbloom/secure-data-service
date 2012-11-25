@@ -17,6 +17,11 @@
 
 package org.slc.sli.modeling.psm;
 
+/**
+ * Model document.
+ *
+ * @param <TYPE>
+ */
 public class PsmDocument<TYPE> {
     private final TYPE type;
     private final PsmResource graphResourceName;

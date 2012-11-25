@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java parenthesized statement.
+ */
 public final class ParenExpr implements JavaSnippet {
 
     private final JavaSnippet expr;

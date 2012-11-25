@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.sdkgen.grammars;
 
+/**
+ * SDK Type marker class.
+ */
 public interface SdkGenType {
     
 }

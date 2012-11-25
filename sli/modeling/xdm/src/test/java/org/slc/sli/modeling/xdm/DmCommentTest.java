@@ -17,28 +17,31 @@
 
 package org.slc.sli.modeling.xdm;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
 
+
+/**
+ * JUnit test for DmComment class.
+ */
 public final class DmCommentTest {
 
-	@Test
-	public void testConstructorAndGetters() {
-		
-		String value = "foo";
-		
-		DmComment dmComment = new DmComment(value);
-		
-		assertTrue(dmComment.getName() == DmComment.NO_NAME);
-		assertTrue(dmComment.getChildAxis().size() == 0);
-		assertTrue(dmComment.getStringValue() == value);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullValueForConstructorThrowsException() {
-		
-		new DmComment(null);
-	}
+    @Test
+    public void testConstructorAndGetters() {
+
+        String value = "foo";
+
+        DmComment dmComment = new DmComment(value);
+
+        assertTrue(dmComment.getName() == DmComment.NO_NAME);
+        assertTrue(dmComment.getChildAxis().size() == 0);
+        assertTrue(dmComment.getStringValue() == value);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullValueForConstructorThrowsException() {
+
+        new DmComment(null);
+    }
 }

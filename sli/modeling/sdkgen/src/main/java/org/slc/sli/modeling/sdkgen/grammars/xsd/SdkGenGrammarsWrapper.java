@@ -29,6 +29,9 @@ import org.apache.ws.commons.schema.XmlSchemaElement;
 
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 
+/**
+ * Wrap SDK grammar
+ */
 public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
 
     private List<XmlSchema> xmlSchemas;

@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.psm;
 
+/**
+ * Model a resource.
+ */
 public final class PsmResource {
     private final String name;
 

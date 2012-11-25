@@ -24,12 +24,12 @@ class StudentGenerator < InterchangeGenerator
 
   class StudentInterchange < Mustache
 
-    def initialize(entities)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/student_interchange.mustache"
-      #@students = []
-      #entities.each do |entity|
-      #  @students << entity
-      #end
+    def initialize()
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/student.mustache"
+      @students = []
+    end
+
+    def set(entities)
       @students = entities
     end
 
@@ -38,13 +38,27 @@ class StudentGenerator < InterchangeGenerator
     end
   end
 
-  def write(entities)
-    stime = Time.now
-    File.open("generated/InterchangeStudent.xml", 'w') do |student|
-      g = StudentGenerator::StudentInterchange.new(entities)
-      student << g.render()
-    end
-    elapsed = Time.now - stime
-    puts "\t#{entities.length} students written in #{elapsed} seconds."
+
+  def initialize(filename)
+    super(filename)
+
+    @generator = StudentGenerator::StudentInterchange.new
+
+    @header = <<-HEADER
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+    HEADER
+    @footer = <<-FOOTER
+</InterchangeStudentParent>
+    FOOTER
+
+    start()
   end
+
+  def <<(entities)
+    super(entities)
+    @generator.set(entities)
+    @interchange << @generator.render()
+  end
+
 end

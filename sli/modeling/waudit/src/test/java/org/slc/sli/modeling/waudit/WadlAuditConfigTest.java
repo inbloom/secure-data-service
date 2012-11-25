@@ -16,16 +16,6 @@
 
 package org.slc.sli.modeling.waudit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.junit.Test;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
@@ -39,133 +29,146 @@ import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * JUnit test for WadlAuditConfig class.
+ */
 public class WadlAuditConfigTest {
-	
-	private final static ModelIndex MODEL_INDEX = new ModelIndex() {
 
-		@Override
-		public List<AssociationEnd> getAssociationEnds(Identifier type) {
-			// no op
-			return null;
-		}
+    private static final ModelIndex MODEL_INDEX = new ModelIndex() {
 
-		@Override
-		public Map<String, ClassType> getClassTypes() {
-			// no op
-			return null;
-		}
+        @Override
+        public List<AssociationEnd> getAssociationEnds(Identifier type) {
+            // no op
+            return null;
+        }
 
-		@Override
-		public Map<QName, DataType> getDataTypes() {
-			// no op
-			return null;
-		}
+        @Override
+        public Map<String, ClassType> getClassTypes() {
+            // no op
+            return null;
+        }
 
-		@Override
-		public Iterable<EnumType> getEnumTypes() {
-			// no op
-			return null;
-		}
+        @Override
+        public Map<QName, DataType> getDataTypes() {
+            // no op
+            return null;
+        }
 
-		@Override
-		public List<Generalization> getGeneralizationBase(Identifier derived) {
-			// no op
-			return null;
-		}
+        @Override
+        public Iterable<EnumType> getEnumTypes() {
+            // no op
+            return null;
+        }
 
-		@Override
-		public List<Generalization> getGeneralizationDerived(Identifier base) {
-			// no op
-			return null;
-		}
+        @Override
+        public List<Generalization> getGeneralizationBase(Identifier derived) {
+            // no op
+            return null;
+        }
 
-		@Override
-		public String getNamespaceURI(Type type) {
-			// no op
-			return null;
-		}
+        @Override
+        public List<Generalization> getGeneralizationDerived(Identifier base) {
+            // no op
+            return null;
+        }
 
-		@Override
-		public TagDefinition getTagDefinition(Identifier reference) {
-			// no op
-			return null;
-		}
+        @Override
+        public String getNamespaceURI(Type type) {
+            // no op
+            return null;
+        }
 
-		@Override
-		public TagDefinition getTagDefinition(QName name) {
-			// no op
-			return null;
-		}
+        @Override
+        public TagDefinition getTagDefinition(Identifier reference) {
+            // no op
+            return null;
+        }
 
-		@Override
-		public Type getType(Identifier reference) {
-			// no op
-			return null;
-		}
+        @Override
+        public TagDefinition getTagDefinition(QName name) {
+            // no op
+            return null;
+        }
 
-		@Override
-		public void lookup(Identifier id, Visitor visitor) {
-			// no op
-			
-		}
+        @Override
+        public Type getType(Identifier reference) {
+            // no op
+            return null;
+        }
 
-		@Override
-		@Deprecated
-		public Set<ModelElement> lookupByName(QName name) {
-			// no op
-			return null;
-		}
+        @Override
+        public void lookup(Identifier id, Visitor visitor) {
+            // no op
 
-		@Override
-		public Set<ModelElement> whereUsed(Identifier id) {
-			// no op
-			return null;
-		}
-		
-	};
-	
-	private static final Map<String, QName> ELEMENT_NAMES = new HashMap<String, QName>();
-	static {
-		ELEMENT_NAMES.put("foo1", null);
-		ELEMENT_NAMES.put("foo2", null);
-	}
-	
-	private static String prefix = "foo";
-	private static String namespaceURI = "bar";
+        }
 
-	@Test
-	public void test() {
-		
-		
-		WadlAuditConfig wadlAuditConfig = new WadlAuditConfig(prefix, namespaceURI, MODEL_INDEX, ELEMENT_NAMES);
-		
+        @Override
+        @Deprecated
+        public Set<ModelElement> lookupByName(QName name) {
+            // no op
+            return null;
+        }
 
-		assertEquals(prefix, wadlAuditConfig.getPrefix());
-		assertEquals(namespaceURI, wadlAuditConfig.getNamespaceURI());
-		assertTrue(MODEL_INDEX == wadlAuditConfig.getModel());
-		assertEquals(ELEMENT_NAMES, wadlAuditConfig.getElementNameMap());
-	}
-	
+        @Override
+        public Set<ModelElement> whereUsed(Identifier id) {
+            // no op
+            return null;
+        }
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullPrefixThrowsException() {
-		new WadlAuditConfig(null, namespaceURI, MODEL_INDEX, ELEMENT_NAMES);
-	}
+    };
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullNamespaceUriThrowsException() {
-		new WadlAuditConfig(prefix, null, MODEL_INDEX, ELEMENT_NAMES);
-	}
+    private static final Map<String, QName> ELEMENT_NAMES = new HashMap<String, QName>();
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullModelIndexThrowsException() {
-		new WadlAuditConfig(prefix, namespaceURI, null, ELEMENT_NAMES);
-	}
+    static {
+        ELEMENT_NAMES.put("foo1", null);
+        ELEMENT_NAMES.put("foo2", null);
+    }
 
-	@Test (expected = NullPointerException.class)
-	public void testNullElementNamesThrowsException() {
-		new WadlAuditConfig(prefix, namespaceURI, MODEL_INDEX, null);
-	}
-	
-	
+    private static String prefix = "foo";
+    private static String namespaceURI = "bar";
+
+    @Test
+    public void test() {
+
+
+        WadlAuditConfig wadlAuditConfig = new WadlAuditConfig(prefix, namespaceURI, MODEL_INDEX, ELEMENT_NAMES);
+
+
+        assertEquals(prefix, wadlAuditConfig.getPrefix());
+        assertEquals(namespaceURI, wadlAuditConfig.getNamespaceURI());
+        assertTrue(MODEL_INDEX == wadlAuditConfig.getModel());
+        assertEquals(ELEMENT_NAMES, wadlAuditConfig.getElementNameMap());
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullPrefixThrowsException() {
+        new WadlAuditConfig(null, namespaceURI, MODEL_INDEX, ELEMENT_NAMES);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullNamespaceUriThrowsException() {
+        new WadlAuditConfig(prefix, null, MODEL_INDEX, ELEMENT_NAMES);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullModelIndexThrowsException() {
+        new WadlAuditConfig(prefix, namespaceURI, null, ELEMENT_NAMES);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullElementNamesThrowsException() {
+        new WadlAuditConfig(prefix, namespaceURI, MODEL_INDEX, null);
+    }
+
+
 }

@@ -24,6 +24,9 @@ import org.apache.ws.commons.schema.XmlSchemaType;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenElement;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenType;
 
+/**
+ * Wrap an SDK element
+ */
 public final class SdkGenElementWrapper implements SdkGenElement {
 
     private final XmlSchemaElement element;

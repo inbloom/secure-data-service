@@ -55,9 +55,11 @@ public class JavaFeatureTest {
                 Identifier.random(),
                 "TestClassType",
                 false,
-                new ArrayList<Attribute>() {{
-                    add(attr);
-                }},
+                new ArrayList<Attribute>() {
+                    {
+                        add(attr);
+                    }
+                },
                 new ArrayList<TaggedValue>());
         modelIndex = mock(ModelIndex.class);
         when(modelIndex.getType(any(Identifier.class))).thenReturn(classType);
