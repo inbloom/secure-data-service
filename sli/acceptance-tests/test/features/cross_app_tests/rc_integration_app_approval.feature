@@ -65,15 +65,9 @@ And I click on the button Submit
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
-#These steps should not be needed if RC is in app-auto-approve mode
 And the client ID and shared secret fields are Pending
 And the Registration Status field is Pending
 And a notification email is sent to "slcoperator-email@slidev.org"
-#And my new apps client ID is present
-#And my new apps shared secret is present
-#When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-#And I enable my app for all districts
-#And I click on the button Submit
 And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
@@ -95,10 +89,8 @@ And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are Pending
 And the Registration Status field is Pending
 And a notification email is sent to "slcoperator-email@slidev.org"
-#When I clicked on the button Edit for the application "Schlemiel"
-#And I enable my app for all districts
-#And I click on the button Submit
-#Then I am redirected to the Application Registration Tool page
+And I exit out of the iframe
+And I click on log out
 
 Scenario:  SLC Operator approves the new developer applications
 When I navigate to the Portal home page
@@ -144,21 +136,21 @@ Then I see all of the Districts
 Then I check the Districts
 When I click on Save
 Then the "NotTheAppYoureLookingFor" is enabled for Districts
-
 And I see an application "Schlemiel" in the table
-When I click on 'In Progress' next to application "Schlemiel"
-And my new apps client ID is present
-And my new apps shared secret is present
-#When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-And I enable my app for all districts
-And I click on the button Submit
+And the client ID and shared secret fields are present
+And I clicked on the button Edit for the application "Schlemiel"
+Then I can see the on-boarded states
+When I select a state
+Then I see all of the Districts
+Then I check the Districts
+When I click on Save
+Then the "Schlemiel" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
 
 Scenario:  LEA approves Dashboard, Databrowser and New Developer Applications
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Shared Learning Collaborative"
-#When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
@@ -166,10 +158,10 @@ Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Application Authorization"
+And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
 
 #Authorize the Dashboard
-And I switch to the iframe
 And I see an application "SLC Dashboards" in the table
 And in Status it says "Not Approved"
 And I click on the "Approve" button next to it

@@ -39,6 +39,7 @@ When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end
 
+
 Then /^my new apps client ID is present$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
