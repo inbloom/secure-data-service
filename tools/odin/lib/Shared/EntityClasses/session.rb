@@ -16,18 +16,31 @@ limitations under the License.
 
 =end
 
-require_relative "../data_utility.rb"
-require_relative "baseEntity.rb"
+require_relative 'baseEntity'
 
-# creates state education agency
-class SeaEducationOrganization < BaseEntity
+# creates session
+class Session < BaseEntity
 
-  def initialize(id, rand)
-    @id = id
-    @rand = rand
+  attr_accessor :name, :school_year, :term, :edOrgId;
+
+  def initialize(name, year, term, interval, edOrgId)
+  	@name = name
+  	@school_year = year.to_s + " " + (year+1).to_s
+  	@term = term
+  	@interval = interval
+  	@edOrgId = edOrgId
   end
 
-  def stateOrgId
-    DataUtility.get_state_education_agency_id(@id)
+  def begin_date
+  	# use interval.get_begin_date
   end
+
+  def end_date
+  	# use interval.get_end_date
+  end
+
+  def num_school_days
+  	#use interval.get_num_school_days
+  end
+
 end
