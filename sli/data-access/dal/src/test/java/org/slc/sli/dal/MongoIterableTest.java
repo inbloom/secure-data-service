@@ -61,9 +61,9 @@ public class MongoIterableTest {
     public void setup() {
         collection = repository.getCollection(collectionName);
         collection.drop();
+        collection.ensureIndex(new BasicDBObject("test", 1)); 
         for (DBObject o : objects) {
             collection.insert(o);
-
         }
     }
 

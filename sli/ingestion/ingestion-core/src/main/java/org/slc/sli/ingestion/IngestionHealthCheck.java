@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,9 +54,10 @@ public class IngestionHealthCheck {
 
         if (version == null || version.equals("")) {
             InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("SLI_metadata.txt");
+            BufferedReader br = null;
             if (in != null) {
                 try {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    br = new BufferedReader(new InputStreamReader(in));
                     String currentFileLine;
                     while ((currentFileLine = br.readLine()) != null)   {
                         Pattern versionPattern = Pattern.compile("^Version\\s*:\\s*(.*)\\s*$");
@@ -66,6 +68,9 @@ public class IngestionHealthCheck {
                     }
                 } catch (IOException ioe) {
                     log.error("Error occured while obtaining the version: " + ioe.getLocalizedMessage());
+                } finally {
+                    IOUtils.closeQuietly(br);
+                    IOUtils.closeQuietly(in);
                 }
             }
         }

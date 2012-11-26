@@ -1,0 +1,12 @@
+studentCount: 10001
+beginYear: 2001
+numYears: 1
+
+# Example of other configuration
+numSEA: 1
+numLEA: 1
+studentsPerSchool: 1500
+numPrograms: 4
+numCourses: 2
+numCourseOffering: 2
+numBellSchedule: 2
