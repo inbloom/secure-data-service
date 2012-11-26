@@ -103,7 +103,7 @@ end
 
 Then /^I see all of the Districts$/ do
   lis = @driver.find_elements(:css, 'div#enable-menu div#lea-menu table tbody tr')
-  assert(lis.count > 1, "One district should exist")
+  assert(lis.count >= 1, "One district should exist")
 end
 
 Then /^I check the Districts$/ do
