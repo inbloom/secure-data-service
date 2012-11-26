@@ -157,6 +157,7 @@ And my new apps shared secret is present
 #When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
 And I enable my app for all districts
 And I click on the button Submit
+And I exit out of the iframe
 And I click on log out
 
 Scenario:  LEA approves Dashboard, Databrowser and New Developer Applications
