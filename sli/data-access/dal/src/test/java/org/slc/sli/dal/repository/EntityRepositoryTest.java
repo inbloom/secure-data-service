@@ -40,7 +40,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -58,6 +60,9 @@ import org.slc.sli.domain.Repository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
+    
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Before
     public void setUp() {
@@ -72,7 +77,7 @@ public class EntityRepositoryTest {
         repository.deleteAll("student", null);
         
         DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> studentMap = buildTestStudentEntity();
         studentMap.put("firstName", "John");
@@ -88,7 +93,7 @@ public class EntityRepositoryTest {
         assertEquals(4, repository.count("student", new NeutralQuery()));
         
         repository.deleteAll("student", null);
-        ((MongoRepository<?>)repository).dropIndex("student", indexKeys); 
+        mongoTemplate.getCollection("student").dropIndex(indexKeys); 
     }
 
     @Test
@@ -247,7 +252,7 @@ public class EntityRepositoryTest {
         repository.deleteAll("student", null);
         
         DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
-        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
@@ -262,7 +267,7 @@ public class EntityRepositoryTest {
         assertEquals(1, repository.count("student", neutralQuery));
         
         repository.deleteAll("student", null);
-        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);        
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);        
     }
 
     private Map<String, Object> buildTestStudentEntity() {
@@ -351,7 +356,7 @@ public class EntityRepositoryTest {
     public void findOneTest() {
         repository.deleteAll("student", null);
         DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);        
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
 
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
@@ -363,14 +368,14 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);     
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);    
     }
 
     @Test
     public void findOneMultipleMatches() {
         repository.deleteAll("student", null);
         DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);        
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
         
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
@@ -389,14 +394,14 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);     
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);     
     }
 
     @Test
     public void findOneTestNegative() {
         repository.deleteAll("student", null);
         DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);        
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
         
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
@@ -404,7 +409,7 @@ public class EntityRepositoryTest {
         assertNull(this.repository.findOne("student", neutralQuery));
         
         repository.deleteAll("student", null);
-        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);        
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);       
     }
 
     @Test
@@ -413,7 +418,7 @@ public class EntityRepositoryTest {
         repository.deleteAll("student", null);
 
         DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
-        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
 
@@ -429,7 +434,7 @@ public class EntityRepositoryTest {
         assertEquals(1, repository.count("student", neutralQuery));
         
         repository.deleteAll("student", null);
-        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);         
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);         
     }
     @Test
     public void testCreateWithMetadata() {
@@ -442,7 +447,6 @@ public class EntityRepositoryTest {
 
     @Test
     public void testCreateRetryWithError() {
-
         Repository<Entity> mockRepo = Mockito.spy(repository);
         Map<String, Object> studentBody = buildTestStudentEntity();
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
