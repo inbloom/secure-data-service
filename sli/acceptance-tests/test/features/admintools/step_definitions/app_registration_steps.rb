@@ -119,8 +119,9 @@ end
 
 Then /^application "([^"]*)" is registered$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='APPROVED']")
-  assert(trs.length > 0, "No more pending applications")
+  assertWithWait("Could not find app #{app} in approved state") {
+    appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='APPROVED']").length > 0
+  }
 end
 
 Then /^application "([^"]*)" is not registered$/ do |app|
@@ -128,6 +129,7 @@ Then /^application "([^"]*)" is not registered$/ do |app|
 end
 
 Then /^application "([^"]*)" is removed from the list$/ do |app|
+# TODO: canidate for lowering timeout temporarly to improve performance
   assertWithWait("Shouldn't see a NewApp") {
 	@driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
   }
