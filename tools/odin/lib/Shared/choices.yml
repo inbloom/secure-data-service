@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-#['American Indian - Alaskan Native', 'Asian', 'Black - African American', 'Native Hawaiian - Pacific Islander', 'White']
-raceDistribution: [["White", 60], ["Black - African American", 15], ["Asian", 5], ["American Indian - Alaskan Native", 20]]
-=======
 raceDistribution: [['American Indian - Alaskan Native', 1], ['Asian', 7], ['Black - African American', 15], ['Native Hawaiian - Pacific Islander', 2], ['White', 75]]
->>>>>>> 7af441427ba6fd927dc39ec89796e570f0a9f0bb
 hispanicLatinoDist: [[true, 20], [false, 80]]
 economicDisadvantaged: [[true, 10], [false, 90]]
 schoolFood: [['Free', 5], ['Full price', 70], ['Reduced price', 10], ['Unknown', 15]]
