@@ -11,6 +11,10 @@ SLI Checkstyle configuration.
 -->
 <module name="Checker">
   <property name="severity" value="warning"/>
+    
+  <module name="RegexpHeader">
+    <property name="headerFile" value="${checkstyle.headerFile}" />
+  </module>
   <module name="TreeWalker">
     <property name="cacheFile" value="${checkstyle.cache.file}"/>
     <module name="JavadocType">

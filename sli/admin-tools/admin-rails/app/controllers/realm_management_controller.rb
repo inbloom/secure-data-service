@@ -68,7 +68,6 @@ class RealmManagementController < ApplicationController
       begin
         @realm.save
         success = true if @realm.valid? and @realm.idp.valid?
-        flash[:notice] = 'Realm was successfully created.'
       rescue ActiveResource::BadRequest => error
         @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
         @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"

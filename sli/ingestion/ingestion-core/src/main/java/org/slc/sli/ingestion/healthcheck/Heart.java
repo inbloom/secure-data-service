@@ -87,6 +87,7 @@ public class Heart implements Observer {
 
         HeartBeat pulse = new HeartBeat();
         pulse.addObserver(this);
+        pulse.startHeart();
     }
 
     /* (non-Javadoc)

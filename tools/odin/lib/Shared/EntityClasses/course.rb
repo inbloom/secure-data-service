@@ -18,12 +18,14 @@ limitations under the License.
 
 require_relative 'baseEntity.rb'
 
+# creates course
 class Course < BaseEntity
 
-  attr_accessor :id, :edOrg
+  attr_accessor :id, :title, :edOrg
 
-  def initialize(id, edOrg)
+  def initialize(id, title, edOrg)
     @id = id
+    @title = title
     @edOrg = edOrg
   end
 
