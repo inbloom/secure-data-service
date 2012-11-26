@@ -55,6 +55,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Override
     public Set<String> getValid(String entityType, Set<String> studentIds) {
+        // first check if the entire set is valid. if not, check id by id.
         return (validate(entityType, studentIds)) ? studentIds : super.getValid(entityType, studentIds);
     }
 

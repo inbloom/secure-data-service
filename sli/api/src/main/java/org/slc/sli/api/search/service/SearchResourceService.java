@@ -271,19 +271,21 @@ public class SearchResourceService {
         // security checks are expensive, so do min checks necessary at a time
         while (!entityBodies.isEmpty() && filterMap.size()  < total) {
             sublist = new ArrayList<EntityBody>(entityBodies.subList(0, Math.min(entityBodies.size(), limit)));
-            // loop through entities. if accessible, add to list
+
+            // separate sublist by entity type
             for (EntityBody entity : sublist) {
                 toType = (String) entity.get("type");
                 entityId = (String) entity.get("id");
                 entitiesByType.put(toType, entityId, entity);
             }
-            Set<String> set;
 
+            // get accessible entities by type, add to filter map
+            Set<String> accessible;
             Map<String, EntityBody> row;
             for (String type: entitiesByType.rowKeySet()) {
                 row = entitiesByType.row(type);
-                set = isAccessible(type, row.keySet());
-                for (String id: set) {
+                accessible = isAccessible(type, row.keySet());
+                for (String id: accessible) {
                     if (row.containsKey(id)) {
                         filterMap.put(id, type, row.get(id));
                     }
@@ -292,6 +294,8 @@ public class SearchResourceService {
             entityBodies.removeAll(sublist);
             entitiesByType.clear();
         }
+
+        // use filter map to return final entity list
         return Lists.newArrayList(Iterables.filter(finalEntities, new Predicate<EntityBody>() {
             @Override
             public boolean apply(EntityBody input) {
@@ -300,9 +304,15 @@ public class SearchResourceService {
         })) ;
     }
 
+    /**
+     * Filter id set to get accessible ids
+     * @param toType
+     * @param ids
+     * @return
+     */
     public Set<String> isAccessible(String toType, Set<String> ids) {
 
-        // get and save validator
+        // get validator
         IContextValidator validator = contextValidator.findValidator(toType, false);
         // validate. if accessible, add to list
         if (validator != null) {
@@ -368,7 +378,7 @@ public class SearchResourceService {
     private void addSecurityContext(ApiQuery apiQuery) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Entity principalEntity = principal.getEntity();
-        // get allSchools for staff
+        // get schools for user
         List<String> schoolIds = new ArrayList<String>();
         schoolIds.addAll(edOrgHelper.getUserEdOrgs(principalEntity));
         // a special marker for global entities
