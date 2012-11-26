@@ -82,9 +82,8 @@ end
 
 desc "Run all the specs"
 task :test do
-  if File.exists?("generated") == false
-    Dir.mkdir("generated", 0755)
-  end
+  FileUtils.rm_rf('generated')
+  Dir.mkdir("generated", 0755)
   Rake::Task['data_utility'].execute
   Rake::Task['world_builder'].execute
   Rake::Task['student'].execute
