@@ -28,67 +28,49 @@ class StudentBuilder < BaseEntity
   @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../Shared/choices.yml")   
   def self.demographics; @@demographics end
   
-  attr_accessor :id, :rand, :work_order, :student_writer, :enrollment_writer, :sex, :birthDay,
-                :firstName, :lastName, :address, :city, :state, :postalCode, :email, :hispanicLatino,
-                :economicDisadvantaged, :schoolFood, :limitedEnglish, :race
-
-  def initialize(work_order, year_of, files)
-    @id = work_order[:id]
+  attr_accessor :id, :rand, :year_of
+  
+  def initialize(id, year_of)
+    @id = id
     @rand = Random.new(@id)
-    @work_order = work_order
     @year_of = year_of
-    @student_writer = files[:studentParent]
-    @enrollment_writer = files[:enrollment]
-  end
-
-  def student
-    # TODO : this method should go away, kept only for reference
-    #@sex = choose(sex)
-    #@birthDay = Date.new(@year_of) + @rand.rand(365)
-    #@firstName =  choose(sex == "Male" ? maleNames : femaleNames)
-    #@lastName = choose(lastNames)
-    #@address = @rand.rand(999).to_s + " " + choose(["North Street", "South Lane", "East Rd", "West Blvd"])
-    #@city = city
-    #@state = state
-    #@postalCode = postalCode
-    #@email = email
-    #@hispanicLatino = wChoose(hispanicLatinoDist)
-    #@economicDisadvantaged = choose([true, false])
-    #@schoolFood = wChoose(schoolFood)
-    #@limitedEnglish =  wChoose(limitedEnglish)
-    #@disability = wChoose(disability)
-    #@race =  wChoose(raceDistribution)
+    #@student_writer = files[:studentParent]
+    #@enrollment_writer = files[:enrollment]
   end
   
   def build
     # Pull student information into hashmap to be called by studentGenerator.rb
     #s = Student.new(@id, @work_order[:birth_day_after], @work_order[:demographics], @rand)
     #@student_writer.write(s.render)
-    @work_order[:sessions].each{ |session|
-      gen_enrollment(session)
-    }
+    #@work_order[:sessions].each{ |session|
+    #  gen_enrollment(session)
+    #}
   end
 
   def gen_enrollment(session)
-    school_id = session[:school]
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id, @rand)
-    @enrollment_writer.write(schoolAssoc.render)
-    session[:sections].each{ |section|
-      gen_section(section)
-    }
+    #school_id = session[:school]
+    #schoolAssoc = StudentSchoolAssociation.new(@id, school_id, @rand)
+    #@enrollment_writer.write(schoolAssoc.render)
+    #session[:sections].each{ |section|
+    #  gen_section(section)
+    #}
   end
 
   def gen_section(section)
-    sectionAssoc = StudentSectionAssociation.new(@id, section[:id], section[:edOrg], @rand)
-    @enrollment_writer.write(sectionAssoc.render)
+    #@sectionAssoc = StudentSectionAssociation.new(@id, section[:id], section[:edOrg], @rand)
+    #@enrollment_writer.write(sectionAssoc.render)
   end
   
+  # TODO: This all resides in student.rb now, needs to be removed
+  # TODO: What is the point of student_builder now? None really. 
+  #       something else needs to handle student.rb
+=begin 
   def sex
     choose(@@demographics['sex'])
   end
   
   def prefix
-    sex == "Male?" ? "Mr." : "Mrs."
+    sex == "Male?" ? "Mr." : "Ms."
   end
     
   def firstName
@@ -108,7 +90,7 @@ class StudentBuilder < BaseEntity
   end
   
   def birthDay
-    Date.new(@year_of) + @rand.rand(365)
+    @year_of + @rand.rand(365)
   end
     
   def email
@@ -178,5 +160,5 @@ class StudentBuilder < BaseEntity
       return "false"
     end
   end
-  
+=end  
 end
