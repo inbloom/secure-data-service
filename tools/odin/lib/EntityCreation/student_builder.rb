@@ -88,7 +88,7 @@ class StudentBuilder < BaseEntity
   end
   
   def prefix
-    sex == "Male?" ? "Mr." : "Mrs."
+    sex == "Male?" ? "Mr." : "Ms."
   end
     
   def firstName
