@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'simplecov'
+
 SimpleCov.start do
   add_filter '/spec/'
   add_filter '/config/'
@@ -26,7 +27,7 @@ SimpleCov.start do
   add_group 'EntityCreation', '/lib/EntityCreation/'
   add_group 'OutputGeneration', '/lib/OutputGeneration/'
   add_group 'Shared', '/lib/Shared/'
-  add_group 'Driver', do |src_file|
+  add_group 'Driver' do |src_file|
     File.basename(src_file.filename) == 'odin.rb' || File.basename(src_file.filename) == "driver.rb"
   end
 end

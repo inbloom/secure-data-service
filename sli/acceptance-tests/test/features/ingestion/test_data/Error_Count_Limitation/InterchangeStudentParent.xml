@@ -1,15 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+    <Parent>
+        <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Richard</FirstName>
+            <LastSurname>Lê</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Address>
+            <StreetNumberName>23 Rue Lecourbe</StreetNumberName>
+            <City>Paris</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+            <NameOfCounty>France</NameOfCounty>
+        </Address>
+        <Telephone>
+            <TelephoneNumber>+33 (1) 45.23.35.48.12</TelephoneNumber>
+        </Telephone>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>6473283635</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+            <FirstName>Ti</FirstName>
+            <LastSurname>Troung</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <Address>
+            <StreetNumberName>34 Northshore Ave</StreetNumberName>
+            <ApartmentRoomSuiteNumber>Apt 9B</ApartmentRoomSuiteNumber>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
+		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other">
+            <TelephoneNumber>3095555341</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>ti.troung@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Work">
+            <EmailAddress>ti.troung@unicef.org</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail>
+            <EmailAddress>ti.troung@yahoo.com</EmailAddress>
+        </ElectronicMail>
+ 
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>5713667332</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+            <FirstName>Peter</FirstName>
+            <LastSurname>Terrance</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>9878863645</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+            <FirstName>Aaron</FirstName>
+            <LastSurname>Smith</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+       <Address AddressType="Work">
+            <StreetNumberName>18 East Main Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>Ste 200</ApartmentRoomSuiteNumber>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>		
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail>
+            <EmailAddress>a.smith@acs.daybreak.gov</EmailAddress>
+        </ElectronicMail>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>2497287214</ParentUniqueStateId>
+        <Name>
+            <FirstName>Marsha</FirstName>
+            <LastSurname>Jones</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <Address>
+            <StreetNumberName>34 Eastside Ave</StreetNumberName>
+            <BuildingSiteNumber>245</BuildingSiteNumber>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>		
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <Telephone>
+            <TelephoneNumber>3095550001</TelephoneNumber>
+        </Telephone>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>3597672174</ParentUniqueStateId>
+        <Name>
+            <FirstName>Matthew</FirstName>
+            <LastSurname>Sollars</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Address>
+            <StreetNumberName>82 EastCrest St</StreetNumberName>
+            <ApartmentRoomSuiteNumber>A11</ApartmentRoomSuiteNumber>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>		
+        <Telephone PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail>
+            <EmailAddress>m.sollars@aol.com</EmailAddress>
+        </ElectronicMail>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>7427811661</ParentUniqueStateId>
+        <Name>
+            <FirstName>Marsha</FirstName>
+            <LastSurname>Sollars-Jones</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>0798132464</ParentUniqueStateId>
+        <Name>
+            <FirstName>Ignatio</FirstName>
+            <LastSurname>Ortiz</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Address>
+            <StreetNumberName>213 Central Ave</StreetNumberName>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>		
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550001</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other">
+            <TelephoneNumber>3095550002</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Mobile">
+            <TelephoneNumber>3095550003</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550004</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>c.ortiz@gmail.com</EmailAddress>
+        </ElectronicMail>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId></ParentUniqueStateId>
+        <Name>
+            <FirstName>Felizia</FirstName>
+            <LastSurname>Ortiz</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+    </Parent>
+
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>0798132464</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Father</Relation>
@@ -21,12 +197,12 @@
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>0798132465</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Mother</Relation>
@@ -34,15 +210,16 @@
         <EmergencyContactStatus>true</EmergencyContactStatus>
         <ContactPriority>2</ContactPriority>
     </StudentParentAssociation>
+
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>2497287214</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Grandparent</Relation>
@@ -53,12 +230,12 @@
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>3597672174</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Father</Relation>
@@ -68,12 +245,12 @@
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>7427811661</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Mother</Relation>
@@ -83,12 +260,12 @@
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>9878863645</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Agency representative</Relation>
@@ -98,26 +275,27 @@
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>5713667332</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Minister or priest</Relation>
         <EmergencyContactStatus>false</EmergencyContactStatus>
     </StudentParentAssociation>
+
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>6473283635</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Mother</Relation>
@@ -128,12 +306,12 @@
     <StudentParentAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                <StudentUniqueStateId></StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+                <ParentUniqueStateId></ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Father</Relation>
@@ -141,4 +319,5 @@
         <EmergencyContactStatus>false</EmergencyContactStatus>
         <ContactRestrictions>NO CONTACT ALLOWED</ContactRestrictions>
     </StudentParentAssociation>
+
 </InterchangeStudentParent>
