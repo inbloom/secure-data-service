@@ -51,6 +51,7 @@ Then /^I see all of the applications that are registered to SLI$/ do
 end
 
 Then /^application "([^"]*)" does not have an edit link$/ do |app|
+# TODO: canidate for lowering timeout temporarly to improve performance
   appsTable = @driver.find_element(:id, "applications")
   edit = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/a[text()='Edit']")
   assert(edit.length == 0, "Should not see an edit link")
@@ -101,15 +102,15 @@ end
 
 When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Approve']")[0]
-  assert(y_button != nil, "Found Y button")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")
+  assert(y_button != nil, "Did not find the approve button")
   y_button.click
 end
 
 When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Deny']")[0]
-  assert(y_button != nil, "Found X button")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Deny']")
+  assert(y_button != nil, "Did not find the deny button")
   y_button.click
 end
 
