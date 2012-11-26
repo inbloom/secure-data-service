@@ -19,7 +19,6 @@ package org.slc.sli.modeling.xmigen;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.junit.Test;
 import org.junit.Before; 
-import org.junit.After;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
@@ -27,7 +26,13 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.modeling.uml.*;
+//import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.TagDefinition;
+import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 
@@ -39,7 +44,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /** 
@@ -83,17 +87,14 @@ public class Xsd2UmlPluginHostAdapterTest {
 public void before() throws Exception {
     adapter = new Xsd2UmlPluginHostAdapter(mapper);
     identifier = Identifier.random();
-    qName = new QName(WxsNamespace.URI,"test");
+    qName = new QName(WxsNamespace.URI, "test");
 
 }
 
-@After
-public void after() throws Exception { 
-}
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidInstance() {
-        Xsd2UmlPluginHostAdapter invalidAdapter= new Xsd2UmlPluginHostAdapter(null);
+        Xsd2UmlPluginHostAdapter invalidAdapter = new Xsd2UmlPluginHostAdapter(null);
     }
 /** 
 * 
@@ -103,7 +104,7 @@ public void after() throws Exception {
 @Test
 public void testDeclareTagDefinitions() throws Exception {
     Collection<TagDefinition> definitions = adapter.declareTagDefinitions(host);
-    assertEquals (definitions,Collections.emptyList());
+    assertEquals(definitions, Collections.emptyList());
 }
 
 /** 
@@ -135,7 +136,7 @@ public void testEnsureTagDefinitionException() throws Exception {
 */ 
 @Test(expected = UnsupportedOperationException.class)
 public void testGetAssociationEndTypeName() throws Exception {
-    adapter.getAssociationEndTypeName(classType,attribute,host);
+    adapter.getAssociationEndTypeName(classType, attribute, host);
 }
 
 /** 
@@ -168,7 +169,7 @@ public void testGetType() throws Exception {
 */ 
 @Test
 public void testIsAssociationEnd() throws Exception {
-    assertFalse(adapter.isAssociationEnd(classType,attribute,host));
+    assertFalse(adapter.isAssociationEnd(classType, attribute, host));
 }
 
 /** 
@@ -180,8 +181,8 @@ public void testIsAssociationEnd() throws Exception {
 public void testNameAssociation() throws Exception {
     when(lhs.getName()).thenReturn("lhs");
     when(rhs.getName()).thenReturn("rhs");
-    String assocEnd = adapter.nameAssociation(lhs,rhs,host);
-    assertEquals("lhs<=>rhs" ,assocEnd);
+    String assocEnd = adapter.nameAssociation(lhs, rhs, host);
+    assertEquals("lhs<=>rhs", assocEnd);
 }
 
 /** 
@@ -192,7 +193,7 @@ public void testNameAssociation() throws Exception {
 @Test
 public void testNameFromComplexTypeExtension() throws Exception {
 
-    assertEquals("test extends test",adapter.nameFromComplexTypeExtension(qName, qName));
+    assertEquals("test extends test", adapter.nameFromComplexTypeExtension(qName, qName));
 }
 
 /** 
@@ -222,7 +223,7 @@ public void testNameFromSchemaAttributeName() throws Exception {
 */ 
 @Test
 public void testNameFromSimpleTypeRestriction() throws Exception { 
-    assertEquals("test restricts test",adapter.nameFromSimpleTypeRestriction(qName, qName));
+    assertEquals("test restricts test", adapter.nameFromSimpleTypeRestriction(qName, qName));
 }
 
 /** 
@@ -232,7 +233,7 @@ public void testNameFromSimpleTypeRestriction() throws Exception {
 */ 
 @Test
 public void testNameFromSchemaTypeName() throws Exception {
-    assertEquals("test",adapter.nameFromSchemaTypeName(qName));
+    assertEquals("test", adapter.nameFromSchemaTypeName(qName));
 }
 
 /** 
@@ -242,7 +243,7 @@ public void testNameFromSchemaTypeName() throws Exception {
 */ 
 @Test
 public void testTagsFromAppInfo() throws Exception {
-    assertEquals(Collections.emptyList(), adapter.tagsFromAppInfo(new XmlSchemaAppInfo(),host));
+    assertEquals(Collections.emptyList(), adapter.tagsFromAppInfo(new XmlSchemaAppInfo(), host));
 }
 
 

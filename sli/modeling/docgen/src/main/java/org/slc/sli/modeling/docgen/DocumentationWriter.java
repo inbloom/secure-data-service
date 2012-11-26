@@ -53,18 +53,24 @@ import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Writes XMI describing domain model.
+ */
 public final class DocumentationWriter {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentationWriter.class);
 
-	public DocumentationWriter() {
-		throw new UnsupportedOperationException();
-	}
-	
+    public DocumentationWriter() {
+        throw new UnsupportedOperationException();
+    }
+
     private static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -140,7 +146,7 @@ public final class DocumentationWriter {
 
     private static final String toString(final Occurs value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         switch (value) {
         case ZERO: {
@@ -342,7 +348,7 @@ public final class DocumentationWriter {
     public static final void writeDocument(final Documentation<Type> documentation, final ModelIndex model,
             final OutputStream outstream) {
         if (outstream == null) {
-            throw new NullPointerException("outstream");
+            throw new IllegalArgumentException("outstream");
         }
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
@@ -356,14 +362,14 @@ public final class DocumentationWriter {
             xsw.flush();
             xsw.close();
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new DocumentGeneratorRuntimeException(e);
         }
     }
 
     public static final void writeDocument(final Documentation<Type> documentation, final ModelIndex model,
             final String fileName) {
         if (fileName == null) {
-            throw new NullPointerException("fileName");
+            throw new IllegalArgumentException("fileName");
         }
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
@@ -373,14 +379,14 @@ public final class DocumentationWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
     public static final void writeDocument(final Documentation<Type> documentation, final ModelIndex model,
             final File file) {
         if (file == null) {
-            throw new NullPointerException("file");
+            throw new IllegalArgumentException("file");
         }
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
@@ -390,7 +396,7 @@ public final class DocumentationWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -465,9 +471,10 @@ public final class DocumentationWriter {
                 writeEnumType(enumType, modelIndex, xsw);
             }
             final Map<QName, DataType> dataTypes = modelIndex.getDataTypes();
-            for (final QName name : dataTypes.keySet()) {
-                final DataType dataType = dataTypes.get(name);
-                writeDataType(dataType, name, modelIndex, xsw);
+            for (Map.Entry<QName, DataType> entry : dataTypes.entrySet()) {
+//            for (final QName name : dataTypes.keySet()) {
+                final DataType dataType = dataTypes.get(entry.getKey());
+                writeDataType(entry.getValue(), entry.getKey(), modelIndex, xsw);
             }
         } finally {
             xsw.writeEndElement();

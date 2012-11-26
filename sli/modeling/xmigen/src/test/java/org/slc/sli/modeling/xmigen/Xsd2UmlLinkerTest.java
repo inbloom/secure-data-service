@@ -19,9 +19,14 @@ package org.slc.sli.modeling.xmigen;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.slc.sli.modeling.uml.*;
-import org.slc.sli.modeling.uml.index.DefaultModelIndex;
-import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.DataType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.Model;
+import org.slc.sli.modeling.uml.NamespaceOwnedElement;
+import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.UmlPackage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +44,7 @@ import static org.mockito.Mockito.when;
  */
 public class Xsd2UmlLinkerTest {
     private Model model;
-    private Xsd2UmlLinker linker;
+    //private Xsd2UmlLinker linker;
     private Xsd2UmlPlugin plugin;
 
     private static final String DATATYPE_NAME = "dataTypeName";
@@ -76,12 +81,11 @@ public class Xsd2UmlLinkerTest {
     public void testLink() throws Exception {
         assertNotNull(Xsd2UmlLinker.link(model, plugin));
     }
+    
     @Test(expected = IllegalStateException.class)
     public void testInvalidAssociationEnd() throws Exception {
-        when(plugin.isAssociationEnd(Mockito.any(ClassType.class)
-                ,Mockito.any(Attribute.class),Mockito.any(Xsd2UmlPluginHost.class))).thenReturn(true);
-        when(plugin.getAssociationEndTypeName(Mockito.any(ClassType.class)
-                ,Mockito.any(Attribute.class),Mockito.any(Xsd2UmlPluginHost.class))).thenReturn("test");
+        when(plugin.isAssociationEnd(Mockito.any(ClassType.class), Mockito.any(Attribute.class), Mockito.any(Xsd2UmlPluginHost.class))).thenReturn(true);
+        when(plugin.getAssociationEndTypeName(Mockito.any(ClassType.class), Mockito.any(Attribute.class), Mockito.any(Xsd2UmlPluginHost.class))).thenReturn("test");
         assertNotNull(Xsd2UmlLinker.link(model, plugin));
     }
 }

@@ -21,6 +21,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Model configuration.
+ *
+ * @param <TYPE>
+ */
 public class PsmConfig<TYPE> {
 
     private final List<PsmDocument<TYPE>> documents;

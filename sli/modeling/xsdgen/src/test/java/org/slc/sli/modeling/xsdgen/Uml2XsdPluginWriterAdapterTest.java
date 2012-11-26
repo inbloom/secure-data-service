@@ -26,7 +26,12 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 import org.slc.sli.modeling.xsd.XsdAttributeName;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.verifyZeroInteractions;
+
 
 /**
  * @author jstokes

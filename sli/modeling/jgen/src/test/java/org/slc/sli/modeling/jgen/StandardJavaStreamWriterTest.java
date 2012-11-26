@@ -50,7 +50,12 @@ public class StandardJavaStreamWriterTest {
 
     @Test
     public void testClassWithImplements() throws IOException {
-        jsw.beginClass("TestClass", new ArrayList<String>() {{ add("Interface1"); add("Interface2"); }});
+        jsw.beginClass("TestClass", new ArrayList<String>() {
+            {
+                add("Interface1");
+                add("Interface2");
+            }
+        });
         jsw.endClass();
         String str = jsw.read();
         assertTrue(str.equals("public class TestClass implements Interface1, Interface2{}"));

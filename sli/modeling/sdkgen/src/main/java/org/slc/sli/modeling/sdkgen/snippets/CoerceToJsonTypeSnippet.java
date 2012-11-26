@@ -24,6 +24,9 @@ import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.JavaTypeKind;
 
+/**
+ * Convert a type to JSON
+ */
 public final class CoerceToJsonTypeSnippet implements JavaSnippet {
 
     private static final JavaType MAP_STRING_TO_OBJECT = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);

@@ -16,13 +16,7 @@
 
 package org.slc.sli.api.selectors.doc;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.codehaus.plexus.util.StringUtils;
-import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.selectors.SelectorRepository;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
@@ -40,17 +34,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Default query engine
  *
  * @author srupasinghe
- *
  */
 @Component
 public class DefaultSelectorQueryEngine implements SelectorQueryEngine, SelectorQueryVisitor {
-
-    @Autowired
-    private ModelProvider modelProvider;
 
     @Autowired
     private SchemaRepository schemaRepository;
@@ -135,7 +130,7 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
     @Override
     public SelectorQueryPlan visit(ComplexSelectorElement complexSelectorElement) {
         SelectorQuery queries = buildQueryPlan(complexSelectorElement.getSelector());
-        SelectorQueryPlan plan =  new SelectorQueryPlan();
+        SelectorQueryPlan plan = new SelectorQueryPlan();
         plan.getChildQueryPlans().add(queries);
 
         return plan;

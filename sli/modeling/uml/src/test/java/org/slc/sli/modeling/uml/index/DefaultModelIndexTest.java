@@ -68,9 +68,6 @@ public class DefaultModelIndexTest {
         modelIndex = new DefaultModelIndex(model);
     }
 
-    @Test
-    public void testGetAssociationEnds() {
-    }
 
     @Test
     public void testGetClassTypes() {
@@ -90,43 +87,11 @@ public class DefaultModelIndexTest {
         assertTrue(modelIndex.getDataTypes().containsKey(new QName(UMLPACKAGE_NAME, DATATYPE_NAME)));
     }
 
-    @Test
-    public void testGetEnumTypes() {
-    }
-
-    @Test
-    public void testGetGeneralizationBase() {
-    }
-
-    @Test
-    public void testGetGeneralizationDerived() {
-    }
-
-    @Test
-    public void testGetTagDefinitionIdentifier() {
-    }
 
     @Test
     public void testGetType() {
         Type classType = modelIndex.getType(CLASSTYPE_ID);
         assertEquals(CLASSTYPE_NAME, classType.getName());
-    }
-
-    @Test
-    public void testWhereUsed() {
-    }
-
-    @Test
-    public void testGetTagDefinitionQName() {
-    }
-
-    @Test
-    public void testLookupByName() {
-        assertEquals(1, modelIndex.lookupByName(new QName(UMLPACKAGE_NAME, CLASSTYPE_NAME)).size());
-    }
-
-    @Test
-    public void testLookup() {
     }
 
 }

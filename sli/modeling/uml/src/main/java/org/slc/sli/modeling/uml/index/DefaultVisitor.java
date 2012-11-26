@@ -33,6 +33,9 @@ import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 
+/**
+ * UML Visitor Implementation
+ */
 public class DefaultVisitor implements Visitor {
     
     private static final void visitTaggedValues(final Taggable taggable, final Visitor visitor) {

@@ -23,6 +23,9 @@ import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 
+/**
+ * Model Java new operator.
+ */
 public final class NewInstanceExpr implements JavaSnippetExpr {
 
     private final JavaType type;

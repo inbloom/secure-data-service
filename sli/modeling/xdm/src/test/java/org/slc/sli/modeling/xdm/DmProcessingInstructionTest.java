@@ -16,33 +16,36 @@
 
 package org.slc.sli.modeling.xdm;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import javax.xml.namespace.QName;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for dmProcessingInstruction class.
+ */
 public class DmProcessingInstructionTest {
-	
-	@Test
-	public void test() {
-		String target = "foo";
-		String data = "bar";
-		
-		DmProcessingInstruction dmProcessingInstruction = new DmProcessingInstruction(target, data);
 
-		assertTrue(dmProcessingInstruction.getChildAxis().size() == 0);
-		assertTrue(dmProcessingInstruction.getName().equals(new QName(target)));
-		assertTrue(dmProcessingInstruction.getStringValue().equals(data));
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullPrefixThrowsException() {
-		new DmProcessingInstruction("foo", null);
-	}
+    @Test
+    public void test() {
+        String target = "foo";
+        String data = "bar";
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullNamespaceThrowsException() {
-		new DmProcessingInstruction(null, "bar");
-	}
+        DmProcessingInstruction dmProcessingInstruction = new DmProcessingInstruction(target, data);
+
+        assertTrue(dmProcessingInstruction.getChildAxis().size() == 0);
+        assertTrue(dmProcessingInstruction.getName().equals(new QName(target)));
+        assertTrue(dmProcessingInstruction.getStringValue().equals(data));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullPrefixThrowsException() {
+        new DmProcessingInstruction("foo", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullNamespaceThrowsException() {
+        new DmProcessingInstruction(null, "bar");
+    }
 }

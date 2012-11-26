@@ -30,6 +30,9 @@ import org.slc.sli.modeling.uml.Multiplicity;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 
+/**
+ * Model Java standard out stream writer.
+ */
 public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     private static final List<String> EMPTY_STRING_LIST = Collections.emptyList();
@@ -474,7 +477,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write(name);
         writer.write("(");
-        {
             // Arguments
             boolean first = true;
             for (final JavaFeature feature : features) {
@@ -496,7 +498,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
                     writer.write(camelCase(feature.getName(config)));
                 }
             }
-        }
+
         writer.write(")");
         beginBlock();
         // Preconditions

@@ -18,7 +18,6 @@ package org.slc.sli.modeling.xmigen;
 
 import org.junit.Test; 
 import org.junit.Before; 
-import org.junit.After;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
 
@@ -40,10 +39,6 @@ public void before() throws Exception {
    testObject = new Xsd2UmlLookup<ClassType>();
 } 
 
-@After
-public void after() throws Exception { 
-} 
-
 /** 
 * 
 * Method: from(final T key) 
@@ -55,7 +50,7 @@ public void testFrom() throws Exception {
     Identifier id = testObject.from(classType);
     assertNotNull(id);
     Identifier dupId = testObject.from(classType);
-    assertEquals(id,dupId);
+    assertEquals(id, dupId);
 }
 
 @Test(expected = IllegalArgumentException.class)

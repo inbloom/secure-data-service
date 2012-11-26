@@ -25,13 +25,21 @@ import java.util.Stack;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
-import org.slc.sli.modeling.rest.*;
+import org.slc.sli.modeling.rest.Application;
+import org.slc.sli.modeling.rest.Include;
+import org.slc.sli.modeling.rest.Method;
+import org.slc.sli.modeling.rest.Param;
+import org.slc.sli.modeling.rest.Resource;
+import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
 import org.slc.sli.modeling.xsd.XsdReader;
 
+/**
+ * Write SDK Client.
+ */
 public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     
     private final String packageName;
