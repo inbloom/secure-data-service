@@ -36,8 +36,8 @@ public class ResourceDocumentationTest {
     private ResourceDocumentation rDoc; // class under test
 
     private DocumentManipulator documentManipulator = new DocumentManipulator();
-    private final String TEST_WADL_LOC = "/test_wadl.wadl";
-    private final String TEST_RESOURCE_LOC = "/test_resources.json";
+    private static final String TEST_WADL_LOC = "/test_wadl.wadl";
+    private static final String TEST_RESOURCE_LOC = "/test_resources.json";
     private Document testWadl;
 
     @Before
