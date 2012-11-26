@@ -256,8 +256,6 @@ public class UserResource {
             return badRequest("No uid");
         }
 
-        updateUnmodifiableFields(user, null);
-
         return null;
     }
 
@@ -314,8 +312,6 @@ public class UserResource {
             return composeBadDataResponse("can not update user that does not exist");
         }
 
-        updateUnmodifiableFields(user, userInLdap);
-
         if (userInLdap.getGroups() != null) {
             result = validateUserGroupsAllowed(getGroupsAllowed(), userInLdap.getGroups());
             if (result != null) {
@@ -351,10 +347,6 @@ public class UserResource {
         return null;
     }
 
-    private void updateUnmodifiableFields(User user, User userInLdap) {
-        //home directory should not be updatable from API
-        user.setHomeDir(userInLdap == null? "/dev/null" : userInLdap.getHomeDir());
-    }
 
     private Response validateCannotRemoveLastSuperAdmin(User updateTo, User userInLdap) {
 

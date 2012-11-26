@@ -287,7 +287,6 @@ public class UserResourceTest {
         ldapUser.setEmail("robbstark@winterfell.gov");
         ldapUser.setTenant(TENANT);
         ldapUser.setEdorg(EDORG1);
-        ldapUser.setHomeDir("test_dir");
         User ldapUser2 = new User();
         ldapUser2.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
         ldapUser2.setUid(UUID2 + "2");
@@ -311,7 +310,6 @@ public class UserResourceTest {
         Mockito.verify(ldap).updateUser(REALM, newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(204, res.getStatus());
-        Assert.assertEquals(newUser.getHomeDir(), ldapUser.getHomeDir());
     }
 
     @Test
