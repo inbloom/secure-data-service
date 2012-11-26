@@ -34,5 +34,3 @@
 #remove all the tenant-specified collections from sli
 mongo sli --eval "db.getCollectionNames().forEach(function(coll) {if (coll!='system.indexes' && coll != 'system.js' && coll != 'system.profile' && coll != 'system.users' && coll != 'system.namespaces' && coll != 'tenant' && coll != 'securityEvent' && coll != 'realm' && coll != 'application' && coll != 'roles' && coll != 'tenantJobLock' && coll != 'userSession' && coll != 'userAccount') db[coll].drop(); })"
 
-#rename the SLC realm
-mongo sli --eval "db.realm.update({'body.uniqueIdentifier':'Shared Learning Infrastructure'}, {$set:{'body.uniqueIdentifier':'Shared Learning Collaborative'}})"

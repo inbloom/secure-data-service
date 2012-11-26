@@ -27,6 +27,9 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
 @db = connection[database]
 @log = Logger.new(STDOUT)
 
+#update the realm unique identifier
+@db[:realm].update({'body.uniqueIdentifier' => 'Shared Learning Infrastructure'}, '$set' => {'body.uniqueIdentifier' => 'Shared Learning Collaborative'})
+
 @db[:application].find({}).each { |app_auth|
   @log.info "starting migration application #{app_auth['_id']} #{app_auth['body']['name']}"
   ed_orgs = app_auth['body']['authorized_ed_orgs']
