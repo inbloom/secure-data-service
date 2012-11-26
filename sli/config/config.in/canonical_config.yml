@@ -93,7 +93,7 @@ default:
         sli.search.url : http://localhost:9200
         sli.search.username: user
         sli.search.password: searchme
-        sli.search.embedded: false
+        sli.search.embedded: true
         sli.search.service.timeout: 3000
 
         # Key substitutions

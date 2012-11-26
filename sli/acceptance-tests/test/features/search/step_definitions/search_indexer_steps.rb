@@ -27,6 +27,7 @@ After do |scenario|
   step 'I DELETE to clear the Indexer'
   
   # Clear Mongo
+  # TODO:  This is obsolete
   conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'])
   db   = conn[PropLoader.getProps['ingestion_database_name']]
   result = "true"
@@ -52,7 +53,7 @@ end
 
 Given /^I DELETE to clear the Indexer$/ do
   @format = "application/json;charset=utf-8"
-  url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
+  url = PropLoader.getProps['elastic_search_address'] 
   restHttpDeleteAbs(url)
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
@@ -143,32 +144,15 @@ Given /^I should see the file has not been processed$/ do
 end
 
 Then /^Indexer should have "(.*?)" entities$/ do |numEntities|
-  max = 10
-  done = false
-  numTries = 0
-  indexCount = 0
-  sleep 2
-  while (numTries < max && !done)
-    url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/_count"
-    restHttpGetAbs(url)
-    assert(@res != nil, "Response from rest-client POST is nil")
-    puts @res
-    result = JSON.parse(@res.body)
-    indexCount = result["count"]
-    if (indexCount == nil)
-      indexCount = 0
-    end
-    if (indexCount.to_i == numEntities.to_i)
-      done = true
-    else
-      numTries+=1
-      sleep 1
-    end
-  end
-  assert(indexCount.to_i == numEntities.to_i, "Expected #{numEntities} Actual #{indexCount}")
+  verifyElasticSearchCount(numEntities)
+end
+
+Given /^I check that Elastic Search is non\-empty$/ do
+  verifyElasticSearchCount()
 end
 
 Given /^I search in Elastic Search for "(.*?)"$/ do |query|
+  #TODO should we remove the tenant id?
   url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/_search?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -232,3 +216,30 @@ def verifyElementsOnResponse(arrayOfElements, table)
     end
   end
 end
+
+def verifyElasticSearchCount(numEntities = nil)
+  max = 10
+  done = false
+  numTries = 0
+  indexCount = 0
+  sleep 2
+  while (numTries < max && !done)
+    url = PropLoader.getProps['elastic_search_address'] + "/_count"
+    restHttpGetAbs(url)
+    assert(@res != nil, "Response from rest-client POST is nil")
+    puts @res
+    result = JSON.parse(@res.body)
+    indexCount = result["count"]
+    if (indexCount == nil)
+      indexCount = 0
+    end
+    if (indexCount.to_i == numEntities.to_i || (numEntities == nil && indexCount.to_i > 0))
+      done = true
+    else
+      numTries+=1
+      sleep 1
+    end
+  end
+  assert(indexCount.to_i == numEntities.to_i || numEntities == nil, "Expected #{numEntities} Actual #{indexCount}")
+end
+

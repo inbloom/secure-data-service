@@ -71,6 +71,7 @@ procs = [
   {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle install; bundle exec rails server", pattern: />> Listening on/},
   {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle install; bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/},
 #  {name: 'SIFAgent', port: 1337, dir: "#{dir}/sif/sif-agent", exec: "mvn -o tomcat:run", pattern: tomcat_pattern}
+  {name: 'SearchIndexer', port: 10024, dir:"#{dir}/opstools/search-indexer", exec: "./scripts/local_search_indexer.sh start", pattern: /java/}
 ]
 
 procs.each { |p|

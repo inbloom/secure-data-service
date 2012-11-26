@@ -13,3 +13,8 @@ desc "Implement Context Security for Staff & Teachers"
 task :searchSecurityTests do
   runTests("test/features/search/search_context_security.feature")
 end
+
+desc "Run Bulk Extract" 
+task :runSearchBulkExtract do
+  runTests("test/features/search/search_bulk_extract.feature")
+end
