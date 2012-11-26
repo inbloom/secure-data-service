@@ -6,7 +6,7 @@ As a Data Browser user, I want to be able to traverse all of the data I have acc
 Background:
   Given I have an open web browser
   When I navigate to the Portal home page
-  And I see the realm selector I authenticate to "Illinois Daybreak School District 4529"
+  And I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
 
 Scenario: Login and logout
