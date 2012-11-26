@@ -34,8 +34,8 @@ describe "Odin" do
       odin.generate( nil )
       doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml" ) )
       baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/InterchangeStudent.xml" ) )
-      matches = EquivalentXml.equivalent?(doc, baseline)
-      matches.should eq(true)
+
+      doc.should be_equivalent_to(baseline)
     end
   end
 
