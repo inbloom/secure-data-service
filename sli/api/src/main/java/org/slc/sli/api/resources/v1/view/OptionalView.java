@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,15 @@ public class OptionalView implements View {
         }
 
         List<EntityBody> appendedEntities = entities;
-        List<String> optionalFields = queryParams.get(ParameterConstants.OPTIONAL_FIELDS);
+        List<String> optionalFields = new ArrayList<String>();
+        if (queryParams.get(ParameterConstants.OPTIONAL_FIELDS) != null) {
+            optionalFields.addAll(queryParams.get(ParameterConstants.OPTIONAL_FIELDS));
+        }
+        if (queryParams.get(ParameterConstants.VIEWS) != null) {
+            optionalFields.addAll(queryParams.get(ParameterConstants.VIEWS));
+        }
 
-        if (optionalFields != null) {
+        if (!optionalFields.isEmpty()) {
             for (String type : optionalFields) {
                 for (String appenderType : type.split(",")) {
                     Map<String, String> values = extractOptionalFieldParams(appenderType);

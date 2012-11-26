@@ -93,3 +93,19 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
       | linda.kim              | linda.kim1234       |
       | rrogers                | rrogers1234         |
     
+  Scenario Outline: Test that both optionalFields and views work equally
+    Given I am logged in using "<username>" "<password>" to realm "IL"
+    And format "application/vnd.slc+json"
+    And parameter "optionalFields" is "transcript"
+    When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
+    Then I should receive a return code of 200
+    And I should receive a collection of "1" entities
+    And I should see "id" is "<STUDENT_ID>" in one of them
+    
+    And inside "transcript"
+    And I should find "1" "courseTranscripts" in it
+    And I should see "finalLetterGradeEarned" is "B" in one of them
+    Examples:
+      | username               | password            |
+      | linda.kim              | linda.kim1234       |
+      | rrogers                | rrogers1234         |

@@ -27,8 +27,6 @@ import org.springframework.ldap.core.LdapTemplate;
  * @author dliu
  *
  */
-// TODO move the ldap package out from api to common, so to reduce duplicate code with simple idp
-
 public interface LdapService {
 
     public static final String CREATE_TIMESTAMP = "createTimestamp";

@@ -1,14 +1,15 @@
 # Base set of configuration parameters required to run ODIN
-studentCount: 1000000
+studentCount: 10001
 beginYear: 2001
-numYears: 3
+numYears: 1
 
 # Example of other configuration
+# (11/21/2012 shalka: i'm going to be removing these very soon)
 numSEA: 1
-numLEA: 4
-studentsPerSchool: 1800
+numLEA: 1
+studentsPerSchool: 1500
 numPrograms: 4
-numCourses: 250
+numCourses: 2
 numCourseOffering: 2
 numBellSchedule: 2
 

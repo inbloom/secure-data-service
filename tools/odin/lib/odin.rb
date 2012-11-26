@@ -16,19 +16,27 @@ limitations under the License.
 
 =end
 
-require "rexml/document"
 require 'digest/md5'
-require 'yaml'
 require 'digest/sha1'
+require 'logger'
+require "rexml/document"
 require 'thwait'
+require 'yaml'
 
-require_relative 'WorldDefinition/worldGenerator'
+require_relative 'EntityCreation/world_builder.rb'
 require_relative 'OutputGeneration/XML/studentGenerator'
 require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
 require_relative 'Shared/EntityClasses/student'
+
+# offline data integration nexus --> ODIN
 class Odin
+  def initialize
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
+  end
 
   def generate( scenario )
 
@@ -46,14 +54,10 @@ class Odin
     Dir.mkdir('../generated') if !Dir.exists?('../generated')
 
     time = Time.now
-    tids = []
     
-    # Create an initial static world - does NOT depend on time configuration
-    world = WorldGenerator.new
-    world.create(prng, scenarioYAML)
-    
-    # Progress the world temporally based on time configuration and write out the work_order(s)
-    world.simulate(prng, scenarioYAML)
+    # Create a snapshot of the world
+    edOrgs = WorldBuilder.new.build(prng, scenarioYAML)
+    @log.info "edOrgs: #{edOrgs}"
 
     sg = StudentGenerator.new("InterchangeStudent.xml")
 
@@ -88,10 +92,9 @@ class Odin
     sg.finalize()
 
     finalTime = Time.now - time
-    puts "\t Total generation time #{finalTime} secs"
+    @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
-
   end
 
   def validate()
