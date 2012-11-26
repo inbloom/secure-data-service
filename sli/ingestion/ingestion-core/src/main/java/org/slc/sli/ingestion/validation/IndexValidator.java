@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -120,12 +121,14 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     private String parseFile(File file, HashMap<String, List<HashMap<String, Object>>> indexCache,
             MongoTemplate mongoTemplate) {
         String errorMessage = "";
+        FileInputStream fstream = null;
+        BufferedReader br = null;
 
         try {
-            FileInputStream fstream = new FileInputStream(file);
+            fstream = new FileInputStream(file);
 
             DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            br = new BufferedReader(new InputStreamReader(in));
 
             String currentFileLine;
             while ((currentFileLine = br.readLine()) != null) {
@@ -143,11 +146,11 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
                     }
                 }
             }
-
-            // Close the input stream
-            in.close();
         } catch (IOException e) {
             log.error("Error occured while verifying indexes: " + e.getLocalizedMessage());
+        } finally {
+            IOUtils.closeQuietly(br);
+            IOUtils.closeQuietly(fstream);
         }
 
         return errorMessage;
