@@ -103,7 +103,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                return QueryBuilders.boolQuery().mustNot(QueryBuilders.termQuery(criteria.getKey(), getTermTokens(criteria.getValue())));
+                return QueryBuilders.boolQuery().mustNot(QueryBuilders.termsQuery(criteria.getKey(), getTermTokens(criteria.getValue())));
             }
         });
         operationMap.put(NeutralCriteria.CRITERIA_LT, new Operator() {
@@ -130,11 +130,13 @@ public class ElasticSearchQueryConverter {
         operationMap.put(NeutralCriteria.CRITERIA_REGEX, new Operator() {
             @Override
             public FilterBuilder getFilter(NeutralCriteria criteria) {
-                return FilterBuilders.prefixFilter(criteria.getKey(), ((String)criteria.getValue()).trim().toLowerCase());
+                //using regex is case-sensitive
+                return FilterBuilders.prefixFilter(criteria.getKey(), ((String)criteria.getValue()).trim());
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                return QueryBuilders.wildcardQuery(criteria.getKey(), "*" + ((String)criteria.getValue()).trim().toLowerCase() + "*");
+                //using regex is case-sensitive
+                return QueryBuilders.wildcardQuery(criteria.getKey(), "*" + ((String)criteria.getValue()).trim() + "*");
             }
         });
 

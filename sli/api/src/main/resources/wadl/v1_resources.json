@@ -156,7 +156,7 @@
     {
       "path": "/assessments",
       "doc": "Represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next. For more information, see the schema for $$Assessment$$ resources. Caution: The assessment entity is public in the SLI API. Any metadata associated with an assessment can be viewed by anyone within the tenant to which the assessment belongs. However, please note that questions and answers for an assessment will not be displayed because these are not stored in the current data model.",
-      "queryable": false,
+      "queryable": true,
       "subResources": [
         { 
           "path": "/{id}/studentAssessments", 
