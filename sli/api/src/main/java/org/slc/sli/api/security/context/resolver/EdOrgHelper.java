@@ -135,8 +135,8 @@ public class EdOrgHelper {
      */
 	public List<String> getParentEdOrgs(final Entity edOrg) {
         List<String> toReturn = new ArrayList<String>();
-		
-        Entity currentEdOrg = edOrg; 
+
+        Entity currentEdOrg = edOrg;
         if (currentEdOrg != null && currentEdOrg.getBody() != null) {
             while (currentEdOrg.getBody().get("parentEducationAgencyReference") != null) {
                 String parentId = (String) currentEdOrg.getBody().get("parentEducationAgencyReference");
@@ -188,7 +188,7 @@ public class EdOrgHelper {
 
         return schools;
     }
-    
+
 
     /**
      * Finds schools directly associated to this user
@@ -199,14 +199,14 @@ public class EdOrgHelper {
         List<String> ids = getDirectEdOrgAssociations(principal);
         Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
                 new NeutralCriteria("_id", "in", ids, false)));
-        
+
         List<String> schools = new ArrayList<String>();
         for (Entity e : edorgs) {
             if (isSchool(e)) {
                 schools.add(e.getEntityId());
             }
         }
-        
+
         return schools;
     }
 
@@ -256,14 +256,18 @@ public class EdOrgHelper {
     }
 
 
-
+    /**
+     * Get the collection of ed-orgs that will determine a user's security context
+     * @param principal
+     * @return
+     */
     public Collection<String> getUserEdOrgs(Entity principal) {
         return (isTeacher(principal)) ? getDirectSchools(principal) : getStaffEdOrgLineage(principal);
     }
 
      /**
-     * Will go through staffEdorgAssociations that are current and get the descendant
-     * edorgs that you have.
+     * Go through staffEdorgAssociations that are current and get the descendant
+     * edorgs
      *
      * @return a set of the edorgs you are associated to and their children.
      */
@@ -273,7 +277,13 @@ public class EdOrgHelper {
         return edOrgLineage;
     }
 
+    /**
+     * Get current ed-org associations for a staff member
+     * @param principal
+     * @return
+     */
     public Set<String> getStaffCurrentAssociatedEdOrgs(Entity principal) {
+        // get all staff ed-org associations
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
         Iterable<Entity> staffEdOrgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
@@ -283,6 +293,7 @@ public class EdOrgHelper {
                 staffEdOrgAssociations.add(staffEdOrg);
             }
         }
+        // filter for only current associations
         List<Entity> currentStaffEdOrgAssociations = staffEdOrgEdOrgIDNodeFilter.filterEntities(staffEdOrgAssociations, null);
         Set<String> edOrgIds = new HashSet<String>();
         for (Entity association : currentStaffEdOrgAssociations) {
