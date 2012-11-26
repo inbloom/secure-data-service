@@ -16,22 +16,41 @@ limitations under the License.
 
 =end
 
+require_relative 'baseEntity.rb'
 
-require_relative './baseEntity.rb'
+class BellSchedule < BaseEntity
 
-class StudentSchoolAssociation < BaseEntity
+  attr_accessor :id, :session
 
-  def initialize(studentId, schoolId, rand)
-    @studentId = studentId
-    @schoolId = schoolId
-    @rand = rand
+  def initialize(id, session)
+    @id = id
+    @session = :session
+  end
+  
+ def  edOrgId
+   3000
+ end
+  def name
+    "schedule name"
   end
 
-  def studentId
-    "#{@studentId}"
+  def gradeLevels
+    ["Early Education"]
+  end  
+  def weeksInCycle
+    3
   end
 
-  def schoolStateOrgId
-    "school#{@schoolId}"
+  def classPeriodName
+    "classperiodName"
+  end
+  
+  def weekNumber
+    40
+  end
+  
+  ## FIXME - Needs a fixed date
+  def calendarDate
+   Date.today.xmlschema
   end
 end

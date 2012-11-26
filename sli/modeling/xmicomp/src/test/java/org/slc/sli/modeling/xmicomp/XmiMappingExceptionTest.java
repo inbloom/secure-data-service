@@ -16,18 +16,21 @@
 
 package org.slc.sli.modeling.xmicomp;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
+/**
+ * JUnit test for XmiMappingException class.
+ */
 public class XmiMappingExceptionTest {
-	
-	@Test
-	public void test() {
-		String message = "foo";
-		
-		XmiMappingException xmiMappingException = new XmiMappingException(message);
-		
-		assertEquals(message, xmiMappingException.getMessage());
-	}
+
+    @Test
+    public void test() {
+        String message = "foo";
+
+        XmiMappingException xmiMappingException = new XmiMappingException(message);
+
+        assertEquals(message, xmiMappingException.getMessage());
+    }
 }

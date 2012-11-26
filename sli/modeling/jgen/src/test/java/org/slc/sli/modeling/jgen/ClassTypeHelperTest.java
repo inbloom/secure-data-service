@@ -61,18 +61,22 @@ public class ClassTypeHelperTest {
                 Identifier.random(),
                 "TestClassType",
                 false,
-                new ArrayList<Attribute>() {{
-                    add(attr1);
-                    add(attr2);
-                }},
+                new ArrayList<Attribute>() {
+                    {
+                        add(attr1);
+                        add(attr2);
+                    }
+                },
                 new ArrayList<TaggedValue>());
 
         final AssociationEnd assocEnd1 = new AssociationEnd(oneToOne, "AssocEnd1", false, Identifier.random(), "foo");
         final AssociationEnd assocEnd2 = new AssociationEnd(oneToOne, "AssocEnd2", false, Identifier.random(), "bar");
-        List<AssociationEnd> associationEnds = new ArrayList<AssociationEnd>() {{
-            add(assocEnd1);
-            add(assocEnd2);
-        }};
+        List<AssociationEnd> associationEnds = new ArrayList<AssociationEnd>() {
+            {
+                add(assocEnd1);
+                add(assocEnd2);
+            }
+        };
         modelIndex = mock(ModelIndex.class);
         when(modelIndex.getAssociationEnds(any(Identifier.class))).thenReturn(associationEnds);
         when(modelIndex.getType(any(Identifier.class))).thenReturn(classType);

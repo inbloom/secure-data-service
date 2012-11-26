@@ -19,21 +19,14 @@ limitations under the License.
 require 'nokogiri'
 require 'open-uri'
 
-xsds = {
-  'InterchangeEducationOrganization' => 'SLI-Interchange-EducationOrganization.xsd ',
-  'InterchangeStudentEnrollment.xml' => 'SLI-Interchange-StudentEnrollment.xsd ',
-  'InterchangeStudentParent' => 'SLI-Interchange-StudentParent.xsd '
-}
-
 def xsd_for_file ( file )
-
   interchange = file.to_str.match( /Interchange(.*).xml/m)[1]
   return "SLI-Interchange-#{interchange}.xsd";
 end
 
 def validate_file ( file )
   xsd = xsd_for_file ( file )
-  xsdfile =  File.join( "#{File.dirname(__FILE__)}", "../../../edfi-schema/src/main/resources/edfiXsd-SLI/", xsd )
+  xsdfile =  File.join( "#{File.dirname(__FILE__)}", "../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/", xsd )
 
   doc = Nokogiri.XML( File.open( file ) )
   valid = true

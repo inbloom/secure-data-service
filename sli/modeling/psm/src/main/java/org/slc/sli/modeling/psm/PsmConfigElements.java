@@ -19,7 +19,10 @@ package org.slc.sli.modeling.psm;
 
 import javax.xml.namespace.QName;
 
-public interface PsmConfigElements {
+/**
+ * Element names for PSM document.
+ */
+public class PsmConfigElements {
     public static final QName ATTRIBUTE = new QName("attribute");
     public static final QName CLASS_TYPE = new QName("class");
     /**

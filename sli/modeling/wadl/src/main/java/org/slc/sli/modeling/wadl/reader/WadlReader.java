@@ -22,7 +22,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -522,7 +521,6 @@ public final class WadlReader {
         throw new AssertionError();
     }
 
-    // FIXME: This will be used soon; do not delete.
     private static final DmElement readMixedElement(final XMLStreamReader reader) throws XMLStreamException {
         final QName name = reader.getName();
         final List<DmNode> children = new LinkedList<DmNode>();

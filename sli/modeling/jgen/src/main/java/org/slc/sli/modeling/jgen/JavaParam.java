@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.jgen;
 
+/**
+ * Model Java method parameter.
+ */
 public class JavaParam {
 
     private final String name;

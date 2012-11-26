@@ -16,16 +16,26 @@ limitations under the License.
 
 =end
 
-require 'mustache'
-require_relative './baseEntity.rb'
-
-class Course < BaseEntity
-
-  attr_accessor :id, :edOrg
-
-  def initialize(id, edOrg)
-    @id = id
-    @edOrg = edOrg
+class BaseEntity
+  def choose(options)
+    options[@rand.rand(options.size) - 1]
   end
-
+  
+  def wChoose(distribution)
+    wArray = []
+    distribution.each do |element, weight|
+      weight.times {wArray << element}
+    end 
+    choose(wArray)
+  end
+  
+  def to_hash
+    hash = {}
+    tmp = {}
+    self.instance_variables.each do |var|
+      tmp[var[1..-1].to_sym] = self.instance_variable_get(var)
+    end
+    hash[self.class.name.downcase.to_sym] = tmp
+    hash
+  end
 end

@@ -22,7 +22,7 @@ module GeneralRealmHelper
     realmToRedirectTo = nil
     realms = Realm.all
     realms.each do |realm|
-        realmToRedirectTo = realm if realm.edOrg.eql? userRealm and realm.edOrg != nil
+      realmToRedirectTo = realm if realm.edOrg.eql? userRealm and realm.edOrg != nil
     end
     return realmToRedirectTo
   end

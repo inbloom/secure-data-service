@@ -22,6 +22,9 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Model Java stream writer.
+ */
 public interface JavaStreamWriter extends Flushable, Closeable {
 
     JavaStreamWriter beginBlock() throws IOException;
