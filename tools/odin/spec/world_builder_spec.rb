@@ -38,8 +38,8 @@ describe "WorldBuilder" do
       it "will contain a single state education agency" do
       	@education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
 	    end
-	    it "will contain a single local education agency" do
-	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(1)
+	    it "will contain two local education agencies" do
+	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(2)
 	    end
 	    it "will contain a single elementary school" do
 	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should eq(1)
@@ -75,7 +75,7 @@ describe "WorldBuilder" do
       	@education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
 	    end
 	    it "will contain multiple local education agencies" do
-	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(283)
+	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(286)
 	    end
 	    it "will contain many schools" do
 	  	  @education_organization.readlines.select{|l| l.match("<School>")}.length.should eq(1421)

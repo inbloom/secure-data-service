@@ -192,16 +192,18 @@ class WorldBuilder
     avg_num_schools_threshold    = yaml["AVERAGE_SCHOOLS_THRESHOLD"]
     min_num_schools_per_district = avg_num_schools_per_district - (avg_num_schools_per_district * avg_num_schools_threshold)
     max_num_schools_per_district = avg_num_schools_per_district + (avg_num_schools_per_district * avg_num_schools_threshold)
-    shuffled_schools = (1..num_schools).to_a.shuffle(random: rand)
+    all_schools      = (1..num_schools).to_a
     district_counter = num_schools
     school_counter   = 0
-    while school_counter < num_schools
+    while all_schools.size > 0
       district_counter += 1
       num_schools_in_this_district = random_on_interval(rand, min_num_schools_per_district, max_num_schools_per_district).round
+      
       if num_schools_in_this_district > (num_schools - school_counter)
         num_schools_in_this_district = (num_schools - school_counter)
       end
-      schools_in_this_district = shuffled_schools.pop(num_schools_in_this_district)
+
+      schools_in_this_district = all_schools.pop(num_schools_in_this_district)      
       update_schools_with_district_id(district_counter, schools_in_this_district)
       
       edOrg             = Hash.new
