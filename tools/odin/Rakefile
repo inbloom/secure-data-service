@@ -36,10 +36,10 @@ task :world_builder do
 end
 
 desc "Run student builder tests"
-task :student_builder do
-  RSpec::Core::RakeTask.new(:student_builder) do |t|
+task :student do
+  RSpec::Core::RakeTask.new(:student) do |t|
     t.rspec_opts = %w{--colour --format progress}
-    t.pattern = 'spec/student_builder_spec.rb'
+    t.pattern = 'spec/student_spec.rb'
     t.rspec_path = 'rspec'
   end
 end
@@ -63,7 +63,7 @@ task :data_utility do
 end
 
 desc "Run odin tests"
-task :student_builder do
+task :odin do
   RSpec::Core::RakeTask.new(:test) do |t|
   t.rspec_opts = %w{--colour --format progress}
   t.pattern = 'spec/odin_spec.rb'
@@ -87,7 +87,7 @@ task :test do
   end
   Rake::Task['data_utility'].execute
   Rake::Task['world_builder'].execute
-  Rake::Task['student_builder'].execute
+  Rake::Task['student'].execute
   Rake::Task['grade_level_type'].execute
   Rake::Task['odin'].execute
   Rake::Task['validator'].execute
