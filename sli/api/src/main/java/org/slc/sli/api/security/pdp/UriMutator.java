@@ -523,12 +523,7 @@ public class UriMutator {
         } else if (ResourceNames.SECTIONS.equals(resource)) {
             mutatedPath = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
         } else if (ResourceNames.SCHOOLS.equals(resource)) {
-            List<String> ids = edOrgHelper.getDirectSchools(user);
-            mutatedPath = String.format("/schools/%s/", StringUtils.join(edOrgHelper.getDirectSchools(user), ","));
-            if (ids.isEmpty()) {
-                error("Context Inferrence Failed");
-                throw new ContextInferrenceFailedException();
-            }
+            mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId());//teachers/id/teacherschoolassociations/schools
         } else if (ResourceNames.SESSIONS.equals(resource)) {
             mutatedPath = String.format("/educationOrganizations/%s/sessions",
                     StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
@@ -698,11 +693,7 @@ public class UriMutator {
             mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/reportCards", ids);
         } else if (ResourceNames.SCHOOLS.equals(resource)) {
             List<String> ids = edOrgHelper.getDirectSchools(user);
-            mutatedPath = String.format("/schools/%s/", StringUtils.join(edOrgHelper.getDirectSchools(user), ","));
-            if (ids.isEmpty()) {
-                error("Context Inferrence Failed");
-                throw new ContextInferrenceFailedException();
-            }
+            mutatedPath = String.format("/staff/%s/staffEducationOrgAssignmentAssociations/schools", user.getEntityId());
         } else if (ResourceNames.SECTIONS.equals(resource)) {
             String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
             mutatedPath = String.format("/schools/%s/sections", ids);
