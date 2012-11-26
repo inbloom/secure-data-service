@@ -17,6 +17,16 @@ limitations under the License.
 =end
 
 ###############################################################################
+# WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
+###############################################################################
+
+When /^I click and go back to Home$/ do
+  assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "The SLC Data Browser")}
+  @driver.find_element(:link_text, "The SLC Data Browser").click
+  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+end
+
+###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 

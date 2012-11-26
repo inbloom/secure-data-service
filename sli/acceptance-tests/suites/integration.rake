@@ -94,6 +94,11 @@ task :rcSandboxProvisionTests do
   runTests("test/features/cross_app_tests/rc_sandbox_provision_lz.feature")
 end
 
+desc "Run RC Sandbox Databrowser Test"
+task :rcSandboxDatabrowserTests do
+  runTests("test/features/cross_app_tests/rc_integration_databrowser_sandbox.feature")
+end
+
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
@@ -139,10 +144,11 @@ end
 
 desc "Run RC Tests"
 task :rcSandboxTests do
-  OTHER_TAGS = OTHER_TAGS+" --tags @rc"
+  OTHER_TAGS = OTHER_TAGS+" --tags @rc @sandbox"
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
+  Rake::Task["rcSandboxDatabrowserTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

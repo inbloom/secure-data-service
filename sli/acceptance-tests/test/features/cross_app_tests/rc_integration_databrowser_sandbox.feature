@@ -24,6 +24,7 @@ Feature: Data Browser
     Then I should be on the admin page
     And under System Tools, I click on "SLC Data Browser"
     Then I should be redirected to the Data Browser home page
+    And I should see the name "Rick Rogers" on the page
     And I should see my available links labeled
     And I have navigated to the <Page> of the Data Browser
       | Page                                       |
@@ -35,8 +36,8 @@ Feature: Data Browser
     Then I am redirected to the particular entity Detail View
     When I click on the "GetStaffCohortAssociations" link
     Then I am redirected to the particular associations Simple View
-    And I should click on the Home link and be redirected back
-    When I click on the "GetEducationOrganizations" link
+    When I click and go back to Home
+    And I click on the "GetEducationOrganizations" link
     Then I should be on the detailed page for an SEA
     When I click on the "GetFeederEducationOrganizations" link
     Then I should be on the detailed page for an LEA
@@ -54,6 +55,7 @@ Feature: Data Browser
     Then I should be on the admin page
     And under System Tools, I click on "SLC Data Browser"
     Then I should be redirected to the Data Browser home page
+    And I should see the name "James Stevenson" on the page
     And I click on the "GetStaffProgramAssociations" link
     Then I am redirected to the associations list page
     And I see a table displaying the associations in a list
@@ -62,7 +64,7 @@ Feature: Data Browser
     Then the row expands below listing the rest of the attributes for the item
     When I click on the row containing "44afb0480154d13d0dc2860e0b57fcb729456e83_id"
     Then the row collapses hiding the additional attributes
-    And I should click on the Home link and be redirected back
+    When I click and go back to Home
     And I have navigated to the "GetStaffProgramAssociations" page of the Data Browser
     When I click on the row containing "44afb0480154d13d0dc2860e0b57fcb729456e83_id"
     And I click on the "Me" of any of the associating entities
@@ -81,6 +83,7 @@ Feature: Data Browser
     Then I should be on the admin page
     And under System Tools, I click on "SLC Data Browser"
     Then I should be redirected to the Data Browser home page
+    And I should see the name "Amy Kopel" on the page
     And I have navigated to the "Schools" listing of the Data Browser
     When I should navigate to "/entities/schools/a13489364c2eb015c219172d561c62350f0453f3_id"
     And I click on the "GetTeachers" link
@@ -113,6 +116,7 @@ Feature: Data Browser
     Then I should be on Portal home page
     And I should not see Admin link
     When I navigated to the Data Browser Home URL
+    And I should see the name "Charles Gray" on the page
     Then I am notified that "You are not authorized to use this app."
     When I click on the Logout link
     Then I will be redirected to realm selector web page
@@ -128,4 +132,18 @@ Feature: Data Browser
     Then I should be on the admin page
     And under System Tools, I click on "SLC Data Browser"
     Then I should be redirected to the Data Browser home page
-    # TODO: complete cgray's scenario
+    And I should see the name "Charles Gray" on the page
+    And I should see my available links labeled
+    And I have navigated to the <Page> of the Data Browser
+      | Page                    |
+      | Teacher to Section List |
+      | My Sections             |
+      | Teacher to School List  |
+      | My Schools              |
+      | Me                      |
+    Then I should click on the Home link and be redirected back
+    When I search for the identifier "<CARMEN ORTIZ UNIQUE ID>" in "students"
+    Then I should see the text "Carmen"
+    And I should see the text "Ortiz"
+    When I search for the identifier "<MATT SOLLARS UNIQUE ID>" in "students"
+    Then I see a "There were no entries matching your search" alert box
