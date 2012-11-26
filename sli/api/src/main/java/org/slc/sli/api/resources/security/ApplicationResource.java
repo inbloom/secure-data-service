@@ -297,7 +297,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         return super.delete(uuid, headers, uriInfo);
     }
 
-    // TODO app creation and app approval should be broken into separate endpoints.
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")

@@ -26,14 +26,18 @@ task :generate do
   ruby "driver.rb"
 end
 
-desc "Run specifications for ODIN"
-task :test do
-  RSpec::Core::RakeTask.new(:test) do |t|
+desc "Run student-builder tests"
+task :student_builder do
+  RSpec::Core::RakeTask.new(:student_builder) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/student_builder_spec.rb'
     t.rspec_path = 'rspec'
   end
-  RSpec::Core::RakeTask.new(:test) do |t|
+end
+
+desc "Run odin tests"
+task :odin do
+  RSpec::Core::RakeTask.new(:odin) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/world_builder_spec.rb'
     t.rspec_path = 'rspec'
@@ -58,4 +62,24 @@ task :test do
     t.pattern = 'spec/odin_spec.rb'
     t.rspec_path = 'rspec'
   end
+end
+
+desc "Run validator tests"
+task :validator do
+  RSpec::Core::RakeTask.new(:validator) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/validator_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run all the specs"
+task :test do
+  if File.exists?("generated") == false
+    Dir.mkdir("generated", 0755)
+  end
+
+  Rake::Task['student_builder'].execute
+  Rake::Task['odin'].execute
+  Rake::Task['validator'].execute
 end
