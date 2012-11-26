@@ -79,7 +79,7 @@ public class HeartBeat extends Observable implements Runnable {
      */
     private void updateObservers() {
         setChanged();
-        notifyObservers(new Long(numberOfBeats));
+        notifyObservers(Long.valueOf(numberOfBeats));
     }
 
     /**

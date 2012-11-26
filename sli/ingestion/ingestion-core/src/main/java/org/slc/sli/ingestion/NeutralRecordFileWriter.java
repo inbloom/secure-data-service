@@ -164,7 +164,7 @@ public class NeutralRecordFileWriter {
             if (this.nrCount.containsKey(record.getRecordType())) {
                 this.nrCount.put(record.getRecordType(), this.nrCount.get(record.getRecordType()) + 1L);
             } else {
-                this.nrCount.put(record.getRecordType(), new Long(1L));
+                this.nrCount.put(record.getRecordType(), Long.valueOf(1L));
             }
         }
 
