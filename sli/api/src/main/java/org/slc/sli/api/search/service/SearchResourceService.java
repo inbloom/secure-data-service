@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,10 +30,13 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Iterables;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
@@ -259,13 +261,15 @@ public class SearchResourceService {
         }
         int total = offset + limit;
         List<EntityBody> sublist;
-        List<EntityBody> finalEntities = new ArrayList<EntityBody>();
-        Set<EntityBody> accessible = new HashSet<EntityBody>();
+        // this collection will be filtered out based on security context but
+        // the original order will be preserved
+        List<EntityBody> finalEntities = new ArrayList<EntityBody>(entityBodies);
         String toType, entityId;
+        final HashBasedTable<String, String, EntityBody> filterMap = HashBasedTable.create();
         HashBasedTable<String, String, EntityBody> entitiesByType = HashBasedTable.create();
         // filter results through security context
         // security checks are expensive, so do min checks necessary at a time
-        while (!entityBodies.isEmpty() && finalEntities.size() < total) {
+        while (!entityBodies.isEmpty() && filterMap.size()  < total) {
             sublist = new ArrayList<EntityBody>(entityBodies.subList(0, Math.min(entityBodies.size(), limit)));
             // loop through entities. if accessible, add to list
             for (EntityBody entity : sublist) {
@@ -281,16 +285,19 @@ public class SearchResourceService {
                 set = isAccessible(type, row.keySet());
                 for (String id: set) {
                     if (row.containsKey(id)) {
-                        accessible.add(row.get(id));
+                        filterMap.put(id, type, row.get(id));
                     }
                 }
             }
-            finalEntities.addAll(accessible);
             entityBodies.removeAll(sublist);
             entitiesByType.clear();
-            accessible.clear();
         }
-        return finalEntities;
+        return Lists.newArrayList(Iterables.filter(finalEntities, new Predicate<EntityBody>() {
+            @Override
+            public boolean apply(EntityBody input) {
+                return (filterMap.contains(input.get("id"), input.get("type")));
+            }
+        })) ;
     }
 
     public Set<String> isAccessible(String toType, Set<String> ids) {
