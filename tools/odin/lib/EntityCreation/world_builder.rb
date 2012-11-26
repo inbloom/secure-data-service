@@ -79,7 +79,6 @@ class WorldBuilder
 
     # create grade breakdown from total number of students
     # populate education organization structure using breakdown (number of students per grade)
-    # go back and create courses (currently done at the state education agency level ONLY)
     # update structure with time information
     # finally, write interchanges
     breakdown = compute_grade_breakdown(rand, yaml, num_students)
@@ -269,7 +268,6 @@ class WorldBuilder
   	num_schools = yaml["schoolCount"]
     @log.info "Creating world from initial number of schools: #{num_schools}"
     # NOT CURRENTLY SUPPORTED
-    
     # update structure with time information
     add_time_information_to_edOrgs(rand, yaml)
   end

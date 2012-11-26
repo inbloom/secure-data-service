@@ -157,6 +157,38 @@ describe "DateUtility" do
       end
     end
     describe "--> requesting distribution of dates over an interval" do
+      it "will handle a single event for any size interval" do
+        monday = Date.new(2012, 3, 26)
+        friday = Date.new(2012, 3, 30)
+        fail if DateUtility.get_school_days_over_interval(monday, friday, 1) != [Date.new(2012, 3, 26)] 
+      end
+
+      it "will return an evenly spread distribution of dates for an interval" do
+        monday = Date.new(2012, 3, 26)
+        friday = Date.new(2012, 3, 30)
+        days = DateUtility.get_school_days_over_interval(monday, friday, 3)
+        fail if days.size != 3
+        days.each do |day|
+          fail if day < monday or day > friday
+          fail if day.wday == 0 or day.wday == 6
+        end
+      end
+      
+      it "will return an evenly spread distribution of dates for an interval" do
+        first_day = Date.new(2012, 3, 1)
+        last_day  = Date.new(2012, 3, 30)
+        days = DateUtility.get_school_days_over_interval(first_day, last_day, 10)
+        fail if days.size != 10
+        days.each do |day|
+          fail if day < first_day or day > last_day
+          fail if day.wday == 0 or day.wday == 6
+        end
+      end
+
+      it "will handle start date equivalent to end date for an interval" do
+        monday = Date.new(2012, 3, 26)
+        fail if DateUtility.get_school_days_over_interval(monday, monday, 1) != [Date.new(2012, 3, 26)] 
+      end
     end
   end
 end
