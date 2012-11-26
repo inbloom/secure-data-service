@@ -13,7 +13,7 @@ SLI Checkstyle configuration.
   <property name="severity" value="warning"/>
     
   <module name="RegexpHeader">
-    <property name="headerFile" value="../build-tools/src/main/resources/checkstyle/java.header" />
+    <property name="headerFile" value="${checkstyle.headerFile}" />
   </module>
   <module name="TreeWalker">
     <property name="cacheFile" value="${checkstyle.cache.file}"/>
