@@ -21,6 +21,7 @@
   <allow pkg="org.slc.sli.sif"/>
   <allow pkg="openadk.library"/>
   <allow pkg="org.slc.sli.modeling"/>
+  <allow pkg="org.slc.sli.scaffold"/>
 
   <subpackage name="dal">
     <allow pkg="org.slc.sli.dal"/>
@@ -125,6 +126,10 @@
 
   <subpackage name="modeling">
     <allow pkg="joptsimple"/>
+  </subpackage>
+
+  <subpackage name="scaffold">
+    <allow pkg="org.slc.sli.api"/>
   </subpackage>
 
 </import-control>
