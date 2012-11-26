@@ -2,20 +2,41 @@ task :default => [:test]
 
 require 'rspec/core/rake_task'
 
+desc "Run the default generator"
 task :generate do
   ruby "driver.rb"
 end
 
-desc "Run those specs"
-task :test do
-  RSpec::Core::RakeTask.new(:test) do |t|
+desc "Run student-builder tests"
+task :student_builder do
+  RSpec::Core::RakeTask.new(:student_builder) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/student_builder_spec.rb'
     t.rspec_path = 'rspec'
   end
-  RSpec::Core::RakeTask.new(:test) do |t|
+end
+
+desc "Run odin tests"
+task :odin do
+  RSpec::Core::RakeTask.new(:odin) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/odin_spec.rb'
     t.rspec_path = 'rspec'
   end
+end
+
+desc "Run validator tests"
+task :validator do
+  RSpec::Core::RakeTask.new(:validator) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/validator_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run all the specs"
+task :test do
+  Rake::Task['student_builder'].execute
+  Rake::Task['odin'].execute
+  Rake::Task['validator'].execute
 end
