@@ -95,7 +95,7 @@ final class Xsd2UmlConvert {
     private static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
     
     public Xsd2UmlConvert() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
     
     /**
@@ -103,8 +103,11 @@ final class Xsd2UmlConvert {
      * xs:documentation or xs:appinfo.
      */
     private static final List<TaggedValue> annotations(final XmlSchemaAnnotated schemaType, final Xsd2UmlConfig config) {
+        if (schemaType == null) {
+            return EMPTY_TAGGED_VALUES;
+        }
         final XmlSchemaAnnotation annotation = schemaType.getAnnotation();
-        if (schemaType == null || annotation == null) {
+        if (annotation == null) {
             return EMPTY_TAGGED_VALUES;
         } else {
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -704,10 +707,6 @@ final class Xsd2UmlConvert {
                     }
                     
                 }, schemaType.getQName(), annotations(schemaType, config));
-            } else if (schemaObject instanceof XmlSchemaElement) {
-                // These are the top-level elements.
-                // Do nothing to allow other branches to not handle the top-level elements. 
-                
             } else if (schemaObject instanceof XmlSchemaInclude) {
                 final XmlSchemaInclude includedSchema = (XmlSchemaInclude) schemaObject;
                 final XmlSchema embeddedSchema = includedSchema.getSchema();
@@ -730,9 +729,9 @@ final class Xsd2UmlConvert {
             } else if (schemaObject instanceof XmlSchemaAttributeGroup) {
                 @SuppressWarnings("unused")
                 final XmlSchemaAttributeGroup schemaAttributeGroup = (XmlSchemaAttributeGroup) schemaObject;
-            } else {
+            } else if (!(schemaObject instanceof XmlSchemaElement)) {
                 throw new AssertionError(schemaObject);
-            }
+            } 
         }
         return new Model(Identifier.random(), name, EMPTY_TAGGED_VALUES, ownedElements);
     }

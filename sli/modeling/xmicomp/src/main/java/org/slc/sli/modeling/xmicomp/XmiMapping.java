@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * Model an XMI mapping.
+ */
 public final class XmiMapping implements Comparable<XmiMapping> {
     private final XmiFeature lhs;
     private final XmiFeature rhs;
@@ -44,7 +47,22 @@ public final class XmiMapping implements Comparable<XmiMapping> {
     public int compareTo(final XmiMapping other) {
         return 0;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof XmiMapping && compareTo((XmiMapping)o) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = lhs != null ? lhs.hashCode() : 0;
+        result = 31 * result + (rhs != null ? rhs.hashCode() : 0);
+        result = 31 * result + status.hashCode();
+        result = 31 * result + tracking.hashCode();
+        result = 31 * result + comment.hashCode();
+        return result;
+    }
+
     public XmiFeature getLhsFeature() {
         return lhs;
     }

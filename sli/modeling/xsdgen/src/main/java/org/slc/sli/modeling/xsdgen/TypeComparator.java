@@ -21,6 +21,12 @@ import org.slc.sli.modeling.uml.Type;
 
 import java.util.Comparator;
 
+/**
+ * Can compare two Type objects using "compareTo" method.
+ * 
+ * @author kmyers
+ *
+ */
 enum TypeComparator implements Comparator<Type> {
     SINGLETON;
     @Override

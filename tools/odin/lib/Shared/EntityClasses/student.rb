@@ -17,7 +17,8 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
-require_relative '../demographics'
+require_relative '../../EntityCreation/student_builder'
+#require_relative '../demographics'
 
 class Student < BaseEntity
   
@@ -25,42 +26,31 @@ class Student < BaseEntity
                 :email, :hispanicLatino, :economicDisadvantaged, :schoolFood, :limitedEnglish, :race
 
   def initialize(id, year_of, demographics, rand)
-    # TODO : most, if not all of this information, should be set by the entity creator code.
+    @year_of = year_of
+    @demographics = demographics
     @id = id
     @rand = rand
-    @sex = choose(["Male", "Female"])
-    @birthDay = Date.new(year_of) + @rand.rand(365)
-    @firstName =  choose(sex == "Male" ? demographics.maleNames : demographics.femaleNames)
-    @lastName = choose(demographics.lastNames)
-    @address = @rand.rand(999).to_s + " " + choose(["North Street", "South Lane", "East Rd", "West Blvd"])
-    @city = demographics.city
-    @state =  demographics.state
-    @postalCode = demographics.postalCode
-    @email = @rand.rand(10000).to_s + "@fakemail.com"
-    @hispanicLatino = wChoose(demographics.hispanicLatinoDist)
-    @economicDisadvantaged = choose([true, false])
-    @schoolFood = wChoose(demographics.schoolFood)
-    @limitedEnglish =  wChoose(demographics.limitedEnglish)
-    @disability = wChoose(demographics.disability)
-    @race =  wChoose(demographics.raceDistribution)
+    randomize
   end
 
-  def distributionTester(inMethod, tracer, lo, hi, iters)
-    i = 0
-    hit = 0
-    while i < iters do
-      if inMethod.call == tracer
-        hit += 1
-      end
-      i += 1
-    end
-    
-    if hit.between?(lo, hi)
-      puts "THE HIT RATIO WAS WITHIN EXPECTED VALUES. #{tracer} was #{hit}/#{iters}."
-      return "true"
-    else
-      puts "FAIL. #{tracer} came back #{hit} times out of #{iters}"
-      return "false"
-    end
+  # TODO : most, if not all of this information, should be set by the entity creator code.
+  # TODO:  placeholder method until this is completed.
+  def randomize()
+    @sex = choose(["Male", "Female"])
+    @birthDay = Date.new(@year_of) + @rand.rand(365)
+    @firstName =  choose(sex == "Male" ? @demographics.maleNames : @demographics.femaleNames)
+    @lastName = choose(@demographics.lastNames)
+    @address = @rand.rand(999).to_s + " " + choose(["North Street", "South Lane", "East Rd", "West Blvd"])
+    @city = @demographics.city
+    @state =  @demographics.state
+    @postalCode = @demographics.postalCode
+    @email = @rand.rand(10000).to_s + "@fakemail.com"
+    @hispanicLatino = wChoose(@demographics.hispanicLatinoDist)
+    @economicDisadvantaged = choose([true, false])
+    @schoolFood = wChoose(@demographics.schoolFood)
+    @limitedEnglish =  wChoose(@demographics.limitedEnglish)
+    @disability = wChoose(@demographics.disability)
+    @race =  wChoose(@demographics.raceDistribution)
   end
+
 end

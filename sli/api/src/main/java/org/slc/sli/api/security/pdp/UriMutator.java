@@ -113,7 +113,7 @@ public class UriMutator {
             String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
                 if (!query
-                        .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
+                        .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|optionalFields|views|includeCustom|selector)=.+")) {
                     int baseResourceIndex = 1;
                     if (segments.size() >= 2
                             && publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {

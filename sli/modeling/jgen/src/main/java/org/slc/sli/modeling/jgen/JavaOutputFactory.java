@@ -20,6 +20,9 @@ package org.slc.sli.modeling.jgen;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * Get a new Java stream writer.
+ */
 public final class JavaOutputFactory {
 
     private JavaOutputFactory() {

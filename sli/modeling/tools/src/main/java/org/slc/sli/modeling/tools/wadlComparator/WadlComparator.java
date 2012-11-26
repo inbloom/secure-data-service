@@ -36,6 +36,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Compare two WADLs.
+ */
 public class WadlComparator {
 
     private static final Logger LOG = LoggerFactory.getLogger(WadlComparator.class);
@@ -44,10 +47,10 @@ public class WadlComparator {
     private static String pathToGeneratedWadl;
     private static PrintStream pathToReportFile;
 
-    final static PrintStream STDOUT = System.out;
-    
+    static final PrintStream STDOUT = System.out;
+
     public WadlComparator() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     public static void main(String[] args) throws IOException {

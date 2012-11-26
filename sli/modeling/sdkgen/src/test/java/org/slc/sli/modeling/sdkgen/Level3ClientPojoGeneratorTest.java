@@ -53,7 +53,7 @@ public class Level3ClientPojoGeneratorTest {
     public void testDoModel() throws Exception {
         File mockDir = new File("sli/modeling/sdkgen/test");
         if (!mockDir.exists()) {
-        	assertTrue(mockDir.mkdirs());
+            assertTrue(mockDir.mkdirs());
         }
 
         String targetPkgName = "com.slc.sli.test";

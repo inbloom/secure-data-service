@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
 /**
  * The elements used in the Platform Independent Model tool chain.
  */
-public interface DocumentationElements {
+public class DocumentationElements {
     public static final QName FEATURE = new QName("feature");
     public static final QName CLASS = new QName("class");
     public static final QName DATA_TYPE = new QName("datatype");

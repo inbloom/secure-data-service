@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Model a comparision between Xmi's
+ */
 public final class XmiComparison {
     
     private final XmiDefinition lhsRef;

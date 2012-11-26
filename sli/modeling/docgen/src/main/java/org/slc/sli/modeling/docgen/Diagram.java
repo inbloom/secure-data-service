@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.docgen;
 
+/**
+ * Models a UML diagram.
+ */
 public final class Diagram {
     private final String title;
     private final String source;

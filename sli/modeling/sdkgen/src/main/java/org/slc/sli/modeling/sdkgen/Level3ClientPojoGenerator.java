@@ -69,6 +69,9 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * SDK Client POJO Models
+ */
 public final class Level3ClientPojoGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(Level3ClientPojoGenerator.class);
@@ -325,7 +328,7 @@ public final class Level3ClientPojoGenerator {
     
     private static final void writeClassType(final String packageName, final List<String> importNames,
             final ClassType classType, final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
-        final JavaParam PARAM_ENTITY = new JavaParam("data", FIELD_UNDERLYING.getType(), true);
+        final JavaParam paramEntity = new JavaParam("data", FIELD_UNDERLYING.getType(), true);
         
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
         try {
@@ -360,11 +363,11 @@ public final class Level3ClientPojoGenerator {
                     jsw.space();
                     jsw.write(classType.getName());
                     jsw.parenL();
-                    jsw.writeParams(PARAM_ENTITY);
+                    jsw.writeParams(paramEntity);
                     jsw.parenR();
                     jsw.beginBlock();
                     jsw.beginStmt();
-                    jsw.write("this.").write(FIELD_UNDERLYING.getName()).write("=").write(PARAM_ENTITY.getName());
+                    jsw.write("this.").write(FIELD_UNDERLYING.getName()).write("=").write(paramEntity.getName());
                     jsw.endStmt();
                     jsw.endBlock();
                     

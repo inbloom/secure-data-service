@@ -61,7 +61,7 @@ import org.xml.sax.SAXException;
 public class DocumentManipulator {
     private DocumentBuilderFactory docFactory;
     private XPathFactory xPathFactory;
-    
+
     public void init() {
         docFactory = DocumentBuilderFactory.newInstance();
         xPathFactory = XPathFactory.newInstance();
@@ -164,12 +164,7 @@ public class DocumentManipulator {
             throw new DocumentManipulatorException(e);
         } finally {
             if (out != null) {
-                try {
-                    out.close();
-                } catch (Exception ignored) {
-                    // ignored
-                    ignored.printStackTrace();
-                }
+                out.close();
             }
         }
         
@@ -237,23 +232,7 @@ public class DocumentManipulator {
     
     private Document addDefaultDocs(Document doc) throws XPathExpressionException {
         XPath xPath = XPathFactory.newInstance().newXPath();
-        xPath.setNamespaceContext(new NamespaceContext() {
-            
-            @Override
-            public Iterator<?> getPrefixes(String namespaceURI) {
-                return null;
-            }
-            
-            @Override
-            public String getPrefix(String namespaceURI) {
-                return null;
-            }
-            
-            @Override
-            public String getNamespaceURI(String prefix) {
-                return null;
-            }
-        });
+        xPath.setNamespaceContext(new MyNameSpaceContext());
         XPathExpression exp = xPath.compile("//method[not(doc)]");
         NodeList nl = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
         for (int i = 0; i < nl.getLength(); i++) {
@@ -302,5 +281,22 @@ public class DocumentManipulator {
         }
 
         return doc;
+    }
+
+    private static final class MyNameSpaceContext implements NamespaceContext {
+        @Override
+        public String getNamespaceURI(String s) {
+            return null;
+        }
+
+        @Override
+        public String getPrefix(String s) {
+            return null;
+        }
+
+        @Override
+        public Iterator getPrefixes(String s) {
+            return null;
+        }
     }
 }

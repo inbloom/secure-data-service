@@ -18,15 +18,20 @@ package org.slc.sli.modeling.xmigen;
 
 import org.junit.Test; 
 import org.junit.Before; 
-import org.junit.After;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.DataType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.Model;
+import org.slc.sli.modeling.uml.NamespaceOwnedElement;
+import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.UmlPackage;
+//import org.slc.sli.modeling.uml.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /** 
@@ -72,7 +77,7 @@ public void before() throws Exception {
 */ 
 @Test
 public void testTweak() throws Exception {
-   Model newModel = Xsd2UmlTweaker.tweak(model,plugin);
+    Model newModel = Xsd2UmlTweaker.tweak(model, plugin);
     assertNotNull(newModel);
 }
 @Test

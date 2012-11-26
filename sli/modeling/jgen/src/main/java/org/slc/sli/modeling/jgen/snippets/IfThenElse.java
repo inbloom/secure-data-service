@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Models Java if else statement.
+ */
 public final class IfThenElse implements JavaSnippet {
 
     private final JavaSnippet testSnippet;

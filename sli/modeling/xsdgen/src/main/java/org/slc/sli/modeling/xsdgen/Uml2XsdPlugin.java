@@ -28,6 +28,12 @@ import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+/**
+ * Methods describing necessary funcationality for writing an XSD file from UML.
+ * 
+ * @author kmyers
+ *
+ */
 public interface Uml2XsdPlugin {
     /**
      * Returns the prefix mappings that the plug-in will use to write custom content.

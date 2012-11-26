@@ -19,6 +19,9 @@ package org.slc.sli.modeling.sdkgen;
 import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.xml.sax.InputSource;
 
+/**
+ * Resolve the entity for a URI.
+ */
 public final class SdkGenURIResolver implements URIResolver {
     @Override
     public InputSource resolveEntity(final String targetNamespace, final String schemaLocation, final String baseUri) {
