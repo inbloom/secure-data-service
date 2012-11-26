@@ -90,6 +90,11 @@ task :rcSandboxProvisionTests do
 end
 
 desc "Run RC Sandbox Databrowser Test"
+task :rcSandboxAppApprovalTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature")
+end
+
+desc "Run RC Sandbox Databrowser Test"
 task :rcSandboxDatabrowserTests do
   runTests("test/features/cross_app_tests/rc_integration_databrowser_sandbox.feature")
 end
@@ -142,6 +147,7 @@ task :rcSandboxTests do
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
+  Rake::Task["rcSandboxAppApprovalTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
   displayFailureReport()
   if $SUCCESS

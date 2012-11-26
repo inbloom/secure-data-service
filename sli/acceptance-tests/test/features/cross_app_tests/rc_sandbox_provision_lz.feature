@@ -1,14 +1,13 @@
 @rc
 Feature: User requests for a developer account in production or sandbox environments  
-# currently works for production only. Not tested in sandbox.
 
 Background:
   Given I have an open web browser
 
   Scenario: Ingestion User Provisions LZ and Pre-loads Small Sample Dataset
 	When I navigate to the Portal home page
-	When I see the realm selector I authenticate to "Shared Learning Collaborative"
-	#When I selected the realm "Shared Learning Collaborative"
+    Then I will be redirected to realm selector web page
+    When I click on the "Shared Learning Collaborative" realm in "Admin"
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page  
     Then I should be on Portal home page
@@ -21,7 +20,7 @@ Background:
     And I switch to the iframe
     Then I get the success message
 
-  Scenario: Ingest Small Sample Dataset for End to End Testing
+  Scenario: Verify Small Sample Dataset was Successfully Preloaded
 
     Given I am using local data store
     And I have a local configured landing zone for my tenant

@@ -6,7 +6,8 @@ Background:
 
 Scenario: SLC Operator logs into SAMT and deletes the developer account
     When I navigate to the Portal home page
-    When I see the realm selector I authenticate to "Shared Learning Collaborative"   
+    Then I will be redirected to realm selector web page
+    When I click on the "Shared Learning Collaborative" realm in "Admin"
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
     Then I should be on Portal home page
