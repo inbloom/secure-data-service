@@ -69,6 +69,7 @@ Then /^I see all the applications pending registration$/ do
   assert(trs.length == 1, "Should see a pending application")
 end
 
+# for slcoperator
 Then /^application "([^"]*)" is pending approval$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
@@ -99,7 +100,7 @@ Then /^the pending apps are on top$/ do
   end
 end
 
-
+# For slcoperator
 When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")
@@ -107,6 +108,7 @@ When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   y_button.click
 end
 
+# For slcoperator
 When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Deny']")
@@ -118,6 +120,7 @@ Then /^I get a dialog asking if I want to continue$/ do
   @driver.switch_to.alert
 end
 
+# For slcoperator
 Then /^application "([^"]*)" is registered$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   assertWithWait("Could not find app #{app} in approved state") {
