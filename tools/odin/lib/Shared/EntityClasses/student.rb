@@ -42,7 +42,7 @@ class Student < BaseEntity
   end
   
   def prefix
-    sex == "Male?" ? "Mr." : "Ms."
+    sex == "Male?" ? "Mr" : "Ms"
   end
     
   def firstName

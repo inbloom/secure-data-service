@@ -78,7 +78,7 @@ class Odin
         end
       end
       student.id = i
-      student.randomize
+      #student.randomize
       students << student.clone
     end
 
