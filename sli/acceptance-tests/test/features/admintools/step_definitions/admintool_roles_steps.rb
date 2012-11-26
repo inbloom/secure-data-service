@@ -94,9 +94,9 @@ Given /^I have navigated to the default Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-When /^I click on the Logout link$/ do
-  pending # express the regexp above with the code you wish you had
-end
+#When /^I click on the Logout link$/ do
+#  pending # express the regexp above with the code you wish you had
+#end
 
 Then /^I am no longer authenticated to SLI IDP$/ do
   pending # express the regexp above with the code you wish you had
