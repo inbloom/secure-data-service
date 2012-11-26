@@ -135,12 +135,20 @@ And under System Tools, I click on "Application Registration"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table
-When I click on 'In Progress' next to application "NotTheAppYoureLookingFor"
+And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
+#When I click on 'In Progress' next to application "NotTheAppYoureLookingFor"
 And my new apps client ID is present
 And my new apps shared secret is present
 #When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-And I enable my app for all districts
-And I click on the button Submit
+ Then I can see the on-boarded states
+When I select a state
+  Then I see all of the Districts
+  Then I check the Districts
+When I click on Save
+Then the "NotTheAppYoureLookingFor" is enabled for Districts
+
+#And I enable my app for all districts
+#And I click on the button Submit
 And I see an application "Schlemiel" in the table
 When I click on 'In Progress' next to application "Schlemiel"
 And my new apps client ID is present
