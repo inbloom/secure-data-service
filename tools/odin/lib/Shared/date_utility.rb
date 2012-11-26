@@ -22,12 +22,6 @@ require "logger"
 # Date Utility class
 class DateUtility
 
-  def initialize
-    $stdout.sync = true
-    @log = Logger.new($stdout)
-    @log.level = Logger::INFO
-  end
-
   # generates a random date on the specified interval (inclusive of the specified years)
   def self.random_date_from_years(random, year1, year2 = year1)
   	if year1 != year2
@@ -71,10 +65,10 @@ class DateUtility
 
   # generates a random school day on the specified interval (inclusive of the specified dates)
   def self.random_school_day_on_interval(random, date1, date2 = date1)
-  	# if date1 is after date2 --> raise illegal argument error
+  	raise(ArgumentError, ":date1 must be before :date2") if date1 > date2
 
   	if date1 == date2
-  	  # check to make sure its not a weekend day --> raise illegal argument error
+      raise(ArgumentError, ":dates must not fall on a weekend") if date1.wday == 0 or date1.wday == 6
   	  return date1
   	end
 
@@ -138,4 +132,87 @@ class DateUtility
       return 31
     end
   end
+
+  # get school holidays for specified year (start year for school year)
+  def self.get_school_holidays(random, year)
+    if year == nil
+      raise(ArgumentError, ":year must must not be null")
+    end
+
+    holidays = []
+    # get first monday of september (labor day)
+    labor_day = Date.new(year, 9, 1)
+    labor_day = labor_day + 1 until labor_day.wday == 1
+    holidays << labor_day
+    # get second monday of october
+    columbus_day   = Date.new(year, 10, 1)
+    monday_counter = 0
+    until columbus_day.wday == 1 and monday_counter == 1 do 
+      if columbus_day.wday == 1
+        monday_counter += 1
+      end
+      columbus_day += 1
+    end
+    holidays << columbus_day
+    # get second friday in november
+    veterans_day   = Date.new(year, 11, 1)
+    friday_counter = 0
+    until veterans_day.wday == 5 and friday_counter == 1 do
+      if veterans_day.wday == 5
+        friday_counter += 1
+      end
+      veterans_day += 1
+    end
+    holidays << veterans_day
+    # get third thursday of november (and friday)
+    thanksgiving     = Date.new(year, 11, 1)
+    thursday_counter = 0
+    until thanksgiving.wday == 4 and thursday_counter == 3 do
+      if thanksgiving.wday == 4
+        thursday_counter += 1
+      end
+      thanksgiving += 1
+    end
+    holidays << thanksgiving
+    holidays << thanksgiving + 1
+    # get christmas eve and christmas days off
+    christmas_eve = Date.new(year, 12, 24)
+    christmas_day = Date.new(year, 12, 25)
+    if christmas_eve.wday == 0
+      christmas_eve += 1
+      christmas_day = christmas_eve + 1
+    elsif christmas_eve.wday == 6
+      christmas_eve -= 1
+      christmas_day += 1
+    elsif christmas_eve.wday == 5
+      christmas_day += 2
+    end
+    holidays << christmas_eve << christmas_day
+    # get new year's eve and new year's day off
+    new_years_eve = Date.new(year, 12, 31)
+    new_years_day = Date.new(year+1, 1, 1)
+    if new_years_eve.wday == 0
+      new_years_eve += 1
+      new_years_day += 1
+    elsif new_years_eve.wday == 6
+      new_years_eve -= 1
+      new_years_day += 1
+    elsif new_years_eve.wday == 5
+      new_years_day += 2
+    end
+    holidays << new_years_eve << new_years_day
+    # pick a random week in march for spring break
+    monday_of_break = random_on_interval(random, 1, 3)
+    monday_counter  = 0
+    spring_break    = Date.new(year+1, 3, 1)
+    until spring_break.wday == 1 and monday_counter == monday_of_break do 
+      if spring_break.wday == 1
+        monday_counter += 1
+      end
+      spring_break += 1
+    end
+    holidays << spring_break << spring_break + 1 << spring_break + 2 << spring_break + 3 << spring_break + 4
+    holidays
+  end
+
 end

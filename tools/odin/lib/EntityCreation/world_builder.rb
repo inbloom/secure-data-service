@@ -45,7 +45,7 @@ class WorldBuilder
     @edOrgs["high"]       = []
 
     @education_organization_writer = EducationOrganizationGenerator.new
-    @education_org_calendar_writer = EducationOrgCalendarGenerator.new
+    #@education_org_calendar_writer = EducationOrgCalendarGenerator.new
   end
 
   # Builds the initial snapshot of the world
@@ -310,7 +310,7 @@ class WorldBuilder
   # close all file handles used for writing ed-fi xml interchanges
   def close_interchanges
     @education_organization_writer.close
-    @education_org_calendar_writer.close
+    #@education_org_calendar_writer.close
   end
 
   # writes ed-fi xml interchange: education organization

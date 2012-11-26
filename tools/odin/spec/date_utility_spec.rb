@@ -121,13 +121,42 @@ describe "DateUtility" do
 
   describe "--> requests for sets of dates" do
   	describe "--> requesting set of holidays for a school year" do
+      it "will return an array of holidays for the specified school year" do
+        holidays = DateUtility.get_school_holidays(@random, 2011)
+        fail if !holidays.include? Date.new(2011, 9, 5)
+        fail if !holidays.include? Date.new(2011, 10, 10)
+        fail if !holidays.include? Date.new(2011, 11, 11)
+        fail if !holidays.include? Date.new(2011, 11, 24)
+        fail if !holidays.include? Date.new(2011, 11, 25)
+        fail if !holidays.include? Date.new(2011, 12, 23)
+        fail if !holidays.include? Date.new(2011, 12, 26)
+        fail if !holidays.include? Date.new(2011, 12, 30)
+        fail if !holidays.include? Date.new(2012, 1, 2)
+        fail if !holidays.include? Date.new(2012, 3, 26)
+        fail if !holidays.include? Date.new(2012, 3, 27)
+        fail if !holidays.include? Date.new(2012, 3, 28)
+        fail if !holidays.include? Date.new(2012, 3, 29)
+        fail if !holidays.include? Date.new(2012, 3, 30)
+        
+        holidays.clear
+        holidays = DateUtility.get_school_holidays(@random, 2012)
+        fail if !holidays.include? Date.new(2012, 9, 3)
+        fail if !holidays.include? Date.new(2012, 10, 8)
+        fail if !holidays.include? Date.new(2012, 11, 9)
+        fail if !holidays.include? Date.new(2012, 11, 22)
+        fail if !holidays.include? Date.new(2012, 11, 23)
+        fail if !holidays.include? Date.new(2012, 12, 24)
+        fail if !holidays.include? Date.new(2012, 12, 25)
+        fail if !holidays.include? Date.new(2012, 12, 31)
+        fail if !holidays.include? Date.new(2013, 1, 1)
+        fail if !holidays.include? Date.new(2013, 3, 11)
+        fail if !holidays.include? Date.new(2013, 3, 12)
+        fail if !holidays.include? Date.new(2013, 3, 13)
+        fail if !holidays.include? Date.new(2013, 3, 14)
+        fail if !holidays.include? Date.new(2013, 3, 15)
+      end
     end
     describe "--> requesting distribution of dates over an interval" do
     end
-  end
-
-  describe "--> requests for modifying or translating dates" do
-  	describe "--> requesting translation of date by specified number of school days" do
-  	end
   end
 end

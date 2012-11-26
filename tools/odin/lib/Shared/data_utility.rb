@@ -23,11 +23,6 @@ require_relative "EntityClasses/enum/GradeLevelType.rb"
 # Data Utility class
 # -> helper class for ed-fi entity and interchange generators
 class DataUtility
-  def initialize
-    $stdout.sync = true
-    @log = Logger.new($stdout)
-    @log.level = Logger::INFO
-  end
 
   #-----------   INTERCHANGE: STUDENT PARENT   ------------
   # create a student unique state id
