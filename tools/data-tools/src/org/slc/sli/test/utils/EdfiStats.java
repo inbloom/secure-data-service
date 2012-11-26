@@ -145,19 +145,22 @@ public class EdfiStats {
         } else {
            sliCounts.put("attendance", (long)uniqueStudentSessions.size());
         }
-        sliCounts.remove("assessmentItem"               );
-        sliCounts.remove("assessmentFamily"             );
-        sliCounts.remove("assessmentPeriodDescriptor"   );
-        sliCounts.remove("courseOffering"               );
-        sliCounts.remove("objectiveAssessment"          );
-        sliCounts.remove("performanceLevelDescriptor"   );
-        sliCounts.remove("serviceDescriptor"            );
-        sliCounts.remove("studentAssessmentItem"        );
-        sliCounts.remove("studentObjectiveAssessment"   );
-        sliCounts.remove("studentAssessmentAssociation" );
-        sliCounts.remove("studentSectionAssociation"    );
-        sliCounts.remove("teacherSectionAssociation"    );
-        sliCounts.remove("studentProgramAssociation"    );
+        sliCounts.remove("assessmentItem"                       );
+        sliCounts.remove("assessmentFamily"                     );
+        sliCounts.remove("assessmentPeriodDescriptor"           );
+        sliCounts.remove("courseOffering"                       );
+        sliCounts.remove("objectiveAssessment"                  );
+        sliCounts.remove("performanceLevelDescriptor"           );
+        sliCounts.remove("serviceDescriptor"                    );
+        sliCounts.remove("studentAssessmentItem"                );
+        sliCounts.remove("studentObjectiveAssessment"           );
+        sliCounts.remove("studentAssessmentAssociation"         );
+        sliCounts.remove("studentSectionAssociation"            );
+        sliCounts.remove("teacherSectionAssociation"            );
+        sliCounts.remove("studentProgramAssociation"            );
+        sliCounts.remove("studentCohortAssociation"             );
+        sliCounts.remove("gradebookEntry"                       );
+        sliCounts.remove("studentDisciplineIncidentAssociation" );
 
         PrintWriter js = new PrintWriter(
                 new FileOutputStream(dataDirectory + "/" + "jsExpected.js"));
