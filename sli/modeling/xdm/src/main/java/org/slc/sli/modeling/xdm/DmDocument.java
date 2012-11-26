@@ -23,6 +23,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model document.
+ */
 public final class DmDocument implements DmNode {
 
     protected static final QName NO_NAME = new QName("");

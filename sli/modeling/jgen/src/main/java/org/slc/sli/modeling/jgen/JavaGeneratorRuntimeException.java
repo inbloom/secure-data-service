@@ -17,6 +17,9 @@
 package org.slc.sli.modeling.jgen;
 
 
+/**
+ * Model Java runtime exception.
+ */
 public class JavaGeneratorRuntimeException extends RuntimeException {
 
     public JavaGeneratorRuntimeException(Throwable cause) {

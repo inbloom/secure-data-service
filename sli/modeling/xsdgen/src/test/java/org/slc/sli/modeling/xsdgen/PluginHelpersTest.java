@@ -18,13 +18,23 @@ package org.slc.sli.modeling.xsdgen;
 
 import org.junit.Test;
 import org.slc.sli.modeling.psm.helpers.TagName;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.Multiplicity;
+import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.TagDefinition;
+import org.slc.sli.modeling.uml.Taggable;
+import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

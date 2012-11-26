@@ -22,7 +22,15 @@ import org.slc.sli.modeling.psm.PsmCollection;
 import org.slc.sli.modeling.psm.PsmDocument;
 import org.slc.sli.modeling.psm.PsmResource;
 import org.slc.sli.modeling.psm.helpers.TagName;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.Multiplicity;
+import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.TagDefinition;
+import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 
@@ -34,7 +42,11 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.atLeastOnce;
 
 /**
  * @author jstokes
