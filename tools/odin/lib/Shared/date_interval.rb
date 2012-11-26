@@ -16,18 +16,16 @@ limitations under the License.
 
 =end
 
-require_relative "../data_utility.rb"
-require_relative "baseEntity.rb"
+require "date"
+require "logger"
 
-# creates state education agency
-class SeaEducationOrganization < BaseEntity
+# Date Interval class
+class DateInterval
 
-  def initialize(id, rand)
-    @id = id
-    @rand = rand
+  def initialize
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
   end
 
-  def stateOrgId
-    DataUtility.get_state_education_agency_id(@id)
-  end
 end

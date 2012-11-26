@@ -2,6 +2,8 @@ GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.3)
+    equivalent-xml (0.3.0)
+      nokogiri (>= 1.4.3)
     multi_json (1.3.7)
     mustache (0.99.4)
     nokogiri (1.5.5)
@@ -23,6 +25,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  equivalent-xml
   mustache
   nokogiri
   rake

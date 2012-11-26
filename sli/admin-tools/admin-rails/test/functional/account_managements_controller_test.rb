@@ -23,10 +23,21 @@ class AccountManagementsControllerTest < ActionController::TestCase
   setup do
     @account_managements = Array.new()
     @account_managements.push(@account_managements_fixtures['account1'])
+    @account_managements.collect! do |account|
+      am = AccountManagement.new
+      am.name = account["name"]
+      am.vendor = account["vendor"]
+      am.email = account["email"]
+      am.lastUpdate = account["lastUpdate"]
+      am.status = account["status"]
+      am.transitions = account["transitions"]
+      am
+    end
     $check_slc=false
   end
 
   test "should get index" do
+    @controller.stubs(:get_all).returns(@account_managements)
     get :index
     assert_response :success
     assert_not_nil assigns(:account_managements)
