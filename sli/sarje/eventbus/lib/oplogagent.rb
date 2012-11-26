@@ -32,24 +32,20 @@ module Eventbus
           :mongo_db => 'local',
           :mongo_oplog_collection =>'oplog.rs',
           :mongo_connection_retry => 5,
-          :mongo_ignore_initial_read => true
+          :mongo_ignore_initial_read => true,
+          :mongo_timestamp_marker => 'oplog.marker'
       }.merge(config)
+      @connection = get_connection
     end
 
     # read_oplogs blocks on cursor tail read
     def handle_oplogs
       cursor = get_oplog_mongo_cursor(@config[:mongo_ignore_initial_read])
-      processed = 0
       loop do
         while not cursor.closed?
           begin
             doc = cursor.next
             if doc
-              processed += 1
-              if (processed == @config[:oplog_proccessed_before_saving_timestamp])
-                save_to_mongo(doc["ts"].seconds)
-                processed = 0
-              end
               yield doc
             else
               sleep(1)
@@ -64,26 +60,26 @@ module Eventbus
 
     def get_oplog_mongo_cursor(initial_empty)
       begin
-        connection = get_connection
-        db = connection.db(@config[:mongo_db])
+        db = @connection.db(@config[:mongo_db])
         coll = db[@config[:mongo_oplog_collection]]
         cursor = nil
         
         if initial_empty
           @logger.info "ignoring initial readings" if @logger
           last_ts = get_last_timestamp()
-          # if last timestamp is read, then read to timestamp that is greater than it
           if last_ts
-            last_ts = Integer(last_ts)
-            cursor = coll.find({'ts' => {'$gte'=> BSON::Timestamp.new(last_ts, 0) }})
+            # if last timestamp exists, then find entries that happened after that time
+            @logger.info "using the last timestamp saved" if @logger
+            cursor = coll.find({'ts' => {'$gte'=> BSON::Timestamp.new(Integer(last_ts), 0) }})
             cursor.add_option(Mongo::Constants::OP_QUERY_TAILABLE)
             cursor.add_option(Mongo::Constants::OP_QUERY_OPLOG_REPLAY)
           else
-            # skip to the current last entry
+            # skip to the current last entry 
+            @logger.info "skipping to the current last entry" if @logger
             start_count = coll.count
             cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true, :order => [['$natural', 1]]).skip(start_count- 1)
           end
-          
+          #TODO Do we want to go to end? or just start processing from here?
           while cursor.has_next?
             cursor.next_document
           end
@@ -110,37 +106,54 @@ module Eventbus
       end
     end
     
-    def save_to_mongo(seconds)
-      coll = get_oplog_marker_collection()
-      node_id = @config[:node_id] + Socket.gethostname 
-      coll.remove({"nodeId" => node_id})
-      coll.insert({:nodeId => node_id, :timeStamp => seconds, :lastUpdated => Time.now})
-      #TODO figure out why _id is not added in update upsert
-      #doc = coll.find_and_modify({
-      #  :query => {"nodeId" => node_id},
-      #  :update => {"$set" => {"nodeId" => node_id, "timeStamp" => seconds, "lastUpdated" => Time.now}},
-      #  :new => true,
-      #  :upsert => true
-      #})
+    def save_timestamp(seconds)
+      begin
+        @logger.info "Saving timestamp " + seconds.to_s if @logger
+        coll = get_oplog_marker_collection()
+        node_id = get_oplog_marker_id
+        doc = coll.find_and_modify({
+          :query => {"_id" => node_id},
+          :update => {"$set" => {"timeStamp" => seconds, "lastUpdated" => Time.now}},
+          :new => true,
+          :upsert => true
+        })
+      rescue Exception => e 
+        @logger.error "Cannot save timestamp to mongo: #{e}" if @logger
+      end
     end
     
     def get_last_timestamp()
       coll = get_oplog_marker_collection()
-      node_id = @config[:node_id] + Socket.gethostname 
-      doc = coll.find_one({"nodeId" => node_id})
-      if doc 
-        return doc["timeStamp"].to_s
-      else
-        return nil
+      node_id = get_oplog_marker_id
+      begin
+        doc = coll.find_one({"_id" => node_id})
+        if doc 
+          return doc["timeStamp"]
+        else
+          return nil
+        end
+      rescue Exception => e
+        @logger.error "Cannot query collection #{e}" if @logger
       end
     end
     
-    def get_oplog_marker_collection()
-      connection = get_connection
-      db = connection.db(@config[:mongo_db])
-      coll = db[@config[:mongo_timestamp_marker]]
-      return coll
+    def get_oplog_marker_id
+      @config[:node_id] + Socket.gethostname + "-" + @connection.host
     end
+    
+    def get_oplog_marker_collection()
+      coll = nil
+      begin
+        db = @connection.db(@config[:mongo_db])
+        coll = db[@config[:mongo_timestamp_marker]]
+      rescue Exception => e
+        @logger.debug "exception occurred when connecting to mongo for oplog.marker: #{e}" if @logger
+        @logger.debug "reconnection attempt in #{@config[:mongo_connection_retry]} seconds" if @logger
+        sleep @config[:mongo_connection_retry]
+        retry
+      end
+      return coll
+   end
   end
 
   class OpLogThrottler
@@ -150,6 +163,7 @@ module Eventbus
 
       @oplog_queue = Queue.new
       @subscription_events_lock = Mutex.new
+      @last_oplog_timestamp = 0
       set_subscription_events([])
     end
 
@@ -187,6 +201,9 @@ module Eventbus
               if message_to_process == message_to_process.merge(trigger)
                 queue_name = subscription_event['queue'] || "oplog"
                 # if subscription has publishOplog set, we want to send the oplog to the queue and each message has one oplog entry
+                if message_to_process["ts"].seconds > @last_oplog_timestamp
+                  @last_oplog_timestamp = message_to_process["ts"].seconds
+                end
                 if subscription_event['publishOplog']
                   events_to_send << {queue_name => [message_to_process]}
                 else
@@ -225,6 +242,10 @@ module Eventbus
         return @subscription_events
       }
     end
+    
+    def get_last_oplog_timestamp()
+      return @last_oplog_timestamp
+    end
   end
 
   class OpLogAgent
@@ -254,6 +275,7 @@ module Eventbus
       @threads << Thread.new do
         @oplog_throttler.handle_events do |events|
           @event_publisher.fire_events(events)
+          @oplog_reader.save_timestamp(@oplog_throttler.get_last_oplog_timestamp)
         end
       end
     end

@@ -39,9 +39,6 @@ mongo_ignore_initial_read: true
 # Collection that the oplog agent uses for timestamp marker
 mongo_timestamp_marker: oplog.marker
 
-# Number of oplogs processed before saving the last timestamp of oplog document processed
-oplog_proccessed_before_saving_timestamp: 1000
-
 # Time frame in seconds in which to coalesce oplog messages. 
 # All messages within this timeframe will be processed together and generate 
 # a single event. 
