@@ -113,13 +113,13 @@ And under System Tools, I click on "Application Registration Approval"
 And I switch to the iframe
 And I am redirected to the Application Registration Approval Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table
-And in Status it says "PENDING"
+Then application "NotTheAppYoureLookingFor" is pending approval
 And I click on the "Approve" button next to it
-And the Status becomes "Approved"
+Then application "NotTheAppYoureLookingFor" is registered
 And I see an application "Schlemiel" in the table
-And in Status it says "Pending"
+Then application "Schlemiel" is pending approval
 And I click on the "Approve" button next to it
-And the Status becomes "Approved"
+Then application "Schlemiel" is registered
 And I click on log out
 
 Scenario: App developer enables the new Installed app and Full window web app
