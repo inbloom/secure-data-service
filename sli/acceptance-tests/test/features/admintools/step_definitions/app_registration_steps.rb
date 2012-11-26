@@ -108,6 +108,14 @@ When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   y_button.click
 end
 
+# For developer
+When /^I click on 'In Progress' next to application "([^"]*)"$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='In Progress']")
+  assert(y_button != nil, "Did not find the 'In Progress' button")
+  y_button.click
+end
+
 # For slcoperator
 When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")

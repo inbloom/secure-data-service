@@ -134,11 +134,21 @@ Then I should be on the admin page
 And under System Tools, I click on "Application Registration"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
-#And my new apps client ID is present
-#And my new apps shared secret is present
+And I see an application "NotTheAppYoureLookingFor" in the table
+When I click on 'In Progress' next to application "NotTheAppYoureLookingFor"
+And my new apps client ID is present
+And my new apps shared secret is present
 #When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-#And I enable my app for all districts
-#And I click on the button Submit
+And I enable my app for all districts
+And I click on the button Submit
+And I see an application "Schlemiel" in the table
+When I click on 'In Progress' next to application "Schlemiel"
+And my new apps client ID is present
+And my new apps shared secret is present
+#When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
+And I enable my app for all districts
+And I click on the button Submit
+And I click on log out
 
 Scenario:  LEA approves Dashboard, Databrowser and New Developer Applications
 When I navigate to the Portal home page
