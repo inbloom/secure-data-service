@@ -84,6 +84,16 @@ task :rcTenantPurgeTests do
   runTests("test/features/cross_app_tests/rc_integration_purge.feature")
 end
 
+desc "Run RC Sandbox Account Request Test"
+task :rcSandboxAccountRequestTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_account_request.feature")
+end
+
+desc "Run RC Sandbox Provision Test"
+task :rcSandboxProvisionTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_provision_lz.feature")
+end
+
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
@@ -126,6 +136,21 @@ task :rcTests do
     raise "Tests have failed"
   end
 end
+
+desc "Run RC Tests"
+task :rcSandboxTests do
+  OTHER_TAGS = OTHER_TAGS+" --tags @rc"
+  Rake::Task["rcDeleteLDAPUsers"].execute
+  Rake::Task["rcSandboxAccountRequestTests"].execute
+  Rake::Task["rcSandboxProvisionTests"].execute
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 
 desc "Run Sandbox Integration Test for Dev checklist"
 task :sandboxDevChecklistTest do
