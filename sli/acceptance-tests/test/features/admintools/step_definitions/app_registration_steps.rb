@@ -102,14 +102,14 @@ end
 
 When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")
+  y_button  = appsTable.find_element(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")
   assert(y_button != nil, "Did not find the approve button")
   y_button.click
 end
 
 When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Deny']")
+  y_button  = appsTable.find_element(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Deny']")
   assert(y_button != nil, "Did not find the deny button")
   y_button.click
 end
