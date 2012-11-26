@@ -33,10 +33,10 @@ Background: Nothing yet
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
     | assessments                 | assessment                 | 17              |
-    | schools                     | school                     | 32               |
-    | students                    | student                    | 31               |
-    | studentSectionAssociations  | studentSectionAssociation  | 31               |
-    | courseOfferings             | courseOffering             | 11               |
+    | schools                     | school                     | 1               |
+    | students                    | student                    | 31              |
+    | studentSectionAssociations  | studentSectionAssociation  | 31              |
+    | courseOfferings             | courseOffering             | 11              |
 
   Scenario: Getting response from POST - Create (school)
     Given a valid XML document for a new school entity
