@@ -22,10 +22,16 @@ require_relative '../lib/Shared/date_utility.rb'
 
 describe "DateUtility" do
 
-  before(:all) do
+  before(:each) do
     @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
     @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
     @random = Random.new(@scenario['seed'])
+  end
+
+  after(:each) do
+    @scenario = nil
+    @yaml = nil
+    @random = nil
   end
 
   describe "--> requests for month and day utilities" do
@@ -133,11 +139,11 @@ describe "DateUtility" do
         fail if !holidays.include? Date.new(2011, 12, 26)
         fail if !holidays.include? Date.new(2011, 12, 30)
         fail if !holidays.include? Date.new(2012, 1, 2)
-        fail if !holidays.include? Date.new(2012, 3, 26)
-        fail if !holidays.include? Date.new(2012, 3, 27)
-        fail if !holidays.include? Date.new(2012, 3, 28)
-        fail if !holidays.include? Date.new(2012, 3, 29)
-        fail if !holidays.include? Date.new(2012, 3, 30)
+        fail if !holidays.include? Date.new(2012, 3, 12)
+        fail if !holidays.include? Date.new(2012, 3, 13)
+        fail if !holidays.include? Date.new(2012, 3, 14)
+        fail if !holidays.include? Date.new(2012, 3, 15)
+        fail if !holidays.include? Date.new(2012, 3, 16)
         
         holidays.clear
         holidays = DateUtility.get_school_holidays(@random, 2012)
