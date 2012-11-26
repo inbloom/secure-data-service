@@ -14,7 +14,6 @@ Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Realm Management"
-
 And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
@@ -160,7 +159,6 @@ Then I should be on the admin page
 And under System Tools, I click on "Application Authorization"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
-
 #Authorize the Dashboard
 And I see an application "SLC Dashboards" in the table
 And in Status it says "Not Approved"
@@ -173,7 +171,6 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
-
 #Authorize the Databrowser
 And I see an application "SLC Data Browser" in the table
 And in Status it says "Not Approved"
@@ -188,7 +185,6 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
-
 #Authorize the New Installed App
 And I see an application "NotTheAppYoureLookingFor" in the table
 And in Status it says "Not Approved"
@@ -203,7 +199,6 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
-
 #Authorized the new Web-App
 And I see an application "Schlemiel" in the table
 And in Status it says "Not Approved"
@@ -221,6 +216,7 @@ And the Deny button next to it is enabled
 And I exit out of the iframe
 And I click on log out
 
+@wip
 Scenario: User Logs into databrowser from portal
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
