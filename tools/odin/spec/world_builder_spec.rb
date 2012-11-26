@@ -37,19 +37,22 @@ describe "WorldBuilder" do
 
       it "will contain a single state education agency" do
       	@education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
-	  end
-	  it "will contain a single local education agency" do
-	  	@education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(1)
-	  end
-	  it "will contain a single elementary school" do
-	  	@education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should eq(1)
-	  end
-	  it "will contain a single middle school" do
-	  	@education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should eq(1)
-	  end
-	  it "will contain a single high school" do
-	  	@education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should eq(1)
-	  end
+	    end
+	    it "will contain a single local education agency" do
+	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(1)
+	    end
+	    it "will contain a single elementary school" do
+	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should eq(1)
+	    end
+	    it "will contain a single middle school" do
+	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should eq(1)
+	    end
+	    it "will contain a single high school" do
+	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should eq(1)
+	    end
+      it "will contain the correct number of courses" do
+        @education_organization.readlines.select{|l| l.match("<Course>")}.length.should eq(34)
+      end
     end
   end
 
@@ -70,22 +73,25 @@ describe "WorldBuilder" do
 
       it "will contain a single state education agency" do
       	@education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
-	  end
-	  it "will contain multiple local education agencies" do
-	  	@education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(283)
-	  end
-	  it "will contain many schools" do
-	  	@education_organization.readlines.select{|l| l.match("<School>")}.length.should eq(1421)
-	  end
-	  it "will contain many elementary schools" do
-	  	@education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should eq(859)
-	  end
-	  it "will contain many middle schools" do
-	  	@education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should eq(281)
-	  end
-	  it "will contain many high schools" do
-	  	@education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should eq(281)
-	  end
+	    end
+	    it "will contain multiple local education agencies" do
+	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(283)
+	    end
+	    it "will contain many schools" do
+	  	  @education_organization.readlines.select{|l| l.match("<School>")}.length.should eq(1421)
+	    end
+	    it "will contain many elementary schools" do
+	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should eq(859)
+	    end
+	    it "will contain many middle schools" do
+	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should eq(281)
+	    end
+	    it "will contain many high schools" do
+	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should eq(281)
+	    end
+      it "will contain the correct number of courses" do
+        @education_organization.readlines.select{|l| l.match("<Course>")}.length.should eq(34)
+      end
     end
   end
 end

@@ -16,7 +16,9 @@ limitations under the License.
 
 =end
 
-require 'logger'
+require "logger"
+
+require_relative "EntityClasses/enum/GradeLevelType.rb"
 
 # Data Utility class
 # -> helper class for ed-fi entity and interchange generators
@@ -68,6 +70,11 @@ class DataUtility
   # create course's unique id
   def self.get_course_unique_id(id)
     "crse-" + pad_id_with_zeroes(id, 10)
+  end
+
+  # get course title
+  def self.get_course_title(grade, subject)
+    GradeLevelType.get(grade) + " " + subject
   end
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------
 

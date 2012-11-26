@@ -16,27 +16,16 @@ limitations under the License.
 
 =end
 
-# base entity
-class BaseEntity
-  def choose(options)
-    options[@rand.rand(options.size) - 1]
+require "date"
+require "logger"
+
+# Date Interval class
+class DateInterval
+
+  def initialize
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
   end
-  
-  def wChoose(distribution)
-    wArray = []
-    distribution.each do |element, weight|
-      weight.times {wArray << element}
-    end 
-    choose(wArray)
-  end
-  
-  def to_hash
-    hash = {}
-    tmp = {}
-    self.instance_variables.each do |var|
-      tmp[var[1..-1].to_sym] = self.instance_variable_get(var)
-    end
-    hash[self.class.name.downcase.to_sym] = tmp
-    hash
-  end
+
 end

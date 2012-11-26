@@ -18,7 +18,7 @@ limitations under the License.
 
 require "mustache"
 
-require_relative "./interchangeGenerator.rb"
+require_relative "interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"
 
 Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
@@ -71,6 +71,21 @@ class EducationOrganizationGenerator < InterchangeGenerator
     end
   end
 
+  # course writer
+  class CourseWriter < Mustache
+    def initialize
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/course.mustache"
+      @entity = nil
+    end
+    def course
+      @entity
+    end
+    def write(entity)
+      @entity = entity
+      render
+    end
+  end
+
   # initialization will define the header and footer for the education organization interchange
   # writes header to education organization interchange
   # leaves file handle open for event-based writing of ed-fi entities
@@ -89,6 +104,7 @@ FOOTER
     @state_education_agency_writer = StateEducationAgencyWriter.new
     @local_education_agency_writer = LocalEducationAgencyWriter.new
     @school_writer                 = SchoolWriter.new
+    @course_writer                 = CourseWriter.new
   end
 
   # creates and writes state education agency to interchange
@@ -107,8 +123,8 @@ FOOTER
   end
 
   # creates and writes course to interchange
-  def create_course(rand, id, ed_org_id)
-    @handle.write Course.new(id.to_s, prng).render
+  def create_course(rand, id, title, ed_org_id)
+    @handle.write @course_writer.write(Course.new(id, title, ed_org_id))
   end
 
   # creates and writes program to interchange

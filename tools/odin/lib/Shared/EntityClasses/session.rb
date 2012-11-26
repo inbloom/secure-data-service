@@ -16,27 +16,31 @@ limitations under the License.
 
 =end
 
-# base entity
-class BaseEntity
-  def choose(options)
-    options[@rand.rand(options.size) - 1]
+require_relative 'baseEntity'
+
+# creates session
+class Session < BaseEntity
+
+  attr_accessor :name, :school_year, :term, :edOrgId;
+
+  def initialize(name, year, term, interval, edOrgId)
+  	@name = name
+  	@school_year = year.to_s + " " + (year+1).to_s
+  	@term = term
+  	@interval = interval
+  	@edOrgId = edOrgId
   end
-  
-  def wChoose(distribution)
-    wArray = []
-    distribution.each do |element, weight|
-      weight.times {wArray << element}
-    end 
-    choose(wArray)
+
+  def begin_date
+  	# use interval.get_begin_date
   end
-  
-  def to_hash
-    hash = {}
-    tmp = {}
-    self.instance_variables.each do |var|
-      tmp[var[1..-1].to_sym] = self.instance_variable_get(var)
-    end
-    hash[self.class.name.downcase.to_sym] = tmp
-    hash
+
+  def end_date
+  	# use interval.get_end_date
   end
+
+  def num_school_days
+  	#use interval.get_num_school_days
+  end
+
 end

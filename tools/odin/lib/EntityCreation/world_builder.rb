@@ -20,6 +20,7 @@ require 'date'
 require 'logger'
 
 require_relative "../OutputGeneration/XML/educationOrganizationGenerator.rb"
+require_relative "../OutputGeneration/XML/educationOrgCalendarGenerator.rb"
 require_relative "../Shared/EntityClasses/enum/GradeLevelType.rb"
 require_relative "../Shared/EntityClasses/schoolEducationOrganization.rb"
 require_relative "../Shared/data_utility.rb"
@@ -44,6 +45,7 @@ class WorldBuilder
     @edOrgs["high"]       = []
 
     @education_organization_writer = EducationOrganizationGenerator.new
+    @education_org_calendar_writer = EducationOrgCalendarGenerator.new
   end
 
   # Builds the initial snapshot of the world
@@ -56,8 +58,9 @@ class WorldBuilder
   def build(rand, yaml)
     if !yaml["studentCount"].nil?
       build_world_from_students(rand, yaml)
-    elsif !yaml["schoolCount"].nil?
-      # build_world_from_edOrgs(rand, yaml) --> not supported yet	
+    #elsif !yaml["schoolCount"].nil?
+    #  build_world_from_edOrgs(rand, yaml)
+    #  --> not supported yet	
     else
       @log.error "studentCount or schoolCount must be set for a world to be created --> Exiting..."
     end
@@ -76,12 +79,13 @@ class WorldBuilder
 
     # create grade breakdown from total number of students
     # populate education organization structure using breakdown (number of students per grade)
+    # go back and create courses (currently done at the state education agency level ONLY)
     # update structure with time information
     # finally, write interchanges
     breakdown = compute_grade_breakdown(rand, yaml, num_students)
     create_edOrgs_using_breakdown(rand, yaml, breakdown)
     add_time_information_to_edOrgs(rand, yaml)
-    write_interchanges(rand)
+    write_interchanges(rand, yaml)
   end
 
   # iterates through the set of ordered grade levels (Kindergarten through 12th grade) and uses
@@ -170,6 +174,7 @@ class WorldBuilder
       edOrg             = Hash.new
       edOrg["id"]       = school_counter
       edOrg["parent"]   = nil
+      edOrg["programs"] = []
       edOrg["sessions"] = []
       edOrg["staff"]    = []
       edOrg["teachers"] = []
@@ -202,6 +207,7 @@ class WorldBuilder
       edOrg             = Hash.new
       edOrg["id"]       = district_counter
       edOrg["parent"]   = nil
+      edOrg["programs"] = []
       edOrg["sessions"] = []
       edOrg["staff"]    = []
       @edOrgs["leas"]  << edOrg
@@ -247,8 +253,9 @@ class WorldBuilder
     state_id          = num_districts + 1
     edOrg             = Hash.new
     edOrg["id"]       = state_id
-    edOrg["courses"]  = []
+    edOrg["courses"]  = create_courses(yaml)
     edOrg["staff"]    = []
+    edOrg["programs"] = []
     @edOrgs["seas"]  << edOrg
     
     @edOrgs["leas"].each do |edOrg| 
@@ -293,13 +300,15 @@ class WorldBuilder
   end
 
   # writes ed-fi xml interchanges
-  def write_interchanges(rand)
-    write_education_organization_interchange(rand)
+  def write_interchanges(rand, yaml)
+    write_education_organization_interchange(rand, yaml)
+    write_education_org_calendar_interchange(rand, yaml)
   end
 
   # close all file handles used for writing ed-fi xml interchanges
   def close_interchanges
     @education_organization_writer.close
+    @education_org_calendar_writer.close
   end
 
   # writes ed-fi xml interchange: education organization
@@ -309,10 +318,11 @@ class WorldBuilder
   # - School [Elementary, Middle, High]
   # - [not yet implemented] Course
   # - [not yet implemented] Program
-  def write_education_organization_interchange(rand)
+  def write_education_organization_interchange(rand, yaml)
     # write state education agencies
     @edOrgs["seas"].each do |edOrg|
       @education_organization_writer.create_state_education_agency(rand, edOrg["id"])
+      write_courses(rand, DataUtility.get_state_education_agency_id(edOrg["id"]), edOrg["courses"])
     end
     # write local education agencies
     @edOrgs["leas"].each do |edOrg|
@@ -328,6 +338,59 @@ class WorldBuilder
     @edOrgs["high"].each do |edOrg|
       @education_organization_writer.create_school(rand, edOrg["id"], edOrg["parent"], "high")
     end
+  end
+
+  def write_education_org_calendar_interchange(rand, yaml)
+  end
+
+  # creates courses at the state education agency by populating a 'course catalog'
+  # initially assumes a very simple course model
+  # -> each grade contains Science, Math, English, and History
+  # -> no honors or multiple course paths
+  def create_courses(yaml)
+    courses = Hash.new
+    course_counter = 0
+    GradeLevelType::get_ordered_grades.each do |grade|
+      current_grade_courses = Array.new
+      if !yaml[grade.to_s + "_COURSES"].nil?
+        yaml[grade.to_s + "_COURSES"].each do |course|
+          current_grade_course = Hash.new
+          course_counter += 1
+          current_grade_course["id"] = course_counter
+          current_grade_course["title"] = course
+          current_grade_courses << current_grade_course
+        end
+      else
+        current_grade_course = Hash.new
+        course_counter += 1
+        current_grade_course["id"] = course_counter
+        current_grade_course["title"] = GradeLevelType.get(grade)
+        current_grade_courses << current_grade_course
+      end
+      courses[grade] = current_grade_courses
+    end
+    courses
+  end
+
+  # writes the courses at the state education agency to the education organization interchange
+  def write_courses(rand, edOrgId, courses)
+    courses.each do |key, value|
+      grade = GradeLevelType.get(key)
+      value.each do |course|
+        id = DataUtility.get_course_unique_id(course["id"])
+        if GradeLevelType.is_elementary_school_grade(key)
+          title = grade
+        else
+          title = grade + " " + course["title"]
+        end
+        @education_organization_writer.create_course(rand, id, title, edOrgId)
+      end
+    end
+  end
+
+  # writes the sessions at each local education agency to the education organization calendar interchange
+  # -> will also check to see if schools have extended district-level session
+  def write_sessions(rand, edOrgId, sessions)
   end
 
   # computes a random number on the interval [min, max]

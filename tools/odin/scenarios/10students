@@ -4,6 +4,7 @@ beginYear: 2001
 numYears: 3
 
 # Example of other configuration
+# (11/21/2012 shalka: i'm going to be removing these very soon)
 numSEA: 1
 numLEA: 1
 studentsPerSchool: 10
@@ -27,3 +28,12 @@ AVERAGE_NUM_STUDENTS_THRESHOLD: 0.50
 # -> resource: http://nces.ed.gov/pubs2009/2009320.pdf (Table 1, page 7)
 AVERAGE_NUM_SCHOOLS_PER_DISTRICT: 5
 AVERAGE_SCHOOLS_THRESHOLD: 0.60
+
+# Course Catalog (currently published at State Education Agency level)
+SIXTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+SEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+EIGHTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+NINTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+TENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+ELEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
