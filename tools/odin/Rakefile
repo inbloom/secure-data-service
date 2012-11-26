@@ -36,6 +36,10 @@ end
 
 desc "Run all the specs"
 task :test do
+  if File.exists?("generated") == false
+    Dir.mkdir("generated", 0755)
+  end
+
   Rake::Task['student_builder'].execute
   Rake::Task['odin'].execute
   Rake::Task['validator'].execute
