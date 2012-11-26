@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.jgen;
 
+/**
+ * Enumerate Java collection types.
+ */
 public enum JavaCollectionKind {
     /**
      *

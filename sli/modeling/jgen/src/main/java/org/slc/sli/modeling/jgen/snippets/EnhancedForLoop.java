@@ -23,6 +23,9 @@ import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Models Java for loop.
+ */
 public final class EnhancedForLoop implements JavaSnippet {
 
     private final JavaParam param;

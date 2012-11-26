@@ -23,6 +23,9 @@ import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 
+/**
+ * Returns a new class
+ */
 public final class ReturnNewClassTypeSnippet implements JavaSnippet {
 
     private final JavaType classType;

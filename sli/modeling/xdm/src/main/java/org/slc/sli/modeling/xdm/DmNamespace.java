@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model namespace.
+ */
 public final class DmNamespace implements DmNode {
 
     private final QName prefix;

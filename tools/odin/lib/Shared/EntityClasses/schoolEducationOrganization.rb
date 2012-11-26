@@ -16,27 +16,22 @@ limitations under the License.
 
 =end
 
-require 'mustache'
-require_relative './baseEntity.rb'
 
-class CourseOffering < BaseEntity
+require_relative 'baseEntity.rb'
 
-  attr_accessor :id, :edOrg
+class SchoolEducationOrganization < BaseEntity
 
-  def initialize(id, edOrg)
+  def initialize(id, leaId, rand)
     @id = id
-    @edOrg = edOrg
+    @leaId = leaId
+    @rand = rand
   end
 
-  def edOrgId
-   3000
-   end
-   
-   def session
-     "new session FIXME"
-   end
-   
-   def uniqueCourseId
-     "fixme course Id"
-   end
+  def stateOrgId
+    "school#{@id}"
+  end
+
+  def leaId
+    "lea#{@leaId}"
+  end
 end

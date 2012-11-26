@@ -1,4 +1,4 @@
-{{! 
+{{!
 Copyright 2012 Shared Learning Collaborative, LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,35 +13,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
+{{#students}}
 <Student>
   <StudentUniqueStateId>{{id}}</StudentUniqueStateId>
   <Name>
     {{#prefix}}
-      <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
+    <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
     {{/prefix}}
     <FirstName>{{firstName}}</FirstName>
     {{#middleName}}
-      <MiddleName>{{middleName}}</MiddleName>
+    <MiddleName>{{middleName}}</MiddleName>
     {{/middleName}}
     <LastSurname>{{lastName}}</LastSurname>
     {{#suffix}}
-      <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
+    <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
     {{/suffix}}
   </Name>
   {{#otherName}}
-    <OtherName OtherNameType="{{otherNameType}}">
-      {{#prefix}}
-        <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
-      {{/prefix}}
-      <FirstName>{{firstName}}</FirstName>
-      {{#middleName}}
-        <MiddleName>{{middleName}}</MiddleName>
-      {{/middleName}}
-      <LastSurname>{{lastName}}</LastSurname>
-      {{#suffix}}
-        <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
-      {{/suffix}}
-    </OtherName>
+  <OtherName OtherNameType="{{otherNameType}}">
+    {{#prefix}}
+    <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
+    {{/prefix}}
+    <FirstName>{{firstName}}</FirstName>
+    {{#middleName}}
+    <MiddleName>{{middleName}}</MiddleName>
+    {{/middleName}}
+    <LastSurname>{{lastName}}</LastSurname>
+    {{#suffix}}
+    <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
+    {{/suffix}}
+  </OtherName>
   {{/otherName}}
   <Sex>{{sex}}</Sex>
   <BirthData>
@@ -58,31 +59,33 @@ limitations under the License.
   </ElectronicMail>
   <HispanicLatinoEthnicity>{{hispanicLatino}}</HispanicLatinoEthnicity>
   {{#oldEthnicity}}
-    <OldEthnicity>{{oldEthnicity}}</OldEthnicity>
+  <OldEthnicity>{{oldEthnicity}}</OldEthnicity>
   {{/oldEthnicity}}
   {{#race}}
-    <Race>
-      <RacialCategory>{{race}}</RacialCategory>
-    </Race>
+  <Race>
+    <RacialCategory>{{race}}</RacialCategory>
+  </Race>
   {{/race}}
   {{#economicDisadvantaged}}
-    <EconomicDisadvantaged>{{economicDisadvantaged}}</EconomicDisadvantaged>
+  <EconomicDisadvantaged>{{economicDisadvantaged}}</EconomicDisadvantaged>
   {{/economicDisadvantaged}}
   {{#schoolFood}}
-    <SchoolFoodServicesEligibility>{{schoolFood}}</SchoolFoodServicesEligibility>
+  <SchoolFoodServicesEligibility>{{schoolFood}}</SchoolFoodServicesEligibility>
   {{/schoolFood}}
   {{#limitedEnglish}}
-    <LimitedEnglishProficiency>{{limitedEnglish}}</LimitedEnglishProficiency>
+  <LimitedEnglishProficiency>{{limitedEnglish}}</LimitedEnglishProficiency>
   {{/limitedEnglish}}
   {{#section504disabilities}}
-    <Section504Disabilities>
-      <Section504Disability>{{disability}}</Section504Disability>
-    </Section504Disabilities>
+  <Section504Disabilities>
+    <Section504Disability>{{disability}}</Section504Disability>
+  </Section504Disabilities>
   {{/section504disabilities}}
   {{#displacementStatus}}
-    <DisplacementStatus>{{displacementStatus}}</DisplacementStatus>
+  <DisplacementStatus>{{displacementStatus}}</DisplacementStatus>
   {{/displacementStatus}}
   {{#loginId}}
-    <LoginId>{{loginId}}</LoginId>
+  <LoginId>{{loginId}}</LoginId>
   {{/loginId}}
 </Student>
+{{/students}}
+

@@ -65,13 +65,7 @@ public final class JavaFeature {
     }
 
     public boolean isExposed(final JavaGenConfig config) {
-        if (isAttribute()) {
-            return true;
-        } else if (isNavigable()) {
-            return true;
-        } else {
-            return false;
-        }
+        return isAttribute() || isNavigable();
     }
 
     public String getPrimeTypeName(final JavaGenConfig config) {

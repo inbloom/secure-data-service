@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model comment.
+ */
 public final class DmComment implements DmNode {
 
     protected static final QName NO_NAME = new QName("");

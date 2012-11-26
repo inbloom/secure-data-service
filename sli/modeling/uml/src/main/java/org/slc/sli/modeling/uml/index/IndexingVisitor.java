@@ -71,9 +71,6 @@ class IndexingVisitor implements Visitor {
      */
     private final LinkedList<String> scope = new LinkedList<String>();
     
-    /**
-     * FIXME: This is bad. Not doing one thing well and too much in same name-space.
-     */
     @Deprecated
     private final Map<QName, Set<ModelElement>> nameMap = new HashMap<QName, Set<ModelElement>>();
     private final Map<QName, TagDefinition> tagDefinitionsByName = new HashMap<QName, TagDefinition>();

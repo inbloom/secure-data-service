@@ -16,11 +16,21 @@ limitations under the License.
 
 =end
 
+require_relative 'baseEntity.rb'
 
-class DeveloperApproval
-  @@j = ActiveSupport::JSON
+class LeaEducationOrganization < BaseEntity
 
-  def initialize
+  def initialize(id, seaId, rand)
+    @id = id
+    @seaId = seaId
+    @rand = rand
   end
 
+  def stateOrgId
+    "lea#{@id}"
+  end
+
+  def seaId
+    "sea#{@seaId}"
+  end
 end

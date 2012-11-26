@@ -17,11 +17,6 @@
 
 package org.slc.sli.modeling.tools.xmi2Psm.cmdline;
 
-import java.io.FileNotFoundException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.slc.sli.modeling.psm.PsmCollection;
 import org.slc.sli.modeling.psm.PsmConfig;
 import org.slc.sli.modeling.psm.PsmConfigWriter;
@@ -35,28 +30,33 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * A utility for generating an initial definition of the platform specific model.
- *
+ * <p/>
  * The classes in the UML model become documents. These can be pruned manually.
  */
 public final class PsmCreator {
 
     private static final Logger LOG = LoggerFactory.getLogger(PsmCreator.class);
 
-	public static final String DEFAULT_INPUT_XMI_FILENAME = "SLI.xmi";
-	public static final String DEFAULT_OUTPUT_XML_FILENAME = "documents.xml";
-	
-	public PsmCreator() {
-		throw new UnsupportedOperationException();
-	}
-	
+    public static final String DEFAULT_INPUT_XMI_FILENAME = "SLI.xmi";
+    public static final String DEFAULT_OUTPUT_XML_FILENAME = "documents.xml";
+
+    public PsmCreator() {
+        throw new UnsupportedOperationException();
+    }
+
     public static void main(final String[] args) {
-        
-    	String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_XMI_FILENAME;
-    	String outputFilename = (args.length == 2) ? args[1] : DEFAULT_OUTPUT_XML_FILENAME;
-    	
-    	try {
+
+        String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_XMI_FILENAME;
+        String outputFilename = (args.length == 2) ? args[1] : DEFAULT_OUTPUT_XML_FILENAME;
+
+        try {
             final Model model = XmiReader.readModel(inputFilename);
             final PsmConfig<Type> psm = convert(model);
             PsmConfigWriter.writeConfig(psm, model, outputFilename);

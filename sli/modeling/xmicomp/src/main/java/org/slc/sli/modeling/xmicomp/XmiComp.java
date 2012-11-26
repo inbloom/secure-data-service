@@ -246,7 +246,7 @@ public final class XmiComp {
         if (classTypes.containsKey(type)) {
             final ClassType classType = classTypes.get(type);
             final String umlClassName = classType.getName();
-            // FIXME: Horribly inefficient to recalculate this.
+            // Horribly inefficient to recalculate this.
             final Map<CaseInsensitiveString, Feature> features = computeFeatures(classType, model);
             final CaseInsensitiveString name = new CaseInsensitiveString(mapFeatureName);
             if (features.containsKey(name)) {

@@ -21,6 +21,8 @@ import org.slc.sli.modeling.rest.Application;
 /**
  * Maintains the relationship between a model and where it was located in order to resolve
  * references.
+ *
+ * @param <T>
  */
 public final class Wadl<T> {
 

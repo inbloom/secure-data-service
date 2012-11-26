@@ -23,6 +23,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model element.
+ */
 public final class DmElement implements DmNode {
 
     private static final List<DmNode> EMPTY_CHILD_AXIS = Collections.emptyList();
@@ -56,6 +59,6 @@ public final class DmElement implements DmNode {
 
     @Override
     public String getStringValue() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException("getStringValue() is not supported by DmElement");
     }
 }

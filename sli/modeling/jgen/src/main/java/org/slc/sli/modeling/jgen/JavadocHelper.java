@@ -24,6 +24,9 @@ import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+/**
+ * Model Java Javadoc comments.
+ */
 public final class JavadocHelper {
 
     public static final void writeJavadoc(final ModelElement element, final ModelIndex model, final JavaStreamWriter jsw)

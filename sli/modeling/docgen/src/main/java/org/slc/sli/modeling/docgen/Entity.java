@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @param <TYPE> Feature type.
+ */
 public final class Entity<TYPE> {
     private final String title;
     private final TYPE type;
@@ -28,10 +32,10 @@ public final class Entity<TYPE> {
     
     public Entity(final String title, final TYPE type, final List<Diagram> diagrams) {
         if (title == null) {
-            throw new NullPointerException("title");
+            throw new IllegalArgumentException("title");
         }
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         this.title = title;
         this.type = type;

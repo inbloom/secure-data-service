@@ -1,8 +1,16 @@
-raceDistribution: [["White", 60], ["Black", 15], ["Asian", 5], ["Hispanic", 20]]
+raceDistribution: [['American Indian - Alaskan Native', 1], ['Asian', 7], ['Black - African American', 15], ['Native Hawaiian - Pacific Islander', 2], ['White', 75]]
 hispanicLatinoDist: [[true, 20], [false, 80]]
+economicDisadvantaged: [[true, 10], [false, 90]]
+schoolFood: [['Free', 5], ['Full price', 70], ['Reduced price', 10], ['Unknown', 15]]
+disability: [[true, 5], [false, 95]]
+limitedEnglish: [['Limited', 3], ['Limited Monitored 1', 2], ['Limited Monitored 2', 1], ['NotLimited', 94]]
+street: ["North Street", "South Lane", "East Rd", "West Blvd", "Oak Street", "Braeburn Lane", "Elm Street", "Cherry Rd", "Martin Luther King Jr Blvd", "Marks Ct"]
 city: "New York"
 state: "NY"
 postalCode: "10292"
+sex: ["Male", "Female"]
+emailSuffix: "@fakemail.com"
+nameSuffix: [['Jr', 1], ['', 99]]
 maleNames: [
   'James', 'John', 'Robert', 'Michael', 'William', 'David', 'Richard', 'Charles', 'Joseph', 'Thomas', 'Christopher', 'Daniel', 'Paul', 'Mark', 'Donald',
   'George', 'Kenneth', 'Steven', 'Edward', 'Brian', 'Ronald', 'Anthony', 'Kevin', 'Jason', 'Matthew', 'Gary', 'Timothy', 'Jose', 'Larry', 'Jeffrey',

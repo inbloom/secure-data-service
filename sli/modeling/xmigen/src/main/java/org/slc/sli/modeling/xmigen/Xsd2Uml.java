@@ -18,6 +18,12 @@ package org.slc.sli.modeling.xmigen;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.slc.sli.modeling.uml.Model;
 
+/**
+ * A utility class that can transform an XML schema to UML.
+ * 
+ * @author kmyers
+ *
+ */
 public final class Xsd2Uml {
     public static final Model transform(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
         final Model model01 = Xsd2UmlConvert.extract(name, schema, plugin);

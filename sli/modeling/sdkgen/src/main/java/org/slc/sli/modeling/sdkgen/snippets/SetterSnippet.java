@@ -36,6 +36,9 @@ import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 import org.slc.sli.modeling.jgen.snippets.NotEqual;
 import org.slc.sli.modeling.jgen.snippets.Word;
 
+/**
+ * Model a Java setter
+ */
 public final class SetterSnippet implements JavaSnippet {
 
     /**
