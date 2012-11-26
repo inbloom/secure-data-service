@@ -15,12 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-#require_relative 'spec_helper'
 require_relative '../lib/EntityCreation/student_builder.rb'
-#require_relative '../lib/Shared/demographics.rb'
-
-
-#Broken with recent refactor -- enable once everything is in place
 
 describe "StudentBuilder" do
   context "Instantiate StudentBuilder and Student" do
@@ -64,7 +59,7 @@ describe "StudentBuilder" do
     end
     
     it "should have a login id that ends in fakemail.com" do
-      build.loginId.should match (/.*?@fakemail.com/)
+      build.loginId.should match(/.*?@fakemail.com/)
     end
     
     it "should have a valid address in demographics" do
@@ -118,63 +113,5 @@ describe "StudentBuilder" do
       build.distributionTester(suMethod, 'Jr', 1, 19, 1000).should eq("true")
     end
   end
-
-=begin
- 
-  describe "#build" do
-    context "With new student credentials" do
-      let(:work_order) {{:id => 42, :sessions => [{:school => 64, :sections => [{:id => 32, :edOrg => 64},
-                                                                                  {:id => 33, :edOrg => 64},
-                                                                                  {:id => 34, :edOrg => 128}]},
-                                                    {:school => 65, :sections => [{:id => 16, :edOrg => 65},
-                                                                                  {:id => 17, :edOrg => 65}]}],
-                                    :demographics => Demographics.new,
-                                    :birth_day_after => Date.new(2000, 9, 1)}}
-      let(:studentParent) {StringIO.new('', 'w')}
-      let(:enrollment) {StringIO.new('', 'w')}
-      let(:build) {StudentBuilder.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}
-      before {builder.build}
-      
-      
-      let(:new_id) {52}
-      let(:newDemographics) {Demographics.new}
-      let(:newRand) {Random.new(new_id)}
-      let(:newBirthDay) {Date.new(1999, 1, 12)}
-      let(:newStudent) {Student.new(new_id, newBirthDay, newDemographics, newRand)}      
- 
-    context 'With a simple work order' do
-      let(:work_order) {{:id => 42, :sessions => [{:school => 64, :sections => [{:id => 32, :edOrg => 64},
-                                                                                  {:id => 33, :edOrg => 64},
-                                                                                  {:id => 34, :edOrg => 128}]},
-                                                    {:school => 65, :sections => [{:id => 16, :edOrg => 65},
-                                                                                  {:id => 17, :edOrg => 65}]}],
-                                    :demographics => Demographics.new,
-                                    :birth_day_after => Date.new(2000, 9, 1)}}
-      let(:studentParent) {StringIO.new('', 'w')}
-      let(:enrollment) {StringIO.new('', 'w')}
-      let(:builder) {StudentBuilder.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}
-      before {builder.build}
-
-      it "will build student documents with the given student id" do
-        studentParent.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
-      end
-
-      it "will have the right number of schools associations" do
-        enrollment.string.lines.select{|l| l.match('<StudentSchoolAssociation>')}.length.should eq(2)
-      end
-
-      it "will have the right number of section associations" do
-        enrollment.string.lines.select{|l| l.match('<StudentSectionAssociation>')}.length.should eq(5)
-      end
-
-      it "will find a school with the correct school ids" do
-        work_order[:sessions].each do |session|
-          school_id = session[:school]
-          enrollment.string.match("<StateOrganizationId>school#{school_id}</StateOrganizationId>").should_not be_nil
-        end
-      end
-    end
-  end
-=end
 end
 
