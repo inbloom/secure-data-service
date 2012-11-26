@@ -120,6 +120,7 @@ And I see an application "Schlemiel" in the table
 Then application "Schlemiel" is pending approval
 When I click on 'Approve' next to application "Schlemiel"
 Then application "Schlemiel" is registered
+And I exit out of the iframe
 And I click on log out
 
 Scenario: App developer enables the new Installed app and Full window web app
