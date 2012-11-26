@@ -330,9 +330,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
      */
     private boolean isReferenceType(XmlSchemaComplexType complexType) {
 
-        String baseName = extractBaseTypeName(complexType);
-
-
         if (complexType.getName().contains(REFERENCE_TYPE)) {
             return true;
         }

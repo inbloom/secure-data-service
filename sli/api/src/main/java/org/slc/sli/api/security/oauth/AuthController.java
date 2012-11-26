@@ -207,8 +207,7 @@ public class AuthController {
         return new ResponseEntity<String>(response, headers, HttpStatus.OK);
     }
 
-    // Defect: DE2199
-    // TODO: Normally we would let the ExceptionHandler for OauthAccessException handle the
+    // Normally we would let the ExceptionHandler for OauthAccessException handle the
     // exception automatically, but since it gets thrown as part of a Spring request handler
     // and not jax-rs, it doesn't get invoked automatically.
     private ResponseEntity<String> handleAccessException(OAuthAccessException e) {

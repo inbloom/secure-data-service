@@ -33,6 +33,7 @@ class ForgotPasswordsControllerTest < ActionController::TestCase
   end
 
   test "should create forgot_password" do
+    APP_LDAP_CLIENT.stubs(:read_user_resetkey).returns({})
     post :create, forgot_password: { token: @forgot_password.token, new_pass: @forgot_password.new_pass, confirmation: @forgot_password.confirmation }
     assert_response :success
   end

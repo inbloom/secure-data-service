@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+# base entity
 class BaseEntity
   def choose(options)
     options[@rand.rand(options.size) - 1]
