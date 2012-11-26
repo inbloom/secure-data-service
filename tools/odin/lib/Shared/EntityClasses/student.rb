@@ -17,7 +17,8 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
-require_relative '../demographics'
+require_relative '../../EntityCreation/student_builder'
+#require_relative '../demographics'
 
 class Student < BaseEntity
   
@@ -52,22 +53,4 @@ class Student < BaseEntity
     @race =  wChoose(@demographics.raceDistribution)
   end
 
-  def distributionTester(inMethod, tracer, lo, hi, iters)
-    i = 0
-    hit = 0
-    while i < iters do
-      if inMethod.call == tracer
-        hit += 1
-      end
-      i += 1
-    end
-    
-    if hit.between?(lo, hi)
-      puts "THE HIT RATIO WAS WITHIN EXPECTED VALUES. #{tracer} was #{hit}/#{iters}."
-      return "true"
-    else
-      puts "FAIL. #{tracer} came back #{hit} times out of #{iters}"
-      return "false"
-    end
-  end
 end
