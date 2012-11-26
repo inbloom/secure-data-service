@@ -114,11 +114,11 @@ And I switch to the iframe
 And I am redirected to the Application Registration Approval Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table
 Then application "NotTheAppYoureLookingFor" is pending approval
-And I click on the "Approve" button next to it
+When I click on 'Approve' next to application "NotTheAppYoureLookingFor"
 Then application "NotTheAppYoureLookingFor" is registered
 And I see an application "Schlemiel" in the table
 Then application "Schlemiel" is pending approval
-And I click on the "Approve" button next to it
+When I click on 'Approve' next to application "Schlemiel"
 Then application "Schlemiel" is registered
 And I click on log out
 
