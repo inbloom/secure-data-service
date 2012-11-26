@@ -46,7 +46,7 @@ end
 
 desc "Run DataBrowser RC Test"
 task :rcDataBrowserTests do
-  runTests("test/features/cross_app_tests/rc_databrowser_simple_detail_view.feature")
+  runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
 end
 
 desc "Run session share tests between Dashboard and Databrowser"
