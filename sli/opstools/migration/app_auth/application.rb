@@ -59,9 +59,28 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   @log.info "migrated application #{app_auth['_id']} #{app_auth['body']['name']}"
 }
 
+@db[:applicationAuthorization].find({}).each { |auth|
+    @log.info "starting migration applicationAuthorization #{auth['_id']}"
+    auth_id = auth['body']['authId']
+
+    unless auth_id.nil?
+        ed_org = @db[:educationOrganization].find_one({"_id" => auth_id})
+
+        unless ed_org.nil?
+            stateOrganizationId = ed_org['body']['stateOrganizationId']
+            tenantId = ed_org['metaData']['tenantId']
+            entityType = 'educationOrganization'
+            @log.info "keys: #{entityType}, #{tenantId}, #{stateOrganizationId}"
+
+            sha1_hash = get_sha1_hash(entityType, tenantId, stateOrganizationId)
+            new_id = "#{sha1_hash}_id"
+
+            @db[:applicationAuthorization].update({'_id' => auth['_id']}, '$set' => {'body.authId' => new_id})
+            @log.info "converted : #{auth_id} -> #{new_id}"
+        end
+    end
+
+    @log.info "migrated applicationAuthorization #{auth['_id']}"
+}
+
 @log.info "Finished migration."
-
-#temp = Digest::SHA1.hexdigest 'educationOrganization|~Midgar|~IL|~'
-
-#value = get_sha1_hash("educationOrganization", "Midgar", "IL")
-#puts "hash : #{value}"
