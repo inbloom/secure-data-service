@@ -28,6 +28,13 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -56,13 +63,6 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -122,22 +122,17 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (newBatchJob.getTenantId() != null) {
+            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
-                if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
+                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-                    controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+                auditSecurityEvent(controlFile);
 
-                    auditSecurityEvent(controlFile);
-
-                } else {
-                    LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
-                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
-                }
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
             }
+
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
 

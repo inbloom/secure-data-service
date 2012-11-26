@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates each grade level for when a student started at a given school. From Ed-Fi-Core.xsd: 
 # <xs:simpleType name="GradeLevelType"> 
 #   <xs:annotation>
@@ -71,4 +73,44 @@ class GradeLevelType
   GradeLevelType.define :TRANSITIONAL_KINDERGARTEN, "Transitional Kindergarten"
   GradeLevelType.define :TWELFTH_GRADE, "Twelfth grade"
   GradeLevelType.define :UNGRADED, "Ungraded"
+
+  # translates the specified Symbol into the String representation of the grade level
+  def self.get(key)
+    const_get(key)
+  end
+
+  # returns the set of elementary school grades (K - 5)
+  def self.elementary
+    [] << :KINDERGARTEN << :FIRST_GRADE << :SECOND_GRADE << :THIRD_GRADE << :FOURTH_GRADE << :FIFTH_GRADE
+  end
+
+  # returns the set of middle school grades (6 - 8)
+  def self.middle
+    [] << :SIXTH_GRADE << :SEVENTH_GRADE << :EIGHTH_GRADE
+  end
+
+  # returns the set of high school grades (9 - 12)
+  def self.high
+    [] << :NINTH_GRADE << :TENTH_GRADE << :ELEVENTH_GRADE << :TWELFTH_GRADE
+  end
+
+  # returns a set of ordered grades (K - 12)
+  def self.get_ordered_grades
+    (elementary << middle << high).flatten
+  end
+
+  # returns true if the specified grade is an elementary school grade, false otherwise
+  def self.is_elementary_school_grade(grade)
+    elementary.include? grade
+  end
+
+  # returns true if the specified grade is a middle school grade, false otherwise
+  def self.is_middle_school_grade(grade)
+    middle.include? grade
+  end
+
+  # returns true if the specified grade is a high school grade, false otherwise
+  def self.is_high_school_grade(grade)
+    high.include? grade
+  end
 end

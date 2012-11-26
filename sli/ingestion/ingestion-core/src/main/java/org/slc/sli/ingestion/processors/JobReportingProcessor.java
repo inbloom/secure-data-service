@@ -284,12 +284,8 @@ public class JobReportingProcessor implements Processor {
             PrintWriter errorWriter = null;
             try {
                 errorWriter = getErrorWriter(fileType, job.getId(), externalResourceId, landingZone);
-                if (errorWriter != null) {
-                    for (Error error : errors) {
-                        writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
-                    }
-                } else {
-                    LOG.error("Unable to write to error file for: {} {}", job.getId(), externalResourceId);
+                for (Error error : errors) {
+                    writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
                 }
             } catch (IOException e) {
                 LOG.error("Unable to write error file for: {}", job.getId(), e);
