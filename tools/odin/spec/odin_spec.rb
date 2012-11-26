@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+require 'equivalent-xml'
 require_relative 'spec_helper'
 require_relative '../lib/odin.rb'
 
@@ -49,6 +50,24 @@ describe "Odin" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
       end
     end
+
+    doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml" ) )
+    baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/InterchangeStudent.xml" ) )
+    let(:matches) {EquivalentXml.equivalent?(doc, baseline)}
+
+    describe "#generate" do
+      it "will compare the output to baseline" do
+        matches.should eq(true)
+      end
+    end
+
+  end
+
+  context "validate 10 student configuration matches baseline" do
+    let(:odin) {Odin.new}
+    before {odin.generate "10students"}
+    let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml"}
+
   end
 
   context "with a 10001 student configuration" do
@@ -62,6 +81,5 @@ describe "Odin" do
       end
     end
   end
-
 
 end
