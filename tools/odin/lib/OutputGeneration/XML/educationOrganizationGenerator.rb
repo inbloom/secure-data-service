@@ -91,11 +91,8 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # writes header to education organization interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize
-    @header = build_header("EducationOrganization")
+    @header, @footer = build_header_footer("EducationOrganization")
     
-    @footer = <<-FOOTER
-</InterchangeEducationOrganization>
-FOOTER
     @handle = File.new("generated/InterchangeEducationOrganization.xml", 'w')
     @handle.write(@header)
 
