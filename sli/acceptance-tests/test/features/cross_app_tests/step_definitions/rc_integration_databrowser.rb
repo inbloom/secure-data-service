@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative '../../simple_idp/step_definitions/MockIDP_steps.rb'
+
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
