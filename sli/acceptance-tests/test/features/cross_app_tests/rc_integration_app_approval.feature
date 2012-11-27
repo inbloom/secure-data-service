@@ -79,8 +79,8 @@ And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
 And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
 And I entered the name "1.0" into the field titled "Version"
-And I entered the name "http://localhost" into the field titled "Application_URL"
-And I entered the name "http://localhost/redirect" into the field titled "Redirect_URI"
+And I entered the name "http://www.google.com" into the field titled "Application_URL"
+And I entered the name "http://wwww.google.com" into the field titled "Redirect_URI"
 And I select the app display method to "Full Window App" 
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
@@ -286,16 +286,14 @@ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "SLC Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
-
-Then my current url is "https://localhost/"
-#URL specified during app creation: http://localhost/
-#Then my current url is "http://localhost/"	
+Then my current url is "http://wwww.google.com"	
 
 Scenario: User logs into recently created installed app
 #We cannot use the portal to access the installed app, since you cannot navigate to a URL to use it
 Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
-When I selected the realm "Daybreak Test Realm"
+#When I selected the realm "Daybreak Test Realm"
+When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 Then I should receive a json response containing my authorization code
