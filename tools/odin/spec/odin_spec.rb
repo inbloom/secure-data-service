@@ -34,10 +34,24 @@ describe "Odin" do
     it "will compare the output to baseline" do
       odin = Odin.new
       odin.generate( nil )
-      doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml" ) )
-      baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/InterchangeStudent.xml" ) )
+      for f in Dir.entries(File.new "#{File.dirname(__FILE__)}/../generated") do
+        if (f.end_with?(".xml") || f.end_with?(".ctl"))
+          doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/#{f}" ) )
 
-      doc.should be_equivalent_to(baseline)
+          # ensure there are no extra generated files without a corresponding baseline
+          # as a hedge against adding files without a corresponding baseline.
+          File.exists?("#{File.dirname(__FILE__)}/test_data/baseline/#{f}").should be TRUE
+
+          baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/#{f}" ) )
+          doc.should be_equivalent_to(baseline)
+        end
+      end
+      # ensure there are no missing generated files.
+      for f in Dir.entries(File.new "#{File.dirname(__FILE__)}/test_data/baseline") do
+        if (f.end_with?(".xml") || f.end_with?(".ctl"))
+          File.exists?("#{File.dirname(__FILE__)}/../generated/#{f}").should be TRUE
+        end
+      end
     end
   end
 
