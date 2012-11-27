@@ -253,11 +253,6 @@
 		<graph>learningStyless</graph>
 		<singular>learningStyles</singular>
 	</document>
-	<document name="LeaveEvent">
-		<class name="LeaveEvent"></class>
-		<graph>leaveEvents</graph>
-		<singular>leaveEvent</singular>
-	</document>
 	<document name="MiscellaneousEvent">
 		<class name="MiscellaneousEvent"></class>
 		<graph>miscellaneousEvents</graph>
@@ -272,11 +267,6 @@
 		<class name="ObjectiveAssessment"></class>
 		<graph>objectiveAssessments</graph>
 		<singular>objectiveAssessment</singular>
-	</document>
-	<document name="OpenStaffPosition">
-		<class name="OpenStaffPosition"></class>
-		<graph>openStaffPositions</graph>
-		<singular>openStaffPosition</singular>
 	</document>
 	<document name="OtherName">
 		<class name="OtherName"></class>
