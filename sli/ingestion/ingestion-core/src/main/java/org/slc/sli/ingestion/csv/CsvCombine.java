@@ -56,7 +56,6 @@ public class CsvCombine {
         }
     }
 
-    // TODO Can be optimized
     public List<NeutralRecord> getNeutralRecordsFromCollection(String entityName) {
         PRINT_STREAM.println("importing from collection " + entityName);
 
@@ -120,7 +119,7 @@ public class CsvCombine {
                 continue;
             }
 
-            String curVal = (String) "" + dbElement.get(curKey);
+            String curVal = "" + dbElement.get(curKey);
             addMapEntry(curKey, curVal, result);
 
             /**
@@ -205,86 +204,12 @@ public class CsvCombine {
         int numEntities = 53;
         numEntities = 1;
         String[] entities = new String[numEntities];
-        /**
-         * entities[0] = "AcademicWeek";
-         * entities[1] = "Account";
-         * entities[2] = "Actual";
-         * entities[3] = "Assessment";
-         * entities[4] = "AssessmentFamily";
-         * entities[5] = "AssessmentItem";
-         * entities[6] = "AttendanceEvent";
-         * entities[7] = "BellSchedule";
-         * entities[8] = "Budget";
-         * entities[9] = "CalendarDate";
-         * entities[10] = "ClassPeriod";
-         * entities[11] = "Cohort";
-         * entities[12] = "ContractedStaff";
-         * entities[13] = "Course";
-         * entities[14] = "CourseOffering";
-         * entities[15] = "CourseTranscript";
-         * entities[16] = "Diploma";
-         * entities[17] = "DisciplineAction";
-         * entities[18] = "DisciplineIncident";
-         * entities[19] = "EducationOrganization";
-         * entities[20] = "EducationServiceCenter";
-         * entities[21] = "Grade";
-         * entities[22] = "GradebookEntry";
-         * entities[23] = "GradingPeriod";
-         * entities[24] = "GraduationPlan";
-         * entities[25] = "LearningObjective";
-         * entities[26] = "LearningStandard";
-         * entities[27] = "LeaveEvent";
-         * entities[28] = "LocalEducationAgency";
-         * entities[29] = "Location";
-         * entities[30] = "MeetingTime";
-         * entities[31] = "ObjectiveAssessment";
-         * entities[32] = "OpenStaffPosition";
-         * entities[33] = "Parent";
-         * entities[34] = "Payroll";
-         * entities[35] = "PostSecondaryEvent";
-         * entities[36] = "Program";
-         * entities[37] = "ReportCard";
-         * entities[38] = "School";
-         * entities[39] = "RestraintEvent";
-         * entities[40] = "Section";
-         * entities[41] = "Session";
-         * entities[42] = "Staff";
-         * entities[43] = "StateEducationAgency";
-         */
         entities[0] = "Student";
-        /**
-         * entities[45] = "StudentAcademicRecord";
-         * entities[46] = "StudentAssessment";
-         * entities[47] = "StudentAssessmentItem";
-         * entities[48] = "StudentCompetency";
-         * entities[49] = "StudentCompetencyObjective";
-         * entities[50] = "StudentGradebookEntry";
-         * entities[51] = "StudentObjectiveAssessment";
-         * entities[52] = "Teacher";
-         */
 
         int numAssociations = 16;
         numAssociations = 1;
         String[] associations = new String[numAssociations];
 
-        /**
-         * associations[0] = "FeederSchoolAssociation";
-         * associations[1] = "StaffCohortAssociation";
-         * associations[2] = "StaffEducationOrgAssignmentAssociation";
-         * associations[3] = "StaffEducationOrgEmploymentAssociation";
-         * associations[4] = "StaffProgramAssociation";
-         * associations[5] = "StudentCohortAssociation";
-         * associations[6] = "StudentCTEProgramAssociation";
-         * associations[7] = "StudentDisciplineIncidentAssociation";
-         * associations[8] = "StudentParentA53ssociation";
-         * associations[9] = "StudentProgramAssociation";
-         * associations[10] = "StudentSchoolAssociation";
-         * associations[11] = "StudentSectionAssociation";
-         * associations[12] = "StudentSpecialEdProgramAssociation";
-         * associations[13] = "StudentTitleIPartAProgramAssociation";
-         * associations[14] = "TeacherSchoolAssociation";
-         * associations[15] = "TeacherSectionAssociation";
-         */
         associations[0] = "EducationalOrgReferenceType";
 
         CsvCombine combiner = new CsvCombine();

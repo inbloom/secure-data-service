@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "TelephoneNumberType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of communication number listed for an individual.",
-  "xsd-type" : "token",
-  "symbols" : [ "Fax", "Home", "Mobile", "Other", "Unlisted", "Work" ]
-}

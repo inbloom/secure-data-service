@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative "Enum.rb"
+
 # Enumerates the types of grading periods available.
 # From Ed-Fi-Core.xsd:
 # <xs:simpleType name="GradingPeriodType">
@@ -68,4 +70,9 @@ class GradingPeriodType
   GradingPeriodType.define :THIRD_SIX_WEEKS, "Third Six Weeks"
   GradingPeriodType.define :THIRD_SUMMER_SESSION, "Third Summer Session"
   GradingPeriodType.define :THIRD_TRIMESTER, "Third Trimester"
+
+  # translates the specified Symbol into the String representation of the grading period type
+  def self.to_string(key)
+    const_get(key)
+  end
 end

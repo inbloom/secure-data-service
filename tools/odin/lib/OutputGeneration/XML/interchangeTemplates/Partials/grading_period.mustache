@@ -13,31 +13,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
-{{#session}}
-  <Session>
-    <SessionName>{{name}}</SessionName>
+{{#grading_period}}
+  <GradingPeriod>
+    <GradingPeriod>{{type}}</GradingPeriod>
     <SchoolYear>{{school_year}}</SchoolYear>
-    <Term>{{term}}</Term>
-    <BeginDate>{{begin_date}}</BeginDate>
-    <EndDate>{{end_date}}</EndDate>
-    <TotalInstructionalDays>{{num_school_days}}</TotalInstructionalDays>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    {{#grading_periods}}
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <GradingPeriod>{{type}}</GradingPeriod>
-        <BeginDate>{{begin_date}}</BeginDate>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-    {{/grading_periods}}
-  </Session>
-{{/session}}
+    <BeginDate>{{begin_date}}</BeginDate>
+    <EndDate>{{end_date}}</EndDate>
+    <TotalInstructionalDays>{{num_school_days}}</TotalInstructionalDays>
+    {{#calendar_dates}}
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>{{date}}</Date>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    {{/calendar_dates}}
+  </GradingPeriod>
+{{/grading_period}}

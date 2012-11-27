@@ -103,7 +103,7 @@
     <property name="scopes">
       <map>
         <entry key="thread">
-          <bean class="org.springframework.context.support.SimpleThreadScope" />
+          <bean class="org.slc.sli.common.util.scope.CustomThreadScope" />
         </entry>
       </map>
     </property>
