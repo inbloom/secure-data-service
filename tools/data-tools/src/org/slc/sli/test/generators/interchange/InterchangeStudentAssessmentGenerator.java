@@ -155,10 +155,10 @@ public class InterchangeStudentAssessmentGenerator {
         long count = 0;
        
         
-        if (AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM > 0) {
+        //if (AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM > 0) {
             for (SLCStudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
                 AssessmentItemMeta random = AssessmentMetaRelations.getRandomAssessmentItemMeta();
-                //if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
+                if ( Math.random()* 100  < AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) {
                 SLCStudentAssessmentItem studentAssessmentItem;
                     if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                         studentAssessmentItem = null;
@@ -173,17 +173,10 @@ public class InterchangeStudentAssessmentGenerator {
                         writer.marshal(studentAssessmentItem);
                         count++;
                     }
-                    
-                    
-//                     writer.marshal(studentAssessmentItem);
-//                    count++;
-                   // System.out.println("student assessmet item is generated or not");
                 }
             
-           }
+            }
             
-        //}
-
         System.out.println("generated " + count + " StudentAssessmentItem objects in: "
                 + (System.currentTimeMillis() - startTime));
     }

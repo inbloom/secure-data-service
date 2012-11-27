@@ -56,7 +56,6 @@ public class StaffCohortAssociationGenerator {
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         Set<String> staffIds = cohortMeta.staffIds;
        
-        	
         return generateLowFi(cohortId, staffIds, schoolId);
     }
 
@@ -83,10 +82,7 @@ public class StaffCohortAssociationGenerator {
     	 while(itr.hasNext()) {
              staffId = (String) itr.next();
              counter++;
-          }
-
-    	
-    	
+              	
 	        SLCStaffIdentityType sit = new SLCStaffIdentityType();
 	        sit.setStaffUniqueStateId(staffId);
 	        SLCStaffReferenceType srt = new SLCStaffReferenceType();
@@ -123,7 +119,7 @@ public class StaffCohortAssociationGenerator {
 			staffCohortAssoc.setStudentRecordAccess(Boolean.TRUE);
 			
 			staffCohortAssociations.add(staffCohortAssoc);
-    	
+    	 }
         return staffCohortAssociations;
     }
     /*

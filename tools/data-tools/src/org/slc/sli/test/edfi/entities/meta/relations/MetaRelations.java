@@ -373,7 +373,7 @@ public final class MetaRelations {
 
         buildLeasForSea(seaMeta, staffForSea);
 
-        buildEscsForSea(seaMeta);
+        buildEscsForSea(seaMeta);        
     }
 
     /**
@@ -445,10 +445,10 @@ public final class MetaRelations {
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
-            buildProgramsForLEA(leaMeta);
-
             buildAndRelateEntitiesWithSchool(schoolMeta, staffForSea);
         }
+        Map<String, ProgramMeta> pm = buildProgramsForLEA(leaMeta);
+        addStaffToPrograms(pm, staffForSea);
     }
 
 
@@ -490,7 +490,8 @@ public final class MetaRelations {
         addStudentsToPrograms(sectionsForSchool, studentsForSchool, programForSchool);
 
         // programs are added for schools and sea, here we need add staffs for all programs
-        addStaffToPrograms(MetaRelations.PROGRAM_MAP, staffForSea);
+        //addStaffToPrograms(MetaRelations.PROGRAM_MAP, staffForSea);
+        addStaffToPrograms(programForSchool, staffForSea);
 
         addStaffStudentToFreeStandingCohorts(freeStandingCohortsForSchool, studentsForSchool, staffForSea);
 
@@ -771,8 +772,8 @@ public final class MetaRelations {
 
         Object[] programMetas = programsForSchool.values().toArray();
         int programCounter = 0;
-
-        for (SessionMeta sessionMeta : sessionsForSchool.values()) {
+        
+       // for (SessionMeta sessionMeta : sessionsForSchool.values()) {
 
             for (CourseOfferingMeta courseOfferingMeta : courseOfferingsForSchool.values()) {
 
@@ -786,9 +787,9 @@ public final class MetaRelations {
                         programCounter = (programCounter + 1) % programMetas.length;
                     }
 
-                    SectionMeta sectionMeta = new SectionMeta("sec" + idNum, schoolMeta, courseOfferingMeta, sessionMeta,
+                    SectionMeta sectionMeta = new SectionMeta("sec" + idNum, schoolMeta, courseOfferingMeta, courseOfferingMeta.sessionMeta,
                             programMeta);
-                    SuperSectionMeta superSectionMeta = new SuperSectionMeta("sec" + idNum, schoolMeta, courseOfferingMeta, sessionMeta,
+                    SuperSectionMeta superSectionMeta = new SuperSectionMeta("sec" + idNum, schoolMeta, courseOfferingMeta, courseOfferingMeta.sessionMeta,
                             programMeta);
                     // it's useful to return the objects created JUST for this school
                     // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -799,7 +800,7 @@ public final class MetaRelations {
 
 
                 }
-            }
+         //   }
         }
 
         return sectionMapForSchool;

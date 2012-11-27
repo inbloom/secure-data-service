@@ -24,7 +24,7 @@ public class BehaviorDescriptorGenerator {
     	BehaviorDescriptor behaviorDescriptor = new BehaviorDescriptor();
 
     	try {
-            EducationalOrgReferenceType eor = SchoolGenerator.getSlcEducationalOrgReferenceType(schoolId);
+            EducationalOrgReferenceType eor = SchoolGenerator.getNonSLCEducationalOrgReferenceType(schoolId);
             switch (iBehavior) {
             case 0:
             	behaviorDescriptor.setBehaviorCategory(BehaviorCategoryType.SCHOOL_CODE_OF_CONDUCT);

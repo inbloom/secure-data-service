@@ -24,7 +24,7 @@ public class DisciplineDescriptorGenerator {
     	DisciplineDescriptor disciplineDescriptor = new DisciplineDescriptor();
 
     	try {
-            EducationalOrgReferenceType eor = SchoolGenerator.getEducationalOrgReferenceType(schoolId);
+            EducationalOrgReferenceType eor = SchoolGenerator.getNonSLCEducationalOrgReferenceType(schoolId);
             switch (iBehavior) {
             case 0:
             	disciplineDescriptor.setCodeValue("DET");

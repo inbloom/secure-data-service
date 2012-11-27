@@ -27,6 +27,8 @@ import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
@@ -110,6 +112,14 @@ public class SchoolGenerator {
         return eor;
     }
 
+    public static EducationalOrgReferenceType getNonSLCEducationalOrgReferenceType(String schoolId) {
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        eoit.setStateOrganizationId(schoolId);
+        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
+        eor.setEducationalOrgIdentity(eoit);
+        return eor;
+    }
+    
     private List<SLCSchool> getNYSchools() {
         try {
             if (ag == null)
