@@ -41,9 +41,15 @@ import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+/**
+ * Visits endpoints on the model and stores certain endpoints (some slightly modified) for later access.
+ * 
+ * @author kmyers
+ *
+ */
 public final class Xsd2UmlTweakerVisitor implements Visitor {
     
-    private final boolean tweakingEnabled = true;
+    private static final boolean TWEAKING_ENABLED = true;
     
     private static final boolean isExactlyOne(final AssociationEnd end, final ModelIndex model) {
         final Multiplicity multiplicity = end.getMultiplicity();
@@ -51,7 +57,6 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
         final Occurs lower = range.getLower();
         final Occurs upper = range.getUpper();
         if (upper == Occurs.ONE && lower == Occurs.ONE) {
-            // FIXME: Unfortunately, this disqualifies models that don't use this SLI annotation.
             return TaggedValueHelper.getBooleanTag(SliUmlConstants.TAGDEF_ASSOCIATION_KEY, end, model, false);
         } else {
             return false;
@@ -103,7 +108,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
                 throw new AssertionError();
             } else {
                 // It's a candidate for being turned from Class into an AssociationClass.
-                if (tweakingEnabled) {
+                if (TWEAKING_ENABLED) {
                     ownedElements.add(transform(classType, model));
                 } else {
                     ownedElements.add(classType);

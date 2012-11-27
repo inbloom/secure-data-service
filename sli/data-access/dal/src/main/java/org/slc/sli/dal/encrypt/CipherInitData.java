@@ -20,8 +20,8 @@ package org.slc.sli.dal.encrypt;
 import javax.crypto.SecretKey;
 
 /**
- * TODO: add javadoc
- *
+ * Data object to hold a SecretKey and an initializationVector
+ * 
  */
 public class CipherInitData {
 

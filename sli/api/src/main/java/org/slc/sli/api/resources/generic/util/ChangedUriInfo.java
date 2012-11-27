@@ -16,14 +16,13 @@
 
 package org.slc.sli.api.resources.generic.util;
 
-import java.net.URI;
-import java.util.List;
-
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.List;
 
 /**
  * Class for storing changes to requested uri.
@@ -40,25 +39,25 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public String getPath() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public String getPath(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<PathSegment> getPathSegments() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<PathSegment> getPathSegments(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
@@ -74,19 +73,19 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public URI getAbsolutePath() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public UriBuilder getAbsolutePathBuilder() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public URI getBaseUri() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
@@ -97,13 +96,13 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public MultivaluedMap<String, String> getPathParameters() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public MultivaluedMap<String, String> getPathParameters(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
@@ -114,25 +113,25 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public MultivaluedMap<String, String> getQueryParameters(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<String> getMatchedURIs() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<String> getMatchedURIs(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<Object> getMatchedResources() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     

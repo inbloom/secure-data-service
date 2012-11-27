@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.xdm;
 
+/**
+ * Marker interface
+ */
 public final class DmString implements DmAtom {
 
 }

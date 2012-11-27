@@ -168,7 +168,6 @@ public class JobReportingProcessor implements Processor {
                     stageDesc = stageChunk.getStageDesc();
                 }
 
-                // Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
                 Stage stageBrief = stageBriefMap.get(stageName);
                 if (stageBrief != null) {
                     if (stageBrief.getStartTimestamp() != null
@@ -284,12 +283,8 @@ public class JobReportingProcessor implements Processor {
             PrintWriter errorWriter = null;
             try {
                 errorWriter = getErrorWriter(fileType, job.getId(), externalResourceId, landingZone);
-                if (errorWriter != null) {
-                    for (Error error : errors) {
-                        writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
-                    }
-                } else {
-                    LOG.error("Unable to write to error file for: {} {}", job.getId(), externalResourceId);
+                for (Error error : errors) {
+                    writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
                 }
             } catch (IOException e) {
                 LOG.error("Unable to write error file for: {}", job.getId(), e);
@@ -331,10 +326,11 @@ public class JobReportingProcessor implements Processor {
 
                 if (duplicates != null) {
                     String resource = metric.getResourceId();
-                    for (String entity : duplicates.keySet()) {
-                        Long count = duplicates.get(entity);
+                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                        Long count = dupEntry.getValue();
                         if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
+                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                                    + " deltas!");
                         }
                     }
                 }
@@ -344,8 +340,6 @@ public class JobReportingProcessor implements Processor {
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
-
-        // TODO group counts by externallyUploadedResourceId
 
         List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
         Iterator<Stage> it = stages.iterator();

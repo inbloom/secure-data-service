@@ -176,11 +176,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + token));
-        try {
-            return service.list(neutralQuery).iterator().hasNext();
-        } catch (IllegalArgumentException npe) {
+
+        Iterable<EntityBody> it = service.list(neutralQuery);
+                       
+        if (it == null || it.iterator() == null) {
             return false;
         }
+        return it.iterator().hasNext();
     }
 
     @SuppressWarnings("rawtypes")
@@ -200,8 +202,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     protected void addAdditionalCritera(NeutralQuery query) {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
-            query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
+        if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { 
+        	if (sandboxEnabled) {
+        		// Sandbox developer can see all apps in their tenancy
+        		query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId(), false));
+        	} else {
+        		// Prod. Developer sees all apps they own
+        		query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal .getExternalId()));
+        	}
         } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
 
             //know this is ugly, but having trouble getting or queries to work
@@ -295,7 +303,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         return super.delete(uuid, headers, uriInfo);
     }
 
-    // TODO app creation and app approval should be broken into separate endpoints.
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
@@ -433,9 +440,23 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     private void validateDeveloperHasAccessToApp(EntityBody app) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
-            throw new AccessDeniedException("Developer " + principal.getExternalId() 
-                    + " is not the creator of this app and cannot modify it.");
+        
+        if (sandboxEnabled) {
+        	@SuppressWarnings("unchecked")
+        	Map<String, Object> metaData = (Map<String, Object>) app.get("metaData");
+        	if (metaData != null) {
+        		String tenantId = (String) metaData.get("tenantId");
+        		if (tenantId != null && tenantId.equals(principal.getTenantId())) {
+        			return;
+        		}
+        	}
+        	throw new AccessDeniedException("Developer " + principal.getExternalId()
+        			+ " does not share the same tenant as the creator of this app and cannot modify it.");
+        } else {
+        	if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
+        		throw new AccessDeniedException("Developer " + principal.getExternalId()
+        				+ " is not the creator of this app and cannot modify it.");
+        	}
         }
     }
 

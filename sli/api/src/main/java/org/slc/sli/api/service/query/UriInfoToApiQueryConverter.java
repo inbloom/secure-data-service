@@ -140,13 +140,17 @@ public class UriInfoToApiQueryConverter {
     }
 
     public ApiQuery convert(ApiQuery apiQuery, URI requestURI) {
-        if (requestURI == null) return apiQuery;
+        if (requestURI == null) { 
+            return apiQuery;
+        }
 
         return convert(apiQuery, requestURI.getQuery());
     }
 
     public ApiQuery convert(ApiQuery apiQuery, UriInfo uriInfo) {
-        if (uriInfo == null) return apiQuery;
+        if (uriInfo == null) { 
+            return apiQuery;
+        }
 
         return convert(apiQuery, uriInfo.getRequestUri());
     }
@@ -172,6 +176,7 @@ public class UriInfoToApiQueryConverter {
                         if (nci == null) {
                             if (!neutralCriteria.getKey().equals("full-entities")
                                     && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
+                                    && (!ParameterConstants.VIEWS.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) {
@@ -183,11 +188,10 @@ public class UriInfoToApiQueryConverter {
                     }
                 } catch (RuntimeException re) {
                     error("error parsing query String {} {}", re.getMessage(), queryString);
-                    throw new QueryParseException(re.getMessage(), queryString);
+                    throw (QueryParseException) new QueryParseException(re.getMessage(), queryString).initCause(re); 
                 } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
                     error("Unable to decode query string as UTF-8: {}", queryString);
-                    throw new QueryParseException(e.getMessage(), queryString);
+                    throw (QueryParseException) new QueryParseException(e.getMessage(), queryString).initCause(e);
                 }
             }
 

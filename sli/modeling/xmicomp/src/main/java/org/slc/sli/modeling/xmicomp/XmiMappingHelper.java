@@ -195,8 +195,8 @@ public final class XmiMappingHelper {
     
     public static final <T> Map<CaseInsensitiveString, T> toCaseInsensitiveKey(final Map<String, T> map) {
         final Map<CaseInsensitiveString, T> caseInsensitiveMap = new HashMap<CaseInsensitiveString, T>(map.size());
-        for (final String key : map.keySet()) {
-            caseInsensitiveMap.put(new CaseInsensitiveString(key), map.get(key));
+        for (final Map.Entry<String, T> entry : map.entrySet()) {
+            caseInsensitiveMap.put(new CaseInsensitiveString(entry.getKey()), entry.getValue());
         }
         return Collections.unmodifiableMap(caseInsensitiveMap);
     }

@@ -52,7 +52,6 @@ import com.mongodb.WriteResult;
 public class MockRepo implements Repository<Entity> {
     @Override
     public boolean collectionExists(String collection) {
-        // TODO Auto-generated method stub
         return false;
     }
     
@@ -473,7 +472,6 @@ public class MockRepo implements Repository<Entity> {
             
             @Override
             public String getStagedEntityId() {
-                // TODO Auto-generated method stub
                 return null;
             }
         };
@@ -584,35 +582,29 @@ public class MockRepo implements Repository<Entity> {
     
     @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
-        // TODO Auto-generated method stub
         return null;
     }
     
     @Override
     public boolean exists(String collectionName, String id) {
-        // TODO Auto-generated method stub
         return false;
     }
     
     @Override
     public void setWriteConcern(String writeConcern) {
-        // TODO Auto-generated method stub
     }
     
     @Override
     public long count(String collectionName, Query query) {
-        // TODO Auto-generated method stub
         return 0;
     }
     
     @Override
     public void setReferenceCheck(String referenceCheck) {
-        // TODO Auto-generated method stub
     }
     
     @Override
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
-        // TODO Auto-generated method stub
         return null;
     }
     
@@ -626,7 +618,6 @@ public class MockRepo implements Repository<Entity> {
     
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
-        // TODO Auto-generated method stub
         return false;
     }
     
@@ -637,7 +628,6 @@ public class MockRepo implements Repository<Entity> {
     
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
-        // TODO Auto-generated method stub
         return null;
     }
     
@@ -655,7 +645,6 @@ public class MockRepo implements Repository<Entity> {
     
     @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
-        // TODO Auto-generated method stub
         return null;
     }
     

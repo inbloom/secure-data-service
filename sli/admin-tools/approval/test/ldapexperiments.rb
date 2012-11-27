@@ -22,26 +22,26 @@ require 'net/ldap'
 require 'date'
 
 ldap_conf = { :host => "ldap.slidev.org",
-     :port => 389,
-     :base => "ou=DevTest,dc=slidev,dc=org",
-     :auth => {
-           :method => :simple,
-           :username => "cn=DevLDAP User, ou=People,dc=slidev,dc=org",
-           :password => "Y;Gtf@w{"
-     }}
+              :port => 389,
+              :base => "ou=DevTest,dc=slidev,dc=org",
+              :auth => {
+                  :method => :simple,
+                  :username => "cn=DevLDAP User, ou=People,dc=slidev,dc=org",
+                  :password => "Y;Gtf@w{"
+              }}
 
 
-ldap_conf = { 
+ldap_conf = {
     :host => "rcldap01.slidev.org",
     :port => 636,
     :base => "ou=people,dc=slidev,dc=org",
     :auth => {
-      :method => :simple,
-      :username => "cn=admin,dc=slidev,dc=org",
-      :password => "Y;Gtf@w{"
+        :method => :simple,
+        :username => "cn=admin,dc=slidev,dc=org",
+        :password => "Y;Gtf@w{"
     },
     :encryption => {
-      :method => :simple_tls
+        :method => :simple_tls
     }
 }
 
@@ -91,14 +91,14 @@ end
 
 dn = "cn=XXX Gray,ou=people,ou=DevTest,dc=slidev,dc=org"
 attr = {
-  :cn => "XXX Gray",
-  :objectclass => ["top", "inetOrgPerson"],
-  :sn => "Gray",
-  # :gn => "Charles",
-  # :mail => "charles@example.com",
-  # :uid  => "charles@example.com",
-  :userPassword => "something",
-  :uid => "charles@example.com"
+    :cn => "XXX Gray",
+    :objectclass => ["top", "inetOrgPerson"],
+    :sn => "Gray",
+    # :gn => "Charles",
+    # :mail => "charles@example.com",
+    # :uid  => "charles@example.com",
+    :userPassword => "something",
+    :uid => "charles@example.com"
 }
 
 # dn = Net::LDAP::DN.new (
@@ -125,9 +125,9 @@ puts "Group exists: #{group_exists}"
 
 if !group_exists
   member_attrib = {
-    :cn => "abc",
-    :objectclass => ["groupOfNames", "top"],
-    :member => dn
+      :cn => "abc",
+      :objectclass => ["groupOfNames", "top"],
+      :member => dn
   }
   puts "Adding group: #{ldap.add(:dn => abc_group, :attributes => member_attrib)}"
 else

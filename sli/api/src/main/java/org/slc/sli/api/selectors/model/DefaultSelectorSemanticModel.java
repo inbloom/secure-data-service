@@ -45,10 +45,10 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
 
     public SemanticSelector parse(final Map<String, Object> selectors, final ClassType type) throws SelectorParseException {
         if (type == null) {
-        	throw new IllegalArgumentException("type");
+            throw new IllegalArgumentException("type");
         }
         if (selectors == null) {
-        	throw new IllegalArgumentException("selectors");
+            throw new IllegalArgumentException("selectors");
         }
 
         final SemanticSelector selector = new SemanticSelector();

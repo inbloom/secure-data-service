@@ -49,6 +49,6 @@ class ChangePasswordsControllerTest < ActionController::TestCase
   test "should create change_password forbidden" do
     session[:roles] = nil
     post :create, change_password: @change_password.attributes
-    assert_response 403 
+    assert_response 403
   end
 end

@@ -49,7 +49,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     /**
      * Control the massaging of the W3C XML Schema. The less we do the better.
      */
-    private final boolean camelCaseSchemaNames = true;
+    private static final boolean CAMEL_CASE_SCHEMA_NAMES = true;
     
     // Default constructor is required for reflection creation.
     public Xsd2UmlPluginForEdFi() {
@@ -64,7 +64,6 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     @Override
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
-        // FIXME: Can we do this by looking at the attribute type?
         if (attribute == null) {
             throw new IllegalArgumentException("attribute");
         }
@@ -192,11 +191,8 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
         if (attributeName == null) {
             throw new IllegalStateException("attributeName");
         }
-        if (endsWithReference(attributeName)) {
-            return true;
-        } else {
-            return false;
-        }
+        
+        return endsWithReference(attributeName);
     }
     
     @Override
@@ -206,7 +202,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     
     @Override
     public String nameFromSchemaAttributeName(final QName name) {
-        if (camelCaseSchemaNames) {
+        if (CAMEL_CASE_SCHEMA_NAMES) {
             return Xsd2UmlHelper.camelCase(name.getLocalPart());
         } else {
             return super.nameFromSchemaAttributeName(name);
@@ -215,7 +211,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     
     @Override
     public String nameFromSchemaElementName(final QName name) {
-        if (camelCaseSchemaNames) {
+        if (CAMEL_CASE_SCHEMA_NAMES) {
             return Xsd2UmlHelper.camelCase(name.getLocalPart());
         } else {
             return super.nameFromSchemaElementName(name);

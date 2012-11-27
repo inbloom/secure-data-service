@@ -35,7 +35,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 public class WorkNoteLatch {
 
     @Autowired
-    BatchJobDAO batchJobDAO;
+    private BatchJobDAO batchJobDAO;
 
     @Handler
     public void receive(Exchange exchange) throws Exception {

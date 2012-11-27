@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.uml;
 
+/**
+ * Represent UML Aggregation
+ */
 public enum Aggregation {
     /**
      * 

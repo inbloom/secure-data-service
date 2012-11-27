@@ -152,8 +152,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         final Set<String> idRefs = new HashSet<String>();
 
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
-            Stack<StartElement> parents = new Stack<StartElement>();
-            String currentXPath;
+            private Stack<StartElement> parents = new Stack<StartElement>();
+            private String currentXPath;
 
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
@@ -253,8 +253,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             XmlEventVisitor writeRefContent = new XmlEventVisitor() {
 
-                Stack<StartElement> parents = new Stack<StartElement>();
-                Map<String, Integer> parentIds = new HashMap<String, Integer>();
+                private Stack<StartElement> parents = new Stack<StartElement>();
+                private Map<String, Integer> parentIds = new HashMap<String, Integer>();
 
                 @Override
                 public boolean isSupported(XMLEvent xmlEvent) {
@@ -374,7 +374,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
-                Stack<StartElement> parents = new Stack<StartElement>();
+                private Stack<StartElement> parents = new Stack<StartElement>();
 
                 @Override
                 public boolean isSupported(XMLEvent xmlEvent) {

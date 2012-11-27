@@ -122,22 +122,17 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (newBatchJob.getTenantId() != null) {
+            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
-                if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
+                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-                    controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+                auditSecurityEvent(controlFile);
 
-                    auditSecurityEvent(controlFile);
-
-                } else {
-                    LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
-                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
-                }
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
             }
+
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
 

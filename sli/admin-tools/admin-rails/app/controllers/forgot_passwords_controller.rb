@@ -29,7 +29,7 @@ class ForgotPasswordsController < ApplicationController
   skip_filter :handle_oauth
   before_filter :get_user, :only => [:new_account, :update]
   before_filter :token_still_valid, :only => [:new_account, :update]
-  
+
   def get_user
     @user = APP_LDAP_CLIENT.read_user_resetkey(params[:key])
     if !@user
@@ -48,7 +48,7 @@ class ForgotPasswordsController < ApplicationController
       format.json { render json: @forgot_passwords }
     end
   end
-  
+
   # POST /forgot_passwords
   # POST /forgot_passwords.json
   def create
@@ -89,7 +89,7 @@ class ForgotPasswordsController < ApplicationController
     resetKey = @user[:resetKey]
     currentTimestamp = DateTime.current.utc.to_i
     difference = currentTimestamp - Integer(resetKey.sub(key + "@", ""))
-    puts resetKey, currentTimestamp, difference, resetKey.sub(key + "@", "") 
+    puts resetKey, currentTimestamp, difference, resetKey.sub(key + "@", "")
     if difference > Integer(APP_CONFIG['reset_password_lifespan'])
       flash[:error] = "Password reset request expired. Please make a new request."
       redirect_to forgot_password_notify_path
@@ -100,11 +100,11 @@ class ForgotPasswordsController < ApplicationController
     @forgot_password = ForgotPassword.new
     user_id = params[:user_id]
     captcha_valid = validate_recap(params, @forgot_password.errors)
-    
+
     respond_to do |format|
       if captcha_valid == false
         @forgot_password.errors.clear
-        @forgot_password.errors.add :base, "Invalid Captcha Response" 
+        @forgot_password.errors.add :base, "Invalid Captcha Response"
         format.html { render action: "reset" }
         format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
       elsif ApplicationHelper.user_exists?(user_id)
@@ -113,13 +113,13 @@ class ForgotPasswordsController < ApplicationController
           key = Digest::MD5.hexdigest(SecureRandom.base64(10) + currentTimestamp + user_id)
           token = key + "@" + currentTimestamp
           update_info = {
-            :email    => "#{user_id}",
-            :resetKey => "#{token}"
+              :email    => "#{user_id}",
+              :resetKey => "#{token}"
           }
           response =  APP_LDAP_CLIENT.update_user_info(update_info)
-          
+
           ApplicationMailer.notify_reset_password(user_id, key).deliver
-          
+
           format.html { redirect_to "/forgotPassword/notify", notice: 'Password reset instructions have been emailed to you. Please follow the instructions in the email.' }
           format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
         rescue Exception => e

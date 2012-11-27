@@ -50,8 +50,10 @@ public class Group {
         if (memberUids == null) {
             memberUids = new ArrayList<String>();
         }
-        if (!memberUids.contains(memberUid))
-        memberUids.add(memberUid);
+        
+        if (!memberUids.contains(memberUid)) {
+        	memberUids.add(memberUid);
+        }
     }
     
     public void removeMemberUid(String memberUid) {

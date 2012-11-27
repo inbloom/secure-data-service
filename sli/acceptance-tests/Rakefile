@@ -418,9 +418,10 @@ task :appInit do
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
-
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  cleanseCollectionWithTenantID("applicationAuthorization", "Midgar")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule");
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
   setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
@@ -598,8 +599,7 @@ end
 
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:provisionIntegrationTests, :preloadResourceTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
-                          :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
-                          :samtEmailNotificationTests, :adminWebTests] do
+                          :resetAndChangePasswordTests, :sandboxUserAdminTests, :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
@@ -713,7 +713,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, 
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionSubdocTests] do
+                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest] do
 
   displayFailureReport()
   if $SUCCESS
@@ -1127,58 +1127,6 @@ task :importChaosSandboxData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
-end
-
-desc "Import Tenant Metrics Data"
-task :importTenantMetricsData do
-  testHash = Hash[
-    "assessment" => "metrics/T1/assessment_fixture.json",
-    "educationOrganization" => "metrics/T1/educationOrganization_fixture.json",
-    "grade" => "metrics/T1/grade_fixture.json",
-    "parent" => "metrics/T1/parent_fixture.json",
-    "program" => "metrics/T1/program_fixture.json",
-    "section" => "metrics/T1/section_fixture.json",
-    "session" => "metrics/T1/session_fixture.json",
-    "staff" => "metrics/T1/staff_fixture.json",
-    "student" => "metrics/T1/student_fixture.json",
-  ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T1@slidev.org")
-  setMultipleFixtureFiles(testHash)
-    testHash = Hash[
-    "assessment" => "metrics/T2/assessment_fixture.json",
-    "educationOrganization" => "metrics/T2/educationOrganization_fixture.json",
-    "grade" => "metrics/T2/grade_fixture.json",
-    "parent" => "metrics/T2/parent_fixture.json",
-    "program" => "metrics/T2/program_fixture.json",
-    "section" => "metrics/T2/section_fixture.json",
-    "session" => "metrics/T2/session_fixture.json",
-    "staff" => "metrics/T2/staff_fixture.json",
-    "student" => "metrics/T2/student_fixture.json",
-  ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T2@slidev.org")
-  setMultipleFixtureFiles(testHash)
-    testHash = Hash[
-    "assessment" => "metrics/T3/assessment_fixture.json",
-    "educationOrganization" => "metrics/T1/educationOrganization_fixture.json",
-    "grade" => "metrics/T3/grade_fixture.json",
-    "parent" => "metrics/T3/parent_fixture.json",
-    "program" => "metrics/T3/program_fixture.json",
-    "section" => "metrics/T3/section_fixture.json",
-    "session" => "metrics/T3/session_fixture.json",
-    "staff" => "metrics/T3/staff_fixture.json",
-    "student" => "metrics/T3/student_fixture.json"
-  ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T1@slidev.org")
-  setMultipleFixtureFiles(testHash)
-    testHash = Hash[
-    "tenant" => "metrics/tenant_fixture.json"
-  ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  setMultipleFixtureFiles(testHash)
 
   if TODROP
     Rake::Task["runDbIndexingScript"].execute

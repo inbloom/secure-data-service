@@ -1,17 +1,101 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+# default 'bundle exec rake' to run :test (specifications)
 task :default => [:test]
 
 require 'rspec/core/rake_task'
 
+desc "Generate data using ODIN"
 task :generate do
-	ruby "driver.rb"
+  ruby "driver.rb"
 end
 
+desc "Run world builder tests"
+task :world_builder do
+  RSpec::Core::RakeTask.new(:odin) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/world_builder_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
 
-desc "Run those specs"
-task :test do
+desc "Run student builder tests"
+task :student do
+  RSpec::Core::RakeTask.new(:student) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/student_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run grade level type tests"
+task :grade_level_type do
   RSpec::Core::RakeTask.new(:test) do |t|
     t.rspec_opts = %w{--colour --format progress}
-    t.pattern = 'test/spec/*_spec.rb'
+    t.pattern = 'spec/grade_level_type_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run data utility tests"
+task :data_utility do
+  RSpec::Core::RakeTask.new(:data_utility) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/data_utility_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run date utility tests"
+task :date_utility do
+  RSpec::Core::RakeTask.new(:date_utility) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/date_utility_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run odin tests"
+task :odin do
+  RSpec::Core::RakeTask.new(:odin) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/odin_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run validator tests"
+task :validator do
+  RSpec::Core::RakeTask.new(:validator) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/validator_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run all the specs"
+task :test do
+  FileUtils.rm_rf('generated')
+  Dir.mkdir("generated", 0755)
+  RSpec::Core::RakeTask.new(:test) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/*_spec.rb'
     t.rspec_path = 'rspec'
   end
 end

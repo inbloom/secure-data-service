@@ -32,7 +32,6 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.transformation.normalization.IdNormalizerFlag;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
@@ -65,11 +64,6 @@ public class DeterministicIdResolver {
     private static final String PATH_SEPARATOR = "\\.";
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
-
-        if (IdNormalizerFlag.useOldNormalization) {
-            // TODO: remove IdNormalizerFlag
-            return;
-        }
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 

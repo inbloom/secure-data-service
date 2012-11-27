@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessment entities.
- * 
+ *
  * @author nbrown
  * @author shalka
  */
@@ -65,6 +65,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ACADEMIC_SUBJECT = "AcademicSubject";
     private static final String GRADE_LEVEL_ASSESSED = "GradeLevelAssessed";
     private static final String VERSION = "Version";
+    private static final String ASSESSMENT_ITEM = "assessmentItem";
 
     private static final String STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE = "studentAssessmentReference.assessmentReference.assessmentTitle";
     private static final String STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT = "studentAssessmentReference.assessmentReference.academicSubject";
@@ -72,7 +73,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_REFERENCE_VERSION = "studentAssessmentReference.assessmentReference.version";
 
     private Map<Object, NeutralRecord> studentAssessments;
-    List<NeutralRecord> transformedStudentAssessments;
+    private List<NeutralRecord> transformedStudentAssessments;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -103,8 +104,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public void loadData() {
         LOG.info("Loading data for studentAssessment transformation.");
         studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT,
-                studentAssessments.size());
+        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT, studentAssessments.size());
     }
 
     /**
@@ -193,9 +193,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
                 }
             } else {
-                LOG.warn(
-                        "no local id for student assessment association: {}. cannot embed student objective assessment objects.",
-                        studentAssessmentId);
+                LOG.warn("no local id for student assessment association. cannot embed student objective assessment objects.");
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
@@ -208,7 +206,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -219,8 +217,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
 
-        for (String key : queryCriteria.keySet()) {
-            query.addCriteria(Criteria.where(BODY + key).is(queryCriteria.get(key)));
+        for (Map.Entry<String, Object> entry : queryCriteria.entrySet()) {
+            query.addCriteria(Criteria.where(BODY + entry.getKey()).is(entry.getValue()));
         }
 
         Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
@@ -264,7 +262,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -312,8 +310,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 assessments.add(attributes);
             }
         } else {
-            LOG.warn("Couldn't find any student objective assessments for student assessment: {}",
-                    studentAssessmentId);
+            LOG.warn("Couldn't find any student objective assessments for student assessment: {}", studentAssessmentId);
         }
 
         LOG.debug("Found {} student objective assessments for student assessment: {}", assessments.size(),
@@ -327,8 +324,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
 
-        for (String key : queryCriteria.keySet()) {
-            query.addCriteria(Criteria.where(LOCAL_PARENT_IDS + key).is(queryCriteria.get(key)));
+        for (Map.Entry<String, Object> entry : queryCriteria.entrySet()) {
+            query.addCriteria(Criteria.where(LOCAL_PARENT_IDS + entry.getKey()).is(entry.getValue()));
         }
 
         Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
@@ -345,27 +342,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     assessmentSearchPath.put("body.identificationCode", assessmentItemIdentificatonCode);
 
                     Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
-                            .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
+                            .findByPathsForJob(ASSESSMENT_ITEM, assessmentSearchPath, getJob().getId());
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        /*
-                         * remove the assessmentReference from assessmentItem because current sli
-                         * data
-                         * model does not has this attribute, it will not pass the validation
-                         * when save
-                         * to sli db. The assessmentreference will be used for supporting out of
-                         * order
-                         * ingestion in the future
-                         *
-                         *
-                         * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
-                         * if (assessmentItemAttrs.containsKey("assessmentReference")) {
-                         * assessmentItemAttrs.remove("assessmentReference");
-                         * }
-                         * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
-                         */
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
@@ -400,27 +381,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     assessmentSearchPath.put("body.identificationCode", assessmentId);
 
                     Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
-                            .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
+                            .findByPathsForJob(ASSESSMENT_ITEM, assessmentSearchPath, getJob().getId());
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        /*
-                         * remove the assessmentReference from assessmentItem because current sli
-                         * data
-                         * model does not has this attribute, it will not pass the validation
-                         * when save
-                         * to sli db. The assessmentreference will be used for supporting out of
-                         * order
-                         * ingestion in the future
-                         *
-                         *
-                         * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
-                         * if (assessmentItemAttrs.containsKey("assessmentReference")) {
-                         * assessmentItemAttrs.remove("assessmentReference");
-                         * }
-                         * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
-                         */
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "

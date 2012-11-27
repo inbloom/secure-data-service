@@ -248,10 +248,10 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         return null;
     }
 
-    private static class LearningObjectiveId {
-        final String objective;
-        final String academicSubject;
-        final String objectiveGradeLevel;
+	private static class LearningObjectiveId {
+	    private final String objective;
+	    private final String academicSubject;
+	    private final String objectiveGradeLevel;
 
         public LearningObjectiveId(String objective, String academicSubject, String objectiveGradeLevel) {
             this.objective = objective;

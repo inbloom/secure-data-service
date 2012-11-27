@@ -19,13 +19,12 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriTemplate;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriTemplate;
 /**
  * @author jstokes
  */
@@ -68,7 +67,6 @@ public class RestResourceHelper implements ResourceHelper {
             case FOUR_PART:
                 return getFourPartPath(matchList);
             case CUSTOM:
-                // TODO
                 return "";
             default:
                 throw new AssertionError("Non-valid template");

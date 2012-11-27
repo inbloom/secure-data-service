@@ -206,7 +206,7 @@ public class XmiReader {
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
             final Identifier id = getId(reader);
             final String name = getName(reader, DEFAULT_EMPTY_NAME, XmiAttributeName.NAME);
-            final String associatedAttribName = getName(reader, DEFAULT_EMPTY_NAME,XmiAttributeName.ASSOCIATED_ATTRIBUTE_NAME);
+            final String associatedAttribName = getName(reader, DEFAULT_EMPTY_NAME, XmiAttributeName.ASSOCIATED_ATTRIBUTE_NAME);
             final boolean isNavigable = getBoolean(XmiAttributeName.IS_NAVIGABLE, true, reader);
             Identifier participant = null;
             final Range range = new Range(Identifier.random(), Occurs.ONE, Occurs.ONE, EMPTY_TAGGED_VALUE_LIST);

@@ -50,7 +50,7 @@ public class SliSmooksFactory {
     private NeutralRecordMongoAccess nrMongoStagingWriter;
 
     @Autowired
-    public BatchJobDAO batchJobDAO;
+    private BatchJobDAO batchJobDAO;
 
     @Value("${sli.ingestion.recordLevelDeltaEntities}")
     private String recordLevelDeltaEnabledEntityNames;

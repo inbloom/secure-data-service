@@ -57,6 +57,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     private static final String ASSESSMENT_ITEM = "assessmentItem";
+    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -100,7 +101,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            String parentFamilyTitle = (String) attrs.remove("parentAssessmentFamilyTitle");
+            String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
@@ -170,17 +171,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
             if (records != null) {
                 for (NeutralRecord record : records) {
-                    // remove the assessmentReference from assessmentItem because current sli data
-                    // model does not has this attribute, it will not pass the validation when save
-                    // to sli db. The assessmentreference will be used for supporting out of order
-                    // ingestion in the future
-                    /*
-                     * Map<String, Object> itemAttributes = record.getAttributes();
-                     * if (itemAttributes.containsKey("assessmentReference")) {
-                     * itemAttributes.remove("assessmentReference");
-                     * }
-                     * assessmentItems.add(itemAttributes);
-                     */
                     assessmentItems.add(record.getAttributes());
                 }
 
