@@ -277,6 +277,7 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
+
 Scenario: User sees non-installed Developer App 
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
@@ -285,8 +286,11 @@ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "SLC Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
-Then my current url is "http://localhost/"
-	
+
+Then my current url is "https://localhost/"
+#URL specified during app creation: http://localhost/
+#Then my current url is "http://localhost/"	
+
 Scenario: User logs into recently created installed app
 #We cannot use the portal to access the installed app, since you cannot navigate to a URL to use it
 Given the testing device app key has been created
