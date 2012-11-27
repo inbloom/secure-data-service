@@ -33,16 +33,19 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.StudentProgressManager;
 import org.slc.sli.dashboard.util.Constants;
+import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 
 /**
  * Gathers and provides information needed for the student progress view
@@ -63,6 +66,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
     @Override
     @SuppressWarnings("unchecked")
+    @LogExecutionTime
     public GenericEntity getTranscript(String token, Object studentIdObj, Config.Data config) {
 
         SortedMap<GenericEntity, List<GenericEntity>> transcripts =
@@ -90,6 +94,10 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         if (studentSectionAssociations == null || courseTranscripts == null) {
             return new GenericEntity();
         }
+        
+        Map<String, GenericEntity> cache = new HashMap<String, GenericEntity>();
+        cacheStudent(studentId, token, studentSectionAssociations, cache, courseTranscripts);
+                
         for (Map<String, Object> studentSectionAssociation : studentSectionAssociations) {
             Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssociation,
                     courseTranscripts);
@@ -107,13 +115,13 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
             term.put(Constants.ATTR_TERM, getValue(session, Constants.ATTR_TERM));
             term.put(Constants.ATTR_GRADE_LEVEL, getValue(courseTranscript, Constants.ATTR_GRADE_LEVEL_WHEN_TAKEN));
-            term.put(Constants.ATTR_SCHOOL, getSchoolName(section, token));
+            term.put(Constants.ATTR_SCHOOL, getSchoolName(section, token, cache));
             term.put(Constants.ATTR_SCHOOL_YEAR, getValue(session, Constants.ATTR_SCHOOL_YEAR));
-            term.put(Constants.ATTR_CUMULATIVE_GPA, getGPA(session, studentId, token));
+            term.put(Constants.ATTR_CUMULATIVE_GPA, getGPA(session, studentId, token, cache));
             term.put(Constants.ATTR_SESSION_BEGIN_DATE, getValue(session, Constants.ATTR_SESSION_BEGIN_DATE));
 
             GenericEntityEnhancer.convertGradeLevel(term, Constants.ATTR_GRADE_LEVEL);
-
+            
             // This isn't a new term
             if (transcripts.containsKey(term)) {
                 List<GenericEntity> courses = transcripts.get(term);
@@ -141,20 +149,72 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         return ret;
     }
 
-    private String getGPA(Map<String, Object> session, String studentId, String token) {
+    private void cacheStudent(
+			String studentId, String token, List<Map<String, Object>> studentSectionAssociations,
+			Map<String, GenericEntity> cache, List<Map<String,Object>> courseTranscripts) {
+		
+    	List<String> entityIds = new ArrayList<String>();
+    	List<String> sessionIds = new ArrayList<String>();
+    	
+    	for (Map<String, Object> studentSectionAssociation : studentSectionAssociations) {
+            Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssociation,
+                    courseTranscripts);
+
+            // skip this course if we can't find previous info
+            if (courseTranscript == null) {
+                continue;
+            }
+
+            Map<String, Object> section = getGenericEntity(studentSectionAssociation, Constants.ATTR_SECTIONS);
+            Map<String, Object> session = getGenericEntity(section, Constants.ATTR_SESSIONS);
+            sessionIds.add(getValue(session, Constants.ATTR_ID));
+            entityIds.add(getValue(section, Constants.ATTR_SCHOOL_ID));
+        }
+    	
+    	getSchools(entityIds, token, cache);
+    	getAcademicRecords(sessionIds, studentId, token, cache);
+	}
+
+	private String getGPA(Map<String, Object> session, String studentId, String token, Map<String, GenericEntity> cache) {
         String sessionId = getValue(session, Constants.ATTR_ID);
-        Map<String, String> params = new HashMap<String, String>();
-
-        params.put(Constants.ATTR_SESSION_ID, sessionId);
-        params.put(Constants.ATTR_STUDENT_ID, studentId);
-
-        GenericEntity academicRecord = entityManager.getAcademicRecord(token, studentId, params);
+        
+        GenericEntity academicRecord = cache.get(sessionId);
+        
+        if (academicRecord == null) {
+	        Map<String, String> params = new HashMap<String, String>();
+	
+	        params.put(Constants.ATTR_SESSION_ID, sessionId);
+	        params.put(Constants.ATTR_STUDENT_ID, studentId);
+	
+	        academicRecord = entityManager.getAcademicRecord(token, studentId, params);
+        }
 
         String gpa = "";
         if (academicRecord != null) {
             gpa = GRADE_FORMATTER.format(academicRecord.get(Constants.ATTR_CUMULATIVE_GPA));
         }
         return gpa;
+    }
+	
+	private void getAcademicRecords(List<String> sessions, String studentId, String token, Map<String, GenericEntity> cache) {
+		List<GenericEntity> result = new ArrayList<GenericEntity>(sessions.size());
+		for (int i = 0; i <= sessions.size() / Constants.MAX_IDS_PER_API_CALL; i++) {
+			List<String> subList = sessions.subList(i * Constants.MAX_IDS_PER_API_CALL,
+					Math.min((i + 1) * Constants.MAX_IDS_PER_API_CALL, sessions.size()));
+	        String sessionId = "~";
+	        sessionId = sessionId + StringUtils.join(subList, "%7C");
+	        
+	        Map<String, String> params = new HashMap<String, String>();
+	        params.put(Constants.ATTR_SESSION_ID, sessionId);
+	        params.put(Constants.ATTR_STUDENT_ID, studentId);
+	        
+	        List<GenericEntity> academicRecords = entityManager.getAcademicRecords(token, studentId, params);
+			result.addAll(academicRecords);
+		}
+
+        for (GenericEntity entity : result) {
+        	cache.put(entity.get("sessionId").toString(), entity);
+        }
     }
 
     private GenericEntity getCourseData(Map<String, Object> courseTranscript, Map<String, Object> course) {
@@ -175,15 +235,30 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         return grade;
     }
 
-    private String getSchoolName(Map<String, Object> section, String token) {
+    private String getSchoolName(Map<String, Object> section, String token, Map<String, GenericEntity> cache) {
         String schoolId = getValue(section, Constants.ATTR_SCHOOL_ID);
-        GenericEntity school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap<String, String>());
-
+        
+        GenericEntity school = null;
+        if (cache != null) {
+        	school = cache.get(schoolId);
+        }
+        if (cache == null || school == null) {
+        	 school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap<String, String>());
+        }
         String schoolName = "";
         if (school != null) {
             schoolName = school.getString(Constants.ATTR_NAME_OF_INST);
         }
         return schoolName;
+    }
+    
+    private void getSchools(List<String> schoolIds, String token, Map<String, GenericEntity> cache) {
+        
+        List<GenericEntity> schools = entityManager.getEntities(token, SDKConstants.SCHOOLS_ENTITY , schoolIds, new HashMap<String, String>());
+        
+        for (GenericEntity school : schools) {
+        	cache.put(school.getId(), school);
+        }
     }
 
     /**
