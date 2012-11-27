@@ -49,8 +49,15 @@
 	</bean>
 	 
 	<bean
-		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" /> 
-  
+		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
 
-
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="springRequestCleanup" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>
