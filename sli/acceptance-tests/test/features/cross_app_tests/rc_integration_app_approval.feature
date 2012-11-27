@@ -136,7 +136,8 @@ Then I check the Districts
 When I click on Save
 Then the "NotTheAppYoureLookingFor" is enabled for Districts
 And I see an application "Schlemiel" in the table
-And the client ID and shared secret fields are present
+And my new apps client ID is present
+And my new apps shared secret is present
 And I clicked on the button Edit for the application "Schlemiel"
 Then I can see the on-boarded states
 When I select a state
