@@ -346,22 +346,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        /*
-                         * remove the assessmentReference from assessmentItem because current sli
-                         * data
-                         * model does not has this attribute, it will not pass the validation
-                         * when save
-                         * to sli db. The assessmentreference will be used for supporting out of
-                         * order
-                         * ingestion in the future
-                         *
-                         *
-                         * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
-                         * if (assessmentItemAttrs.containsKey("assessmentReference")) {
-                         * assessmentItemAttrs.remove("assessmentReference");
-                         * }
-                         * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
-                         */
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
@@ -401,22 +385,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        /*
-                         * remove the assessmentReference from assessmentItem because current sli
-                         * data
-                         * model does not has this attribute, it will not pass the validation
-                         * when save
-                         * to sli db. The assessmentreference will be used for supporting out of
-                         * order
-                         * ingestion in the future
-                         *
-                         *
-                         * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
-                         * if (assessmentItemAttrs.containsKey("assessmentReference")) {
-                         * assessmentItemAttrs.remove("assessmentReference");
-                         * }
-                         * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
-                         */
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(

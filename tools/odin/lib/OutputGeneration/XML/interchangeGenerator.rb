@@ -21,14 +21,30 @@ class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(interchange)
+  def initialize(interchange, batchSize=10000)
     @stime = Time.now
     @entityCount = 0
     @interchange = interchange
+    @entities = []
+    @batchSize = batchSize
   end
 
   def start()
     @interchange << @header
+  end
+
+  def <<(entity)
+    @entities << entity
+    if @entities.size >= @batchSize
+      batchRender
+      @entities = []
+    end
+  end
+
+  def batchRender
+    report(@entities)
+    generator = @generator.new @entities
+    @interchange << generator.render()
   end
 
   def report(entities)
@@ -39,6 +55,7 @@ class InterchangeGenerator
   end
 
   def finalize()
+    batchRender
     @interchange << @footer
     @interchange.close()
 

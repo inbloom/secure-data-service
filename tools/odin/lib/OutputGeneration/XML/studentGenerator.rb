@@ -32,34 +32,13 @@ class StudentGenerator < InterchangeGenerator
 
   end
 
-
   def initialize(interchange, batchSize)
-    super(interchange)
-    @batchSize = batchSize
+    super(interchange, batchSize)
 
-   @header, @footer = build_header_footer( "StudentParent" )
-    @students = []
+    @header, @footer = build_header_footer( "StudentParent" )
+    @generator = StudentGenerator::StudentInterchange 
 
     start()
-  end
-
-  def <<(student)
-    @students << student
-    if @students.size >= @batchSize
-      batchRender
-      @students = []
-    end
-  end
-
-  def batchRender
-    report(@students)
-    generator = StudentGenerator::StudentInterchange.new @students
-    @interchange << generator.render()
-  end
-
-  def finalize
-    batchRender
-    super
   end
 
 end

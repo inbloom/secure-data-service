@@ -482,7 +482,7 @@ public class NeutralRecord implements Cloneable {
     public String toString() {
         try {
             return MAPPER.writeValueAsString(this);
-        } catch (Exception e) {
+        } catch (java.io.IOException e) {
             return super.toString();
         }
     }
