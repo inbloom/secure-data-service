@@ -30,13 +30,26 @@ Given /^I go to the portal page on RC$/ do
   @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
 end
 
+Given /^I am running in Sandbox mode$/ do
+  @mode = "SANDBOX"
+end
+
 Given /^when I click Accept$/ do 
+
+  if (@mode == "SANDBOX")
+    @imap_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+  else
+    @imap_username = PropLoader.getProps['developer_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_email_imap_registration_pass']
+  end
+
   @content = check_email({:imap_host => PropLoader.getProps['email_imap_hostname'],
                          :imap_port => PropLoader.getProps['email_imap_portname'],
                          :content_substring => "RCTest",
                          :subject_substring => "Email Confirmation",
-                         :imap_username => PropLoader.getProps['developer_email_imap_registration_user'] ,
-                         :imap_password => PropLoader.getProps['developer_email_imap_registration_pass'] }) do
+                         :imap_username => @imap_username ,
+                         :imap_password => @imap_password }) do
 
     @driver.find_element(:xpath, "//input[contains(@id, 'accept')]").click
     puts "Accepted Terms and Conditions."
@@ -106,10 +119,19 @@ end
 private
 
 def check_email_for_verification(subject_substring = nil, content_substring = nil)
+
+  if (@mode == "SANDBOX")
+    @imap_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+  else
+    @imap_username = PropLoader.getProps['developer_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_email_imap_registration_pass']
+  end
+
   imap_host = PropLoader.getProps['email_imap_hostname'] 
   imap_port = PropLoader.getProps['email_imap_portname'] 
-  imap_user = PropLoader.getProps['developer_email_imap_registration_user'] 
-  imap_password = PropLoader.getProps['developer_email_imap_registration_pass'] 
+  imap_user = @imap_username
+  imap_password = @imap_password 
   not_so_distant_past = Date.today.prev_day
   not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)

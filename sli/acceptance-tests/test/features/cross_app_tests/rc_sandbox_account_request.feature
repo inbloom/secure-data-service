@@ -5,6 +5,7 @@ Feature: User requests for a developer account in sandbox environments
 
 Background:
   Given I have an open web browser
+  And I am running in Sandbox mode
 
 Scenario: SLC Operator logs into SAMT and deletes the developer account
     When I navigate to the Portal home page
@@ -41,3 +42,5 @@ Scenario: As an app developer I request a sandbox account and  I want to verify 
   Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
+
+  And he should receive an email telling him his account is approved
