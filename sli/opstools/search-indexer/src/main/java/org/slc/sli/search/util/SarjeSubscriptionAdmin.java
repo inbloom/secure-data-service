@@ -28,7 +28,6 @@ import org.springframework.jms.core.MessageCreator;
 
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
-import org.slc.sli.search.connector.SourceDatastoreConnector;
 
 /**
  * Helper class to maintain search related subscriptions for sarje
@@ -46,8 +45,6 @@ public class SarjeSubscriptionAdmin {
     private String dbJobsCollection;
 
     private IndexConfigStore indexConfigStore;
-
-    private SourceDatastoreConnector sourceDatastoreConnector;
 
     private JmsTemplate jmsTemplate;
     // topic oplog agents listen to for subscriptions
@@ -120,6 +117,10 @@ public class SarjeSubscriptionAdmin {
         }
     }
 
+    public void publishOnDemand(String message) {
+        publishSubscriptions();
+    }
+
     /**
      * Publish all subscriptions to the subscription topic.
      * Sarje expects a full collection
@@ -152,10 +153,6 @@ public class SarjeSubscriptionAdmin {
 
     public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
         this.indexConfigStore = indexConfigStore;
-    }
-
-    public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
-        this.sourceDatastoreConnector = sourceDatastoreConnector;
     }
 
     public void setJmsTemplate(JmsTemplate jmsTemplate) {

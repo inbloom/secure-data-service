@@ -103,7 +103,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <amq:topic id="sarjeSubTopic" physicalName="${sli.search.indexer.sarje.sub.topic}"/>
 	<jms:listener-container connection-factory="jmsFactory" >
 	    <jms:listener destination="${sli.search.indexer.queue.name}" ref="incrementalListener"/>
-	    <jms:listener destination="${sli.search.indexer.sarje.sub.req.queue}" ref="sarjeSubscriptionAdmin" method="publishSubscriptions"/>
+	    <jms:listener destination="${sli.search.indexer.sarje.sub.req.queue}" ref="sarjeSubscriptionAdmin" method="publishOnDemand"/>
 	</jms:listener-container>
 	
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy" lazy-init="false">
@@ -154,7 +154,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	</bean>
 	
 	<bean id="sarjeSubscriptionAdmin" class="org.slc.sli.search.util.SarjeSubscriptionAdmin" init-method="init" depends-on="jmsFactory">
-	    <property name="sourceDatastoreConnector" ref="sourceDatasourceConnector" />
 		<property name="indexConfigStore" ref="indexConfigStore"/>
 		<property name="searchQueue" value="${sli.search.indexer.queue.name}"/>
 		<property name="dbJobsCollection" value="${sli.search.indexer.sarje.sub.jobsCollection:jobs}"/>
