@@ -23,6 +23,15 @@ import org.slc.sli.search.entity.IndexEntity;
  */
 public interface Indexer extends Process {
 
+    /**
+     * Index with search engine
+     * @param entity
+     */
     void index(IndexEntity entity);
+
+    /**
+     * Clear internal state
+     */
+    void clearCache();
 
 }

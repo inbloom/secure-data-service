@@ -15,6 +15,9 @@
  */
 package org.slc.sli.search.process.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.search.connector.SearchEngineConnector;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.connector.SourceDatastoreConnector.Tenant;
@@ -23,8 +26,6 @@ import org.slc.sli.search.process.Admin;
 import org.slc.sli.search.process.Extractor;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.process.Loader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AdminImpl implements Admin {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,34 +34,44 @@ public class AdminImpl implements Admin {
     private SearchEngineConnector searchEngine;
     private Indexer indexer;
     private Loader loader;
-    
+
     private Tenant getTenant(String tenantId) {
         for (Tenant t : source.getTenants()) {
-            if (t.getTenantId().equals(tenantId))
+            if (t.getTenantId().equals(tenantId)) {
                 return t;
+            }
         }
         throw new IllegalArgumentException("Invalid tenantId " + tenantId);
     }
 
+    @Override
     public void reload(String tenantId) {
         logger.info("Received reload " + tenantId);
         Tenant tenant = getTenant(tenantId);
+        indexer.clearCache();
         searchEngine.deleteIndex(tenant.getDbName());
         extractor.execute(tenant, Action.INDEX);
     }
+    @Override
     public void reloadAll() {
         logger.info("Received reloadAll");
         searchEngine.executeDelete(searchEngine.getBaseUrl());
+        indexer.clearCache();
         extractor.execute(Action.INDEX);
     }
+    @Override
     public void reconcile(String tenantId) {
         logger.info("Received reconcile " + tenantId);
+        indexer.clearCache();
         extractor.execute(getTenant(tenantId), Action.UPDATE);
     }
+    @Override
     public void reconcileAll() {
         logger.info("Received reconcileAll");
+        indexer.clearCache();
         extractor.execute(Action.UPDATE);
     }
+    @Override
     public String getHealth() {
         StringBuilder status = new StringBuilder();
         status.append(extractor.getHealth());
@@ -68,7 +79,7 @@ public class AdminImpl implements Admin {
         status.append(indexer.getHealth());
         return status.toString();
     }
-    
+
     public void setExtractor(Extractor extractor) {
         this.extractor = extractor;
     }

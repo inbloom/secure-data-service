@@ -263,7 +263,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
     @Override
     public void putMapping(String index, String type, String mapping) {
         HttpStatus response = executePut(getIndexTypeUri() + "/_mapping?ignore_conflicts=true", mapping, index, type);
-        logger.info(String.format("Mapping response: %s ", response));
+        logger.info(String.format("Mapping response for %s/%s: %s ", index, type, response));
     }
 
     @Override
