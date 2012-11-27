@@ -60,9 +60,6 @@
 
     <context:annotation-config />
 
-    <bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
-    </bean>
-
     <bean id="EntityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
     <bean id="queryConverterCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
     <bean id="testModelProvider" class="org.slc.sli.api.model.TestModelProvider" />

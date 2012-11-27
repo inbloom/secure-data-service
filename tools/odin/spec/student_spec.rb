@@ -75,39 +75,51 @@ describe "Student" do
     end
     
     it "returns 55-65% white with white weighted distribution set to 60%" do
-      grMethod = student.method(:race)
-      student.distributionTester(grMethod, "White", 720, 780, 1000).should eq("true")
+      distributionTester(:race, "White", 720, 780, 1000).should eq("true")
     end
       
     it "returns 15-25% hispanicLatino with true weight set to 20%" do
-      hlMethod = student.method(:hispanicLatino)
-      student.distributionTester(hlMethod, true, 150, 250, 1000).should eq("true")
+      distributionTester(:hispanicLatino, true, 150, 250, 1000).should eq("true")
     end
     
     it "returns 5-15% economicDisadvantaged with true weight set to 10%" do
-      edMethod = student.method(:economicDisadvantaged)
-      student.distributionTester(edMethod, true, 80, 120, 1000).should eq("true")
+      distributionTester(:economicDisadvantaged, true, 80, 120, 1000).should eq("true")
     end 
       
     it "returns 91-97% not limitedEnglish 'not limited' set to 94%" do
-      leMethod = student.method(:limitedEnglish)
-      student.distributionTester(leMethod, 'NotLimited', 910, 970, 1000).should eq("true")
+      distributionTester(:limitedEnglish, 'NotLimited', 910, 970, 1000).should eq("true")
     end
       
     it "returns 92-98% not disabled with weight set to 95%" do
-      daMethod = student.method(:disability)
-      student.distributionTester(daMethod, false, 920, 980, 1000).should eq("true")
+      distributionTester(:disability, false, 920, 980, 1000).should eq("true")
     end  
       
     it "returns 68-72% schoolFood with 'Full price' set to 70%" do
-      sfMethod = student.method(:schoolFood)
-      student.distributionTester(sfMethod, 'Full price', 680, 720, 1000).should eq("true")
+      distributionTester(:schoolFood, 'Full price', 680, 720, 1000).should eq("true")
     end
     
     it "returns 1% Jr suffix" do
-      suMethod = student.method(:suffix)
-      student.distributionTester(suMethod, 'Jr', 1, 19, 1000).should eq("true")
+      distributionTester(:suffix, 'Jr', 1, 19, 1000).should eq("true")
     end
   end
 end
 
+def distributionTester(inMethod, tracer, lo, hi, iters)
+  i = 0
+  hit = 0
+  (0..iters).each{|i|
+    s = Student.new(i, Date.new(2000, 9, 1))
+    if s.method(inMethod).call == tracer
+      hit += 1
+    end
+    i += 1
+  }
+
+  if hit.between?(lo, hi)
+    puts "PASS: #{tracer} was #{hit}/#{iters}, expected %0.1f \%" % ((((hi.to_f+lo)/2)/iters) * 100)
+    return "true"
+  else
+    puts "FAIL: #{tracer} was #{hit}/#{iters}, expected %0.1f \%" % ((((hi.to_f+lo)/2)/iters) * 100)
+    return "false"
+  end
+end

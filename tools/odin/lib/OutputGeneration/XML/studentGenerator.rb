@@ -23,42 +23,43 @@ require_relative "../../Shared/EntityClasses/student"
 class StudentGenerator < InterchangeGenerator
 
   class StudentInterchange < Mustache
+    attr_accessor :students
 
-    def initialize()
+    def initialize(students)
       @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/student.mustache"
-      @students = []
+      @students = students
     end
 
-    def set(entities)
-      @students = entities
-    end
-
-    def students
-      @students
-    end
   end
 
 
-  def initialize(filename)
-    super(filename)
+  def initialize(interchange, batchSize)
+    super(interchange)
+    @batchSize = batchSize
 
-    @generator = StudentGenerator::StudentInterchange.new
-
-    @header = <<-HEADER
-<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
-    HEADER
-    @footer = <<-FOOTER
-</InterchangeStudentParent>
-    FOOTER
+   @header, @footer = build_header_footer( "StudentParent" )
+    @students = []
 
     start()
   end
 
-  def <<(entities)
-    super(entities)
-    @generator.set(entities)
-    @interchange << @generator.render()
+  def <<(student)
+    @students << student
+    if @students.size >= @batchSize
+      batchRender
+      @students = []
+    end
+  end
+
+  def batchRender
+    report(@students)
+    generator = StudentGenerator::StudentInterchange.new @students
+    @interchange << generator.render()
+  end
+
+  def finalize
+    batchRender
+    super
   end
 
 end

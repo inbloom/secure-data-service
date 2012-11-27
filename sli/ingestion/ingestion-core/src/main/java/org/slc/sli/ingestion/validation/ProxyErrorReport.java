@@ -26,7 +26,7 @@ package org.slc.sli.ingestion.validation;
 public final class ProxyErrorReport implements ErrorReport {
 
     private ErrorReport innerErrorReport;
-    boolean hasErrors;
+    private boolean hasErrors;
 
     public ProxyErrorReport(ErrorReport errorReport) {
         this.innerErrorReport = errorReport;

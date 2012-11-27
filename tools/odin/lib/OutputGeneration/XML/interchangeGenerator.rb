@@ -21,23 +21,21 @@ class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(filename)
+  def initialize(interchange)
     @stime = Time.now
     @entityCount = 0
-    @filename = filename
+    @interchange = interchange
   end
 
   def start()
-    @interchange = File.open("generated/#{@filename}", 'w')
     @interchange << @header
   end
 
-  def <<(entities)
+  def report(entities)
     @entityCount = @entityCount + entities.length
     if @entityCount % 100000 == 0
       puts "\t#@entityCount entities created."
     end
-
   end
 
   def finalize()

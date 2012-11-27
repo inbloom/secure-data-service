@@ -25,17 +25,18 @@ import java.util.Map;
 
 import com.mongodb.BasicDBObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
 
 /**
  * Mongo implementation for access to tenant data.
@@ -211,7 +212,7 @@ public class TenantMongoDA implements TenantDA {
 
             try {
                 TenantContext.setIsSystemCall(true);
-                isPartitioned = entityRepository.count("tenant", query) > 0;
+                isPartitioned = entityRepository.count(TENANT_COLLECTION, query) > 0;
             } finally {
                 TenantContext.setIsSystemCall(false);
             }
@@ -262,6 +263,7 @@ public class TenantMongoDA implements TenantDA {
         entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull", update));
     }
 
+    @Override
     public Map<String, List<String>> getPreloadFiles() {
         NeutralQuery preloadReadyTenantQuery = new NeutralQuery().addCriteria(
                 new NeutralCriteria(STATUS_FIELD, "=", "ready")).setIncludeFields(

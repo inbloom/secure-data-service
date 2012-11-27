@@ -47,6 +47,9 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -59,18 +62,16 @@ import org.xml.sax.SAXException;
  * @author srupasinghe
  */
 public class DocumentManipulator {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentManipulator.class);
+
     private DocumentBuilderFactory docFactory;
     private XPathFactory xPathFactory;
 
-    public void init() {
+    public DocumentManipulator() {
         docFactory = DocumentBuilderFactory.newInstance();
         xPathFactory = XPathFactory.newInstance();
-        
+
         docFactory.setNamespaceAware(false);
-    }
-    
-    public DocumentManipulator() {
-        init();
     }
     
     /**
@@ -163,11 +164,8 @@ public class DocumentManipulator {
         } catch (FileNotFoundException e) {
             throw new DocumentManipulatorException(e);
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            IOUtils.closeQuietly(out);
         }
-        
     }
     
     /**
