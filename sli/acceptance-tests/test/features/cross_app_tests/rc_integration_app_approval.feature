@@ -252,8 +252,8 @@ Then I should be redirected to the Data Browser home page
 When I navigate to the dashboard page
 And I am redirected to the dashboard home page
 Then I do not see any login pages
-And I exit out of the iframe
-And I click on log out
+#And I exit out of the iframe
+And I click on the logout link
 Then I will be redirected to the realm selector web page
 When I navigate to the databrowser page
 Then I should forced to reauthenticate to gain access
