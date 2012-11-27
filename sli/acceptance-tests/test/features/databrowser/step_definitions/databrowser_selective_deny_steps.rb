@@ -44,11 +44,13 @@ Then /^I should see only myself$/ do
 end
 When /^I should navigate to "([^"]*)"$/ do |page|
   @driver.get(PropLoader.getProps['databrowser_server_url'] + page)
+  puts @driver.page_source  
 end
 
 Then /^I should see that there are "([^"]*)" teachers$/ do |expectedNumTeachers|
   expected = Integer(expectedNumTeachers)
   table = @driver.find_element(:id, "simple-table")
+  puts @driver.page_source
   rows = table.find_elements(:xpath, ".//tr")
   #-1 because of thead
   total = -1
@@ -61,7 +63,7 @@ end
 Then /^I should see that there are no teachers$/ do 
   table = @driver.find_element(:id, "simple-table")
   rows = table.find_elements(:xpath, ".//tr")
-  
+  puts @driver.page_source
   message = ""
   rows.each do |row|
     tds = row.find_elements(:xpath, ".//td")

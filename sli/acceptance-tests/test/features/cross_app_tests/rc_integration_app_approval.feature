@@ -216,7 +216,6 @@ And the Deny button next to it is enabled
 And I exit out of the iframe
 And I click on log out
 
-@wip
 Scenario: User Logs into databrowser from portal
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
@@ -243,7 +242,9 @@ Then I am redirected to the particular associations Simple View
 When I click on the row containing "Sollars"
 Then I am redirected to the particular associations Simple View
 
-Scenario: Sessions are shared between apps
+@wip 
+#US4878: Logout Test Coverage
+Scenario: Sessions are shared between Databrowser and Dashboard apps
 When I navigate to the databrowser page
 When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
@@ -255,6 +256,23 @@ And I am redirected to the dashboard home page
 And I click on log out
 Then I will be redirected to the realm selector web page
 When I navigate to the databrowser page
+Then I should forced to reauthenticate to gain access
+
+Scenario: Sessions are shared between Dashboard and Databrowser apps
+When I navigate to the Portal home page
+When I select "Daybreak Test Realm" and click go
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
+Then I should be on Portal home page
+When I navigate to the dashboard page
+And I am redirected to the dashboard home page
+When I navigate to the databrowser page
+Then I do not see any login pages
+Then I am redirected to the databrowser home page
+And I click on the logout link
+Then I should see a message that I was logged out
+And I should forced to reauthenticate to gain access
+When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
 Scenario: User sees non-installed Developer App 
