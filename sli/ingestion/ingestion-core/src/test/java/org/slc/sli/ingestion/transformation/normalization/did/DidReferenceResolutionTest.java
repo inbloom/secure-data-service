@@ -174,6 +174,43 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
+    public void resolvesDisciplineIncidentReferenceDidInDisciplineActionCorrectly() throws JsonParseException,
+            JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/disciplineAction.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> disciplineIncidentNaturalKeys = new HashMap<String, String>();
+        disciplineIncidentNaturalKeys.put("schoolId", edOrgId);
+        disciplineIncidentNaturalKeys.put("disciplineActionIdentifier", "theIncident");
+
+        checkId(entity, "DisciplineIncidentReference", disciplineIncidentNaturalKeys, "disciplineIncident");
+    }
+
+    @Test
+    public void resolvesDisciplineIncidentReferenceEdOrgRefDidInStudentDisciplineIncidentAssocCorrectly()
+            throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentDisciplineIncidentAssociation.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> disciplineIncidentNaturalKeys = new HashMap<String, String>();
+        disciplineIncidentNaturalKeys.put("schoolId", edOrgId);
+        disciplineIncidentNaturalKeys.put("disciplineActionIdentifier", "theIncident");
+
+        checkId(entity, "DisciplineIncidentReference", disciplineIncidentNaturalKeys,
+ "disciplineIncident");
+    }
+
+    @Test
     public void resolvesEdOrgRefDidInTeacherSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/teacherSchoolAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
