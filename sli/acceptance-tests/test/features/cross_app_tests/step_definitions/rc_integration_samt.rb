@@ -87,6 +87,7 @@ end
 
 Then /^I will be redirected to the realm selector web page$/ do
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
+  puts @driver.page_source
 end
 
 When /^I select the realm "([^"]*)"$/ do |realm|
