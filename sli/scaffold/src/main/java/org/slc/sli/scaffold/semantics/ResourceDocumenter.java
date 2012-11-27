@@ -27,6 +27,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Adds elements to the existing html to include links to the generated 
@@ -36,6 +38,8 @@ import org.apache.commons.io.IOUtils;
  *
  */
 public class ResourceDocumenter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceDocumenter.class);
             
     private static final String LINK_HTML = "<a href=\"$LINK\">$TYPE</a>";
     private static final String PROP_FILE = "/resource_mapping.properties";
@@ -68,7 +72,7 @@ public class ResourceDocumenter {
             props.remove("base_url");
             
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } finally {
             IOUtils.closeQuietly(in);
         }
@@ -83,9 +87,9 @@ public class ResourceDocumenter {
         try {
             IOUtils.write(content, new FileOutputStream(output));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -99,9 +103,9 @@ public class ResourceDocumenter {
         try {
             content = IOUtils.toString(new FileInputStream(generatedHtml));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
         return content;
     }
@@ -113,9 +117,9 @@ public class ResourceDocumenter {
         String link = (String) value.split(",")[0];
         String href = (String) value.split(",")[1];
         
-        content = content.replace("$$" + key + "$$", createLink(link, href));
+        String newContent = content.replace("$$" + key + "$$", createLink(link, href));
         
-        return content;
+        return newContent;
     }
     
     protected String createLink(String key, String value) {

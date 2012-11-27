@@ -18,8 +18,6 @@ limitations under the License.
 
 require 'yaml'
 require_relative 'baseEntity'
-#require_relative '../../EntityCreation/student_builder'
-#require_relative '../Shared/EntityClasses/student.rb'
 
 class Student < BaseEntity
   
@@ -44,7 +42,7 @@ class Student < BaseEntity
     @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
     @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
     @lastName = choose(@@demographics['lastNames'])
-    @suffix = wChoose(@@demographics['nameSuffix'])
+    @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
     @birthDay = @year_of + @rand.rand(365)
     @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
     @loginId = email
