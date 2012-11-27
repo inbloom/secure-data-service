@@ -28,6 +28,8 @@ require 'builder'
 require 'rexml/document'
 require 'yaml'
 require 'digest/sha1'
+require 'socket'
+
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
@@ -326,7 +328,26 @@ at_exit do
 end
 
 After do |scenario|
-  Cucumber.wants_to_quit = true if scenario.failed? and !ENV['FAILSLOW']
+  if scenario.failed?
+    begin
+      conn = Mongo::Connection.new("jenkins.slidev.org")
+      db = conn.db("test_job_failures")
+      failures = db.collection("failure")
+      title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.title : scenario.title
+      failureHash = {
+       "timestamp" => Time.now.to_f,
+       "feature" => title,
+       "scenario" => scenario.name,
+       "hostname" => Socket.gethostname
+      }
+      failures.insert(failureHash)
+      db.get_last_error()
+      conn.close
+    rescue
+      # If couldn't report failure, swallow the exception and continue
+    end
+    Cucumber.wants_to_quit = true if !ENV['FAILSLOW']
+  end
 end
 
 Around('@LDAP_Reset_developer-email') do |scenario, block|

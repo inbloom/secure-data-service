@@ -22,10 +22,16 @@ require_relative '../lib/Shared/date_utility.rb'
 
 describe "DateUtility" do
 
-  before(:all) do
-    @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
-    @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
-    @random = Random.new(@scenario['seed'])
+  before(:each) do
+    @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+    @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
+    @random = Random.new(@yaml['seed'])
+  end
+
+  after(:each) do
+    @scenario = nil
+    @yaml = nil
+    @random = nil
   end
 
   describe "--> requests for month and day utilities" do
@@ -123,6 +129,7 @@ describe "DateUtility" do
   	describe "--> requesting set of holidays for a school year" do
       it "will return an array of holidays for the specified school year" do
         holidays = DateUtility.get_school_holidays(@random, 2011)
+        puts "holidays: #{holidays}"
         fail if !holidays.include? Date.new(2011, 9, 5)
         fail if !holidays.include? Date.new(2011, 10, 10)
         fail if !holidays.include? Date.new(2011, 11, 11)
@@ -132,14 +139,15 @@ describe "DateUtility" do
         fail if !holidays.include? Date.new(2011, 12, 26)
         fail if !holidays.include? Date.new(2011, 12, 30)
         fail if !holidays.include? Date.new(2012, 1, 2)
-        fail if !holidays.include? Date.new(2012, 3, 26)
-        fail if !holidays.include? Date.new(2012, 3, 27)
-        fail if !holidays.include? Date.new(2012, 3, 28)
-        fail if !holidays.include? Date.new(2012, 3, 29)
-        fail if !holidays.include? Date.new(2012, 3, 30)
+        fail if !holidays.include? Date.new(2012, 3, 12)
+        fail if !holidays.include? Date.new(2012, 3, 13)
+        fail if !holidays.include? Date.new(2012, 3, 14)
+        fail if !holidays.include? Date.new(2012, 3, 15)
+        fail if !holidays.include? Date.new(2012, 3, 16)
         
-        holidays.clear
+        holidays = nil
         holidays = DateUtility.get_school_holidays(@random, 2012)
+        puts "holidays: #{holidays}"
         fail if !holidays.include? Date.new(2012, 9, 3)
         fail if !holidays.include? Date.new(2012, 10, 8)
         fail if !holidays.include? Date.new(2012, 11, 9)
@@ -157,6 +165,38 @@ describe "DateUtility" do
       end
     end
     describe "--> requesting distribution of dates over an interval" do
+      it "will handle a single event for any size interval" do
+        monday = Date.new(2012, 3, 26)
+        friday = Date.new(2012, 3, 30)
+        fail if DateUtility.get_school_days_over_interval(monday, friday, 1) != [Date.new(2012, 3, 26)] 
+      end
+
+      it "will return an evenly spread distribution of dates for an interval" do
+        monday = Date.new(2012, 3, 26)
+        friday = Date.new(2012, 3, 30)
+        days = DateUtility.get_school_days_over_interval(monday, friday, 3)
+        fail if days.size != 3
+        days.each do |day|
+          fail if day < monday or day > friday
+          fail if day.wday == 0 or day.wday == 6
+        end
+      end
+      
+      it "will return an evenly spread distribution of dates for an interval" do
+        first_day = Date.new(2012, 3, 1)
+        last_day  = Date.new(2012, 3, 30)
+        days = DateUtility.get_school_days_over_interval(first_day, last_day, 10)
+        fail if days.size != 10
+        days.each do |day|
+          fail if day < first_day or day > last_day
+          fail if day.wday == 0 or day.wday == 6
+        end
+      end
+
+      it "will handle start date equivalent to end date for an interval" do
+        monday = Date.new(2012, 3, 26)
+        fail if DateUtility.get_school_days_over_interval(monday, monday, 1) != [Date.new(2012, 3, 26)] 
+      end
     end
   end
 end

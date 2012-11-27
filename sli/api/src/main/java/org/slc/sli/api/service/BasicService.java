@@ -90,12 +90,7 @@ public class BasicService implements EntityService {
 
     private Repository<Entity> repo;
     private static final boolean ENABLE_CONTEXT_RESOLVING = false;
-    public static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
-//            Arrays.asList(
-//                    EntityNames.STUDENT,
-//                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
-//            )
-    );
+    public static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>();
 
     @Autowired
     @Qualifier("validationRepo")
@@ -179,9 +174,6 @@ public class BasicService implements EntityService {
 
     @Override
     public String create(EntityBody content) {
-        // DE260 - Logging of possibly sensitive data
-        // LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {
-        // collectionName, content });
 
         // if service does not allow anonymous write access, check user rights
         if (writeRight != Right.ANONYMOUS_ACCESS) {
@@ -201,8 +193,6 @@ public class BasicService implements EntityService {
 
     @Override
     public void delete(String id) {
-        // DE260 - Logging of possibly sensitive data
-        // LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
 
         checkAccess(writeRight, id);
 
@@ -421,11 +411,7 @@ public class BasicService implements EntityService {
         return exists;
     }
 
-    /**
-     * Defect: DE2183
-     * TODO: refactor clientId, entityId out of body into root of mongo document
-     * TODO: entity collection should be per application
-     */
+
     @Override
     public EntityBody getCustom(String id) {
         checkAccess(readRight, id);
@@ -448,11 +434,6 @@ public class BasicService implements EntityService {
         }
     }
 
-    /**
-     * Defect: DE2183
-     * TODO: refactor clientId, entityId out of body into root of mongo document
-     * TODO: entity collection should be per application
-     */
     @Override
     public void deleteCustom(String id) {
         checkAccess(writeRight, id);
@@ -474,11 +455,6 @@ public class BasicService implements EntityService {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
-    /**
-     * Defect: DE2183
-     * TODO: refactor clientId, entityId out of body into root of mongo document
-     * TODO: entity collection should be per application
-     */
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) {
         checkAccess(writeRight, id);
@@ -739,8 +715,6 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(entityId);
         }
 
-        // Defect: DE2183
-        // TODO Validate that this is needed?
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
             if (entityId != null && !isEntityAllowed(entityId, collectionName, defn.getType())) {

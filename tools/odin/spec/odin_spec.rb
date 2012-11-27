@@ -28,6 +28,17 @@ describe "Odin" do
     end
   end
 
+  describe "#baseline" do
+    it "will compare the output to baseline" do
+      odin = Odin.new
+      odin.generate( nil )
+      doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml" ) )
+      baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/InterchangeStudent.xml" ) )
+
+      doc.should be_equivalent_to(baseline)
+    end
+  end
+
   describe "#md5"
   it "generates the same data for each run" do
     odin = Odin.new
@@ -50,17 +61,6 @@ describe "Odin" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
       end
     end
-
-    doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml" ) )
-    baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/InterchangeStudent.xml" ) )
-    let(:matches) {EquivalentXml.equivalent?(doc, baseline)}
-
-    describe "#generate" do
-      it "will compare the output to baseline" do
-        matches.should eq(true)
-      end
-    end
-
   end
 
   context "validate 10 student configuration matches baseline" do

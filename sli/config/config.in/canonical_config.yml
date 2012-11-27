@@ -515,6 +515,11 @@ acceptance-tests:
 
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
+        
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -604,6 +609,11 @@ ci:
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
 
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
@@ -697,6 +707,11 @@ dev:
 
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
+        
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -984,6 +999,11 @@ local:
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 1000
 
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
@@ -1089,6 +1109,11 @@ local-acceptance-tests:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.lz.pollInterval: 1000
 
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
     dashboard:
         # Pick up default here, not local, to avoid overriding the encryption keystore.
         <<: *DASHBOARD-DEFAULT
@@ -1244,6 +1269,12 @@ team:
 
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
+        
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT

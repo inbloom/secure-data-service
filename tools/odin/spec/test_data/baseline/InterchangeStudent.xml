@@ -3,182 +3,78 @@
 <Student>
   <StudentUniqueStateId>1</StudentUniqueStateId>
   <Name>
-    <FirstName>Mohamed</FirstName>
-    <LastSurname>Baldwin</LastSurname>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Kory</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
   </Name>
   <Sex>Male</Sex>
   <BirthData>
-    <BirthDate>2012-04-26</BirthDate>
+    <BirthDate>2001-01-12</BirthDate>
   </BirthData>
   <Address AddressType="Home">
-    <StreetNumberName>996 East Rd</StreetNumberName>
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
     <City>New York</City>
     <StateAbbreviation>NY</StateAbbreviation>
     <PostalCode>10292</PostalCode>
   </Address>
   <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>4716@fakemail.com</EmailAddress>
+    <EmailAddress>2895@fakemail.com</EmailAddress>
   </ElectronicMail>
   <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
   <Race>
     <RacialCategory>Asian</RacialCategory>
   </Race>
-  <EconomicDisadvantaged>true</EconomicDisadvantaged>
   <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
   <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>2895@fakemail.com</LoginId>
 </Student>
 <Student>
   <StudentUniqueStateId>2</StudentUniqueStateId>
   <Name>
-    <FirstName>Deanne</FirstName>
-    <LastSurname>Murray</LastSurname>
+    <FirstName>Dorthy</FirstName>
+    <MiddleName>Melba</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>2012-07-25</BirthDate>
+    <BirthDate>2000-11-15</BirthDate>
   </BirthData>
   <Address AddressType="Home">
-    <StreetNumberName>597 East Rd</StreetNumberName>
+    <StreetNumberName>433 Oak Street</StreetNumberName>
     <City>New York</City>
     <StateAbbreviation>NY</StateAbbreviation>
     <PostalCode>10292</PostalCode>
   </Address>
   <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>7568@fakemail.com</EmailAddress>
+    <EmailAddress>4770@fakemail.com</EmailAddress>
   </ElectronicMail>
   <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
   <Race>
     <RacialCategory>White</RacialCategory>
   </Race>
-  <EconomicDisadvantaged>true</EconomicDisadvantaged>
   <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
   <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>4770@fakemail.com</LoginId>
 </Student>
 <Student>
   <StudentUniqueStateId>3</StudentUniqueStateId>
   <Name>
-    <FirstName>Austin</FirstName>
-    <LastSurname>Tam</LastSurname>
-  </Name>
-  <Sex>Male</Sex>
-  <BirthData>
-    <BirthDate>2012-05-24</BirthDate>
-  </BirthData>
-  <Address AddressType="Home">
-    <StreetNumberName>317 North Street</StreetNumberName>
-    <City>New York</City>
-    <StateAbbreviation>NY</StateAbbreviation>
-    <PostalCode>10292</PostalCode>
-  </Address>
-  <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>3250@fakemail.com</EmailAddress>
-  </ElectronicMail>
-  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-  <Race>
-    <RacialCategory>White</RacialCategory>
-  </Race>
-  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
-  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-</Student>
-<Student>
-  <StudentUniqueStateId>4</StudentUniqueStateId>
-  <Name>
-    <FirstName>Jolene</FirstName>
-    <LastSurname>Tenney</LastSurname>
+    <FirstName>Staci</FirstName>
+    <MiddleName>Dora</MiddleName>
+    <LastSurname>Crowell</LastSurname>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>2012-09-08</BirthDate>
+    <BirthDate>2001-05-15</BirthDate>
   </BirthData>
   <Address AddressType="Home">
-    <StreetNumberName>539 North Street</StreetNumberName>
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
     <City>New York</City>
     <StateAbbreviation>NY</StateAbbreviation>
     <PostalCode>10292</PostalCode>
   </Address>
   <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>5672@fakemail.com</EmailAddress>
-  </ElectronicMail>
-  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-  <Race>
-    <RacialCategory>White</RacialCategory>
-  </Race>
-  <EconomicDisadvantaged>true</EconomicDisadvantaged>
-  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
-  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-</Student>
-<Student>
-  <StudentUniqueStateId>5</StudentUniqueStateId>
-  <Name>
-    <FirstName>Napoleon</FirstName>
-    <LastSurname>Potter</LastSurname>
-  </Name>
-  <Sex>Male</Sex>
-  <BirthData>
-    <BirthDate>2012-06-14</BirthDate>
-  </BirthData>
-  <Address AddressType="Home">
-    <StreetNumberName>196 South Lane</StreetNumberName>
-    <City>New York</City>
-    <StateAbbreviation>NY</StateAbbreviation>
-    <PostalCode>10292</PostalCode>
-  </Address>
-  <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>8498@fakemail.com</EmailAddress>
-  </ElectronicMail>
-  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-  <Race>
-    <RacialCategory>White</RacialCategory>
-  </Race>
-  <EconomicDisadvantaged>true</EconomicDisadvantaged>
-  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
-  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-</Student>
-<Student>
-  <StudentUniqueStateId>6</StudentUniqueStateId>
-  <Name>
-    <FirstName>Sandy</FirstName>
-    <LastSurname>Longo</LastSurname>
-  </Name>
-  <Sex>Female</Sex>
-  <BirthData>
-    <BirthDate>2012-02-15</BirthDate>
-  </BirthData>
-  <Address AddressType="Home">
-    <StreetNumberName>602 South Lane</StreetNumberName>
-    <City>New York</City>
-    <StateAbbreviation>NY</StateAbbreviation>
-    <PostalCode>10292</PostalCode>
-  </Address>
-  <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>1810@fakemail.com</EmailAddress>
-  </ElectronicMail>
-  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-  <Race>
-    <RacialCategory>Asian</RacialCategory>
-  </Race>
-  <EconomicDisadvantaged>true</EconomicDisadvantaged>
-  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
-  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-</Student>
-<Student>
-  <StudentUniqueStateId>7</StudentUniqueStateId>
-  <Name>
-    <FirstName>Kelly</FirstName>
-    <LastSurname>Haase</LastSurname>
-  </Name>
-  <Sex>Male</Sex>
-  <BirthData>
-    <BirthDate>2012-07-18</BirthDate>
-  </BirthData>
-  <Address AddressType="Home">
-    <StreetNumberName>264 East Rd</StreetNumberName>
-    <City>New York</City>
-    <StateAbbreviation>NY</StateAbbreviation>
-    <PostalCode>10292</PostalCode>
-  </Address>
-  <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>6171@fakemail.com</EmailAddress>
+    <EmailAddress>8981@fakemail.com</EmailAddress>
   </ElectronicMail>
   <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
   <Race>
@@ -186,25 +82,195 @@
   </Race>
   <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
   <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>8981@fakemail.com</LoginId>
 </Student>
 <Student>
-  <StudentUniqueStateId>8</StudentUniqueStateId>
+  <StudentUniqueStateId>4</StudentUniqueStateId>
   <Name>
-    <FirstName>Anna</FirstName>
-    <LastSurname>Storey</LastSurname>
+    <FirstName>Yvonne</FirstName>
+    <MiddleName>Leigh</MiddleName>
+    <LastSurname>Morse</LastSurname>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>2012-01-24</BirthDate>
+    <BirthDate>2001-08-27</BirthDate>
   </BirthData>
   <Address AddressType="Home">
-    <StreetNumberName>537 East Rd</StreetNumberName>
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
     <City>New York</City>
     <StateAbbreviation>NY</StateAbbreviation>
     <PostalCode>10292</PostalCode>
   </Address>
   <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>389@fakemail.com</EmailAddress>
+    <EmailAddress>456@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>456@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>5</StudentUniqueStateId>
+  <Name>
+    <FirstName>Nathaniel</FirstName>
+    <MiddleName>Denver</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2000-11-13</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1032@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>1032@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>6</StudentUniqueStateId>
+  <Name>
+    <FirstName>Randi</FirstName>
+    <MiddleName>Colleen</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2001-08-29</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9040@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>9040@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>7</StudentUniqueStateId>
+  <Name>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Robbie</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2001-03-31</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>919@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>919@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>8</StudentUniqueStateId>
+  <Name>
+    <FirstName>Guillermo</FirstName>
+    <MiddleName>Alton</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2001-01-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6995@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>6995@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>9</StudentUniqueStateId>
+  <Name>
+    <FirstName>Yvette</FirstName>
+    <MiddleName>Gracie</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2000-10-27</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9979@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  <LoginId>9979@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>10</StudentUniqueStateId>
+  <Name>
+    <FirstName>Warren</FirstName>
+    <MiddleName>Demetrius</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2001-04-10</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1520@fakemail.com</EmailAddress>
   </ElectronicMail>
   <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
   <Race>
@@ -213,59 +279,7 @@
   <EconomicDisadvantaged>true</EconomicDisadvantaged>
   <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
   <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-</Student>
-<Student>
-  <StudentUniqueStateId>9</StudentUniqueStateId>
-  <Name>
-    <FirstName>Wade</FirstName>
-    <LastSurname>Porter</LastSurname>
-  </Name>
-  <Sex>Male</Sex>
-  <BirthData>
-    <BirthDate>2012-01-21</BirthDate>
-  </BirthData>
-  <Address AddressType="Home">
-    <StreetNumberName>188 South Lane</StreetNumberName>
-    <City>New York</City>
-    <StateAbbreviation>NY</StateAbbreviation>
-    <PostalCode>10292</PostalCode>
-  </Address>
-  <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>1199@fakemail.com</EmailAddress>
-  </ElectronicMail>
-  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-  <Race>
-    <RacialCategory>White</RacialCategory>
-  </Race>
-  <EconomicDisadvantaged>true</EconomicDisadvantaged>
-  <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
-  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-</Student>
-<Student>
-  <StudentUniqueStateId>10</StudentUniqueStateId>
-  <Name>
-    <FirstName>Dario</FirstName>
-    <LastSurname>Grissom</LastSurname>
-  </Name>
-  <Sex>Male</Sex>
-  <BirthData>
-    <BirthDate>2012-02-08</BirthDate>
-  </BirthData>
-  <Address AddressType="Home">
-    <StreetNumberName>185 West Blvd</StreetNumberName>
-    <City>New York</City>
-    <StateAbbreviation>NY</StateAbbreviation>
-    <PostalCode>10292</PostalCode>
-  </Address>
-  <ElectronicMail EmailAddressType="Home/Personal">
-    <EmailAddress>3620@fakemail.com</EmailAddress>
-  </ElectronicMail>
-  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-  <Race>
-    <RacialCategory>White</RacialCategory>
-  </Race>
-  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
-  <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+  <LoginId>1520@fakemail.com</LoginId>
 </Student>
 
 </InterchangeStudentParent>

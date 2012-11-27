@@ -610,7 +610,10 @@
                     <version>${maven.checkstyle.version}</version>
                     <configuration>
                         <configLocation>${sli.home}/../build-tools/src/main/resources/checkstyle/checkstyle.xml</configLocation>
-                        <propertyExpansion>checkstyle.import.control.file=${sli.home}/../build-tools/src/main/resources/checkstyle/import-control.xml</propertyExpansion>
+                        <propertyExpansion>
+                          checkstyle.import.control.file=${sli.home}/../build-tools/src/main/resources/checkstyle/import-control.xml
+                          checkstyle.headerFile=${sli.home}/../build-tools/src/main/resources/checkstyle/java.header
+                        </propertyExpansion>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
                         <linkXRef>false</linkXRef>
                         <failsOnError>false</failsOnError>

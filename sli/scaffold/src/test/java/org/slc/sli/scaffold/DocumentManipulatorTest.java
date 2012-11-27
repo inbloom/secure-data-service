@@ -38,11 +38,6 @@ import static org.junit.Assert.assertNotNull;
 public class DocumentManipulatorTest {
     DocumentManipulator handler = new DocumentManipulator(); //class under test
 
-    @Before
-    public void setup() {
-        handler.init();
-    }
-
     @Test(expected = DocumentManipulatorException.class)
     public void testParseDocumentEmptyFile() throws DocumentManipulatorException {
         handler.parseDocument(new File(""));
