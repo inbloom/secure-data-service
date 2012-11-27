@@ -55,10 +55,15 @@ describe "Odin" do
     let(:odin) {Odin.new}
     before {odin.generate "10students"}
     let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml"}
+    let(:ctlFile) {File.new "#{File.dirname(__FILE__)}/../generated/ControlFile.ctl"}
 
     describe "#generate" do
       it "will generate lists of 10 students" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
+      end
+      
+      it "will generate a valid control file with Student as a type" do
+        ctlFile.readlines.select{|l| l.match("Student")}.length.should eq(1)
       end
     end
   end
