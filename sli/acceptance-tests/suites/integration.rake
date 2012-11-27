@@ -140,7 +140,7 @@ end
 
 desc "Run RC Tests"
 task :rcTests do
-  OTHER_TAGS = OTHER_TAGS+" --tags @rc"
+  @tags = ["~@wip", "@rc", "~@sandbox"]
   #Rake::Task["rcCleanUpTests"].execute if tenant_exists && RUN_ON_RC
   #Rake::Task["rcTenantCleanUp"].execute
   Rake::Task["rcDeleteLDAPUsers"].execute
@@ -164,7 +164,7 @@ end
 
 desc "Run RC Tests"
 task :rcSandboxTests do
-  OTHER_TAGS = OTHER_TAGS+" --tags @rc @sandbox"
+  @tags = ["~@wip", "@rc", "@sandbox"]
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
