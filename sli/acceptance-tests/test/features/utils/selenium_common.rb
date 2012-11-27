@@ -99,7 +99,7 @@ end
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"s
   if (scenario.failed?)
-    STDOUT.puts @driver.page_source
+   @driver.save_screenshot("./cats_with_lasers.png")
   end
   @driver.quit if @driver
 end
