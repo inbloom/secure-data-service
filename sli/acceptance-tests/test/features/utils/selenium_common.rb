@@ -63,6 +63,7 @@ When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
   elsif idpType=="ADFS"
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "ctl00_ContentPlaceHolder1_SubmitButton")}
   elsif idpType=="Simple"
+    puts @driver.page_source
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "login_button")}
   else
     raise "IDP type '#{arg1}' not implemented yet"

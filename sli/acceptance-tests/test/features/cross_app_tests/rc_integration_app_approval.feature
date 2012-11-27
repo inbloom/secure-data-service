@@ -286,7 +286,7 @@ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "SLC Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
-Then my current url is "http://wwww.google.com"	
+Then my current url is "http://www.google.com/"	
 
 Scenario: User logs into recently created installed app
 #We cannot use the portal to access the installed app, since you cannot navigate to a URL to use it
