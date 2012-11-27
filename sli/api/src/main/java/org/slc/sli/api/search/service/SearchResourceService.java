@@ -33,6 +33,7 @@ import javax.annotation.PreDestroy;
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Table;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -122,14 +123,18 @@ public class SearchResourceService {
      * @param resource
      * @param resourcesToSearch
      * @param queryUri
+     * @param routeToDefaultApp - get ids via search app and route the request to the default app, attaching the ids
      * @return
      */
-    public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri) {
+    public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri, boolean routeToDefaultApp) {
         List<EntityBody> finalEntities = null;
         // set up query criteria, make query
         try {
             finalEntities = retrieveResults(prepareQuery(resource, resourcesToSearch, queryUri));
             setRealEntityTypes(finalEntities);
+            if (routeToDefaultApp) {
+                finalEntities = routeToDefaultApp(finalEntities, new ApiQuery(queryUri));
+            }
         } catch (HttpStatusCodeException hsce) { // TODO: create some sli exception for this
             warn("Error retrieving results from ES: " + hsce.getMessage());
             // if item not indexed, throw Illegal
@@ -140,6 +145,22 @@ public class SearchResourceService {
         }
 
         return new ServiceResponse(finalEntities, finalEntities.size());
+    }
+
+    private List<EntityBody> routeToDefaultApp(List<EntityBody> entities, ApiQuery query) {
+        List<EntityBody> fullEntities = new ArrayList<EntityBody>();
+        Table<String, String, EntityBody> entityMap = getEntityTable(entities);
+        NeutralCriteria criteria = null;
+        // got through each type and execute list() for the list of ids provided by search
+        for (String type : entityMap.rowKeySet()) {
+            if (criteria != null) {
+                query.removeCriteria(criteria);
+            }
+            criteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityMap.row(type).keySet());
+            query.addCriteria(criteria);
+            Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().list(query));
+        }
+        return fullEntities;
     }
 
     /**
@@ -264,20 +285,13 @@ public class SearchResourceService {
         // this collection will be filtered out based on security context but
         // the original order will be preserved
         List<EntityBody> finalEntities = new ArrayList<EntityBody>(entityBodies);
-        String toType, entityId;
         final HashBasedTable<String, String, EntityBody> filterMap = HashBasedTable.create();
-        HashBasedTable<String, String, EntityBody> entitiesByType = HashBasedTable.create();
+        Table<String, String, EntityBody> entitiesByType = HashBasedTable.create();
         // filter results through security context
         // security checks are expensive, so do min checks necessary at a time
         while (!entityBodies.isEmpty() && filterMap.size()  < total) {
             sublist = new ArrayList<EntityBody>(entityBodies.subList(0, Math.min(entityBodies.size(), limit)));
-
-            // separate sublist by entity type
-            for (EntityBody entity : sublist) {
-                toType = (String) entity.get("type");
-                entityId = (String) entity.get("id");
-                entitiesByType.put(toType, entityId, entity);
-            }
+            entitiesByType = getEntityTable(sublist);
 
             // get accessible entities by type, add to filter map
             Set<String> accessible;
@@ -304,6 +318,18 @@ public class SearchResourceService {
         })) ;
     }
 
+    /**
+     * Get entities table by type, by ids
+     * @param entityList
+     * @return
+     */
+    private Table<String, String, EntityBody> getEntityTable(List<EntityBody> entityList) {
+        HashBasedTable<String, String, EntityBody> entitiesByType = HashBasedTable.create();
+        for (EntityBody entity : entityList) {
+            entitiesByType.put((String) entity.get("type"), (String) entity.get("id"), entity);
+        }
+        return entitiesByType;
+    }
     /**
      * Filter id set to get accessible ids
      * @param toType

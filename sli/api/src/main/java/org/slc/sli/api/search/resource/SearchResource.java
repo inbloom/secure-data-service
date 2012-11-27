@@ -35,7 +35,7 @@ import org.slc.sli.api.search.service.SearchResourceService;
 
 /**
  * Resource for handling search requests
- * 
+ *
  */
 
 @Component
@@ -52,12 +52,12 @@ public class SearchResource extends GenericResource {
             @Override
             public ServiceResponse run(Resource resource) {
 
-                return resourceService.list(resource, null, uriInfo.getRequestUri());
+                return resourceService.list(resource, null, uriInfo.getRequestUri(), false);
             }
         });
 
     }
-    
+
     @GET
     @Path("{entity}")
     public Response get(@PathParam("entity") final String entity, @Context final UriInfo uriInfo) {
@@ -66,7 +66,7 @@ public class SearchResource extends GenericResource {
             @Override
             public ServiceResponse run(Resource resource) {
 
-                return resourceService.list(resource, entity, uriInfo.getRequestUri());
+                return resourceService.list(resource, entity, uriInfo.getRequestUri(), false);
             }
         });
 

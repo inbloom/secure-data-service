@@ -93,7 +93,7 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.TEACHER);
         Resource resource = new Resource("v1", "search");
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu");
-        ServiceResponse serviceResponse = resourceService.list(resource, null, queryUri);
+        ServiceResponse serviceResponse = resourceService.list(resource, null, queryUri, false);
         Assert.assertNotNull(serviceResponse);
     }
 
