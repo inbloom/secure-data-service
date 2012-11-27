@@ -22,10 +22,16 @@ require_relative '../lib/Shared/date_utility.rb'
 
 describe "DateUtility" do
 
-  before(:all) do
+  before(:each) do
     @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
     @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
     @random = Random.new(@scenario['seed'])
+  end
+
+  after(:each) do
+    @scenario = nil
+    @yaml = nil
+    @random = nil
   end
 
   describe "--> requests for month and day utilities" do
@@ -123,6 +129,7 @@ describe "DateUtility" do
   	describe "--> requesting set of holidays for a school year" do
       it "will return an array of holidays for the specified school year" do
         holidays = DateUtility.get_school_holidays(@random, 2011)
+        puts "holidays: #{holidays}"
         fail if !holidays.include? Date.new(2011, 9, 5)
         fail if !holidays.include? Date.new(2011, 10, 10)
         fail if !holidays.include? Date.new(2011, 11, 11)
@@ -132,14 +139,15 @@ describe "DateUtility" do
         fail if !holidays.include? Date.new(2011, 12, 26)
         fail if !holidays.include? Date.new(2011, 12, 30)
         fail if !holidays.include? Date.new(2012, 1, 2)
-        fail if !holidays.include? Date.new(2012, 3, 26)
-        fail if !holidays.include? Date.new(2012, 3, 27)
-        fail if !holidays.include? Date.new(2012, 3, 28)
-        fail if !holidays.include? Date.new(2012, 3, 29)
-        fail if !holidays.include? Date.new(2012, 3, 30)
+        fail if !holidays.include? Date.new(2012, 3, 12)
+        fail if !holidays.include? Date.new(2012, 3, 13)
+        fail if !holidays.include? Date.new(2012, 3, 14)
+        fail if !holidays.include? Date.new(2012, 3, 15)
+        fail if !holidays.include? Date.new(2012, 3, 16)
         
         holidays.clear
         holidays = DateUtility.get_school_holidays(@random, 2012)
+        puts "holidays: #{holidays}"
         fail if !holidays.include? Date.new(2012, 9, 3)
         fail if !holidays.include? Date.new(2012, 10, 8)
         fail if !holidays.include? Date.new(2012, 11, 9)

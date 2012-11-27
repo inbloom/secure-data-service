@@ -28,132 +28,37 @@ class Student < BaseEntity
   def self.demographics; @@demographics end
   
   attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix, 
-                :birthDay, :email, :address, :city, :state, :postalCode, :race, :hispanicLatino,
+                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
                 :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood          
 
   def initialize(id, year_of)
     @id = id
     @year_of = year_of
     @rand = Random.new(@id)
+    buildStudent
   end
 
-  def sex
-    choose(@@demographics['sex'])
+  def buildStudent
+    @sex = choose(@@demographics['sex'])
+    @prefix = sex == "Male?" ? "Mr" : "Ms"
+    @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+    @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+    @lastName = choose(@@demographics['lastNames'])
+    @suffix = wChoose(@@demographics['nameSuffix'])
+    @birthDay = @year_of + @rand.rand(365)
+    @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
+    @loginId = email
+    @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])
+    @city = @@demographics['city']
+    @state = @@demographics['state']
+    @postalCode = @@demographics['postalCode']
+    @race = wChoose(@@demographics['raceDistribution'])
+    @hispanicLatino = wChoose(@@demographics['hispanicLatinoDist'])
+    @economicDisadvantaged = wChoose(@@demographics['economicDisadvantaged'])
+    @limitedEnglish = wChoose(@@demographics['limitedEnglish'])
+    @disability = wChoose(@@demographics['disability'])
+    @schoolFood = wChoose(@@demographics['schoolFood'])
   end
   
-  def prefix
-    sex == "Male?" ? "Mr" : "Ms"
-  end
-    
-  def firstName
-    choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-  end
-  
-  def middleName
-    choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-  end
-  
-  def lastName
-    choose(@@demographics['lastNames'])
-  end
-  
-  def suffix
-    wChoose(@@demographics['nameSuffix'])
-  end
-  
-  def birthDay
-    @year_of + @rand.rand(365)
-  end
-    
-  def email
-    @rand.rand(10000).to_s + @@demographics['emailSuffix']
-  end
-  
-  def loginId
-    email
-  end
-  
-  def address
-   @rand.rand(999).to_s + " " + choose(@@demographics['street'])
-  end
-  
-  def city
-    @@demographics['city']
-  end
-  
-  def state
-    @@demographics['state']
-  end
-  
-  def postalCode
-    @@demographics['postalCode']
-  end
-    
-  def race
-    wChoose(@@demographics['raceDistribution'])
-  end
-  
-  def hispanicLatino
-    wChoose(@@demographics['hispanicLatinoDist'])
-  end
-  
-  def economicDisadvantaged
-    wChoose(@@demographics['economicDisadvantaged'])
-  end
-  
-  def limitedEnglish
-    wChoose(@@demographics['limitedEnglish'])
-  end
-  
-  def disability
-    wChoose(@@demographics['disability'])
-  end
-  
-  def schoolFood
-    wChoose(@@demographics['schoolFood'])
-  end
-  
-  def distributionTester(inMethod, tracer, lo, hi, iters)
-    i = 0
-    hit = 0
-    
-    while i < iters do
-      if inMethod.call == tracer
-        hit += 1
-      end
-      i += 1
-    end
-    
-    if hit.between?(lo, hi)
-      puts "PASS: #{tracer} was #{hit}/#{iters}, expected %0.1f \%" % ((((hi.to_f+lo)/2)/iters) * 100) 
-      return "true"
-    else
-      puts "FAIL: #{tracer} was #{hit}/#{iters}, expected %0.1f \%" % ((((hi.to_f+lo)/2)/iters) * 100)
-      return "false"
-    end
-  end
-  
-  # TODO : most, if not all of this information, should be set by the entity creator code.
-  # TODO:  placeholder method until this is completed.
-  def randomize
-    @sex = @build.sex
-    @prefix = @build.prefix
-    @firstName = @build.firstName
-    @middleName = @build.middleName
-    @lastName = @build.lastName
-    @suffix = @build.suffix
-    @birthDay = @build.birthDay
-    @email = @build.email
-    @address = @build.address
-    @city = @build.city
-    @state = @build.state
-    @postalCode = @build.postalCode
-    @race = @build.race
-    @hispanicLatino = @build.hispanicLatino
-    @economicDisadvantaged = @build.economicDisadvantaged
-    @limitedEnglish = @build.limitedEnglish
-    @disability = @build.disability
-    @schoolFood = @build.schoolFood
-  end
-
+ 
 end
