@@ -38,7 +38,7 @@ public class ErrorWriteConverter implements Converter<Error, DBObject> {
 
     // private EntityEncryption encryptor;
     // @Autowired
-    EntityEncryption encryptor;
+    private EntityEncryption encryptor;
 
     @Override
     public DBObject convert(Error error) {

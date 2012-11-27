@@ -46,13 +46,13 @@ public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
 
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);
 
-    protected File file;
+    private File file;
 
-    protected GenericDatumReader<GenericRecord> datum;
-    protected DataFileReader<GenericRecord> reader;
-    protected GenericData.Record avroRecord;
+    private GenericDatumReader<GenericRecord> datum;
+    private DataFileReader<GenericRecord> reader;
+    private GenericData.Record avroRecord;
 
-    protected ObjectMapper jsonObjectMapper;
+    private ObjectMapper jsonObjectMapper;
 
     public NeutralRecordFileReader(byte[] data) throws IOException {
         this(new SeekableByteArrayInput(data));

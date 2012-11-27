@@ -72,7 +72,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_REFERENCE_VERSION = "studentAssessmentReference.assessmentReference.version";
 
     private Map<Object, NeutralRecord> studentAssessments;
-    List<NeutralRecord> transformedStudentAssessments;
+    private List<NeutralRecord> transformedStudentAssessments;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;

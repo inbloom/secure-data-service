@@ -55,7 +55,7 @@ public class NeutralRecordFileWriter {
 
     private Resource avroSchemaLocation;
 
-    protected ObjectMapper jsonObjectMapper;
+    private ObjectMapper jsonObjectMapper;
 
     private Hashtable<String, Long> nrCount;
 
