@@ -18,8 +18,10 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -38,6 +40,11 @@ import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -55,6 +62,10 @@ public class UriMutator {
 
     @Resource
     private RootSearchMutator rootSearchMutator;
+    
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
 
     /**
      * Acts as a filter to determine if the requested resource, given knowledge of the user
@@ -74,8 +85,53 @@ public class UriMutator {
     public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
+        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
+        Map<String, String> keys = new HashMap<String, String>();
+        String type = "";
+        String field = "";
+        String value = "";
+        String resourceName = "";
+        for (String query : queries) {
+            if (query.matches("(studentUniqueStateId)=.+")) {
+                field = "studentUniqueStateId";
+                type = EntityNames.STUDENT;
+                resourceName = "students";
+
+            } else if (query.matches("(staffUniqueStateId)=.+")) {
+                field = "staffUniqueStateId";
+                type = EntityNames.STAFF;
+                resourceName = "staff";
+
+            } else if (query.matches("(parentUniqueStateId)=.+")) {
+                field = "parentUniqueStateId";
+                type = EntityNames.PARENT;
+                resourceName = "parents";
+
+            } else if (query.matches("(stateOrganizationId)=.+")) {
+                field = "stateOrganizationId";
+                type = EntityNames.EDUCATION_ORGANIZATION;
+                resourceName = "educationOrganizations";
+
+            }
+            if (type.length() != 0) {
+                // Stop iterating after the first.
+                value = query.substring(query.indexOf('=') + 1);
+                break;
+            }
+
+        }
+        if (type.length() != 0) {
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria(field, NeutralCriteria.OPERATOR_EQUAL, value));
+            Entity e = repo.findOne(type, query);
+            if (e != null) {
+                String newPath = String.format("/%s/%s", resourceName, e.getEntityId());
+                info("Rewriting URI to {} based on natural keys", newPath);
+                return Pair.of(newPath, null);
+            }
+        }
 
         if (segments.size() < 3) {
+
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
                 Pair<String, String> mutated = new MutablePair<String, String>();
                 if (segments.size() == 1) {
