@@ -92,6 +92,16 @@ developer_email_imap_registration_user: e2etestdev
 developer_email_imap_registration_user_email: e2etestdev@slidev.org
 developer_email_imap_registration_pass: test1234
 
+#Developer creds (sandbox)
+developer_sb_email_imap_registration_user: e2etestdev_sb
+developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev.org
+developer_sb_email_imap_registration_pass: test1234
+
+#Developer 2 creds (sandbox)
+developer2_sb_email_imap_registration_user: e2etestdev_sb2
+developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev.org
+developer2_sb_email_imap_registration_pass: test1234
+
 #Landing zone
 landingzone: picard-lz.slidev.org
 landingzone_port: 443

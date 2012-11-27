@@ -51,6 +51,18 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   @email_password = PropLoader.getProps['developer_email_imap_registration_pass']
  elsif human_readable_text == "DEVELOPER_EMAIL_PASS"
    value = PropLoader.getProps['developer_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER_SB_EMAIL"
+   value = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
+   @email_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
+   @email_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER_SB_EMAIL_PASS"
+   value = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER2_SB_EMAIL"
+   value = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
+   @email_username = PropLoader.getProps['developer2_sb_email_imap_registration_user']
+   @email_password = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER2_SB_EMAIL_PASS"
+   value = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
  elsif human_readable_text == "LANDINGZONE"
   value = PropLoader.getProps['landingzone']
  elsif human_readable_text == "LANDINGZONE_PORT"
