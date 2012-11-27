@@ -72,7 +72,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_REFERENCE_VERSION = "studentAssessmentReference.assessmentReference.version";
 
     private Map<Object, NeutralRecord> studentAssessments;
-    List<NeutralRecord> transformedStudentAssessments;
+    private List<NeutralRecord> transformedStudentAssessments;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -192,9 +192,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
                 }
             } else {
-                LOG.warn(
-                        "no local id for student assessment association: {}. cannot embed student objective assessment objects.",
-                        studentAssessmentId);
+                LOG.warn("no local id for student assessment association. cannot embed student objective assessment objects.");
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
