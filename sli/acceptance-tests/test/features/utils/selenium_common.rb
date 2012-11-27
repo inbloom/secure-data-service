@@ -98,7 +98,7 @@ end
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"s
   if (scenario.failed?)
-    STDOUT.puts @driver.page_source.to_s
+    STDOUT.puts @driver.page_source
   end
   @driver.quit if @driver
 end
