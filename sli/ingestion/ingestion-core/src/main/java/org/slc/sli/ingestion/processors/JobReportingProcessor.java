@@ -168,7 +168,6 @@ public class JobReportingProcessor implements Processor {
                     stageDesc = stageChunk.getStageDesc();
                 }
 
-                // Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
                 Stage stageBrief = stageBriefMap.get(stageName);
                 if (stageBrief != null) {
                     if (stageBrief.getStartTimestamp() != null
@@ -339,8 +338,6 @@ public class JobReportingProcessor implements Processor {
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
-
-        // TODO group counts by externallyUploadedResourceId
 
         List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
         Iterator<Stage> it = stages.iterator();

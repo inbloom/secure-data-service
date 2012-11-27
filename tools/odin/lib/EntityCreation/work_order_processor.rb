@@ -33,9 +33,6 @@ class WorkOrderProcessor
   def build
     s = Student.new(@id, @work_order[:birth_day_after])
     @student_interchange << s
-    @work_order[:sessions].each{ |session|
-      gen_enrollment(session)
-    }
   end
 
   def gen_enrollment(session)
@@ -52,4 +49,23 @@ class WorkOrderProcessor
     @enrollment_interchange << sectionAssoc
   end
 
+end
+
+def run_work_orders(yamlHash, batch_size)
+  numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
+  File.open("generated/InterchangeStudent.xml", 'w') do |studentParentFile|
+    studentParent = StudentGenerator.new(studentParentFile, 10000)
+    interchanges = {:studentParent => studentParent}
+    for id in 1..yamlHash['studentCount'] do
+      work_order = make_work_order(id, yamlHash, numSchools)
+      WorkOrderProcessor.new(work_order, interchanges).build
+    end
+    studentParent.finalize
+  end
+end
+
+#TODO this is a mocked out work order, make one more intelligent and relating to the world
+def make_work_order(id, yamlHash, numSchools)
+  {:id => id, :sessions => (1..yamlHash['numYears']).map{|i| {:school => i % numSchools, :sections => []}},
+              :birth_day_after => Date.new(2000, 9, 1)}
 end

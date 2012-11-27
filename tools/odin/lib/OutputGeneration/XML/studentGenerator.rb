@@ -37,7 +37,7 @@ class StudentGenerator < InterchangeGenerator
     super(interchange)
     @batchSize = batchSize
 
-   @header, @footer = build_header_footer( "StudentParent" )
+    @header, @footer = build_header_footer( "StudentParent" )
     @students = []
 
     start()

@@ -485,16 +485,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
         Query query = new Query().limit(1);
-        // query.addCriteria(Criteria.where("tenantId").is(tenantId));
         query.addCriteria(Criteria.where("_id").is(recordId));
         return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
     }
 
     @Override
     public void removeRecordHashByTenant(String tenantId) {
-        // batchJobMongoTemplate.remove(new
-        // Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")),
-        // RECORD_HASH);
         Query searchTenantId = new Query();
         searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
         batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);

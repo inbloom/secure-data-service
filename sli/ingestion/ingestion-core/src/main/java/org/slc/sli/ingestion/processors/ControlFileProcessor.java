@@ -81,16 +81,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
 
         processUsingNewBatchJob(exchange);
 
@@ -134,7 +124,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             FaultsReport errorReport = new FaultsReport();
 
             if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
-            // TODO Deal with validator being autowired in BatchJobAssembler
                 if (validator.isValid(cfd, errorReport)) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
@@ -152,8 +141,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             }
 
             BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
-
-            // TODO set properties on the exchange based on job properties
 
             setExchangeHeaders(exchange, newJob, errorReport);
 

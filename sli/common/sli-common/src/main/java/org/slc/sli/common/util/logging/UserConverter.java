@@ -42,6 +42,10 @@ public class UserConverter extends ClassicConverter {
             }
             return principal;
 
+        } else {
+            //calling getContext when there is no context creates a new security context
+            //ThreadLocal that's never cleaned up otherwise
+            SecurityContextHolder.clearContext();
         }
         return "NO_USER";
     }
