@@ -40,13 +40,4 @@ class BaseEntity
     sum
   end
 
-  def to_hash
-    hash = {}
-    tmp = {}
-    self.instance_variables.each do |var|
-      tmp[var[1..-1].to_sym] = self.instance_variable_get(var)
-    end
-    hash[self.class.name.downcase.to_sym] = tmp
-    hash
-  end
 end
