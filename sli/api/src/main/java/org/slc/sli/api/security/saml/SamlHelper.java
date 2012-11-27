@@ -194,13 +194,11 @@ public class SamlHelper {
             org.w3c.dom.Document doc = null;
             synchronized (domBuilder) {
                 doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
-                System.out.println("Doc is " + doc);
             }
 
             Document jdomDocument = null;
             synchronized (builder) {
                 jdomDocument = builder.build(doc);
-                System.out.println("Jdom is " + jdomDocument);
             }
             
             Element status = jdomDocument.getRootElement().getChild("Status", SAMLP_NS);
@@ -213,14 +211,11 @@ public class SamlHelper {
             synchronized (validator) {
                 String issuer = jdomDocument.getRootElement().getChildText("Issuer", SAML_NS);
                 if (!validator.isDocumentTrustedAndValid(doc, issuer)) {
-                	System.out.println("Doc is not trusted and valid");
                     throw new IllegalArgumentException("Invalid SAML message");
                 }
             }
             return jdomDocument;
         } catch (Exception e) {
-        	System.out.println("Caught exception in decodeSamlPost() " + e);
-        	e.printStackTrace();
             error("Error unmarshalling saml post", e);
             throw (IllegalArgumentException)new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }
