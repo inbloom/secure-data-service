@@ -44,13 +44,7 @@ class StudentGenerator < InterchangeGenerator
 
     @generator = StudentGenerator::StudentInterchange.new
 
-    @header = <<-HEADER
-<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
-    HEADER
-    @footer = <<-FOOTER
-</InterchangeStudentParent>
-    FOOTER
+   @header, @footer = build_header_footer( "StudentParent" )
 
     start()
   end

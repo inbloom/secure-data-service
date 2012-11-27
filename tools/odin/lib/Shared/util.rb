@@ -19,7 +19,7 @@ def build_header_footer( interchange_name )
   header = <<-HEADER
 <?xml version="1.0"?>
 <Interchange#{interchange_name} xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-#{interchange_name}.xsd ">
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-#{interchange_name}.xsd">
 HEADER
 
   footer = "</Interchange#{interchange_name}>"
