@@ -101,7 +101,7 @@ end
 
 desc "Run RC Sandbox Databrowser Test"
 task :rcSandboxDatabrowserTests do
-  runTests("test/features/cross_app_tests/rc_integration_databrowser_sandbox.feature")
+  runTests("test/features/cross_app_tests/rc_sandbox_databrowser.feature")
 end
 
 desc "Delete SEA, LEA and dev from LDAP"
