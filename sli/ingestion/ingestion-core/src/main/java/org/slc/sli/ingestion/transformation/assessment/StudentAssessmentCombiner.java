@@ -65,6 +65,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ACADEMIC_SUBJECT = "AcademicSubject";
     private static final String GRADE_LEVEL_ASSESSED = "GradeLevelAssessed";
     private static final String VERSION = "Version";
+    private static final String ASSESSMENT_ITEM = "assessmentItem";
 
     private static final String STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE = "studentAssessmentReference.assessmentReference.assessmentTitle";
     private static final String STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT = "studentAssessmentReference.assessmentReference.academicSubject";
@@ -72,7 +73,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_REFERENCE_VERSION = "studentAssessmentReference.assessmentReference.version";
 
     private Map<Object, NeutralRecord> studentAssessments;
-    List<NeutralRecord> transformedStudentAssessments;
+    private List<NeutralRecord> transformedStudentAssessments;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -192,9 +193,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
                 }
             } else {
-                LOG.warn(
-                        "no local id for student assessment association: {}. cannot embed student objective assessment objects.",
-                        studentAssessmentId);
+                LOG.warn("no local id for student assessment association. cannot embed student objective assessment objects.");
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
@@ -343,7 +342,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     assessmentSearchPath.put("body.identificationCode", assessmentItemIdentificatonCode);
 
                     Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
-                            .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
+                            .findByPathsForJob(ASSESSMENT_ITEM, assessmentSearchPath, getJob().getId());
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
@@ -363,7 +362,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * }
                          * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                          */
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
@@ -398,7 +397,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     assessmentSearchPath.put("body.identificationCode", assessmentId);
 
                     Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
-                            .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
+                            .findByPathsForJob(ASSESSMENT_ITEM, assessmentSearchPath, getJob().getId());
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
@@ -418,7 +417,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * }
                          * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                          */
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "

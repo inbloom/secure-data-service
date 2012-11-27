@@ -67,6 +67,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_STAGE_DESC = "Validates the control file";
 
+    private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+
     @Autowired
     private ControlFileValidator validator;
 
@@ -109,7 +111,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
@@ -171,7 +173,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
@@ -183,11 +185,11 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, FaultsReport errorReport) {
         if (errorReport.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.PURGE.name());
         } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.CONTROL_FILE_PROCESSED.name());
         }
 
         if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {

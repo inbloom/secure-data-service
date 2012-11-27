@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CareerPathwayType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The career cluster or pathway representing the career path of the Vocational/Career Tech concentrator.",
-  "xsd-type" : "token",
-  "symbols" : [ "Agriculture_Food_and_Natural_Resources", "Architecture_and_Construction", "Arts_A_V_Technology_and_Communications", "Business_Management_and_Administration", "Education_and_Training", "Finance", "Government_and_Public_Administration", "Health_Science", "Hospitality_and_Tourism", "Human_Services", "Information_Technology", "Law_Public_Safety_Corrections_and_Security", "Manufacturing", "Marketing_Sales_and_Service", "Science_Technology_Engineering_and_Mathematics", "Transportation_Distribution_and_Logistics" ]
-}

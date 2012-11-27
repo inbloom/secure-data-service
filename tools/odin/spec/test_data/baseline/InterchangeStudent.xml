@@ -1,12 +1,12 @@
+<?xml version="1.0"?>
 <InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
 <Student>
   <StudentUniqueStateId>1</StudentUniqueStateId>
   <Name>
     <FirstName>Jessie</FirstName>
     <MiddleName>Kory</MiddleName>
     <LastSurname>Mcgowan</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Male</Sex>
   <BirthData>
@@ -35,7 +35,6 @@
     <FirstName>Dorthy</FirstName>
     <MiddleName>Melba</MiddleName>
     <LastSurname>Breedlove</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
@@ -64,7 +63,6 @@
     <FirstName>Staci</FirstName>
     <MiddleName>Dora</MiddleName>
     <LastSurname>Crowell</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
@@ -93,7 +91,6 @@
     <FirstName>Yvonne</FirstName>
     <MiddleName>Leigh</MiddleName>
     <LastSurname>Morse</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
@@ -122,7 +119,6 @@
     <FirstName>Nathaniel</FirstName>
     <MiddleName>Denver</MiddleName>
     <LastSurname>Wadsworth</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Male</Sex>
   <BirthData>
@@ -151,7 +147,6 @@
     <FirstName>Randi</FirstName>
     <MiddleName>Colleen</MiddleName>
     <LastSurname>Naylor</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
@@ -180,7 +175,6 @@
     <FirstName>Jessie</FirstName>
     <MiddleName>Robbie</MiddleName>
     <LastSurname>Quintanilla</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Male</Sex>
   <BirthData>
@@ -209,7 +203,6 @@
     <FirstName>Guillermo</FirstName>
     <MiddleName>Alton</MiddleName>
     <LastSurname>Squires</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Male</Sex>
   <BirthData>
@@ -238,7 +231,6 @@
     <FirstName>Yvette</FirstName>
     <MiddleName>Gracie</MiddleName>
     <LastSurname>Wilcox</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Female</Sex>
   <BirthData>
@@ -267,7 +259,6 @@
     <FirstName>Warren</FirstName>
     <MiddleName>Demetrius</MiddleName>
     <LastSurname>Boswell</LastSurname>
-    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
   </Name>
   <Sex>Male</Sex>
   <BirthData>

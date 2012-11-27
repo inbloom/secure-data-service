@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "RatingStandardNameType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The names of the levels of performance rating standards. For example:\n\t\t\tPassing\nStandard\nCommended\n...",
-  "xsd-type" : "token",
-  "symbols" : [ "Advanced", "Below_Proficiency", "Below_Standard", "College_Ready", "Commended", "Failing", "Met_Standard", "Meets_Proficiency", "Passing", "Satisfactory", "Unsatisfactory", "Well_Below_Proficiency", "Well_Below_Standard" ]
-}

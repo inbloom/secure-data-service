@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "GradingPeriodType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The name of the period for which grades are reported.",
-  "xsd-type" : "token",
-  "symbols" : [ "First_Six_Weeks", "Second_Six_Weeks", "Third_Six_Weeks", "Fourth_Six_Weeks", "Fifth_Six_Weeks", "Sixth_Six_Weeks", "First_Semester", "Second_Semester", "First_Summer_Session", "Second_Summer_Session", "Third_Summer_Session", "Summer_Semester", "First_Nine_Weeks", "Second_Nine_Weeks", "Third_Nine_Weeks", "Fourth_Nine_Weeks", "First_Trimester", "Second_Trimester", "Third_Trimester", "End_of_Year" ]
-}
