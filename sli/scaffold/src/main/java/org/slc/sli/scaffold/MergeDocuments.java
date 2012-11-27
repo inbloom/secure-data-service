@@ -19,16 +19,11 @@ package org.slc.sli.scaffold;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.xml.xpath.XPathException;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.resources.generic.config.ApiNameSpace;
-import org.slc.sli.api.resources.generic.config.ResourceEndPointTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -38,10 +33,12 @@ import org.w3c.dom.NodeList;
 
 /**
  * Generic xml document
- * 
+ *
  * @author srupasinghe
  */
 public class MergeDocuments {
+    private static final Logger LOG = LoggerFactory.getLogger(MergeDocuments.class);
+
     private final DocumentManipulator handler = new DocumentManipulator();
 
     private static final String BASE_XPATH_EXPR = "//merges/merge";
@@ -60,81 +57,44 @@ public class MergeDocuments {
     private static final String ATTR_VALUE = "value";
 
     private static final String NODE_ATTRIBUTE = "attribute";
-    private static final String RESOURCE_LOC = "/wadl/v1_resources.json";
 
     public MergeDocuments() {
+        // No Op
     }
 
     public void merge(File baseFile, File mergeFile, String outputFileName) {
         try {
-
-            handler.init();
-
             Document wadlDoc = handler.parseDocument(baseFile);
             Document mergeDoc = handler.parseDocument(mergeFile);
 
             applyMerge(wadlDoc, mergeDoc);
             addDocumentation(wadlDoc);
-            
+
             handler.serializeDocumentToXml(wadlDoc, new File(baseFile.getParentFile().getAbsolutePath()
                     + File.separator + outputFileName));
         } catch (DocumentManipulatorException e) {
-            // need to do something better
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (DOMException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (XPathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
     private void addDocumentation(final Document wadlDoc) throws IOException, XPathException {
-        final String fileAsString = IOUtils.toString(super.getClass().getResourceAsStream(RESOURCE_LOC));
-        final ApiNameSpace apiNameSpace = new ObjectMapper().readValue(fileAsString, ApiNameSpace.class);
-        final Map<String, ResourceEndPointTemplate> resources = getResourceMap(apiNameSpace.getNameSpace(), apiNameSpace.getResources());
-        final NodeList topLevelResources = handler.getNodeList(wadlDoc, "//resources/resource");
-
-        for (int i = 0; i < topLevelResources.getLength(); i++) {
-            final Node node = topLevelResources.item(i);
-            final String path = node.getAttributes().getNamedItem("path").getNodeValue();
-            final ResourceEndPointTemplate resource = resources.get(path);
-            if (resource == null) {
-                System.out.println("Resource " + path + " could not be found!");
-                continue;
-            }
-            final String doc = resource.getDoc();
-            final Node docElem = wadlDoc.createElement("doc");
-            docElem.setTextContent(doc);
-            node.appendChild(docElem);
-        }
+        final ResourceDocumentation resourceDocumentation = new ResourceDocumentation(wadlDoc);
+        resourceDocumentation.addDocumentation();
     }
 
-    private Map<String, ResourceEndPointTemplate> getResourceMap(final String namespace,
-                                                                 final List<ResourceEndPointTemplate> resources) {
-        final Map<String, ResourceEndPointTemplate> resourceMap = new HashMap<String, ResourceEndPointTemplate>();
-        for (final ResourceEndPointTemplate resource : resources) {
-            resourceMap.put(namespace + resource.getPath(), resource);
-            if (resource.getSubResources() != null && resource.getSubResources().size() > 0) {
-                resourceMap.putAll(getResourceMap(namespace + resource.getPath(), resource.getSubResources()));
-            }
-        }
-
-        return resourceMap;
-    }
 
     /**
      * Starts the merge process
-     * 
-     * @param mainDoc
-     *            The document to edit.
-     * @param mergeDoc
-     *            The document containing the edit instructions.
-     * @throws XPathException
-     *             A problem parsing the XPath location.
+     *
+     * @param mainDoc  The document to edit.
+     * @param mergeDoc The document containing the edit instructions.
+     * @throws XPathException A problem parsing the XPath location.
      */
     protected void applyMerge(Document mainDoc, Document mergeDoc) throws XPathException {
         NodeList mergeActions = handler.getNodeList(mergeDoc, BASE_XPATH_EXPR);
@@ -156,19 +116,13 @@ public class MergeDocuments {
 
     /**
      * Performs the transform on the given document with the xpath and node list
-     * 
-     * @param doc
-     *            Base document to edit.
-     * @param type
-     *            The type of element to edit (attribute or node).
-     * @param action
-     *            The action (add, delete, set) to perform.
-     * @param xpath
-     *            The XPath location to perform the edit.
-     * @param mergeNodeList
-     *            Action arguments. Nodes to add, attributes to set, etc.
-     * @throws XPathException
-     *             A problem parsing the XPath location.
+     *
+     * @param doc           Base document to edit.
+     * @param type          The type of element to edit (attribute or node).
+     * @param action        The action (add, delete, set) to perform.
+     * @param xpath         The XPath location to perform the edit.
+     * @param mergeNodeList Action arguments. Nodes to add, attributes to set, etc.
+     * @throws XPathException A problem parsing the XPath location.
      */
     protected void performTransform(Document doc, String type, String action, String xpath, NodeList mergeNodeList)
             throws XPathException {
@@ -195,11 +149,9 @@ public class MergeDocuments {
 
     /**
      * Adds the nodes in actionArgs as children nodes to editNode.
-     * 
-     * @param editNode
-     *            The node on which children will be added.
-     * @param actionArgs
-     *            The nodes to add.
+     *
+     * @param editNode   The node on which children will be added.
+     * @param actionArgs The nodes to add.
      */
     private void nodeAdd(Node editNode, NodeList actionArgs) {
         // got through and add each new node to the root
@@ -214,9 +166,8 @@ public class MergeDocuments {
 
     /**
      * Deletes a node.
-     * 
-     * @param editNode
-     *            The node to delete.
+     *
+     * @param editNode The node to delete.
      */
     private void nodeDelete(Node editNode) {
         Node parentNode = editNode.getParentNode();
@@ -225,11 +176,9 @@ public class MergeDocuments {
 
     /**
      * Deletes an attribute from a node.
-     * 
-     * @param editNode
-     *            The node from which to delete the attribute.
-     * @param actionArgs
-     *            An array of Nodes defining attributes to delete.
+     *
+     * @param editNode   The node from which to delete the attribute.
+     * @param actionArgs An array of Nodes defining attributes to delete.
      */
     private void attributeDelete(Node editNode, NodeList actionArgs) {
         for (int k = 0; k < actionArgs.getLength(); k++) {
@@ -248,11 +197,9 @@ public class MergeDocuments {
 
     /**
      * Sets the value of attributes.
-     * 
-     * @param editNode
-     *            The node where attributes will be edited.
-     * @param actionArgs
-     *            A List of nodes defining attributes and their values.
+     *
+     * @param editNode   The node where attributes will be edited.
+     * @param actionArgs A List of nodes defining attributes and their values.
      */
     private void attributeSet(Node editNode, NodeList actionArgs) {
         for (int k = 0; k < actionArgs.getLength(); k++) {
@@ -274,8 +221,9 @@ public class MergeDocuments {
     }
 
     public static void main(String[] args) {
-        if (args.length < 3)
+        if (args.length < 3) {
             return;
+        }
 
         MergeDocuments merge = new MergeDocuments();
         merge.merge(new File(args[0]), new File(args[1]), args[2]);

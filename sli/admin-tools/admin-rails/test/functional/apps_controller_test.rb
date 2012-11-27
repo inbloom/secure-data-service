@@ -61,18 +61,18 @@ class AppsControllerTest < ActionController::TestCase
     get :show, id: @Apps[0].id
     assert_redirected_to apps_path
   end
-  
-   test "should update App" do
-     APP_LDAP_CLIENT.stubs(:read_user).returns({:vendor => "waffles"})
-     put :update, id:@Apps[0].id, app: @app_fixtures["update"]
-     assert_redirected_to apps_path
-   end
 
-   test "should get lea with valid state" do
-     get :get_local_edorgs, state: "NC", format: :js
-     assert_not_nil assigns(:results)
-     assert_response :success
-   end
+  test "should update App" do
+    APP_LDAP_CLIENT.stubs(:read_user).returns({:vendor => "waffles"})
+    put :update, id:@Apps[0].id, app: @app_fixtures["update"]
+    assert_redirected_to apps_path
+  end
+
+  test "should get lea with valid state" do
+    get :get_local_edorgs, state: "NC", format: :js
+    assert_not_nil assigns(:results)
+    assert_response :success
+  end
 
   # test "should destroy App" do
   #   assert_difference('App.count', -1) do

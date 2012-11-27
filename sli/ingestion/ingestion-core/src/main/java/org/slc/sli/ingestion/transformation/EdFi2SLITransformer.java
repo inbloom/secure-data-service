@@ -21,6 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -29,10 +36,8 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
-import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
-import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
@@ -43,19 +48,12 @@ import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * EdFi to SLI data transformation
- * 
+ *
  * @author okrook
- * 
+ *
  */
 public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
 
@@ -63,9 +61,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected static final String METADATA_BLOCK = "metaData";
 
-    protected static final String ID = "_id";
+    private static final String EDORGS = "edOrgs";
 
-    private IdNormalizer idNormalizer;
+    protected static final String ID = "_id";
 
     private DeterministicIdResolver didResolver;
 
@@ -112,8 +110,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
-                if (item.getMetaData().get("edOrgs") != null) {
-                    entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
+                if (item.getMetaData().get(EDORGS) != null) {
+                    entity.getMetaData().put(EDORGS, item.getMetaData().get(EDORGS));
                 }
 
                 try {
@@ -135,38 +133,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
-        EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-
-        ComplexRefDef ref = entityConfig.getComplexReference();
-        if (ref != null) {
-            String entityType = ref.getEntityType();
-            String collectionName = getPersistedCollectionName(entityType);
-
-            idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
-                    ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
-        }
-
         didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
-
-        idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
-    }
-
-    private String getPersistedCollectionName(String entityType) {
-        String collectionName = "";
-        NeutralSchema schema = schemaRepository.getSchema(entityType);
-        if (schema != null) {
-            AppInfo appInfo = schema.getAppInfo();
-            if (appInfo != null) {
-                collectionName = appInfo.getCollectionType();
-            }
-        }
-        return collectionName;
-    }
+}
 
     /**
      * Find a matched entity in the data store. If match is found the EntityID gets updated with the
      * ID from the data store.
-     * 
+     *
      * @param entity
      *            Entity to match
      * @param entityConfig
@@ -201,18 +174,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             entity.setEntityId(matched.getEntityId());
 
             @SuppressWarnings("unchecked")
-            List<String> edOrgs = (List<String>) entity.getMetaData().get("edOrgs");
+            List<String> edOrgs = (List<String>) entity.getMetaData().get(EDORGS);
 
             if (edOrgs != null && edOrgs.size() > 0) {
                 @SuppressWarnings("unchecked")
-                List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get("edOrgs");
+                List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get(EDORGS);
                 if (matchedEdOrgs != null) {
                     for (String edOrg : edOrgs) {
                         if (!matchedEdOrgs.contains(edOrg)) {
                             matchedEdOrgs.add(edOrg);
                         }
                     }
-                    matched.getMetaData().put("edOrgs", matchedEdOrgs);
+                    matched.getMetaData().put(EDORGS, matchedEdOrgs);
                 }
             }
             entity.getMetaData().putAll(matched.getMetaData());
@@ -221,7 +194,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     /**
      * Create entity lookup query from EntityConfig fields
-     * 
+     *
      * @param entity
      *            : the entity to be looked up.
      * @param keyFields
@@ -229,7 +202,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            : error reporting
      * @return Look up filter
-     * 
+     *
      * @author tke
      */
     protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
@@ -239,13 +212,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         try {
             naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
         } catch (NaturalKeyValidationException e1) {
-            String message = "An entity is missing one or more required natural key fields" + "\n"
-                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber();
+            StringBuilder message = new StringBuilder("An entity is missing one or more required natural key fields" + "\n"
+                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber());
 
             for (String fieldName : e1.getNaturalKeys()) {
-                message += "\n" + "       Field      " + fieldName;
+                message.append("\n" + "       Field      " + fieldName);
             }
-            errorReport.error(message, this);
+            errorReport.error(message.toString(), this);
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);
@@ -271,14 +244,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             ErrorReport errorReport) {
         Query query = new Query();
 
-        String errorMessage = "ERROR: Invalid key fields for an entity\n";
+        StringBuilder errorMessage = new StringBuilder("ERROR: Invalid key fields for an entity\n");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
         } else {
-            errorMessage += "       Entity      " + entity.getType() + "\n" + "       Key Fields  "
-                    + entityConfig.getKeyFields() + "\n";
+            errorMessage.append("       Entity      " + entity.getType() + "\n" + "       Key Fields  "
+                    + entityConfig.getKeyFields() + "\n");
             if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
-                errorMessage += "     The following collections are referenced by the key fields:" + "\n";
+                errorMessage.append("     The following collections are referenced by the key fields:" + "\n");
                 for (RefDef refDef : entityConfig.getReferences()) {
                     String collectionName = "";
                     NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
@@ -289,7 +262,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         }
                     }
 
-                    errorMessage += "       collection = " + collectionName + "\n";
+                    errorMessage.append("       collection = " + collectionName + "\n");
                 }
             }
         }
@@ -326,21 +299,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         fieldValue));
             }
         } catch (Exception e) {
-            errorReport.error(errorMessage, this);
+            errorReport.error(errorMessage.toString(), this);
         }
 
         return query;
     }
 
     protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);
-
-    public IdNormalizer getIdNormalizer() {
-        return idNormalizer;
-    }
-
-    public void setIdNormalizer(IdNormalizer idNormalizer) {
-        this.idNormalizer = idNormalizer;
-    }
 
     public DeterministicIdResolver getDidResolver() {
         return didResolver;

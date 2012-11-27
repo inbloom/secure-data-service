@@ -26,6 +26,13 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+/**
+ * Encapsulates authentication and context for entities.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 public class SecurityCriteria {
     // The collection this query pertains to
     private String collectionName;

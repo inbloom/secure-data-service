@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java null value.
+ */
 public enum NullExpr implements JavaSnippetExpr {
 
     SINGLETON;
@@ -28,7 +31,7 @@ public enum NullExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write("null");
     }

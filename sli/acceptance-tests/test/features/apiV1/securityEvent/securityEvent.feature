@@ -55,6 +55,11 @@ Scenario: Enable delegation of SecurityEvents as LEA Admin
     When I PUT to admin delegation
     Then I should receive a return code of 204
 
+Scenario: Read delegation of SecurityEvents as SEA Admin
+    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    Then I should get my delegations
+    And I should see that "viewSecurityEventsEnabled" is "true" for district "IL-SUNSET's ID"
+
 Scenario: Read securityEvents as SEA Admin. 4 Events. Sunsetadmin(2) And Iladmin(2)
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"

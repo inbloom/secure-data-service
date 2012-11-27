@@ -45,6 +45,8 @@ db["custom_entities"].ensureIndex({"metaData.entityId":1,"metaData.clientId":1})
 db["program"].ensureIndex({"studentProgramAssociation._id":1});
 //studentAssessment embedded into student
 db["student"].ensureIndex({"studentAssessment._id":1});
+db["student"].ensureIndex({"studentParentAssociation._id":1});
+db["student"].ensureIndex({"studentParentAssociation.body.parentId":1});
 //studentSectionAssociation embedded into section
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
 //teacherSectionAssociation embedded into section
@@ -61,6 +63,8 @@ db["section"].ensureIndex({"gradebookEntry._id":1});
 db["attendance"].ensureIndex({"body.schoolId":1});
 db["attendance"].ensureIndex({"body.studentId":1});
 db["cohort"].ensureIndex({"body.educationOrgId":1});
+db["cohort"].ensureIndex({"studentCohortAssociation.body.studentId":1});
+db["cohort"].ensureIndex({"studentCohortAssociation._id":1});
 db["cohort"].ensureIndex({"body.programId":1});
 db["course"].ensureIndex({"body.schoolId":1});
 db["courseOffering"].ensureIndex({"body.courseId":1});
@@ -116,6 +120,7 @@ db["studentCompetency"].ensureIndex({"body.studentSectionAssociationId":1});
 db["studentCompetencyObjective"].ensureIndex({"body.educationOrganizationId":1});
 db["student"].ensureIndex({"studentDisciplineIncidentAssociation.body.disciplineIncidentId":1});
 db["student"].ensureIndex({"studentDisciplineIncidentAssociation.body.studentId":1});
+db["student"].ensureIndex({"studentDisciplineIncidentAssociation._id":1});
 db["studentGradebookEntry"].ensureIndex({"body.gradebookEntryId":1});
 db["studentGradebookEntry"].ensureIndex({"body.sectionId":1});
 db["studentGradebookEntry"].ensureIndex({"body.studentId":1});

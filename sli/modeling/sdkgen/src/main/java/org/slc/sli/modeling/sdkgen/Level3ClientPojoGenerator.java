@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaFeature;
 import org.slc.sli.modeling.jgen.JavaGenConfig;
@@ -65,8 +66,15 @@ import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.helpers.NamespaceHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * SDK Client POJO Models
+ */
 public final class Level3ClientPojoGenerator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Level3ClientPojoGenerator.class);
     
     private static final JavaType TYPE_UNDERLYING = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);
     private static final JavaParam FIELD_UNDERLYING = new JavaParam("data", TYPE_UNDERLYING, true);
@@ -107,14 +115,10 @@ public final class Level3ClientPojoGenerator {
             try {
                 writeDataType(targetPkgName, dataType, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -176,7 +180,7 @@ public final class Level3ClientPojoGenerator {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     
@@ -197,14 +201,10 @@ public final class Level3ClientPojoGenerator {
             try {
                 writeEnumType(targetPkgName, enumType, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -267,7 +267,7 @@ public final class Level3ClientPojoGenerator {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     
@@ -289,14 +289,10 @@ public final class Level3ClientPojoGenerator {
             try {
                 writeClassType(packageName, importNames, classType, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -332,7 +328,7 @@ public final class Level3ClientPojoGenerator {
     
     private static final void writeClassType(final String packageName, final List<String> importNames,
             final ClassType classType, final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
-        final JavaParam PARAM_ENTITY = new JavaParam("data", FIELD_UNDERLYING.getType(), true);
+        final JavaParam paramEntity = new JavaParam("data", FIELD_UNDERLYING.getType(), true);
         
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
         try {
@@ -342,7 +338,6 @@ public final class Level3ClientPojoGenerator {
                 for (final String importName : importNames) {
                     jsw.writeImport(importName);
                 }
-                // TODO: Create a complex type construction.
                 final JavaType javaClassType = JavaType.simpleType(classType.getName(), JavaType.JT_OBJECT);
                 JavadocHelper.writeJavadoc(classType, model, jsw);
                 final List<String> implementations = new ArrayList<String>(1);
@@ -368,11 +363,11 @@ public final class Level3ClientPojoGenerator {
                     jsw.space();
                     jsw.write(classType.getName());
                     jsw.parenL();
-                    jsw.writeParams(PARAM_ENTITY);
+                    jsw.writeParams(paramEntity);
                     jsw.parenR();
                     jsw.beginBlock();
                     jsw.beginStmt();
-                    jsw.write("this.").write(FIELD_UNDERLYING.getName()).write("=").write(PARAM_ENTITY.getName());
+                    jsw.write("this.").write(FIELD_UNDERLYING.getName()).write("=").write(paramEntity.getName());
                     jsw.endStmt();
                     jsw.endBlock();
                     
@@ -411,7 +406,7 @@ public final class Level3ClientPojoGenerator {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     
@@ -431,7 +426,6 @@ public final class Level3ClientPojoGenerator {
         new SetterSnippet(type.getBaseType(), name).write(jsw);
     }
     
-    // FIXME: This needs to be cleaned up.
     private static void writeGetter(final JavaType type, final String name, final JavaStreamWriter jsw)
             throws IOException {
         final JavaType baseType = type.getBaseType();

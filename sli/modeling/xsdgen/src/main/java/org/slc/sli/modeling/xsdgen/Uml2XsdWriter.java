@@ -24,7 +24,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +37,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.psm.PsmDocument;
 import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -48,7 +48,6 @@ import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Multiplicity;
 import org.slc.sli.modeling.uml.Occurs;
@@ -63,11 +62,15 @@ import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 import org.slc.sli.modeling.xsd.XsdAttributeName;
 import org.slc.sli.modeling.xsd.XsdElementName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Writes a UML {@link Model} to a file (by name) or {@link OutputStream}.
  */
 final class Uml2XsdWriter {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(Uml2XsdWriter.class);
 
     private static final String NAMESPACE_XS = WxsNamespace.URI;
     private static final String PREFIX_XS = "xs";
@@ -76,15 +79,11 @@ final class Uml2XsdWriter {
     private static final String UNQUALIFIED = "unqualified";
 
     private static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-            // Ignore.
-        }
+        IOUtils.closeQuietly(closeable);
     }
     
     public Uml2XsdWriter() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     private static final Iterable<SimpleType> combine(final Iterable<DataType> dataTypes,
@@ -139,10 +138,8 @@ final class Uml2XsdWriter {
             return true;
         } else if (localName.equals(WxsNamespace.STRING.getLocalPart())) {
             return true;
-        } else if (localName.equals(WxsNamespace.TIME.getLocalPart())) {
-            return true;
         } else {
-            return false;
+            return localName.equals(WxsNamespace.TIME.getLocalPart());
         }
     }
 
@@ -181,7 +178,7 @@ final class Uml2XsdWriter {
 
     private static final String toString(final Occurs value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         switch (value) {
         case ZERO: {
@@ -205,9 +202,9 @@ final class Uml2XsdWriter {
         if (namespace.length() > 0) {
             final String prefix = namespaceContext.getPrefix(namespace);
             if (prefix == null || prefix.length() == 0) {
-            	return name.getLocalPart();
+                return name.getLocalPart();
             } else {
-            	return prefix.concat(":").concat(name.getLocalPart());
+                return prefix.concat(":").concat(name.getLocalPart());
             }
         } else {
             return name.getLocalPart();
@@ -297,14 +294,12 @@ final class Uml2XsdWriter {
             writeElementName(name, xsw);
             final Identifier elementTypeId = element.getType();
             final Type elementType = model.getType(elementTypeId);
-            {
-                final String localName = elementType.getName();
-                if (isW3cXmlSchemaDatatype(localName)) {
-                    writeTypeAttribute(new QName(WxsNamespace.URI, localName), xsw);
-                } else {
-                    final QName type = plugin.getElementType(localName, false);
-                    writeTypeAttribute(type, xsw);
-                }
+            final String localName = elementType.getName();
+            if (isW3cXmlSchemaDatatype(localName)) {
+                writeTypeAttribute(new QName(WxsNamespace.URI, localName), xsw);
+            } else {
+                final QName type = plugin.getElementType(localName, false);
+                writeTypeAttribute(type, xsw);
             }
             occurrences(element.getMultiplicity(), xsw);
             writeStartElement(XsdElementName.ANNOTATION, xsw);
@@ -386,7 +381,7 @@ final class Uml2XsdWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -406,7 +401,7 @@ final class Uml2XsdWriter {
             // the underlying output stream.
             xsw.close();
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -420,7 +415,7 @@ final class Uml2XsdWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -440,20 +435,20 @@ final class Uml2XsdWriter {
         try {
             xsw.writeNamespace(PREFIX_XS, NAMESPACE_XS);
             final Map<String, String> prefixMappings = plugin.declarePrefixMappings();
-            for (final String prefix : prefixMappings.keySet()) {
-                final String namespace = prefixMappings.get(prefix);
+            for (final Map.Entry<String, String> entry : prefixMappings.entrySet()) {
+                final String namespace = entry.getValue();
                 if (namespace == null) {
-                    throw new NullPointerException("namespace declared by plugin is null.");
+                    throw new IllegalArgumentException("namespace declared by plugin is null.");
                 }
                 if (namespace.trim().length() == 0) {
                     throw new IllegalArgumentException("namespace declared by plugin is the empty string.");
                 }
-                xsw.writeNamespace(prefix, namespace);
+                xsw.writeNamespace(entry.getKey(), namespace);
             }
 
             final String targetNamespace = plugin.getTargetNamespace();
             if (targetNamespace == null) {
-                throw new NullPointerException("targetNamespace declared by plugin is null.");
+                throw new IllegalArgumentException("targetNamespace declared by plugin is null.");
             }
             if (targetNamespace.trim().length() > 0) {
                 xsw.writeAttribute("targetNamespace", targetNamespace);

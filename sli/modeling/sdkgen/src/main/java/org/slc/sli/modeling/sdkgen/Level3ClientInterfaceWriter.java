@@ -25,13 +25,21 @@ import java.util.Stack;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
-import org.slc.sli.modeling.rest.*;
+import org.slc.sli.modeling.rest.Application;
+import org.slc.sli.modeling.rest.Include;
+import org.slc.sli.modeling.rest.Method;
+import org.slc.sli.modeling.rest.Param;
+import org.slc.sli.modeling.rest.Resource;
+import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
 import org.slc.sli.modeling.xsd.XsdReader;
 
+/**
+ * Write SDK Client.
+ */
 public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     
     private final String packageName;
@@ -41,10 +49,10 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             final JavaStreamWriter jsw) {
         super(jsw, wadlFile);
         if (packageName == null) {
-            throw new NullPointerException("packageName");
+            throw new IllegalArgumentException("packageName");
         }
         if (className == null) {
-            throw new NullPointerException("className");
+            throw new IllegalArgumentException("className");
         }
         this.packageName = packageName;
         this.className = className;
@@ -64,7 +72,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
                 schemas.add(XsdReader.readSchema(schemaFile, new SdkGenResolver()));
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     
@@ -212,7 +220,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
         try {
             jsw.endClass();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     

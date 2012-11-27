@@ -17,6 +17,13 @@
 
 package org.slc.sli.modeling.tools.edfisli.cmdline;
 
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,41 +34,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.index.DefaultModelIndex;
-import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.slc.sli.modeling.xmi.reader.XmiReader;
-
 /**
  * A hack/program to compare what is in Ed-Fi schema with what is in the SLI
  * model.
  */
 public final class EdFiSLICmdLine {
-    private static final Set<String> outsideScope = outsideScope();
-    private static final Set<String> planned = planned();
-    private static final Set<String> groups = groups();
-    private static final Set<String> ignorable = ignorable().keySet();
-    private static final Set<String> investigate = investigate().keySet();
-    private static final Map<String, String> classRenames = classRenames();
+    private static final Logger LOG = LoggerFactory.getLogger(EdFiSLICmdLine.class);
 
-    public final static String DEFAULT_SLI_INPUT_FILENAME = "SLI.xmi";
-    public final static String DEFAULT_EDFI_INPUT_FILENAME = "ED-Fi-Core.xmi";
-    
+    private static final Set<String> OUTSIDE_SCOPE = outsideScope();
+    private static final Set<String> PLANNED = planned();
+    private static final Set<String> GROUPS = groups();
+    private static final Set<String> IGNORABLE = ignorable().keySet();
+    private static final Set<String> INVESTIGATE = investigate().keySet();
+    private static final Map<String, String> CLASS_RENAMES = classRenames();
+
+    public static final String DEFAULT_SLI_INPUT_FILENAME = "SLI.xmi";
+    public static final String DEFAULT_EDFI_INPUT_FILENAME = "ED-Fi-Core.xmi";
+
 
     /**
      * @param args
      */
     public static void main(final String[] args) {
 
-    	String sliInputFilename = (args.length == 2) ? args[0] : DEFAULT_SLI_INPUT_FILENAME;
-    	String edfiInputFilename = (args.length == 2) ? args[1] : DEFAULT_EDFI_INPUT_FILENAME;
-    	
-    	try {
+        String sliInputFilename = (args.length == 2) ? args[0] : DEFAULT_SLI_INPUT_FILENAME;
+        String edfiInputFilename = (args.length == 2) ? args[1] : DEFAULT_EDFI_INPUT_FILENAME;
+
+        try {
             final ModelIndex slim = new DefaultModelIndex(XmiReader.readModel(sliInputFilename));
             final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel(edfiInputFilename));
             compareClasses(slim, edfi);
         } catch (final FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new EdFiSLIRuntimeException(e);
         }
     }
 
@@ -82,76 +86,76 @@ public final class EdFiSLICmdLine {
     }
 
     private static final void compareClasses(final ModelIndex slimModel, final ModelIndex edfiModel) {
-        System.out.println("Ed-Fi - SLI deviations from UML models.");
+        LOG.info("Ed-Fi - SLI deviations from UML models.");
         printGMT();
-        System.out.println("");
-        System.out.println("SLI:");
+        LOG.info("");
+        LOG.info("SLI:");
         final Set<String> slimRaw = classNames(slimModel.getClassTypes().values());
-        System.out.println("Raw complexTypes . . . . . : " + slimRaw.size());
+        LOG.info("Raw complexTypes . . . . . : " + slimRaw.size());
         final Set<String> slim = rename(subtractEndsWith(subtractEndsWith(slimRaw, "ReferenceType"), "IdentityType"),
-                invert(classRenames));
-        System.out.println("Normalized . . . . . . . . : " + slim.size() + " (remove *ReferenceType or *IdentityType)");
+                invert(CLASS_RENAMES));
+        LOG.info("Normalized . . . . . . . . : " + slim.size() + " (remove *ReferenceType or *IdentityType)");
 
-        System.out.println("");
-        System.out.println("Ed-Fi-Core:");
+        LOG.info("");
+        LOG.info("Ed-Fi-Core:");
         final Set<String> edfiRaw = classNames(edfiModel.getClassTypes().values());
-        System.out.println("Raw complexTypes . . . . . : " + edfiRaw.size());
+        LOG.info("Raw complexTypes . . . . . : " + edfiRaw.size());
         final Set<String> edfi = subtractEndsWith(subtractEndsWith(edfiRaw, "ReferenceType"), "IdentityType");
-        System.out.println("Normalized . . . . . . . . : " + edfi.size() + " (remove *ReferenceType or *IdentityType)");
+        LOG.info("Normalized . . . . . . . . : " + edfi.size() + " (remove *ReferenceType or *IdentityType)");
 
-        System.out.println("");
-        System.out.println("Adjustments:");
-        System.out.println("");
-        System.out.println("Outside Scope (" + outsideScope.size() + ")");
-        System.out.println("-------------");
-        print(sort(outsideScope));
-        System.out.println("");
-        System.out.println("Planned (" + planned.size() + ")");
-        System.out.println("-------");
-        print(sort(planned));
-        System.out.println("");
-        System.out.println("Groups (" + groups.size() + ")");
-        System.out.println("------");
-        print(sort(groups));
-        System.out.println("");
-        System.out.println("Ignorable (" + ignorable.size() + ")");
-        System.out.println("------");
+        LOG.info("");
+        LOG.info("Adjustments:");
+        LOG.info("");
+        LOG.info("Outside Scope (" + OUTSIDE_SCOPE.size() + ")");
+        LOG.info("-------------");
+        print(sort(OUTSIDE_SCOPE));
+        LOG.info("");
+        LOG.info("Planned (" + PLANNED.size() + ")");
+        LOG.info("-------");
+        print(sort(PLANNED));
+        LOG.info("");
+        LOG.info("Groups (" + GROUPS.size() + ")");
+        LOG.info("------");
+        print(sort(GROUPS));
+        LOG.info("");
+        LOG.info("Ignorable (" + IGNORABLE.size() + ")");
+        LOG.info("------");
         print(ignorable());
-        System.out.println("");
-        System.out.println("Investigate differences (" + investigate.size() + ")");
-        System.out.println("-----------------------");
+        LOG.info("");
+        LOG.info("Investigate differences (" + INVESTIGATE.size() + ")");
+        LOG.info("-----------------------");
         print(investigate());
-        System.out.println("");
-        System.out.println("Renamed (" + classRenames.size() + ")");
-        System.out.println("-------");
-        print(classRenames);
+        LOG.info("");
+        LOG.info("Renamed (" + CLASS_RENAMES.size() + ")");
+        LOG.info("-------");
+        print(CLASS_RENAMES);
         final Set<String> edfiOutstanding = subtract(
-                subtract(subtract(subtract(subtract(edfi, outsideScope), planned), groups), ignorable), investigate);
+                subtract(subtract(subtract(subtract(edfi, OUTSIDE_SCOPE), PLANNED), GROUPS), IGNORABLE), INVESTIGATE);
 
         final Set<String> edfiOutstandingMinusSLI = subtract(edfiOutstanding, slim);
-        System.out.println("");
-        System.out.println("How does Ed-Fi-Core exceed SLI? (" + edfiOutstandingMinusSLI.size() + ")");
-        System.out.println("-------------------------------");
+        LOG.info("");
+        LOG.info("How does Ed-Fi-Core exceed SLI? (" + edfiOutstandingMinusSLI.size() + ")");
+        LOG.info("-------------------------------");
         print(sort(edfiOutstandingMinusSLI));
 
         final Set<String> slimMinusEdfiOutstanding = subtract(slim, edfiOutstanding);
-        System.out.println("");
-        System.out.println("How does SLI exceed Ed-Fi-Core? (" + slimMinusEdfiOutstanding.size() + ")");
-        System.out.println("-------------------------------");
+        LOG.info("");
+        LOG.info("How does SLI exceed Ed-Fi-Core? (" + slimMinusEdfiOutstanding.size() + ")");
+        LOG.info("-------------------------------");
         print(sort(slimMinusEdfiOutstanding));
 
-        System.out.println("");
-        System.out.println("Summary:");
+        LOG.info("");
+        LOG.info("Summary:");
         final int missing = edfiOutstandingMinusSLI.size();
-        final int common = edfiOutstanding.size() - missing + planned.size();
+        final int common = edfiOutstanding.size() - missing + PLANNED.size();
         final int excess = slimMinusEdfiOutstanding.size();
-        System.out.println("common: " + common);
-        System.out.println("missing: " + missing);
-        System.out.println("excess: " + excess);
+        LOG.info("common: " + common);
+        LOG.info("missing: " + missing);
+        LOG.info("excess: " + excess);
 
-        System.out.println("coverage: " + (common * 100.0d) / (common + missing) + "%");
-        System.out.println("");
-        System.out.println("Disclaimer: This assumes that attributes of classes are 100% covered.");
+        LOG.info("coverage: " + (common * 100.0d) / (common + missing) + "%");
+        LOG.info("");
+        LOG.info("Disclaimer: This assumes that attributes of classes are 100% covered.");
     }
 
     private static final Set<String> groups() {
@@ -202,13 +206,14 @@ public final class EdFiSLICmdLine {
 
     private static final Map<String, String> invert(final Map<String, String> mapping) {
         final Map<String, String> inversion = new HashMap<String, String>();
-        for (final String lhs : mapping.keySet()) {
-            final String rhs = mapping.get(lhs);
+        for (final Map.Entry<String, String> entry : mapping.entrySet()) {
+            final String lhs = entry.getKey();
+            final String rhs = entry.getValue();
             inversion.put(rhs, lhs);
         }
         return Collections.unmodifiableMap(inversion);
     }
-    
+
     private static final Set<String> outsideScope() {
         final Set<String> outsideScope = new HashSet<String>();
         outsideScope.add("Account");
@@ -228,30 +233,30 @@ public final class EdFiSLICmdLine {
         final Set<String> planned = new HashSet<String>();
         planned.add("CompetencyLevelDescriptor");       // Parallax
         planned.add("CompetencyLevelDescriptorType");   // Parallax
-        // planned.add("CTEProgram"); //
+        // PLANNED.add("CTEProgram"); //
         planned.add("ReportCard");                      // Wolverine
         planned.add("StudentCompetency");               // Wolverine
         planned.add("StudentCompetencyObjective");      // Wolverine
-        // planned.add("StudentCTEProgramAssociation");
-        // planned.add("StudentSpecialEdProgramAssociation");
+        // PLANNED.add("StudentCTEProgramAssociation");
+        // PLANNED.add("StudentSpecialEdProgramAssociation");
         return Collections.unmodifiableSet(planned);
     }
 
     private static final void print(final List<String> strings) {
         for (final String s : strings) {
-            System.out.println("" + s);
+            LOG.info("" + s);
         }
     }
 
     private static final void print(final Map<String, String> strings) {
-        for (final String key : strings.keySet()) {
-            System.out.println(key + " => " + strings.get(key));
+        for (final Map.Entry<String, String> entry : strings.entrySet()) {
+            LOG.info(entry.getKey() + " => " + entry.getValue());
         }
     }
 
     private static final void printGMT() {
         Calendar c = Calendar.getInstance();
-        System.out.println("" + c.getTime());
+        LOG.info("" + c.getTime());
     }
 
     private static final Set<String> rename(final Set<String> originals, final Map<String, String> renames) {

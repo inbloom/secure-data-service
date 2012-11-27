@@ -35,14 +35,14 @@ public final class WadlWalker {
 
     public WadlWalker(final WadlHandler handler) {
         if (handler == null) {
-            throw new NullPointerException("handler");
+            throw new IllegalArgumentException("handler");
         }
         this.handler = handler;
     }
 
     public void walk(final Application application) {
         if (application == null) {
-            throw new NullPointerException("application");
+            throw new IllegalArgumentException("application");
         }
         handler.beginApplication(application);
         try {

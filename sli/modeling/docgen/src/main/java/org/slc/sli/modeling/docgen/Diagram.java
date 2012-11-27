@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.docgen;
 
+/**
+ * Models a UML diagram.
+ */
 public final class Diagram {
     private final String title;
     private final String source;
@@ -25,16 +28,16 @@ public final class Diagram {
 
     public Diagram(final String title, final String source, final String prolog, final String epilog) {
         if (title == null) {
-            throw new NullPointerException("title");
+            throw new IllegalArgumentException("title");
         }
         if (source == null) {
-            throw new NullPointerException("source");
+            throw new IllegalArgumentException("source");
         }
         if (prolog == null) {
-            throw new NullPointerException("prolog");
+            throw new IllegalArgumentException("prolog");
         }
         if (epilog == null) {
-            throw new NullPointerException("epilog");
+            throw new IllegalArgumentException("epilog");
         }
         this.title = title;
         this.source = source;

@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model attribute
+ */
 public final class DmAttribute implements DmNode {
 
     private final QName name;
@@ -29,10 +32,10 @@ public final class DmAttribute implements DmNode {
 
     public DmAttribute(final QName name, final String value) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.name = name;
         this.value = value;

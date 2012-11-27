@@ -26,17 +26,10 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.core.util.Base64;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.init.RealmInitializer;
-import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,11 +47,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sun.jersey.core.util.Base64;
+import org.slc.sli.api.init.RealmInitializer;
+import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Controller for Discovery Service
- * 
+ *
  * @author dkornishev
  */
 @Controller
@@ -77,20 +78,19 @@ public class AuthController {
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     /**
      * Calls api to list available realms and injects into model
-     * 
+     *
      * @param model
      *            spring injected model
      * @return name of the template to use
      * @throws IOException
      */
-    @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri,
             @RequestParam(value = "Realm", required = false) final String realmUniqueId,
@@ -108,39 +108,38 @@ public class AuthController {
                 debug("session does not map to a valid oauth session");
             }
         }
-        
 
         Map<String, String> map = getRealmMap(realmUniqueId, sandboxEnabled);
-        
+
         // Only one realm, so let's bypass the realm selection and direct them straight to that
         // realm
         if (map.size() == 1) {
             return ssoInit(map.keySet().iterator().next(), sessionId, redirectUri, clientId, state, res, model);
         }
-        
+
         model.addAttribute("redirect_uri", redirectUri != null ? redirectUri : "");
         model.addAttribute("clientId", clientId);
         model.addAttribute("state", state);
 
         if (sandboxEnabled) {
-            for(Map.Entry<String, String> entry : map.entrySet()){
-                if(entry.getValue().equals("SandboxIDP")){
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                if (entry.getValue().equals("SandboxIDP")) {
                     model.addAttribute("sandboxRealm", entry.getKey());
-                } else if(entry.getValue().equals(RealmInitializer.ADMIN_REALM_ID)){
+                } else if (entry.getValue().equals(RealmInitializer.ADMIN_REALM_ID)) {
                     model.addAttribute("adminRealm", entry.getKey());
                 }
             }
             return "sandboxRealms";
         } else {
             model.addAttribute("dummy", new HashMap<String, String>());
-            model.addAttribute("realms", map);    
+            model.addAttribute("realms", map);
             return "realms";
         }
     }
-    
+
     private Map<String, String> getRealmMap(final String realmUniqueId, final boolean useUniqueIdentifier) {
         Map<String, String> result = SecurityUtil.runWithAllTenants(new SecurityTask<Map<String, String>>() {
-            
+
             @Override
             public Map<String, String> execute() {
                 return SecurityUtil.sudoRun(new SecurityTask<Map<String, String>>() {
@@ -151,7 +150,7 @@ public class AuthController {
                         for (Entity realmEntity : realmList) {
                             String name = extractRealmName(useUniqueIdentifier, realmEntity);
                             map.put(realmEntity.getEntityId(), name);
-                            
+
                             // We found the requested realm, so let's only return a map with just
                             // that entry
                             // so that we can short-circuit the realm selection
@@ -168,9 +167,9 @@ public class AuthController {
 
                     private String extractRealmName(final boolean useUniqueIdentifier, Entity realmEntity) {
                         String name;
-                        if(useUniqueIdentifier){
+                        if (useUniqueIdentifier) {
                             name = (String) realmEntity.getBody().get("uniqueIdentifier");
-                        }else{
+                        } else {
                             name = (String) realmEntity.getBody().get("name");
                         }
                         return name;
@@ -208,7 +207,7 @@ public class AuthController {
         return new ResponseEntity<String>(response, headers, HttpStatus.OK);
     }
 
-    // TODO: Normally we would let the ExceptionHandler for OauthAccessException handle the
+    // Normally we would let the ExceptionHandler for OauthAccessException handle the
     // exception automatically, but since it gets thrown as part of a Spring request handler
     // and not jax-rs, it doesn't get invoked automatically.
     private ResponseEntity<String> handleAccessException(OAuthAccessException e) {
@@ -226,7 +225,7 @@ public class AuthController {
 
     /**
      * Redirects user to the sso init url given valid id
-     * 
+     *
      * @param realmId
      *            id of the realm
      * @return directive to redirect to sso init page
@@ -243,10 +242,10 @@ public class AuthController {
         String realmId = getRealmId(sessionId);
         boolean isExpired = isSessionExpired(sessionId);
         boolean forceAuthn = (sessionId != null && realmId != null && !isExpired) ? false : true;
-        
+
         // Ugly, but we need both sudo access and full tenant access
         Entity realmEnt = SecurityUtil.sudoRun(new SecurityTask<Entity>() {
-            
+
             @Override
             public Entity execute() {
                 return SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
@@ -262,7 +261,6 @@ public class AuthController {
             }
         });
 
-        @SuppressWarnings("unused")
         String tenantId = (String) realmEnt.getBody().get("tenantId");
 
         @SuppressWarnings("unchecked")
@@ -285,7 +283,8 @@ public class AuthController {
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn, idpType);
 
-        sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft(), isExpired);
+        sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, realmEnt.getEntityId(),
+                tuple.getLeft(), isExpired);
 
         debug("redirecting to: {}", endpoint);
 
@@ -309,7 +308,6 @@ public class AuthController {
         return realmId;
     }
 
-    @SuppressWarnings("unchecked")
     private boolean isSessionExpired(final String sessionId) {
         boolean isExpired = true;
         if (sessionId != null) {

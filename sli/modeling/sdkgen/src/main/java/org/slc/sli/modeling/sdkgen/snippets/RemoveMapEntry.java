@@ -21,13 +21,16 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Remove an entry from a map
+ */
 public final class RemoveMapEntry implements JavaSnippet {
 
     private final String name;
 
     public RemoveMapEntry(final String name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name;
     }

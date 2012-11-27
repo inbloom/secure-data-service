@@ -33,6 +33,9 @@ import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 
+/**
+ * UML Visitor Implementation
+ */
 public class DefaultVisitor implements Visitor {
     
     private static final void visitTaggedValues(final Taggable taggable, final Visitor visitor) {
@@ -51,6 +54,7 @@ public class DefaultVisitor implements Visitor {
     
     @Override
     public void endPackage(UmlPackage pkg) {
+        // No Op
     }
     
     @Override
@@ -113,5 +117,6 @@ public class DefaultVisitor implements Visitor {
     
     @Override
     public void visit(final TaggedValue taggedValue) {
+        // No Op
     }
 }

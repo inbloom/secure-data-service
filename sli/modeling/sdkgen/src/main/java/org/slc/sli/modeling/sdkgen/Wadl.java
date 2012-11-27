@@ -21,6 +21,8 @@ import org.slc.sli.modeling.rest.Application;
 /**
  * Maintains the relationship between a model and where it was located in order to resolve
  * references.
+ *
+ * @param <T>
  */
 public final class Wadl<T> {
 
@@ -29,10 +31,10 @@ public final class Wadl<T> {
 
     public Wadl(final Application application, final T source) {
         if (application == null) {
-            throw new NullPointerException("application");
+            throw new IllegalArgumentException("application");
         }
         if (source == null) {
-            throw new NullPointerException("source");
+            throw new IllegalArgumentException("source");
         }
         this.application = application;
         this.source = source;

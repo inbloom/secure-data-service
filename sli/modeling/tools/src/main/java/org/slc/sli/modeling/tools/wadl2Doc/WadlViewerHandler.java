@@ -16,11 +16,6 @@
 
 package org.slc.sli.modeling.tools.wadl2Doc;
 
-import java.util.List;
-import java.util.Stack;
-
-import javax.xml.namespace.QName;
-
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Representation;
@@ -30,19 +25,28 @@ import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
+import java.util.List;
+import java.util.Stack;
+
+/**
+ * Methods for verifying a WADL
+ */
 public final class WadlViewerHandler implements WadlHandler {
 
+    private static final Logger LOG = LoggerFactory.getLogger(WadlViewerHandler.class);
+
     public static final String computeURI(final Resource resource, final Resources resources, final Application app,
-            final Stack<Resource> ancestors) {
+                                          final Stack<Resource> ancestors) {
         final List<String> steps = WadlHelper.toSteps(resource, ancestors);
 
         final StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (final String step : steps) {
-            if (WadlHelper.isVersion(step)) {
-                // Ignore
-            } else {
+            if (!WadlHelper.isVersion(step)) {
                 if (first) {
                     first = false;
                 } else {
@@ -56,20 +60,20 @@ public final class WadlViewerHandler implements WadlHandler {
 
     @Override
     public void beginApplication(Application application) {
-        // TODO Auto-generated method stub
+        // no op
 
     }
 
     @Override
     public void beginResource(final Resource resource, final Resources resources, final Application app,
-            final Stack<Resource> ancestors) {
+                              final Stack<Resource> ancestors) {
         final String uri = computeURI(resource, resources, app, ancestors);
-        System.out.println(uri);
+        LOG.info(uri);
     }
 
     @Override
     public void endApplication(Application application) {
-        // TODO Auto-generated method stub
+        // no op
 
     }
 
@@ -80,13 +84,13 @@ public final class WadlViewerHandler implements WadlHandler {
 
     @Override
     public void method(Method method, Resource resource, Resources resources, Application application,
-            Stack<Resource> ancestors) {
+                       Stack<Resource> ancestors) {
         @SuppressWarnings("unused")
         // Perhaps modify this method to generate a different naming scheme?
         final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
 
         @SuppressWarnings("unused")
-		final Request request = method.getRequest();
+        final Request request = method.getRequest();
 //        for (@SuppressWarnings("unused")
 //        final Param param : request.getParams()) {
 //
@@ -94,7 +98,7 @@ public final class WadlViewerHandler implements WadlHandler {
 
         final List<Response> responses = method.getResponses();
         for (final Response response : responses) {
-        
+
             final List<Representation> representations = response.getRepresentations();
             for (final Representation representation : representations) {
                 @SuppressWarnings("unused")

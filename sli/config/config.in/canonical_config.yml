@@ -63,7 +63,7 @@ default:
 
         # Ldap server user and pass
         sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-        sli.api.ldap.pass: Y;Gtf@w{
+        sli.api.ldap.pass: 76F2FD74E0CEF4808FFD476EC604CFB4
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
@@ -333,6 +333,9 @@ default:
         # keystore password (used in common, data-access, and dashboard)
         sli.encryption.keyStorePass: changeit
 
+        sli.encryption.ldapKeyAlias: ldap
+        sli.encryption.ldapKeyPass: ldap
+        
         # (only used in data-access, and dashboard)
         sli.encryption.dalKeyAlias: dalKey
 
@@ -487,6 +490,11 @@ acceptance-tests:
 
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
+        
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -576,6 +584,11 @@ ci:
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
 
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
@@ -669,6 +682,11 @@ dev:
 
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
+        
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -956,6 +974,11 @@ local:
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 1000
 
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
@@ -1061,6 +1084,11 @@ local-acceptance-tests:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.lz.pollInterval: 1000
 
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
     dashboard:
         # Pick up default here, not local, to avoid overriding the encryption keystore.
         <<: *DASHBOARD-DEFAULT
@@ -1216,6 +1244,12 @@ team:
 
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
+        
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT

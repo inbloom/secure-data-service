@@ -42,9 +42,6 @@ public class EmbeddedLink {
         this.href = href;
     }
 
-    public EmbeddedLink() {
-    }
-
     @JsonIgnore
     public String getRel() {
         return rel;
@@ -72,28 +69,37 @@ public class EmbeddedLink {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        
+        if (getClass() != obj.getClass()) {
             return false;
+        }
+        
         EmbeddedLink other = (EmbeddedLink) obj;
-        if (href == null) {
-            if (other.href != null)
-                return false;
-        } else if (!href.equals(other.href))
+        if (href == null && other.href != null) {
             return false;
-        if (rel == null) {
-            if (other.rel != null)
-                return false;
-        } else if (!rel.equals(other.rel))
+        } else if (!href.equals(other.href)) {
             return false;
-        if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
+        }
+        
+        if (rel == null && other.rel != null) {
             return false;
+        } else if (!rel.equals(other.rel)) {
+            return false;
+        }
+        
+        if (type == null && other.type != null) {
+            return false;
+        } else if (!type.equals(other.type)) {
+            return false;
+        } 
+        
         return true;
     }
 

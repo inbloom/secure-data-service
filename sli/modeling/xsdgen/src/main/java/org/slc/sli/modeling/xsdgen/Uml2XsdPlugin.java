@@ -28,6 +28,12 @@ import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+/**
+ * Methods describing necessary funcationality for writing an XSD file from UML.
+ * 
+ * @author kmyers
+ *
+ */
 public interface Uml2XsdPlugin {
     /**
      * Returns the prefix mappings that the plug-in will use to write custom content.
@@ -119,8 +125,6 @@ public interface Uml2XsdPlugin {
      * @param xsw
      *            The writer callback.
      *
-     *            FIXME: The platform-specific aspects should come from the plug-in implementation.
-     *            This means that the interface should only know about the UML model and elements.
      */
     void writeTopLevelElement(final PsmDocument<Type> classType, final ModelIndex model, final Uml2XsdPluginWriter xsw);
 }

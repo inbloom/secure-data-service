@@ -40,14 +40,12 @@ public class SdkGenTest {
         File pojoDir = new File("sli/modeling/sdkgen/test/pojo/");
 
         if (!pojoDir.exists()) {
-            if (pojoDir.mkdirs()) {
-                // directory created
-            } else {
+            if (!pojoDir.mkdirs()) {
                 fail("failed to create temp dir " + outDir.getName());
             }
         }
 
-        String args[] = new String[] {
+        String[] args = new String[] {
                 "--outFolder",  outDir.getAbsolutePath(),
                 "--wadlFile",  getAbsPath("test_wadl.wadl"),
                 "--package",  "org.slc.sli.shtick",

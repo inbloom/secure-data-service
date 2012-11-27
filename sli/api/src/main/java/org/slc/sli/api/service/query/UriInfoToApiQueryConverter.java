@@ -78,13 +78,13 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.LIMIT, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-            	int limit = Integer.parseInt((String) value);
+                int limit = Integer.parseInt((String) value);
                 
                 if (limit < 0) {
-                	throw new QueryParseException("Limit cannot be less than zero", (String) value);
+                    throw new QueryParseException("Limit cannot be less than zero", (String) value);
                 }
-            	
-            	apiQuery.setLimit(limit);
+                
+                apiQuery.setLimit(limit);
             }
         });
 
@@ -95,10 +95,10 @@ public class UriInfoToApiQueryConverter {
                 int offset = Integer.parseInt((String) value);
                 
                 if (offset < 0) {
-                	throw new QueryParseException("Offset cannot be less than zero", (String) value);
+                    throw new QueryParseException("Offset cannot be less than zero", (String) value);
                 }
-            	
-            	apiQuery.setOffset(offset);
+                
+                apiQuery.setOffset(offset);
             }
         });
 
@@ -140,13 +140,17 @@ public class UriInfoToApiQueryConverter {
     }
 
     public ApiQuery convert(ApiQuery apiQuery, URI requestURI) {
-        if (requestURI == null) return apiQuery;
+        if (requestURI == null) { 
+            return apiQuery;
+        }
 
         return convert(apiQuery, requestURI.getQuery());
     }
 
     public ApiQuery convert(ApiQuery apiQuery, UriInfo uriInfo) {
-        if (uriInfo == null) return apiQuery;
+        if (uriInfo == null) { 
+            return apiQuery;
+        }
 
         return convert(apiQuery, uriInfo.getRequestUri());
     }
@@ -166,12 +170,13 @@ public class UriInfoToApiQueryConverter {
 
                 try {
                     for (String criteriaString : queryString.split("&")) {
-                        criteriaString = URLDecoder.decode(criteriaString, "UTF-8");
-                        NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
+                        String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
+                        NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
                         NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                         if (nci == null) {
                             if (!neutralCriteria.getKey().equals("full-entities")
                                     && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
+                                    && (!ParameterConstants.VIEWS.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) {
@@ -183,11 +188,10 @@ public class UriInfoToApiQueryConverter {
                     }
                 } catch (RuntimeException re) {
                     error("error parsing query String {} {}", re.getMessage(), queryString);
-                    throw new QueryParseException(re.getMessage(), queryString);
+                    throw (QueryParseException) new QueryParseException(re.getMessage(), queryString).initCause(re); 
                 } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
                     error("Unable to decode query string as UTF-8: {}", queryString);
-                    throw new QueryParseException(e.getMessage(), queryString);
+                    throw (QueryParseException) new QueryParseException(e.getMessage(), queryString).initCause(e);
                 }
             }
 

@@ -21,8 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -58,7 +63,7 @@ public class DelegationUtil {
         List<String> stateIds = new ArrayList<String>();
         Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
         if (edOrgs != null) {
-            for (Entity edOrg:edOrgs) {
+            for (Entity edOrg : edOrgs) {
                 Map<String, Object> body = edOrg.getBody();
                 if (body != null) {
                     String stateId = (String) body.get("stateOrganizationId");

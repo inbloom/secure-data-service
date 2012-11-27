@@ -110,14 +110,14 @@ class UsersController < ApplicationController
       rescue ActiveResource::BadRequest => e
         begin
           if e.response.class.body_permitted?()
-            entity_body = JSON.parse(e.response.body) 
-            if entity_body.has_key?("response") 
+            entity_body = JSON.parse(e.response.body)
+            if entity_body.has_key?("response")
               api_error_message = entity_body["response"]
               logger.info("entity body: [#{entity_body["response"]}]")
             end
           end
         rescue JSON::JSONError
-            logger.info("API returned error: #{e.response.body}") if e.response.class.body_permitted?;
+          logger.info("API returned error: #{e.response.body}") if e.response.class.body_permitted?;
         end
         resend =true
         @user.errors[:tenant] << "tenant and edorg mismatch"
@@ -214,13 +214,13 @@ class UsersController < ApplicationController
         begin
           if e.response.class.body_permitted?()
             entity_body = JSON.parse(e.response.body)
-            if entity_body.has_key?("response") 
+            if entity_body.has_key?("response")
               api_error_message = entity_body["response"]
               logger.info("entity body: [#{entity_body["response"]}]")
             end
           end
         rescue JSON::JSONError
-            logger.info("API returned error: #{e.response.body}") if e.response.class.body_permitted?;
+          logger.info("API returned error: #{e.response.body}") if e.response.class.body_permitted?;
         end
         resend =true
         @user.errors[:tenant] << "tenant and edorg mismatch"

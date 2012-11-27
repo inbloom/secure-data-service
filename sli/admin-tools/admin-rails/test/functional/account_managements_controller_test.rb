@@ -23,26 +23,37 @@ class AccountManagementsControllerTest < ActionController::TestCase
   setup do
     @account_managements = Array.new()
     @account_managements.push(@account_managements_fixtures['account1'])
+    @account_managements.collect! do |account|
+      am = AccountManagement.new
+      am.name = account["name"]
+      am.vendor = account["vendor"]
+      am.email = account["email"]
+      am.lastUpdate = account["lastUpdate"]
+      am.status = account["status"]
+      am.transitions = account["transitions"]
+      am
+    end
     $check_slc=false
   end
 
- test "should get index" do
-   get :index
-   assert_response :success
-   assert_not_nil assigns(:account_managements)
- end
+  test "should get index" do
+    @controller.stubs(:get_all).returns(@account_managements)
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:account_managements)
+  end
 
 # test "should get new" do
 #  get :new
 #  assert_response :success
 # end
 
- #test "should create account_management" do
+#test "should create account_management" do
 #  assert_difference('AccountManagement.count') do
- #   post :create, account_management: @account_managements_fixtures['new_account']
+#   post :create, account_management: @account_managements_fixtures['new_account']
 #  end
- # assert_redirected_to account_management_path(assigns(:account_managements))
- #end
+# assert_redirected_to account_management_path(assigns(:account_managements))
+#end
 
 # test "should show account_management" do
 #  get :show, id: @account_management.to_param

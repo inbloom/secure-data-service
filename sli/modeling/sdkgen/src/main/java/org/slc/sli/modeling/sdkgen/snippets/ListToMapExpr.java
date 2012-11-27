@@ -22,13 +22,16 @@ import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 
+/**
+ * Convert to Map.
+ */
 public final class ListToMapExpr implements JavaSnippetExpr {
 
     private final VarNameExpr id;
 
     public ListToMapExpr(final VarNameExpr id) {
         if (id == null) {
-            throw new NullPointerException("id");
+            throw new IllegalArgumentException("id");
         }
         this.id = id;
     }
@@ -36,7 +39,7 @@ public final class ListToMapExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write("CoerceToJson");
         jsw.write(id);

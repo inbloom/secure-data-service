@@ -35,18 +35,29 @@
 		<constructor-arg ref="contextSource" />
 	</bean>
 	
-	
+    <bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
+        <constructor-arg index="0" name="keyStoreLocation" value="${sli.encryption.keyStore}" />
+        <constructor-arg index="1" name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+    </bean>
+    
 	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource"> 
 		<property name="urls" value="${sli.simple-idp.ldap.urls}" />
 		<property name="base" value="${sli.simple-idp.ldap.base}" />
 		<property name="userDn" value="${sli.api.ldap.user:null}" />
-        <property name="password" value="${sli.api.ldap.pass:null}" />
+        <property name="password" value="#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.ldap.pass}')}" />
         <property name="pooled" value="true" />
 	</bean>
 	 
 	<bean
-		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" /> 
-  
+		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
 
-
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="springRequestCleanup" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>

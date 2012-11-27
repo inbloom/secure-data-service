@@ -19,6 +19,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.slc.sli.schema</groupId>
+            <artifactId>edfi-schema</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>sli-common</artifactId>
         </dependency>
@@ -84,25 +90,26 @@
             <artifactId>spring-security-core</artifactId>
         </dependency>
 
-        <!-- Apache Avro -->
-        <dependency>
-            <groupId>org.apache.avro</groupId>
-            <artifactId>avro</artifactId>
-            <version>${avro.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>${springdata-mongodb-version}</version>
         </dependency>
 
+        <!-- Codehaus Jackson JAX-RS dependency -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+        </dependency>
 
     </dependencies>
 
     <build>
         <defaultGoal>install</defaultGoal>
+        
+        
         <plugins>
+            
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -200,6 +207,7 @@
                     </execution>
                </executions>
            </plugin>
+           
         </plugins>
     </build>
 </project>

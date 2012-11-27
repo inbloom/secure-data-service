@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,7 +36,7 @@ public class StandardJavaStreamWriterTest {
     MockJavaStreamWriter jsw;
 
     @Before
-    public void setup() {
+    public void setup() throws UnsupportedEncodingException {
         jsw = new MockJavaStreamWriter();
     }
 
@@ -49,7 +50,12 @@ public class StandardJavaStreamWriterTest {
 
     @Test
     public void testClassWithImplements() throws IOException {
-        jsw.beginClass("TestClass", new ArrayList<String>() {{ add("Interface1"); add("Interface2"); }});
+        jsw.beginClass("TestClass", new ArrayList<String>() {
+            {
+                add("Interface1");
+                add("Interface2");
+            }
+        });
         jsw.endClass();
         String str = jsw.read();
         assertTrue(str.equals("public class TestClass implements Interface1, Interface2{}"));

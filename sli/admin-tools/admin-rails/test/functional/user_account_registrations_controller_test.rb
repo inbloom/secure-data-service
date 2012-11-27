@@ -16,22 +16,20 @@ limitations under the License.
 
 =end
 
-
 require 'test_helper'
 require "mocha"
 
 class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
   setup do
-    @user_account_registration=UserAccountRegistration.new(
+    @user_account_registration = {
         :email=> 'validated@valid.com' ,
         :firstName => 'test',
         :lastName => 'testLName',
         :password => 'secret',
         :password_confirmation => 'secret',
         :vendor => 'self'
-    )
- 
+    }
   end
 
   test "should get new" do
@@ -41,15 +39,17 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
   test "should create user_account_registration" do
 
-    UserAccountRegistrationsHelper.stubs(:register_user).returns({"redirect"=>true,"error"=>""})
+    UserAccountRegistration.stubs(:register).returns({"redirect"=>true, "error"=>""})
     ReCaptcha::AppHelper.stubs(:validate_recap).returns(true)
+    ApprovalEngine.stubs(:user_exists?).returns(false)
+    ApprovalEngine.stubs(:add_disabled_user).returns(true)
 
-    post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, password_confirmation: @user_account_registration.password_confirmation, vendor: @user_account_registration.vendor }
-    assert_response :success
+    post :create, user_account_registration: { email: @user_account_registration[:email], firstName: @user_account_registration[:firstName], lastName: @user_account_registration[:lastName], password: @user_account_registration[:password], password_confirmation: @user_account_registration[:password_confirmation], vendor: @user_account_registration[:vendor] }
+    assert_response :redirect
   end
   test "should validate user_account_registration" do
 
-    post :create, user_account_registration: { email: "invalid.com", firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, vendor: @user_account_registration.vendor }
+    post :create, user_account_registration: { email: "invalid.com", firstName: @user_account_registration[:firstName], lastName: @user_account_registration[:lastName], password: @user_account_registration[:password], vendor: @user_account_registration[:vendor] }
 
     assert_template :new
   end
@@ -58,4 +58,4 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
     assert_redirected_to APP_CONFIG['redirect_slc_url']
   end
 
- end
+end

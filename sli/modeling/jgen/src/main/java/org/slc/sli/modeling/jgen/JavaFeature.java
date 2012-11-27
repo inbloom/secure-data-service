@@ -38,10 +38,10 @@ public final class JavaFeature {
 
     public JavaFeature(final Feature name, final ModelIndex type) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         this.feature = name;
         this.model = type;
@@ -65,13 +65,7 @@ public final class JavaFeature {
     }
 
     public boolean isExposed(final JavaGenConfig config) {
-        if (isAttribute()) {
-            return true;
-        } else if (isNavigable()) {
-            return true;
-        } else {
-            return false;
-        }
+        return isAttribute() || isNavigable();
     }
 
     public String getPrimeTypeName(final JavaGenConfig config) {

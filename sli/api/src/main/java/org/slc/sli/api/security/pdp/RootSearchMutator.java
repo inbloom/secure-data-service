@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.pdp;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,7 +39,7 @@ public class RootSearchMutator {
     @Autowired
     ResourceEndPoint resourceEndPoint;
 
-    private static final List<Pair<String, String>> parameterResourcePairs = Arrays.asList(
+    private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
             Pair.of(ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS),
             Pair.of(ParameterConstants.SCHOOL_ID, ResourceNames.SCHOOLS),
             Pair.of(ParameterConstants.STAFF_REFERENCE, ResourceNames.STAFF),
@@ -36,7 +52,7 @@ public class RootSearchMutator {
 
         Map<String, String> parameters = getParameterMap(queryParameters);
 
-        for (Pair<String, String> parameterResourcePair : parameterResourcePairs) {
+        for (Pair<String, String> parameterResourcePair : PARAMETER_RESOURCE_PAIRS) {
             String curParameter = parameterResourcePair.getLeft();
             String curResource = parameterResourcePair.getRight();
             if (parameters.containsKey(curParameter)) {

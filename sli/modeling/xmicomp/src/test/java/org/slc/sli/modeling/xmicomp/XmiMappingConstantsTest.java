@@ -18,10 +18,13 @@ package org.slc.sli.modeling.xmicomp;
 
 import org.junit.Test;
 
+/**
+ * JUnit test for XmiMappingConstants class.
+ */
 public class XmiMappingConstantsTest {
 
-	@Test (expected = UnsupportedOperationException.class)
-	public void testNonInstantiable() {
-		new XmiMappingConstants();
-	}
+    @Test(expected = UnsupportedOperationException.class)
+    public void testNonInstantiable() {
+        new XmiMappingConstants();
+    }
 }

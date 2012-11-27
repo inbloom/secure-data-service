@@ -176,11 +176,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + token));
-        try {
-            return service.list(neutralQuery).iterator().hasNext();
-        } catch (NullPointerException npe) {
+
+        Iterable<EntityBody> it = service.list(neutralQuery);
+                       
+        if (it == null || it.iterator() == null) {
             return false;
         }
+        return it.iterator().hasNext();
     }
 
     @SuppressWarnings("rawtypes")
@@ -295,7 +297,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         return super.delete(uuid, headers, uriInfo);
     }
 
-    // TODO app creation and app approval should be broken into separate endpoints.
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")

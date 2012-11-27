@@ -16,14 +16,17 @@
 
 package org.slc.sli.modeling.xmigen;
 
+/**
+ * A utility class that assists in the XSD to UML transformation process.
+ * 
+ * @author kmyers
+ *
+ */
 public final class Xsd2UmlHelper {
     
-    /**
-     * TODO: This should be driven from some sort of external configuration.
-     */
     public static final String pluralize(final String typeName) {
         if (typeName == null) {
-            throw new NullPointerException("typeName");
+            throw new IllegalArgumentException("typeName");
         }
         if (typeName.endsWith("y")) {
             return typeName.substring(0, typeName.length() - 1).concat("ies");
@@ -44,7 +47,7 @@ public final class Xsd2UmlHelper {
     
     public static final String camelCase(final String text) {
         if (text == null) {
-            throw new NullPointerException("text");
+            throw new IllegalArgumentException("text");
         }
         for (final String acronym : ACRONYMS) {
             if (acronym.equals(text)) {
@@ -61,7 +64,7 @@ public final class Xsd2UmlHelper {
     
     public static final String titleCase(final String text) {
         if (text == null) {
-            throw new NullPointerException("text");
+            throw new IllegalArgumentException("text");
         }
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
@@ -72,7 +75,7 @@ public final class Xsd2UmlHelper {
     public static final String makeAssociationEndName(final String sourceTypeName, final String sourceEndName,
             final int degeneracy, final String targetTypeName) {
         if (degeneracy > 1) {
-            // FIXME: It's rather crude to use a type name.
+            // It's rather crude to use a type name.
             final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
             // There is more than one pathway so make sure that the name is unique.
             return sourceEndName.concat(Xsd2UmlHelper.titleCase(targetName));
@@ -82,12 +85,12 @@ public final class Xsd2UmlHelper {
                 if ("parent".concat(sourceTypeName).equals(sourceEndName)) {
                     return "child".concat(Xsd2UmlHelper.pluralize(targetTypeName));
                 } else {
-                    // FIXME: It's rather crude to use a type name.
+                    // It's rather crude to use a type name.
                     final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
                     return Xsd2UmlHelper.camelCase(targetName);
                 }
             } else {
-                // FIXME: It's rather crude to use a type name.
+                // It's rather crude to use a type name.
                 final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
                 return Xsd2UmlHelper.camelCase(targetName);
             }

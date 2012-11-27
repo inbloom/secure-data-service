@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "LeaveEventDescriptorType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A code describing the type of the leave event.",
-  "xsd-type" : "token",
-  "symbols" : [ "Vacation", "Jury", "Training", "Flex_Time", "Work_Compensation", "Administrative", "Annual_leave", "Bereavement", "Compensatory_leave_time", "Family_and_medical_leave", "Government_requested", "Military_leave", "Personal", "Release_time", "Sabbatical_leave", "Sick_leave", "Suspension", "Other" ]
-}

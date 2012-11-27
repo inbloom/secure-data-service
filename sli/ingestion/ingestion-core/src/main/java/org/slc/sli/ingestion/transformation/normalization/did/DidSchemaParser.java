@@ -239,7 +239,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
     private XmlSchema parseXmlSchema(final InputStream is, final String baseXsdPath) {
         try {
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
-            // schemaCollection.setBaseUri(baseUri);
             schemaCollection.setSchemaResolver(new URIResolver() {
                 @Override
                 public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
@@ -329,9 +328,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * by traversing through all baseSchemas looking for ReferenceType
      */
     private boolean isReferenceType(XmlSchemaComplexType complexType) {
-
-        String baseName = extractBaseTypeName(complexType);
-
 
         if (complexType.getName().contains(REFERENCE_TYPE)) {
             return true;
@@ -430,13 +426,13 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
         //parse base type as well if it has one - we only ever need to go
         if (complexType.getBaseSchemaTypeName() != null) {
-        	String baseTypeName =  complexType.getBaseSchemaTypeName().getLocalPart();
-        	XmlSchemaComplexType baseType = complexTypes.get(baseTypeName);
-        	if (baseType != null) {
-        		parseParticleForRef(extractParticle(baseType), refSources, false);
-        	} else {
-        		LOG.error("Failed to parse base entity type " + baseTypeName + " - could not find complex type");
-        	}
+            String baseTypeName =  complexType.getBaseSchemaTypeName().getLocalPart();
+            XmlSchemaComplexType baseType = complexTypes.get(baseTypeName);
+            if (baseType != null) {
+                parseParticleForRef(extractParticle(baseType), refSources, false);
+            } else {
+                LOG.error("Failed to parse base entity type " + baseTypeName + " - could not find complex type");
+            }
         }
 
         // if any DidRefSources were found for this complex type, create a DidEntityConfig
@@ -581,7 +577,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
                         isOptional = true;
                     }
 
-                    // TODO, this could be pre-computed for all refTypes to avoid some repetition
                     XmlSchemaComplexType refSchema = referenceTypes.get(elementType.getLocalPart());
 
                     DidRefSource refSource = getRefSource(refSchema);
@@ -620,16 +615,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
         XmlSchemaAppInfo appInfo = null;
 
         if (annotation != null) {
-        	XmlSchemaObjectCollection items = annotation.getItems();
+            XmlSchemaObjectCollection items = annotation.getItems();
 
-        	for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+            for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
 
-        		XmlSchemaObject item = items.getItem(annotationIdx);
-        		if (item instanceof XmlSchemaAppInfo) {
-        			appInfo = (XmlSchemaAppInfo) item;
-        			break;
-        		}
-        	}
+                XmlSchemaObject item = items.getItem(annotationIdx);
+                if (item instanceof XmlSchemaAppInfo) {
+                    appInfo = (XmlSchemaAppInfo) item;
+                    break;
+                }
+            }
         }
 
         return appInfo;

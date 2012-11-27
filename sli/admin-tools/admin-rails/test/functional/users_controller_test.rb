@@ -30,46 +30,46 @@ class UsersControllerTest < ActionController::TestCase
     session[:roles] = ["Sandbox Administrator"]
     get :index
     assert_response :success
-   assert_not_nil assigns(:users)
+    assert_not_nil assigns(:users)
   end
-  
+
   test "should not get index" do
-     APP_CONFIG['is_sandbox']=false
-     session[:roles]=["Application Developer"]
-      get :index
-      assert_response :forbidden
-    end
-    
-    test "should get new" do
+    APP_CONFIG['is_sandbox']=false
+    session[:roles]=["Application Developer"]
+    get :index
+    assert_response :forbidden
+  end
+
+  test "should get new" do
     session[:roles] = ["Sandbox Administrator"]
     get :new
     assert_response :success
-    end
-    
-    test "should destroy user" do
-      
-      delete :destroy, id: "testuser@testwgen.net"
-   
-     assert_response :success
-   end
-   
-   test "should create user" do
-       post :create, user: @user_fixtures["new_user"]
+  end
+
+  test "should destroy user" do
+
+    delete :destroy, id: "testuser@testwgen.net"
+
+    assert_response :success
+  end
+
+  test "should create user" do
+    post :create, user: @user_fixtures["new_user"]
     assert_redirected_to assigns(:users)
-   end
-   
-   test "should update user" do
-   
-      put :update, id: "testuser@testwgen.net", user: @user_fixtures["update_user"]
-      assert_redirected_to "/users"
-   end
-   
-   test "should get edit" do
-   
-      get :edit, id: "testuser@testwgen.net", user: @user_fixtures["user1"]
-      assert_response :success
-   end
-   
+  end
+
+  test "should update user" do
+
+    put :update, id: "testuser@testwgen.net", user: @user_fixtures["update_user"]
+    assert_redirected_to "/users"
+  end
+
+  test "should get edit" do
+
+    get :edit, id: "testuser@testwgen.net", user: @user_fixtures["user1"]
+    assert_response :success
+  end
+
 =begin
   test "should get new" do
     session[:roles] = ["Application Developer"]

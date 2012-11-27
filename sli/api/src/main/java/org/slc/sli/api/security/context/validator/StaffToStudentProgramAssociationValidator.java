@@ -27,7 +27,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+/**
+ * Validates the context of a staff member to see the requested set of student program associations.
+ * Returns true if the staff member can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
 @Component
 public class StaffToStudentProgramAssociationValidator extends AbstractContextValidator {
 

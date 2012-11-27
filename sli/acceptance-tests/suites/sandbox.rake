@@ -99,19 +99,3 @@ end
 ############################################################
 # Provisioning tests end
 ############################################################
-
-###########################################################
-# Tenant Metrics tests start
-############################################################
-
-desc "Tenant Metrics Tests"
-task :tenantMetricsTests do
-  Rake::Task["importTenantMetricsData"].invoke
-  runTests("test/features/sandbox/TenantUsage/usage_analytics.feature")
-end
-############################################################
-# Tenant Metrics tests end
-############################################################
-
-
-

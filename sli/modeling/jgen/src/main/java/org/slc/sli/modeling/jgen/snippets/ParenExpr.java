@@ -21,13 +21,16 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java parenthesized statement.
+ */
 public final class ParenExpr implements JavaSnippet {
 
     private final JavaSnippet expr;
 
     public ParenExpr(final JavaSnippet expr) {
         if (expr == null) {
-            throw new NullPointerException("expr");
+            throw new IllegalArgumentException("expr");
         }
         this.expr = expr;
     }

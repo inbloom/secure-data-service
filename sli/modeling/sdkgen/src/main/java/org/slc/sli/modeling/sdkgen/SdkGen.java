@@ -34,6 +34,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.ws.commons.schema.XmlSchema;
 
 import org.slc.sli.modeling.jgen.JavaGenConfig;
@@ -51,11 +52,15 @@ import org.slc.sli.modeling.wadl.helpers.WadlWalker;
 import org.slc.sli.modeling.wadl.reader.WadlReader;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 import org.slc.sli.modeling.xsd.XsdReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Command Line Interface for generating a Java SDK.
  */
 public final class SdkGen {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SdkGen.class);
 
     private static final List<String> ARGUMENT_HELP = asList("h", "?");
     // private static final String ARGUMENT_CLASS = "class";
@@ -102,7 +107,7 @@ public final class SdkGen {
                 try {
                     parser.printHelpOn(System.out);
                 } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                    throw new SdkGenRuntimeException(e);
                 }
             } else {
                 try {
@@ -160,11 +165,11 @@ public final class SdkGen {
                         }
                     }
                 } catch (final FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    throw new SdkGenRuntimeException(e);
                 }
             }
         } catch (final OptionException e) {
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -180,14 +185,10 @@ public final class SdkGen {
             try {
                 writeLevel2ClientImplementation(name, interfaces, wadl, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -198,14 +199,10 @@ public final class SdkGen {
             try {
                 writeLevel3ClientImplementation(name, interfaces, wadl, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -221,7 +218,7 @@ public final class SdkGen {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
@@ -237,7 +234,7 @@ public final class SdkGen {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
@@ -248,14 +245,10 @@ public final class SdkGen {
             try {
                 writeLevel2ClientInterface(name, wadl, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -271,7 +264,7 @@ public final class SdkGen {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
@@ -282,14 +275,10 @@ public final class SdkGen {
             try {
                 writeLevel3ClientInterface(name, wadl, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -305,7 +294,7 @@ public final class SdkGen {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 }

@@ -47,12 +47,12 @@ public class XmiAssociationConnectionTest {
         assertTrue(xmiac.getRHS() == RIGHT_HAND_SIDE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testForNullCheckingForLeftHandSide() {
         new XmiAssociationConnection(null, RIGHT_HAND_SIDE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testForNullCheckingForRightHandSide() {
         new XmiAssociationConnection(LEFT_HAND_SIDE, null);
     }

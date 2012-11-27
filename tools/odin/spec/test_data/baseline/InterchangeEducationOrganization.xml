@@ -1,0 +1,872 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd ">
+  <StateEducationAgency>
+    <StateOrganizationId>stte-0000000006</StateOrganizationId>
+    <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </StateEducationAgency>
+  <Course>
+    <CourseTitle>Kindergarten</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000001</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000001</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>First grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000002</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000002</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Second grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000003</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000003</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Third grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000004</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000004</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Fourth grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000005</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000005</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Fifth grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000006</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000006</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000007</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000007</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000008</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000008</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000009</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000009</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000010</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000010</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000011</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000011</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000012</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000012</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000013</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000013</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000014</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000014</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000015</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000015</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000016</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000016</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000017</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000017</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000018</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000018</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000019</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000019</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000020</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000020</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000021</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000021</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000022</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000022</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000023</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000023</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000024</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000024</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000025</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000025</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000026</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000026</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000027</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000027</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000028</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000028</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000029</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000029</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000030</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000030</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000031</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000031</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000032</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000032</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000033</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000033</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>crse-0000000034</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>crse-0000000034</UniqueCourseId>
+  </Course>
+  <LocalEducationAgency>
+    <StateOrganizationId>locl-0000000004</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  <LocalEducationAgency>
+    <StateOrganizationId>locl-0000000005</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  <School>
+    <StateOrganizationId>elem-0000000001</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>elem-0000000001</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <GradeLevel>First grade</GradeLevel>
+        <GradeLevel>Second grade</GradeLevel>
+        <GradeLevel>Third grade</GradeLevel>
+        <GradeLevel>Fourth grade</GradeLevel>
+        <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+  <School>
+    <StateOrganizationId>midl-0000000002</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>midl-0000000002</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+        <GradeLevel>Sixth grade</GradeLevel>
+        <GradeLevel>Seventh grade</GradeLevel>
+        <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Middle School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+  <School>
+    <StateOrganizationId>high-0000000003</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>high-0000000003</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+        <GradeLevel>Ninth grade</GradeLevel>
+        <GradeLevel>Tenth grade</GradeLevel>
+        <GradeLevel>Eleventh grade</GradeLevel>
+        <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+</InterchangeEducationOrganization>

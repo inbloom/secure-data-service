@@ -6,15 +6,15 @@ class Net::LDAP::Connection #:nodoc:
   # Alternate implementation, this yields each search entry to the caller as
   # it are received.
   #
-  # TODO: certain search parameters are hardcoded.
-  # TODO: if we mis-parse the server results or the results are wrong, we
+  # certain search parameters are hardcoded.
+  # if we mis-parse the server results or the results are wrong, we
   # can block forever. That's because we keep reading results until we get a
   # type-5 packet, which might never come. We need to support the time-limit
   # in the protocol.
   #++
   def search(args = {})
     search_filter = (args && args[:filter]) ||
-      Net::LDAP::Filter.eq("objectclass", "*")
+        Net::LDAP::Filter.eq("objectclass", "*")
     search_filter = Net::LDAP::Filter.construct(search_filter) if search_filter.is_a?(String)
     search_base = (args && args[:base]) || "dc=example, dc=com"
     search_attributes = ((args && args[:attributes]) || []).map { |attr| attr.to_s.to_ber}
@@ -57,31 +57,31 @@ class Net::LDAP::Connection #:nodoc:
       if sizelimit > 0
         if paged_searches_supported
           query_limit = (((sizelimit - n_results) < 126) ? (sizelimit -
-                                                            n_results) : 0)
+              n_results) : 0)
         else
           query_limit = sizelimit
         end
       end
 
       request = [
-        search_base.to_ber,
-        scope.to_ber_enumerated,
-        0.to_ber_enumerated,
-        query_limit.to_ber, # size limit
-        0.to_ber,
-        attributes_only.to_ber,
-        search_filter.to_ber,
-        search_attributes.to_ber_sequence
+          search_base.to_ber,
+          scope.to_ber_enumerated,
+          0.to_ber_enumerated,
+          query_limit.to_ber, # size limit
+          0.to_ber,
+          attributes_only.to_ber,
+          search_filter.to_ber,
+          search_attributes.to_ber_sequence
       ].to_ber_appsequence(3)
 
       controls = []
       controls <<
-        [
-          Net::LDAP::LdapControls::PagedResults.to_ber,
-          # Criticality MUST be false to interoperate with normal LDAPs.
-          false.to_ber,
-          rfc2696_cookie.map{ |v| v.to_ber}.to_ber_sequence.to_s.force_encoding("UTF-8").to_ber
-        ].to_ber_sequence if paged_searches_supported
+          [
+              Net::LDAP::LdapControls::PagedResults.to_ber,
+              # Criticality MUST be false to interoperate with normal LDAPs.
+              false.to_ber,
+              rfc2696_cookie.map{ |v| v.to_ber}.to_ber_sequence.to_s.force_encoding("UTF-8").to_ber
+          ].to_ber_sequence if paged_searches_supported
       controls = controls.empty? ? nil : controls.to_ber_contextspecific(0)
 
       pkt = [next_msgid.to_ber, request, controls].compact.to_ber_sequence
@@ -92,30 +92,30 @@ class Net::LDAP::Connection #:nodoc:
 
       while (be = @conn.read_ber(Net::LDAP::AsnSyntax)) && (pdu = Net::LDAP::PDU.new(be))
         case pdu.app_tag
-        when 4 # search-data
-          n_results += 1
-          yield pdu.search_entry if block_given?
-        when 19 # search-referral
-          if return_referrals
-            if block_given?
-              se = Net::LDAP::Entry.new
-              se[:search_referrals] = (pdu.search_referrals || [])
-              yield se
+          when 4 # search-data
+            n_results += 1
+            yield pdu.search_entry if block_given?
+          when 19 # search-referral
+            if return_referrals
+              if block_given?
+                se = Net::LDAP::Entry.new
+                se[:search_referrals] = (pdu.search_referrals || [])
+                yield se
+              end
             end
-          end
-        when 5 # search-result
-          result_code = pdu.result_code
-          controls = pdu.result_controls
-          if return_referrals && result_code == 10
-            if block_given?
-              se = Net::LDAP::Entry.new
-              se[:search_referrals] = (pdu.search_referrals || [])
-              yield se
+          when 5 # search-result
+            result_code = pdu.result_code
+            controls = pdu.result_controls
+            if return_referrals && result_code == 10
+              if block_given?
+                se = Net::LDAP::Entry.new
+                se[:search_referrals] = (pdu.search_referrals || [])
+                yield se
+              end
             end
-          end
-          break
-        else
-          raise Net::LDAP::LdapError, "invalid response-type in search: #{pdu.app_tag}"
+            break
+          else
+            raise Net::LDAP::LdapError, "invalid response-type in search: #{pdu.app_tag}"
         end
       end
 

@@ -42,7 +42,6 @@ import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
-import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
@@ -285,7 +284,6 @@ public class SmooksEdFi2SLITransformerTest {
         transformer.setEntityRepository(mockedEntityRepository);
 
         transformer.setEntityConfigurations(entityConfigurations);
-        transformer.setIdNormalizer(new IdNormalizer());
 
         //mock the Did Resolver
         DeterministicIdResolver mockDidResolver = Mockito.mock(DeterministicIdResolver.class);

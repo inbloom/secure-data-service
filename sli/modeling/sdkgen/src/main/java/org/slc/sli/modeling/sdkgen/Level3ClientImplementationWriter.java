@@ -52,6 +52,9 @@ import org.slc.sli.modeling.sdkgen.snippets.NewEntityFromMapExpr;
 import org.slc.sli.modeling.sdkgen.snippets.NewEntityFromMappableExpr;
 import org.slc.sli.modeling.xsd.XsdReader;
 
+/**
+ * Write SDK Client.
+ */
 public final class Level3ClientImplementationWriter extends Level3ClientWriter {
 
     private static final JavaType JT_LEVEL_TWO_CLIENT = JavaType.simpleType("Level2Client", JavaType.JT_OBJECT);
@@ -79,10 +82,10 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
             final List<String> interfaces, final File wadlFile, final JavaStreamWriter jsw) {
         super(jsw, wadlFile);
         if (packageName == null) {
-            throw new NullPointerException("packageName");
+            throw new IllegalArgumentException("packageName");
         }
         if (className == null) {
-            throw new NullPointerException("className");
+            throw new IllegalArgumentException("className");
         }
         this.packageName = packageName;
         this.className = className;
@@ -112,7 +115,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
                 schemas.add(XsdReader.readSchema(schemaFile, new SdkGenResolver()));
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
@@ -126,7 +129,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         try {
             jsw.endClass();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
@@ -136,28 +139,28 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
     }
 
     private void writeCanonicalInitializer(final Application application) {
-        final JavaParam PARAM_CLIENT = new JavaParam("client", JT_LEVEL_TWO_CLIENT, true);
+        final JavaParam paramClient = new JavaParam("client", JT_LEVEL_TWO_CLIENT, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
-            jsw.writeParams(PARAM_CLIENT);
+            jsw.writeParams(paramClient);
             jsw.parenR();
             jsw.beginBlock();
             jsw.beginStmt();
-            jsw.write("this.").write(VARNAME_INNER_CLIENT).write("=").write(PARAM_CLIENT.getName());
+            jsw.write("this.").write(VARNAME_INNER_CLIENT).write("=").write(paramClient.getName());
             jsw.endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
     private void writeConvenienceInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
+        final JavaParam paramBaseUri = new JavaParam("baseUri", JavaType.JT_STRING, true);
         try {
             jsw.write("public").space().write(className);
             jsw.parenL();
-            jsw.writeParams(PARAM_BASE_URI);
+            jsw.writeParams(paramBaseUri);
             jsw.parenR();
             jsw.beginBlock();
             jsw.beginStmt();
@@ -168,7 +171,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
             jsw.endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 

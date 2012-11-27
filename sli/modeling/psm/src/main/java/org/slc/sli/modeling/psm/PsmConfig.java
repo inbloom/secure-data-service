@@ -21,13 +21,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Model configuration.
+ *
+ * @param <TYPE>
+ */
 public class PsmConfig<TYPE> {
 
     private final List<PsmDocument<TYPE>> documents;
 
     public PsmConfig(final List<PsmDocument<TYPE>> documents) {
         if (documents == null) {
-            throw new NullPointerException("documents");
+            throw new IllegalArgumentException("documents");
         }
         this.documents = Collections.unmodifiableList(new ArrayList<PsmDocument<TYPE>>(documents));
     }

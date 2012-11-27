@@ -35,16 +35,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
@@ -57,6 +49,12 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  * Resource for CRUDing Super Admin users (users that exist within the SLC realm).
@@ -256,6 +254,8 @@ public class UserResource {
             return badRequest("No uid");
         }
 
+        updateUnmodifiableFields(user, null);
+
         return null;
     }
 
@@ -312,6 +312,8 @@ public class UserResource {
             return composeBadDataResponse("can not update user that does not exist");
         }
 
+        updateUnmodifiableFields(user, userInLdap);
+
         if (userInLdap.getGroups() != null) {
             result = validateUserGroupsAllowed(getGroupsAllowed(), userInLdap.getGroups());
             if (result != null) {
@@ -347,6 +349,10 @@ public class UserResource {
         return null;
     }
 
+    private void updateUnmodifiableFields(User user, User userInLdap) {
+        //home directory should not be updatable from API
+        user.setHomeDir(userInLdap == null? "/dev/null" : userInLdap.getHomeDir());
+    }
 
     private Response validateCannotRemoveLastSuperAdmin(User updateTo, User userInLdap) {
 
@@ -418,6 +424,10 @@ public class UserResource {
         if ((secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR) || secUtil.hasRole(RoleInitializer.SLC_OPERATOR))
                 && userToDelete.getGroups() == null) {
             result = null;
+        } else if (!(secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR) || secUtil
+                .hasRole(RoleInitializer.SLC_OPERATOR))&&!(tenant.equals(userToDelete.getTenant()))) {
+            // verify user tenant match up with userToDelete
+            return composeForbiddenResponse("You are not authorized to access this resource.");
         } else {
             result = validateUserGroupsAllowed(getGroupsAllowed(), userToDelete.getGroups());
         }
@@ -473,7 +483,7 @@ public class UserResource {
                 .contains(Right.CRUD_SLC_OPERATOR)));
         if (nullTenant) {
             error("Non-operator user {} has null tenant.  Giving up.", new Object[] { secUtil.getUid() });
-            throw new RuntimeException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
+            throw new IllegalArgumentException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
         }
         if (rightSet.isEmpty() || nullTenant) {
             return composeForbiddenResponse("You are not authorized to access this resource.");

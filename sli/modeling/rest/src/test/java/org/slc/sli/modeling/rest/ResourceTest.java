@@ -48,27 +48,27 @@ public class ResourceTest {
         resource = new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullType() {
         new Resource(ID, null, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullQeuryType() {
         new Resource(ID, TYPE, null, PATH, DOC, PARAMS, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullParams() {
         new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, null, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullMethods() {
         new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, null, RESOURCES, RESOURCE_CLASS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullResources() {
         new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, null, RESOURCE_CLASS);
     }

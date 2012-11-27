@@ -48,10 +48,10 @@ public class JavaType {
 
     public static JavaType collectionType(final JavaCollectionKind collectionKind, final JavaType primeType) {
         if (collectionKind == null) {
-            throw new NullPointerException("collectionKind");
+            throw new IllegalArgumentException("collectionKind");
         }
         if (primeType == null) {
-            throw new NullPointerException("primeType");
+            throw new IllegalArgumentException("primeType");
         }
         return new JavaType(primeType.getSimpleName(), collectionKind, primeType.getTypeKind(), null);
     }
@@ -86,7 +86,12 @@ public class JavaType {
     public boolean equals(final Object obj) {
         if (obj instanceof JavaType) {
             final JavaType other = (JavaType) obj;
-            // FIXME: Compare base types without going recursive (check for null).
+            if (this.getSimpleName() == null) {
+                if (other.getSimpleName() == null) {
+                    return true;
+                }
+                return false;
+            }
             return this.getSimpleName().equals(other.getSimpleName())
                     && (this.getCollectionKind() == other.getCollectionKind())
                     && (this.getTypeKind() == other.getTypeKind());

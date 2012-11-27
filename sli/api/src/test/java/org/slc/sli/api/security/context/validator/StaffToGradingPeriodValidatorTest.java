@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.context.validator;
 
 import static org.junit.Assert.assertFalse;
@@ -36,8 +52,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class StaffToGradingPeriodValidatorTest {
-	private static final String STAFF_ID = "1";
-	
+    private static final String STAFF_ID = "1";
+
     @Autowired
     private StaffToGradingPeriodValidator validator;
 
@@ -64,7 +80,7 @@ public class StaffToGradingPeriodValidatorTest {
     
     @After
     public void tearDown() {
-    	repo.deleteAll(EntityNames.GRADING_PERIOD, new NeutralQuery());
+        repo.deleteAll(EntityNames.GRADING_PERIOD, new NeutralQuery());
         repo.deleteAll(EntityNames.SESSION, new NeutralQuery());
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
         SecurityContextHolder.clearContext();
@@ -72,8 +88,8 @@ public class StaffToGradingPeriodValidatorTest {
 
     @Test
     public void testCanValidation() throws Exception {
-    	assertTrue(validator.canValidate(EntityNames.GRADING_PERIOD, true));
-    	assertTrue(validator.canValidate(EntityNames.GRADING_PERIOD, false));
+        assertTrue(validator.canValidate(EntityNames.GRADING_PERIOD, true));
+        assertTrue(validator.canValidate(EntityNames.GRADING_PERIOD, false));
 
         assertFalse(validator.canValidate(EntityNames.ASSESSMENT, true));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, true));
@@ -104,107 +120,107 @@ public class StaffToGradingPeriodValidatorTest {
 
     @Test
     public void testSingleGradingPeriodGoodValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String gradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	helper.generateSession(schoolId, Arrays.asList(gradingPeriodId)).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> gradingPeriods = new HashSet<String>();
-    	gradingPeriods.add(gradingPeriodId);
-    	assertTrue(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String gradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        helper.generateSession(schoolId, Arrays.asList(gradingPeriodId)).getEntityId();
+        
+        // Test Validate
+        Set<String> gradingPeriods = new HashSet<String>();
+        gradingPeriods.add(gradingPeriodId);
+        assertTrue(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
     }
 
     @Test
     public void testSameSessionGradingPeriodsValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String aGradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	String bGradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	helper.generateSession(schoolId, Arrays.asList(aGradingPeriodId, bGradingPeriodId)).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> gradingPeriods = new HashSet<String>();
-    	gradingPeriods.add(aGradingPeriodId);
-    	gradingPeriods.add(bGradingPeriodId);
-    	assertTrue(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String aGradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        String bGradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        helper.generateSession(schoolId, Arrays.asList(aGradingPeriodId, bGradingPeriodId)).getEntityId();
+        
+        // Test Validate
+        Set<String> gradingPeriods = new HashSet<String>();
+        gradingPeriods.add(aGradingPeriodId);
+        gradingPeriods.add(bGradingPeriodId);
+        assertTrue(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
     }
 
     @Test
     public void testDifferentSessionGradingPeriodsValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String aGradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	String bGradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	helper.generateSession(schoolId, Arrays.asList(aGradingPeriodId)).getEntityId();
-    	helper.generateSession(leaId, Arrays.asList(bGradingPeriodId)).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> gradingPeriods = new HashSet<String>();
-    	gradingPeriods.add(aGradingPeriodId);
-    	gradingPeriods.add(bGradingPeriodId);
-    	assertTrue(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String aGradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        String bGradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        helper.generateSession(schoolId, Arrays.asList(aGradingPeriodId)).getEntityId();
+        helper.generateSession(leaId, Arrays.asList(bGradingPeriodId)).getEntityId();
+        
+        // Test Validate
+        Set<String> gradingPeriods = new HashSet<String>();
+        gradingPeriods.add(aGradingPeriodId);
+        gradingPeriods.add(bGradingPeriodId);
+        assertTrue(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
     }
-
+    
     @Test
     public void testExpiredStaffSchoolValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, true);
-    	String gradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	helper.generateSession(schoolId, Arrays.asList(gradingPeriodId)).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> gradingPeriods = new HashSet<String>();
-    	gradingPeriods.add(gradingPeriodId);
-    	assertFalse(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, true);
+        String gradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        helper.generateSession(schoolId, Arrays.asList(gradingPeriodId)).getEntityId();
+        
+        // Test Validate
+        Set<String> gradingPeriods = new HashSet<String>();
+        gradingPeriods.add(gradingPeriodId);
+        assertFalse(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
     }
-
+    
     @Test
     public void testSeperateStaffSchoolValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
-    	String gradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	helper.generateSession(bSchoolId, Arrays.asList(gradingPeriodId)).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> gradingPeriods = new HashSet<String>();
-    	gradingPeriods.add(gradingPeriodId);
-    	assertFalse(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
+        String gradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        helper.generateSession(bSchoolId, Arrays.asList(gradingPeriodId)).getEntityId();
+        
+        // Test Validate
+        Set<String> gradingPeriods = new HashSet<String>();
+        gradingPeriods.add(gradingPeriodId);
+        assertFalse(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
     }
-
+    
     @Test
     public void testMultipleGradingPeriodMixedValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
-    	String aGradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	String bGradingPeriodId = helper.generateGradingPeriod().getEntityId();
-    	helper.generateSession(aSchoolId, Arrays.asList(aGradingPeriodId)).getEntityId();
-    	helper.generateSession(bSchoolId, Arrays.asList(bGradingPeriodId)).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> gradingPeriods = new HashSet<String>();
-    	gradingPeriods.add(aGradingPeriodId);
-    	gradingPeriods.add(bGradingPeriodId);
-    	assertFalse(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
+        String aGradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        String bGradingPeriodId = helper.generateGradingPeriod().getEntityId();
+        helper.generateSession(aSchoolId, Arrays.asList(aGradingPeriodId)).getEntityId();
+        helper.generateSession(bSchoolId, Arrays.asList(bGradingPeriodId)).getEntityId();
+        
+        // Test Validate
+        Set<String> gradingPeriods = new HashSet<String>();
+        gradingPeriods.add(aGradingPeriodId);
+        gradingPeriods.add(bGradingPeriodId);
+        assertFalse(validator.validate(EntityNames.GRADING_PERIOD, gradingPeriods));
     }
 }

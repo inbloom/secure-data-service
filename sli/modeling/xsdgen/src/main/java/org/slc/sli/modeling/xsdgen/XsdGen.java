@@ -35,11 +35,15 @@ import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Command Line Interface for generating the intermediate data file for documentation.
  */
 public final class XsdGen {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XsdGen.class);
 
     private static final List<String> ARGUMENT_HELP = asList("h", "?");
     private static final String ARGUMENT_DOCUMENT_FILE = "documentFile";
@@ -62,7 +66,7 @@ public final class XsdGen {
                 try {
                     parser.printHelpOn(System.out);
                 } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                    throw new XsdGenRuntimeException(e);
                 }
             } else {
                 try {
@@ -84,15 +88,15 @@ public final class XsdGen {
                     final File outLocation = new File(outFolder, outFile);
                     Uml2XsdWriter.writeSchema(psmConfig.getDocuments(), model, plugIn, outLocation);
                 } catch (final FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    throw new XsdGenRuntimeException(e);
                 }
             }
         } catch (final OptionException e) {
             // Caused by illegal arguments.
-            System.err.println(e.getMessage());
+            LOG.error(e.getMessage());
         } catch (final ClassNotFoundException e) {
             // Caused by not being able to load the plug-in.
-            System.err.println("Unable to load plugin specified in " + ARGUMENT_PLUGIN_NAME + " argument: "
+            LOG.warn("Unable to load plugin specified in " + ARGUMENT_PLUGIN_NAME + " argument: "
                     + e.getMessage());
         }
 
@@ -104,9 +108,9 @@ public final class XsdGen {
         try {
             return factory.newInstance();
         } catch (final InstantiationException e) {
-            throw new RuntimeException(name, e);
+            throw new XsdGenRuntimeException(name, e);
         } catch (final IllegalAccessException e) {
-            throw new RuntimeException(name, e);
+            throw new XsdGenRuntimeException(name, e);
         }
     }
 

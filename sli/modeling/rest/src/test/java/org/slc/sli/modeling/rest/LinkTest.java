@@ -43,22 +43,22 @@ public class LinkTest {
         link = new Link(RESOURCE_TYPE, REL, REV, DOC);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullResourceType() {
         new Link(null, REL, REV, DOC);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullRel() {
         new Link(RESOURCE_TYPE, null, REV, DOC);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullRev() {
         new Link(RESOURCE_TYPE, REL, null, DOC);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullDoc() {
         new Link(RESOURCE_TYPE, REL, REV, null);
     }

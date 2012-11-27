@@ -17,6 +17,7 @@ package org.slc.sli.api.resources.generic.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,8 @@ public class ResourceEndPoint {
     private static final String SIX_PART_RESOURCE = SixPartResource.class.getName();
 
     private Map<String, String> resourceEndPoints = new HashMap<String, String>();
+    
+    private List<String> queryingDisallowedEndPoints = new ArrayList<String>();
 
     @Autowired
     private ResourceHelper resourceHelper;
@@ -65,6 +68,10 @@ public class ResourceEndPoint {
 
         List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
         for (ResourceEndPointTemplate resource : resources) {
+            if (!resource.isQueryable()) {
+                queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+            }
+            
             resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
         }
 
@@ -99,14 +106,18 @@ public class ResourceEndPoint {
 
         return resourceClass;
     }
+    
+    public List<String> getQueryingDisallowedEndPoints() {
+        return this.queryingDisallowedEndPoints;
+    }
 
     protected String bruteForceMatch(final String resourcePath) {
 
-    	if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.SIX_PART)) {
-    		return SIX_PART_RESOURCE;
-    	} else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
-    		return FIVE_PART_RESOURCE;
-    	} else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FOUR_PART)) {
+        if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.SIX_PART)) {
+            return SIX_PART_RESOURCE;
+        } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
+            return FIVE_PART_RESOURCE;
+        } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FOUR_PART)) {
             return FOUR_PART_RESOURCE;
         } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.THREE_PART)) {
             return THREE_PART_RESOURCE;
@@ -115,7 +126,7 @@ public class ResourceEndPoint {
             return BASE_RESOURCE;
         }
 
-        throw new RuntimeException("Cannot resolve resource handler class");
+        throw new ResourceEndPointException("Cannot resolve resource handler class");
 
     }
 

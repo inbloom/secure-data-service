@@ -40,10 +40,10 @@ public abstract class ModelElement implements HasIdentity, Taggable, Visitable {
     
     public ModelElement(final Identifier id, final List<TaggedValue> taggedValues) {
         if (id == null) {
-            throw new NullPointerException("id");
+            throw new IllegalArgumentException("id");
         }
         if (taggedValues == null) {
-            throw new NullPointerException("taggedValues");
+            throw new IllegalArgumentException("taggedValues");
         }
         this.id = id;
         this.taggedValues = Collections.unmodifiableList(new ArrayList<TaggedValue>(taggedValues));

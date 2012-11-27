@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model processing instruction
+ */
 public final class DmProcessingInstruction implements DmNode {
 
     private final String data;
@@ -29,10 +32,10 @@ public final class DmProcessingInstruction implements DmNode {
 
     public DmProcessingInstruction(final String target, final String data) {
         if (target == null) {
-            throw new NullPointerException("target");
+            throw new IllegalArgumentException("target");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
         this.target = new QName(target);
         this.data = data;

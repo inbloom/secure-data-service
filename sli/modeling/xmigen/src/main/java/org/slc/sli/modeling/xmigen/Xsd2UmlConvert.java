@@ -78,6 +78,8 @@ import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.xml.XmlTools;
 import org.slc.sli.modeling.xsd.WxsNamespace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -87,12 +89,13 @@ import org.w3c.dom.NodeList;
  * Intentionally package protected.
  */
 final class Xsd2UmlConvert {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(Xsd2UmlConvert.class);
     
     private static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
     
     public Xsd2UmlConvert() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
     
     /**
@@ -100,8 +103,11 @@ final class Xsd2UmlConvert {
      * xs:documentation or xs:appinfo.
      */
     private static final List<TaggedValue> annotations(final XmlSchemaAnnotated schemaType, final Xsd2UmlConfig config) {
+        if (schemaType == null) {
+            return EMPTY_TAGGED_VALUES;
+        }
         final XmlSchemaAnnotation annotation = schemaType.getAnnotation();
-        if (schemaType == null || annotation == null) {
+        if (annotation == null) {
             return EMPTY_TAGGED_VALUES;
         } else {
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -175,7 +181,7 @@ final class Xsd2UmlConvert {
         
         final XmlSchemaSimpleTypeContent content = simpleType.getContent();
         if (content instanceof XmlSchemaSimpleTypeList) {
-            // FIXME: What's the best way to handle? complexType?
+            // What's the best way to handle? complexType?
             // final XmlSchemaSimpleTypeList simpleTypeList = (XmlSchemaSimpleTypeList)content;
             // final XmlSchemaSimpleType itemType = simpleTypeList.getItemType();
             final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
@@ -510,7 +516,7 @@ final class Xsd2UmlConvert {
             if (null == typeName) {
                 // The type is anonymous.
                 final QName baseType = elementSchemaType.getBaseSchemaTypeName();
-                throw new RuntimeException(element.getQName() + " : " + baseType);
+                throw new XmiGenRuntimeException(element.getQName() + " : " + baseType);
             } else {
                 final Identifier type = config.ensureId(typeName);
                 return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
@@ -520,7 +526,7 @@ final class Xsd2UmlConvert {
             final Identifier type = config.ensureId(getSimpleTypeName(simpleType));
             return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
         } else {
-            System.err.println("element " + element.getQName() + " does not have a type.");
+            LOG.warn("element " + element.getQName() + " does not have a type.");
             return null;
         }
     }
@@ -566,7 +572,7 @@ final class Xsd2UmlConvert {
                 if (attribute != null) {
                     attributes.add(attribute);
                 } else {
-                    System.err.println("");
+                    LOG.warn("");
                 }
             } else if (particle instanceof XmlSchemaSequence) {
                 final XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
@@ -575,7 +581,7 @@ final class Xsd2UmlConvert {
                     if (item instanceof XmlSchemaParticle) {
                         attributes.addAll(parseParticle((XmlSchemaParticle) item, schema, context));
                     } else {
-                        throw new RuntimeException("Unsupported XmlSchemaSequence item: "
+                        throw new XmiGenRuntimeException("Unsupported XmlSchemaSequence item: "
                                 + item.getClass().getCanonicalName());
                     }
                 }
@@ -595,7 +601,7 @@ final class Xsd2UmlConvert {
                 @SuppressWarnings("unused")
                 final XmlSchemaAny xmlSchemaChoice = (XmlSchemaAny) particle;
             } else {
-                throw new RuntimeException("Unsupported XmlSchemaParticle item: "
+                throw new XmiGenRuntimeException("Unsupported XmlSchemaParticle item: "
                         + particle.getClass().getCanonicalName());
             }
         }
@@ -701,10 +707,6 @@ final class Xsd2UmlConvert {
                     }
                     
                 }, schemaType.getQName(), annotations(schemaType, config));
-            } else if (schemaObject instanceof XmlSchemaElement) {
-                // These are the top-level elements.
-                // Do nothing to allow other branches to not handle the top-level elements. 
-                
             } else if (schemaObject instanceof XmlSchemaInclude) {
                 final XmlSchemaInclude includedSchema = (XmlSchemaInclude) schemaObject;
                 final XmlSchema embeddedSchema = includedSchema.getSchema();
@@ -727,9 +729,9 @@ final class Xsd2UmlConvert {
             } else if (schemaObject instanceof XmlSchemaAttributeGroup) {
                 @SuppressWarnings("unused")
                 final XmlSchemaAttributeGroup schemaAttributeGroup = (XmlSchemaAttributeGroup) schemaObject;
-            } else {
+            } else if (!(schemaObject instanceof XmlSchemaElement)) {
                 throw new AssertionError(schemaObject);
-            }
+            } 
         }
         return new Model(Identifier.random(), name, EMPTY_TAGGED_VALUES, ownedElements);
     }

@@ -41,7 +41,7 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     
     public Xsd2UmlPluginHostAdapter(final ModelIndex mapper) {
         if (mapper == null) {
-            throw new NullPointerException("mapper");
+            throw new IllegalArgumentException("mapper");
         }
         this.mapper = mapper;
     }

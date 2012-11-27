@@ -2,7 +2,6 @@
 <% "<span style=\"color:red\">*</span>" %>
 <% end %>
 
-<%# TODO: The method below is pretty ugly. Will fix when I actually figure out what I'm doing :) %>
 <% def print(f, field, field_name, is_password_field, tab_index, password_field = nil, is_force_required = false) %>
     <% required = is_force_required || required?(@user_account_registration, field) %>
     <% error = "" %>

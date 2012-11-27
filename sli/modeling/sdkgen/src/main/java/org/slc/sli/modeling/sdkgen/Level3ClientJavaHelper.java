@@ -35,6 +35,9 @@ import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 
+/**
+ * Helper methods
+ */
 public final class Level3ClientJavaHelper {
 
     public static JavaType toJavaTypeFromSchemaElement(final XmlSchemaElement element, final Stack<QName> elementNames,
@@ -75,10 +78,10 @@ public final class Level3ClientJavaHelper {
     private static JavaType toJavaTypeFromSchemaType(final XmlSchemaType schemaType, final Stack<QName> elementNames,
             final SdkGenGrammars grammars) {
         if (schemaType == null) {
-            throw new NullPointerException("schemaType");
+            throw new IllegalArgumentException("schemaType");
         }
         if (elementNames == null) {
-            throw new NullPointerException("elementNames");
+            throw new IllegalArgumentException("elementNames");
         }
         if (schemaType instanceof XmlSchemaComplexType) {
             final XmlSchemaComplexType complexType = (XmlSchemaComplexType) schemaType;
@@ -112,7 +115,7 @@ public final class Level3ClientJavaHelper {
     private static JavaType toJavaTypeFromParticle(final XmlSchemaParticle particle, final Stack<QName> elementNames,
             final SdkGenGrammars grammars) {
         if (particle == null) {
-            throw new NullPointerException("particle");
+            throw new IllegalArgumentException("particle");
         }
         if (particle instanceof XmlSchemaSequence) {
             final XmlSchemaSequence sequence = (XmlSchemaSequence) particle;

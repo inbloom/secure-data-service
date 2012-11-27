@@ -17,6 +17,9 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+/**
+ * Named UML element.
+ */
 public abstract class NamedModelElement extends ModelElement implements HasName {
     private final String name;
     
@@ -40,7 +43,7 @@ public abstract class NamedModelElement extends ModelElement implements HasName 
     public NamedModelElement(final Identifier id, final String name, final List<TaggedValue> taggedValues) {
         super(id, taggedValues);
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name;
     }

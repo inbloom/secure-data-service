@@ -28,6 +28,10 @@ import org.slc.sli.modeling.uml.Identifier;
  * This class provides the Just-In-Time Lookup.
  * 
  * Intentionally package protected.
+ * 
+ * @author kmyers
+ *
+ * @param <T> key type
  */
 final class Xsd2UmlLookup<T> {
     
@@ -42,7 +46,7 @@ final class Xsd2UmlLookup<T> {
      */
     public Identifier from(final T key) {
         if (key == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (data.containsKey(key)) {
             return data.get(key);
