@@ -1,4 +1,6 @@
+@RALLY_US4835
 @rc
+@sandbox
 Feature: User requests for a developer account in sandbox environments  
 
 Background:

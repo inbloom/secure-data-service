@@ -1,4 +1,6 @@
+@RALLY_US4835
 @rc
+@sandbox
 Feature:  RC Integration Tests
 
 Background:
