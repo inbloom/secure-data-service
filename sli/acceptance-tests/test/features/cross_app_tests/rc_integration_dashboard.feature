@@ -152,15 +152,15 @@ And click Save
 Then I should be shown a success message
 When I navigate to the Dashboard home page
 When I look in the ed org drop-down
-Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
+Then I see these values in the drop-down: "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-When I select ed org "Sunset School District 4526"
-And I select school "Sunset Central High School"
-And I select course "A.P. Calculus"
-And I select section "A.P. Calculus Sec 201"
-And I see a list of 3 students
+#When I select ed org "Sunset School District 4526"
+#And I select school "Sunset Central High School"
+#And I select course "A.P. Calculus"
+#And I select section "A.P. Calculus Sec 201"
+#And I see a list of 3 students
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
@@ -169,7 +169,7 @@ Then I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
 When I look in the school drop-down
-Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary;Sunset Central High School"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 And I select school "Daybreak Central High"
 And I search by clicking on the go button
 Then "0" results are returned in the page
@@ -192,21 +192,3 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |5 |2008-09-05 |Next year school                                                           |<empty>  |2009-05-11   |End of school year |
 |<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
 |<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
-
-When I enter "Matt" into the "firstName" search box
-And I click the search button
-And I search by clicking on the go button
-And I should see "Please select a school from the dropdown." prompt
-And I select school "Sunset Central High School"
-And I search by clicking on the go button
-Then "50" results are returned in the page
-And I select page size of "100"
-And "53" results are returned in the page
-And the search results include:
- |Student          |Grade    |School                     |
- |Matt Abraham     |11       |Sunset Central High School |
- |Matt Forker      |11       |Sunset Central High School |
- |Matt Randy       |11       |Sunset Central High School |
- |Matt Zebra       |11       |Sunset Central High School |
- And I click on log out
-   
