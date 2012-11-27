@@ -216,6 +216,8 @@ And the Deny button next to it is enabled
 And I exit out of the iframe
 And I click on log out
 
+#For debugging refer to build #143
+@wip
 Scenario: User Logs into databrowser from portal
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
