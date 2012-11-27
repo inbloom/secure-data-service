@@ -2,7 +2,7 @@
     <% if APP_CONFIG['is_sandbox'] %>
         <h1>Sandbox Account Management</h1>
     <% else %>
-        <h1>Admin Account Management</h1>
+        <h1>Manage Administrator Accounts</h1>
     <% end %>
 </div>
 <p></p>
@@ -15,7 +15,7 @@
   var self_editing = false
 </script>
 
-<h4>Manage users that have access to your <% if APP_CONFIG['is_sandbox'] %>Sandbox<% else %>Production<% end %> environment.</h4>
+<h4>Manage users that have access to your <% if APP_CONFIG['is_sandbox'] %>sandbox<% else %>production<% end %> environment.</h4>
 <p>&nbsp;</p>
 
 <% if flash[:notice]%>  
@@ -53,15 +53,18 @@
         <td id="<%= @elementIdPrefix%>_edorg"><% if user.edorg==nil|| user.edorg=="null"%><%else%><%=user.edorg%><%end%></td>
         <td id="<%= @elementIdPrefix%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
 		<td id="<%= @elementIdPrefix%>_actions" class="actions">
-<%@deleteButtonId = @elementIdPrefix + "_delete"%>
-<%@editButtonId = @elementIdPrefix + "_edit"%>
-                <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn", :id => @editButtonId %> 
-            <% if @loginUserId == user.uid %> 
-                <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn btn-danger" disabled="disabled">Delete</button>
-            <%else%>
-                <%= link_to 'Delete', "/users/#{user.uid}",
-                    :confirm => "Do you really want to delete this user?", :method => :delete,:style=>'color:white;' ,:class=>"btn btn-danger",:id => @deleteButtonId%>
-            <%end%> 
+            <div class="btn-group">
+                <%@deleteButtonId = @elementIdPrefix + "_delete"%>
+                <%@editButtonId = @elementIdPrefix + "_edit"%>
+                                <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn btn-primary", :id => @editButtonId %> 
+                            <% if @loginUserId == user.uid %> 
+                                <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn" disabled="disabled"><i class="icon-trash"></i></button>
+                            <%else%>
+                                <%= link_to '<i class="icon-trash"></i>'.html_safe, "/users/#{user.uid}",
+                                    :confirm => "Do you really want to delete this user?", :method => :delete,:class=>"btn",:id => @deleteButtonId%>
+                                
+                            <%end%> 
+            </div>
         </td>
         </tr>
         <% end %>
@@ -70,5 +73,6 @@
 </table>
 
 <br/>
-
-<%= link_to "Add User", "/users/new", :class => "btn btn-primary", :style => "color:white;"%>
+<div class="form-actions">
+    <%= link_to "Add User", "/users/new", :class => "btn btn-primary", :style => "color:white;"%>
+</div>

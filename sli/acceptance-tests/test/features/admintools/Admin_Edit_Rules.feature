@@ -10,7 +10,7 @@ Scenario Outline: As a SLC Operator I am able to edit any field
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "<USER_FULL_NAME>"
 Then I am redirected to "Update a User" page
 #And all fields are editable
@@ -26,7 +26,7 @@ And I can also check "Ingestion User" Role
 And I click button "Update"
 And a "can't be blank" message is displayed 
 When I click "Cancel" link
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 
 #happy path
 When I click the "edit" link for "<USER_FULL_NAME>"
@@ -34,7 +34,7 @@ Then I am redirected to "Update a User" page
 And I can update the "Email" field to "<NEW_EMAIL>"
 And I can select "<NEW_ROLE>" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And I click button "Update"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 And the user has "Email" updated to "<NEW_EMAIL>" 
 And the user has Roles as "<NEW_ROLE>"
@@ -51,7 +51,7 @@ Scenario Outline: As a SEA Admin I am able to edit any field for accounts in my 
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "<USER_FULL_NAME>"
 Then I am redirected to "Update a User" page
 #And all fields are editable
@@ -66,7 +66,7 @@ And I can also check "Ingestion User" Role
 And I click button "Update"
 And a "can't be blank" message is displayed 
 When I click "Cancel" link
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 
 #happy path
 When I click the "edit" link for "<USER_FULL_NAME>"
@@ -74,7 +74,7 @@ Then I am redirected to "Update a User" page
 And I can update the "Email" field to "<NEW_EMAIL>"
 And I can select "<NEW_ROLE>" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And I click button "Update"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 And the user has "Email" updated to "<NEW_EMAIL>" 
 And the user has Roles as "<NEW_ROLE>"
@@ -91,7 +91,7 @@ Given there is no users in edorg "IL-NIGHTFALL"
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "<LOGIN>" "<PASSWORD>" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "<USER_FULL_NAME>"
 Then I am redirected to "Update a User" page
 
@@ -110,7 +110,7 @@ Given there is no users in edorg "IL-NIGHTFALL"
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "<LOGIN>" "<PASSWORD>" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "<USER_FULL_NAME>"
 Then I am redirected to "Update a User" page
 
@@ -127,21 +127,21 @@ Then a "there is no LEA Administrator" message is displayed
 Scenario:  SLC Operator can modify limited fields on their own account
 Given there is a production "SLC Operator" with tenancy " " and in " "
 Then I can navigate to the User Management Page with that production user
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "SAMT Test_hostname"
 Then I am redirected to "Update a User" page
 And I do not see Role selection nor EdOrg dropdown menu 
 Then I can update the "Full Name" field to "SAMT Changed"
 And I can update the "Email" field to "samt_changed@testwgen.net"
 And I click button "Update"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 And the user has "Email" updated to "samt_changed@testwgen.net" 
 
 Scenario: As a SEA Admin I am able to edit any field for my account
 Given there is a production "SEA Administrator" with tenancy "Midgar" and in "IL"
 Then I can navigate to the User Management Page with that production user
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "SAMT Test_hostname"
 Then I am redirected to "Update a User" page
 #all fields are editable except primary role
@@ -161,7 +161,7 @@ Then I can update the "Full Name" field to "SAMT Changed"
 Then I can update the "Email" field to "samt_email@random.net"
 
 And I click button "Update"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 
 
@@ -169,7 +169,7 @@ And a "Success" message is displayed
 Scenario: As a LEA Admin I am able to edit any field for my account
 Given there is a production "LEA Administrator" with tenancy "Midgar" and in "IL"
 Then I can navigate to the User Management Page with that production user
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "SAMT Test_hostname"
 Then I am redirected to "Update a User" page
 #all fields are editable except primary role
@@ -189,7 +189,7 @@ Then I can update the "Full Name" field to "SAMT Changed"
 Then I can update the "Email" field to "samt_email@random.net"
 
 And I click button "Update"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 
 
@@ -197,7 +197,7 @@ Scenario Outline: LEAs can create/modify other LEA admin, ingestion user and rea
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in "Midgar" "<EDORG>" LDAP Server
 Given there is a production "LEA Administrator" with tenancy "Midgar" and in "<EDORG>"
 Then I can navigate to the User Management Page with that production user
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
     
 When I click the "edit" link for "<USER_FULL_NAME>"
 Then I am redirected to "Update a User" page
@@ -215,7 +215,7 @@ And I can also check "Realm Administrator" Role
 And I can also check "Ingestion User" Role 
 And I can select "<NEW_ROLE>" from a choice between "LEA Administrator, Ingestion User, Realm Administrator" Role
 And I click button "Update"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 And the user has "Email" updated to "<NEW_EMAIL>" 
 And the user has Roles as "<NEW_ROLE>"

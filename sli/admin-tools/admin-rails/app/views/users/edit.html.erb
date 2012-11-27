@@ -2,7 +2,7 @@
 <h1>Update a User</h1>
 </div>
 <p></p>
-<h4><%if APP_CONFIG['is_sandbox']%>Update users in your sandbox account<%else%>Manage users that have access to your Production environment<%end%></h4>
+<h4><%if APP_CONFIG['is_sandbox']%>Update users in your sandbox account<%else%>Manage users that have access to your production environment<%end%></h4>
 <p>&nbsp;</p>
 <% if APP_CONFIG['is_sandbox']%>
 <%= render :partial => 'edit_form_sandbox' , :locals => {:user => @user} %>

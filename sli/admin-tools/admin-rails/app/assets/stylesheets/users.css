@@ -1,16 +1,14 @@
-#Users_Management_Table{
-  border: 1px solid black;
-}
-  
+
+[class^="icon-"], [class*=" icon-"] { width: 14px; height: 14px; }
 #Users_Management_Table td,
 #Users_Management_Table th {
-  text-align:center;
+  text-align:left;
   padding-left:10px;
   padding-right:10px;
-  border: 1px solid black;
  }
 
 #Search_Box {
   float:right;
 }
 
+td.actions { white-space: nowrap; width: 90px;}
