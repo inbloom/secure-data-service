@@ -60,13 +60,13 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     private Logger log = LoggerFactory.getLogger(IndexValidator.class);
 
     @Autowired
-    MongoTemplate batchJobMongoTemplate;
+    private MongoTemplate batchJobMongoTemplate;
 
     @Autowired
-    MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
-    MongoTemplate neutralRecordMongoTemplate;
+    private MongoTemplate neutralRecordMongoTemplate;
 
     private HashMap<String, List<HashMap<String, Object>>> sliIndexCache;
     private HashMap<String, List<HashMap<String, Object>>> isIndexCache;
