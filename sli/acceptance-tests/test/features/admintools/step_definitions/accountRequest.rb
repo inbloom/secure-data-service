@@ -93,7 +93,7 @@ When /^I fill out the field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
   @driver.find_element(:xpath, "//input[contains(
     translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '#{trimmed.downcase}')
     ]").send_keys(value)
-  puts "field = <#{field}>, value = <#{value}>"
+  puts "field = #{field}, value = #{value}"
 end
 
 When /^I query LDAP for EULA acceptance for account with login name "([^\"]*)"$/ do |email|

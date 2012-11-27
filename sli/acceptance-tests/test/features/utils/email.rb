@@ -53,6 +53,9 @@ def check_email(config = {})
         if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
             (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
           return content
+        else
+          puts "incorrect email content = #{content}"
+          puts "incorrect email subject = #{subject}"
         end
       end
     end
