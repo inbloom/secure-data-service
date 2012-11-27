@@ -18,6 +18,7 @@ limitations under the License.
 
 require_relative '../lib/Shared/data_utility.rb'
 
+# specifications for data utility
 describe "DataUtility" do
   describe "Generates correct _id for each supported entity" do
     describe "#get_student_unique_state_id" do
@@ -77,6 +78,18 @@ describe "DataUtility" do
     describe "#get_teacher_unique_state_id" do
       it "will generate a teacher unique state id with the correct format" do
         DataUtility.get_teacher_unique_state_id(146724) == "tech-0000146724"
+      end
+    end
+
+    describe "#get_course_offering_code" do
+      it "will generate a course offering code with the correct format" do
+        DataUtility.get_course_offering_code(90125555) == "cofr-0090125555"
+      end
+    end
+
+    describe "#get_unique_section_id" do
+      it "will generate a unique section id with the correct format" do
+        DataUtility.get_unique_section_id(90125555) == "sctn-0090125555"
       end
     end
   end

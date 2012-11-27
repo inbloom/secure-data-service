@@ -38,9 +38,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Splits files
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 public class FileSplitHandler {
     public static final Logger LOG = LoggerFactory.getLogger(FileSplitHandler.class);
@@ -100,7 +100,6 @@ public class FileSplitHandler {
             }
         }
 
-        // System.out.println("Total: "+counter);
     }
 
     private void writeToFile(XMLEventReader reader, XMLEvent startEvent, XMLEventWriter writer)

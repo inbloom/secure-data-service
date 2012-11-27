@@ -52,8 +52,8 @@ import org.slc.sli.domain.Repository;
 public class PostProcessFilter implements ContainerResponseFilter {
 
     private static final int LONG_REQUEST = 1000;
-   private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
-   private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
+    private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
+    private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
 
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
@@ -82,7 +82,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
         if ("true".equals(apiPerformanceTracking)) {
             logApiDataToDb(request, response);
         }
-        TenantContext.setTenantId(null);
+        TenantContext.cleanup();
         printElapsed(request);
         expireCache();
 
@@ -93,9 +93,9 @@ public class PostProcessFilter implements ContainerResponseFilter {
         response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
         response.getHttpHeaders().add("X-ExecutedPath", request.getPath() + queryString);
 
-//        Map<String,Object> body = (Map<String, Object>) response.getEntity();
-//        body.put("requestedPath", request.getProperties().get("requestedPath"));
-//        body.put("executedPath", request.getPath());
+        //        Map<String,Object> body = (Map<String, Object>) response.getEntity();
+        //        body.put("requestedPath", request.getProperties().get("requestedPath"));
+        //        body.put("executedPath", request.getPath());
 
 
         return response;
@@ -171,7 +171,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
         }
 
     }
- private DateTime getDateTime(String dateTime) throws IllegalArgumentException {
+    private DateTime getDateTime(String dateTime) throws IllegalArgumentException {
         return DateTime.parse(dateTime, new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter());
     }
 

@@ -21,26 +21,41 @@ class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(filename)
+  def initialize(interchange, batchSize=10000)
     @stime = Time.now
     @entityCount = 0
-    @filename = filename
+    @interchange = interchange
+    @entities = []
+    @batchSize = batchSize
   end
 
   def start()
-    @interchange = File.open("generated/#{@filename}", 'w')
     @interchange << @header
   end
 
-  def <<(entities)
+  def <<(entity)
+    @entities << entity
+    if @entities.size >= @batchSize
+      batchRender
+      @entities = []
+    end
+  end
+
+  def batchRender
+    report(@entities)
+    generator = @generator.new @entities
+    @interchange << generator.render()
+  end
+
+  def report(entities)
     @entityCount = @entityCount + entities.length
     if @entityCount % 100000 == 0
       puts "\t#@entityCount entities created."
     end
-
   end
 
   def finalize()
+    batchRender
     @interchange << @footer
     @interchange.close()
 

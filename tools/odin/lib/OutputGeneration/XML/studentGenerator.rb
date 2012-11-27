@@ -23,36 +23,22 @@ require_relative "../../Shared/EntityClasses/student"
 class StudentGenerator < InterchangeGenerator
 
   class StudentInterchange < Mustache
+    attr_accessor :students
 
-    def initialize()
+    def initialize(students)
       @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/student.mustache"
-      @students = []
+      @students = students
     end
 
-    def set(entities)
-      @students = entities
-    end
-
-    def students
-      @students
-    end
   end
 
+  def initialize(interchange, batchSize)
+    super(interchange, batchSize)
 
-  def initialize(filename)
-    super(filename)
-
-    @generator = StudentGenerator::StudentInterchange.new
-
-   @header, @footer = build_header_footer( "StudentParent" )
+    @header, @footer = build_header_footer( "StudentParent" )
+    @generator = StudentGenerator::StudentInterchange 
 
     start()
-  end
-
-  def <<(entities)
-    super(entities)
-    @generator.set(entities)
-    @interchange << @generator.render()
   end
 
 end
