@@ -9,12 +9,15 @@ import java.util.Map;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
+import javax.jms.Topic;
 
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.jms.core.JmsTemplate;
@@ -29,6 +32,7 @@ import org.slc.sli.search.connector.SourceDatastoreConnector;
  *
  */
 public class SarjeSubscriptionAdmin {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private static final String SEARCH_EVENT_ID = "oplog:search";
     private static final String SEARCH_EVENT_ID_FIELD = "eventId";
 
@@ -44,7 +48,7 @@ public class SarjeSubscriptionAdmin {
 
     private JmsTemplate jmsTemplate;
     // topic oplog agents listen to for subscriptions
-    private String subscriptionBroadcastTopic;
+    private Topic subscriptionBroadcastTopic;
 
     private ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -110,6 +114,7 @@ public class SarjeSubscriptionAdmin {
      * Sarje expects a full collection
      */
     public void publishSubscriptions() {
+        logger.info("Publishing subscriptions to " + subscriptionBroadcastTopic);
         jmsTemplate.send(subscriptionBroadcastTopic, new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
@@ -126,7 +131,7 @@ public class SarjeSubscriptionAdmin {
         this.searchQueue = searchQueue;
     }
 
-    public void setSubscriptionBroadcastTopic(String subscriptionBroadcastTopic) {
+    public void setSubscriptionBroadcastTopic(Topic subscriptionBroadcastTopic) {
         this.subscriptionBroadcastTopic = subscriptionBroadcastTopic;
     }
 

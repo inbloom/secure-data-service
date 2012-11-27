@@ -95,6 +95,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <amq:connectionFactory id="jmsFactory" maxThreadPoolSize="10"  brokerURL="${sli.search.indexer.broker.uri}" 
 	    userName="${sli.search.indexer.broker.username}" password="${sli.search.indexer.broker.password}"  />
      
+    <amq:topic id="sarjeSubTopic" physicalName="${sli.search.indexer.sarje.sub.topic}"/>
 	<jms:listener-container connection-factory="jmsFactory" >
 	    <jms:listener destination="${sli.search.indexer.queue.name}" ref="incrementalListener"/>
 	    <jms:listener destination="${sli.search.indexer.sarje.sub.req.queue}" ref="sarjeSubscriptionAdmin" method="publishSubscriptions"/>
@@ -152,7 +153,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="indexConfigStore" ref="indexConfigStore"/>
 		<property name="searchQueue" value="${sli.search.indexer.queue.name}"/>
 		<property name="dbJobsCollection" value="${sli.search.indexer.sarje.sub.jobsCollection:jobs}"/>
-		<property name="subscriptionBroadcastTopic" value="${sli.search.indexer.sarje.sub.topic}"/>
+		<property name="subscriptionBroadcastTopic" ref="sarjeSubTopic"/>
 		<property name="jmsTemplate" ref="jmsTemplate"/>
 	</bean>
 
