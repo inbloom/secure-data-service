@@ -57,6 +57,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     private static final String ASSESSMENT_ITEM = "assessmentItem";
+    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -100,7 +101,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            String parentFamilyTitle = (String) attrs.remove("parentAssessmentFamilyTitle");
+            String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
@@ -236,9 +237,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
 
             // check if there are parent nodes
-            if (associationAttrs.containsKey("parentAssessmentFamilyTitle")
-                    && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyTitle"))) {
-                familyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
+            if (associationAttrs.containsKey(PARENT_ASSESSMENT_FAMILY_TITLE)
+                    && !deepFamilyMap.containsKey(associationAttrs.get(PARENT_ASSESSMENT_FAMILY_TITLE))) {
+                familyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get(PARENT_ASSESSMENT_FAMILY_TITLE),
                         deepFamilyMap, familyHierarchyName);
             }
         }
