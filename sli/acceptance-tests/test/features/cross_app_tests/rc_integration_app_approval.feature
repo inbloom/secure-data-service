@@ -242,8 +242,8 @@ Then I am redirected to the particular associations Simple View
 When I click on the row containing "Sollars"
 Then I am redirected to the particular associations Simple View
 
-@wip 
 #US4878: Logout Test Coverage
+@wip 
 Scenario: Sessions are shared between Databrowser and Dashboard apps
 When I navigate to the databrowser page
 When I selected the realm "Daybreak Test Realm"
