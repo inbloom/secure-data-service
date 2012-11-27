@@ -156,11 +156,6 @@ Then I see these values in the drop-down: "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-#When I select ed org "Sunset School District 4526"
-#And I select school "Sunset Central High School"
-#And I select course "A.P. Calculus"
-#And I select section "A.P. Calculus Sec 201"
-#And I see a list of 3 students
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
