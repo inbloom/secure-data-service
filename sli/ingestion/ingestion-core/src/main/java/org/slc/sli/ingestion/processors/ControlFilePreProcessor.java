@@ -28,6 +28,13 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -56,13 +63,6 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -320,13 +320,13 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      * Throws an IngestionException if a tenantId could not be resolved.
      */
     private String setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
-        lzPath = new File(lzPath).getAbsolutePath();
+        String absLzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
-        String tenantId = tenantDA.getTenantId(lzPath);
+        String tenantId = tenantDA.getTenantId(absLzPath);
         if (tenantId != null) {
             cf.getConfigProperties().put("tenantId", tenantId);
         } else {
-            throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
+            throw new IngestionException("Could not find tenantId for landing zone: " + absLzPath);
         }
         return tenantId;
     }

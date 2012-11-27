@@ -50,13 +50,13 @@ public class NeutralRecordUtils {
 
         boolean isEmpty = true;
         for (Object record : value) {
-            record = decodeAndTrimXmlStrings(record);
+            Object theRecord = decodeAndTrimXmlStrings(record);
 
-            if (record != null) {
+            if (theRecord != null) {
                 isEmpty = false;
             }
 
-            newList.add(record);
+            newList.add(theRecord);
         }
 
         if (isEmpty) {
@@ -91,26 +91,27 @@ public class NeutralRecordUtils {
         String cmp = value;
 
         if (!StringUtils.hasText(cmp)) {
-            value = null;
+            cmp = null;
         } else {
-            value = StringEscapeUtils.unescapeXml(value.trim());
+            cmp = StringEscapeUtils.unescapeXml(cmp.trim());
         }
 
-        return value;
+        return cmp;
     }
 
     @SuppressWarnings("unchecked")
     public static String getByPath(String name, Map<String, Object> map) {
         // how many times have I written this code? Not enough, I say!
         String[] path = name.split("\\.");
+        Map<String, Object> pathMap = map;
         for (int i = 0; i < path.length; i++) {
-            Object obj = map.get(path[i]);
+            Object obj = pathMap.get(path[i]);
             if (obj == null) {
                 return null;
             } else if (i == path.length - 1 && obj instanceof String) {
                 return (String) obj;
             } else if (obj instanceof Map) {
-                map = (Map<String, Object>) obj;
+                pathMap = (Map<String, Object>) obj;
             } else {
                 return null;
             }

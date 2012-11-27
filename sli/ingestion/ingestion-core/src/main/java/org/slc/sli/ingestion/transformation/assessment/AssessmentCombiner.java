@@ -219,6 +219,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private String getAssocationFamilyMap(String assessmentFamilyTitle, HashMap<String, Map<String, Object>> deepFamilyMap,
             String familyHierarchyName) {
+        String returnValue = familyHierarchyName;
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
         query.addCriteria(Criteria.where("body.AssessmentFamilyTitle").is(assessmentFamilyTitle));
@@ -229,20 +230,20 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
             if ("".equals(familyHierarchyName)) {
-                familyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
+                returnValue = (String) associationAttrs.get("AssessmentFamilyTitle");
             } else {
-                familyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
+                returnValue = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
             }
             deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
 
             // check if there are parent nodes
             if (associationAttrs.containsKey("parentAssessmentFamilyTitle")
                     && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyTitle"))) {
-                familyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
+                returnValue = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
                         deepFamilyMap, familyHierarchyName);
             }
         }
 
-        return familyHierarchyName;
+        return returnValue;
     }
 }

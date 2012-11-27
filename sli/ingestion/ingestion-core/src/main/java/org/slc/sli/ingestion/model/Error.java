@@ -76,15 +76,17 @@ public final class Error {
             String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
             String errorDetail) {
 
-        if (sourceIp == null) {
-            sourceIp = BatchJobUtils.getHostAddress();
+        String theSourceIp = sourceIp;
+        if (theSourceIp == null) {
+            theSourceIp = BatchJobUtils.getHostAddress();
         }
 
-        if (hostname == null) {
-            hostname = BatchJobUtils.getHostName();
+        String theHostname = hostname;
+        if (theHostname == null) {
+            theHostname = BatchJobUtils.getHostName();
         }
 
-        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier,
+        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
                 BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
         return error;
