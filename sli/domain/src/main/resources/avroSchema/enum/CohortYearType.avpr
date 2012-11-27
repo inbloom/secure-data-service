@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CohortYearType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The enumeration items for the set of cohort years.",
-  "xsd-type" : "token",
-  "symbols" : [ "Eighth_grade", "Eleventh_grade", "Fifth_grade", "First_grade", "Fourth_grade", "Ninth_grade", "Second_grade", "Seventh_grade", "Sixth_grade", "Tenth_grade", "Third_grade", "Twelfth_grade" ]
-}

@@ -192,9 +192,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
                 }
             } else {
-                LOG.warn(
-                        "no local id for student assessment association: {}. cannot embed student objective assessment objects.",
-                        studentAssessmentId);
+                LOG.warn("no local id for student assessment association. cannot embed student objective assessment objects.");
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());

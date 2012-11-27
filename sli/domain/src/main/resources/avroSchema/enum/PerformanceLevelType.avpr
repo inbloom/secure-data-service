@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "PerformanceLevelType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Defines standard  levels of competency or performance that can be used for dashboard visualizations: advanced, proficient, basic, below basic.",
-  "xsd-type" : "token",
-  "symbols" : [ "Advanced", "Proficient", "Basic", "Below_Basic" ]
-}

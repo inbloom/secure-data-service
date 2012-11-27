@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SpecialEdServiceItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The item(s) to specify the social education services provided to a student.",
-  "xsd-type" : "token",
-  "symbols" : [ "Assistive_technology_device_or_service", "Audiological_services", "Counseling_services", "Early_Childhood_Intervention_program", "Interpreting_services", "Medical_diagnostic_services", "Occupational_therapy", "Orientation_and_mobility_training_services", "Physical_therapy", "Preschool_children_with_disabilities_program", "Psychological_services", "Recreational_services", "Regional_Day_School_Program_for_the_Deaf", "School_health_services", "Social_work_services", "Speech_therapy", "Transportation_service" ]
-}

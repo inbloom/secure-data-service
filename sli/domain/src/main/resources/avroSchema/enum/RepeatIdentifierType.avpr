@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "RepeatIdentifierType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An indication as to whether a student has previously taken a given course.",
-  "xsd-type" : "token",
-  "symbols" : [ "Repeated_counted_in_grade_point_average", "Repeated_not_counted_in_grade_point_average", "Not_repeated", "Other" ]
-}
