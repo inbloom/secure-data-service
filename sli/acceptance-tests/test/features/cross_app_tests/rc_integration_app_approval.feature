@@ -292,7 +292,8 @@ Scenario: User logs into recently created installed app
 #We cannot use the portal to access the installed app, since you cannot navigate to a URL to use it
 Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
-When I selected the realm "Daybreak Test Realm"
+#When I selected the realm "Daybreak Test Realm"
+When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 Then I should receive a json response containing my authorization code
