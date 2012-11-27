@@ -17,10 +17,15 @@
 package org.slc.sli.ingestion.dal;
 
 import java.util.List;
+import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -38,7 +43,11 @@ import org.slc.sli.ingestion.ResourceWriter;
  */
 public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWriter<NeutralRecord>, InitializingBean {
 
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordMongoAccess.class);
+
     private NeutralRecordRepository neutralRecordRepository;
+
+    private Set<String> stagingIndexes;
 
     @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
     private String writeConcern;
@@ -52,17 +61,17 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
     }
 
     @Override
-    public void writeResource(NeutralRecord neutralRecord, String jobId) {
-        neutralRecordRepository.createForJob(neutralRecord, jobId);
+    public void writeResource(NeutralRecord neutralRecord) {
+        neutralRecordRepository.createForJob(neutralRecord);
     }
 
     @Override
-    public void insertResource(NeutralRecord neutralRecord, String jobId) {
+    public void insertResource(NeutralRecord neutralRecord) {
         neutralRecordRepository.insert(neutralRecord);
     }
 
     @Override
-    public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
+    public void insertResources(List<NeutralRecord> neutralRecords, String collectionName) {
         neutralRecordRepository.insertAllWithRetries(neutralRecords, collectionName, numberOfRetries);
     }
 
@@ -74,45 +83,90 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
         this.neutralRecordRepository = neutralRecordRepository;
     }
 
-    @Override
-    public long collectionCountForJob(String collectionNameAsStaged, String jobId) {
-        return neutralRecordRepository.countForJob(collectionNameAsStaged, new NeutralQuery(), jobId);
+    public void setStagingIndexes(Set<String> stagingIndexes) {
+        this.stagingIndexes = stagingIndexes;
     }
 
     @Override
-    public long countCreationTimeWithinRange(String collectionName, long min, long max, String jobId) {
+    public long collectionCountForJob(String collectionNameAsStaged) {
+        return neutralRecordRepository.countForJob(collectionNameAsStaged, new NeutralQuery());
+    }
+
+    @Override
+    public long countCreationTimeWithinRange(String collectionName, long min, long max) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("creationTime", NeutralCriteria.CRITERIA_GTE, min, false));
         query.addCriteria(new NeutralCriteria("creationTime", NeutralCriteria.CRITERIA_LT, max, false));
 
-        return neutralRecordRepository.countForJob(collectionName, query, jobId);
+        return neutralRecordRepository.countForJob(collectionName, query);
     }
 
     @Override
-    public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), jobId, Order.DESCENDING) + 1;
+    public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity) {
+        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), Order.DESCENDING) + 1;
     }
 
     @Override
-    public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), jobId, Order.ASCENDING);
+    public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity) {
+        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), Order.ASCENDING);
+    }
+
+    @Override
+    public void cleanupJob(String batchJobId) {
+        neutralRecordRepository.deleteStagedRecordsForJob(batchJobId);
     }
 
     /**
      * Gets the creation time for the first entity that matches the criteria of collection name,
      * batch job id, and sort order.
      *
-     * @param collectionName Collection in which to find entity.
-     * @param jobId Current batch job id.
-     * @param order Sort order (ascending, descending).
+     * @param collectionName
+     *            Collection in which to find entity.
+     * @param jobId
+     *            Current batch job id.
+     * @param order
+     *            Sort order (ascending, descending).
      * @return Long representing creation time of entity.
      */
-    private long getCreationTimeForEntity(String collectionName, String jobId, Order order) {
+    private long getCreationTimeForEntity(String collectionName, Order order) {
         Query query = new Query().limit(1);
-        query.addCriteria(Criteria.where("batchJobId").is(jobId));
         query.sort().on("creationTime", order);
 
         Iterable<NeutralRecord> nr = neutralRecordRepository.findAllByQuery(collectionName, query);
         return nr.iterator().next().getCreationTime();
+    }
+
+    @Override
+    public void ensureIndexes() {
+        if (stagingIndexes != null) {
+            LOG.info("Ensuring {} indexes for staging db", stagingIndexes.size());
+
+            int indexOrder = 0; // used to name the indexes
+
+            // each index is a comma delimited string in the format:
+            // (collection, unique, indexKeys ...)
+            for (String indexEntry : stagingIndexes) {
+                indexOrder++;
+                String[] indexTokens = indexEntry.split(",");
+
+                if (indexTokens.length < 3) {
+                    throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
+                            + indexTokens);
+                }
+
+                String collection = indexTokens[0];
+                boolean unique = Boolean.parseBoolean(indexTokens[1]);
+                DBObject keys = new BasicDBObject();
+
+                for (int i = 2; i < indexTokens.length; i++) {
+                    keys.put(indexTokens[i], 1);
+                }
+
+                neutralRecordRepository.getTemplate().getCollection(collection)
+                        .ensureIndex(keys, "is" + indexOrder, unique);
+            }
+        } else {
+            throw new IllegalStateException("staging indexes configuration not found.");
+        }
     }
 }

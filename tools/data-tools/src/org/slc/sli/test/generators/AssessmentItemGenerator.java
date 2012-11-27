@@ -37,6 +37,7 @@ public class AssessmentItemGenerator {
                     LearningStandardGenerator.getLearningStandardReferenceType(learningStandardRef));
         }
 
+        assessmentItem.setAssessmentReference(AssessmentGenerator.getAssessmentReference(assessmentItemMeta.getAssessmentId()));
         assessmentItem.setNomenclature("Nomenclature");
         return assessmentItem;
     }

@@ -20,6 +20,8 @@ import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.tools.wadl2Doc.WadlViewerHandler;
 import org.slc.sli.modeling.wadl.helpers.WadlWalker;
 import org.slc.sli.modeling.wadl.reader.WadlReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -34,22 +36,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Compare two WADLs.
+ */
 public class WadlComparator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WadlComparator.class);
 
     private static String pathToGoldenWadl;
     private static String pathToGeneratedWadl;
     private static PrintStream pathToReportFile;
 
-    final static PrintStream stdout = System.out;
-    
+    static final PrintStream STDOUT = System.out;
+
     public WadlComparator() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     public static void main(String[] args) throws IOException {
         if (args.length < 3 || args[0].toLowerCase().equals("h") || args[0].equals("?")) {
-            stdout.println("Usage:");
-            stdout.println("java WadlComparator pathToGoldenWadl pathToGenerateWadl pathToReportFile");
+            STDOUT.println("Usage:");
+            STDOUT.println("java WadlComparator pathToGoldenWadl pathToGenerateWadl pathToReportFile");
             System.exit(1);
         }
 
@@ -89,15 +96,15 @@ public class WadlComparator {
 
         // print
         System.setOut(pathToReportFile);
-        System.out.println("Unique to Golden Wadl:");
+        LOG.info("Unique to Golden Wadl:");
         for (String s : uniqueGolden) {
-            System.out.println("\t" + s);
+            LOG.info("\t" + s);
         }
-        System.out.println("\nUnique to Generated Wadl:");
+        LOG.info("\nUnique to Generated Wadl:");
         for (String s : uniqueGenerated) {
-            System.out.println("\t" + s);
+            LOG.info("\t" + s);
         }
-        System.setOut(stdout);
+        System.setOut(STDOUT);
     }
 
     // shamelessly taken from WadlViewer
@@ -107,7 +114,7 @@ public class WadlComparator {
             final WadlWalker walker = new WadlWalker(new WadlViewerHandler());
             walker.walk(app);
         } catch (final FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
     }
 }

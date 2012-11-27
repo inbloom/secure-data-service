@@ -39,19 +39,19 @@ public class Resource extends WadlElement {
             final List<Resource> resources, final String resourceClass) {
         super(doc);
         if (null == type) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         if (null == queryType) {
-            throw new NullPointerException("queryType");
+            throw new IllegalArgumentException("queryType");
         }
         if (null == params) {
-            throw new NullPointerException("params");
+            throw new IllegalArgumentException("params");
         }
         if (null == methods) {
-            throw new NullPointerException("methods");
+            throw new IllegalArgumentException("methods");
         }
         if (null == resources) {
-            throw new NullPointerException("resources");
+            throw new IllegalArgumentException("resources");
         }
         this.id = id;
         this.type = Collections.unmodifiableList(new ArrayList<String>(type));

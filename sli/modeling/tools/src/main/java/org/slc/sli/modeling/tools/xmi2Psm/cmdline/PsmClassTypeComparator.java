@@ -22,6 +22,9 @@ import java.util.Comparator;
 import org.slc.sli.modeling.psm.PsmDocument;
 import org.slc.sli.modeling.uml.Type;
 
+/**
+ * Compare PSM documents.
+ */
 enum PsmDocumentComparator implements Comparator<PsmDocument<Type>> {
 
     SINGLETON;

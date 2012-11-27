@@ -17,12 +17,15 @@
 
 package org.slc.sli.modeling.psm;
 
+/**
+ * Model a resource.
+ */
 public final class PsmResource {
     private final String name;
 
     public PsmResource(final String name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name.trim();
     }

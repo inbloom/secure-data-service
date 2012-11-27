@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * XmiComp exception
+ */
 @SuppressWarnings("serial")
 public class XmiMappingException extends Exception {
     public XmiMappingException(final String message) {

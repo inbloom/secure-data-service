@@ -33,13 +33,9 @@ public class MockJavaStreamWriter implements JavaStreamWriter {
     private ByteArrayOutputStream out;
 
 
-    public MockJavaStreamWriter() {
+    public MockJavaStreamWriter() throws UnsupportedEncodingException {
         this.out = new ByteArrayOutputStream();
-        try {
-            this.jsw = new StandardJavaStreamWriter(out, "UTF-8", new JavaGenConfig(true));
-        } catch (UnsupportedEncodingException e) {
-            throw new AssertionError();
-        }
+        this.jsw = new StandardJavaStreamWriter(out, "UTF-8", new JavaGenConfig(true));
     }
 
     @Override

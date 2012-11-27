@@ -12271,7 +12271,7 @@
             </UML:Attribute>
           </UML:Classifier.feature>
         </UML:Class>
-        <UML:Class xmi.id = 'b63760eb-5b90-44c9-811c-aa7689c9249f' name = 'StudentAssessmentAssociation'
+        <UML:Class xmi.id = 'b63760eb-5b90-44c9-811c-aa7689c9249f' name = 'StudentAssessment'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'
           isActive = 'false'>
           <UML:ModelElement.taggedValue>

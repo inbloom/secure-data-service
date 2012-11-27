@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model text data
+ */
 public final class DmText implements DmNode {
 
     protected static final QName NO_NAME = new QName("");
@@ -29,7 +32,7 @@ public final class DmText implements DmNode {
 
     public DmText(final String value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.value = value;
     }

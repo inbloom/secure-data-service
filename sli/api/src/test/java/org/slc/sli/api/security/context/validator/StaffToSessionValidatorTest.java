@@ -52,15 +52,15 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class StaffToSessionValidatorTest {
-	
-	private static final String STAFF_ID = "1";
-	
+    
+    private static final String STAFF_ID = "1";
+    
     @Autowired
     private StaffToSessionValidator validator;
-
+    
     @Autowired
     private SecurityContextInjector injector;
-
+    
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
@@ -114,119 +114,119 @@ public class StaffToSessionValidatorTest {
         assertFalse(validator.canValidate(EntityNames.STAFF_COHORT_ASSOCIATION, false));
         assertFalse(validator.canValidate(EntityNames.STAFF_PROGRAM_ASSOCIATION, true));
         assertFalse(validator.canValidate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, false));
-        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, true));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT_PARENT_ASSOCIATION, false));
     }
     
     @Test
     public void testSingleSessionGoodValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String sessionId = helper.generateSession(schoolId, null).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> sessionIds = new HashSet<String>();
-    	sessionIds.add(sessionId);
-    	assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String sessionId = helper.generateSession(schoolId, null).getEntityId();
+        
+        // Test Validate
+        Set<String> sessionIds = new HashSet<String>();
+        sessionIds.add(sessionId);
+        assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
     }
-
+    
     @Test
     public void testExpiredStaffSchoolValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, true);
-    	String sessionId = helper.generateSession(schoolId, null).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> sessionIds = new HashSet<String>();
-    	sessionIds.add(sessionId);
-    	assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, true);
+        String sessionId = helper.generateSession(schoolId, null).getEntityId();
+        
+        // Test Validate
+        Set<String> sessionIds = new HashSet<String>();
+        sessionIds.add(sessionId);
+        assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
     }
-
+    
     @Test
     public void testSeperateStaffSchoolValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
-    	String sessionId = helper.generateSession(bSchoolId, null).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> sessionIds = new HashSet<String>();
-    	sessionIds.add(sessionId);
-    	assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
+        String sessionId = helper.generateSession(bSchoolId, null).getEntityId();
+        
+        // Test Validate
+        Set<String> sessionIds = new HashSet<String>();
+        sessionIds.add(sessionId);
+        assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
     }
-
+    
     @Test
     public void testSessionInheritanceValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String sessionId = helper.generateSession(seaId, null).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> sessionIds = new HashSet<String>();
-    	sessionIds.add(sessionId);
-    	assertTrue(validator.validate(EntityNames.SESSION, sessionIds));    	
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String sessionId = helper.generateSession(seaId, null).getEntityId();
+        
+        // Test Validate
+        Set<String> sessionIds = new HashSet<String>();
+        sessionIds.add(sessionId);
+        assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
     }
-
+    
     @Test
     public void testSessionUnderneathValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, seaId, false);
-    	String sessionId = helper.generateSession(schoolId, null).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> sessionIds = new HashSet<String>();
-    	sessionIds.add(sessionId);
-    	assertTrue(validator.validate(EntityNames.SESSION, sessionIds));    	
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, seaId, false);
+        String sessionId = helper.generateSession(schoolId, null).getEntityId();
+        
+        // Test Validate
+        Set<String> sessionIds = new HashSet<String>();
+        sessionIds.add(sessionId);
+        assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
     }
-
+    
     @Test
     public void testMultipleSessionGoodValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String aSessionId = helper.generateSession(schoolId, null).getEntityId();
-    	String bSessionId = helper.generateSession(leaId, null).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> sessionIds = new HashSet<String>();
-    	sessionIds.add(aSessionId);
-    	sessionIds.add(bSessionId);
-    	assertTrue(validator.validate(EntityNames.SESSION, sessionIds));    	
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String aSessionId = helper.generateSession(schoolId, null).getEntityId();
+        String bSessionId = helper.generateSession(leaId, null).getEntityId();
+        
+        // Test Validate
+        Set<String> sessionIds = new HashSet<String>();
+        sessionIds.add(aSessionId);
+        sessionIds.add(bSessionId);
+        assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
     }
-
+    
     @Test
     public void testMultipleSessionMixedValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
-    	String aSessionId = helper.generateSession(aSchoolId, null).getEntityId();
-    	String bSessionId = helper.generateSession(bSchoolId, null).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> sessionIds = new HashSet<String>();
-    	sessionIds.add(aSessionId);
-    	sessionIds.add(bSessionId);
-    	assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
+        String aSessionId = helper.generateSession(aSchoolId, null).getEntityId();
+        String bSessionId = helper.generateSession(bSchoolId, null).getEntityId();
+        
+        // Test Validate
+        Set<String> sessionIds = new HashSet<String>();
+        sessionIds.add(aSessionId);
+        sessionIds.add(bSessionId);
+        assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
     }
 
 }

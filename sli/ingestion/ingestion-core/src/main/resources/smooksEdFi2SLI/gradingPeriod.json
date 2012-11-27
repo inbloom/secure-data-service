@@ -25,9 +25,9 @@
                 },
                 {
                     "fieldPath" : "body.gradingPeriodIdentity.schoolId",
+                    "deprecated" : true,
                     "ref" : {
                         "entityType" : "educationOrganization",
-                        "takesContext" : ["edOrgs"],
                         "choiceOfFields" :
                                 [
                                     [

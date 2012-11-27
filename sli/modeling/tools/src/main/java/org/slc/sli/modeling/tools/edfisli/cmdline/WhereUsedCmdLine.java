@@ -17,11 +17,6 @@
 
 package org.slc.sli.modeling.tools.edfisli.cmdline;
 
-import java.io.FileNotFoundException;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
@@ -30,33 +25,44 @@ import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
+import java.io.FileNotFoundException;
+import java.util.Set;
+
+/**
+ * Command-line utility to determine where elements are used in the model.
+ */
 public final class WhereUsedCmdLine {
-	
-	public static final String DEFAULT_INPUT_FILENAME = "SLI.xmi";
-	public static final String DEFAULT_NAME = "percent";
-	
-	public WhereUsedCmdLine() {
-		throw new UnsupportedOperationException();
-	}
-	
+
+    private static final Logger LOG = LoggerFactory.getLogger(WhereUsedCmdLine.class);
+
+    public static final String DEFAULT_INPUT_FILENAME = "SLI.xmi";
+    public static final String DEFAULT_NAME = "percent";
+
+    public WhereUsedCmdLine() {
+        throw new UnsupportedOperationException();
+    }
+
     public static void main(final String[] args) {
 
-    	String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_FILENAME;
-    	String name = (args.length == 2) ? args[1] : DEFAULT_NAME;
-    	
-    	try {
+        String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_FILENAME;
+        String name = (args.length == 2) ? args[1] : DEFAULT_NAME;
+
+        try {
             final Model model = XmiReader.readModel(inputFilename);
             final ModelIndex index = new DefaultModelIndex(model);
 
             @SuppressWarnings("deprecation")
             final Set<ModelElement> matches = index.lookupByName(new QName(name));
             for (final ModelElement match : matches) {
-                System.out.println("name : " + name + " => " + match);
+                LOG.info("name : " + name + " => " + match);
                 showUsage(index, match.getId(), "  ");
             }
         } catch (final FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new EdFiSLIRuntimeException(e);
         }
     }
 
@@ -65,14 +71,14 @@ public final class WhereUsedCmdLine {
         for (final ModelElement usage : usages) {
             if (usage instanceof ClassType) {
                 final ClassType classType = (ClassType) usage;
-                System.out.println(indent + "classType : " + classType.getName());
+                LOG.info(indent + "classType : " + classType.getName());
                 showUsage(index, classType.getId(), indent.concat("  "));
             } else if (usage instanceof Attribute) {
                 final Attribute attribute = (Attribute) usage;
-                System.out.println(indent + "attribute : " + attribute.getName());
+                LOG.info(indent + "attribute : " + attribute.getName());
                 showUsage(index, attribute.getId(), indent.concat("  "));
             } else {
-                System.out.println(indent + "usage : " + usage.getClass());
+                LOG.info(indent + "usage : " + usage.getClass());
             }
         }
     }

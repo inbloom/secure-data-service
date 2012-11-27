@@ -30,6 +30,9 @@ import org.slc.sli.modeling.uml.Multiplicity;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 
+/**
+ * Model Java standard out stream writer.
+ */
 public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     private static final List<String> EMPTY_STRING_LIST = Collections.emptyList();
@@ -93,10 +96,10 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void beginCatch(final JavaType type, final String variableName) throws IOException {
         if (null == type) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         if (null == variableName) {
-            throw new NullPointerException("variableName");
+            throw new IllegalArgumentException("variableName");
         }
         writer.write("catch");
         parenL();
@@ -111,7 +114,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void beginClass(final String name) throws IOException {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         writer.write("public");
         writer.write(SPACE);
@@ -124,10 +127,10 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void beginClass(final String name, final List<String> implementations) throws IOException {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (implementations == null) {
-            throw new NullPointerException("implementations");
+            throw new IllegalArgumentException("implementations");
         }
         writer.write("public");
         writer.write(SPACE);
@@ -153,13 +156,13 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void beginClass(final String name, final List<String> implementations, final String extension) throws IOException {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (implementations == null) {
-            throw new NullPointerException("implementations");
+            throw new IllegalArgumentException("implementations");
         }
         if (extension == null) {
-            throw new NullPointerException("extension");
+            throw new IllegalArgumentException("extension");
         }
         writer.write("public");
         writer.write(SPACE);
@@ -189,10 +192,10 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void beginClass(final String name, final String extendsClass) throws IOException {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (extendsClass == null) {
-            throw new NullPointerException("extendsClass");
+            throw new IllegalArgumentException("extendsClass");
         }
         writer.write("public");
         writer.write(SPACE);
@@ -214,10 +217,10 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void beginEnum(final String name, final List<String> implementations) throws IOException {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (implementations == null) {
-            throw new NullPointerException("implementations");
+            throw new IllegalArgumentException("implementations");
         }
         writer.write("public");
         writer.write(SPACE);
@@ -236,7 +239,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void beginInterface(final String name) throws IOException {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         writer.write("public");
         writer.write(SPACE);
@@ -255,7 +258,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public JavaStreamWriter castAs(final JavaType type) throws IOException {
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         parenL().writeType(type).parenR();
         return this;
@@ -335,7 +338,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public JavaStreamWriter write(final JavaSnippet snippet) throws IOException {
         if (snippet == null) {
-            throw new NullPointerException("snippet");
+            throw new IllegalArgumentException("snippet");
         }
         snippet.write(this);
         return this;
@@ -387,10 +390,10 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void writeAssignment(final JavaParam lhs, final JavaSnippetExpr rhs) throws IOException {
         if (lhs == null) {
-            throw new NullPointerException("lhs");
+            throw new IllegalArgumentException("lhs");
         }
         if (rhs == null) {
-            throw new NullPointerException("rhs");
+            throw new IllegalArgumentException("rhs");
         }
         beginStmt();
         try {
@@ -411,7 +414,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void writeAttribute(final JavaParam param) throws IOException {
         if (param == null) {
-            throw new NullPointerException("param");
+            throw new IllegalArgumentException("param");
         }
         writer.write("private");
         writer.write(SPACE);
@@ -474,7 +477,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write(name);
         writer.write("(");
-        {
             // Arguments
             boolean first = true;
             for (final JavaFeature feature : features) {
@@ -496,7 +498,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
                     writer.write(camelCase(feature.getName(config)));
                 }
             }
-        }
+
         writer.write(")");
         beginBlock();
         // Preconditions
@@ -506,7 +508,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
                     final String argName = camelCase(feature.getName(config));
                     write("if (null == ").write(argName).write(")");
                     beginBlock();
-                    beginStmt().write("throw new NullPointerException(").dblQte().write(argName).dblQte().write(")")
+                    beginStmt().write("throw new IllegalArgumentException(").dblQte().write(argName).dblQte().write(")")
                             .endStmt();
                     endBlock();
                 }

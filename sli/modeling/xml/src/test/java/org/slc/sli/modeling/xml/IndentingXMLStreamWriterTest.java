@@ -43,10 +43,10 @@ public class IndentingXMLStreamWriterTest {
     XMLStreamWriter streamWriter;
     IndentingXMLStreamWriter out;
 
-    private final String NAMESPACE = "http://www.namespace.com/ns/1";
-    private final String PREFIX = "prefix";
-    private final String DEFAULT_NAMESPACE = "http://www.namespace.com/ns/default";
-    private final String DEFAULT_PREFIX = "dprefix";
+    private static final String NAMESPACE = "http://www.namespace.com/ns/1";
+    private static final String PREFIX = "prefix";
+    private static final String DEFAULT_NAMESPACE = "http://www.namespace.com/ns/default";
+    private static final String DEFAULT_PREFIX = "dprefix";
 
     @Before
     public void setup() throws XMLStreamException {

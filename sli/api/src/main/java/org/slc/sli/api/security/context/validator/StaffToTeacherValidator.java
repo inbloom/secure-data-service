@@ -30,6 +30,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Validates the context of a staff member to see the requested set of teacher entities.
+ * Returns true if the staff member can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
 @Component
 public class StaffToTeacherValidator extends AbstractContextValidator {
 
@@ -61,7 +67,7 @@ public class StaffToTeacherValidator extends AbstractContextValidator {
                 return false;
             }
         }
-        if (teacherSchoolMap.size() == 0 || teacherSchoolMap.size() != teacherSchoolMap.size()) {
+        if (teacherSchoolMap.size() == 0 || teacherSchoolMap.size() != teacherIds.size()) {
             return false;
         }
         return true;

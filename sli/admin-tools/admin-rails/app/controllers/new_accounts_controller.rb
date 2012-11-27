@@ -24,23 +24,23 @@ require 'time'
 require 'date'
 
 class NewAccountsController < ForgotPasswordsController
-  
+
   skip_filter :handle_oauth
   before_filter :get_user
   before_filter :set_model
   before_filter :token_still_valid
-  
+
   def index
     respond_to do |format|
       format.html { render action: 'new_account' }
-    end 
+    end
 
     # respond_to do |format|
     #   format.html # index.html.erb
     #   format.json { render json: @forgot_passwords }
     # end
   end
-  
+
   def set_password
     @new_account_password.new_pass = params[:new_account_password][:new_pass]
     @new_account_password.confirmation = params[:new_account_password][:confirmation]
@@ -52,10 +52,10 @@ class NewAccountsController < ForgotPasswordsController
         APP_LDAP_CLIENT.update_status(@user)
         format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
         format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
-      else 
+      else
         format.html { render action: 'new_account' }
-      end 
-    end 
+      end
+    end
   end
 
   def set_model
@@ -66,5 +66,5 @@ class NewAccountsController < ForgotPasswordsController
     @new_account_password.token = token
     @new_account_password.edorg = edorg
     @new_account_password.tou_required = APP_CONFIG['is_sandbox'] && @user[:status] == "submitted"
-  end 
+  end
 end

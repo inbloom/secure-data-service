@@ -97,12 +97,12 @@ end
 
 Given /^there is an sandbox account in ldap$/ do
   @sandbox = true
-  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandbox)
+  ApprovalEngine.init(@ldap, nil, @sandbox)
 end
 
 Given /^there is an production Ingestion Admin account in ldap$/ do
   @sandbox = false
-  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
+  ApprovalEngine.init(@ldap, nil,true)
 
 end
 
@@ -170,6 +170,7 @@ Given /^there is already a edorg with stateOrganizationId "(.*?)" in mongo$/ do 
 end
 
 Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
+  disable_NOTABLESCAN()
   found = false
   tenant_coll = @db['tenant']
   tenant_coll.find("body.tenantId" => @tenantId).each do |tenant|
@@ -181,6 +182,7 @@ Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
     end
   end
   assert(found==false,"there is a landing zone for #{edorgId} in mongo")
+  enable_NOTABLESCAN()
 end
 
 Given /^there is no landing zone for the user in LDAP$/ do
@@ -210,12 +212,15 @@ end
 
 
 Then /^a tenant with tenantId "([^"]*)" created in Mongo$/ do |tenantId|
+  disable_NOTABLESCAN()
   sleep 3 # Used to deal with wait between clicking button and checking mongo
   tenant_coll=@db["tenant"]
   assert( tenant_coll.find("body.tenantId" => tenantId).count >0 ,"the tenantId #{tenantId} is not created in mongo")
+  enable_NOTABLESCAN()
 end
 
 Then /^the directory structure for the landing zone is stored for tenant in mongo$/ do
+  disable_NOTABLESCAN()
   found =false
   tenant_coll=@db["tenant"]
   tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
@@ -228,6 +233,7 @@ Then /^the directory structure for the landing zone is stored for tenant in mong
       end
     end
   end
+  enable_NOTABLESCAN()
   assert(found,"the directory structure for the landing zone is not stored in mongo")
 end
 
@@ -255,7 +261,9 @@ When /^the developer go to the provisioning application web page$/ do
 end
 
 When /^I provision a Landing zone$/ do
+  disable_NOTABLESCAN
   @driver.find_element(:id, "provisionButton").click
+  enable_NOTABLESCAN
 end
 
 When /^the Ingestion Admin provision a Landing zone$/ do
@@ -264,12 +272,14 @@ end
 
 
 When /^I provision with "([^"]*)" high\-level ed\-org to "([^"]*)"$/ do |env,edorgName|
+  disable_NOTABLESCAN
   if(env=="sandbox")
     @driver.find_element(:id, "custom").click
     @driver.find_element(:id, "custom_ed_org").send_keys edorgName
   end
   @driver.find_element(:id, "provisionButton").click
   @edorgName=edorgName
+  enable_NOTABLESCAN
 end
 
 Then /^I get the success message$/ do
@@ -299,6 +309,7 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
 end
 
 When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
+  disable_NOTABLESCAN
   if sample_data_set.downcase.include? "small"
     sample_data_set="small"
   else
@@ -309,12 +320,15 @@ When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
   select.select_by(:value, sample_data_set)
   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
   @edorgName = PRELOAD_EDORG
+  enable_NOTABLESCAN
 end
 
 Then /^the "(.*?)" data to preload is stored for the tenant in mongo$/ do |sample_data_set|
+  disable_NOTABLESCAN()
   tenant_collection =@db["tenant"]
   preload_tenant=tenant_collection.find("body.tenantId"=> @tenantId,"body.landingZone.educationOrganization" => PRELOAD_EDORG,"body.landingZone.preload.files" => [sample_data_set])
   assert(preload_tenant.count()>0,"the #{sample_data_set} data to preload is not stored for tenant #{@tenantId} in mongo, instead tenant was #{tenant_collection.find("body.tenantId"=> @tenantId)}")
+  enable_NOTABLESCAN()
   #preload_tenant.each  do |tenant|
   #  puts tenant
   #end
@@ -325,17 +339,21 @@ Then /^the user gets a success message indicating preloading has been triggered$
 end
 
 Given /^user's landing zone is still provisioned from the prior preloading$/ do
+  disable_NOTABLESCAN()
   tenant_coll = @db["tenant"]
   preload_tenant=tenant_coll.find("body.tenantId" => @tenantId, "body.landingZone.educationOrganization" => PRELOAD_EDORG)
   assert(preload_tenant.count()>0, "the user's landing zone is not provisioned from the prior preloading")
+  enable_NOTABLESCAN()
 end
 
 Then /^I go to my landing zone$/ do
+  disable_NOTABLESCAN()
   tenant_collection =@db["tenant"]
   tenant=tenant_collection.find("body.tenantId"=> @tenantId).next
   puts "tenant is #{tenant}"
   @landing_zone_path = tenant["body"]["landingZone"][0]["path"] + "/"
   @source_file_name = "preload"
+  enable_NOTABLESCAN()
 end
 
 Then /^I clean the landing zone$/ do
@@ -364,15 +382,19 @@ def removeUser(email)
   end
 end
 def clear_edOrg
+  disable_NOTABLESCAN()
   edOrg_coll=@tenantDb["educationOrganization"]
   edOrg_coll.remove("body.stateOrganizationId"=>@edorgId)
   assert(edOrg_coll.find("body.stateOrganizationId"=>@edorgId).count==0,"edorg with stateOrganizationId #{@edorgId} still exist in mongo")
+  enable_NOTABLESCAN()
 end
 
 def clear_tenant
+  disable_NOTABLESCAN()
   tenant_coll=@db["tenant"]
   tenant_coll.remove("body.tenantId"=>@tenantId)
   assert(tenant_coll.find('body.tenantId'=> @tenantId).count()==0,"tenant with tenantId #{@tenantId} still exist in mongo")
+  enable_NOTABLESCAN()
 end
 
 def assertText(text)
@@ -403,8 +425,10 @@ def create_tenant (tenantId,edorgId)
               "createdBy" => tenantId
           }
       }
+      disable_NOTABLESCAN()
   tenant_coll = @db['tenant']
   tenant_coll.save(tenant_entity)
+  enable_NOTABLESCAN()
 end
 
 def create_edOrg (stateOrganizationId)
@@ -430,6 +454,8 @@ def create_edOrg (stateOrganizationId)
           "tenantId" => @tenantId
       }
   }
+  disable_NOTABLESCAN()
   edorg_coll = @tenantDb["educationOrganization"]
   edorg_coll.save(edorg_entity)
+  enable_NOTABLESCAN()
 end

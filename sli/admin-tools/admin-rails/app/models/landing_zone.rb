@@ -24,7 +24,6 @@ class LandingZone
     if APP_CONFIG["is_sandbox"]
       edOrgs = []
       edOrgs << EducationOrganization.new(:stateUniqueId => 'STANDARD-SEA', :nameOfInstitution => "Use a SLC sample dataset")
-      # edOrgs << EducationOrganization.new(:stateUniqueId => 'IL-SUNSET', :nameOfInstitution => "SLC sample school data set #2")
       return edOrgs
     else
       []
@@ -34,7 +33,7 @@ class LandingZone
   def self.possible_sample_data
     if APP_CONFIG["is_sandbox"]
       sample_data=[]
-      sample_data << [ "Small Dataset (4k Records)","small"]
+      sample_data << ["Small Dataset (4k Records)","small"]
       sample_data << ["Medium Dataset (40k Records)","medium"]
       return sample_data
     else
@@ -101,9 +100,9 @@ class LandingZone
 
     user_info[:homedir] = result.attributes[:landingZone]
     user_info[:edorg] = edorg_id
-   # if APP_CONFIG["is_sandbox"]
-   #   user_info[:tenant] = tenant
-   # end
+    # if APP_CONFIG["is_sandbox"]
+    #   user_info[:tenant] = tenant
+    # end
 
     begin
       APP_LDAP_CLIENT.update_user_info(user_info)
@@ -111,7 +110,6 @@ class LandingZone
       Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
     end
 
-    # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       begin
         if sample_data_select !=nil && sample_data_select != "" && isDuplicate == false
@@ -120,7 +118,7 @@ class LandingZone
           ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
         end
       rescue => e
-        Rails.logger.error "Could not send email to #{email[:email_addr]}."
+        Rails.logger.error "Could not send email to #{user_info[:emailAddress]}."
       end
 
       @emailWarningMessage = ""

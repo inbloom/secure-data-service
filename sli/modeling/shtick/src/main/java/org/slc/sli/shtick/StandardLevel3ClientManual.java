@@ -33,10 +33,10 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     
     public StandardLevel3ClientManual(final String baseUrl, final Level2Client inner) {
         if (baseUrl == null) {
-            throw new NullPointerException("baseUrl");
+            throw new IllegalArgumentException("baseUrl");
         }
         if (inner == null) {
-            throw new NullPointerException("inner");
+            throw new IllegalArgumentException("inner");
         }
         this.inner = inner;
     }

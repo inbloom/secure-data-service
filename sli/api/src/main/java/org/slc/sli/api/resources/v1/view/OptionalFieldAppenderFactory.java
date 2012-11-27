@@ -55,9 +55,6 @@ public class OptionalFieldAppenderFactory {
     @Autowired
     private OptionalFieldAppender studentGradeLevelOptionalFieldAppender;
 
-    public OptionalFieldAppenderFactory() {
-    }
-
     @PostConstruct
     protected void init() {
         generators = new HashMap<String, OptionalFieldAppender>();

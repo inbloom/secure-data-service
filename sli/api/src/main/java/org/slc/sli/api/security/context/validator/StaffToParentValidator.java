@@ -17,9 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -30,6 +28,12 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates the context of a staff member to see the requested set of parent
+ * entities. Returns true if the staff member can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
 @Component
 public class StaffToParentValidator extends AbstractContextValidator {
     

@@ -37,19 +37,25 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Read PSM.
+ */
 public final class PsmConfigReader {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PsmConfigReader.class);
 
     private static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -91,7 +97,7 @@ public final class PsmConfigReader {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new PsmConfigRuntimeException(e);
         }
     }
 
@@ -295,7 +301,6 @@ public final class PsmConfigReader {
             }
             }
         }
-        // TODO:
         return new PsmDocument<Type>(type, graphResource, collection);
     }
 
@@ -325,7 +330,7 @@ public final class PsmConfigReader {
         if (obj != null) {
             return obj;
         } else {
-            throw new RuntimeException(msg);
+            throw new PsmConfigRuntimeException(msg);
         }
     }
 

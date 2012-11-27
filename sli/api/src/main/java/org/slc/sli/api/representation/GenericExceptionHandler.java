@@ -60,7 +60,6 @@ public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
         Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
         
         error("Caught exception thrown by ReST handler", e);
-        e.printStackTrace();
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),

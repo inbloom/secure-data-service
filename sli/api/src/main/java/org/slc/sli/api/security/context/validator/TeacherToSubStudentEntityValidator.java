@@ -22,9 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -32,6 +29,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Validates a teacher accessing a set of entities that are directly associated to a student.
@@ -48,13 +46,13 @@ import org.slc.sli.domain.NeutralQuery;
  *
  * @author shalka
  */
-@Component
+//@Component - Disable teacher validators for now
 public class TeacherToSubStudentEntityValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
-    @Autowired
+    //@Autowired
     private TeacherToStudentValidator validator;
 
     /**

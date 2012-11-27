@@ -25,6 +25,9 @@ import java.util.List;
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java method call.
+ */
 public final class MethodCallExpr implements JavaSnippetExpr {
 
     private final JavaSnippetExpr callee;
@@ -37,10 +40,10 @@ public final class MethodCallExpr implements JavaSnippetExpr {
 
     public MethodCallExpr(final JavaSnippetExpr callee, final String methodName, final List<JavaSnippetExpr> args) {
         if (callee == null) {
-            throw new NullPointerException("callee");
+            throw new IllegalArgumentException("callee");
         }
         if (methodName == null) {
-            throw new NullPointerException("methodName");
+            throw new IllegalArgumentException("methodName");
         }
         this.callee = callee;
         this.methodName = methodName;
@@ -50,7 +53,7 @@ public final class MethodCallExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write(callee).write(".").write(methodName);
         jsw.parenL();

@@ -17,12 +17,15 @@
 
 package org.slc.sli.modeling.psm;
 
+/**
+ * Model a collection.
+ */
 public final class PsmCollection {
     private final String name;
     
     public PsmCollection(final String name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name;
     }

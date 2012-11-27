@@ -19,7 +19,6 @@ package org.slc.sli.dal.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -385,12 +384,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
         T encryptedRecord = getEncryptedRecord(record);
         Update update = getUpdateCommand(encryptedRecord);
 
-        // attempt update
-        WriteResult result = updateFirst(query, update, collection);
-        // if no records were updated, try insert
+        // attempt upsert
+        WriteResult result = upsert(query, update, collection);
         // insert goes through the encryption pipeline, so use the unencrypted record
-        if (result.getN() == 0) {
-            insert(record, collection);
+        if (result.getError() !=null) {
+            LOG.error("Update/upsert on collection {} failed with error: {}", collection, result.getError());
+            return false;
         }
 
         return true;
@@ -430,6 +429,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     private WriteResult updateFirst(Query query, Update update, String collectionName) {
         guideIfTenantAgnostic(collectionName);
         return template.updateFirst(query, update, collectionName);
+    }
+
+    private WriteResult upsert(Query query, Update update, String collectionName) {
+        guideIfTenantAgnostic(collectionName);
+        return template.upsert(query, update, collectionName);
     }
 
     @Override

@@ -45,6 +45,7 @@ public class OptionalView implements View {
             return entities;
         }
 
+        List<EntityBody> appendedEntities = entities;
         List<String> optionalFields = queryParams.get(ParameterConstants.OPTIONAL_FIELDS);
 
         if (optionalFields != null) {
@@ -56,7 +57,7 @@ public class OptionalView implements View {
                             + values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
 
                     if (appender != null) {
-                        entities = appender.applyOptionalField(entities,
+                        appendedEntities = appender.applyOptionalField(entities,
                                 values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
                     }
 
@@ -64,7 +65,7 @@ public class OptionalView implements View {
             }
         }
 
-        return entities;
+        return appendedEntities;
     }
 
     /**

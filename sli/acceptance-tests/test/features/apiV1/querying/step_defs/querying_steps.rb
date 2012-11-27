@@ -70,3 +70,30 @@ end
 Then /^in the response body I should not see field "(.*?)"$/ do |field|
   assert(!(@result.has_key? field))
 end
+
+Then /^the executed path should not equal the requested "(.*?)"$/ do |requested_path|
+    headers = @res.raw_headers
+    assert(headers != nil, "Headers are nil")
+    assert(headers['x-executedpath'] != nil, "There is no executed path info from the previous request")
+    executed_path = headers['x-executedpath'][0]
+    assert(executed_path != requested_path, "The executed path should have shown the implied (injected) context but did not")
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

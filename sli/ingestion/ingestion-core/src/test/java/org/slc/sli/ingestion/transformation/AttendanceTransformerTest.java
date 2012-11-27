@@ -332,8 +332,7 @@ public class AttendanceTransformerTest {
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query1)),
                 Mockito.anyMap(),
-                Mockito.eq("attendance_transformed"),
-                Mockito.eq(batchJobId)
+                Mockito.eq("attendance_transformed")
              );
 
         //verify attendance for studentId2
@@ -347,8 +346,7 @@ public class AttendanceTransformerTest {
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query2)),
                 Mockito.anyMap(),
-                Mockito.eq("attendance_transformed"),
-                Mockito.eq(batchJobId)
+                Mockito.eq("attendance_transformed")
              );
 
     }

@@ -17,7 +17,7 @@ mongoimport --drop -d $DB_NAME -c educationOrganization -h $DB_HOST --file "uds_
 mongoimport --drop -d $DB_NAME -c school -h $DB_HOST --file "uds_schools.json"
 mongoimport --drop -d $DB_NAME -c section -h $DB_HOST --file "uds_sections.json"
 mongoimport --drop -d $DB_NAME -c sessions -h $DB_HOST --file "uds_sessions.json"
-mongoimport --drop -d $DB_NAME -c studentAssessmentAssociation -h $DB_HOST --file "uds_student_assessment_associations.json"
+mongoimport --drop -d $DB_NAME -c studentAssessment -h $DB_HOST --file "uds_student_assessment.json"
 mongoimport --drop -d $DB_NAME -c studentSchoolAssociation -h $DB_HOST --file "uds_student_school_associations.json"
 mongoimport --drop -d $DB_NAME -c studentSectionAssociation -h $DB_HOST --file "uds_student_section_associations.json"
 mongoimport --drop -d $DB_NAME -c student -h $DB_HOST --file "uds_students.json"

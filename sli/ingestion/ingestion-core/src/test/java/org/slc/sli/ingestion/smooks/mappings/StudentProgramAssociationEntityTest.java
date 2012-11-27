@@ -106,9 +106,9 @@ public class StudentProgramAssociationEntityTest {
         Map<String, Object> educationalOrgIdentity =
                 (Map<String, Object>) educationOrganizationReference.get("EducationalOrgIdentity");
         assertNotNull("Expected non-null educational org identity", educationalOrgIdentity);
-        List<String> stateOrganizationIds = (List<String>) educationalOrgIdentity.get("StateOrganizationId");
+        String stateOrganizationIds = (String) educationalOrgIdentity.get("StateOrganizationId");
         assertNotNull("Expected non-null list of state organization ids", stateOrganizationIds);
-        assertEquals("Expected different education organization id", "IL", stateOrganizationIds.get(0));
+        assertEquals("Expected different education organization id", "IL", stateOrganizationIds);
 
         assertEquals("Expected different begin date", "2011-01-01", attributes.get("BeginDate"));
         assertEquals("Expected different end date", "2011-12-31", attributes.get("EndDate"));

@@ -30,7 +30,7 @@ public class Multiplicity extends ModelElement {
     public Multiplicity(final Identifier id, final List<TaggedValue> taggedValues, final Range range) {
         super(id, taggedValues);
         if (range == null) {
-            throw new NullPointerException("range");
+            throw new IllegalArgumentException("range");
         }
         this.range = range;
     }

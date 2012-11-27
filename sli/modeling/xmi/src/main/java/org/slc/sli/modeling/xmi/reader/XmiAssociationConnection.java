@@ -29,10 +29,10 @@ final class XmiAssociationConnection {
     
     public XmiAssociationConnection(final AssociationEnd lhs, final AssociationEnd rhs) {
         if (lhs == null) {
-            throw new NullPointerException("lhs");
+            throw new IllegalArgumentException("lhs");
         }
         if (rhs == null) {
-            throw new NullPointerException("rhs");
+            throw new IllegalArgumentException("rhs");
         }
         this.lhs = lhs;
         this.rhs = rhs;

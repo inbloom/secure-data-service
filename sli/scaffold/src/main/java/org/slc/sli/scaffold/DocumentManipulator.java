@@ -69,6 +69,10 @@ public class DocumentManipulator {
         docFactory.setNamespaceAware(false);
     }
     
+    public DocumentManipulator() {
+        init();
+    }
+    
     /**
      * Parse a xml document
      * 

@@ -34,6 +34,7 @@ SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Before do
+  disable_NOTABLESCAN()
    extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(convertTenantIdToDbName('mreynolds'))
@@ -41,6 +42,7 @@ Before do
    @sandboxdb_name = convertTenantIdToDbName('devldapuser@slidev.org')
    @sandboxdb = Mongo::Connection.new.db(@sandboxdb_name)
    @slidb = Mongo::Connection.new.db("sli")
+   enable_NOTABLESCAN()
 end
 
 After do |scenario|
@@ -239,18 +241,23 @@ When /^clicks on "([^"]*)"$/ do |arg1|
 end
 
 Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
+  disable_NOTABLESCAN()
  edOrg_coll=@db["educationOrganization"]
  edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
  assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
+ enable_NOTABLESCAN()
 end
 
 Then /^an "([^"]*)" is saved to sandbox mongo$/ do |arg1|
+  disable_NOTABLESCAN()
  edOrg_coll=@sandboxdb["educationOrganization"]
  edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
  assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
+ enable_NOTABLESCAN()
 end
 
 Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
+  disable_NOTABLESCAN()
   app_collection=@slidb["application"]
   results=app_collection.find({"body.bootstrap"=>true})
    results.each do |application|
@@ -263,7 +270,7 @@ Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "
     end
     assert(found,"#{arg1} is not added in the application table")
     end
-
+enable_NOTABLESCAN()
 end
 
 Then /^a request for a Landing zone is made with "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
@@ -271,6 +278,7 @@ Then /^a request for a Landing zone is made with "([^"]*)" and "([^"]*)"$/ do |a
 end
 
 Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenantId, landing_zone_path|
+  disable_NOTABLESCAN()
   tenant_coll=@slidb["tenant"]
   count=tenant_coll.find().count
   assert(count==1,"tenant entry is not added to mongo")
@@ -285,6 +293,7 @@ Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenan
     end
   end
   assert(found,"landing zone path:#{landing_zone_path} is not added to mongo")
+  enable_NOTABLESCAN()
 end
 
 Then /^the "([^"]*)" is saved in Ldap$/ do |arg1|
@@ -310,6 +319,7 @@ end
 
 
 And /^the sandbox db should have the following map of indexes in the corresponding collections:$/ do |table|
+  disable_NOTABLESCAN()
   @result = "true"
 
   table.hashes.map do |row|
@@ -326,6 +336,7 @@ And /^the sandbox db should have the following map of indexes in the correspondi
   end
 
   assert(@result == "true", "Some indexes were not created successfully.")
+  enable_NOTABLESCAN()
 
 end
 
@@ -402,8 +413,7 @@ def initializeApprovalAndLDAP(emailConf, prod)
    @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                            PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
                            PropLoader.getProps['ldap_admin_pass'])
-   email = Emailer.new @email_conf
-   ApprovalEngine.init(@ldap, email, nil, !prod)
+   ApprovalEngine.init(@ldap, nil, !prod)
  end
 
 
@@ -472,17 +482,23 @@ def assertText(text)
 end
 
 def clear_edOrg
+  disable_NOTABLESCAN()
    edOrg_coll=@db["educationOrganization"]
    edOrg_coll.remove()
+   enable_NOTABLESCAN()
 end
 
 def clear_tenant
+  disable_NOTABLESCAN()
    tenant_coll=@slidb["tenant"]
    tenant_coll.remove()
+   enable_NOTABLESCAN()
 end
 
 def clear_users
+  disable_NOTABLESCAN()
   @ldap.delete_user(PropLoader.getProps['user_registration_email'])
+  enable_NOTABLESCAN()
 end
 
 def sha256(to_hash)

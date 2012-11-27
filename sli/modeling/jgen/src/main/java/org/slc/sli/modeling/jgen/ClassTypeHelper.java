@@ -27,12 +27,19 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Models Java class type.
+ */
 public class ClassTypeHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(ClassTypeHelper.class);
 
     public static final void writeClassType(final String packageName, final List<String> importNames,
             final ClassType classType, final ModelIndex model, final File file, final JavaGenConfig config) {
@@ -41,14 +48,10 @@ public class ClassTypeHelper {
             try {
                 writeClassType(packageName, importNames, classType, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -96,7 +99,7 @@ public class ClassTypeHelper {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new JavaGeneratorRuntimeException(e);
         }
     }
 

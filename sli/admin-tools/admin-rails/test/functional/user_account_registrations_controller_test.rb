@@ -31,7 +31,7 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
         :password_confirmation => 'secret',
         :vendor => 'self'
     )
- 
+
   end
 
   test "should get new" do
@@ -41,7 +41,7 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
   test "should create user_account_registration" do
 
-    UserAccountRegistrationsHelper.stubs(:register_user).returns({"redirect"=>true,"error"=>""})
+    UserAccountRegistration.stubs(:register).returns({"redirect"=>true,"error"=>""})
     ReCaptcha::AppHelper.stubs(:validate_recap).returns(true)
 
     post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, password_confirmation: @user_account_registration.password_confirmation, vendor: @user_account_registration.vendor }
@@ -58,4 +58,4 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
     assert_redirected_to APP_CONFIG['redirect_slc_url']
   end
 
- end
+end

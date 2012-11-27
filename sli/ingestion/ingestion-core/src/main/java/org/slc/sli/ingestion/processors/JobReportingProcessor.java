@@ -329,10 +329,11 @@ public class JobReportingProcessor implements Processor {
 
                 if (duplicates != null) {
                     String resource = metric.getResourceId();
-                    for (String entity : duplicates.keySet()) {
-                        Long count = duplicates.get(entity);
+                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                        Long count = dupEntry.getValue();
                         if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
+                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                                    + " deltas!");
                         }
                     }
                 }
@@ -519,7 +520,9 @@ public class JobReportingProcessor implements Processor {
 
     private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
+
+            neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
+
             LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
         } else {
             LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",

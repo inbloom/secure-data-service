@@ -22,7 +22,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +34,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Documentation;
 import org.slc.sli.modeling.rest.Grammars;
@@ -52,6 +52,7 @@ import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.wadl.WadlAttributeName;
 import org.slc.sli.modeling.wadl.WadlElementName;
+import org.slc.sli.modeling.wadl.WadlRuntimeException;
 import org.slc.sli.modeling.wadl.WadlSyntax;
 import org.slc.sli.modeling.xdm.DmComment;
 import org.slc.sli.modeling.xdm.DmElement;
@@ -88,11 +89,7 @@ public final class WadlReader {
     }
 
     private static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+        IOUtils.closeQuietly(closeable);
     }
 
     private static final String getBase(final XMLStreamReader reader, final String defaultName) {
@@ -119,7 +116,7 @@ public final class WadlReader {
         if (value != null) {
             return value;
         } else {
-            throw new RuntimeException(WadlAttributeName.HREF.getLocalName());
+            throw new WadlRuntimeException(WadlAttributeName.HREF.getLocalName());
         }
     }
 
@@ -237,7 +234,7 @@ public final class WadlReader {
      */
     public static final Application readApplication(final InputStream stream) {
         if (stream == null) {
-            throw new NullPointerException("stream");
+            throw new IllegalArgumentException("stream");
         }
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
@@ -248,13 +245,13 @@ public final class WadlReader {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new WadlRuntimeException(e);
         }
     }
 
     public static final Application readApplication(final File file) throws FileNotFoundException {
         if (file == null) {
-            throw new NullPointerException("file");
+            throw new IllegalArgumentException("file");
         }
         final InputStream istream = new BufferedInputStream(new FileInputStream(file));
         try {
@@ -266,7 +263,7 @@ public final class WadlReader {
 
     public static final Application readApplication(final String fileName) throws FileNotFoundException {
         if (fileName == null) {
-            throw new NullPointerException("fileName");
+            throw new IllegalArgumentException("fileName");
         }
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
@@ -352,7 +349,7 @@ public final class WadlReader {
                 throw new AssertionError(reader.getLocalName());
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new WadlRuntimeException(e);
         }
     }
 
@@ -524,7 +521,6 @@ public final class WadlReader {
         throw new AssertionError();
     }
 
-    // FIXME: This will be used soon; do not delete.
     private static final DmElement readMixedElement(final XMLStreamReader reader) throws XMLStreamException {
         final QName name = reader.getName();
         final List<DmNode> children = new LinkedList<DmNode>();

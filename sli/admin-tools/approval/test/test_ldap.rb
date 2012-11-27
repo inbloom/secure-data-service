@@ -31,32 +31,32 @@ class TestLdap < Test::Unit::TestCase
   Jd_email = "jdoe@example.com_#{Socket.gethostname}"
   Jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
   User_info = {
-    :first        => "John",
-    :last         => "Doe", 
-    :email        => Jd_email,
-    :password     => "secret", 
-    :vendor       => "Acme Inc.",
-    :emailtoken   => Jd_emailtoken,
-    :status       => "submitted",
-    :homedir      => 'test',
-    :uidnumber    => '456',
-    :gidnumber    => '123',
-    :tenant       => 'testtenant',
-    :edorg        => 'testedorg',
-    :emailAddress => Jd_email,
-    :resetKey     => ""
+      :first        => "John",
+      :last         => "Doe",
+      :email        => Jd_email,
+      :password     => "secret",
+      :vendor       => "Acme Inc.",
+      :emailtoken   => Jd_emailtoken,
+      :status       => "submitted",
+      :homedir      => 'test',
+      :uidnumber    => '456',
+      :gidnumber    => '123',
+      :tenant       => 'testtenant',
+      :edorg        => 'testedorg',
+      :emailAddress => Jd_email,
+      :resetKey     => ""
   }
 
   # Note: Socket.gethostname is used to ensure uniqueness when testers are 
   # running this simultaneously on different machines
   Td_email = "tdoe@example.com_#{Socket.gethostname}"
-  Td_user_info = User_info.clone 
+  Td_user_info = User_info.clone
   Td_user_info[:first] = "Tom"
-  Td_user_info[:email] = Td_email 
+  Td_user_info[:email] = Td_email
 
   Ldap_generated_keys = [:created, :updated]
   All_keys = [:first, :last, :email, :password, :vendor, :emailtoken,
-    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg, :cn, :emailAddress, :resetKey]
+              :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg, :cn, :emailAddress, :resetKey]
 
   Email1 = "dog_cat_hamster_platypus_elephant"
   Email2 = "mouse_snake_lion_cat_horse"
@@ -66,7 +66,7 @@ class TestLdap < Test::Unit::TestCase
 
   def setup
     @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    @password_policy = false 
+    @password_policy = false
 
     #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=DevTest,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
     #@password_policy = true 
@@ -86,11 +86,11 @@ class TestLdap < Test::Unit::TestCase
     all_testusers = @ldap.search_users "*#{Socket.gethostname}*"
     all_testusers.each do |u|
       @ldap.delete_user u[:email]
-    end    
+    end
   end
 
   def assert_equal_user_info(expected, actual)
-    All_keys.each do |x| 
+    All_keys.each do |x|
       if (x.to_s.downcase != "password") && (x.to_s.downcase != "cn")
         assert_equal expected[x], actual[x]
       end
@@ -124,14 +124,14 @@ class TestLdap < Test::Unit::TestCase
     @ldap.add_user_group(Td_email, "testgroup")
     @ldap.add_user_group(Jd_email, "abcgroup")
     @ldap.add_user_group(Td_email, "abcgroup")
-    
+
     jd_user_groups = @ldap.get_user_groups(Jd_email)
     assert jd_user_groups.include?("testgroup")
     assert jd_user_groups.include?("abcgroup")
 
     @ldap.get_user_groups(Jd_email).each do |group_id|
       @ldap.remove_user_group(Jd_email, group_id)
-    end 
+    end
 
     @ldap.get_user_groups(Td_email).each do |group_id|
       @ldap.remove_user_group(Td_email, group_id)
@@ -140,37 +140,37 @@ class TestLdap < Test::Unit::TestCase
     @ldap.delete_user(Td_user_info[:email])
     @ldap.delete_user(User_info[:email])
   end
-  
+
   def test_update_user_info
     result = @ldap.create_user(User_info)
     found_user = @ldap.read_user(User_info[:email])
     assert_equal_user_info(User_info, found_user)
     #update the fields except for email, which uniquely id a user
     to_update = {
-      :first      => "#{found_user[:first]}UpdateTest",
-      :last       => "#{found_user[:last]}UpdateTest", 
-      :email      => found_user[:email],
-      :vendor     => "#{found_user[:vendor]}UpdateTest",
-      :emailtoken => "#{found_user[:emailtoken]}UpdateTest",
-      :status     => "#{found_user[:status]}UpdateTest",
-      :homedir    => "#{found_user[:homedir]}/updateTest",
-      :uidnumber  => "#{found_user[:uidnumber]}890",
-      :gidnumber  => "#{found_user[:gidnumber]}890",
-      :tenant     => "#{found_user[:tenant]}890",
-      :edorg      => "#{found_user[:edorg]}890"
+        :first      => "#{found_user[:first]}UpdateTest",
+        :last       => "#{found_user[:last]}UpdateTest",
+        :email      => found_user[:email],
+        :vendor     => "#{found_user[:vendor]}UpdateTest",
+        :emailtoken => "#{found_user[:emailtoken]}UpdateTest",
+        :status     => "#{found_user[:status]}UpdateTest",
+        :homedir    => "#{found_user[:homedir]}/updateTest",
+        :uidnumber  => "#{found_user[:uidnumber]}890",
+        :gidnumber  => "#{found_user[:gidnumber]}890",
+        :tenant     => "#{found_user[:tenant]}890",
+        :edorg      => "#{found_user[:edorg]}890"
     }
     @ldap.update_user_info(to_update)
     updated_found_user = @ldap.read_user(User_info[:email])
-    
+
     allow_updating = [
-      :first,
-      :last,
-      :password, 
-      :vendor,
-      :emailtoken,
-      :homedir,
-      :tenant, 
-      :edorg
+        :first,
+        :last,
+        :password,
+        :vendor,
+        :emailtoken,
+        :homedir,
+        :tenant,
+        :edorg
     ]
 
     to_update.keys.each do |key|
@@ -189,38 +189,37 @@ class TestLdap < Test::Unit::TestCase
     new_user_info
   end
 
-  # TODO: enable this test when 
   def test_search_users
     @ldap.create_user(build_user_info Email1)
     @ldap.create_user(build_user_info Email2)
     @ldap.create_user(build_user_info Email3)
     @ldap.create_user(build_user_info Email4)
     @ldap.create_user(build_user_info Email5)
-    
+
     search_result = @ldap.search_users "*cat*"
     assert_equal 3, search_result.size
-    
+
     search_result = @ldap.search_users "*cow*"
     assert_equal 2, search_result.size
-    
+
     search_result = @ldap.search_users "*pig*"
     assert_equal 1, search_result.size
-    
+
     search_result = @ldap.search_users "*blah blah blah*"
     assert_equal 0, search_result.size
   end
 
   def test_minimal_arguments
-    @ldap.delete_user(Jd_email)    
+    @ldap.delete_user(Jd_email)
     test_user_info = {
-      :first      => "John",
-      :last       => "Doe", 
-      :email      => Jd_email,
-      :password   => "secret",
-      :emailtoken => "abc",
-      :homedir    => "-", 
-      :status     => "submitted",
-      :emailAddress => Jd_email
+        :first      => "John",
+        :last       => "Doe",
+        :email      => Jd_email,
+        :password   => "secret",
+        :emailtoken => "abc",
+        :homedir    => "-",
+        :status     => "submitted",
+        :emailAddress => Jd_email
     }
     @ldap.create_user(test_user_info)
 
@@ -230,29 +229,29 @@ class TestLdap < Test::Unit::TestCase
     @ldap.delete_user(test_user_info[:email])
   end
 
-  def test_packed_fields 
-    @ldap.delete_user(Jd_email)    
+  def test_packed_fields
+    @ldap.delete_user(Jd_email)
     test_user_info = {
-      :first      => "John",
-      :last       => "Doe", 
-      :email      => Jd_email,
-      :password   => "secret",
-      :emailtoken => "abc",
-      :homedir    => "-", 
-      :status     => "submitted",
-      :emailAddress => Jd_email
+        :first      => "John",
+        :last       => "Doe",
+        :email      => Jd_email,
+        :password   => "secret",
+        :emailtoken => "abc",
+        :homedir    => "-",
+        :status     => "submitted",
+        :emailAddress => Jd_email
     }
 
     @ldap.create_user(test_user_info)
     ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
     desc = ldap_raw[0]
-    assert !!desc 
+    assert !!desc
     desc = desc[:description][0]
     assert !desc || (desc.strip == "")
 
     tu_update = {
-      :email => test_user_info[:email],
-      :tenant => "testtenant"
+        :email => test_user_info[:email],
+        :tenant => "testtenant"
     }
     @ldap.update_user_info(tu_update)
 
@@ -262,8 +261,8 @@ class TestLdap < Test::Unit::TestCase
     assert desc.strip == "tenant=testtenant"
 
     tu_update = {
-      :email => test_user_info[:email],
-      :edorg => "testedorg"
+        :email => test_user_info[:email],
+        :edorg => "testedorg"
     }
     @ldap.update_user_info(tu_update)
     ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
@@ -271,32 +270,32 @@ class TestLdap < Test::Unit::TestCase
     desc = ldap_raw[0][:description][0]
     assert desc.strip == "tenant=testtenant\nedOrg=testedorg"
 
-    @ldap.delete_user(test_user_info[:email])    
-  end 
+    @ldap.delete_user(test_user_info[:email])
+  end
 
 
   def test_abitrary_uid
     # simulate to create a user by hand in ldap 
     uid = "jdoeadmin"
-    @ldap.delete_user(uid)    
+    @ldap.delete_user(uid)
 
     cn = "Jon Doo"
     ldap_conf = @ldap.get_ldap_config
     dn = "cn=#{cn},#{ldap_conf[:base]}"
     attributes =  {
-      :cn                   => cn,
-      :objectclass          => ["inetOrgPerson", "posixAccount", "top"],
-      :givenname            => "Jon",
-      :sn                   => "Doo",
-      :uid                  => uid,
-      :userPassword         => "secret",
-      :o                    => "none",
-      :displayName          => "abc",
-      :destinationIndicator => "submitted",
-      :homeDirectory        => "-",
-      :uidNumber            => "500", 
-      :gidNumber            => "500", 
-      :description          => "tenant = IL\r\n\r\nedOrg=IL-DAYBREAK\r\n\r\n"
+        :cn                   => cn,
+        :objectclass          => ["inetOrgPerson", "posixAccount", "top"],
+        :givenname            => "Jon",
+        :sn                   => "Doo",
+        :uid                  => uid,
+        :userPassword         => "secret",
+        :o                    => "none",
+        :displayName          => "abc",
+        :destinationIndicator => "submitted",
+        :homeDirectory        => "-",
+        :uidNumber            => "500",
+        :gidNumber            => "500",
+        :description          => "tenant = IL\r\n\r\nedOrg=IL-DAYBREAK\r\n\r\n"
     }
 
 
@@ -313,10 +312,10 @@ class TestLdap < Test::Unit::TestCase
     assert found[:edorg] == "IL-DAYBREAK"
 
     test_user_info = {
-      :email      => uid,
-      :homedir    => "/home/example",
-      :tenant     => "IL-NEW",
-      :edorg      => found[:edorg]
+        :email      => uid,
+        :homedir    => "/home/example",
+        :tenant     => "IL-NEW",
+        :edorg      => found[:edorg]
     }
 
     @ldap.update_user_info(test_user_info)
@@ -330,20 +329,20 @@ class TestLdap < Test::Unit::TestCase
     assert @ldap.authenticate(uid, "secret")
 
     @ldap.delete_user(uid)
-  end 
+  end
 
   def test_email_with_plus
     plus_email = "jdoe+test1@example.com"
     @ldap.delete_user(plus_email)
     test_user_info = {
-      :first      => "Jon",
-      :last       => "Do", 
-      :email      => plus_email,
-      :password   => "mysecret",
-      :emailtoken => "xyz",
-      :homedir    => "-", 
-      :status     => "submitted",
-      :emailAddress => plus_email
+        :first      => "Jon",
+        :last       => "Do",
+        :email      => plus_email,
+        :password   => "mysecret",
+        :emailtoken => "xyz",
+        :homedir    => "-",
+        :status     => "submitted",
+        :emailAddress => plus_email
     }
     @ldap.create_user(test_user_info)
 
@@ -356,16 +355,16 @@ class TestLdap < Test::Unit::TestCase
 
   def test_invalidpassword
     # create a user 
-    @ldap.delete_user(Jd_email)    
+    @ldap.delete_user(Jd_email)
     test_user_info = {
-      :first      => "John",
-      :last       => "Doe", 
-      :email      => Jd_email,
-      :password   => "b",
-      :emailtoken => "abc",
-      :homedir    => "-", 
-      :status     => "submitted",
-      :emailAddress => Jd_email
+        :first      => "John",
+        :last       => "Doe",
+        :email      => Jd_email,
+        :password   => "b",
+        :emailtoken => "abc",
+        :homedir    => "-",
+        :status     => "submitted",
+        :emailAddress => Jd_email
     }
 
     if @password_policy
@@ -374,38 +373,38 @@ class TestLdap < Test::Unit::TestCase
       end
     end
 
-    assert_nothing_raised InvalidPasswordException do 
+    assert_nothing_raised InvalidPasswordException do
       test_user_info[:password] = "secret"
       @ldap.create_user(test_user_info)
-    end 
+    end
 
     if @password_policy
-      assert_raise InvalidPasswordException do 
+      assert_raise InvalidPasswordException do
         test_user_info[:password] = "a"
         @ldap.update_user_info(test_user_info)
-      end 
-    end 
+      end
+    end
 
-    assert_nothing_raised InvalidPasswordException do 
+    assert_nothing_raised InvalidPasswordException do
       test_user_info[:password] = "anothersecret"
       @ldap.update_user_info(test_user_info)
     end
 
     @ldap.delete_user(test_user_info[:email])
-  end 
+  end
 
   def test_authenticate
     # create a user 
-    @ldap.delete_user(Jd_email)    
+    @ldap.delete_user(Jd_email)
     test_user_info = {
-      :first      => "John",
-      :last       => "Doe", 
-      :email      => Jd_email,
-      :password   => "secret",
-      :emailtoken => "abc",
-      :homedir    => "-", 
-      :status     => "submitted",
-      :emailAddress => Jd_email
+        :first      => "John",
+        :last       => "Doe",
+        :email      => Jd_email,
+        :password   => "secret",
+        :emailtoken => "abc",
+        :homedir    => "-",
+        :status     => "submitted",
+        :emailAddress => Jd_email
     }
     @ldap.create_user(test_user_info)
 
@@ -417,11 +416,11 @@ class TestLdap < Test::Unit::TestCase
     assert !(@ldap.authenticate("xyz" + Jd_email, "secret"))
 
     #@ldap.delete_user(test_user_info[:email])
-  end 
+  end
 
   def test_user_count
     assert_nothing_raised { @ldap.read_users().length }
-  end 
+  end
 
 end
 

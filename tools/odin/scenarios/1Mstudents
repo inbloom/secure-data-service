@@ -1,0 +1,9 @@
+studentCount: 1000000
+
+# Example of other configuration 
+numSEA: 1
+numLEA: 1
+studentsPerSchool: 1000
+numPrograms: 4
+numCourses: 50
+numYears: 1

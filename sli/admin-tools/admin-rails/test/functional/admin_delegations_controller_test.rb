@@ -21,25 +21,25 @@ require 'test_helper'
 
 class AdminDelegationsControllerTest < ActionController::TestCase
 
-    #setup do
-    #  @admin_delegation = admin_delegations(:one)
-    #end
+  setup do
+    @admin_delegation = @admin_delegations_fixtures['one']
+    session[:roles] = ['LEA Administrator']
+    session[:edOrgId] = 'ID1'
+  end
 
 
-  #test "should get index" do
-  #  get :index
-  #  assert_response :success
-  #  assert_not_nil assigns(:admin_delegations)
-  #end
+  # test "should get index" do
+  #   get :index
+  #   assert_response :success
+  #   assert_not_nil assigns(:admin_delegations)
+  # end
 
 
-  #test "should create admin_delegation" do
-  #  assert_difference('AdminDelegation.count') do
-  #    post :create, admin_delegation: @admin_delegation.attributes
-  #  end
-  #
-  #  assert_redirected_to admin_delegation_path(assigns(:admin_delegation))
-  #end
+  test "should create admin_delegation" do
+    post :create, admin_delegation: @admin_delegation
+    assert !flash[:notice].nil?
+    assert_redirected_to admin_delegations_path
+  end
 
 
   #test "should update admin_delegation" do

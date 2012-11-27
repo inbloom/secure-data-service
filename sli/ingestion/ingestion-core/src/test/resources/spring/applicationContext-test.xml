@@ -94,11 +94,6 @@
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
-  <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
-    <property name="singleLandingZoneDir" value="${landingzone.inbounddir}" />
-    <property name="multipleLandingZonesEnabled" value="${sli.ingestion.tenant.deriveTenants}" />
-  </bean>
-
   <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" />
 
   <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">

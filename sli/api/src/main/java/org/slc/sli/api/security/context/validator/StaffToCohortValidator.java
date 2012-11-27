@@ -28,6 +28,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves which cohorts any given staff member can access.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class StaffToCohortValidator extends AbstractContextValidator {
     
@@ -42,13 +48,21 @@ public class StaffToCohortValidator extends AbstractContextValidator {
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        return validateWithStudentAccess(entityType, ids, false);
+    }
+    
+    public boolean validateWithStudentAccess(String entityType, Set<String> ids, boolean byStudentRecordAccess) {
+        NeutralCriteria studentCriteria = new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
+                NeutralCriteria.OPERATOR_EQUAL, true);
+
         boolean match = false;
         Set<String> myCohortIds = new HashSet<String>();
         // Get the one's I'm associated to.
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
-                NeutralCriteria.OPERATOR_EQUAL, true));
+        if (byStudentRecordAccess) {
+            basicQuery.addCriteria(studentCriteria);
+        }
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             Map<String, Object> body = sca.getBody();
@@ -63,12 +77,12 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", NeutralCriteria.CRITERIA_IN,
                 getStaffEdOrgLineage()));
         Iterable<Entity> cohorts = getRepo().findAll(EntityNames.COHORT, basicQuery);
-        for(Entity cohort : cohorts) {
+        for (Entity cohort : cohorts) {
             myCohortIds.add(cohort.getEntityId());
         }
 
-        for(String id : ids) {
-            if(!myCohortIds.contains(id)) {
+        for (String id : ids) {
+            if (!myCohortIds.contains(id)) {
                 return false;
             } else {
                 match = true;
@@ -76,5 +90,5 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         }
         return match;
     }
-    
+
 }

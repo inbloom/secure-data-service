@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a staff member to see the requested set of non-transitive public
@@ -30,11 +29,11 @@ import org.springframework.stereotype.Component;
  *
  * @author mabernathy
  */
-@Component
+//@Component - Disable teacher validators for now
 public class TeacherToNonTransitivePublicEntityValidator extends AbstractContextValidator {
 
-	private List<String> entities = Arrays.asList(EntityNames.SCHOOL,EntityNames.EDUCATION_ORGANIZATION);
-	
+    private List<String> entities = Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION);
+
     @Override
     public boolean canValidate(String entityType, boolean through) {
         return entities.contains(entityType) && "teacher".equals(SecurityUtil.getSLIPrincipal().getEntity().getType());

@@ -17,19 +17,21 @@
 
 package org.slc.sli.modeling.xdm;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 
+/**
+ * JUnit test for DmElement class.
+ */
 public final class DmElementTest {
 
-	@Test
+    @Test
     public void testConstruction() {
         final QName name = new QName("");
         final List<DmNode> nodes = new ArrayList<DmNode>();
@@ -38,7 +40,7 @@ public final class DmElementTest {
         assertEquals(nodes, element.getChildAxis());
     }
 
-	@Test
+    @Test
     public void testConstructionNameOnly() {
         final QName name = new QName("");
         final List<DmNode> nodes = new ArrayList<DmNode>();
@@ -56,18 +58,18 @@ public final class DmElementTest {
         new DmElement(new QName(""), new ArrayList<DmComment>());
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructionNullName() {
-    	new DmElement(null, new ArrayList<DmNode>());
+        new DmElement(null, new ArrayList<DmNode>());
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructionNullNodes() {
-    	new DmElement(new QName(""), null);
+        new DmElement(new QName(""), null);
     }
-    
-    @Test (expected = UnsupportedOperationException.class) 
+
+    @Test(expected = UnsupportedOperationException.class)
     public void testGetStringValue() {
-    	new DmElement(new QName(""), new ArrayList<DmElement>()).getStringValue();
+        new DmElement(new QName(""), new ArrayList<DmElement>()).getStringValue();
     }
 }

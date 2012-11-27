@@ -1,16 +1,28 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.context.validator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +45,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-
+/**
+ * Tests the staff to student competency objective validator.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -41,8 +59,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @Component
 public class StaffToStudentCompetencyObjectiveValidatorTest {
     
-	private static final String STAFF_ID = "1";
-	
+    private static final String STAFF_ID = "1";
+
     @Autowired
     private StaffToStudentCompetencyObjectiveValidator validator;
 
@@ -104,119 +122,119 @@ public class StaffToStudentCompetencyObjectiveValidatorTest {
         assertFalse(validator.canValidate(EntityNames.STAFF_COHORT_ASSOCIATION, false));
         assertFalse(validator.canValidate(EntityNames.STAFF_PROGRAM_ASSOCIATION, true));
         assertFalse(validator.canValidate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, false));
-        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, true));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT_PARENT_ASSOCIATION, false));
     }
     
     @Test
     public void testSingleScobjGoodValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String scObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> scObjIds = new HashSet<String>();
-    	scObjIds.add(scObjId);
-    	assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String scObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
+        
+        // Test Validate
+        Set<String> scObjIds = new HashSet<String>();
+        scObjIds.add(scObjId);
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
     }
-
+    
     @Test
     public void testExpiredStaffSchoolValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, true);
-    	String scObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> scObjIds = new HashSet<String>();
-    	scObjIds.add(scObjId);
-    	assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, true);
+        String scObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
+        
+        // Test Validate
+        Set<String> scObjIds = new HashSet<String>();
+        scObjIds.add(scObjId);
+        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
     }
-
+    
     @Test
     public void testSeperateStaffSchoolValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
-    	String scObjId = helper.generateStudentCompetencyObjective(bSchoolId).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> scObjIds = new HashSet<String>();
-    	scObjIds.add(scObjId);
-    	assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
+        String scObjId = helper.generateStudentCompetencyObjective(bSchoolId).getEntityId();
+        
+        // Test Validate
+        Set<String> scObjIds = new HashSet<String>();
+        scObjIds.add(scObjId);
+        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
     }
-
+    
     @Test
     public void testScobjInheritanceValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String scObjId = helper.generateStudentCompetencyObjective(seaId).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> scObjIds = new HashSet<String>();
-    	scObjIds.add(scObjId);
-    	assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));    	
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String scObjId = helper.generateStudentCompetencyObjective(seaId).getEntityId();
+        
+        // Test Validate
+        Set<String> scObjIds = new HashSet<String>();
+        scObjIds.add(scObjId);
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
     }
-
+    
     @Test
     public void testScobjUnderneathValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, seaId, false);
-    	String scObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> scObjIds = new HashSet<String>();
-    	scObjIds.add(scObjId);
-    	assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));    	
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, seaId, false);
+        String scObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
+        
+        // Test Validate
+        Set<String> scObjIds = new HashSet<String>();
+        scObjIds.add(scObjId);
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
     }
-
+    
     @Test
     public void testMultipleScobjGoodValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, schoolId, false);
-    	String aScObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
-    	String bScObjId = helper.generateStudentCompetencyObjective(leaId).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> scObjIds = new HashSet<String>();
-    	scObjIds.add(aScObjId);
-    	scObjIds.add(bScObjId);
-    	assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));    	
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, schoolId, false);
+        String aScObjId = helper.generateStudentCompetencyObjective(schoolId).getEntityId();
+        String bScObjId = helper.generateStudentCompetencyObjective(leaId).getEntityId();
+        
+        // Test Validate
+        Set<String> scObjIds = new HashSet<String>();
+        scObjIds.add(aScObjId);
+        scObjIds.add(bScObjId);
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
     }
-
+    
     @Test
     public void testMultipleScobjMixedValidation() {
-    	//Data setup
-    	String seaId = helper.generateEdorgWithParent(null).getEntityId();
-    	String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-    	String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-    	helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
-    	String aScObjId = helper.generateStudentCompetencyObjective(aSchoolId).getEntityId();
-    	String bScObjId = helper.generateStudentCompetencyObjective(bSchoolId).getEntityId();
-    	
-    	//Test Validate
-    	Set<String> scObjIds = new HashSet<String>();
-    	scObjIds.add(aScObjId);
-    	scObjIds.add(bScObjId);
-    	assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
+        // Data setup
+        String seaId = helper.generateEdorgWithParent(null).getEntityId();
+        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
+        String aSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        String bSchoolId = helper.generateEdorgWithParent(leaId).getEntityId();
+        helper.generateStaffEdorg(STAFF_ID, aSchoolId, false);
+        String aScObjId = helper.generateStudentCompetencyObjective(aSchoolId).getEntityId();
+        String bScObjId = helper.generateStudentCompetencyObjective(bSchoolId).getEntityId();
+        
+        // Test Validate
+        Set<String> scObjIds = new HashSet<String>();
+        scObjIds.add(aScObjId);
+        scObjIds.add(bScObjId);
+        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObjIds));
     }
     
 }

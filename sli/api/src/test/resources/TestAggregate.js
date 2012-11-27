@@ -20,7 +20,7 @@
 db.aggregation.drop();
 
 //all of these strings should come from the aggregationdefinition table
-var inputCollectionName = "studentAssessmentAssociation";
+var inputCollectionName = "studentAssessment";
 var mapFunction = db.system.js.findOne({"_id":"mapDistrictPerf1to4"}).value;
 var reduceFunction = db.system.js.findOne({"_id":"reducePerf1to4"}).value;
 var finalizeFunction = db.system.js.findOne({"_id":"finalizePerf1to4"}).value;

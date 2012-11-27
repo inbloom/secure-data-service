@@ -22,17 +22,61 @@
 		<Objective>Similarity, Right Triangle, and Trigonometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="G-SRT-1"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-2"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-3"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-4"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-5"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-6"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-7"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-8"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-9"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-10"></LearningStandardReference>
-		<LearningStandardReference ref="G-SRT-11"></LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.1</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.2</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.3</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.4</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.5</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.6</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.7</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.8</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.9</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.10</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-SRT.11</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
 	</LearningObjective>
 		
 	<LearningStandard id="G-SRT-1">

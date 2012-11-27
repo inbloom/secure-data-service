@@ -60,13 +60,13 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
             final List<String> interfaces, final File wadlFile, final JavaStreamWriter jsw) {
         super(jsw, wadlFile);
         if (packageName == null) {
-            throw new NullPointerException("packageName");
+            throw new IllegalArgumentException("packageName");
         }
         if (className == null) {
-            throw new NullPointerException("className");
+            throw new IllegalArgumentException("className");
         }
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         this.packageName = packageName;
         this.className = className;
@@ -95,41 +95,41 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
                 schemas.add(XsdReader.readSchema(schemaFile, new SdkGenResolver()));
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
     private void writeCanonicalInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
-        final JavaParam PARAM_CLIENT = new JavaParam("client", JT_LEVEL_ONE_CLIENT, true);
+        final JavaParam paramBaseUri = new JavaParam("baseUri", JavaType.JT_STRING, true);
+        final JavaParam paramClient = new JavaParam("client", JT_LEVEL_ONE_CLIENT, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
-            jsw.writeParams(PARAM_BASE_URI, PARAM_CLIENT);
+            jsw.writeParams(paramBaseUri, paramClient);
             jsw.parenR();
             jsw.beginBlock();
-            jsw.beginStmt().write("this.").write(FIELD_BASE_URI.getName()).write("=").write(PARAM_BASE_URI.getName())
+            jsw.beginStmt().write("this.").write(FIELD_BASE_URI.getName()).write("=").write(paramBaseUri.getName())
                     .endStmt();
-            jsw.beginStmt().write("this.").write(FIELD_CLIENT.getName()).write("=").write(PARAM_CLIENT.getName())
+            jsw.beginStmt().write("this.").write(FIELD_CLIENT.getName()).write("=").write(paramClient.getName())
                     .endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
     private void writeConvenienceInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
+        final JavaParam paramBaseUri = new JavaParam("baseUri", JavaType.JT_STRING, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
-            jsw.writeParams(PARAM_BASE_URI);
+            jsw.writeParams(paramBaseUri);
             jsw.parenR();
             jsw.beginBlock();
-            jsw.beginStmt().write("this(" + PARAM_BASE_URI.getName() + ", new JsonLevel1Client())").endStmt();
+            jsw.beginStmt().write("this(" + paramBaseUri.getName() + ", new JsonLevel1Client())").endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
@@ -325,6 +325,7 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
     @Override
     public void beginResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
+        //No Op
     }
 
     @Override
@@ -332,13 +333,14 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
         try {
             jsw.endClass();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
     @Override
     public void endResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
+        //No Op
     }
 
     /**
@@ -444,9 +446,7 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
         final StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (final String step : steps) {
-            if (WadlHelper.isVersion(step)) {
-                // Ignore
-            } else {
+            if (!WadlHelper.isVersion(step)) {
                 if (first) {
                     first = false;
                 } else {

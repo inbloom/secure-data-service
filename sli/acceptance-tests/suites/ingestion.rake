@@ -1,6 +1,11 @@
 ############################################################
 # Ingestion tests start
 ############################################################
+desc "Run Concurrent Tenant Ingestion Test"
+task :ingestionConcurrentTenantTest do
+  runTests("test/features/ingestion/features/ingestion_concurrentTenant.feature")
+end
+
 desc "Run Common Core Standards Tests"
 task :ingestionCommonCoreTest do
   runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
@@ -232,6 +237,16 @@ end
 desc "Ingestion Db Spinup Test"
 task :ingestionDbSpinupTest do
   runTests("test/features/ingestion/features/ingestion_db_spinup.feature")
+end
+
+desc "UniqueSectionCode Length Test"
+task :ingestionUniqueSectionCodeTest do
+  runTests("test/features/ingestion/features/ingestion_uniqueSectionCode.feature")
+end
+
+desc "Revert Data Test"
+task :ingestionRevertDataTest do
+  runTests("test/features/ingestion/features/ingestion_revert.feature")
 end
 
 ############################################################

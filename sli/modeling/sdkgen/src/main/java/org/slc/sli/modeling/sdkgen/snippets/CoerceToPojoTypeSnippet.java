@@ -24,6 +24,9 @@ import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 
+/**
+ * Convert JSON to JavaType
+ */
 public final class CoerceToPojoTypeSnippet implements JavaSnippet {
 
     private static final JavaType MAP_STRING_TO_OBJECT = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);
@@ -68,7 +71,7 @@ public final class CoerceToPojoTypeSnippet implements JavaSnippet {
     }
 
     private boolean isList(JavaType type) {
-        return type.getCollectionKind().equals(JavaCollectionKind.LIST) ||
-                type.getCollectionKind().equals(JavaCollectionKind.ARRAY_LIST);
+        return type.getCollectionKind().equals(JavaCollectionKind.LIST)
+                || type.getCollectionKind().equals(JavaCollectionKind.ARRAY_LIST);
     }
 }

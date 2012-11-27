@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java reserved words.
+ */
 public enum Word implements JavaSnippet {
 
     /**
@@ -40,7 +43,7 @@ public enum Word implements JavaSnippet {
 
     Word(final String word) {
         if (word == null) {
-            throw new NullPointerException("word");
+            throw new IllegalArgumentException("word");
         }
         this.word = word;
     }

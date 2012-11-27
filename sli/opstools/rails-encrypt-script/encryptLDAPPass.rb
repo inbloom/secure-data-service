@@ -16,23 +16,8 @@ limitations under the License.
 
 =end
 
-require 'openssl'
 
-def generateKey  
-	aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
-    aes.encrypt
-    
-    #retrieve key and iv
-    key_file = File.open(@keyFilePath, "rb")
-    aes.key = key_file.readline
-    aes.iv = key_file.readline
-    
-    encryptedLDAPPassBin = aes.update(@ldap_pass) + aes.final
-    encryptedLDAPPassHex = encryptedLDAPPassBin.unpack("H*")[0]
-    
-    puts "ldap_pass: " + encryptedLDAPPassHex
-
-end
+require_relative './encryptor.rb'
 
 if ARGV.count < 2
   puts "Usage: encryptLDAPPass <keyfile> <ldap_pass>"
@@ -41,7 +26,7 @@ if ARGV.count < 2
   puts "Use the specified key file to ecrypt given LDAP password, outputting the relavent properties"
   exit
 else
-  @keyFilePath = ARGV[0]
-  @ldap_pass = ARGV[1]
-  generateKey()
+  keyFilePath = ARGV[0]
+  ldap_pass = ARGV[1]
+  encrypt(keyFilePath, ldap_pass, "ldap_pass")
 end

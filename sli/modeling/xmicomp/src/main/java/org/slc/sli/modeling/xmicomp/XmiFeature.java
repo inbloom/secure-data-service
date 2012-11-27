@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * A feature in an XMI document.
+ */
 public final class XmiFeature {
     private final String name;
     private final boolean exists;
@@ -24,10 +27,10 @@ public final class XmiFeature {
     
     public XmiFeature(final String name, final boolean exists, final String className, final boolean classExists) {
         if (null == name) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (null == className) {
-            throw new NullPointerException("className");
+            throw new IllegalArgumentException("className");
         }
         this.name = name;
         this.exists = exists;

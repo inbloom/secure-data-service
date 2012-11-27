@@ -44,6 +44,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+/**
+ * Tests the staff to staff program association validator.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -149,8 +156,8 @@ public class StaffToStaffProgramAssociationValidatorTest {
     public void testCanNotValidateOutsideOfEdorg() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
-        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
-        Entity school2 = helper.generateEdorgWithParent(null);
+        helper.generateEdorgWithParent(lea.getEntityId());
+        helper.generateEdorgWithParent(null);
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         // Get the ones above that I'm associated to.
         Entity sca = helper.generateStaffProgram("MOOP", helper.generateProgram().getEntityId(),
@@ -163,7 +170,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
     public void testCanNotValidateAtStateLevel() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
-        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        helper.generateEdorgWithParent(lea.getEntityId());
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         // Get the ones above that I'm associated to.
         Entity sca = helper.generateStaffProgram("MOOP", helper.generateProgram().getEntityId(),

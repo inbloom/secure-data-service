@@ -56,10 +56,10 @@ public class Method extends WadlElement {
             final List<Response> responses) {
         super(doc);
         if (null == verb) {
-            throw new NullPointerException("verb");
+            throw new IllegalArgumentException("verb");
         }
         if (null == responses) {
-            throw new NullPointerException("responses");
+            throw new IllegalArgumentException("responses");
         }
         this.id = id;
         this.verb = checkVerb(verb);
@@ -69,7 +69,7 @@ public class Method extends WadlElement {
 
     private static final String checkVerb(final String verb) {
         if (verb == null) {
-            throw new NullPointerException("verb");
+            throw new IllegalArgumentException("verb");
         }
         if (NAME_HTTP_POST.equals(verb)) {
             return verb;

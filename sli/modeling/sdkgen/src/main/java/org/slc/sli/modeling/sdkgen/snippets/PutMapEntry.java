@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Add an entry to a map
+ */
 public final class PutMapEntry implements JavaSnippet {
 
     private final String name;
@@ -28,10 +31,10 @@ public final class PutMapEntry implements JavaSnippet {
 
     public PutMapEntry(final String name, final JavaSnippet value) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.name = name;
         this.value = value;

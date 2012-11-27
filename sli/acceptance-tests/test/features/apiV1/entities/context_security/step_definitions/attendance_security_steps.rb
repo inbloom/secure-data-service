@@ -19,6 +19,7 @@ limitations under the License.
 
 require 'json'
 require_relative '../../../../utils/sli_utils.rb'
+require_relative '../../../utils/api_utils.rb'
 
 Transform /the specific attendance document "([^"]*)"/ do |arg1|
   id = "530f0704-c240-4ed9-0a64-55c0308f91ee" if arg1 == "Marvin Miller Attendance events"

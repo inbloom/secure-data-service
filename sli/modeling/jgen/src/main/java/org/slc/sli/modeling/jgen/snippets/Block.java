@@ -23,13 +23,16 @@ import java.util.List;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Models a Java block.
+ */
 public final class Block implements JavaSnippet {
 
     private final List<JavaSnippet> stmts;
 
     public Block(final JavaSnippet... stmts) {
         if (stmts == null) {
-            throw new NullPointerException("stmts");
+            throw new IllegalArgumentException("stmts");
         }
         this.stmts = Arrays.asList(stmts);
     }

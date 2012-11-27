@@ -31,9 +31,14 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+/**
+ * Validates the context of a transitive teacher to see the requested set of staff entities.
+ * Returns true if the transitive teacher can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
+//@Component - Disable teacher validators for now
 public class TransitiveTeacherToStaffValidator extends AbstractContextValidator {
 
     @Autowired
@@ -70,7 +75,7 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
             schools.add((String) assoc.getBody().get("schoolId"));
         }
 
-        for (List<String> edorgs : staffEdorgMap.values() ) {
+        for (List<String> edorgs : staffEdorgMap.values()) {
             HashSet<String> tmpSchools = new HashSet<String>(schools);
             tmpSchools.retainAll(edorgs);
             if (tmpSchools.size() == 0) {

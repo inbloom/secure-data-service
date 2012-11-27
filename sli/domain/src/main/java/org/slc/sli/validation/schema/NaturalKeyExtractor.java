@@ -23,11 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -35,6 +30,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author sashton
@@ -46,13 +45,6 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
 
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
-
-    public static boolean useDeterministicIds() {
-
-        String nonDeterministicIds = System.getProperty("nonDeterministicIds");
-        return nonDeterministicIds == null;
-
-    }
 
     /*
      * (non-Javadoc)

@@ -55,12 +55,12 @@ public class MethodTest {
         new Method(ID, Method.NAME_HTTP_PUT, DOC, REQUEST, RESPONSES);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullVerb() {
         new Method(ID, null, DOC, REQUEST, RESPONSES);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullResponses() {
         new Method(ID, VERB, DOC, REQUEST, null);
     }

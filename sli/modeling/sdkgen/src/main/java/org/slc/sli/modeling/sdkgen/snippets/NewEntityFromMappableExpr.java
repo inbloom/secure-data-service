@@ -25,6 +25,9 @@ import org.slc.sli.modeling.jgen.snippets.NewInstanceExpr;
 import org.slc.sli.modeling.jgen.snippets.StringLiteralExpr;
 import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 
+/**
+ * Make a new entity.
+ */
 public final class NewEntityFromMappableExpr implements JavaSnippetExpr {
 
     private final JavaSnippetExpr rhs;
@@ -41,7 +44,7 @@ public final class NewEntityFromMappableExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write(rhs);
     }

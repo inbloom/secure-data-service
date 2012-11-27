@@ -78,12 +78,16 @@
 				<input type="hidden" name="isForgotPasswordVisible" value="${fn:escapeXml(isForgotPasswordVisible)}"/>
 				<fieldset>
 					<div class="control-group">
-						<label for="user_id" class="control-label">User Name:</label>
-						<input type="text" id="user_id" name="user_id" />
+						<label for="user_id" class="control-label">Email Address:</label>
+						<div class="controls">
+							<input type="text" id="user_id" name="user_id" />
+						</div>
 					</div>
 					<div class="control-group">
 						<label for="password" class="control-label">Password:</label>
-						<input type="password" id="password" name="password" autocomplete="off"/>
+						<div class="controls">
+							<input type="password" id="password" name="password" autocomplete="off"/>
+						</div>
 					</div>
 					<c:if test="${isForgotPasswordVisible}">
 						<div class="control-group">

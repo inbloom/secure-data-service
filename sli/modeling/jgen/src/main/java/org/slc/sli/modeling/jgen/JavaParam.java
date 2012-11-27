@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.jgen;
 
+/**
+ * Model Java method parameter.
+ */
 public class JavaParam {
 
     private final String name;
@@ -24,10 +27,10 @@ public class JavaParam {
 
     public JavaParam(final String name, final JavaType type, final boolean isFinal) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         this.name = name;
         this.type = type;

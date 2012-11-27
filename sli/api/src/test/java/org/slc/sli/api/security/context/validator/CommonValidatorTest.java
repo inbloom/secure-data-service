@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.context.validator;
 
 import java.lang.reflect.Field;
@@ -33,6 +49,12 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
+/**
+ * Tests common.
+ * 
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -51,7 +73,6 @@ public class CommonValidatorTest {
 
     @Before
     public void init() {
-        setupCurrentUser(new MongoEntity("staff", new HashMap<String, Object>()));
         validators = context.getBeansOfType(IContextValidator.class).values();
         ignored = new HashSet<String>();
         messages = new LinkedList<String>();
@@ -78,6 +99,42 @@ public class CommonValidatorTest {
 
     @Test
     public void verifyNumberOfStaffValidatorsForEachEntity() throws Exception {
+        setupCurrentUser(new MongoEntity("staff", new HashMap<String, Object>()));
+        List<String> entities = getEntityNames();
+        for (String entity : entities) {
+            // skip entities that don't require staff --> entity validation
+            if (ignored.contains(entity)) {
+                continue;
+            }
+            
+            for (Boolean isTransitive : Arrays.asList(true, false)) {
+
+                int numValidators = 0;
+                for (IContextValidator validator : validators) {
+                    if (validator.canValidate(entity, isTransitive)) {
+                        numValidators++;
+                    }
+                }
+    
+                if (numValidators != 1) {
+                    messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
+                        + numValidators + "). ");
+                }
+            }
+        }
+
+        if (messages.size() > 0) {
+            StringBuilder builder = new StringBuilder();
+            for (String message : messages) {
+                builder.append(message);
+            }
+            Assert.fail(builder.toString());
+        }
+    }
+
+    @Test
+    public void verifyNumberOfTeacherValidatorsForEachEntity() throws Exception {
+        setupCurrentUser(new MongoEntity("teacher", new HashMap<String, Object>()));
         List<String> entities = getEntityNames();
         for (String entity : entities) {
             // skip entities that don't require staff --> entity validation

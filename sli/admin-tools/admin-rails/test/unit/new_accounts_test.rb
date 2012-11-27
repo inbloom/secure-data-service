@@ -24,7 +24,7 @@ class NewAccountsTest < ActiveSupport::TestCase
 
   end
 
-  def testNewAccountRequireNewConfirmation 
+  def testNewAccountRequireNewConfirmation
     new_account = makeBasicPassword
     assert new_account.valid?
     new_account.tou_required = true

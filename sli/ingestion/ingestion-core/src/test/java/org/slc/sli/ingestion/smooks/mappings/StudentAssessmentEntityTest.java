@@ -76,7 +76,7 @@ public class StudentAssessmentEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidStudentAssessmentNeutralRecord(NeutralRecord studentAssessmentNeutralRecord) {
 
-        assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
+        assertEquals("studentAssessment", studentAssessmentNeutralRecord.getRecordType());
 
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));
@@ -120,7 +120,7 @@ public class StudentAssessmentEntityTest {
 
         try {
             String studentId = (String) PropertyUtils.getNestedProperty(studentAssessmentNeutralRecord.getAttributes(),
-                    "StudentReference.StudentIdentity.StudentUniqueStateId");
+                    "studentId.StudentIdentity.StudentUniqueStateId");
             assertEquals("Yjmyw", studentId);
         } catch (IllegalAccessException e) {
             Assert.fail(e.getLocalizedMessage());

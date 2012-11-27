@@ -39,11 +39,18 @@ class UserAccountRegistration
   def persisted?
     false
   end
-  
-private
+
+  def register
+    if @vendor.nil? or @vendor == ""
+      @vendor = "None"
+    end
+
+    ApplicationHelper.add_user(self)
+  end
+
+  private
   def is_sandbox?
     APP_CONFIG["is_sandbox"]
   end
 
-  
 end

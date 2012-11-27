@@ -25,9 +25,6 @@ import java.util.Map;
 
 import javax.xml.xpath.XPathException;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.resources.generic.config.ApiNameSpace;
 import org.slc.sli.api.resources.generic.config.ResourceEndPointTemplate;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -60,7 +57,6 @@ public class MergeDocuments {
     private static final String ATTR_VALUE = "value";
 
     private static final String NODE_ATTRIBUTE = "attribute";
-    private static final String RESOURCE_LOC = "/wadl/v1_resources.json";
 
     public MergeDocuments() {
     }
@@ -82,10 +78,8 @@ public class MergeDocuments {
             // need to do something better
             e.printStackTrace();
         } catch (DOMException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (XPathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,38 +87,10 @@ public class MergeDocuments {
     }
 
     private void addDocumentation(final Document wadlDoc) throws IOException, XPathException {
-        final String fileAsString = IOUtils.toString(super.getClass().getResourceAsStream(RESOURCE_LOC));
-        final ApiNameSpace apiNameSpace = new ObjectMapper().readValue(fileAsString, ApiNameSpace.class);
-        final Map<String, ResourceEndPointTemplate> resources = getResourceMap(apiNameSpace.getNameSpace(), apiNameSpace.getResources());
-        final NodeList topLevelResources = handler.getNodeList(wadlDoc, "//resources/resource");
-
-        for (int i = 0; i < topLevelResources.getLength(); i++) {
-            final Node node = topLevelResources.item(i);
-            final String path = node.getAttributes().getNamedItem("path").getNodeValue();
-            final ResourceEndPointTemplate resource = resources.get(path);
-            if (resource == null) {
-                System.out.println("Resource " + path + " could not be found!");
-                continue;
-            }
-            final String doc = resource.getDoc();
-            final Node docElem = wadlDoc.createElement("doc");
-            docElem.setTextContent(doc);
-            node.appendChild(docElem);
-        }
+        final ResourceDocumentation resourceDocumentation = new ResourceDocumentation(wadlDoc);
+        resourceDocumentation.addDocumentation();
     }
 
-    private Map<String, ResourceEndPointTemplate> getResourceMap(final String namespace,
-                                                                 final List<ResourceEndPointTemplate> resources) {
-        final Map<String, ResourceEndPointTemplate> resourceMap = new HashMap<String, ResourceEndPointTemplate>();
-        for (final ResourceEndPointTemplate resource : resources) {
-            resourceMap.put(namespace + resource.getPath(), resource);
-            if (resource.getSubResources() != null && resource.getSubResources().size() > 0) {
-                resourceMap.putAll(getResourceMap(namespace + resource.getPath(), resource.getSubResources()));
-            }
-        }
-
-        return resourceMap;
-    }
 
     /**
      * Starts the merge process

@@ -125,7 +125,7 @@ public class AssessmentCombinerTest {
 
         when(repository.findAllByQuery(Mockito.eq("assessment"), Mockito.any(Query.class))).thenReturn(assessments);
         when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.any(Query.class))).thenReturn(families);
-        when(repository.findAllForJob(Mockito.eq("assessmentItem"), Mockito.any(String.class), Mockito.any(NeutralQuery.class))).thenReturn(assessmentItems);
+        when(repository.findAllForJob(Mockito.eq("assessmentItem"), Mockito.any(NeutralQuery.class))).thenReturn(assessmentItems);
 
         Query q1 = new Query().limit(0);
         q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
@@ -197,7 +197,7 @@ public class AssessmentCombinerTest {
         // Performing the transformation
         transformer.perform(job);
         Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                "assessment_transformed", job.getId(), new NeutralQuery(0));
+                "assessment_transformed", new NeutralQuery(0));
         Iterator<NeutralRecord> itr = records.iterator();
         NeutralRecord record = null;
         while (itr.hasNext()) {
@@ -222,17 +222,17 @@ public class AssessmentCombinerTest {
 
         when(
                 repository.findOneForJob("objectiveAssessment", new NeutralQuery(
-                        new NeutralCriteria("id", "=", superOA)), batchJobId)).thenReturn(superObjAssessmentRef);
+                        new NeutralCriteria("id", "=", superOA)))).thenReturn(superObjAssessmentRef);
 
         when(
                 repository.findOneForJob("objectiveAssessment",
-                        new NeutralQuery(new NeutralCriteria("id", "=", subOA)), batchJobId)).thenReturn(
+                        new NeutralQuery(new NeutralCriteria("id", "=", subOA)))).thenReturn(
                 buildTestObjAssmt(subOA));
 
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
         assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(superOA));
         when(
-                repository.findAllForJob(Mockito.eq("assessment"), Mockito.eq(batchJobId),
+                repository.findAllForJob(Mockito.eq("assessment"),
                         Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(assessment));
         for (NeutralRecord neutralRecord : getTransformedEntities(combiner, job)) {
             assertEquals(Arrays.asList(superObjAssessmentActual.getAttributes()),

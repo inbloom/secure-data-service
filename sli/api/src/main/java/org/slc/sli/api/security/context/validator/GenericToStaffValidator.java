@@ -21,13 +21,21 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves which staff any generic entity can access.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class GenericToStaffValidator extends AbstractContextValidator {
     
     @Override
     //Validates both teacher to staff and staff to staff
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isTransitive && EntityNames.STAFF.equals(entityType);
+        
+        //For now we'll disable for teachers, but logic should be the same for both staff and teacher
+        return !isTransitive && EntityNames.STAFF.equals(entityType) && isStaff();
     }
     
     @Override

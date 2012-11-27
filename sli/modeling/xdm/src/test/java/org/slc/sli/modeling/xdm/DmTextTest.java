@@ -17,28 +17,31 @@
 
 package org.slc.sli.modeling.xdm;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
 
+
+/**
+ * JUnit test for DmText class.
+ */
 public final class DmTextTest {
 
-	@Test
-	public void testConstructorAndGetters() {
-		
-		String value = "foo";
-		
-		DmText dmText = new DmText(value);
-		
-		assertTrue(dmText.getName() == DmText.NO_NAME);
-		assertTrue(dmText.getChildAxis().size() == 0);
-		assertTrue(dmText.getStringValue() == value);
-	}
-	
-	@Test (expected = NullPointerException.class)
-	public void testNullValueForConstructorThrowsException() {
-		
-		new DmText(null);
-	}
+    @Test
+    public void testConstructorAndGetters() {
+
+        String value = "foo";
+
+        DmText dmText = new DmText(value);
+
+        assertTrue(dmText.getName() == DmText.NO_NAME);
+        assertTrue(dmText.getChildAxis().size() == 0);
+        assertTrue(dmText.getStringValue() == value);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullValueForConstructorThrowsException() {
+
+        new DmText(null);
+    }
 }

@@ -21,13 +21,16 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java statement.
+ */
 public final class Stmt implements JavaSnippet {
 
     private final JavaSnippet statement;
 
     public Stmt(final JavaSnippet statement) {
         if (statement == null) {
-            throw new NullPointerException("statement");
+            throw new IllegalArgumentException("statement");
         }
         this.statement = statement;
     }
@@ -35,7 +38,7 @@ public final class Stmt implements JavaSnippet {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.beginStmt();
         try {

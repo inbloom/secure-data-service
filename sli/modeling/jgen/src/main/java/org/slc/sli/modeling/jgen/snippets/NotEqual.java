@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java not equals operator.
+ */
 public final class NotEqual implements JavaSnippet {
 
     private final JavaSnippet lhsSnippet;
@@ -28,10 +31,10 @@ public final class NotEqual implements JavaSnippet {
 
     public NotEqual(final JavaSnippet lhsSnippet, final JavaSnippet rhsSnippet) {
         if (lhsSnippet == null) {
-            throw new NullPointerException("lhsSnippet");
+            throw new IllegalArgumentException("lhsSnippet");
         }
         if (rhsSnippet == null) {
-            throw new NullPointerException("rhsSnippet");
+            throw new IllegalArgumentException("rhsSnippet");
         }
         this.lhsSnippet = lhsSnippet;
         this.rhsSnippet = rhsSnippet;
