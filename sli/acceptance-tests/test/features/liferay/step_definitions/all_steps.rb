@@ -127,6 +127,11 @@ Then /^under System Tools, I see the following "(.*?)"$/ do |links|
   verifyItemsInSections(links, section, "System Tools")
 end
 
+Then /^under System Tools, I shouldn't see the following "(.*?)"$/ do |links|
+  section = @driver.find_element(:id, "column-4")
+  verifyItemsInSections(links, section, "System Tools", false)
+end
+
 Then /^under My Applications, I see the following apps: "(.*?)"$/ do |apps|
   myApps = @driver.find_element(:id, "column-4")
   verifyItemsInSections(apps, myApps, "My Applications")
@@ -165,7 +170,7 @@ def clickOnLink(linkText)
   @driver.find_element(:link, linkText).click
 end
 
-def verifyItemsInSections(expectedItems, section, sectionTitle)
+def verifyItemsInSections(expectedItems, section, sectionTitle, exist = true)
   listOfItems = expectedItems.split(';')
   title = section.find_element(:class, "portlet-title-text")
   assert(title.text == sectionTitle, "Expected: #{sectionTitle} Actual: #{title}")
@@ -178,7 +183,7 @@ def verifyItemsInSections(expectedItems, section, sectionTitle)
         break
       end
     end
-    assert(found,"#{item} was not found in My Applications")
+    assert(found == exist,"#{item} was not found under #{sectionTitle}")
   end
 end
 

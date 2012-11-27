@@ -94,6 +94,11 @@ task :rcSandboxAppApprovalTests do
   runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature")
 end
 
+desc "Run RC Sandbox DAMT Test"
+task :rcSandboxDamtTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_damt.feature")
+end
+
 desc "Run RC Sandbox Databrowser Test"
 task :rcSandboxDatabrowserTests do
   runTests("test/features/cross_app_tests/rc_integration_databrowser_sandbox.feature")
@@ -164,6 +169,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["rcSandboxAppApprovalTests"].execute
+  Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
   displayFailureReport()
   if $SUCCESS
