@@ -2410,6 +2410,51 @@ Then /^I check that ids were generated properly:$/ do |table|
   enable_NOTABLESCAN()
 end
 
+def extractField(record, fieldPath) 
+	pathArray = fieldPath.split('.')
+	result = record
+	for pathPart in pathArray
+		result = result[pathPart]
+	end
+	result
+end
+
+def getRecord(did, collectionName)
+	db = @conn[@ingestion_db_name]
+	parentCollectionName = subDocParent(collectionName)
+	
+	if parentCollectionName
+		idField =  id_param = collectionName + "._id"
+		collection = db.collection(parentCollectionName)
+		record = collection.find_one({idField => did})
+    else
+    	collection = db.collection(collectionName)
+		record = collection.find_one({"_id" => did})
+    end
+	
+	record
+end
+
+Then /^I check that references were resolved correctly:$/ do |table|
+	disable_NOTABLESCAN()
+	table.hashes.map do |row|
+		did = row['deterministicId']
+    	refField = row['referenceField']
+    	refCollectionName = row['referenceCollection']
+    	collectionName = row['entityCollection']
+	
+		entity = getRecord(did, collectionName)
+		assert(entity != nil, "Failed to find an entity with _id = #{did} in collection #{collectionName}")
+	
+		refDid = extractField(entity, refField)
+		
+		referredEntity = getRecord(refDid, refCollectionName)
+		assert(referredEntity != nil, "Referenced entity with _id = #{refDid} in collection #{refCollectionName} does not exist")
+		
+	end
+	enable_NOTABLESCAN()
+end
+
 ############################################################
 # STEPS: BEFORE
 ############################################################

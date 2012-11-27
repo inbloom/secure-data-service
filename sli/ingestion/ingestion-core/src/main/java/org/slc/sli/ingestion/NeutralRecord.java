@@ -50,57 +50,57 @@ public class NeutralRecord {
     /**
      * stores an Id value uniquely identifying the record within the data store.
      */
-    protected String recordId;
+    private String recordId;
 
     /**
      * stores an Id value correlating the record to a certain external source,
      * such as a particular LEA (or possibly a specific source system within
      * that LEA).
      */
-    protected String sourceId;
+    private String sourceId;
 
     /**
      * stores an Id value correlating the record to a particular batch or
      * processing request.
      */
-    protected String batchJobId;
+    private String batchJobId;
 
     /**
      * stores a flag whether the current record is association.
      */
-    protected boolean association;
+    private boolean association;
 
     /**
      * stores the Id value uniquely identifying this record in the scope of the
      * source system. The Id is assumed to be permanent and unique the object,
      * statewide.
      */
-    protected Object localId;
+    private Object localId;
 
     /**
      * stores a name that identifies the type of object represented by this
      * record (Student, School, etc).
      */
-    protected String recordType;
+    private String recordType;
 
     /**
      * stores a mapping that captures references to other records, in the form
      * {recordType:localId}.
      */
-    protected Map<String, Object> localParentIds;
+    private Map<String, Object> localParentIds;
 
     /**
      * stores a mapping that captures all the attributes associated with the
      * record (aside from localId and any id references).
      */
-    protected Map<String, Object> attributes;
+    private Map<String, Object> attributes;
 
     /**
      * stores the value of a hashing algorithm that can be used to quickly
      * compare two records' attributes for equality, and/or act as a surrogate
      * to the complete contents of a record.
      */
-    protected String attributesCrc;
+    private String attributesCrc;
 
     /**
      * The name of the file where this neutral record originated

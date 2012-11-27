@@ -44,7 +44,7 @@ import org.slc.sli.ingestion.util.LogUtil;
 @Component
 public class TenantPopulator implements ResourceLoaderAware {
 
-    Logger log = LoggerFactory.getLogger(TenantPopulator.class);
+    private Logger log = LoggerFactory.getLogger(TenantPopulator.class);
 
     @Autowired
     private TenantDA tenantDA;
