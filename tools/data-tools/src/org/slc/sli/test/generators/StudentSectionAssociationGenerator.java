@@ -18,27 +18,39 @@
 package org.slc.sli.test.generators;
 
 import org.slc.sli.test.edfi.entities.RepeatIdentifierType;
-import org.slc.sli.test.edfi.entities.SectionIdentityType;
-import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.StudentIdentityType;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
+import org.slc.sli.test.edfi.entities.SLCSectionIdentityType;
+import org.slc.sli.test.edfi.entities.SLCSectionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociation;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
 
 public class StudentSectionAssociationGenerator {
 
-    public static StudentSectionAssociation generateLowFi(String studentId, String schoolId, String sectionCode) {
-        StudentSectionAssociation ssa = new StudentSectionAssociation();
+    public static SLCStudentSectionAssociation generateLowFi(String studentId, String schoolId, String sectionCode) {
+        SLCStudentSectionAssociation ssa = new SLCStudentSectionAssociation();
 
-        StudentIdentityType sit = new StudentIdentityType();
+
+
+
+        SLCStudentIdentityType sit = new SLCStudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
-        StudentReferenceType srt = new StudentReferenceType();
+        SLCStudentReferenceType srt = new SLCStudentReferenceType();
         srt.setStudentIdentity(sit);
         ssa.setStudentReference(srt);
 
-        SectionIdentityType secit = new SectionIdentityType();
-        secit.setStateOrganizationId(schoolId);
+        SLCSectionIdentityType secit = new SLCSectionIdentityType();
+        SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+
+        eoit.setStateOrganizationId(schoolId);
+        eort.setEducationalOrgIdentity(eoit);
+
+        secit.setEducationalOrgReference(eort);
         secit.setUniqueSectionCode(sectionCode);
-        SectionReferenceType secrt = new SectionReferenceType();
+
+        SLCSectionReferenceType secrt = new SLCSectionReferenceType();
         secrt.setSectionIdentity(secit);
         ssa.setSectionReference(secrt);
 

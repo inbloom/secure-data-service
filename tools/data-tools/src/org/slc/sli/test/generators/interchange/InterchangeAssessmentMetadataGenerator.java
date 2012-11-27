@@ -19,22 +19,16 @@ package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import org.slc.sli.test.edfi.entities.Assessment;
+import org.slc.sli.test.edfi.entities.SLCAssessment;
 import org.slc.sli.test.edfi.entities.AssessmentFamily;
-import org.slc.sli.test.edfi.entities.AssessmentItem;
+import org.slc.sli.test.edfi.entities.SLCAssessmentItem;
 import org.slc.sli.test.edfi.entities.AssessmentPeriodDescriptor;
-import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
-import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
-import org.slc.sli.test.edfi.entities.LearningObjective;
+import org.slc.sli.test.edfi.entities.SLCLearningObjective;
 import org.slc.sli.test.edfi.entities.LearningStandard;
-import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptor;
 import org.slc.sli.test.edfi.entities.meta.AssessmentFamilyMeta;
 import org.slc.sli.test.edfi.entities.meta.AssessmentItemMeta;
@@ -78,7 +72,7 @@ public class InterchangeAssessmentMetadataGenerator {
 
         generatePerformanceLevelDescriptors(writer, AssessmentMetaRelations.PERF_LEVEL_DESC_MAP.values());
 
-        Map<String, ObjectiveAssessment> objAssessMap = generateObjectiveAssessments(writer,
+        Map<String, SLCObjectiveAssessment> objAssessMap = generateObjectiveAssessments(writer,
                 AssessmentMetaRelations.OBJECTIVE_ASSESSMENT_MAP.values());
 
         generateAssessmentPeriodDescriptors(writer, AssessmentMetaRelations.ASSESS_PERIOD_DESC_MAP.values());
@@ -113,7 +107,7 @@ public class InterchangeAssessmentMetadataGenerator {
         long startTime = System.currentTimeMillis();
 
         for (LearningObjectiveMeta learningObjectiveMeta : learningObjectiveMetas) {
-            LearningObjective learningObjective;
+            SLCLearningObjective learningObjective;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 learningObjective = null;
@@ -133,7 +127,7 @@ public class InterchangeAssessmentMetadataGenerator {
         long startTime = System.currentTimeMillis();
 
         for (AssessmentItemMeta assessmentItemMeta : assessmentItemMetas) {
-            AssessmentItem assessmentItem;
+            SLCAssessmentItem assessmentItem;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 assessmentItem = null;
@@ -176,13 +170,13 @@ public class InterchangeAssessmentMetadataGenerator {
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static Map<String, ObjectiveAssessment> generateObjectiveAssessments(
+    private static Map<String, SLCObjectiveAssessment> generateObjectiveAssessments(
     		InterchangeWriter<InterchangeAssessmentMetadata> writer, Collection<ObjectiveAssessmentMeta> objAssessMetas) {
         long startTime = System.currentTimeMillis();
 
-        Map<String, ObjectiveAssessment> objAssessMap = new HashMap<String, ObjectiveAssessment>();
+        Map<String, SLCObjectiveAssessment> objAssessMap = new HashMap<String, SLCObjectiveAssessment>();
         for (ObjectiveAssessmentMeta objAssessMeta : objAssessMetas) {
-            ObjectiveAssessment objectiveAssessment;
+            SLCObjectiveAssessment objectiveAssessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);//update by lina
@@ -245,11 +239,11 @@ public class InterchangeAssessmentMetadataGenerator {
     }
 
     private static void generateAssessments(InterchangeWriter<InterchangeAssessmentMetadata> writer,
-            Collection<AssessmentMeta> assessmentMetas, Map<String, ObjectiveAssessment> objAssessMap) {
+            Collection<AssessmentMeta> assessmentMetas, Map<String, SLCObjectiveAssessment> objAssessMap) {
         long startTime = System.currentTimeMillis();
 
         for (AssessmentMeta assessmentMeta : assessmentMetas) {
-            Assessment assessment;
+            SLCAssessment assessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 assessment = null;

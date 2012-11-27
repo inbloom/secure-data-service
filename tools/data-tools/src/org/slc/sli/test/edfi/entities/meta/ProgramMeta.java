@@ -35,7 +35,7 @@ public class ProgramMeta {
     private static int uniquer = 0;
 
     public ProgramMeta(String id, SchoolMeta schoolMeta) {
-        this.id = schoolMeta.id + MetaRelations.ID_DELIMITER + id + MetaRelations.ID_DELIMITER + uniquer++;
+        this.id = id + MetaRelations.ID_DELIMITER + uniquer++;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
@@ -47,7 +47,7 @@ public class ProgramMeta {
     
     
     public ProgramMeta(String id, SeaMeta seaMeta) {
-        this.id = seaMeta.id + MetaRelations.ID_DELIMITER + id + MetaRelations.ID_DELIMITER + uniquer++;
+        this.id = id + MetaRelations.ID_DELIMITER + uniquer++;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
@@ -58,7 +58,7 @@ public class ProgramMeta {
     }
     
     public ProgramMeta(String id, LeaMeta leaMeta) {
-        this.id = leaMeta.id + MetaRelations.ID_DELIMITER + id + MetaRelations.ID_DELIMITER + uniquer++;
+        this.id = id + MetaRelations.ID_DELIMITER + uniquer++;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();

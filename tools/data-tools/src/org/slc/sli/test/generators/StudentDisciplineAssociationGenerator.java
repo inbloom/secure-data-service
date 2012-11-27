@@ -23,19 +23,19 @@ import java.util.Random;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import org.slc.sli.test.edfi.entities.DisciplineIncident;
-import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncident;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncidentReferenceType;
 import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
-import org.slc.sli.test.edfi.entities.StudentDisciplineIncidentAssociation;
-import org.slc.sli.test.edfi.entities.StudentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentDisciplineIncidentAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentParticipationCodeType;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 import org.slc.sli.test.utils.InterchangeWriter;
 
 /**
 * Generates StudentDisciplineIncidentAssociation data
-* 
+*
 * @author slee
 *
 */
@@ -45,21 +45,21 @@ public class StudentDisciplineAssociationGenerator {
      * Generates a list of StudentDisciplineIncidentAssociation from a DisciplineIncidentMeta.
      *
      * @param meta
-     * 
+     *
      * @return <code>List<StudentDisciplineIncidentAssociation></code>
      */
 //    public static List<StudentDisciplineIncidentAssociation> generateLowFi(DisciplineIncidentMeta meta) {
 	 public static void generateLowFi(InterchangeWriter<InterchangeStudentDiscipline> iWriter, DisciplineIncidentMeta meta) {
         String disciplineIncidentId = meta.id;
         Collection<String> studentIds = meta.studentIds;
-        
+
 //        List<StudentDisciplineIncidentAssociation> list = new ArrayList<StudentDisciplineIncidentAssociation>(studentIds.size());
-        
+
         for (String studentId : studentIds) {
 //            list.add(generateLowFi(studentId, disciplineIncidentId));
-            StudentDisciplineIncidentAssociation retVal = generateLowFi(studentId, disciplineIncidentId, meta.schoolId);
+            SLCStudentDisciplineIncidentAssociation retVal = generateLowFi(studentId, disciplineIncidentId, meta.schoolId);
         	QName qName = new QName("http://ed-fi.org/0100", "StudentDisciplineIncidentAssociation");
-            JAXBElement<StudentDisciplineIncidentAssociation> jaxbElement = new JAXBElement<StudentDisciplineIncidentAssociation>(qName,StudentDisciplineIncidentAssociation.class,retVal);
+            JAXBElement<SLCStudentDisciplineIncidentAssociation> jaxbElement = new JAXBElement<SLCStudentDisciplineIncidentAssociation>(qName,SLCStudentDisciplineIncidentAssociation.class,retVal);
             iWriter.marshal(jaxbElement);
         }
 
@@ -71,77 +71,77 @@ public class StudentDisciplineAssociationGenerator {
      *
      * @param studentId
      * @param disciplineIncidentId
-     * 
+     *
      * @return <code>StudentDisciplineIncidentAssociation</code>
      */
-    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId, String disciplineIncidentId,
+    public static SLCStudentDisciplineIncidentAssociation generateLowFi(String studentId, String disciplineIncidentId,
             String schoolId) {
 
-        StudentDisciplineIncidentAssociation assoc = new StudentDisciplineIncidentAssociation();
-        
+        SLCStudentDisciplineIncidentAssociation assoc = new SLCStudentDisciplineIncidentAssociation();
+
         assoc.setStudentParticipationCode(GeneratorUtils.generateStudentParticipationCodeType());
 
         // construct and add the student reference
-        StudentIdentityType sit = new StudentIdentityType();
+        SLCStudentIdentityType sit = new SLCStudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
-        StudentReferenceType srt = new StudentReferenceType();
+        SLCStudentReferenceType srt = new SLCStudentReferenceType();
         srt.setStudentIdentity(sit);
         assoc.setStudentReference(srt);
-        
-        // construct and add the disciplineIncident Reference       
-        DisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(disciplineIncidentId,
+
+        // construct and add the disciplineIncident Reference
+        SLCDisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(disciplineIncidentId,
                 schoolId);
 
         assoc.setDisciplineIncidentReference(dirt);
 
         return assoc;
     }
-    
+
     /**
      * Generates a StudentDisciplineIncidentAssociation between a student and a disciplineIncident.
      *
      * @param studentId
      * @param disciplineIncident
-     * 
+     *
      * @return <code>StudentDisciplineIncidentAssociation</code>
      */
-    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId,
-            DisciplineIncident disciplineIncident, String schoolId) {
+    public static SLCStudentDisciplineIncidentAssociation generateLowFi(String studentId,
+            SLCDisciplineIncident disciplineIncident, String schoolId) {
 
-        StudentDisciplineIncidentAssociation assoc = new StudentDisciplineIncidentAssociation();
-        
+        SLCStudentDisciplineIncidentAssociation assoc = new SLCStudentDisciplineIncidentAssociation();
+
         assoc.setStudentParticipationCode(GeneratorUtils.generateStudentParticipationCodeType());
 
         // construct and add the student reference
-        StudentIdentityType sit = new StudentIdentityType();
+        SLCStudentIdentityType sit = new SLCStudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
-        StudentReferenceType srt = new StudentReferenceType();
+        SLCStudentReferenceType srt = new SLCStudentReferenceType();
         srt.setStudentIdentity(sit);
         assoc.setStudentReference(srt);
-        
-        // construct and add the disciplineIncident Reference       
-        DisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(
+
+        // construct and add the disciplineIncident Reference
+        SLCDisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(
                 disciplineIncident.getIncidentIdentifier(), schoolId);
         assoc.setDisciplineIncidentReference(dirt);
 
         return assoc;
     }
 
-    public StudentDisciplineIncidentAssociation generate(String studentDisciplineId, String delimiter) {
-    	StudentDisciplineIncidentAssociation studentDisciplineAssociation = new StudentDisciplineIncidentAssociation();
+    public SLCStudentDisciplineIncidentAssociation generate(String studentDisciplineId, String delimiter) {
+    	SLCStudentDisciplineIncidentAssociation studentDisciplineAssociation = new SLCStudentDisciplineIncidentAssociation();
 
     	try {
             Random random = new Random(31);
-            
+
             String studentId = studentDisciplineId.split(delimiter)[0];
             String discId = studentDisciplineId.split(delimiter)[2];
-            
-            StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
+
+            SLCStudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             studentDisciplineAssociation.setStudentReference(srt);
 
-            DisciplineIncidentReferenceType dirt = DisciplineGenerator.getDisciplineIncidentReferenceType(discId, "ThisStateID");
+            SLCDisciplineIncidentReferenceType dirt = DisciplineGenerator.getDisciplineIncidentReferenceType(discId, "ThisStateID");
             studentDisciplineAssociation.setDisciplineIncidentReference(dirt);
-            
+
             StudentParticipationCodeType spcType = null;
             int randInt4 = random.nextInt(4);
                  if (randInt4 == 0) spcType = StudentParticipationCodeType.PERPETRATOR;
@@ -149,17 +149,17 @@ public class StudentDisciplineAssociationGenerator {
             else if (randInt4 == 2) spcType = StudentParticipationCodeType.VICTIM;
             else if (randInt4 == 3) spcType = StudentParticipationCodeType.WITNESS;
             studentDisciplineAssociation.setStudentParticipationCode(spcType);
-            
+
             // Behaviors (optional)
-            
+
             // Secondary Behaviors (optional)
-              
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
+
         return studentDisciplineAssociation;
     }
 
-	
+
 }

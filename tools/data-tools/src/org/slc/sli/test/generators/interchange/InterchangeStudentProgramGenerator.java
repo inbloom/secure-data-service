@@ -28,7 +28,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.LearningStandard;
-import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.ServiceDescriptor;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.generators.ProgramGenerator;
@@ -102,10 +102,10 @@ public class InterchangeStudentProgramGenerator {
     private static int generateStudentProgramAssoc(InterchangeWriter<InterchangeStudentProgram> iWriter, ProgramMeta programMeta) {
 
     	int count=0;
-        List<StudentProgramAssociation> retVal;
+        List<SLCStudentProgramAssociation> retVal;
 
         if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-            retVal = new ArrayList<StudentProgramAssociation> ();
+            retVal = new ArrayList<SLCStudentProgramAssociation> ();
         } else {
             count += StudentProgramAssociationGenerator.generateLowFi(iWriter, programMeta);
         }

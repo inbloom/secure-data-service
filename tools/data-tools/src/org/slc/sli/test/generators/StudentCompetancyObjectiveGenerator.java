@@ -20,6 +20,11 @@ package org.slc.sli.test.generators;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentCompetencyObjective;
+import org.slc.sli.test.edfi.entities.SLCStudentCompetencyObjectiveIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentCompetencyObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjective;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
@@ -28,10 +33,10 @@ public class StudentCompetancyObjectiveGenerator {
 
 	private static int scId = 0;
 
-	public static StudentCompetencyObjective getStudentCompetencyObjective(String scoId, EducationalOrgReferenceType edOrgRef)
+	public static SLCStudentCompetencyObjective getStudentCompetencyObjective(String scoId, SLCEducationalOrgReferenceType edOrgRef)
 	{
 		scId++;
-		StudentCompetencyObjective sco = new StudentCompetencyObjective();
+		SLCStudentCompetencyObjective sco = new SLCStudentCompetencyObjective();
 		String id = scoId==null?"SCO Id" + scId:scoId;
 		sco.setId(id);
 		sco.setStudentCompetencyObjectiveId(id);
@@ -41,22 +46,23 @@ public class StudentCompetancyObjectiveGenerator {
 
 
 		if(edOrgRef != null) {
-		
-		  EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-		 
-		  eoit.setStateOrganizationId(edOrgRef.getEducationalOrgIdentity().getEducationOrgIdentificationCode().get(0).getID());
+
+		  SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+
+		  eoit.setStateOrganizationId(edOrgRef.getEducationalOrgIdentity().getStateOrganizationId());
 		  edOrgRef.setEducationalOrgIdentity(eoit);
 		  sco.setEducationOrganizationReference(edOrgRef);
 		}
 
-      
+
 		return sco;
 	}
-	
-	public static StudentCompetencyObjectiveReferenceType getStudentCompetencyObjectiveReferenceType(StudentCompetencyObjective sco)
+
+	public static SLCStudentCompetencyObjectiveReferenceType getStudentCompetencyObjectiveReferenceType(StudentCompetencyObjective sco)
 	{
-		StudentCompetencyObjectiveReferenceType ref = new StudentCompetencyObjectiveReferenceType();
-		StudentCompetencyObjectiveIdentityType scoIdentity = new StudentCompetencyObjectiveIdentityType();
+		SLCStudentCompetencyObjectiveReferenceType ref = new SLCStudentCompetencyObjectiveReferenceType();
+		SLCStudentCompetencyObjectiveIdentityType scoIdentity = new SLCStudentCompetencyObjectiveIdentityType();
+		scoIdentity.setStudentCompetencyObjectiveId(sco.getStudentCompetencyObjectiveId());
 		scoIdentity.setStudentCompetencyObjectiveId(sco.getStudentCompetencyObjectiveId());
 		return ref;
 	}

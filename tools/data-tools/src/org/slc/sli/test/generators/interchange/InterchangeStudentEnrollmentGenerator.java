@@ -23,11 +23,11 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import org.slc.sli.test.edfi.entities.GraduationPlan;
+import org.slc.sli.test.edfi.entities.SLCGraduationPlan;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.LearningStandard;
-import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
-import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentSchoolAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.GraduationPlanMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
@@ -62,12 +62,12 @@ public class InterchangeStudentEnrollmentGenerator {
 //        return interchange;
     }
 
-    
+
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentEnrollment> iWriter) {
 
         generateStudentSchoolAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
 
-        generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());        
+        generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
 
 		generateGraduationPlan(iWriter,
 				MetaRelations.GRADUATION_PLAN_MAP.values());
@@ -81,14 +81,14 @@ public class InterchangeStudentEnrollmentGenerator {
      * @param interchangeObjects
      */
     private static void generateGraduationPlan(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<GraduationPlanMeta> graduationPlanMetas) {
-    	
+
 		long startTime = System.currentTimeMillis();
 
 		int objGenCounter = 0;
 
 		for (GraduationPlanMeta graduationPlanMeta : graduationPlanMetas) {
 
-			GraduationPlan graduationPlan;
+			SLCGraduationPlan graduationPlan;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
 				graduationPlan = null;
@@ -108,22 +108,22 @@ public class InterchangeStudentEnrollmentGenerator {
 				+ " GraduationPlan objects in: "
 				+ (System.currentTimeMillis() - startTime));
    }
-    
+
     /**
      * Generate the individual Student Association entities.
      *
      * @param interchangeObjects
      */
-    
+
     private static void generateStudentSchoolAssoc(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<StudentMeta> studentMetas) {
-    	
+
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
         for (StudentMeta studentMeta : studentMetas) {
             for (String schoolId : studentMeta.schoolIds) {
 
-                StudentSchoolAssociation studentSchool;
+                SLCStudentSchoolAssociation studentSchool;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                     studentSchool = null;
@@ -156,7 +156,7 @@ public class InterchangeStudentEnrollmentGenerator {
             for (String sectionId : studentMeta.sectionIds) {
 
                 // TODO: need to take another look at SectionIdentity and constructing it fully
-                StudentSectionAssociation studentSection;
+                SLCStudentSectionAssociation studentSection;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                     studentSection = null;

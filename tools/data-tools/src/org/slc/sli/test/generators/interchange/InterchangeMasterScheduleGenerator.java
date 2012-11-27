@@ -21,9 +21,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
-import org.slc.sli.test.edfi.entities.CourseOffering;
+import org.slc.sli.test.edfi.entities.SLCCourseOffering;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
-import org.slc.sli.test.edfi.entities.Section;
+import org.slc.sli.test.edfi.entities.SLCSection;
 import org.slc.sli.test.edfi.entities.meta.CourseOfferingMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
@@ -74,7 +74,7 @@ public class InterchangeMasterScheduleGenerator {
         long startTime = System.currentTimeMillis();
 
         for (CourseOfferingMeta courseOfferingMeta : courseOfferingMetas) {
-            CourseOffering courseOffering;
+            SLCCourseOffering courseOffering;
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 courseOffering = CourseOfferingGenerator.generate(courseOfferingMeta);
             } else {
@@ -99,7 +99,7 @@ public class InterchangeMasterScheduleGenerator {
 
         for (SectionMeta sectionMeta : sectionMetas) {
 
-            Section section;
+            SLCSection section;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 section = null;

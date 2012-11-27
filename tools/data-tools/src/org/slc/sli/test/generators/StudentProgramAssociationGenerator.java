@@ -17,23 +17,17 @@
 
 package org.slc.sli.test.generators;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
-import org.slc.sli.test.edfi.entities.LearningStandard;
-import org.slc.sli.test.edfi.entities.ProgramIdentityType;
-import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
+import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
 import org.slc.sli.test.edfi.entities.ServiceDescriptorType;
-import org.slc.sli.test.edfi.entities.StudentIdentityType;
-import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentProgramAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
@@ -66,7 +60,7 @@ public class StudentProgramAssociationGenerator {
         String schoolId = programMeta.orgId;
 
         for (String studentId : studentIds) {
-        	StudentProgramAssociation retVal = generateLowFi(studentId, programId, schoolId);
+            SLCStudentProgramAssociation retVal = generateLowFi(studentId, programId, schoolId);
             
             iWriter.marshal(retVal);
             count++;
@@ -83,19 +77,19 @@ public class StudentProgramAssociationGenerator {
      *
      * @return <code>StudentProgramAssociation</code>
      */
-    public static StudentProgramAssociation generateLowFi(String studentId, String programId, String schoolId) {
+    public static SLCStudentProgramAssociation generateLowFi(String studentId, String programId, String schoolId) {
 
-        StudentProgramAssociation studentProgram = new StudentProgramAssociation();
+        SLCStudentProgramAssociation studentProgram = new SLCStudentProgramAssociation();
 
         // construct and add the student reference
-        StudentIdentityType sit = new StudentIdentityType();
+        SLCStudentIdentityType sit = new SLCStudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
-        StudentReferenceType srt = new StudentReferenceType();
+        SLCStudentReferenceType srt = new SLCStudentReferenceType();
         srt.setStudentIdentity(sit);
         studentProgram.setStudentReference(srt);
 
         // construct and add the school references
-        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
         // TODO: Remove this workaround when SLI data model supports inheritance:
         // StudentProgramAssociation should be associatable with either schools or ed orgs,
         // but since SLI has no inheritance in the data model, it is forced to be associated
@@ -103,14 +97,14 @@ public class StudentProgramAssociationGenerator {
         // edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         // edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(((SchoolMeta)MetaRelations.SCHOOL_MAP.get(schoolId)).leaId);
         edOrgIdentity.setStateOrganizationId(((SchoolMeta) MetaRelations.SCHOOL_MAP.get(schoolId)).leaId);
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
         studentProgram.setEducationOrganizationReference(schoolRef);
 
         // construct and add the program reference
-        ProgramIdentityType pi = new ProgramIdentityType();
+        SLCProgramIdentityType pi = new SLCProgramIdentityType();
         pi.setProgramId(programId);
-        ProgramReferenceType prt = new ProgramReferenceType();
+        SLCProgramReferenceType prt = new SLCProgramReferenceType();
         prt.setProgramIdentity(pi);
         studentProgram.setProgramReference(prt);
 

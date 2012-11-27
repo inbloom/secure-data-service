@@ -62,22 +62,22 @@ import org.slc.sli.test.utils.ValidateSchema;
  */
 public class StateEdFiXmlGenerator {
 
-	
+
     /**
      * used by interchange generators to determine which entity generator to invoke
      */
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
-    public static String propertyPath = "config.properties";
+    public static String propertyPath = "./generator-configs/mediumDataSet.properties";
     public static String rootOutputPath = "./data";
 	public static String XSDVersionPath = "version";
-    
-    					
+
+
     /**
      * used to determine the output directory for generated interchange and control files
      */
 
-    
+
 //    public static String rootOutputPath = "./data";
     /**
      * Currently generates:
@@ -92,48 +92,48 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-   
+
        processProgramArguments(args);
 
         MetaRelations.construct();
- 
+
         if ("sliXsd-R1".equalsIgnoreCase(XSDVersionPath)) {
-        
+
         	generateAndMarshalInterchangesForSliXsdRI();
-        	
-        	
+
+
         }
         else {
- 
+
         	generateAndMarshalInterchanges();
-        	
+
         }
-        
-        
-        
+
+
+
         ValidateSchema.check(rootOutputPath);
-        
+
         EdfiStats.generateStats(rootOutputPath);
-    
+
     }
 
 
-    
+
     private static void processProgramArguments(String[] args) {
 //      	System.out.println("length = "+args.length+" "+propertyPath);
-//        
+//
 //      	propertyPath = args[0];
-        
+
         if (args.length == 0) {
             System.out.println("Optional arguments: ");
             System.out.println("  [<properties_file>] : properties file specifying configuration for the generated data (must end with .properties) ");
             System.out.println("  [<output_dir>] : where the xml, ctl, and count files will be written (e.g. ./data)");
             System.out.println("  [low|medium] : to set fidelity (not fully implemented yet)");
         }
-        
+
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
-            
+
             if ("low".equalsIgnoreCase(arg) || "medium".equalsIgnoreCase(arg)) {
                 fidelityOfData = arg;
             } else if (arg.endsWith(".properties")) {
@@ -142,59 +142,61 @@ public class StateEdFiXmlGenerator {
                 rootOutputPath = arg;
             }
         }
-        
+
 
         if (new File(rootOutputPath).mkdirs()) {
             System.out.println("created directory: " + rootOutputPath);
         }
         System.out.println("root output path: " + rootOutputPath);
-        
+
     }
 
     private static void generateAndMarshalInterchangesForSliXsdRI() throws Exception {
-    	
+
              section();
-             
-         
+
+
     }
     private static void generateAndMarshalInterchanges() throws Exception {
 
         if (MetaRelations.INTERCHANGE_ED_ORG) {
             edOrg();
         }
-        
+
         if (MetaRelations.INTERCHANGE_ED_ORG_CALENDAR) {
             edOrgCalendar();
         }
-        
+
         if (MetaRelations.INTERCHANGE_MASTER_SCHEDULE) {
             masterSchedule();
         }
-        
+
         if (MetaRelations.INTERCHANGE_STAFF_ASSOCIATION) {
             staffAssociation();
         }
-        
+
         if (MetaRelations.INTERCHANGE_STUDENT_PARENT) {
             studentParent();
         }
-        
+
         if (MetaRelations.INTERCHANGE_STUDENT_ENROLLMENT) {
             studentEnrollment();
         }
-        
+
         if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
             studentProgram();
         }
-        
+
         if (MetaRelations.INTERCHANGE_STUDENT_COHORT) {
             studentCohort();
+
         }
-        
+
         if (MetaRelations.INTERCHANGE_STUDENT_DISCIPLINE) {
             studentDiscipline();
         }
-        
+
+
         if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
             studentAttendance();
         }
@@ -206,11 +208,11 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
             assessmentMetaData();
         }
-        
+
         if (MetaRelations.INTERCHANGE_STUDENT_ASSESSMENT) {
             studentAssessment();
         }
-        
+
     }
 
     /**
@@ -219,7 +221,7 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void edOrg() throws Exception {
-    	
+
     	 InterchangeWriter<InterchangeEducationOrganization> iWriter = new InterchangeWriter<InterchangeEducationOrganization>(InterchangeEducationOrganization.class);
     	 InterchangeEdOrgGenerator.generate(iWriter);
          iWriter.close();
@@ -234,7 +236,7 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void edOrgCalendar() throws Exception {
-    	
+
     	InterchangeWriter<InterchangeEducationOrgCalendar> iWriter = new InterchangeWriter<InterchangeEducationOrgCalendar>(InterchangeEducationOrgCalendar.class);
 
     	InterchangeEdOrgCalGenerator.generate(iWriter);
@@ -249,7 +251,7 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void masterSchedule() throws Exception {
-    	  InterchangeWriter<InterchangeMasterSchedule> iWriter = 
+    	  InterchangeWriter<InterchangeMasterSchedule> iWriter =
                   new InterchangeWriter<InterchangeMasterSchedule>(InterchangeMasterSchedule.class);
           InterchangeMasterScheduleGenerator.generate(iWriter);
           iWriter.close();
@@ -263,8 +265,8 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void staffAssociation() throws Exception {
-        
-        InterchangeWriter<InterchangeStaffAssociation> iWriter = 
+
+        InterchangeWriter<InterchangeStaffAssociation> iWriter =
                 new InterchangeWriter<InterchangeStaffAssociation>(InterchangeStaffAssociation.class);
         InterchangeStaffAssociationGenerator.generate(iWriter);
         iWriter.close();
@@ -279,8 +281,8 @@ public class StateEdFiXmlGenerator {
      */
 
     private static void studentParent() throws Exception {
-        
-        InterchangeWriter<InterchangeStudentParent> iWriter = 
+
+        InterchangeWriter<InterchangeStudentParent> iWriter =
                 new InterchangeWriter<InterchangeStudentParent>(InterchangeStudentParent.class);
         InterchangeStudentParentGenerator.generate(iWriter);
         iWriter.close();
@@ -295,8 +297,8 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentEnrollment() throws Exception {
-        
-        InterchangeWriter<InterchangeStudentEnrollment> iWriter = 
+
+        InterchangeWriter<InterchangeStudentEnrollment> iWriter =
                 new InterchangeWriter<InterchangeStudentEnrollment>(InterchangeStudentEnrollment.class);
         InterchangeStudentEnrollmentGenerator.generate(iWriter);
         iWriter.close();
@@ -311,7 +313,7 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAttendance() throws Exception {
 
-        InterchangeWriter<InterchangeStudentAttendance> iWriter = 
+        InterchangeWriter<InterchangeStudentAttendance> iWriter =
                 new InterchangeWriter<InterchangeStudentAttendance>(InterchangeStudentAttendance.class);
         InterchangeStudentAttendanceGenerator.generate(iWriter);
         iWriter.close();
@@ -326,11 +328,11 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentProgram() throws Exception {
 
-        InterchangeWriter<InterchangeStudentProgram> iWriter = 
+        InterchangeWriter<InterchangeStudentProgram> iWriter =
                 new InterchangeWriter<InterchangeStudentProgram>(InterchangeStudentProgram.class);
         InterchangeStudentProgramGenerator.generate(iWriter);
         iWriter.close();
-        
+
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram",
         		iWriter.getXmlFilePath());
     }
@@ -342,11 +344,11 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentCohort() throws Exception {
 
-        InterchangeWriter<InterchangeStudentCohort> iWriter = 
+        InterchangeWriter<InterchangeStudentCohort> iWriter =
                 new InterchangeWriter<InterchangeStudentCohort>(InterchangeStudentCohort.class);
         InterchangeStudentCohortGenerator.generate(iWriter);
         iWriter.close();
-        
+
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
         		iWriter.getXmlFilePath());
     }
@@ -357,8 +359,8 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentDiscipline() throws Exception {
-    	
-    	InterchangeWriter<InterchangeStudentDiscipline> iWriter = 
+
+    	InterchangeWriter<InterchangeStudentDiscipline> iWriter =
                 new InterchangeWriter<InterchangeStudentDiscipline>(InterchangeStudentDiscipline.class);
     	InterchangeStudentDisciplineGenerator.generate(iWriter);
     	iWriter.close();
@@ -374,11 +376,11 @@ public class StateEdFiXmlGenerator {
      */
     private static void assessmentMetaData() throws Exception {
 
-    	InterchangeWriter<InterchangeAssessmentMetadata> iWriter = 
+    	InterchangeWriter<InterchangeAssessmentMetadata> iWriter =
                 new InterchangeWriter<InterchangeAssessmentMetadata>(InterchangeAssessmentMetadata.class);
     	InterchangeAssessmentMetadataGenerator.generate(iWriter);
         iWriter.close();
-    	
+
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "AssessmentMetadata", iWriter.getXmlFilePath());
     }
@@ -390,7 +392,7 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAssessment() throws Exception {
 
-        InterchangeWriter<InterchangeStudentAssessment> iWriter = 
+        InterchangeWriter<InterchangeStudentAssessment> iWriter =
                 new InterchangeWriter<InterchangeStudentAssessment>(InterchangeStudentAssessment.class);
         InterchangeStudentAssessmentGenerator.generate(iWriter);
         iWriter.close();
@@ -405,11 +407,11 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentGrade() throws Exception {
 
-        InterchangeWriter<InterchangeStudentGrade> iWriter = 
+        InterchangeWriter<InterchangeStudentGrade> iWriter =
                 new InterchangeWriter<InterchangeStudentGrade>(InterchangeStudentGrade.class);
         InterchangeStudentGradeGenerator.generate(iWriter);
         iWriter.close();
-        
+
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentGrades", iWriter.getXmlFilePath());
     }
 
@@ -419,11 +421,11 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void section() throws Exception {
-    	InterchangeWriter<org.slc.sli.test.edfi.entitiesR1.InterchangeSection> iWriter = 
+    	InterchangeWriter<org.slc.sli.test.edfi.entitiesR1.InterchangeSection> iWriter =
                 new InterchangeWriter<org.slc.sli.test.edfi.entitiesR1.InterchangeSection>(org.slc.sli.test.edfi.entitiesR1.InterchangeSection.class);
     	InterchangeSectionGenerator.generate(iWriter);
         iWriter.close();
-        
+
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "section", iWriter.getXmlFilePath());
     }
 

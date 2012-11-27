@@ -28,31 +28,29 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.CareerPathwayType;
-import org.slc.sli.test.edfi.entities.Course;
+import org.slc.sli.test.edfi.entities.SLCCourse;
 import org.slc.sli.test.edfi.entities.CourseCode;
 import org.slc.sli.test.edfi.entities.CourseCodeSystemType;
 import org.slc.sli.test.edfi.entities.CourseDefinedByType;
 import org.slc.sli.test.edfi.entities.CourseGPAApplicabilityType;
-import org.slc.sli.test.edfi.entities.CourseIdentityType;
 import org.slc.sli.test.edfi.entities.CourseLevelCharacteristicItemType;
 import org.slc.sli.test.edfi.entities.CourseLevelCharacteristicsType;
 import org.slc.sli.test.edfi.entities.CourseLevelType;
-import org.slc.sli.test.edfi.entities.CourseReferenceType;
+import org.slc.sli.test.edfi.entities.SLCCourseReferenceType;
 import org.slc.sli.test.edfi.entities.CreditType;
 import org.slc.sli.test.edfi.entities.Credits;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
+import org.slc.sli.test.edfi.entities.SLCCourseIdentityType;
 
 public class CourseGenerator {
 
     private static final Logger log = Logger.getLogger(CourseGenerator.class);
     private static String file_course = "database/course/course.csv";
     private static Random rand = new Random(31);
-    private List<Course> courses = null;
+    private List<SLCCourse> courses = null;
     private static boolean loaded = false;
     private int courseCount = 0;
     // private Course course;
@@ -65,46 +63,46 @@ public class CourseGenerator {
             load();
         }
         if (grade == GradeLevelType.FIRST_GRADE)
-            courses = new ArrayList<Course>(grade1Courses);
+            courses = new ArrayList<SLCCourse>(grade1Courses);
         else if (grade == GradeLevelType.SECOND_GRADE)
-            courses = new ArrayList<Course>(grade2Courses);
+            courses = new ArrayList<SLCCourse>(grade2Courses);
         else if (grade == GradeLevelType.THIRD_GRADE)
-            courses = new ArrayList<Course>(grade3Courses);
+            courses = new ArrayList<SLCCourse>(grade3Courses);
         else if (grade == GradeLevelType.FOURTH_GRADE)
-            courses = new ArrayList<Course>(grade4Courses);
+            courses = new ArrayList<SLCCourse>(grade4Courses);
         else if (grade == GradeLevelType.FIFTH_GRADE)
-            courses = new ArrayList<Course>(grade5Courses);
+            courses = new ArrayList<SLCCourse>(grade5Courses);
         else if (grade == GradeLevelType.SIXTH_GRADE)
-            courses = new ArrayList<Course>(grade6Courses);
+            courses = new ArrayList<SLCCourse>(grade6Courses);
         else if (grade == GradeLevelType.SEVENTH_GRADE)
-            courses = new ArrayList<Course>(grade7Courses);
+            courses = new ArrayList<SLCCourse>(grade7Courses);
         else if (grade == GradeLevelType.EIGHTH_GRADE)
-            courses = new ArrayList<Course>(grade8Courses);
+            courses = new ArrayList<SLCCourse>(grade8Courses);
         else if (grade == GradeLevelType.NINTH_GRADE)
-            courses = new ArrayList<Course>(grade9Courses);
+            courses = new ArrayList<SLCCourse>(grade9Courses);
         else if (grade == GradeLevelType.TENTH_GRADE)
-            courses = new ArrayList<Course>(grade10Courses);
+            courses = new ArrayList<SLCCourse>(grade10Courses);
         else if (grade == GradeLevelType.ELEVENTH_GRADE)
-            courses = new ArrayList<Course>(grade11Courses);
+            courses = new ArrayList<SLCCourse>(grade11Courses);
         else if (grade == GradeLevelType.TWELFTH_GRADE)
-            courses = new ArrayList<Course>(grade12Courses);
+            courses = new ArrayList<SLCCourse>(grade12Courses);
 
         courseCount = courses.size();
 
     }
 
-    static List<Course> grade1Courses = new ArrayList<Course>();
-    static List<Course> grade2Courses = new ArrayList<Course>();
-    static List<Course> grade3Courses = new ArrayList<Course>();
-    static List<Course> grade4Courses = new ArrayList<Course>();
-    static List<Course> grade5Courses = new ArrayList<Course>();
-    static List<Course> grade6Courses = new ArrayList<Course>();
-    static List<Course> grade7Courses = new ArrayList<Course>();
-    static List<Course> grade8Courses = new ArrayList<Course>();
-    static List<Course> grade9Courses = new ArrayList<Course>();
-    static List<Course> grade10Courses = new ArrayList<Course>();
-    static List<Course> grade11Courses = new ArrayList<Course>();
-    static List<Course> grade12Courses = new ArrayList<Course>();
+    static List<SLCCourse> grade1Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade2Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade3Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade4Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade5Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade6Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade7Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade8Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade9Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade10Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade11Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade12Courses = new ArrayList<SLCCourse>();
 
     private static int getRand() {
         int num = rand.nextInt();
@@ -124,7 +122,7 @@ public class CourseGenerator {
                 String name = courseParts[3];
                 String marks = courseParts[4];
 
-                Course course = new Course();
+                SLCCourse course = new SLCCourse();
                 course.setId((grade + topic + name).replace("[ ,]", "-"));
                 course.setCourseTitle(name);
                 course.setNumberOfParts(getRand() % 3 + 1);
@@ -270,8 +268,8 @@ public class CourseGenerator {
         }
     }
 
-    private Course clone(Course old) {
-        Course clone = new Course();
+    private SLCCourse clone(SLCCourse old) {
+        SLCCourse clone = new SLCCourse();
         clone.setCourseTitle(old.getCourseTitle());
         clone.setNumberOfParts(old.getNumberOfParts());
         clone.setCourseLevel(old.getCourseLevel());
@@ -291,8 +289,8 @@ public class CourseGenerator {
         return clone;
     }
 
-    public Course getCourse(String courseId, String schoolId, String uniqueCourseId) {
-        Course course = null;
+    public SLCCourse getCourse(String courseId, String schoolId, String uniqueCourseId) {
+        SLCCourse course = null;
         course = clone(courses.get((counter++)%courses.size()));
 
         // courseCount--;
@@ -308,7 +306,7 @@ public class CourseGenerator {
         // TODO remove this once DE608 is resolved
         course.setCourseTitle(cc.getID());
 
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
         edOrgIdentityType.setStateOrganizationId(schoolId);
  
 // TODO Comment out the next 4 lines ...
@@ -320,7 +318,7 @@ public class CourseGenerator {
 //        edOrgIdentityType.setStateOrganizationId(schoolId);
         // edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(eoic);
 
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
         course.setEducationOrganizationReference(schoolRef);
 
@@ -331,18 +329,18 @@ public class CourseGenerator {
         return courseCount;
     }
 
-    public static CourseReferenceType getCourseReferenceType(Course course) {
-        CourseReferenceType crt = new CourseReferenceType();
-        CourseIdentityType ci = new CourseIdentityType();
-        crt.setCourseIdentity(ci);
+    public static SLCCourseReferenceType getCourseReferenceType(SLCCourse course) {
+        SLCCourseReferenceType crt = new SLCCourseReferenceType();
+        SLCCourseIdentityType ci = new SLCCourseIdentityType();
         ci.setEducationalOrgReference(course.getEducationOrganizationReference());
         ci.setUniqueCourseId(course.getUniqueCourseId());
+        crt.setCourseIdentity(ci);
         return crt;
     }
 
-    public static Course generateLowFi(String id, String schoolId, String uniqueCourseId) throws Exception {
+    public static SLCCourse generateLowFi(String id, String schoolId, String uniqueCourseId) throws Exception {
 
-        Course course = new Course();
+        SLCCourse course = new SLCCourse();
         course.setCourseTitle(id);
         course.setNumberOfParts(1);
 
@@ -355,14 +353,15 @@ public class CourseGenerator {
         course.getCourseCode().add(CourseCode);
 
         // construct and add the school reference
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
-        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-        eoic.setID(schoolId);
-        edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
+        SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
+//        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
+//        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+//        eoic.setID(schoolId);
+//        edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
         // edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        edOrgIdentityType.setStateOrganizationId(schoolId);
 
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
 
         course.setEducationOrganizationReference(schoolRef);

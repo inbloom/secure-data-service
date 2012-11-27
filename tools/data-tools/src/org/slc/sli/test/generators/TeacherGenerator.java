@@ -17,7 +17,7 @@
 
 package org.slc.sli.test.generators;
 
-import org.slc.sli.test.edfi.entities.StaffReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.Teacher;
 
@@ -33,27 +33,27 @@ public class TeacherGenerator extends StaffGenerator {
         populateFields(teacher, teacherId);
         return teacher;
     }
-    
+
     protected void populateFields(Teacher teacher, String teacherId) throws Exception {
         super.populateFields(teacher, teacherId);
         teacher.setHighlyQualifiedTeacher(random.nextBoolean());
     }
-    
+
     public static Teacher generateLowFi(String teacherId) {
         Teacher teacher = new Teacher();
         populateFieldsLowFi(teacher, teacherId);
         return teacher;
     }
-    
+
     public static Teacher generateMediumFi (String teacherId) throws Exception{
     	Teacher teacher = new Teacher();
     	StaffGenerator.populateFields(teacher, teacherId);
          teacher.setHighlyQualifiedTeacher(random.nextBoolean());
     	return teacher;
-    
+
     }
 
-    public static StaffReferenceType getTeacherReference(String staffId) {
+    public static SLCStaffReferenceType getTeacherReference(String staffId) {
         return getStaffReference(staffId);
     }
 }

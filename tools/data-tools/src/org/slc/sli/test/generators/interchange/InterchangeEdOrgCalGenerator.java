@@ -16,23 +16,13 @@
 
 package org.slc.sli.test.generators.interchange;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
 import org.slc.sli.test.edfi.entities.CalendarDate;
-import org.slc.sli.test.edfi.entities.CalendarDateIdentityType;
-import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
-import org.slc.sli.test.edfi.entities.ComplexObjectType;
-import org.slc.sli.test.edfi.entities.GradingPeriod;
+import org.slc.sli.test.edfi.entities.SLCCalendarDateIdentityType;
+import org.slc.sli.test.edfi.entities.SLCCalendarDateReferenceType;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriod;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
-import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.ReferenceType;
-import org.slc.sli.test.edfi.entities.Session;
-import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCSession;
 import org.slc.sli.test.edfi.entities.meta.CalendarMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
@@ -101,7 +91,7 @@ public class InterchangeEdOrgCalGenerator {
 		String prevOrgId = "";
 		for (GradingPeriodMeta gradingPeriodMeta : gradingPeriodMetas) {
 
-			GradingPeriod gradingPeriod = null;
+			SLCGradingPeriod gradingPeriod = null;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
 				gradingPeriod = null;
@@ -122,8 +112,8 @@ public class InterchangeEdOrgCalGenerator {
 							gradingPeriodMeta.getGradingPeriodNum());
 					gradingPeriod.setId(gradingPeriodMeta.id);
 
-					CalendarDateReferenceType calRef = new CalendarDateReferenceType();
-					CalendarDateIdentityType cit = new CalendarDateIdentityType();
+					SLCCalendarDateReferenceType calRef = new SLCCalendarDateReferenceType();
+					SLCCalendarDateIdentityType cit = new SLCCalendarDateIdentityType();
 					
 					cit.setDate(calendar.date);
 					calRef.setCalendarDateIdentity(cit);
@@ -180,7 +170,7 @@ public class InterchangeEdOrgCalGenerator {
 
 		for (SessionMeta sessionMeta : sessionMetas) {
 
-			Session session;
+		    SLCSession session;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
 				session = null;

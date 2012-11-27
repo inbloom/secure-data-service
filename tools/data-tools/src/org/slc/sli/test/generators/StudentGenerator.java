@@ -104,13 +104,22 @@ public class StudentGenerator {
         }
     }
 
-    public static StudentReferenceType getStudentReferenceType(String studentId)
+    public static SLCStudentReferenceType getStudentReferenceType(String studentId)
     {
-    	StudentReferenceType srt = new StudentReferenceType();
-    	StudentIdentityType sit = new StudentIdentityType();
-    	srt.setStudentIdentity(sit);
+        SLCStudentReferenceType srt = new SLCStudentReferenceType();
+        SLCStudentIdentityType sit = new SLCStudentIdentityType();
+        srt.setStudentIdentity(sit);
         sit.setStudentUniqueStateId(studentId);
-    	return srt;
+        return srt;
+    }
+
+    public static StudentReferenceType getEdFiStudentReferenceType(String studentId)
+    {
+        StudentReferenceType srt = new StudentReferenceType();
+        StudentIdentityType sit = new StudentIdentityType();
+        srt.setStudentIdentity(sit);
+        sit.setStudentUniqueStateId(studentId);
+        return srt;
     }
 
     public Student generate(String studentId) {
