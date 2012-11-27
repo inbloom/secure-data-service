@@ -120,7 +120,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
 
     private String parseFile(File file, HashMap<String, List<HashMap<String, Object>>> indexCache,
             MongoTemplate mongoTemplate) {
-        String errorMessage = "";
+        StringBuilder errorMessage = new StringBuilder("");
         FileInputStream fstream = null;
         BufferedReader br = null;
 
@@ -141,7 +141,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
                     if (indexMap != null) {
                         boolean indexPresent = verifyIndex(indexCache, mongoTemplate, collectionName, indexMap);
                         if (!indexPresent) {
-                            errorMessage += "\nIndex " + jsonString + " missing from collection " + collectionName;
+                            errorMessage.append("\nIndex " + jsonString + " missing from collection " + collectionName);
                         }
                     }
                 }
@@ -153,7 +153,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
             IOUtils.closeQuietly(fstream);
         }
 
-        return errorMessage;
+        return errorMessage.toString();
     }
 
     protected Matcher ensureIndexStatement(String statement) {
