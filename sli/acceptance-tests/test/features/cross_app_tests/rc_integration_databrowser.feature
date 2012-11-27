@@ -84,6 +84,7 @@ Scenario: Click on Available Links associations and entities
   When I click on the "GetStaffCohortAssociations" link
   Then I am redirected to the particular associations Simple View
 
+@wip
 Scenario: Get a Forbidden message when we access something that is forbidden
   When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   Then I should be on Portal home page
