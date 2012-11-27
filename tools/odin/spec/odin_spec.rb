@@ -15,10 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 require 'equivalent-xml'
 require_relative 'spec_helper'
 require_relative '../lib/odin.rb'
 
+# specifications for ODIN
 describe "Odin" do
   describe "#validate" do
     it "generates valid XML for the default scenario" do

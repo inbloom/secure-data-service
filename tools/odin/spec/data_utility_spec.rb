@@ -18,6 +18,7 @@ limitations under the License.
 
 require_relative '../lib/Shared/data_utility.rb'
 
+# specifications for data utility
 describe "DataUtility" do
   describe "Generates correct _id for each supported entity" do
     describe "#get_student_unique_state_id" do
