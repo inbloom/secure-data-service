@@ -47,6 +47,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -65,16 +66,12 @@ public class DocumentManipulator {
 
     private DocumentBuilderFactory docFactory;
     private XPathFactory xPathFactory;
-    
-    private void init() {
+
+    public DocumentManipulator() {
         docFactory = DocumentBuilderFactory.newInstance();
         xPathFactory = XPathFactory.newInstance();
-        
+
         docFactory.setNamespaceAware(false);
-    }
-    
-    public DocumentManipulator() {
-        init();
     }
     
     /**
@@ -167,16 +164,8 @@ public class DocumentManipulator {
         } catch (FileNotFoundException e) {
             throw new DocumentManipulatorException(e);
         } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (Exception ignored) {
-                    // ignored
-                    LOG.warn(ignored.getMessage());
-                }
-            }
+            IOUtils.closeQuietly(out);
         }
-        
     }
     
     /**
@@ -241,23 +230,7 @@ public class DocumentManipulator {
     
     private Document addDefaultDocs(Document doc) throws XPathExpressionException {
         XPath xPath = XPathFactory.newInstance().newXPath();
-        xPath.setNamespaceContext(new NamespaceContext() {
-            
-            @Override
-            public Iterator<?> getPrefixes(String namespaceURI) {
-                return null;
-            }
-            
-            @Override
-            public String getPrefix(String namespaceURI) {
-                return null;
-            }
-            
-            @Override
-            public String getNamespaceURI(String prefix) {
-                return null;
-            }
-        });
+        xPath.setNamespaceContext(new MyNameSpaceContext());
         XPathExpression exp = xPath.compile("//method[not(doc)]");
         NodeList nl = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
         for (int i = 0; i < nl.getLength(); i++) {
@@ -306,5 +279,22 @@ public class DocumentManipulator {
         }
 
         return doc;
+    }
+
+    private static final class MyNameSpaceContext implements NamespaceContext {
+        @Override
+        public String getNamespaceURI(String s) {
+            return null;
+        }
+
+        @Override
+        public String getPrefix(String s) {
+            return null;
+        }
+
+        @Override
+        public Iterator getPrefixes(String s) {
+            return null;
+        }
     }
 }

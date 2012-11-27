@@ -39,7 +39,6 @@ public class HeartBeat extends Observable implements Runnable {
     /** An empty constructor */
     public HeartBeat() {
         running = true;
-        new Thread(this).start();
     }
 
     /**
@@ -79,7 +78,7 @@ public class HeartBeat extends Observable implements Runnable {
      */
     private void updateObservers() {
         setChanged();
-        notifyObservers(new Long(numberOfBeats));
+        notifyObservers(Long.valueOf(numberOfBeats));
     }
 
     /**
@@ -104,5 +103,14 @@ public class HeartBeat extends Observable implements Runnable {
     public void stopHeart() {
         running = false;
     }
+
+    /**
+     * Start the heart in a thread
+     */
+    public void startHeart() {
+        running = true;
+        new Thread(this).start();
+    }
+
 }
 

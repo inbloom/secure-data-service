@@ -16,41 +16,49 @@ limitations under the License.
 
 =end
 
+require 'yaml'
 require_relative 'baseEntity'
-require_relative '../../EntityCreation/student_builder'
-#require_relative '../demographics'
+#require_relative '../../EntityCreation/student_builder'
+#require_relative '../Shared/EntityClasses/student.rb'
 
 class Student < BaseEntity
   
-  attr_accessor :id, :sex, :birthDay, :firstName, :lastName, :address, :city, :state, :postalCode,
-                :email, :hispanicLatino, :economicDisadvantaged, :schoolFood, :limitedEnglish, :race
+  class << self; attr_accessor :demographics end
+  @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")   
+  def self.demographics; @@demographics end
+  
+  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix, 
+                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
+                :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood          
 
-  def initialize(id, year_of, demographics, rand)
-    @year_of = year_of
-    @demographics = demographics
+  def initialize(id, year_of)
     @id = id
-    @rand = rand
-    randomize
+    @year_of = year_of
+    @rand = Random.new(@id)
+    buildStudent
   end
 
-  # TODO : most, if not all of this information, should be set by the entity creator code.
-  # TODO:  placeholder method until this is completed.
-  def randomize()
-    @sex = choose(["Male", "Female"])
-    @birthDay = Date.new(@year_of) + @rand.rand(365)
-    @firstName =  choose(sex == "Male" ? @demographics.maleNames : @demographics.femaleNames)
-    @lastName = choose(@demographics.lastNames)
-    @address = @rand.rand(999).to_s + " " + choose(["North Street", "South Lane", "East Rd", "West Blvd"])
-    @city = @demographics.city
-    @state =  @demographics.state
-    @postalCode = @demographics.postalCode
-    @email = @rand.rand(10000).to_s + "@fakemail.com"
-    @hispanicLatino = wChoose(@demographics.hispanicLatinoDist)
-    @economicDisadvantaged = choose([true, false])
-    @schoolFood = wChoose(@demographics.schoolFood)
-    @limitedEnglish =  wChoose(@demographics.limitedEnglish)
-    @disability = wChoose(@demographics.disability)
-    @race =  wChoose(@demographics.raceDistribution)
+  def buildStudent
+    @sex = choose(@@demographics['sex'])
+    @prefix = sex == "Male?" ? "Mr" : "Ms"
+    @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+    @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+    @lastName = choose(@@demographics['lastNames'])
+    @suffix = wChoose(@@demographics['nameSuffix'])
+    @birthDay = @year_of + @rand.rand(365)
+    @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
+    @loginId = email
+    @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])
+    @city = @@demographics['city']
+    @state = @@demographics['state']
+    @postalCode = @@demographics['postalCode']
+    @race = wChoose(@@demographics['raceDistribution'])
+    @hispanicLatino = wChoose(@@demographics['hispanicLatinoDist'])
+    @economicDisadvantaged = wChoose(@@demographics['economicDisadvantaged'])
+    @limitedEnglish = wChoose(@@demographics['limitedEnglish'])
+    @disability = wChoose(@@demographics['disability'])
+    @schoolFood = wChoose(@@demographics['schoolFood'])
   end
-
+  
+ 
 end

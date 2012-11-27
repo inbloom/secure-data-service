@@ -71,6 +71,7 @@ public class SamlHelper {
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String ARTIFACT_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact";
     private static final String NAMEID_FORMAT_TRANSIENT = "urn:oasis:names:tc:SAML:2.0:nameid-format:transient";
+    private static final String SUCCESS_STATUS = "urn:oasis:names:tc:SAML:2.0:status:Success";
 
     // private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
 
@@ -193,21 +194,33 @@ public class SamlHelper {
             org.w3c.dom.Document doc = null;
             synchronized (domBuilder) {
                 doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
+                System.out.println("Doc is " + doc);
             }
 
             Document jdomDocument = null;
             synchronized (builder) {
                 jdomDocument = builder.build(doc);
+                System.out.println("Jdom is " + jdomDocument);
+            }
+            
+            Element status = jdomDocument.getRootElement().getChild("Status", SAMLP_NS);
+            Element statusCode = status.getChild("StatusCode", SAMLP_NS);
+            String statusValue = statusCode.getAttributeValue("Value");
+            if (!statusValue.equals(SUCCESS_STATUS)) {
+            	error("SAML Response did not have a success status, instead status was {}", statusValue);
             }
 
             synchronized (validator) {
                 String issuer = jdomDocument.getRootElement().getChildText("Issuer", SAML_NS);
                 if (!validator.isDocumentTrustedAndValid(doc, issuer)) {
+                	System.out.println("Doc is not trusted and valid");
                     throw new IllegalArgumentException("Invalid SAML message");
                 }
             }
             return jdomDocument;
         } catch (Exception e) {
+        	System.out.println("Caught exception in decodeSamlPost() " + e);
+        	e.printStackTrace();
             error("Error unmarshalling saml post", e);
             throw (IllegalArgumentException)new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }

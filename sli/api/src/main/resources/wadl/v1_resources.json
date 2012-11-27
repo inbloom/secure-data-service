@@ -422,6 +422,7 @@
         { "path": "/{id}/staffCohortAssociations/cohorts/studentCohortAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations" },
+        { "path": "/{id}/staffEducationOrgAssignmentAssociations/schools" },
         { "path": "/{id}/staffProgramAssociations" },
         { "path": "/{id}/staffProgramAssociations/programs" },
         { "path": "/{id}/staffProgramAssociations/programs/studentProgramAssociations" }

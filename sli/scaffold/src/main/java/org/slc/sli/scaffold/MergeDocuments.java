@@ -19,13 +19,9 @@ package org.slc.sli.scaffold;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.xml.xpath.XPathException;
 
-import org.slc.sli.api.resources.generic.config.ResourceEndPointTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
@@ -37,7 +33,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * Generic xml document
- * 
+ *
  * @author srupasinghe
  */
 public class MergeDocuments {
@@ -73,7 +69,7 @@ public class MergeDocuments {
 
             applyMerge(wadlDoc, mergeDoc);
             addDocumentation(wadlDoc);
-            
+
             handler.serializeDocumentToXml(wadlDoc, new File(baseFile.getParentFile().getAbsolutePath()
                     + File.separator + outputFileName));
         } catch (DocumentManipulatorException e) {
@@ -95,13 +91,10 @@ public class MergeDocuments {
 
     /**
      * Starts the merge process
-     * 
-     * @param mainDoc
-     *            The document to edit.
-     * @param mergeDoc
-     *            The document containing the edit instructions.
-     * @throws XPathException
-     *             A problem parsing the XPath location.
+     *
+     * @param mainDoc  The document to edit.
+     * @param mergeDoc The document containing the edit instructions.
+     * @throws XPathException A problem parsing the XPath location.
      */
     protected void applyMerge(Document mainDoc, Document mergeDoc) throws XPathException {
         NodeList mergeActions = handler.getNodeList(mergeDoc, BASE_XPATH_EXPR);
@@ -123,19 +116,13 @@ public class MergeDocuments {
 
     /**
      * Performs the transform on the given document with the xpath and node list
-     * 
-     * @param doc
-     *            Base document to edit.
-     * @param type
-     *            The type of element to edit (attribute or node).
-     * @param action
-     *            The action (add, delete, set) to perform.
-     * @param xpath
-     *            The XPath location to perform the edit.
-     * @param mergeNodeList
-     *            Action arguments. Nodes to add, attributes to set, etc.
-     * @throws XPathException
-     *             A problem parsing the XPath location.
+     *
+     * @param doc           Base document to edit.
+     * @param type          The type of element to edit (attribute or node).
+     * @param action        The action (add, delete, set) to perform.
+     * @param xpath         The XPath location to perform the edit.
+     * @param mergeNodeList Action arguments. Nodes to add, attributes to set, etc.
+     * @throws XPathException A problem parsing the XPath location.
      */
     protected void performTransform(Document doc, String type, String action, String xpath, NodeList mergeNodeList)
             throws XPathException {
@@ -162,11 +149,9 @@ public class MergeDocuments {
 
     /**
      * Adds the nodes in actionArgs as children nodes to editNode.
-     * 
-     * @param editNode
-     *            The node on which children will be added.
-     * @param actionArgs
-     *            The nodes to add.
+     *
+     * @param editNode   The node on which children will be added.
+     * @param actionArgs The nodes to add.
      */
     private void nodeAdd(Node editNode, NodeList actionArgs) {
         // got through and add each new node to the root
@@ -181,9 +166,8 @@ public class MergeDocuments {
 
     /**
      * Deletes a node.
-     * 
-     * @param editNode
-     *            The node to delete.
+     *
+     * @param editNode The node to delete.
      */
     private void nodeDelete(Node editNode) {
         Node parentNode = editNode.getParentNode();
@@ -192,11 +176,9 @@ public class MergeDocuments {
 
     /**
      * Deletes an attribute from a node.
-     * 
-     * @param editNode
-     *            The node from which to delete the attribute.
-     * @param actionArgs
-     *            An array of Nodes defining attributes to delete.
+     *
+     * @param editNode   The node from which to delete the attribute.
+     * @param actionArgs An array of Nodes defining attributes to delete.
      */
     private void attributeDelete(Node editNode, NodeList actionArgs) {
         for (int k = 0; k < actionArgs.getLength(); k++) {
@@ -215,11 +197,9 @@ public class MergeDocuments {
 
     /**
      * Sets the value of attributes.
-     * 
-     * @param editNode
-     *            The node where attributes will be edited.
-     * @param actionArgs
-     *            A List of nodes defining attributes and their values.
+     *
+     * @param editNode   The node where attributes will be edited.
+     * @param actionArgs A List of nodes defining attributes and their values.
      */
     private void attributeSet(Node editNode, NodeList actionArgs) {
         for (int k = 0; k < actionArgs.getLength(); k++) {
