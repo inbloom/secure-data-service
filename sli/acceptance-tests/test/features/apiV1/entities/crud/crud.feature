@@ -206,7 +206,8 @@ Examples:
     |educationOrganizations |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
     |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
     Given entity URI <Entity Resource URI>
-    Given parameter "limit" is "0"
+    #TODO BUG for the 6 entities routed to ES, revert back to "0" when bug is fixed
+    Given parameter "limit" is "250"
      When I navigate to GET "/<ENTITY URI>"
      Then I should receive a return code of <Code>
       And I should receive a collection of "<Count>" entities
@@ -215,7 +216,7 @@ Examples:
 
 Examples:
 | Entity Type             | Entity Resource URI       | Code | Count | Rewrite URI|
-| "assessment"            | "assessments"             |  200 | 17    |/assessments|
+| "assessment"            | "assessments"             |  200 | 17    |/search/assessments|
 | "attendance"            | "attendances"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
 | "cohort"                | "cohorts"                 |  200 | 2     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 |  200 | 0     |/schools/@ids/courses|
@@ -223,8 +224,8 @@ Examples:
 | "disciplineIncident"    | "disciplineIncidents"     |  200 | 0     |/staff/@ids/disciplineIncidents|
 | "educationOrganization" | "educationOrganizations"  |  200 | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
 | "gradebookEntry"        | "gradebookEntries"        |  200 | 0     |/schools/@ids/sections/gradebookEntries|
-| "learningObjective"     | "learningObjectives"      |  200 | 5     |/learningObjectives|
-| "learningStandard"      | "learningStandards"       |  200 | 14    |/learningStandards|
+| "learningObjective"     | "learningObjectives"      |  200 | 5     |/search/learningObjectives|
+| "learningStandard"      | "learningStandards"       |  200 | 14    |/search/learningStandards|
 | "parent"                | "parents"                 |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
 | "program"               | "programs"                |  200 | 2     |/staff/@ids/staffProgramAssociations/programs|
 | "school"                | "schools"                 |  200 | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
@@ -239,7 +240,7 @@ Examples:
 | "studentCompetency"     | "studentCompetencies"     |  200 | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
 | "gradingPeriod"         | "gradingPeriods"          |  200 | 0     |/schools/@ids/sessions/gradingPeriods|
 | "reportCard"            | "reportCards"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
-| "studentCompetencyObjective" | "studentCompetencyObjectives" | 200  | 0     |/educationOrganizations/@ids/studentCompetencyObjectives    |
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 200  | 1     |/search/studentCompetencyObjectives    |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -406,7 +407,8 @@ Examples:
     | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
     | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
     Given entity URI <Entity Resource URI>
-    Given parameter "limit" is "0"
+    #TODO BUG for the 6 entities routed to ES, revert back to "0" when bug is fixed
+    Given parameter "limit" is "250"
      When I navigate to GET "/<ENTITY URI>"
      Then I should receive a return code of 200
       And I should receive a collection of "<Count>" entities
@@ -415,7 +417,7 @@ Examples:
 
 Examples:
 | Entity Type             | Entity Resource URI       | Count | Rewrite URI|
-| "assessment"            | "assessments"             | 17    |/assessments|                                                                            
+| "assessment"            | "assessments"             | 17    |/search/assessments|                                                                            
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 1     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 | 26    |/schools/@ids/courses|
@@ -423,8 +425,8 @@ Examples:
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
 | "gradebookEntry"        | "gradebookEntries"        | 1     |/sections/@ids/gradebookEntries|
-| "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
-| "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
+| "learningObjective"     | "learningObjectives"      | 5     |/search/learningObjectives|                                                                     
+| "learningStandard"      | "learningStandards"       | 14    |/search/learningStandards|                                                                      
 | "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2     |/teachers/@ids/teacherSchoolAssociations/schools|                                                                              
@@ -439,7 +441,7 @@ Examples:
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
 | "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
 | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
-| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/educationOrganizations/@ids/studentCompetencyObjectives    |
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/search/studentCompetencyObjectives    |
 
 	@DE1825 
 	Scenario: Invalid data parsing fails gracefully

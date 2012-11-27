@@ -23,7 +23,7 @@ require 'socket'
 ###############################  After Scenario Do ###############################
 # Clear Elastic Search Indexer
 # Clear student and section collection from mongo
-After do |scenario|
+After('~@smoke') do |scenario|
   step 'I DELETE to clear the Indexer'
   
   # Clear Mongo
