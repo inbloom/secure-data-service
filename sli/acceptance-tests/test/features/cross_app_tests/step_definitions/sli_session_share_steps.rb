@@ -74,9 +74,9 @@ end
 When /^I navigate to the databrowser page$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
   begin
-    puts "webpage =" + @driver.to_s
+    puts @driver.page_source
     @driver.switch_to.alert.accept
-    puts "webpage =" + @driver.to_s
+    puts @driver.page_source
   rescue
   end
 end
@@ -92,7 +92,7 @@ end
 
 Then /^I should forced to reauthenticate to gain access$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
-  puts "current page =" + @driver.to_s  
+  puts @driver.page_source
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}  
 end
 

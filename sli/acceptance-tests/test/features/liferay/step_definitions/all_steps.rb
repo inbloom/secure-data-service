@@ -42,6 +42,7 @@ Then /^I click on log out$/ do
   menu.click
   menuList.find_element(:link_text, "Logout").click
   assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
+  puts @driver.page_source
 end
 
 # TODO, look for something now in eula, if found proceed

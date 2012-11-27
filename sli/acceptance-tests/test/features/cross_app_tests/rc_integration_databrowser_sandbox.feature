@@ -12,9 +12,9 @@ Feature: Data Browser
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials "e2etestdev@slidev.org" "test1234" for the "Simple" login page
+    When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be redirected to the impersonation page
-    And I should see that I "e2etestdev@slidev.org" am logged in
+    And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
     # Illinois State IT Administrator - Rick Rogers
     And I want to select "rrogers" from the "SmallDatasetUsers" in automatic mode
@@ -45,7 +45,7 @@ Feature: Data Browser
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
-    And I should see that I "e2etestdev@slidev.org" am logged in
+    And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
     # Illinois Daybreak District IT Administrator - James Stevenson
     And I want to select "jstevenson" from the "SmallDatasetUsers" in automatic mode
@@ -73,7 +73,7 @@ Feature: Data Browser
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
-    And I should see that I "e2etestdev@slidev.org" am logged in
+    And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
     # Illinois South Daybreak Elementary IT Administrator - Amy Kopel
     And I want to select "akopel" from the "SmallDatasetUsers" in automatic mode
@@ -109,7 +109,7 @@ Feature: Data Browser
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
-    And I should see that I "e2etestdev@slidev.org" am logged in
+    And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
     # Illinois Daybreak Central High Educator - Charles Gray
     And I want to select "cgray" from the "SmallDatasetUsers" in automatic mode
@@ -122,7 +122,7 @@ Feature: Data Browser
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
-    And I should see that I "e2etestdev@slidev.org" am logged in
+    And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
     # Illinois Daybreak Central High Educator - Charles Gray as IT Administrator
     And I want to manually imitate the user "cgray" who is a "IT Administrator"
