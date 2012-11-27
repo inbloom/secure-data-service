@@ -97,7 +97,7 @@ end
 
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"s
-  if (scenario.failed?)
+  if (scenario.failed? and !@driver.nil?)
     @driver.save_screenshot("./cats_with_lasers.png")
   else
     File.new("./dummy_placeholder.png", "w")
