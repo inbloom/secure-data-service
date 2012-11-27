@@ -9,7 +9,7 @@ Background:
     Then I will be redirected to realm selector web page
     When I click on the "Shared Learning Collaborative" realm in "Admin"
 	And I was redirected to the "Simple" IDP Login page
-	When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page  
+	When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page  
     Then I should be on Portal home page
     Then I should see Admin link
     And I click on Admin

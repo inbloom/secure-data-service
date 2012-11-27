@@ -117,6 +117,22 @@ task :rcDeleteLDAPUsers do
   end
 end
 
+desc "Delete Dev1 and Dev2 from LDAP"
+task :rcDeleteSandboxLDAPUsers do
+  emailsToDelete = [(PropLoader.getProps['developer_sb_email_imap_registration_user_email']),
+                    (PropLoader.getProps['developer2_sb_email_imap_registration_user_email'])]
+  emailsToDelete.each do |email|
+    begin
+      cleanUpLdapUser(email)
+      puts "Successfully Deleted #{email} from LDAP"
+    rescue Exception => e  
+      puts e.message
+      puts e.backtrace.inspect
+      puts "Error:  Deleting #{email} from LDAP failed"
+    end
+  end
+end
+
 desc "Run RC Tests"
 task :rcTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc"
@@ -144,7 +160,7 @@ end
 desc "Run RC Tests"
 task :rcSandboxTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc @sandbox"
-  Rake::Task["rcDeleteLDAPUsers"].execute
+  Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["rcSandboxAppApprovalTests"].execute

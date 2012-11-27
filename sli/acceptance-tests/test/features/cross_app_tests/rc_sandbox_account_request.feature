@@ -25,9 +25,9 @@ Scenario: As an app developer I request a sandbox account and  I want to verify 
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
   And I fill out the field "Vendor" as "WGEN RC"
-  And I fill out the field "Email" as "<DEVELOPER_EMAIL>"
-  And I fill out the field "Password" as "<DEVELOPER_EMAIL_PASS>"
-  And I fill out the field "Confirmation" as "<DEVELOPER_EMAIL_PASS>"
+  And I fill out the field "Email" as "<DEVELOPER_SB_EMAIL>"
+  And I fill out the field "Password" as "<DEVELOPER_SB_EMAIL_PASS>"
+  And I fill out the field "Confirmation" as "<DEVELOPER_SB_EMAIL_PASS>"
   Then my password is shown as a series of dots
   And a captcha form is shown
   And when I click "Submit"
