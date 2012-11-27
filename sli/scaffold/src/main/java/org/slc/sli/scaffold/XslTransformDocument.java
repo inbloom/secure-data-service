@@ -17,6 +17,8 @@
 
 package org.slc.sli.scaffold;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import java.io.File;
@@ -25,10 +27,12 @@ import java.io.File;
  * User: wscott
  */
 public class XslTransformDocument {
+    private static final Logger LOG = LoggerFactory.getLogger(XslTransformDocument.class);
+
     private final DocumentManipulator handler = new DocumentManipulator();
 
     public XslTransformDocument() {
-        handler.init();
+        // No Op
     }
 
     public void transform(File wadlFile, File xsltFile, String outputFile) {
@@ -37,7 +41,7 @@ public class XslTransformDocument {
 
             handler.serializeDocumentToHtml(wadlDoc, new File(outputFile), xsltFile);
         } catch (DocumentManipulatorException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
 
     }

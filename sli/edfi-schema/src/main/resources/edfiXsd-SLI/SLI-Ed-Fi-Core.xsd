@@ -1221,9 +1221,6 @@
 	<xs:complexType name="SLC-CohortIdentityType">
 		<xs:annotation>
 			<xs:documentation>Changed to contain an embedded EducationalOrgReference.</xs:documentation>
-			<xs:appinfo>
-				<sli:applyKeyFields>true</sli:applyKeyFields>
-			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="CohortIdentifier" type="CohortIdentifier">
