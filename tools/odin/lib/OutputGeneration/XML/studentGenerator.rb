@@ -39,8 +39,8 @@ class StudentGenerator < InterchangeGenerator
   end
 
 
-  def initialize(filename)
-    super(filename)
+  def initialize(interchange)
+    super(interchange)
 
     @generator = StudentGenerator::StudentInterchange.new
 

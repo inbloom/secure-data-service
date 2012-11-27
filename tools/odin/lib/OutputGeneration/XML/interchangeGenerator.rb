@@ -21,14 +21,13 @@ class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(filename)
+  def initialize(interchange)
     @stime = Time.now
     @entityCount = 0
-    @filename = filename
+    @interchange = interchange
   end
 
   def start()
-    @interchange = File.open("generated/#{@filename}", 'w')
     @interchange << @header
   end
 
