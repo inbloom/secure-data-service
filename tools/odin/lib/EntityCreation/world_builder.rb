@@ -22,8 +22,11 @@ require 'logger'
 require_relative "../OutputGeneration/XML/educationOrganizationGenerator.rb"
 require_relative "../OutputGeneration/XML/educationOrgCalendarGenerator.rb"
 require_relative "../Shared/EntityClasses/enum/GradeLevelType.rb"
+require_relative "../Shared/EntityClasses/enum/GradingPeriodType.rb"
 require_relative "../Shared/EntityClasses/schoolEducationOrganization.rb"
 require_relative "../Shared/data_utility.rb"
+require_relative "../Shared/date_interval.rb"
+require_relative "../Shared/date_utility.rb"
 
 # World Builder
 # -> intent is to create 'scaffolding' that represents a detailed, time-sensitive view of the world
@@ -45,7 +48,7 @@ class WorldBuilder
     @edOrgs["high"]       = []
 
     @education_organization_writer = EducationOrganizationGenerator.new
-    #@education_org_calendar_writer = EducationOrgCalendarGenerator.new
+    @education_org_calendar_writer = EducationOrgCalendarGenerator.new
   end
 
   # Builds the initial snapshot of the world
@@ -289,13 +292,25 @@ class WorldBuilder
 
     # loop over years updating infrastructure and population
     for year in begin_year..(begin_year+num_years-1) do
-      # Update infrastructure entities for the year
-      #@log.info "creating session information for school year: #{year}-#{year+1} at education organization: #{edOrgId}"
-      @log.info "creating session information for school year: #{year}-#{year+1}"
       # create session for LEAs
-      # -> create grading periods for session
-      # -> create calendar dates for grading period
-      # iterate through schools and determine with some probability if school overrides existing lea session
+      # -> create grading period(s) for session
+      # -> create calendar date(s) for grading period
+      # -> [not done] iterate through schools and determine with some probability if school overrides existing lea session
+      @log.info "creating session information for school year: #{year}-#{year+1}"
+      @edOrgs["leas"].each_index do |index|
+        edOrg = @edOrgs["leas"][index]
+        state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
+        start_date = DateUtility.random_school_day_on_interval(rand, Date.new(year, 8, 25), Date.new(year, 9, 10))
+        interval   = DateInterval.create_using_start_and_num_days(rand, start_date, 180)
+
+        session             = Hash.new
+        session["term"]     = :YEAR_ROUND
+        session["year"]     = year
+        session["name"]     = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id
+        session["interval"] = interval
+        session["edOrgId"]  = state_organization_id
+        @edOrgs["leas"][index]["sessions"] << session
+      end
     end
   end
 
@@ -308,7 +323,7 @@ class WorldBuilder
   # close all file handles used for writing ed-fi xml interchanges
   def close_interchanges
     @education_organization_writer.close
-    #@education_org_calendar_writer.close
+    @education_org_calendar_writer.close
   end
 
   # writes ed-fi xml interchange: education organization
@@ -316,7 +331,7 @@ class WorldBuilder
   # - StateEducationAgency
   # - LocalEducationAgency
   # - School [Elementary, Middle, High]
-  # - [not yet implemented] Course
+  # - Course
   # - [not yet implemented] Program
   def write_education_organization_interchange(rand, yaml)
     # write state education agencies
@@ -340,7 +355,90 @@ class WorldBuilder
     end
   end
 
+  # writes ed-fi xml interchange: education organization calendar
+  # entities:
+  # - Session
+  # - [not done] GradingPeriod
+  # - [not done] CalendarDate
   def write_education_org_calendar_interchange(rand, yaml)
+    # write sessions at the district level
+    @edOrgs["leas"].each do |ed_org|
+      # get sessions currently stored on local education agency
+      # iterate through sessions
+      sessions  = ed_org["sessions"]
+      ed_org_id = DataUtility.get_local_education_agency_id(ed_org["id"])
+      sessions.each do |session|
+        interval  = session["interval"]
+        year      = session["year"]
+
+        # create calendar date(s) using interval
+        # create grading period(s) using interval, school year, and state organization id
+        calendar_dates  = create_calendar_dates(interval)        
+        grading_periods = create_grading_periods(interval, year, ed_org_id)
+
+        # create and write session
+        name      = session["name"]
+        term      = session["term"]
+        @education_org_calendar_writer.create_session(name, year, term, interval, ed_org_id, grading_periods)
+
+        # write grading period(s)
+        grading_periods.each do |grading_period|
+          type      = grading_period["type"]
+          year      = grading_period["year"]
+          interval  = grading_period["interval"]
+          ed_org_id = grading_period["ed_org_id"]
+          @education_org_calendar_writer.create_grading_period(type, year, interval, ed_org_id, calendar_dates)
+        end
+
+        # write calendar date(s)
+        calendar_dates.each do |calendar_date|
+          @education_org_calendar_writer.create_calendar_date(calendar_date["date"], calendar_date["event"])
+        end
+      end
+    end
+  end
+
+  # creates an array of calendar dates that represent the specified interval
+  # interval specifies:
+  # - start date
+  # - end date
+  # - holidays
+  # - num of instructional days (not used)
+  def create_calendar_dates(interval)
+    calendar_dates = []
+    begin_date     = interval.get_begin_date
+    end_date       = interval.get_end_date
+    holidays       = interval.get_holidays
+    (begin_date..end_date).step(1) do |date|
+      if holidays.include?(date)
+        calendar_date          = Hash.new
+        calendar_date["date"]  = date
+        calendar_date["event"] = :HOLIDAY
+        calendar_dates << calendar_date
+      else
+        if date.wday != 0 and date.wday != 6
+          calendar_date          = Hash.new
+          calendar_date["date"]  = date
+          calendar_date["event"] = :INSTRUCTIONAL_DAY
+          calendar_dates << calendar_date
+        end
+      end
+    end
+    calendar_dates
+  end
+
+  # creates an array of grading periods that occur over the specified interval
+  # -> currently, only a single grading period is generated (for whole session)
+  # -> future implementations should take an additional variable that specifies breakdown into multiple grading periods
+  def create_grading_periods(interval, year, ed_org_id)
+    grading_periods              = []
+    grading_period               = Hash.new
+    grading_period["type"]       = :END_OF_YEAR
+    grading_period["year"]       = year
+    grading_period["interval"]   = interval
+    grading_period["ed_org_id"]  = ed_org_id
+    grading_periods              << grading_period
+    grading_periods
   end
 
   # creates courses at the state education agency by populating a 'course catalog'
@@ -386,11 +484,6 @@ class WorldBuilder
         @education_organization_writer.create_course(rand, id, title, edOrgId)
       end
     end
-  end
-
-  # writes the sessions at each local education agency to the education organization calendar interchange
-  # -> will also check to see if schools have extended district-level session
-  def write_sessions(rand, edOrgId, sessions)
   end
 
   # computes a random number on the interval [min, max]

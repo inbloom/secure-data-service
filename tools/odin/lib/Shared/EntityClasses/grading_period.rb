@@ -18,25 +18,24 @@ limitations under the License.
 
 require_relative "../date_interval.rb"
 require_relative "baseEntity"
-require_relative "enum/SchoolTerm.rb"
 require_relative "enum/GradingPeriodType.rb"
+require_relative "enum/CalendarEventType.rb"
 
-# creates session
-class Session < BaseEntity
+# creates grading period
+class GradingPeriod < BaseEntity
 
   attr_accessor :name, :school_year, :ed_org_id;
 
-  def initialize(name, year, term, interval, ed_org_id, grading_periods)
-  	@name            = name
-  	@school_year     = year.to_s + "-" + (year+1).to_s
-  	@term            = term
-  	@interval        = interval
-  	@ed_org_id       = ed_org_id
-    @grading_periods = grading_periods
+  def initialize(type, year, interval, ed_org_id, calendar_dates)
+  	@type           = type
+  	@school_year    = year.to_s + "-" + (year+1).to_s
+  	@interval       = interval
+  	@ed_org_id      = ed_org_id
+    @calendar_dates = calendar_dates
   end
 
-  def term
-    SchoolTerm.to_string(@term)
+  def type
+  	GradingPeriodType.to_string(@type)
   end
 
   def begin_date
@@ -51,16 +50,17 @@ class Session < BaseEntity
   	@interval.get_num_school_days
   end
 
-  def grading_periods
-    periods = []
-    @grading_periods.each do |grading_period|
-      interval             = grading_period["interval"]
-      period               = Hash.new
-      period["type"]       = GradingPeriodType.to_string(grading_period["type"])
-      period["begin_date"] = interval.get_begin_date
-      period["ed_org_id"]  = grading_period["ed_org_id"]
-      periods              << period
+  # this is not strictly needed, yet
+  # --> this will become needed when de2170 is complete (adds calendar event type back 
+  #     into natural key of calendar date identity used by reference)
+  def calendar_dates
+    dates = []
+    @calendar_dates.each do |calendar_date|
+      date          = Hash.new
+      date["date"]  = calendar_date["date"]
+    #  date["event"] = CalendarEventType.to_string(calendar_date["event"])
+      dates         << date
     end
-    periods
+    dates
   end
 end
