@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AcademicHonorsType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A designation of the type of academic distinctions earned by or awarded to the student.",
-  "xsd-type" : "token",
-  "symbols" : [ "Honor_roll", "Honor_society", "Honorable_mention", "Honors_program", "Prize_awards", "Scholarships", "Awarding_of_units_of_value", "Citizenship_award_recognition", "Completion_of_requirement_but_no_units_of_value_awarded", "Attendance_award", "Certificate", "Honor_award", "Letter_of_student_commendation", "Medals", "National_Merit_scholar", "Points", "Promotion_or_advancement", "Other" ]
-}

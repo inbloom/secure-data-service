@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "TitleIPartAParticipantType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An indication of the type of Title I program, if any, in which the student is participating and served.",
-  "xsd-type" : "token",
-  "symbols" : [ "Public_Targeted_Assistance_Program", "Public_Schoolwide_Program", "Private_school_students_participating", "Local_Neglected_Program", "Was_not_served" ]
-}

@@ -31,11 +31,6 @@ public class XslTransformDocumentTest {
     DocumentManipulator handler = new DocumentManipulator();
     XslTransformDocument xslt = new XslTransformDocument();
 
-    @Before
-    public void setup() {
-        handler.init();
-    }
-
     @Test
     public void testXslt() {
         URL wadlUrl = this.getClass().getResource("/eapplication.wadl");

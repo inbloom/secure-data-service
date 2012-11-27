@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ReporterDescriptionType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Information on the type of individual who reported the incident.",
-  "xsd-type" : "token",
-  "symbols" : [ "Parent", "Staff", "Student", "Other" ]
-}
