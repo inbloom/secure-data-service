@@ -31,12 +31,11 @@ class InterchangeGenerator
     @interchange << @header
   end
 
-  def <<(entities)
+  def report(entities)
     @entityCount = @entityCount + entities.length
     if @entityCount % 100000 == 0
       puts "\t#@entityCount entities created."
     end
-
   end
 
   def finalize()
