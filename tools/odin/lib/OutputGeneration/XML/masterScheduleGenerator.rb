@@ -16,9 +16,48 @@ limitations under the License.
 
 =end
 
+require "mustache"
+
 require_relative "./interchangeGenerator.rb"
+
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
+
+# event-based master schedule interchange generator
 class MasterScheduleGenerator < InterchangeGenerator
+
+  # course offering writer
+  class CourseOfferingWriter < Mustache
+    def initialize
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/course_offering.mustache"
+      @entity = nil
+    end
+    def course_offering
+      @entity
+    end
+    def write(entity)
+      @entity = entity
+      render
+    end
+  end
+
+  # section writer
+  class SectionWriter < Mustache
+    def initialize
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/section.mustache"
+      @entity = nil
+    end
+    def section
+      @entity
+    end
+    def write(entity)
+      @entity = entity
+      render
+    end
+  end
+
+  # initialization will define the header and footer for the master schedule interchange
+  # writes header to master schedule interchange
+  # leaves file handle open for event-based writing of ed-fi entities
   def initialize
     @header = <<-HEADER
 <?xml version="1.0"?>
@@ -28,6 +67,27 @@ HEADER
     @footer = <<-FOOTER
 </InterchangeMasterSchedule>
 FOOTER
+    @handle = File.new("generated/InterchangeMasterSchedule.xml", 'w')
+    @handle.write(@header)
+
+    @course_offering_writer = CourseOfferingWriter.new
+    @section_writer         = SectionWriter.new
+  end
+
+  # creates and writes course offering to interchange
+  def create_course_offering(id, title, ed_org_id, session, course)
+    @handle.write @course_offering_writer.write(CourseOffering.new(id, title, ed_org_id, session, course))
+  end
+
+  # creates and writes section to interchange
+  def create_section
+    #@handle.write @section_writer.write(Section.new(name, year, term, interval, ed_org_id, grading_periods))
+  end
+
+  # writes footer and closes education organization calendar interchange file handle
+  def close
+    @handle.write(@footer)
+    @handle.close()
   end
 
   def write(prng, yamlHash)

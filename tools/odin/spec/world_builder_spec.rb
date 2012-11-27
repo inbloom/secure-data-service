@@ -35,6 +35,7 @@ describe "WorldBuilder" do
   	  before (:each) do
   	  	@education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
+        @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
   	  end
 
       it "education organization interchange will contain a single state education agency" do
@@ -64,6 +65,9 @@ describe "WorldBuilder" do
       it "education organization calendar interchange will contain the correct number of calendar dates" do
         @education_org_calendar.readlines.select{|l| l.match("<CalendarDate>")}.length.should eq(1161)
       end
+      it "master schedule interchange will contain the correct number of course offerings" do
+        @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(102)
+      end
     end
   end
 
@@ -82,6 +86,7 @@ describe "WorldBuilder" do
   	  before (:each) do
   	  	@education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
+        @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
   	  end
 
       it "education organization interchange will contain a single state education agency" do
@@ -113,6 +118,9 @@ describe "WorldBuilder" do
       end
       it "education organization calendar interchange will contain the correct number of calendar dates" do
         @education_org_calendar.readlines.select{|l| l.match("<CalendarDate>")}.length.should eq(166050)
+      end
+      it "master schedule interchange will contain the correct number of course offerings" do
+        @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(39066)
       end
     end
   end
