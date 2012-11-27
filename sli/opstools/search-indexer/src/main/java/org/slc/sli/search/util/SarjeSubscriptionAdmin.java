@@ -11,6 +11,8 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.Topic;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
@@ -19,6 +21,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -51,6 +54,7 @@ public class SarjeSubscriptionAdmin {
     private Topic subscriptionBroadcastTopic;
 
     private ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private MongoTemplate mongoTemplate;
 
     public void init() {
         if (jmsTemplate == null) {
@@ -81,9 +85,16 @@ public class SarjeSubscriptionAdmin {
         // we cannot use findAll because document structure can deviate from
         // search job definition and result in extra fields we can't ignore.
         Map<String, Map<String, Object>> subscriptions = new HashMap<String, Map<String, Object>>();
+
         DBCursor cursor = null;
         try {
-            cursor = sourceDatastoreConnector.getDBCursor(this.dbJobsCollection, fields);
+            BasicDBObject keys = new BasicDBObject();
+            for (String field : fields) {
+                keys.put(field, 1);
+            }
+
+            DBCollection collection = mongoTemplate.getCollection(this.dbJobsCollection);
+            cursor = collection.find(new BasicDBObject(), keys);
             DBObject obj;
             while (cursor.hasNext()) {
                 obj = cursor.next();
@@ -104,7 +115,7 @@ public class SarjeSubscriptionAdmin {
         Subscription existing = objectMapper.convertValue(getAllSubscriptions().get(SEARCH_EVENT_ID), Subscription.class);
         Subscription current = getSearchSubscription();
         if (!current.equals(existing)) {
-            sourceDatastoreConnector.save(dbJobsCollection, current);
+            mongoTemplate.save(current, dbJobsCollection);
             publishSubscriptions();
         }
     }
@@ -149,6 +160,10 @@ public class SarjeSubscriptionAdmin {
 
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
+    }
+
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
     }
 
     /**

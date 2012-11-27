@@ -46,16 +46,21 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	
 	<bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository"/>
 	
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+	<bean id="dataMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="mappingConverter" />
+	</bean>
+	
+	<bean id="sarjeMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="searchMongo" />
+		<constructor-arg value="${sli.eventbus.mongodb.database:eventbus}" />
 	</bean>
 	
 	<bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
 	
 	<bean id="mongoEntityRepository" name="validationRepo"
 	class="org.slc.sli.dal.repository.MongoEntityRepository">
-		<property name="template" ref="mongoTemplate" />
+		<property name="template" ref="dataMongoTemplate" />
 	</bean>
 	
 	<bean id="indexEntityConverter" class="org.slc.sli.search.transform.IndexEntityConverter">
@@ -69,7 +74,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	</bean>
 	
 	<bean id="sourceDatasourceConnector" class="org.slc.sli.search.connector.impl.SourceDatastoreConnectorImpl">
-		<property name="mongoTemplate" ref="mongoTemplate" />
+		<property name="mongoTemplate" ref="dataMongoTemplate" />
 	</bean>
 	
 	<bean id="searchEngineConnector" class="org.slc.sli.search.connector.impl.ESOperation">
@@ -155,6 +160,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="dbJobsCollection" value="${sli.search.indexer.sarje.sub.jobsCollection:jobs}"/>
 		<property name="subscriptionBroadcastTopic" ref="sarjeSubTopic"/>
 		<property name="jmsTemplate" ref="jmsTemplate"/>
+		<property name="mongoTemplate" ref="sarjeMongoTemplate"/>
 	</bean>
 
 </beans>
