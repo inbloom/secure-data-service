@@ -21,6 +21,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model node.
+ */
 public interface DmNode extends DmItem, DmNodeSequence {
 
     /**

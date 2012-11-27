@@ -59,6 +59,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     private boolean validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
+        // Defect: DE2198
         // TODO need programs/cohorts with studentRecordAccess = true
         boolean isValid = true;
 
@@ -89,8 +90,8 @@ public class StaffToStudentValidator extends AbstractContextValidator {
                     cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
                 }
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
-                boolean byProgram = programValidator.validate(EntityNames.PROGRAM, programs);
-                boolean byCohort = cohortValidator.validate(EntityNames.COHORT, cohorts);
+                boolean byProgram = programValidator.validateWithStudentAccess(EntityNames.PROGRAM, programs, true);
+                boolean byCohort = cohortValidator.validateWithStudentAccess(EntityNames.COHORT, cohorts, true);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) || byProgram || byCohort)) {
                     isValid = false;
                     break;

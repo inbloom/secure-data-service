@@ -37,7 +37,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
@@ -45,6 +44,9 @@ import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Read PSM.
+ */
 public final class PsmConfigReader {
 
     private static final Logger LOG = LoggerFactory.getLogger(PsmConfigReader.class);
@@ -299,7 +301,6 @@ public final class PsmConfigReader {
             }
             }
         }
-        // TODO:
         return new PsmDocument<Type>(type, graphResource, collection);
     }
 

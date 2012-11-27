@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @param <TYPE> Feature type.
+ */
 public final class Domain<TYPE> {
     private final String title;
     private final String description;
@@ -30,16 +34,16 @@ public final class Domain<TYPE> {
     public Domain(final String title, final String description, final List<Entity<TYPE>> entities,
             final List<Diagram> diagrams) {
         if (title == null) {
-            throw new NullPointerException("title");
+            throw new IllegalArgumentException("title");
         }
         if (description == null) {
-            throw new NullPointerException("description");
+            throw new IllegalArgumentException("description");
         }
         if (entities == null) {
-            throw new NullPointerException("entities");
+            throw new IllegalArgumentException("entities");
         }
         if (diagrams == null) {
-            throw new NullPointerException("diagrams");
+            throw new IllegalArgumentException("diagrams");
         }
         this.title = title;
         this.description = description;

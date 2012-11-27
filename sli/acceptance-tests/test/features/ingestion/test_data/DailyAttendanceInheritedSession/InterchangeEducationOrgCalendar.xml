@@ -1,44 +1,46 @@
 <?xml version="1.0" ?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
-	<!-- CalendarDates for the 2010-2011 school year -->
-	<CalendarDate id="CLND_20100823Instructionalday">
-		<Date>2010-08-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<GradingPeriod id="GRDP_20101108">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Third Six Weeks</GradingPeriod>
-			<SchoolYear>2010-2011</SchoolYear>
-			<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-		</GradingPeriodIdentity>
-		<BeginDate>2010-11-08</BeginDate>
-		<EndDate>2011-01-09</EndDate>
-		<TotalInstructionalDays>27</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20100823Instructionalday"/>
-	</GradingPeriod>
-	<Session>
-		<SessionName>Fall 2010 IL-DAYBREAK</SessionName>
-		<SchoolYear>2010-2011</SchoolYear>
-		<Term>Fall Semester</Term>
-		<BeginDate>2011-08-06</BeginDate>
-		<EndDate>2011-10-06</EndDate>
-		<TotalInstructionalDays>75</TotalInstructionalDays>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<GradingPeriodReference>
-			<GradingPeriodIdentity>
-				<EducationalOrgReference>
-					<EducationalOrgIdentity>
-						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<GradingPeriod>Third Six Weeks</GradingPeriod>
-				<BeginDate>2010-11-08</BeginDate>
-			</GradingPeriodIdentity>
-		</GradingPeriodReference>
-	</Session>
+    <!-- CalendarDates for the 2010-2011 school year -->
+    <CalendarDate id="CLND_20100823Instructionalday">
+        <Date>2010-08-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <GradingPeriod id="GRDP_20101108">
+        <GradingPeriod>Third Six Weeks</GradingPeriod>
+        <SchoolYear>2010-2011</SchoolYear>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <BeginDate>2010-11-08</BeginDate>
+        <EndDate>2011-01-09</EndDate>
+        <TotalInstructionalDays>27</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20100823Instructionalday"/>
+    </GradingPeriod>
+    <Session>
+        <SessionName>Fall 2010 IL-DAYBREAK</SessionName>
+        <SchoolYear>2010-2011</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-08-06</BeginDate>
+        <EndDate>2011-10-06</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Third Six Weeks</GradingPeriod>
+                <BeginDate>2010-11-08</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </Session>
 </InterchangeEducationOrgCalendar>

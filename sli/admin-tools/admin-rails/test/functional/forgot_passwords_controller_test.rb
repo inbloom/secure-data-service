@@ -20,7 +20,7 @@ require 'test_helper'
 
 class ForgotPasswordsControllerTest < ActionController::TestCase
   setup do
-     @forgot_password = ForgotPassword.new(
+    @forgot_password = ForgotPassword.new(
         :token => 's9a8qwiwdd9ww23e223e22e2e2wdqw==',
         :new_pass => 'testabcd',
         :confirmation => 'testabcd'
@@ -33,6 +33,7 @@ class ForgotPasswordsControllerTest < ActionController::TestCase
   end
 
   test "should create forgot_password" do
+    APP_LDAP_CLIENT.stubs(:read_user_resetkey).returns({})
     post :create, forgot_password: { token: @forgot_password.token, new_pass: @forgot_password.new_pass, confirmation: @forgot_password.confirmation }
     assert_response :success
   end

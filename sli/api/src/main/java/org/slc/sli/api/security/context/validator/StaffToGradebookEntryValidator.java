@@ -63,7 +63,6 @@ public class StaffToGradebookEntryValidator extends AbstractContextValidator {
           sectionIds.add(sectionId);
       }
       
-        // TODO can this happen?
       if (gbeIds.size() != ids.size() || ids.size() == 0) {
           return false;
       }

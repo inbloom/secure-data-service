@@ -21,7 +21,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,9 +32,11 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.xml.XMLStreamReaderTools;
 
+/**
+ * Read an XMI file.
+ */
 public final class XmiMappingReader {
     
     /**
@@ -119,7 +120,8 @@ public final class XmiMappingReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiMappingConstants.DOCUMENT_ELEMENT, reader)) {
-                        return dm = assertNotNull(readMappingList(reader));
+                        dm = assertNotNull(readMappingList(reader));
+                        return dm;
                     } else {
                         XMLStreamReaderTools.skipElement(reader);
                     }

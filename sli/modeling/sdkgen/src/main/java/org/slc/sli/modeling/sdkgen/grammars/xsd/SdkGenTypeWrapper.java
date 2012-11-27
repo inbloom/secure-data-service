@@ -28,6 +28,9 @@ import org.apache.ws.commons.schema.XmlSchemaType;
 
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenType;
 
+/**
+ * Type wrapper.
+ */
 public final class SdkGenTypeWrapper implements SdkGenType {
 
     @SuppressWarnings("unused")

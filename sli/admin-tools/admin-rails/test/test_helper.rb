@@ -34,7 +34,7 @@ class ActiveSupport::TestCase
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
   # fixtures :all
-  
+
   def load_fixture(name)
     path = File.join(Rails.root, "test", "fixtures", "#{name}.yml")
     return nil unless File.exists?(path)
@@ -59,7 +59,7 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/realm/1", {"Accept" => "application/json"}, @realm_fixtures['one'].to_json
       mock.get "/api/rest/realm/5a4bfe96-1724-4565-9db1-35b3796e3ce2", {"Accept" => "application/json"}, nil, 404
       mock.put "/api/rest/realm/1", {"Content-Type"=>"application/json"}, {}
-      
+
       #apps
       mock.get "/api/rest/apps", {"Accept" => "application/json"}, [@app_fixtures['admin'], @app_fixtures['waffles']].to_json
       mock.get "/api/rest/apps/1", {"Accept" => "application/json"}, @app_fixtures['admin'].to_json
@@ -87,7 +87,7 @@ class ActiveSupport::TestCase
       #admin delegations
       mock.get "/api/rest/adminDelegation", {"Accept" => "application/json"}, [@admin_delegations_fixtures["one"]].to_json
       mock.post "/api/rest/adminDelegation", {"Content-Type" => "application/json"}, @admin_delegations_fixtures["one"].to_json, 201
-      
+
       #Support email
       mock.get "/api/rest/v1/system/support/email/", {"Accept" => "application/json"}, {"email" => "email@email.com"}.to_json
 
@@ -97,13 +97,13 @@ class ActiveSupport::TestCase
 
       #change password
       mock.get "/api/rest/change_passwords", {"Accept"=>"application/json"}, [].to_json
-      
+
       # users
       mock.get "/api/rest/users",{"Accept"=>"application/json"}, [@user_fixtures['user1']].to_json
       mock.delete "/api/rest/users/testuser@testwgen.net", {"Accept"=>"application/json"}, nil,200
       mock.post "/api/rest/users", {"Content-Type"=>"application/json"}, @user_fixtures['new_user'].to_json,201
       mock.put "/api/rest/users/testuser@testwgen.net", {"Content-Type"=>"application/json"}, @user_fixtures['update_user'].to_json,204
-      
+
     end
   end
 
@@ -112,29 +112,29 @@ class MockResponse
   @responseCode
   @validation
   @body
-  
+
   def initialize(newCode,newValidation=true,newBody="DEFAULT")
     @responseCode = newCode
     @validation = newValidation
     @body = newBody
   end
-  
+
   def body
-  	if @body == "DEFAULT"
-    	return "[{\"validated\":#{@validation}, \"id\":\"1234567890\"}]"
+    if @body == "DEFAULT"
+      return "[{\"validated\":#{@validation}, \"id\":\"1234567890\"}]"
     else
-    	return @body
+      return @body
     end
   end
-   
+
   def code
     return @responseCode
   end
   def raw_headers
-  	return {
-  	"location"=>["http://host:8080/api/rest/v1/userAccounts/1234567890"], 
-  	"content-type"=>["application/json"], 
-  	"content-length"=>["0"], 
-  	"server"=>["Jetty(6.1.10)"]}
+    return {
+        "location"=>["http://host:8080/api/rest/v1/userAccounts/1234567890"],
+        "content-type"=>["application/json"],
+        "content-length"=>["0"],
+        "server"=>["Jetty(6.1.10)"]}
   end
 end

@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.psm;
 
+/**
+ * Model a collection.
+ */
 public final class PsmCollection {
     private final String name;
     

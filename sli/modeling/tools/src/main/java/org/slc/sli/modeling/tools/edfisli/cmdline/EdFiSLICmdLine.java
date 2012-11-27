@@ -17,6 +17,13 @@
 
 package org.slc.sli.modeling.tools.edfisli.cmdline;
 
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,20 +34,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.index.DefaultModelIndex;
-import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.slc.sli.modeling.xmi.reader.XmiReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A hack/program to compare what is in Ed-Fi schema with what is in the SLI
  * model.
  */
 public final class EdFiSLICmdLine {
     private static final Logger LOG = LoggerFactory.getLogger(EdFiSLICmdLine.class);
-    
+
     private static final Set<String> OUTSIDE_SCOPE = outsideScope();
     private static final Set<String> PLANNED = planned();
     private static final Set<String> GROUPS = groups();
@@ -48,19 +48,19 @@ public final class EdFiSLICmdLine {
     private static final Set<String> INVESTIGATE = investigate().keySet();
     private static final Map<String, String> CLASS_RENAMES = classRenames();
 
-    public final static String DEFAULT_SLI_INPUT_FILENAME = "SLI.xmi";
-    public final static String DEFAULT_EDFI_INPUT_FILENAME = "ED-Fi-Core.xmi";
-    
+    public static final String DEFAULT_SLI_INPUT_FILENAME = "SLI.xmi";
+    public static final String DEFAULT_EDFI_INPUT_FILENAME = "ED-Fi-Core.xmi";
+
 
     /**
      * @param args
      */
     public static void main(final String[] args) {
 
-    	String sliInputFilename = (args.length == 2) ? args[0] : DEFAULT_SLI_INPUT_FILENAME;
-    	String edfiInputFilename = (args.length == 2) ? args[1] : DEFAULT_EDFI_INPUT_FILENAME;
-    	
-    	try {
+        String sliInputFilename = (args.length == 2) ? args[0] : DEFAULT_SLI_INPUT_FILENAME;
+        String edfiInputFilename = (args.length == 2) ? args[1] : DEFAULT_EDFI_INPUT_FILENAME;
+
+        try {
             final ModelIndex slim = new DefaultModelIndex(XmiReader.readModel(sliInputFilename));
             final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel(edfiInputFilename));
             compareClasses(slim, edfi);
@@ -206,13 +206,14 @@ public final class EdFiSLICmdLine {
 
     private static final Map<String, String> invert(final Map<String, String> mapping) {
         final Map<String, String> inversion = new HashMap<String, String>();
-        for (final String lhs : mapping.keySet()) {
-            final String rhs = mapping.get(lhs);
+        for (final Map.Entry<String, String> entry : mapping.entrySet()) {
+            final String lhs = entry.getKey();
+            final String rhs = entry.getValue();
             inversion.put(rhs, lhs);
         }
         return Collections.unmodifiableMap(inversion);
     }
-    
+
     private static final Set<String> outsideScope() {
         final Set<String> outsideScope = new HashSet<String>();
         outsideScope.add("Account");
@@ -248,8 +249,8 @@ public final class EdFiSLICmdLine {
     }
 
     private static final void print(final Map<String, String> strings) {
-        for (final String key : strings.keySet()) {
-            LOG.info(key + " => " + strings.get(key));
+        for (final Map.Entry<String, String> entry : strings.entrySet()) {
+            LOG.info(entry.getKey() + " => " + entry.getValue());
         }
     }
 

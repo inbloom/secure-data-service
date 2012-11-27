@@ -244,7 +244,7 @@ public class ResourceUtil {
             if (definition instanceof AssociationDefinition) {
 
                 AssociationDefinition assoc = (AssociationDefinition) definition;
-                if (assoc.getSourceEntity().getType().equals(defn.getType())) {
+                if (assoc.getSourceEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), getURI(uriInfo,
                             PathConstants.V1, defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
@@ -254,7 +254,7 @@ public class ResourceUtil {
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getTargetEntity().getResourceName()).toString()));
 
-                } else if (assoc.getTargetEntity().getType().equals(defn.getType())) {
+                } else if (assoc.getTargetEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), getURI(uriInfo,
                             PathConstants.V1, defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));

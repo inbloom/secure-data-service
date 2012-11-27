@@ -28,6 +28,9 @@ import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.rest.Param;
 import org.slc.sli.modeling.rest.ParamStyle;
 
+/**
+ * Helper methods
+ */
 public final class Level2ClientJavaHelper {
 
     private static final JavaType JT_MAP_STRING_TO_OBJECT = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);

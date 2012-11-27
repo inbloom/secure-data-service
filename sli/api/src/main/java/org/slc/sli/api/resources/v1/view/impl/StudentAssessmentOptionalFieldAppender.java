@@ -41,9 +41,6 @@ public class StudentAssessmentOptionalFieldAppender implements OptionalFieldAppe
     @Autowired
     private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
 
-    public StudentAssessmentOptionalFieldAppender() {
-    }
-
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
 

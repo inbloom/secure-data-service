@@ -36,11 +36,6 @@ public class MergeDocumentsTest {
     DocumentManipulator handler = new DocumentManipulator();
     MergeDocuments merge = new MergeDocuments(); // class under test
     
-    @Before
-    public void setup() {
-        handler.init();
-    }
-    
     @Test
     public void testApplyMerge() throws ScaffoldException, URISyntaxException, DOMException, XPathException {
         URL sampleUrl = this.getClass().getResource("/wadl.xml");

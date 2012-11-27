@@ -126,7 +126,7 @@ public class ResourceEndPoint {
             return BASE_RESOURCE;
         }
 
-        throw new RuntimeException("Cannot resolve resource handler class");
+        throw new ResourceEndPointException("Cannot resolve resource handler class");
 
     }
 

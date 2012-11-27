@@ -15,7 +15,6 @@
  */
 package org.slc.sli.api.selectors.model;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.model.ModelProvider;
@@ -48,10 +47,6 @@ import static org.mockito.Mockito.when;
 public class ModelProviderTest {
 
     private ModelProvider provider; // class under test
-
-    @Before
-    public void setup() {
-    }
 
     @Test
     public void testReadModel() {
