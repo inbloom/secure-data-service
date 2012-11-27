@@ -23,9 +23,9 @@ require_relative '../lib/Shared/date_utility.rb'
 describe "DateUtility" do
 
   before(:each) do
-    @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
-    @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
-    @random = Random.new(@scenario['seed'])
+    @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+    @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
+    @random = Random.new(@yaml['seed'])
   end
 
   after(:each) do
@@ -145,7 +145,7 @@ describe "DateUtility" do
         fail if !holidays.include? Date.new(2012, 3, 15)
         fail if !holidays.include? Date.new(2012, 3, 16)
         
-        holidays.clear
+        holidays = nil
         holidays = DateUtility.get_school_holidays(@random, 2012)
         puts "holidays: #{holidays}"
         fail if !holidays.include? Date.new(2012, 9, 3)
