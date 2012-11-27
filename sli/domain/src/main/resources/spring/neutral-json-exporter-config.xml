@@ -14,7 +14,6 @@
         <context:exclude-filter type="regex"
             expression=".*NeutralSchemaValidator" />
     </context:component-scan>
-    <bean id="entityValidator" class="org.slc.sli.validation.AvroEntityValidator" />
 
     <import resource="validation.xml" />
 

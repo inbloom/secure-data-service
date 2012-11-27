@@ -61,6 +61,35 @@ public class DidReferenceResolutionTest {
     private static final String TENANT_ID = "tenant_id";
 
     @Test
+    public void resolvesAssessmentRefDidInAssessmentItemCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/assessmentReference_assessmentItem.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("assessmentTitle", "Fraction Homework 123");
+		naturalKeys.put("gradeLevelAssessed", "Fifth grade");
+		naturalKeys.put("version", "1");
+		naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
+
+        checkId(entity, "AssessmentReference", naturalKeys, "assessment");
+    }
+
+    @Test
+    public void resolvesAssessmentRefDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/assessmentReference_studentAssessment.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("AssessmentTitle", "Fraction Homework 123");
+		naturalKeys.put("GradeLevelAssessed", "Fifth grade");
+		naturalKeys.put("Version", "1");
+		naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
+
+        checkId(entity, "assessmentId", naturalKeys, "assessment");
+    }
+
+    @Test
     public void resolvesEdOrgRefDidInAttendanceEventCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/attendanceEvent.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -357,7 +386,7 @@ public class DidReferenceResolutionTest {
 
         checkId(entity, "objectiveAssessment.[0].learningObjectives", naturalKeys, "learningObjective");
     }
-	
+
 	@Test
 	public void shouldResolveStudentSectionAssociationDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/studentSectionAssociationReference.json");

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "EducationalEnvironmentType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The setting in which a child receives education and related services.",
-  "xsd-type" : "token",
-  "symbols" : [ "Classroom", "Homebound", "Hospital_class", "In_school_suspension", "Laboratory", "Mainstream_Special_Education", "Off_school_center", "Pull_out_class", "Resource_room", "Self_contained_Special_Education", "Self_study", "Shop" ]
-}

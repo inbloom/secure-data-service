@@ -20,6 +20,7 @@ require "mustache"
 
 require_relative "interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"
+require_relative "../../Shared/util.rb"
 
 Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
 
@@ -90,14 +91,8 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # writes header to education organization interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize
-    @header = <<-HEADER
-<?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd ">
-HEADER
-    @footer = <<-FOOTER
-</InterchangeEducationOrganization>
-FOOTER
+    @header, @footer = build_header_footer("EducationOrganization")
+    
     @handle = File.new("generated/InterchangeEducationOrganization.xml", 'w')
     @handle.write(@header)
 
