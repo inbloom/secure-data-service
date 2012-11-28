@@ -2798,7 +2798,7 @@
   
     <jb:bean beanId="studentGradebookEntryMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'GradebookEntryReference,studentSectionAssociationReference'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'GradebookEntryReference,StudentSectionAssociationReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntryAttributes" class="java.util.HashMap"
