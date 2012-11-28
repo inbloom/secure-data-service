@@ -1,4 +1,5 @@
 @rc
+@sandbox
 Feature: Sandbox account approval tests 
 
 Background:

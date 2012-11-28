@@ -27,11 +27,6 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../utils/email.rb'
 
-Before do
-  RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
-  RC_SERVER = ENV['RC_SERVER'] ? ENV['RC_SERVER'] : ""
-end
-
 Transform /^<([^>]*)>$/ do |human_readable_text|
  if human_readable_text == "PRIMARY_EMAIL"
    value = PropLoader.getProps['primary_email_imap_registration_user_email']
