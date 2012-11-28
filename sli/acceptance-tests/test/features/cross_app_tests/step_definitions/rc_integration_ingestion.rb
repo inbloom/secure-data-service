@@ -202,7 +202,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
   tenants = db.collection("tenant").find("body.tenantId" => @tenant_name).to_a
 
   if tenants.empty?
-    puts "#{tenant_name} tenantId not found in Mongo - skipping tenant database deletion"
+    puts "#{@tenant_name} tenantId not found in Mongo - skipping tenant database deletion"
   else
     edorg = PropLoader.getProps['edorg']
     tenants[0]["body"]["landingZone"].each do |lz|
