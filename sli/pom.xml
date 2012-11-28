@@ -182,7 +182,7 @@
         <module>dashboard</module>
         <module>simple-idp</module>
         <module>sif</module>
-        <module>opstools/search-indexer</module>
+        <module>search-indexer</module>
     </modules>
     <dependencyManagement>
         <dependencies>
