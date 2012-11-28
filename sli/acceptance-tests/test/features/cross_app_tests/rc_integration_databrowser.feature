@@ -92,7 +92,6 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then I should be on the admin page
   And under System Tools, I click on "SLC Data Browser"
   Then I should be redirected to the Data Browser home page
-  And I have navigated to the "Schools" listing of the Data Browser
   And I click on the "GetEducationOrganizations" link
   And I click on the "GetParentEducationOrganizations" link
   And I click on the "GetFeederSchools" link
