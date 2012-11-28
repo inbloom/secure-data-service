@@ -26,17 +26,41 @@ import org.springframework.data.mongodb.core.index.Indexed;
  */
 public class RecordHash {
 
-    public String _id;
+    private String _id;
 
-    public String timestamp;
+    private String timestamp;
 
     @Indexed
-    public String tenantId;
+    private String tenantId;
 
     public RecordHash() {
         this._id = "";
         this.timestamp = "";
         this.tenantId = "";
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
 }

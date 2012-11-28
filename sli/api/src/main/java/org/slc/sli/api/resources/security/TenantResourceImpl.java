@@ -79,7 +79,7 @@ import org.slc.sli.domain.enums.Right;
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
 
     @Value("${sli.sandbox.enabled}")
-    protected boolean isSandboxEnabled;
+    private boolean isSandboxEnabled;
 
     protected void setSandboxEnabled(boolean isSandboxEnabled) {
         this.isSandboxEnabled = isSandboxEnabled;
@@ -116,8 +116,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public void setIngestionServerList(List<String> testList) {
         ingestionServerList = testList;
     }
-
-    // private Random random = new Random(System.currentTimeMillis());
 
     @PostConstruct
     protected void init() {
@@ -426,8 +424,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         }
 
         if (lockChecker.ingestionLocked(tenantName)) {
-            // throw new TenantResourceCreationException(Status.CONFLICT,
-            // "Ingestion is locked for this tenant");
             return Response.status(Status.CONFLICT).build();
         }
 
@@ -443,8 +439,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             }
         }
 
-        // Map<String, Object> landingZone = landingZones.get(0);
-        // landingZone.put("preload", preload(Arrays.asList(dataSet)));
         service.update(tenantId, entity);
         return Response.created(context.getAbsolutePathBuilder().path("jobstatus").build()).build();
     }

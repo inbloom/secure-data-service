@@ -55,77 +55,79 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class EdOrgHelper {
 
-	@Autowired
-	protected PagingRepositoryDelegate<Entity> repo;
+    @Autowired
+    protected PagingRepositoryDelegate<Entity> repo;
 
-	@Autowired
-	private AssociativeContextHelper helper;
+    @Autowired
+    private AssociativeContextHelper helper;
 
-	@Autowired
+    @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
+    /**
+     * Traverse the edorg hierarchy and find all the SEAs the user is associated with, directly or
+     * indirectly.
+     *
+     * @param user
+     * @return a list of entity IDs
+     */
+    public List<String> getSEAs(Entity user) {
+        List<String> directAssoc = getDirectEdOrgAssociations(user);
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("_id", "in", directAssoc, false));
 
-	/**
-	 * Traverse the edorg hierarchy and find all the SEAs the user is associated with, directly or indirectly.
-	 *
-	 * @param user
-	 * @return a list of entity IDs
-	 */
-	public List<String> getSEAs(Entity user) {
-		List<String> directAssoc = getDirectEdOrgAssociations(user);
-		NeutralQuery query = new NeutralQuery(0);
-		query.addCriteria(new NeutralCriteria("_id", "in", directAssoc, false));
+        Set<String> entities = new HashSet<String>();
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            entities.add(getSEAOfEdOrg(entity));
+        }
 
-		Set<String> entities = new HashSet<String>();
-		for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-			entities.add(getSEAOfEdOrg(entity));
-		}
+        return new ArrayList<String>(entities);
+    }
 
-		return new ArrayList<String>(entities);
-	}
+    /**
+     * Determine the district of the user.
+     *
+     * If the user is directly associated with an SEA, this is any LEA directly below the SEA. If
+     * the user is directly
+     * associated with an LEA, this is the top-most LEA i.e. the LEA directly associated with the
+     * SEA.
+     *
+     * @param user
+     * @return a list of entity IDs
+     */
+    public List<String> getDistricts(Entity user) {
+        List<String> directAssoc = getDirectEdOrgAssociations(user);
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("_id", "in", directAssoc, false));
 
-	/**
-	 * Determine the district of the user.
-	 *
-	 * If the user is directly associated with an SEA, this is any LEA directly below the SEA. If the user is directly
-	 * associated with an LEA, this is the top-most LEA i.e. the LEA directly associated with the SEA.
-	 *
-	 * @param user
-	 * @return a list of entity IDs
-	 */
-	public List<String> getDistricts(Entity user) {
-		List<String> directAssoc = getDirectEdOrgAssociations(user);
-		NeutralQuery query = new NeutralQuery(0);
-		query.addCriteria(new NeutralCriteria("_id", "in", directAssoc, false));
+        Set<String> entities = new HashSet<String>();
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            if (isLEA(entity)) {
+                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
+            } else if (isSchool(entity)) {
+                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
+            } else { // isSEA
+                entities.addAll(getChildLEAsOfEdOrg(entity));
+            }
+        }
 
-		Set<String> entities = new HashSet<String>();
-		for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-			if (isLEA(entity)) {
-				entities.add(getTopLEAOfEdOrg(entity).getEntityId());
-			} else if (isSchool(entity)) {
-				entities.add(getTopLEAOfEdOrg(entity).getEntityId());
-			} else { // isSEA
-				entities.addAll(getChildLEAsOfEdOrg(entity));
-			}
-		}
+        return new ArrayList<String>(entities);
+    }
 
-		return new ArrayList<String>(entities);
-	}
+    public List<String> getChildLEAsOfEdOrg(Entity edorgEntity) {
+        List<String> toReturn = new ArrayList<String>();
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edorgEntity.getEntityId()));
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            if (isLEA(entity)) {
+                toReturn.add(entity.getEntityId());
 
-	public List<String> getChildLEAsOfEdOrg(Entity edorgEntity) {
-		List<String> toReturn = new ArrayList<String>();
-		NeutralQuery query = new NeutralQuery(0);
-		query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edorgEntity.getEntityId()));
-		for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-			if (isLEA(entity)) {
-				toReturn.add(entity.getEntityId());
+            }
+        }
 
-			}
-		}
+        return toReturn;
+    }
 
-		return toReturn;
-	}
-
-	/**
+    /**
      * Get an ordered list of the parents of an edorg.
      *
      * The order of the list starts with the direct parent of the edorg and ends with the SEA
@@ -133,10 +135,11 @@ public class EdOrgHelper {
      * @param edOrg
      * @return
      */
-	public List<String> getParentEdOrgs(final Entity edOrg) {
+    public List<String> getParentEdOrgs(final Entity edOrg) {
         List<String> toReturn = new ArrayList<String>();
 
         Entity currentEdOrg = edOrg;
+
         if (currentEdOrg != null && currentEdOrg.getBody() != null) {
             while (currentEdOrg.getBody().get("parentEducationAgencyReference") != null) {
                 String parentId = (String) currentEdOrg.getBody().get("parentEducationAgencyReference");
@@ -158,7 +161,7 @@ public class EdOrgHelper {
         return ids;
     }
 
-	/**
+    /**
      * Walks the edorg hierarchy to get all schools
      *
      * @param principal
@@ -189,7 +192,6 @@ public class EdOrgHelper {
         return schools;
     }
 
-
     /**
      * Finds schools directly associated to this user
      * @param principal
@@ -210,12 +212,12 @@ public class EdOrgHelper {
         return schools;
     }
 
-
-	/**
-	 * Recursively returns the list of all child edorgs
-	 * @param edOrgs
-	 * @return
-	 */
+    /**
+     * Recursively returns the list of all child edorgs
+     *
+     * @param edOrgs
+     * @return
+     */
     public Set<String> getChildEdOrgs(Set<String> edOrgs) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
@@ -302,11 +304,11 @@ public class EdOrgHelper {
         return edOrgIds;
     }
 
-	@SuppressWarnings("unchecked")
-	public boolean isLEA(Entity entity) {
-		List<String> category = (List<String>) entity.getBody().get("organizationCategories");
+    @SuppressWarnings("unchecked")
+    public boolean isLEA(Entity entity) {
+        List<String> category = (List<String>) entity.getBody().get("organizationCategories");
 
-		if (category.contains("Local Education Agency")) {
+        if (category.contains("Local Education Agency")) {
             return true;
         }
         return false;

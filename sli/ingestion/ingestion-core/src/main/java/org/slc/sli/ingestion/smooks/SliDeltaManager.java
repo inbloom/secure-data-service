@@ -43,9 +43,9 @@ public final class SliDeltaManager {
         RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
         if (record == null) {
             RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId);
-            n.addMetaData("rhId", recordHash._id);
-            n.addMetaData("rhTenantId", recordHash.tenantId);
-            n.addMetaData("rhTimeStamp", recordHash.timestamp);
+            n.addMetaData("rhId", recordHash.get_id());
+            n.addMetaData("rhTenantId", recordHash.getTenantId());
+            n.addMetaData("rhTimeStamp", recordHash.getTimestamp());
         }
         return (record != null);
     }
@@ -65,9 +65,9 @@ public final class SliDeltaManager {
 
     public static RecordHash createRecordHash(String tenantId, String recordId) {
         RecordHash rh = new RecordHash();
-        rh._id = recordId;
-        rh.tenantId = tenantId;
-        rh.timestamp = "" + System.currentTimeMillis();
+        rh.set_id(recordId);
+        rh.setTenantId(tenantId);
+        rh.setTimestamp("" + System.currentTimeMillis());
         return rh;
     }
 }

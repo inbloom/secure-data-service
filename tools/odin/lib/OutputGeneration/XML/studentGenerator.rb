@@ -19,6 +19,7 @@ require 'mustache'
 
 require_relative "./interchangeGenerator"
 require_relative "../../Shared/EntityClasses/student"
+require_relative '../../Shared/util'
 
 class StudentGenerator < InterchangeGenerator
 

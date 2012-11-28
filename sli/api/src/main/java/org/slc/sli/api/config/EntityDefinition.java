@@ -70,16 +70,16 @@ public class EntityDefinition {
     }
 
     public boolean hasArrayField(String fieldName) {
-    	if (this.schema == null || this.schema.getFields() == null) {
-    		return false;
-    	} 
-    	
-    	NeutralSchema fieldSchema = this.schema.getFields().get(fieldName);
-    	if (fieldSchema == null) {
-    		return false;
-    	}
-    	
-    	return fieldSchema.getSchemaType() == NeutralSchemaType.LIST;
+        if (this.schema == null || this.schema.getFields() == null) {
+            return false;
+        } 
+
+        NeutralSchema fieldSchema = this.schema.getFields().get(fieldName);
+        if (fieldSchema == null) {
+            return false;
+        }
+
+        return fieldSchema.getSchemaType() == NeutralSchemaType.LIST;
     }
 
     /**

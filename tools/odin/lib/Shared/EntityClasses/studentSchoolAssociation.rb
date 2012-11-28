@@ -20,10 +20,9 @@ require_relative 'baseEntity.rb'
 
 class StudentSchoolAssociation < BaseEntity
 
-  def initialize(studentId, schoolId, rand)
+  def initialize(studentId, schoolId)
     @studentId = studentId
     @schoolId = schoolId
-    @rand = rand
   end
 
   def studentId

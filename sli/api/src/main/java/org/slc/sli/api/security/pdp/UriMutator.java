@@ -28,8 +28,9 @@ import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -40,6 +41,10 @@ import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+
 
 /**
  * Infers context about the {user,requested resource} pair, and restricts blanket API calls to
@@ -48,6 +53,7 @@ import org.slc.sli.domain.Entity;
 @Component
 public class UriMutator {
 
+    public static final int NUM_SEGMENTS_IN_TWO_PART_REQUEST = 3;
     @Resource
     private EdOrgHelper edOrgHelper;
 
@@ -57,17 +63,18 @@ public class UriMutator {
     @Resource
     private RootSearchMutator rootSearchMutator;
 
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
+
     /**
      * Acts as a filter to determine if the requested resource, given knowledge of the user
      * requesting it, should be rewritten. Returning null indicates that the URI should NOT be
      * rewritten.
      *
-     * @param segments
-     *            List of Path Segments representing request URI.
-     * @param queryParameters
-     *            String containing query parameters.
-     * @param user
-     *            User requesting resource.
+     * @param segments        List of Path Segments representing request URI.
+     * @param queryParameters String containing query parameters.
+     * @param user            User requesting resource.
      * @return Pair of {String, String} representing {mutated path (if necessary), mutated
      *         parameters (if necessary)}, where path or parameters will be null if they didn't need
      *         to be rewritten.
@@ -75,10 +82,54 @@ public class UriMutator {
     public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
+        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
+        String type = "";
+        String field = "";
+        String value = "";
+        String resourceName = "";
+        for (String query : queries) {
+            if (query.matches("(studentUniqueStateId)=.+")) {
+                field = "studentUniqueStateId";
+                type = EntityNames.STUDENT;
+                resourceName = "students";
 
-        if (segments.size() < 3) {
+            } else if (query.matches("(staffUniqueStateId)=.+")) {
+                field = "staffUniqueStateId";
+                type = EntityNames.STAFF;
+                resourceName = "staff";
+
+            } else if (query.matches("(parentUniqueStateId)=.+")) {
+                field = "parentUniqueStateId";
+                type = EntityNames.PARENT;
+                resourceName = "parents";
+
+            } else if (query.matches("(stateOrganizationId)=.+")) {
+                field = "stateOrganizationId";
+                type = EntityNames.EDUCATION_ORGANIZATION;
+                resourceName = "educationOrganizations";
+
+            }
+            if (type.length() != 0) {
+                // Stop iterating after the first.
+                value = query.substring(query.indexOf('=') + 1);
+                break;
+            }
+
+        }
+        if (type.length() != 0) {
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria(field, NeutralCriteria.OPERATOR_EQUAL, value));
+            Entity e = repo.findOne(type, query);
+            if (e != null) {
+                String newPath = String.format("/%s/%s", resourceName, e.getEntityId());
+                info("Rewriting URI to {} based on natural keys", newPath);
+                return Pair.of(newPath, null);
+            }
+        }
+
+        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
+
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
-                Pair<String, String> mutated = new MutablePair<String, String>();
+                Pair<String, String> mutated;
                 if (segments.size() == 1) {
                     // api/v1
                     mutated = mutateBaseUri(ResourceNames.HOME, queryParameters, user);
@@ -97,7 +148,7 @@ public class UriMutator {
         return Pair.of(mutatedPath, mutatedParameters);
     }
 
-    private static Set<String> publicResourcesThatAllowSearch;
+    private Set<String> publicResourcesThatAllowSearch;
 
     @PostConstruct
     void init() {
@@ -108,7 +159,7 @@ public class UriMutator {
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
         boolean skipMutation = false;
 
-        if (segments.size() < 3) {
+        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
             String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
@@ -133,12 +184,9 @@ public class UriMutator {
      * Mutates the API call (not to a base entity) to a more-specific (and generally more
      * constrained) URI.
      *
-     * @param segments
-     *            List of Path Segments representing request URI.
-     * @param queryParameters
-     *            String containing query parameters.
-     * @param user
-     *            User requesting resource.
+     * @param segments        List of Path Segments representing request URI.
+     * @param queryParameters String containing query parameters.
+     * @param user            User requesting resource.
      * @return Pair of {String, String} representing {mutated path (if necessary), mutated
      *         parameters (if necessary)}, where path or parameters will be null if they didn't need
      *         to be rewritten.
@@ -376,8 +424,7 @@ public class UriMutator {
     /**
      * Reconnects a list of path segments and returns a string representing the path traversed.
      *
-     * @param segments
-     *            List of Strings representing Path Segments.
+     * @param segments List of Strings representing Path Segments.
      * @return String representing the list of Path Segments.
      */
     protected String reconnectPathSegments(List<String> segments) {
@@ -392,16 +439,13 @@ public class UriMutator {
      * Mutates the existing query parameter string by pre-pending the _id of the transitive entity
      * that's part of the rewritten URI.
      *
-     * @param transitiveEntityField
-     *            Field used to identify transitive entity.
-     * @param transitiveEntityId
-     *            UUID of the transitive entity.
-     * @param existingParameters
-     *            Existing query parameter string.
+     * @param transitiveEntityField Field used to identify transitive entity.
+     * @param transitiveEntityId    UUID of the transitive entity.
+     * @param existingParameters    Existing query parameter string.
      * @return String representing new query parameter string.
      */
     protected String mutuateQueryParameterString(String transitiveEntityField, String transitiveEntityId,
-            String existingParameters) {
+                                                 String existingParameters) {
         if (existingParameters != null) {
             return transitiveEntityField + "=" + transitiveEntityId + "&" + existingParameters;
         } else {
@@ -413,10 +457,8 @@ public class UriMutator {
      * Throws Response Too Large exception if there are multiple _id's specified in the transitive
      * _id path segment.
      *
-     * @param id
-     *            String representing transitive _id path segment.
-     * @throws ResponseTooLargeException
-     *             Thrown if multiple _id's are specified (only one should be specified).
+     * @param id String representing transitive _id path segment.
+     * @throws ResponseTooLargeException Thrown if multiple _id's are specified (only one should be specified).
      */
     protected void verifySingleTransitiveId(String id) throws ResponseTooLargeException {
         if (id.split(",").length > 1) {
@@ -427,8 +469,7 @@ public class UriMutator {
     /**
      * Stringifies the specified list of path segments into a list of strings.
      *
-     * @param segments
-     *            List of Path Segments.
+     * @param segments List of Path Segments.
      * @return List of Strings representing the input list of Path Segments.
      */
     protected List<String> stringifyPathSegments(List<PathSegment> segments) {
@@ -526,7 +567,7 @@ public class UriMutator {
         } else if (ResourceNames.SECTIONS.equals(resource)) {
             mutatedPath = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
         } else if (ResourceNames.SCHOOLS.equals(resource)) {
-            mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId());//teachers/id/teacherschoolassociations/schools
+            mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId()); //teachers/id/teacherschoolassociations/schools
         } else if (ResourceNames.SESSIONS.equals(resource)) {
             mutatedPath = String.format("/educationOrganizations/%s/sessions",
                     StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
@@ -634,6 +675,7 @@ public class UriMutator {
 
         return Pair.of(mutatedPath, mutatedParameters);
     }
+
 
     private Pair<String, String> mutateForStaff(String resource, final String mutatedParameters, Entity user, String queryParameters) {
         String mParameters = mutatedParameters;
@@ -781,10 +823,8 @@ public class UriMutator {
      * Mutates the API call (to a base entity) to a more-specific (and generally more constrained)
      * URI.
      *
-     * @param resource
-     *            root resource being accessed.
-     * @param user
-     *            entity representing user making API call.
+     * @param resource root resource being accessed.
+     * @param user     entity representing user making API call.
      * @return Mutated String representing new API call, or null if no mutation takes place.
      */
     public Pair<String, String> mutateBaseUri(String resource, final String queryParameters, Entity user) {
@@ -793,23 +833,13 @@ public class UriMutator {
             qParameters = "";
         }
 
-        boolean success = true;
-        boolean isMutated = false;
-        String mutatedPath = null;
-        String mutatedParameters = qParameters != null ? qParameters : "";
-
-        mutatedPath = rootSearchMutator.mutatePath(resource, qParameters);
-        if (mutatedPath != null) {
-            mutatedParameters = qParameters;
-            isMutated = true;
-        }
-
-        if (!isMutated && isTeacher(user)) {
-            return this.mutateForTeacher(resource, mutatedParameters, user);
-        } else if (!isMutated && isStaff(user)) {
-            return this.mutateForStaff(resource, mutatedParameters, user, qParameters);
+        String mutatedPath = rootSearchMutator.mutatePath(resource, qParameters);
+        if (mutatedPath == null && isTeacher(user)) {
+            return this.mutateForTeacher(resource, qParameters, user);
+        } else if (mutatedPath == null && isStaff(user)) {
+            return this.mutateForStaff(resource, qParameters, user, qParameters);
         } else {
-            return Pair.of(mutatedPath, mutatedParameters);
+            return Pair.of(mutatedPath, qParameters);
         }
     }
 
@@ -831,16 +861,14 @@ public class UriMutator {
 
     private String removeQueryFromQueryParameters(String queryName, String queryParameters) {
         String queryRegEx = Matcher.quoteReplacement(queryName) + "=[^&]*&?";
-        String updatedQueryParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
-        return updatedQueryParameters;
+        return queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
     }
 
 
     /**
      * Determines if the entity is a teacher.
      *
-     * @param principal
-     *            User making API call.
+     * @param principal User making API call.
      * @return True if principal is a teacher, false otherwise.
      */
     private boolean isTeacher(Entity principal) {
@@ -850,8 +878,7 @@ public class UriMutator {
     /**
      * Determines if the entity is a staff member.
      *
-     * @param principal
-     *            User making API call.
+     * @param principal User making API call.
      * @return True if principal is a staff member, false otherwise.
      */
     private boolean isStaff(Entity principal) {
@@ -900,8 +927,7 @@ public class UriMutator {
     /**
      * Inject section helper (for unit testing).
      *
-     * @param sectionHelper
-     *            resolver for tying entity to sections.
+     * @param sectionHelper resolver for tying entity to sections.
      */
     protected void setSectionHelper(SectionHelper sectionHelper) {
         this.sectionHelper = sectionHelper;
@@ -910,8 +936,7 @@ public class UriMutator {
     /**
      * Inject education organization helper (for unit testing).
      *
-     * @param edOrgHelper
-     *            resolver for tying entity to education organizations.
+     * @param edOrgHelper resolver for tying entity to education organizations.
      */
     protected void setEdOrgHelper(EdOrgHelper edOrgHelper) {
         this.edOrgHelper = edOrgHelper;
