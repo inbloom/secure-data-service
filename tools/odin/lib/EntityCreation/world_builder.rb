@@ -37,22 +37,23 @@ require_relative "../Shared/date_utility.rb"
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldBuilder
   def initialize
-    $stdout.sync = true
-    @log = Logger.new($stdout)
-    @log.level = Logger::INFO
+    batch_size   = 25000
 
-    @edOrgs = Hash.new
+    $stdout.sync = true
+    @log         = Logger.new($stdout)
+    @log.level   = Logger::INFO
+
+    @breakdown            = Hash.new
+    @edOrgs               = Hash.new
     @edOrgs["seas"]       = []
     @edOrgs["leas"]       = []
     @edOrgs["elementary"] = []
     @edOrgs["middle"]     = []
     @edOrgs["high"]       = []
 
-    @breakdown = Hash.new
-
-    @education_organization_writer = EducationOrganizationGenerator.new
+    @education_organization_writer = EducationOrganizationGenerator.new(batch_size)
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new
-    @master_schedule_writer        = MasterScheduleGenerator.new
+    @master_schedule_writer        = MasterScheduleGenerator.new(batch_size)
   end
 
   # Builds the initial snapshot of the world
@@ -548,7 +549,7 @@ class WorldBuilder
 
   # writes ed-fi xml interchange: master schedule
   # entities:
-  # - [not done] CourseOffering
+  # - CourseOffering
   # - [not done] Section
   def write_master_schedule_interchange(rand, yaml)
     write_course_offerings("elementary")
