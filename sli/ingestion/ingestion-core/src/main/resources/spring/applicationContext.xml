@@ -82,7 +82,193 @@
     <bean id="stageTrackingAspect" class="org.slc.sli.ingestion.aspect.StageTrackingAspect"
        factory-method="aspectOf">
   </bean>
+  
+  <util:set id="tenantIndexes" set-class="java.util.TreeSet">
+    <!-- (collection,unique,indexKeys ...) -->
+    <!-- creationTime indexes for all collections -->
+    
+    <!-- Low cardinality collections -->
+    <value>adminDelegation,false,body.localEdorgId,body.appApprovalEnabled</value>
+    <value>applicationAuthorization,false,body.appIds</value>
+    <value>customRole,false,body.realmId</value>
+    <value>custom_entities,false,metaData.entityId,metaData.clientId</value>
+    
+    <!-- These should not be needed - we should be able to search on the _id of the container entity -->
+    <!-- Billy is investigating these -->
+    <value>program,false,studentProgramAssociation._id</value>
+    <value>student,false,studentAssessment._id</value>
+    <value>student,false,studentParentAssociation._id</value>
+    <value>student,false,studentParentAssociation.body.parentId</value>
+    <value>section,false,studentSectionAssociation._id</value>
+    <value>section,false,teacherSectionAssociation._id</value>
+    <value>section,false,gradebookEntry._id</value>
+    
+    <!-- direct references, index on each direct reference -->
+    <!-- These indexes will be reviewed as part of US4658 -->
+    <value>attendance,false,body.schoolId</value>
+    <value>attendance,false,body.studentId</value>
+    <value>cohort,false,body.educationOrgId</value>
+    <value>cohort,false,studentCohortAssociation.body.studentId</value>
+    <value>cohort,false,studentCohortAssociation._id</value>
+    <value>cohort,false,body.programId</value>
+    <value>course,false,body.schoolId</value>
+    <value>courseOffering,false,body.courseId</value>
+    <value>courseOffering,false,body.schoolId</value>
+    <value>courseOffering,false,body.sessionId</value>
+    <value>courseTranscript,false,body.courseId</value>
+    <value>courseTranscript,false,body.studentAcademicRecordId</value>
+    <value>courseTranscript,false,body.studentId</value>
+    <value>disciplineAction,false,body.assignmentSchoolId</value>
+    <value>disciplineAction,false,body.disciplineIncidentId</value>
+    <value>disciplineAction,false,body.responsibilitySchoolId</value>
+    <value>disciplineAction,false,body.staffId</value>
+    <value>disciplineAction,false,body.studentId</value>
+    <value>disciplineIncident,false,body.schoolId</value>
+    <value>disciplineIncident,false,body.staffId</value>
+    <value>educationOrganization,false,body.parentEducationAgencyReference</value>
+    <value>educationOrganization,false,body.programReference</value>
+    <value>grade,false,body.gradePeriodId</value>
+    <value>grade,false,body.studentSectionAssociationId</value>
+    <value>section,false,gradebookEntry.body.sectionId</value>
+    <value>graduationPlan,false,body.educationOrganizationId</value>
+    <value>learningObjective,false,body.learningStandards</value>
+    <value>learningObjective,false,body.parentLearningObjective</value>
+    <value>reportCard,false,body.grades</value>
+    <value>reportCard,false,body.gradingPeriodId</value>
+    <value>reportCard,false,body.studentCompetencyId</value>
+    <value>reportCard,false,body.studentId</value>
+    <value>section,false,body.assessmentReferences</value>
+    <value>section,false,body.courseOfferingId</value>
+    <value>section,false,body.programReference</value>
+    <value>section,false,body.schoolId</value>
+    <value>section,false,body.sessionId</value>
+    <value>section,false,body.gradingPeriodReference</value>
+    <value>section,false,body.schoolId</value>
+    <value>staffCohortAssociation,false,body.cohortId</value>
+    <value>staffCohortAssociation,false,body.staffId</value>
+    <value>staffEducationOrganizationAssociation,false,body.educationOrganizationReference</value>
+    <value>staffEducationOrganizationAssociation,false,body.staffReference</value>
+    <value>staffProgramAssociation,false,body.programId</value>
+    <value>staffProgramAssociation,false,body.staffId</value>
+    <value>studentAcademicRecord,false,body.reportCards</value>
+    <value>studentAcademicRecord,false,body.sessionId</value>
+    <value>studentAcademicRecord,false,body.studentId</value>
+    <!-- studentAssessment is embedded into student -->
+    <value>student,false,studentAssessment.body.assessmentId</value>
+    <value>student,false,studentAssessment.body.studentId</value>  <!--  do we need this? -->
+    <value>studentCohortAssociation,false,body.cohortId</value>
+    <value>studentCohortAssociation,false,body.studentId</value>
+    <value>studentCompetency,false,body.objectiveId.learningObjectiveId</value>
+    <value>studentCompetency,false,body.objectiveId.studentCompetencyObjectiveId</value>
+    <value>studentCompetency,false,body.studentSectionAssociationId</value>
+    <value>studentCompetencyObjective,false,body.educationOrganizationId</value>
+    <value>student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId</value>
+    <value>student,false,studentDisciplineIncidentAssociation.body.studentId</value>
+    <value>student,false,studentDisciplineIncidentAssociation._id</value>
+    <value>studentGradebookEntry,false,body.gradebookEntryId</value>
+    <value>studentGradebookEntry,false,body.sectionId</value>
+    <value>studentGradebookEntry,false,body.studentId</value>
+    <value>studentGradebookEntry,false,body.studentSectionAssociationId</value>
+    <value>studentParentAssociation,false,body.parentId</value>
+    <value>studentParentAssociation,false,body.studentId</value>
+    <!-- studentProgramAssociation is embedded into program -->
+    <value>program,false,studentProgramAssociation.body.educationOrganizationId</value>
+    <value>program,false,studentProgramAssociation.body.programId</value>
+    <value>program,false,studentProgramAssociation.body.studentId</value>
+    <value>studentSchoolAssociation,false,body.graduationPlanId</value>
+    <value>studentSchoolAssociation,false,body.schoolId</value>
+    <value>studentSchoolAssociation,false,body.studentId</value>
+    <!-- studentSectionAssociation is embedded into section  -->
+    <value>section,false,studentSectionAssociation.body.sectionId</value>   <!-- do we need this? -->
+    <value>section,false,studentSectionAssociation.body.studentId</value>
+    <value>teacherSchoolAssociation,false,body.schoolId</value>
+    <value>teacherSchoolAssociation,false,body.teacherId</value>
+    <!-- teacherSectionAssociation is embedded into section  -->
+    <value>section,false,teacherSectionAssociation.body.sectionId</value>
+    <value>section,false,teacherSectionAssociation.body.teacherId</value>
 
+    <!-- Ingestion -->
+    <!-- These indexes are all used by ingestion and should be removed as part of reference resolution work -->
+    <!-- TONY - Need to tie these to reference resolution stories -->
+    
+    <value>assessment,false,body.assessmentIdentificationCode</value>  <!-- US4388 -->
+    <value>assessment,false,body.assessmentPeriodDescriptor.codeValue</value>  <!-- US4388 -->
+    <value>assessment,false,body.assessmentTitle,body.academicSubject,body.gradeLevelAssessed</value>  <!-- US4388 -->
+    <value>calendarDate,false,body.date,body.calendarEvent</value>
+    <value>course,false,body.courseCode.ID,body.courseCode.identificationSystem</value>
+    <value>disciplineIncident,false,body.incidentIdentifier</value>
+    <value>educationOrganization,false,body.stateOrganizationId</value>
+    <value>educationOrganization,false,body.educationOrgIdentificationCode</value> <!-- needs to be combined with next -->
+    <value>educationOrganization,false,body.educationOrgIdentificationCode.ID</value>
+    <value>gradingPeriod,false,body.gradingPeriodIdentity.schoolYear</value>
+    <value>graduationPlan,false,body.graduationPlanType</value>
+    <value>learningObjective,false,body.learningObjectiveId</value>  <!-- needs to combined with next -->
+    <value>learningObjective,false,body.learningObjectiveId.identificationCode</value>
+    <value>learningObjective,false,body.objective</value>
+    <value>learningStandard,false,body.learningStandardId.identificationCode</value>
+    <value>parent,false,body.parentUniqueStateId</value>
+    <value>program,false,body.programId</value>
+    <value>section,false,body.uniqueSectionCode</value>
+    <value>session,false,body.sessionName</value>
+    <value>student,false,body.studentUniqueStateId</value>
+    <value>studentCompetency,false,metaData.externalId,metaData.studentUniqueStateId,metaData.uniqueSectionCode</value>
+    <value>studentCompetencyObjective,false,body.studentCompetencyObjectiveId</value>
+
+    <!-- Profiled -->
+    <!-- These indexes will be reviewed as part of US4658 -->
+    <value>educationOrganization,false,body.parentEducationAgencyReference,type</value>
+    <value>educationOrganization,false,type,body.nameOfInstitution</value>
+    <value>gradingPeriod,false,body.beginDate</value>
+    <value>staff,false,body.staffUniqueStateId</value>
+    <value>staff,false,type</value>
+    
+
+    <!--  TODO: Index to make querying acceptance tests pass - this is really bad!! -->
+    <value>reportCard,false,body.gpaCumulative</value>
+
+    <!-- US4365  -->
+    <value>student,false,cohort._id</value>
+
+    <!-- DE2091, checked with Billy  -->
+    <value>competencyLevelDescriptor,false,body.codeValue</value>
+
+    <!-- US4602, checked with Billy. -->
+    <value>educationOrganization,false,body.organizationCategories</value>
+  </util:set>
+    
+  
+  <util:set id="shardCollections" set-class="java.util.TreeSet">
+    <value>attendance</value>
+    <value>cohort</value>
+    <value>courseSectionAssociation</value>
+    <value>disciplineAction</value>
+    <value>disciplineIncident</value>
+    <value>educationOrganizationAssociation</value>
+    <value>educationOrganizationSchoolAssociation</value>
+    <value>grade</value>
+    <value>gradebookEntry</value>
+    <value>graduationPlan</value>
+    <value>parent</value>
+    <value>reportCard</value>
+    <value>section</value>
+    <value>staff</value>
+    <value>staffCohortAssociation</value>
+    <value>staffEducationOrganizationAssociation</value>
+    <value>staffProgramAssociation</value>
+    <value>student</value>
+    <value>studentAcademicRecord</value>
+    <value>studentCohortAssociation</value>
+    <value>studentCompetency</value>
+    <value>studentCompetencyObjective</value>
+    <value>studentDisciplineIncidentAssociation</value>
+    <value>studentGradebookEntry</value>
+    <value>studentParentAssociation</value>
+    <value>studentProgramAssociation</value>
+    <value>studentSchoolAssociation</value>
+    <value>courseTranscript</value>
+    <value>teacherSchoolAssociation</value>
+    <value>teacherSectionAssociation</value>
+  </util:set>
 </beans>
 
 
