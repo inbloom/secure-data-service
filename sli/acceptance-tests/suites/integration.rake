@@ -85,6 +85,11 @@ task :rcSandboxProvisionTests do
   runTests("test/features/cross_app_tests/rc_sandbox_provision_lz.feature")
 end
 
+desc "Run RC Sandbox Provision Test"
+task :rcSandboxPreloadVerificationTests do
+  runTests("test/features/ingestion/rc_test/rc_sandbox_preload.feature")
+end
+
 desc "Run RC Sandbox Databrowser Test"
 task :rcSandboxAppApprovalTests do
   runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature")
@@ -164,6 +169,7 @@ task :rcSandboxTests do
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
+  Rake::Task["rcSandboxPreloadVerificationTests"].execute
   Rake::Task["rcSandboxAppApprovalTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
