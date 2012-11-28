@@ -144,7 +144,7 @@ desc "Run RC Tests"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   #Rake::Task["rcCleanUpTests"].execute if tenant_exists && RUN_ON_RC
-  #Rake::Task["rcTenantCleanUp"].execute
+  #Rake::Task["rcTenantCleanUp"].execute if RUN_ON_RC
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
