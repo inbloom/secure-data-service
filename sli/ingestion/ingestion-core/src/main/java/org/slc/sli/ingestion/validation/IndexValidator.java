@@ -175,8 +175,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
         };
         try {
-            Map<String, Object> indexMap = mapper.readValue(jsonString, typeRef);
-            return indexMap;
+            return mapper.readValue(jsonString, typeRef);
         } catch (JsonParseException e) {
             log.error("Error validating indexes " + e.getLocalizedMessage());
         } catch (JsonMappingException e) {

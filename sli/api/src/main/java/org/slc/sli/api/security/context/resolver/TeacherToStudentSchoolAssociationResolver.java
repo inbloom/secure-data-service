@@ -46,7 +46,6 @@ public class TeacherToStudentSchoolAssociationResolver implements EntityContextR
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return (EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SCHOOL_ASSOCIATION
                 .equals(toEntityType));
-        // return false;
     }
     
     @Override

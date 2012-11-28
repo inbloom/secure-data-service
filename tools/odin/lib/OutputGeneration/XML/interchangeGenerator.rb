@@ -18,6 +18,7 @@ limitations under the License.
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
 class InterchangeGenerator
+  @@totalEntityCount = 0
 
   attr_accessor :interchange, :header, :footer
 
@@ -49,9 +50,10 @@ class InterchangeGenerator
   end
 
   def report(entities)
-    @entityCount = @entityCount + entities.length
-    if @entityCount % 100000 == 0
-      puts "\t#@entityCount entities created."
+    @entityCount += entities.length
+    @@totalEntityCount += entities.length
+    if @@totalEntityCount % 100000 == 0
+      puts "\t#@@totalEntityCount entities created."
     end
   end
 
