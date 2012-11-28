@@ -21,11 +21,14 @@ def check_email(config = {})
   imap_port = config[:imap_port] || PropLoader.getProps['email_imap_port']
   imap_username = config[:imap_username] || PropLoader.getProps['email_imap_registration_user']
   imap_password = config[:imap_password] || PropLoader.getProps['email_imap_registration_pass']
-  content_substring = config[:content_substring].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
-  subject_substring = config[:subject_substring].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
+  content_substring = config[:content_substring]
+  subject_substring = config[:subject_substring]
   initial_wait_time = config[:initial_wait_time] || 1
   retry_attempts = config[:retry_attempts] || 30
   retry_wait_time = config[:retry_wait_time] || 1
+
+  content_substring.gsub!(/\s/, '') unless content_substring.nil? # remove spaces because the imap client add unnecessary spaces
+  subject_substring.gsub!(/\s/, '') unless subject_substring.nil? # remove spaces because the imap client add unnecessary spaces
 
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
   puts "username = #{imap_username}, password = #{imap_password}"
