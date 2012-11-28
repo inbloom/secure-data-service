@@ -251,7 +251,7 @@ Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg
   assert result
 end
 
-Given /^a landing zone$/ do |user, pass, server|
+Given /^a landing zone$/ do
   if RUN_ON_RC
     steps %Q{
     Given I am using local data store
