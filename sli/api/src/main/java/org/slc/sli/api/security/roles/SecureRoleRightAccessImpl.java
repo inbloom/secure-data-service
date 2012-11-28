@@ -99,7 +99,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                                 new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM,
                                         Right.READ_PUBLIC, Right.CRUD_ROLE }).setAdmin(true).build());
         
-        Right[] appDevRights = null;
+        Right[] appDevRights;
         if (isSandboxEnabled) {
             appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC,
                     Right.CRUD_ROLE};

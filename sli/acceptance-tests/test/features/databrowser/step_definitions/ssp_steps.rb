@@ -30,7 +30,7 @@ Then /^I can search for <Type> with a <Field> and get a <Result>$/ do |table|
     @driver.find_element(:id, "search_id").clear
     @driver.find_element(:id, "search_id").send_keys(hash["Field"])
     @driver.find_element(:css, "input[type='submit']").click
-    errors = @driver.find_elements(:id, "flash")
+    errors = @driver.find_elements(:id, "alert")
     if hash["Result"] == "Pass"
       assert(errors.size == 0, "Should not be a flash error for #{hash["Type"]}/#{hash["Field"]}")
     else

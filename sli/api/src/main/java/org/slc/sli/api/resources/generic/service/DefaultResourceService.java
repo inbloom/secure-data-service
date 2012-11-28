@@ -68,8 +68,6 @@ import java.util.Set;
 @Component
 public class DefaultResourceService implements ResourceService {
 
-    @Autowired
-    private EntityDefinitionStore entityDefinitionStore;
 
     @Autowired
     private LogicalEntity logicalEntity;

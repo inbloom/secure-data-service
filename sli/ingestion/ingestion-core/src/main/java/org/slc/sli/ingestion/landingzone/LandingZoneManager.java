@@ -50,12 +50,7 @@ public class LandingZoneManager {
     protected List<LocalFileSystemLandingZone> getMultipleLandingZones() {
         List<LocalFileSystemLandingZone> landingZoneList = new ArrayList<LocalFileSystemLandingZone>();
         try {
-
-            String localhostname = null;
-            //get the ingestion server host name to use for obtaining landing zones
-            localhostname = java.net.InetAddress.getLocalHost().getHostName();
-
-            List<String> lzPaths = tenantDA.getLzPaths(localhostname);
+            List<String> lzPaths = tenantDA.getLzPaths();
             for (String lzPath : lzPaths) {
                 landingZoneList.add(new LocalFileSystemLandingZone(new File(lzPath)));
             }

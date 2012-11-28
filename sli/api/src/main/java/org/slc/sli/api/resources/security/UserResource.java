@@ -607,13 +607,6 @@ public class UserResource {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
-    /*
-     * Determines if the specified user has SLC operator permission
-     */
-    private boolean isSLCOperator(User user) {
-        return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
-    }
-
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
             RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,
             RoleInitializer.SANDBOX_ADMINISTRATOR };

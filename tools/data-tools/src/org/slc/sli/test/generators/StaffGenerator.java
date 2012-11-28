@@ -26,8 +26,8 @@ import org.slc.sli.test.edfi.entities.RaceItemType;
 import org.slc.sli.test.edfi.entities.RaceType;
 import org.slc.sli.test.edfi.entities.SexType;
 import org.slc.sli.test.edfi.entities.Staff;
-import org.slc.sli.test.edfi.entities.StaffIdentityType;
-import org.slc.sli.test.edfi.entities.StaffReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 
 public class StaffGenerator {
@@ -45,12 +45,12 @@ public class StaffGenerator {
 	  try {
 		  ag =  new AddressGenerator(StateAbbreviationType.NY);
 		  ng = new NameGenerator();
-		  tg =new TelephoneGenerator(); 
+		  tg =new TelephoneGenerator();
 	  } catch (Exception e) {
 		  e.printStackTrace();
 	  }
   }
-    
+
     public StaffGenerator(StateAbbreviationType state, boolean optional) {
         try {
             ng = new NameGenerator();
@@ -80,7 +80,7 @@ public class StaffGenerator {
     }
 
     protected static void populateFields(Staff staff, String staffId) throws Exception {
-    	 
+
         try {
             staff.setId(staffId);
             staff.setStaffUniqueStateId(staffId);
@@ -133,10 +133,10 @@ public class StaffGenerator {
         }
     }
 
-    public static StaffReferenceType getStaffReference(String staffId) {
-        StaffIdentityType sit = new StaffIdentityType();
+    public static SLCStaffReferenceType getStaffReference(String staffId) {
+        SLCStaffIdentityType sit = new SLCStaffIdentityType();
         sit.setStaffUniqueStateId(staffId);
-        StaffReferenceType srt = new StaffReferenceType();
+        SLCStaffReferenceType srt = new SLCStaffReferenceType();
         srt.setStaffIdentity(sit);
         return srt;
     }

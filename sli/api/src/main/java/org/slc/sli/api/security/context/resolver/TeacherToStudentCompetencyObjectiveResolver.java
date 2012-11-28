@@ -17,17 +17,17 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Resolves Teachers context to Students. Finds accessible students through section, program, and cohort associations.
@@ -51,7 +51,7 @@ public class TeacherToStudentCompetencyObjectiveResolver implements EntityContex
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> edOrgIds = new ArrayList<String>();
+        List<String> edOrgIds;
         if (!securityCachingStrategy.contains(EntityNames.EDUCATION_ORGANIZATION)) {
             edOrgIds = edOrgResolver.findAccessible(principal);
         } else {

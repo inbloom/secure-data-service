@@ -38,9 +38,17 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should receive the data for the specified application entry$/ do
+    parseApplicationResult('developer')
+end
+
+Then /^I should receive the data for the specified sandbox application entry$/ do
+    parseApplicationResult('sandboxdeveloper')
+end
+
+def parseApplicationResult(creator)
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['metaData']['createdBy'] == 'sandboxdeveloper', "Created By field should be stamped with developer instead of #{result['metaData']['createdBy']}")
+  assert(result['metaData']['createdBy'] == creator, "Created By field should be stamped with #{creator} instead of #{result['metaData']['createdBy']}")
   @client_secret = result["client_secret"]
   @client_id = result["client_id"]
   @registration = result["registration"]

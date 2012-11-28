@@ -20,12 +20,18 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
-import org.slc.sli.test.edfi.entities.ObjectiveAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentAssessmentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
-import org.slc.sli.test.edfi.entities.StudentAssessment;
-import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
+import org.slc.sli.test.edfi.entities.SLCStudentAssessment;
+import org.slc.sli.test.edfi.entities.SLCStudentObjectiveAssessment;
+import org.slc.sli.test.edfi.entities.StudentIdentityType;
+import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentObjectiveAssessmentGenerator {
@@ -39,35 +45,35 @@ public class StudentObjectiveAssessmentGenerator {
         this.optional = optional;
     }
 
-    public StudentObjectiveAssessment generate(String Id, ReferenceType studentTestAssessmentReference,
-            ObjectiveAssessmentReferenceType objectiveAssessmentReference) {
-        StudentObjectiveAssessment soa = new StudentObjectiveAssessment();
+//    public SLCStudentObjectiveAssessment generate(String Id, ReferenceType studentTestAssessmentReference,
+//            SLCObjectiveAssessmentReferenceType objectiveAssessmentReference) {
+//        SLCStudentObjectiveAssessment soa = new SLCStudentObjectiveAssessment();
+//
+//        soa.setId(Id);
+//
+//        Random random = new Random(31);
+//        int numberOfScoreResults = 1 + random.nextInt(5);
+//        for (int i = 0; i < numberOfScoreResults; i++) {
+//            ScoreResult sr = new ScoreResult();
+//            sr.setAssessmentReportingMethod(armts[random.nextInt(armts.length)]);
+//            sr.setResult("result " + random.nextInt());
+//            soa.getScoreResults().add(sr);
+//        }
+//
+////        soa.setStudentTestAssessmentReference(studentTestAssessmentReference);
+//        soa.setStudentAssessmentReference(studentTestAssessmentReference);
+//
+//        soa.setObjectiveAssessmentReference(objectiveAssessmentReference);
+//
+//        if (optional) {
+//            // TODO: add PerformanceLevels
+//        }
+//
+//        return soa;
+//    }
 
-        soa.setId(Id);
-
-        Random random = new Random(31);
-        int numberOfScoreResults = 1 + random.nextInt(5);
-        for (int i = 0; i < numberOfScoreResults; i++) {
-            ScoreResult sr = new ScoreResult();
-            sr.setAssessmentReportingMethod(armts[random.nextInt(armts.length)]);
-            sr.setResult("result " + random.nextInt());
-            soa.getScoreResults().add(sr);
-        }
-
-//        soa.setStudentTestAssessmentReference(studentTestAssessmentReference);
-        soa.setStudentAssessmentReference(studentTestAssessmentReference);
-
-        soa.setObjectiveAssessmentReference(objectiveAssessmentReference);
-
-        if (optional) {
-            // TODO: add PerformanceLevels
-        }
-
-        return soa;
-    }
-
-    public static StudentObjectiveAssessment generateLowFi(StudentAssessment studentAssessment) {
-        StudentObjectiveAssessment soa = new StudentObjectiveAssessment();
+    public static SLCStudentObjectiveAssessment generateLowFi(SLCStudentAssessment studentAssessment) {
+        SLCStudentObjectiveAssessment soa = new SLCStudentObjectiveAssessment();
         Random random = new Random(31);
 
         // score results
@@ -88,8 +94,19 @@ public class StudentObjectiveAssessmentGenerator {
         soa.getPerformanceLevels().add(pldt);
         
         // student reference
-        ReferenceType studentAssessmentReference = new ReferenceType();
-        studentAssessmentReference.setRef(studentAssessment);
+        SLCStudentAssessmentReferenceType studentAssessmentReference = new SLCStudentAssessmentReferenceType();
+        SLCStudentAssessmentIdentityType studentAssessId = new SLCStudentAssessmentIdentityType();
+        
+        studentAssessId.setAssessmentReference(studentAssessment.getAssessmentReference());
+        
+        // Why do we use a non-SLC reference to student here?
+        StudentIdentityType studentId = new StudentIdentityType();
+        studentId.setStudentUniqueStateId(studentAssessment.getStudentReference().getStudentIdentity().getStudentUniqueStateId());
+        StudentReferenceType studentRef = new StudentReferenceType();
+        studentRef.setStudentIdentity(studentId);
+        
+        studentAssessId.setStudentReference(studentRef);
+        studentAssessmentReference.setStudentAssessmentIdentity(studentAssessId);
 //        soa.setStudentTestAssessmentReference(studentAssessmentReference);
         soa.setStudentAssessmentReference(studentAssessmentReference);
 

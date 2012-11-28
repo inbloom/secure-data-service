@@ -98,6 +98,10 @@ end
 
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"s
+  begin
+    File.rm("./cats_with_lasers.png")
+  rescue
+  end
   if (scenario.failed? and !@driver.nil?)
     @driver.save_screenshot("./cats_with_lasers.png")
   else
