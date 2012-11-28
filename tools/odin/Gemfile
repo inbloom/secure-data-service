@@ -3,6 +3,7 @@ gem 'rake'
 gem 'mustache'
 
 gem 'rspec', :group => :test
+gem 'factory_girl', :group => :test
 gem 'simplecov', :require => false, :group => :test
 gem 'equivalent-xml', :group => :test
 gem 'ruby-prof', :group => :test

@@ -19,24 +19,24 @@ package org.slc.sli.test.generators;
 
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.CourseOfferingIdentityType;
-import org.slc.sli.test.edfi.entities.CourseOfferingReferenceType;
+import org.slc.sli.test.edfi.entities.SLCCourseOfferingIdentityType;
+import org.slc.sli.test.edfi.entities.SLCCourseOfferingReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
 import org.slc.sli.test.edfi.entities.PopulationServedType;
-import org.slc.sli.test.edfi.entities.Section;
-import org.slc.sli.test.edfi.entities.SectionIdentityType;
-import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.SessionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCSection;
+import org.slc.sli.test.edfi.entities.SLCSectionIdentityType;
+import org.slc.sli.test.edfi.entities.SLCSectionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCSessionReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseOfferingMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
 
 public class SectionGenerator {
-    public static Section generate(String sectionCode, int sequenceOfCourse, String schoolId) {
-        Section s = new Section();
+    public static SLCSection generate(String sectionCode, int sequenceOfCourse, String schoolId) {
+        SLCSection s = new SLCSection();
         Random r = new Random(31);
         // String sectionCode = UUID.randomUUID().toString();
 
@@ -51,17 +51,17 @@ public class SectionGenerator {
         s.setPopulationServed(PopulationServedType.BILINGUAL_STUDENTS);
 
         //This is a fake CourseOfferingReference
-        CourseOfferingIdentityType coit = new CourseOfferingIdentityType();
+        SLCCourseOfferingIdentityType coit = new SLCCourseOfferingIdentityType();
         coit.setLocalCourseCode(sectionCode);
         coit.setEducationalOrgReference(getEducationalOrgReference(schoolId));
         coit.setSessionReference(SessionGenerator.getSessionReferenceType(schoolId, sectionCode));
-        CourseOfferingReferenceType corft = new CourseOfferingReferenceType();
+        SLCCourseOfferingReferenceType corft = new SLCCourseOfferingReferenceType();
         corft.setCourseOfferingIdentity(coit);
         s.setCourseOfferingReference(corft);
 
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
         eoit.setStateOrganizationId(schoolId);
-        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType eor = new SLCEducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
 
         s.setSchoolReference(eor);
@@ -69,12 +69,12 @@ public class SectionGenerator {
         return s;
     }
     
-    public static Section generateMediumFi(SectionMeta sectionMeta) {
+    public static SLCSection generateMediumFi(SectionMeta sectionMeta) {
     	String sectionId = sectionMeta.id;
     	String schoolId = sectionMeta.schoolId;
     	String sessionId = sectionMeta.sessionId;
 
-    	 Section section = new Section();
+    	SLCSection section = new SLCSection();
 //         String[] temp;
 //         temp = courseId.split("-");
 //         String courseTemp= temp[temp.length -1];
@@ -84,10 +84,10 @@ public class SectionGenerator {
          section.setSequenceOfCourse(1);
 
          // construct and add the school reference
-         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+         SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
          edOrgIdentityType.setStateOrganizationId(schoolId);
 
-         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+         SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
          schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
 
          section.setSchoolReference(schoolRef);
@@ -96,7 +96,7 @@ public class SectionGenerator {
          section.setCourseOfferingReference(getCourseOfferingReference(sectionMeta.courseOffering));
 
          // construct and add the session reference
-        SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(schoolId, sessionId);
+         SLCSessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(schoolId, sessionId);
 
          section.setSessionReference(sessionRef);
 
@@ -104,21 +104,21 @@ public class SectionGenerator {
          return section;
     }
 
-    public static Section generateLowFi(SectionMeta sectionMeta) {
+    public static SLCSection generateLowFi(SectionMeta sectionMeta) {
     	String sectionId = sectionMeta.id;
     	String schoolId = sectionMeta.schoolId;
     	String sessionId = sectionMeta.sessionId;
 
-        Section section = new Section();
+    	SLCSection section = new SLCSection();
 
         section.setUniqueSectionCode(sectionId);
         section.setSequenceOfCourse(1);
 
         // construct and add the school reference
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
         edOrgIdentityType.setStateOrganizationId(schoolId);
 
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
 
         section.setSchoolReference(schoolRef);
@@ -127,25 +127,25 @@ public class SectionGenerator {
         section.setCourseOfferingReference(getCourseOfferingReference(sectionMeta.courseOffering));
 
         // construct and add the session reference
-        SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(schoolId, sessionId);
+        SLCSessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(schoolId, sessionId);
 
         section.setSessionReference(sessionRef);
 
         return section;
     }
 
-    public static SectionReferenceType getSectionReference(Section section) {
-        SectionReferenceType sectionRef = new SectionReferenceType();
-        SectionIdentityType identity = new SectionIdentityType();
+    public static SLCSectionReferenceType getSectionReference(SLCSection section) {
+        SLCSectionReferenceType sectionRef = new SLCSectionReferenceType();
+        SLCSectionIdentityType identity = new SLCSectionIdentityType();
         sectionRef.setSectionIdentity(identity);
 
-        identity.setStateOrganizationId(section.getSchoolReference().getEducationalOrgIdentity().getStateOrganizationId());
+        identity.setEducationalOrgReference(section.getSchoolReference());
         identity.setUniqueSectionCode(section.getUniqueSectionCode());
 
         return sectionRef;
     }
 
-    public static SectionReferenceType getSectionReferenceType(String stateOrganizationId,/*
+    public static SLCSectionReferenceType getSectionReferenceType(String stateOrganizationId,/*
                                                                                            * Ny
                                                                                            * State
                                                                                            * Board
@@ -153,13 +153,18 @@ public class SectionGenerator {
                                                                                            * Education
                                                                                            */
             String uniqueSectionCode) {
-        SectionReferenceType sectionReference = new SectionReferenceType();
-        SectionIdentityType sectionIdentity = new SectionIdentityType();
+        SLCSectionReferenceType sectionReference = new SLCSectionReferenceType();
+        SLCSectionIdentityType sectionIdentity = new SLCSectionIdentityType();
         sectionReference.setSectionIdentity(sectionIdentity);
 
-        if (stateOrganizationId != null)
-            sectionIdentity.setStateOrganizationId(stateOrganizationId);
-
+        if (stateOrganizationId != null) {
+            SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
+            SLCEducationalOrgIdentityType edOrgId = new SLCEducationalOrgIdentityType();
+            edOrgId.setStateOrganizationId(stateOrganizationId);
+            edOrgRef.setEducationalOrgIdentity(edOrgId);
+            sectionIdentity.setEducationalOrgReference(edOrgRef);
+        }
+        
         if (uniqueSectionCode != null)
             sectionIdentity.setUniqueSectionCode(uniqueSectionCode);
 
@@ -167,29 +172,29 @@ public class SectionGenerator {
     }
 
     public static void main(String[] args) {
-        SectionReferenceType sRef = SectionGenerator.getSectionReferenceType("stateOrganizationId",
+        SLCSectionReferenceType sRef = SectionGenerator.getSectionReferenceType("stateOrganizationId",
                 "uniqueSectionCode");
         System.out.println(sRef);
     }
 
-    public static CourseOfferingReferenceType getCourseOfferingReference(CourseOfferingMeta courseOfferingMeta) {
-        CourseOfferingIdentityType ident = new CourseOfferingIdentityType();
+    public static SLCCourseOfferingReferenceType getCourseOfferingReference(CourseOfferingMeta courseOfferingMeta) {
+        SLCCourseOfferingIdentityType ident = new SLCCourseOfferingIdentityType();
         ident.setLocalCourseCode(courseOfferingMeta.id);
         ident.setEducationalOrgReference(getEducationalOrgReference(courseOfferingMeta.schoolId.id));
         ident.setSessionReference(getSessionReference(courseOfferingMeta.sessionMeta));
-        CourseOfferingReferenceType ref = new CourseOfferingReferenceType();
+        SLCCourseOfferingReferenceType ref = new SLCCourseOfferingReferenceType();
         ref.setCourseOfferingIdentity(ident);
         return ref;
     }
 
-    public static SessionReferenceType getSessionReference(SessionMeta sessionMeta) {
+    public static SLCSessionReferenceType getSessionReference(SessionMeta sessionMeta) {
     	return SessionGenerator.getSessionReferenceType(sessionMeta.schoolId, sessionMeta.id);
     }
 
-    public static EducationalOrgReferenceType getEducationalOrgReference(String stateOrganizationId) {
-        EducationalOrgIdentityType ident = new EducationalOrgIdentityType();
+    public static SLCEducationalOrgReferenceType getEducationalOrgReference(String stateOrganizationId) {
+        SLCEducationalOrgIdentityType ident = new SLCEducationalOrgIdentityType();
         ident.setStateOrganizationId(stateOrganizationId);
-        EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType ref = new SLCEducationalOrgReferenceType();
         ref.setEducationalOrgIdentity(ident);
         return ref;
     }
