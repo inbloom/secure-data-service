@@ -11,10 +11,8 @@ Background: Nothing yet
         Scenario: CRUD operations on an entity
     #       Given entity URI <Entity Resource URI>
         # Create
-        #   Given a valid entity json document for a <Entity Type>
+        #        Given a valid entity json document for each resource available
         When I navigate to POST for each resource available
-        Then I should receive a return code of 201
-         And I should receive a new entity URI
 #        # Read
 #        When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
 #        Then I should receive a return code of 200
