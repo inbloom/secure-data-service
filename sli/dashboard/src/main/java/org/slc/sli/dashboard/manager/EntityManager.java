@@ -52,6 +52,7 @@ import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 @Component
 public class EntityManager extends ApiClientManager {
 
+	private static final String EMPTY = "empty";
 	private static Logger log = LoggerFactory.getLogger(EntityManager.class);
 
 	public EntityManager() {
@@ -343,7 +344,7 @@ public class EntityManager extends ApiClientManager {
 	 * @return
 	 */
 	public GenericEntity getSectionForProfile(String token, String sectionId,
-			Map<String, GenericEntity> cache) {
+			Map<String, GenericEntity> cache, Map<String, String> teacherIdCache) {
 		if (cache == null) {
 			cache = new HashMap<String, GenericEntity>();
 		}
@@ -361,10 +362,21 @@ public class EntityManager extends ApiClientManager {
 		// Retrieve teacher of record for the section, and add the teacher's
 		// name to the section
 		// entity.
-		String teacherId = getApiClient().getTeacherIdForSection(token, sectionId);
-		GenericEntity teacher = cache.get(teacherId);
+		String teacherId = teacherIdCache.get(sectionId);
+		if (teacherId == null) {
+			teacherId =	getApiClient().getTeacherIdForSection(token, sectionId);
+			if (teacherId == null) {
+				teacherId = EMPTY;
+			}
+			teacherIdCache.put(sectionId, teacherId);
+		}
 
-		if (teacher == null) {
+		GenericEntity teacher = null;
+		if (teacherId != null && teacherId != EMPTY) {
+			teacher = cache.get(teacherId);
+		}
+		
+		if (teacherId != null && teacherId != EMPTY && teacher == null) {
 			teacher = getApiClient().getTeacher(token, teacherId);
 			cacheThis(cache, teacherId, teacher);
 		}
@@ -429,7 +441,7 @@ public class EntityManager extends ApiClientManager {
 
 	private List<GenericEntity> cacheStudent(String token, List<Link> links,
 			Map<String, GenericEntity> cache,
-			Map<String, List<GenericEntity>> entityListCache) {
+			Map<String, List<GenericEntity>> entityListCache, Map<String, String> teacherIdCache) {
 
 
 		List<GenericEntity> studentSectionAssociations = null;
@@ -456,8 +468,8 @@ public class EntityManager extends ApiClientManager {
 		// Navigate links to retrieve course and subject.
 		List<String> sectionIds = new ArrayList<String>();
 
+		// collect section ids
 		for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
-			// cache sections
 			sectionIds.add(studentSectionAssociation
 					.getString(Constants.ATTR_SECTION_ID));
 		}
@@ -472,14 +484,21 @@ public class EntityManager extends ApiClientManager {
 		List<String> courseOfferingIds = new ArrayList<String>();
 		// Iterate over associations
 		for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
-
 			GenericEntity section = cache.get(studentSectionAssociation
 					.getString(Constants.ATTR_SECTION_ID));
-
-			String teacherId = section.getString(Constants.ATTR_ID);
-
-			teacherIds.add(teacherId);
-
+			
+			String teacherId = teacherIdCache.get(section.getString(Constants.ATTR_ID));
+			if (teacherId == null) {
+				teacherId =	getApiClient().getTeacherIdForSection(token, section.getString(Constants.ATTR_ID));
+				if (teacherId == null) {
+					teacherId = EMPTY;
+				}
+				teacherIdCache.put(section.getString(Constants.ATTR_ID), teacherId);
+			}
+			
+			if (teacherId != null && teacherId != EMPTY) {
+				teacherIds.add(teacherId);
+			}
 			courseOfferingIds.add(section.get("courseOfferingId").toString());
 		}
 
@@ -596,6 +615,7 @@ public class EntityManager extends ApiClientManager {
 		List<GenericEntity> toReturn = new LinkedList<GenericEntity>();
 
 		Map<String, GenericEntity> cache = new HashMap<String, GenericEntity>();
+		Map<String, String> teacherIdCache = new HashMap<String, String>();
 		Map<String, List<GenericEntity>> entityListCache = new HashMap<String, List<GenericEntity>>();
 
 		try {
@@ -606,7 +626,7 @@ public class EntityManager extends ApiClientManager {
 			List<Link> links = student.getLinks();
 
 			List<GenericEntity> studentSectionAssociations = cacheStudent(
-					token, links, cache, entityListCache);
+					token, links, cache, entityListCache, teacherIdCache);
 
 			// Iterate over associations
 			for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
@@ -623,7 +643,7 @@ public class EntityManager extends ApiClientManager {
 				// studentSectionAssociation.
 				GenericEntity section = getSectionForProfile(token,
 						studentSectionAssociation
-								.getString(Constants.ATTR_SECTION_ID), cache);
+								.getString(Constants.ATTR_SECTION_ID), cache, teacherIdCache);
 
 				// section may be null if teacher has no access to it
 				if (section != null) {

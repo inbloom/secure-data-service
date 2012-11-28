@@ -1566,7 +1566,7 @@ public class PopulationManagerImpl extends ApiClientManager implements
 	public GenericEntity getSectionForProfile(String token, Object sectionId,
 			Config.Data config) {
 		return entityManager.getSectionForProfile(token, (String) sectionId,
-				null);
+				null, null);
 	}
 
 	@Override

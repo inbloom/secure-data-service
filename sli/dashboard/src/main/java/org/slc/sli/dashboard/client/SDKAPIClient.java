@@ -902,9 +902,7 @@ public class SDKAPIClient implements APIClient {
 	@Override
 	public List<GenericEntity> getTeachers(String token, List<String> ids,
 			Map<String, String> params) {
-		return this.readEntityList(token, SDKConstants.TEACHERS_ENTITY
-				+ buildListString(ids) + "?" + this.buildQueryString(params),
-				ids);
+		return this.readEntityList(token, ids, params, SDKConstants.TEACHERS_ENTITY);
 	}
 
 	/**
@@ -983,7 +981,12 @@ public class SDKAPIClient implements APIClient {
 					String teacherId = teacherSectionAssociation
 							.getString(Constants.ATTR_TEACHER_ID);
 
+					if (teacherId == null) {
+						LOGGER.debug("null");
+					}
+					
 					return teacherId;
+					
 				}
 			}
 		}
