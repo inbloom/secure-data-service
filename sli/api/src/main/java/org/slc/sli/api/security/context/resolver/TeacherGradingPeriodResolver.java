@@ -16,11 +16,6 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
@@ -29,6 +24,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Resolves which grading periods any given teacher can access.
@@ -58,7 +58,7 @@ public class TeacherGradingPeriodResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
         
         // Get the sessions
-        List<String> sessionIds = new ArrayList<String>();
+        List<String> sessionIds;
         if (!securityCache.contains(EntityNames.SESSION)) {
             sessionIds = sessionResolver.findAccessible(principal);
         } else {

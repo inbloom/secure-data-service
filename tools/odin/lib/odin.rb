@@ -15,6 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+# Enable tailcall optimizations to reduce overall stack size.
+RubyVM::InstructionSequence.compile_option = {
+    :tailcall_optimization => true,
+    :trace_instruction => false
+}
 
 require 'digest/md5'
 require 'digest/sha1'
@@ -45,11 +50,7 @@ class Odin
 
     configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
 
-    if ( scenario.nil? )
-      scenario = configYAML['scenario']
-    end
-
-    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), '/../scenarios', scenario ))
+    scenarioYAML = load_scenario(scenario, configYAML)
 
     prng = Random.new(configYAML['seed'])
     Dir.mkdir('../generated') if !Dir.exists?('../generated')

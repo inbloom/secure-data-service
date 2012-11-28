@@ -43,7 +43,7 @@ public class UriInfoToApiQueryConverter {
     //in order to reduce extremely long API calls, we will limit the number of entities any one call can return
     private static final int HARD_ENTITY_COUNT_LIMIT = 1000;
 
-    private SelectionConverter selectionConverter = new Selector2MapOfMaps();
+    //private SelectionConverter selectionConverter = new Selector2MapOfMaps();
 
     /**
      * Keywords that the API handles through specific bindings in a NeutralQuery.

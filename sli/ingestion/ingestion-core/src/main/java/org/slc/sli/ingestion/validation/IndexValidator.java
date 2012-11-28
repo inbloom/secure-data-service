@@ -68,9 +68,9 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     @Autowired
     private MongoTemplate neutralRecordMongoTemplate;
 
-    private HashMap<String, List<HashMap<String, Object>>> sliIndexCache;
-    private HashMap<String, List<HashMap<String, Object>>> isIndexCache;
-    private HashMap<String, List<HashMap<String, Object>>> batchJobIndexCache;
+    private Map<String, List<HashMap<String, Object>>> sliIndexCache;
+    private Map<String, List<HashMap<String, Object>>> isIndexCache;
+    private Map<String, List<HashMap<String, Object>>> batchJobIndexCache;
 
     @Override
     public boolean isValid(Object object, ErrorReport callback) {
@@ -105,7 +105,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         return true;
     }
 
-    private String parseFile(String fileName, HashMap<String, List<HashMap<String, Object>>> indexCache,
+    private String parseFile(String fileName, Map<String, List<HashMap<String, Object>>> indexCache,
             MongoTemplate mongoTemplate) throws URISyntaxException {
         String message = "";
         URL resourceFile = Thread.currentThread().getContextClassLoader().getResource(fileName);
@@ -118,7 +118,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         return message;
     }
 
-    private String parseFile(File file, HashMap<String, List<HashMap<String, Object>>> indexCache,
+    private String parseFile(File file, Map<String, List<HashMap<String, Object>>> indexCache,
             MongoTemplate mongoTemplate) {
         StringBuilder errorMessage = new StringBuilder("");
         FileInputStream fstream = null;
@@ -137,7 +137,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
                     String collectionName = indexMatcher.group(1);
                     String jsonString = indexMatcher.group(2);
 
-                    HashMap<String, Object> indexMap = parseJson(jsonString);
+                    Map<String, Object> indexMap = parseJson(jsonString);
                     if (indexMap != null) {
                         boolean indexPresent = verifyIndex(indexCache, mongoTemplate, collectionName, indexMap);
                         if (!indexPresent) {
@@ -167,7 +167,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         return null;
     }
 
-    protected HashMap<String, Object> parseJson(String jsonString) {
+    protected Map<String, Object> parseJson(String jsonString) {
 
         JsonFactory factory = new JsonFactory();
         ObjectMapper mapper = new ObjectMapper(factory);
@@ -175,7 +175,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
         };
         try {
-            HashMap<String, Object> indexMap = mapper.readValue(jsonString, typeRef);
+            Map<String, Object> indexMap = mapper.readValue(jsonString, typeRef);
             return indexMap;
         } catch (JsonParseException e) {
             log.error("Error validating indexes " + e.getLocalizedMessage());
@@ -187,8 +187,8 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         return null;
     }
 
-    private boolean verifyIndex(HashMap<String, List<HashMap<String, Object>>> indexCache, MongoTemplate mongoTemplate,
-            String collectionName, HashMap<String, Object> indexMapFromJson) {
+    private boolean verifyIndex(Map<String, List<HashMap<String, Object>>> indexCache, MongoTemplate mongoTemplate,
+            String collectionName, Map<String, Object> indexMapFromJson) {
 
         // UN: Check the index cache, if the collection exists in the cache, use that collection,
         // else query from Mongo and save it in the cache.
@@ -199,7 +199,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
                 List<HashMap<String, Object>> indices = new ArrayList<HashMap<String, Object>>();
                 for (DBObject dbObject : indexList) {
                     Object object = dbObject.get("key");
-                    indices.add(parseJson(object.toString()));
+                    indices.add((HashMap<String, Object>) parseJson(object.toString()));
                 }
                 indexCache.put(collectionName, indices);
             }
@@ -208,7 +208,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         boolean found = false;
         if (indexCache.containsKey(collectionName)) {
             List<HashMap<String, Object>> indices = indexCache.get(collectionName);
-            for (HashMap<String, Object> indexMapFromCache : indices) {
+            for (Map<String, Object> indexMapFromCache : indices) {
                 if (indexMapFromCache.size() != indexMapFromJson.size()) {
                     continue;
                 }

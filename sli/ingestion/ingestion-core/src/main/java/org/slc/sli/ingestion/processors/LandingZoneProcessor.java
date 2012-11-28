@@ -64,12 +64,7 @@ public class LandingZoneProcessor implements Processor {
      */
     private boolean isLandingZoneValid(String lzDirectoryPathName) {
         boolean result = false;
-        try {
-            String hostname = getHostname();
-            result = tenantDA.getLzPaths(hostname).contains(lzDirectoryPathName);
-        } catch (UnknownHostException e) {
-            LOG.error("LandingZoneProcessor", e);
-        }
+        result = tenantDA.getLzPaths().contains(lzDirectoryPathName);
 
         return result;
     }
