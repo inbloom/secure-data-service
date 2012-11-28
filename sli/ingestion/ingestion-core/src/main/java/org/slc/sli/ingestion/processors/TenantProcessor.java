@@ -91,7 +91,7 @@ public class TenantProcessor implements Processor {
      */
     private void createNewLandingZones() {
         try {
-            List<String> lzPaths = tenantDA.getLzPaths(getHostname());
+            List<String> lzPaths = tenantDA.getLzPaths();
             LOG.debug("TenantProcessor: Localhost is {}", getHostname());
             for (String currLzPath : lzPaths) {
 
