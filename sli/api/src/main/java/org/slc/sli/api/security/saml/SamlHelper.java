@@ -21,13 +21,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.UUID;
-import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
-import java.util.zip.Inflater;
 
 import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilder;
@@ -50,14 +47,13 @@ import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
+import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
-import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
-import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -200,12 +196,12 @@ public class SamlHelper {
             synchronized (builder) {
                 jdomDocument = builder.build(doc);
             }
-            
+
             Element status = jdomDocument.getRootElement().getChild("Status", SAMLP_NS);
             Element statusCode = status.getChild("StatusCode", SAMLP_NS);
             String statusValue = statusCode.getAttributeValue("Value");
             if (!statusValue.equals(SUCCESS_STATUS)) {
-            	error("SAML Response did not have a success status, instead status was {}", statusValue);
+                error("SAML Response did not have a success status, instead status was {}", statusValue);
             }
 
             synchronized (validator) {
@@ -217,26 +213,11 @@ public class SamlHelper {
             return jdomDocument;
         } catch (Exception e) {
             error("Error unmarshalling saml post", e);
-            throw (IllegalArgumentException)new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
+            throw (RuntimeException) new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }
     }
 
-    public Document decodeSamlRedirect(String redirectData) {
-        try {
-            String xml = encodedStringToXml(redirectData);
-            debug(xml);
-            org.w3c.dom.Document doc = null;
-            synchronized (domBuilder) {
-                doc = domBuilder.parse(new InputSource(new StringReader(xml)));
-            }
 
-            synchronized (builder) {
-                return builder.build(doc);
-            }
-        } catch (Exception e) {
-            throw (IllegalArgumentException)new IllegalArgumentException("Unable to decode redirect payload").initCause(e);
-        }
-    }
 
     /**
      * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
@@ -264,8 +245,8 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant",
-                        new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
+        .add(new Attribute("IssueInstant",
+                new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "true"));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
@@ -339,8 +320,8 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant",
-                        new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
+        .add(new Attribute("IssueInstant",
+                new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", String.valueOf(forceAuthn)));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
@@ -415,8 +396,8 @@ public class SamlHelper {
         doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant",
-                        new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
+        .add(new Attribute("IssueInstant",
+                new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
 
@@ -476,7 +457,7 @@ public class SamlHelper {
         doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
+        .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
 
@@ -556,24 +537,4 @@ public class SamlHelper {
         return URLEncoder.encode(base64, "UTF-8");
     }
 
-    private static String encodedStringToXml(String msg) throws DataFormatException, UnsupportedEncodingException {
-        // msg = URLDecoder.decode(msg, "UTF-8");
-
-        byte[] bytes = Base64.decodeBase64(msg);
-
-        Inflater inf = new Inflater(true);
-        inf.setInput(bytes);
-
-        byte[] result = new byte[10024];
-
-        int len = 0;
-        while (!inf.finished()) {
-            len += inf.inflate(result);
-        }
-
-        inf.end();
-
-        return new String(result, 0, len, "UTF-8");
-
-    }
 }

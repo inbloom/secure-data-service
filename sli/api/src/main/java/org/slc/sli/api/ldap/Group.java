@@ -45,17 +45,17 @@ public class Group {
     public void setMemberUids(List<String> memberUids) {
         this.memberUids = memberUids;
     }
-    
+
     public void addMemberUid(String memberUid) {
         if (memberUids == null) {
             memberUids = new ArrayList<String>();
         }
-        
+
         if (!memberUids.contains(memberUid)) {
-        	memberUids.add(memberUid);
+            memberUids.add(memberUid);
         }
     }
-    
+
     public void removeMemberUid(String memberUid) {
         if (memberUids != null && memberUids.contains(memberUid)) {
             memberUids.remove(memberUid);

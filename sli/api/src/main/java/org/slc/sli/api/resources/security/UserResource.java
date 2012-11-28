@@ -351,7 +351,7 @@ public class UserResource {
 
     private void updateUnmodifiableFields(User user, User userInLdap) {
         //home directory should not be updatable from API
-        user.setHomeDir(userInLdap == null? "/dev/null" : userInLdap.getHomeDir());
+        user.setHomeDir(userInLdap == null ? "/dev/null" : userInLdap.getHomeDir());
     }
 
     private Response validateCannotRemoveLastSuperAdmin(User updateTo, User userInLdap) {
@@ -425,7 +425,7 @@ public class UserResource {
                 && userToDelete.getGroups() == null) {
             result = null;
         } else if (!(secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR) || secUtil
-                .hasRole(RoleInitializer.SLC_OPERATOR))&&!(tenant.equals(userToDelete.getTenant()))) {
+                .hasRole(RoleInitializer.SLC_OPERATOR)) && !(tenant.equals(userToDelete.getTenant()))) {
             // verify user tenant match up with userToDelete
             return composeForbiddenResponse("You are not authorized to access this resource.");
         } else {
