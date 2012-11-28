@@ -34,3 +34,14 @@ HEADER
   return header, footer
 end
 
+## Loads the scenario default values from 'scenario' and applies the specified scenario overrides
+## Returns the resulting YAML file.
+def load_scenario (scenario_name, configYAML)
+  scenarioDefaults = YAML.load_file(File.join(File.dirname(__FILE__), '/../../scenarios/base_scenario'))
+
+  if ( scenario_name.nil? )
+    scenario_name = configYAML['scenario']
+  end
+
+  scenarioYAML = scenarioDefaults.merge!(YAML.load_file(File.join(File.dirname(__FILE__), '/../../scenarios', scenario_name )))
+end
