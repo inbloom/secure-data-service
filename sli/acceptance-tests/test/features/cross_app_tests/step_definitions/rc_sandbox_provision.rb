@@ -21,7 +21,6 @@ limitations under the License.
 ###############################################################################
 
 When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
-  disable_NOTABLESCAN
   if sample_data_set.downcase.include? "small"
     sample_data_set="small"
   else
@@ -31,6 +30,4 @@ When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
   select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id,"sample_data_select")})
   select.select_by(:value, sample_data_set)
   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
-  @edorgName = PRELOAD_EDORG
-  enable_NOTABLESCAN
 end
