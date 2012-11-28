@@ -523,7 +523,7 @@ public class UriMutator {
         } else if (ResourceNames.SECTIONS.equals(resource)) {
             mutatedPath = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
         } else if (ResourceNames.SCHOOLS.equals(resource)) {
-            mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId());//teachers/id/teacherschoolassociations/schools
+            mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId()); //teachers/id/teacherschoolassociations/schools
         } else if (ResourceNames.SESSIONS.equals(resource)) {
             mutatedPath = String.format("/educationOrganizations/%s/sessions",
                     StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));

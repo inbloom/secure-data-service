@@ -78,7 +78,7 @@ public class LdapServiceImpl implements LdapService {
         User user;
         try {
             List userList = ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] {
-                    "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper());
+                "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper());
             if (userList == null || userList.size() == 0) {
                 throw new EmptyResultDataAccessException(1);
             } else if (userList.size() > 1) {
@@ -171,10 +171,10 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public Collection<User> findUsersByGroups(String realm, final Collection<String> allowedGroupNames,
             final Collection<String> disallowedGroupNames, String tenant, Collection<String> edorgs) {
-    	
-    	Collection<String> allowed = allowedGroupNames;
-    	Collection<String> disallowed = disallowedGroupNames;
-    	
+
+        Collection<String> allowed = allowedGroupNames;
+        Collection<String> disallowed = disallowedGroupNames;
+
         if (allowed == null) {
             allowed = new LinkedList<String>();
         }
