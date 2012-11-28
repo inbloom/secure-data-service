@@ -121,6 +121,16 @@ class WorldBuilder
   def get_num_students_per_grade(rand, yaml, num_students)
     min = yaml["MINIMUM_GRADE_PERCENTAGE"]
     max = yaml["MAXIMUM_GRADE_PERCENTAGE"]
+
+    if min.nil?
+      @log.error "MINIMUM_GRADE_PERCENTAGE must be set for a world to be created --> Exiting..."
+      abort
+    end
+    if max.nil?
+      @log.error "MAXIMUM_GRADE_PERCENTAGE must be set for a world to be created --> Exiting..."
+      abort
+    end
+
     ((random_on_interval(rand, min, max) / 100) * num_students).round
   end
 
