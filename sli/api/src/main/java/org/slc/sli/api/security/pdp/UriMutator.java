@@ -18,10 +18,8 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -83,7 +81,6 @@ public class UriMutator {
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
         String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
-        Map<String, String> keys = new HashMap<String, String>();
         String type = "";
         String field = "";
         String value = "";

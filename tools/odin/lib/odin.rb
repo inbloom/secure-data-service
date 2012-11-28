@@ -15,6 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+# Enable tailcall optimizations to reduce overall stack size.
+RubyVM::InstructionSequence.compile_option = {
+    :tailcall_optimization => true,
+    :trace_instruction => false
+}
 
 require 'digest/md5'
 require 'digest/sha1'
