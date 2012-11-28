@@ -3765,7 +3765,7 @@
 
   <jb:bean beanId="gradingPeriodMetaData" class="java.util.HashMap"
     createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'gradingPeriodIdentity,beginDate'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'GradingPeriod,EducationOrganizationReference,beginDate'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="gradingPeriodAttributes" class="java.util.HashMap"
