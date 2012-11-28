@@ -18,10 +18,8 @@
 package org.slc.sli.ingestion.landingzone;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,14 +65,8 @@ public class LandingZoneManagerTest {
 
         topLevelDir = lz.getLZId();
 
-        String localhost = "";
-        try {
-            localhost = java.net.InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            fail("Failed determining local host name prior to test: " + e.getMessage());
-        }
         List<String> multiplePaths = getMultipleMockedPaths();
-        Mockito.when(mockTenantDA.getLzPaths(localhost)).thenReturn(multiplePaths);
+        Mockito.when(mockTenantDA.getLzPaths()).thenReturn(multiplePaths);
     }
 
 

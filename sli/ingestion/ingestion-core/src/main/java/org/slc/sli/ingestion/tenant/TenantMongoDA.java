@@ -72,8 +72,8 @@ public class TenantMongoDA implements TenantDA {
             + "." + PRELOAD_STATUS, "=", "ready");
 
     @Override
-    public List<String> getLzPaths(String ingestionServer) {
-        List<String> lzPaths = findTenantPathsByIngestionServer(ingestionServer);
+    public List<String> getLzPaths() {
+        List<String> lzPaths = findTenantPathsByIngestionServer();
         return lzPaths;
     }
 
@@ -109,7 +109,7 @@ public class TenantMongoDA implements TenantDA {
         return body;
     }
 
-    private List<String> findTenantPathsByIngestionServer(String targetIngestionServer) {
+    private List<String> findTenantPathsByIngestionServer() {
         List<String> tenantPaths = new ArrayList<String>();
 
         Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, new NeutralQuery());

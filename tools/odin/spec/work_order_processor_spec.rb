@@ -30,23 +30,25 @@ describe "WorkOrderProcessor" do
                                                     {:school => 65, :sections => [{:id => 16, :edOrg => 65},
                                                                                   {:id => 17, :edOrg => 65}]}],
                          :demographics => Demographics.new, :birth_day_after => Date.new(2000, 9, 1)}}
-      let(:studentParent) {StudentGenerator.new StringIO.new('', 'w'), 1}
-      let(:enrollment) {EnrollmentGenerator.new StringIO.new('', 'w'), 1}
-      let(:processor) {WorkOrderProcessor.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}
-      before {processor.build}
 
-      it "will build student documents with the given student id" do 
-        studentParent.interchange.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
+      it "will generate the right number of entities for the student generator" do
+        studentParent = double
+        studentParent.should_receive(:<<).with(an_instance_of(Student)).once
+        WorkOrderProcessor.new(work_order, {:studentParent => studentParent}).build
       end
 
-      it "will have the right number of schools associations" do
-        enrollment.interchange.string.lines.select{|l| l.match('<StudentSchoolAssociation>')}.length.should eq(2)
+      it "will generate the right number of entities for the enrollment generator" do
+        enrollment = double
+        enrollment.should_receive(:<<).with(an_instance_of(StudentSchoolAssociation)).twice
+        WorkOrderProcessor.new(work_order, {:enrollment => enrollment}).build
       end
 
-      it "will have the right number of section associations" do
-        pending "not implmented yet"
-        enrollment.interchange.string.lines.select{|l| l.match('<StudentSectionAssociation>')}.length.should eq(5)
-      end
     end
+  end
+
+  describe ".run_work_orders" do
+  end
+
+  describe ".make_work_order" do
   end
 end
