@@ -16,20 +16,18 @@ limitations under the License.
 
 =end
 
-
-require 'rest-client'
-require 'json'
-require 'builder'
-require 'rexml/document'
-require 'uri'
-include REXML
 require_relative '../../../../utils/sli_utils.rb'
+require_relative '../../common.rb'
 require_relative '../../../utils/api_utils.rb'
 
 When /^I navigate to POST for each resource available$/ do
   resources.each do |resource|
+    steps %Q{
+          Given a valid entity json document for a \"#{resource[1..-2]}\"
+          When I navigate to POST \"/v1#{resource}\"
+    }
+    puts "Resource has valid json document"
     puts "Resource #{resource} ==> POST"
-    step "I navigate to POST \"</v1#{resource}>\""
     begin
       result = JSON.parse(@res.body)
     end
