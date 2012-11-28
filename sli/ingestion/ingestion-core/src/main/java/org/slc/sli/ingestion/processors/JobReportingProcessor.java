@@ -311,8 +311,7 @@ public class JobReportingProcessor implements Processor {
         } else {
             errorFileName = type + "." + externalResourceId + "-" + batchJobId + ".log";
         }
-        PrintWriter writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
-        return writer;
+        return new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
 
     }
 
