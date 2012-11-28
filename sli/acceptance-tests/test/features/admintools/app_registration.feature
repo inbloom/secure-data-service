@@ -5,6 +5,7 @@ As a super-admin I want to be able to create new application keys to allow the o
 
 Background:
 Given I have an open web browser
+And LDAP server has been setup and running
 
 Scenario: SLI Developer Logging in
 
@@ -159,14 +160,21 @@ When I click 'Yes'
 Then the application named "NewApp" is removed from the SLI
 
 
-@sandbox
+@sandbox @ycao
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
-	Then I see the list of my registered applications only
+    Then I see the list of my registered applications only
+
+@sandbox @ycao
+Scenario: Different App developer in same tenant should also see my apps
+    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
+    Then I can navigate to app registration page with that user
+	Then I am redirected to the Application Registration Tool page
+	Then I see the list of registered applications as well
 
 @sandbox
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
