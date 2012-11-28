@@ -258,14 +258,15 @@ end
 Given /^a landing zone$/ do
   if RUN_ON_RC
     steps %Q{
-    Given I am using local data store
-    And I have a local configured landing zone for my tenant
+        Given I am using local data store
+        And I am using default landing zone
+        And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE PORT>"
+
   }
   else
     steps %Q{
-    Given I am using local data store
-    And I am using default landing zone
-    And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE PORT>"
-    }
+        Given I am using local data store
+        And I have a local configured landing zone for my tenant
+  }
   end
 end
