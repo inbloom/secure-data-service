@@ -93,6 +93,7 @@ end
 
 Then /^he should receive an email telling him his account is approved$/ do
   subject_string = "Welcome to the Shared Learning Collaborative"
+  subject_string = "Welcome to the SLC Developer Sandbox" if (@mode == "SANDBOX")
   content_string = "Welcome RCTest"
   content = check_email_for_verification(subject_string, content_string)
   assert(!content.nil?, "Cannot find email telling me that my account is approved")
