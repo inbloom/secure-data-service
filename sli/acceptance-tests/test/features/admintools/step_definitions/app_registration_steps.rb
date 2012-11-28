@@ -332,10 +332,7 @@ When /^I click 'Yes'$/ do
 end
 
 Then /^the application named "([^"]*)" is removed from the SLI$/ do |arg1|
-  puts "App id = #{@id}"
-  assertWithWait("Shouldn't see the app #{arg1}") {
-    @driver.find_element(:id, @id) == nil
-  }
+  assert(@driver.find_element(:xpath, "//tr/td[text()='#{arg1}']") == nil, "Shouldn't see the app #{arg1}")
 end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
