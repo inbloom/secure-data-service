@@ -77,7 +77,7 @@ public class UriMutator {
 
         if (segments.size() < 3) {
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
-                Pair<String, String> mutated = new MutablePair<String, String>();
+                Pair<String, String> mutated;
                 if (segments.size() == 1) {
                     // api/v1
                     mutated = mutateBaseUri(ResourceNames.HOME, queryParameters, user);
