@@ -51,8 +51,8 @@ And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
 And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
 And I entered the name "1.0" into the field titled "Version"
-And I entered the name "http://localhost" into the field titled "Application_URL"
-And I entered the name "http://localhost/redirect" into the field titled "Redirect_URI"
+And I entered the name "http://www.google.com" into the field titled "Application_URL"
+And I entered the name "http://wwww.google.com" into the field titled "Redirect_URI"
 And I select the app display method to "Full Window App" 
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
