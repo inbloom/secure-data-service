@@ -17,19 +17,19 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Resolves which parent(s) a given teacher is allowed to access
@@ -55,7 +55,7 @@ public class TeacherParentResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> spaIds = new ArrayList<String>();
+        List<String> spaIds;
         if (!securityCachingStrategy.contains(EntityNames.STUDENT_PARENT_ASSOCIATION)) {
             spaIds = spaResolver.findAccessible(principal);
         } else {

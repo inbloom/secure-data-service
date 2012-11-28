@@ -16,15 +16,6 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
@@ -34,6 +25,14 @@ import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCach
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Resolves which sections a given teacher is allowed to see
@@ -64,7 +63,7 @@ public class TeacherSectionResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
 
         // We really want the students and the sections that those students are in.
-        List<String> studentIds = new ArrayList<String>();
+        List<String> studentIds;
         if (!securityCache.contains(EntityNames.STUDENT)) {
             studentIds = studentResolver.findAccessible(principal);
         } else {

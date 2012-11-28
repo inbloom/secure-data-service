@@ -62,7 +62,6 @@ import org.slc.sli.domain.enums.Right;
  * Provides functionality to update existing session based on Oauth life-cycle stages
  *
  * @author dkornishev
- *
  */
 @Component
 public class OauthMongoSessionManager implements OauthSessionManager {
@@ -100,7 +99,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     @Override
     @SuppressWarnings("unchecked")
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId,
-            String realmId, String samlId, boolean sessionExpired) {
+                                 String realmId, String samlId, boolean sessionExpired) {
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
         Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
 
@@ -200,6 +199,11 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             }
         }
 
+        if (curAppSession == null) {
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
+                    "OAuth session not found with code %s.", code));
+        }
+
         // verify other attributes of the appSession
         String clientId = (String) curAppSession.get("clientId");
         if (!clientCredentials.getLeft().equals(clientId)) {
@@ -294,8 +298,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                     info("Using long-lived session {} belonging to app {}", accessToken, session.get("clientId"));
                                 }
                                 // ****
-                                
-                                ClientToken token = new ClientToken((String) session.get("clientId"), null , null);
+
+                                ClientToken token = new ClientToken((String) session.get("clientId"), null, null);
 
 
                                 // Spring doesn't provide a setter for the approved field (used by
@@ -348,8 +352,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     /**
      * Determines if the specified mongo id maps to a valid OAuth access token.
      *
-     * @param mongoId
-     *            id of the oauth session in mongo.
+     * @param mongoId id of the oauth session in mongo.
      * @return id of realm (valid session) or null (not a valid session).
      */
     @Override
@@ -378,7 +381,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm,
-            final List<String> roleNames) {
+                                                            final List<String> roleNames) {
         return resolver.resolveRoles(tenantId, realm, roleNames);
     }
 
@@ -399,7 +402,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     private Map<String, Object> newAppSession(String clientId, String redirectUri, String state, String samlId,
-            Boolean isInstalled) {
+                                              Boolean isInstalled) {
         Map<String, Object> app = new HashMap<String, Object>();
         app.put("clientId", clientId);
         app.put("redirectUri", redirectUri);
@@ -434,7 +437,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         for (Entity entity : repo.findAll(SESSION_COLLECTION, query)) {
             if (!repo.delete(SESSION_COLLECTION, entity.getEntityId())) {
-                error("Failed to delete entity with id: {}", new Object[] { entity.getEntityId() });
+                error("Failed to delete entity with id: {}", new Object[]{entity.getEntityId()});
                 success = false;
             }
         }
@@ -444,22 +447,23 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     /**
      * Sets the entity repository.
      *
-     * @param repository
-     *            New Entity Repository to be used.
+     * @param repository New Entity Repository to be used.
      */
     public void setEntityRepository(Repository<Entity> repository) {
         this.repo = repository;
     }
+
     /**
      * Compares the provided number of milliseconds converted to minutes
      * against the configuration property
+     *
      * @param actual
      * @return
      */
     private boolean isLongLived(long actual) {
         long minutes = actual / 60000;
         long configMinutes = this.hardLogout / 60000;
-        
+
         return minutes > configMinutes;
     }
 }
