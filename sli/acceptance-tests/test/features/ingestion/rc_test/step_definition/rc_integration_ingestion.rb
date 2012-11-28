@@ -37,6 +37,10 @@ end
 
 World(NoLandingZone)
 
+Before do
+  RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
+end
+
 ############################################################
 # TEST SETUP FUNCTIONS
 ############################################################
