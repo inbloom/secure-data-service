@@ -44,6 +44,7 @@ class InterchangeGenerator
   def batchRender
     report(@entities)
     generator = @generator.new @entities
+    generator.template_path = "#{File.dirname(__FILE__)}/interchangeTemplates"
     @interchange << generator.render()
   end
 
