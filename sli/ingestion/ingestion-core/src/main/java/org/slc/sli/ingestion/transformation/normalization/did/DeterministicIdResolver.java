@@ -62,6 +62,7 @@ public class DeterministicIdResolver {
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
 
+    /*
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
         resolveInternalIdsImpl(entity, tenantId, true, errorReport);
     }
@@ -69,8 +70,9 @@ public class DeterministicIdResolver {
     public void resolveInternalIds(Entity entity, String tenantId, boolean addContext, ErrorReport errorReport) {
         resolveInternalIdsImpl(entity, tenantId, addContext, errorReport);
     }
+    */
 
-    public void resolveInternalIdsImpl(Entity entity, String tenantId, boolean addContext, ErrorReport errorReport) {
+    public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -115,8 +117,8 @@ public class DeterministicIdResolver {
         return didSchemaParser.getRefConfigs().get(refType);
     }
 
-    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
-            String tenantId, boolean addContext) throws IdResolutionException {
+    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource,
+                                                   String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
