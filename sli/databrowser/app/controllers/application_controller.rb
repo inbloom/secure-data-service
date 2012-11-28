@@ -77,7 +77,6 @@ class ApplicationController < ActionController::Base
   #
   #From here we bounce you back internally to the page you originally wanted to see.
   def callback
-    #TODO: disable redirects to other domains
     redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
     return
     if params[:state]
@@ -93,7 +92,7 @@ class ApplicationController < ActionController::Base
   private 
   def not_found
     logger.debug {"Not found"}
-    flash[:alert] = "No resource found with id: #{params[:id]}"
+    flash[:alert] = "No resource found with id: #{params[:id] || params[:search_id]}"
     redirect_to :back
   end
   

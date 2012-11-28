@@ -1,7 +1,7 @@
 <%= form_tag '/entities', :method => 'get' do %>
   
   
-  <%= select_tag "search_type", "<option value=\"students\">Student - studentUniqueStateId</option><option value=\"teachers\">Teacher - teacherUniqueStateId</option><option value=\"parents\">Parent - parentUniqueStateId</option><option value=\"staff\">Staff - staffUniqueStateId</option><option value=\"educationOrganizations\">Education Organization - stateOrganizationId</option>".html_safe %>
+  <%= select_tag "search_type", "<option value=\"students\">Student - studentUniqueStateId</option><option value=\"parents\">Parent - parentUniqueStateId</option><option value=\"staff\">Staff - staffUniqueStateId</option><option value=\"educationOrganizations\">Education Organization - stateOrganizationId</option>".html_safe %>
   <%= text_field_tag :search_id, params[:search_id], :placeholder => "Enter the ID here" %>
   
   <%= submit_tag "Search", :name=>nil %>
