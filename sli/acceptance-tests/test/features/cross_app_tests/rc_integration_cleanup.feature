@@ -50,10 +50,8 @@ Scenario:  LEA deletes realm
 
 Scenario: slcoperator deletes SEA,LEA
   When I navigate to the user account management page
-  Then I will be redirected to the realm selector web page
-  When I select the realm "Shared Learning Collaborative"
+  And I see the realm selector I authenticate to "Shared Learning Collaborative"
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN"
   Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN"
-  
