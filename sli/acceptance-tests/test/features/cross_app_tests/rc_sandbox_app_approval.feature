@@ -30,11 +30,8 @@ And I click on the button Submit
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
+And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-#When I click on 'In Progress' next to application "NotTheAppYoureLookingFor"
-And my new apps client ID is present
-And my new apps shared secret is present
-#When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
 Then I can see the on-boarded states
 When I select a state
 Then I see all of the Districts
@@ -60,9 +57,8 @@ And I select the app display method to "Full Window App"
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
-When I click on 'In Progress' next to application "Schlemiel"
-And my new apps client ID is present
-And my new apps shared secret is present
+And the client ID and shared secret fields are present
+And I clicked on the button Edit for the application "Schlemiel"
 And I enable my app for all districts
 And I click on the button Submit
 And I exit out of the iframe
