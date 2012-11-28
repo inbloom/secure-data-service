@@ -1,0 +1,48 @@
+<Parent>
+		<ParentUniqueStateId>{{studentId}}</ParentUniqueStateId>
+		<Name Verification="{{nameVerification}}">
+			{{#prefix}}
+			<PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
+			{{/prefix}}
+			<FirstName>{{firstName}}</FirstName>
+			{{#middleName}}
+			<MiddleName>{{middleName}}</MiddleName>
+			{{/middleName}}
+			<LastSurname>{{lastName}}</LastSurname>
+			{{#suffix}}
+			<GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
+			{{/suffix}}
+		</Name>
+		{{#otherName}}
+		<OtherName OtherNameType="{{otherNameType}}">
+			{{#prefix}}
+			<PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
+			{{/prefix}}
+			<FirstName>{{firstName}}</FirstName>
+			{{#middleName}}
+			<MiddleName>{{middleName}}</MiddleName>
+			{{/middleName}}
+			<LastSurname>{{lastName}}</LastSurname>
+			{{#suffix}}
+			<GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
+			{{/suffix}}
+		</OtherName>
+		{{/otherName}}
+		<Sex>{{sex}}</Sex>
+		<BirthData>
+			<BirthDate>{{birthDay}}</BirthDate>
+		</BirthData>
+		<Address AddressType="Home">
+			<StreetNumberName>{{address}}</StreetNumberName>
+			<City>{{city}}</City>
+			<StateAbbreviation>{{state}}</StateAbbreviation>
+			<PostalCode>{{postalCode}}</PostalCode>
+		</Address>
+		<ElectronicMail EmailAddressType="Home/Personal">
+			<EmailAddress>{{email}}</EmailAddress>
+		</ElectronicMail>
+		{{#loginId}}
+		<LoginId>{{loginId}}</LoginId>
+		{{/loginId}}
+	</Parent>
+</InterchangeStudentParent>
