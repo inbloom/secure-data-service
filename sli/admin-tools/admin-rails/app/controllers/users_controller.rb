@@ -297,17 +297,15 @@ class UsersController < ApplicationController
 
     if is_sea_admin?
       if @login_user_edorg_name !=nil
-        current_edorgs = EducationOrganization.find(:all, :params => {"stateOrganizationId" => @login_user_edorg_name})
+        current_edorgs = EducationOrganization.get("", {"stateOrganizationId" => @login_user_edorg_name})
       end
-      while current_edorgs !=nil && current_edorgs.length>0
+      if current_edorgs !=nil && current_edorgs.length>0
         child_edorgs=[]
-        current_edorgs.each do |edorg|
-          edorgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => edorg.id } )
-          if edorgs!=nil && edorgs.length>0
-            edorgs.each do |temp_edorg|
-              if temp_edorg.organizationCategories.index("State Education Agency") != nil || temp_edorg.organizationCategories.index("Local Education Agency")!=nil
-                child_edorgs.push temp_edorg
-              end
+        edorgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => current_edorgs["id"]} )
+        if edorgs!=nil && edorgs.length>0
+          edorgs.each do |temp_edorg|
+            if temp_edorg.organizationCategories.index("State Education Agency") != nil || temp_edorg.organizationCategories.index("Local Education Agency")!=nil
+              child_edorgs.push temp_edorg
             end
           end
         end
