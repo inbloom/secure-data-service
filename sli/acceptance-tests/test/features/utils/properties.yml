@@ -106,6 +106,7 @@ developer2_sb_email_imap_registration_pass: test1234
 landingzone: picard-lz.slidev.org
 landingzone_port: 443
 
+sandbox_tenant: e2etestdev_sb@slidev.org
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 

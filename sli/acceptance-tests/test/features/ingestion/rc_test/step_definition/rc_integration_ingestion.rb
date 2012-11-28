@@ -26,7 +26,7 @@ require 'net/http'
 require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
-#require_relative '../../../cross_app_tests/step_definitions/rc_integration_samt.rb'
+require_relative '../../../cross_app_tests/step_definitions/rc_accountRequest.rb'
 require_relative '../../features/step_definitions/ingestion_steps.rb'
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
@@ -193,7 +193,13 @@ Given /^I have a local configured landing zone for my tenant$/ do
   db_name = PropLoader.getProps['ingestion_database_name']
   conn = Mongo::Connection.new(host)
   db = conn.db(db_name)
-  tenant_name = PropLoader.getProps['tenant']
+
+  if (@mode=="SANDBOX")
+   tenant_name = PropLoader.getProps['sandbox_tenant']
+  else
+   tenant_name = PropLoader.getProps['tenant']
+  end
+
   tenants = db.collection("tenant").find("body.tenantId" => tenant_name).to_a
 
   if tenants.empty?
