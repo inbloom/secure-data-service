@@ -375,11 +375,13 @@ def post_resource resource
 
 end
 def get_resource resource
-      steps %Q{
+  steps %Q{
           When I navigate to GET \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 200
           And the response should contain the appropriate fields and values
-      }
+         And "entityType" should be \"#{resource[1..-2]}\"
+         And I should receive a link named "self" with URI \"/v1#{resource}/#{@newId}\"
+  }
 end
 def delete_resource resource
       steps %Q{
