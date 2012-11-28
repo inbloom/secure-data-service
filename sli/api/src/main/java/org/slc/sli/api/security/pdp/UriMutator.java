@@ -149,7 +149,7 @@ public class UriMutator {
         return Pair.of(mutatedPath, mutatedParameters);
     }
 
-    private static Set<String> publicResourcesThatAllowSearch;
+    private Set<String> publicResourcesThatAllowSearch;
 
     @PostConstruct
     void init() {
