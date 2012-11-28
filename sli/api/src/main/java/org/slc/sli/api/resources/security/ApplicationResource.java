@@ -524,9 +524,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         Long oldDate = (Long) oldReg.get(field);
         Long newDate = (Long) newReg.get(field);
 
-        if (oldDate == newDate) {
-            return true;
-        } else if (oldDate != null && newDate != null) {
+        if (oldDate != null && newDate != null) {
             return oldDate.equals(newDate);
         }
         return false;
