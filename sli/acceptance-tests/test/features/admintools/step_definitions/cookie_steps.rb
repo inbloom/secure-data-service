@@ -16,11 +16,12 @@ limitations under the License.
 
 =end
 
+require "selenium-webdriver"
+require_relative '../../utils/selenium_common.rb'
 
-# Be sure to restart your server when you modify this file.
+require "base64"
 
-SLIAdmin::Application.config.session_store :encrypted_cookie_store, :key => 'ADMIN_SESSION_ID', :httponly => true, :secure => (Rails.env != 'development' && Rails.env != 'development_sb')
-# Use the database for sessions instead of the cookie-based default,
-# which shouldn't be used to store highly confidential information
-# (create the session table with "rails generate session_migration")
-# SLIAdmin::Application.config.session_store :active_record_store
+Then /^the decoded cookie "(.*?)" is encrypted and should not contain "(.*?)"$/ do |cookie_name, bad_cookie_content|
+  decoded_cookie = Base64.decode64(@driver.manage.cookie_named(cookie_name)[:value])
+  assert(!decoded_cookie.include?(bad_cookie_content), "cookie #{cookie_name} should not contain #{bad_cookie_content}: #{decoded_cookie}")
+end

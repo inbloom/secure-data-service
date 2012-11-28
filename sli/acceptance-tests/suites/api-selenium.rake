@@ -27,6 +27,19 @@ task :appRegistrationTests => [:realmInit] do
   runTests("test/features/admintools/app_registration.feature")
 end
 
+desc "Run Admin Edit Rules Tests"
+task :adminEditRules => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/Admin_Edit_Rules.feature")
+end
+
+desc "Run Admin Encrypted Session Cookie Tests"
+task :adminEncryptedSessionCookie=> [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/encrypted_session_cookie.feature")
+end
+
+
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do
   runTests("test/features/databrowser/idp_authentication.feature")
