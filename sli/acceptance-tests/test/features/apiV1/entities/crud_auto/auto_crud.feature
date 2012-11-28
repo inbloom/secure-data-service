@@ -31,25 +31,6 @@ Background: Nothing yet
 #         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
 #         And I should receive a return code of 404
 #
-#Examples:
-#| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-#| "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
-#| "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
-#| "disciplineAction"             | "disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
-#| "disciplineIncident"           | "disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
-#| "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
-#| "learningObjective"            | "learningObjectives"      | "description"            | "Mathematics Objective"                      |
-#| "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
-#| "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
-#| "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
-#| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
-#| "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
-#| "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
-#| "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-#| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
-#| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
-#| "studentCompetencyObjective"   | "studentCompetencyObjectives" | "objectiveGradeLevel" | "First grade"                               |
-#| "competencyLevelDescriptor"    | "competencyLevelDescriptor" | "performanceBaseConversion" | "Below Basic"                           |
 #
 #
 #    Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
