@@ -48,10 +48,10 @@ def check_email(config = {})
     unless(messages_new.empty?)
       messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
       messages.each do |message|
-        content = message.attr["BODY[TEXT]"].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
-        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
-        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
-            (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
+        content = message.attr["BODY[TEXT]"]
+        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+        if((content_substring.nil? || (!content.nil? && content.gsub(/\s/, '').include?(content_substring))) &&
+            (subject_substring.nil? || (!subject.nil? && subject.gsub(/\s/, '').include?(subject_substring))))
           return content
         else
           puts "incorrect email content = #{content}"
