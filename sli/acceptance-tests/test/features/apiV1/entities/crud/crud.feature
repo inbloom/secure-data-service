@@ -87,7 +87,7 @@ Examples:
          And I should receive a return code of 404
 
 Examples:
-| Entity Type                    | Entity Resource URI   | Association Type                         | Update Field             | Updated Value             | 
+| Entity Type                    | Entity Resource URI   | Association Type                         | Update Field             | Updated Value             |
 | "staff"                        | "staff"               | "staffEducationOrganizationAssociation2" | "sex"                    | "Female"                  |
 | "teacher"                      | "teachers"            | "teacherSchoolAssociation2"              | "highlyQualifiedTeacher" | "false"                   |
 | "program"                      | "programs"            | "staffProgramAssociation"                | "programSponsor"         | "State Education Agency"  |
@@ -346,7 +346,7 @@ Examples:
          And I should receive a return code of 404
 
 Examples:
-| Entity Type                    | Entity Resource URI   | Association Type                       | Update Field             | Updated Value             | 
+| Entity Type                    | Entity Resource URI   | Association Type                       | Update Field             | Updated Value             |
 | "cohort"                       | "cohorts"             | "studentCohortAssocation"              | "cohortDescription"      | "frisbee golf team"       |
 | "disciplineIncident"           | "disciplineIncidents" | "studentDisciplineIncidentAssociation" | "incidentTime"           | "01:02:15"                |
 | "program"                      | "programs"            | "studentProgramAssociation"            | "programSponsor"         | "State Education Agency"  |
@@ -390,12 +390,12 @@ Examples:
          And I should receive a return code of 404
 
 Examples:
-| Entity Type                    | Entity Resource URI   | Association Type                       | Update Field             | Updated Value             | 
+| Entity Type                    | Entity Resource URI   | Association Type                       | Update Field             | Updated Value             |
 | "parent"                       | "parents"             | "studentParentAssociation"             | "parentUniqueStateId"    | "ParentID102"             |
 
 
     Scenario Outline: Get All Entities as School Teacher
-    
+
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
      And format "application/vnd.slc+json"
     And my contextual access is defined by table:
@@ -415,37 +415,37 @@ Examples:
 
 Examples:
 | Entity Type             | Entity Resource URI       | Count | Rewrite URI|
-| "assessment"            | "assessments"             | 17    |/assessments|                                                                            
+| "assessment"            | "assessments"             | 17    |/assessments|
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 1     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 | 26    |/schools/@ids/courses|
-| "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
-| "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
-| "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
+| "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|
+| "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|
+| "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|
 | "gradebookEntry"        | "gradebookEntries"        | 1     |/sections/@ids/gradebookEntries|
-| "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
-| "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
+| "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|
+| "learningStandard"      | "learningStandards"       | 14    |/learningStandards|
 | "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|
-| "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
-| "school"                | "schools"                 | 2     |/teachers/@ids/teacherSchoolAssociations/schools|                                                                              
-| "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
-| "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
-| "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
-| "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
-| "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
-| "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
-| "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
+| "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|
+| "school"                | "schools"                 | 2     |/teachers/@ids/teacherSchoolAssociations/schools|
+| "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|
+| "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|
+| "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+| "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|
+| "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|
+| "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|
+| "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|
 | "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
-| "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
+| "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|
 | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
 | "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/educationOrganizations/@ids/studentCompetencyObjectives    |
 
-	@DE1825 
+	@DE1825
 	Scenario: Invalid data parsing fails gracefully
 		When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations?endDate=blah"
-    	Then I should receive a return code of 400 
-        When I create an association of type "studentSectionAssociation"    	
+    	Then I should receive a return code of 400
+        When I create an association of type "studentSectionAssociation"
     	And field "beginDate" is removed from the json document
     	When I navigate to POST "/v1/studentSectionAssociations"
-    	Then I should receive a return code of 400                    
+    	Then I should receive a return code of 400
