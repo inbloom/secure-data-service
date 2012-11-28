@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +89,12 @@ public class ElasticSearchRepository implements Repository<Entity> {
                   public Boolean load(String key) {
                       // not overly efficient but will do for this small cache
                       // TODO: check for type will be available in ES .20
-                      return ReadConverter.fromMappingJson(queryForMapping()).contains(key);
+                      try {
+                          return ReadConverter.fromMappingJson(queryForMapping()).contains(key);
+                      }
+                      catch (Exception e) {
+                          return Boolean.FALSE;
+                      }
                   }
             });
 
@@ -259,7 +265,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
     @Override
     public boolean collectionExists(String collection) {
         try {
-            return availableTypesCache.get(collection) == Boolean.TRUE;
+            return Boolean.TRUE == availableTypesCache.get(collection);
         } catch (ExecutionException e) {
             LOG.error("Unable to check for existing types", e);
         }
@@ -381,7 +387,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
         static long fromCountJson(HttpEntity<String> response) {
             try {
                 return getHitsNode(response).get("total").asLong();
-            } catch (Throwable t) {
+            } catch (Exception t) {
                 LOG.error("Unable to get count from search engine", t);
             }
             return 0;
@@ -392,10 +398,10 @@ public class ElasticSearchRepository implements Repository<Entity> {
                 Set<String> set = new HashSet<String>();
                 Iterators.addAll(set, objectMapper.readTree(response.getBody()).getElements().next().getFieldNames());
                 return set;
-            } catch (Throwable t) {
+            } catch (Exception t) {
                 LOG.error("Unable to get mappings from search engine", t);
             }
-            return null;
+            return Collections.emptySet();
         }
     }
 
