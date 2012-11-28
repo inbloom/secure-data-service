@@ -14,12 +14,11 @@
     <value>courseOffering</value> <!-- needs DID ref resolution for SchoolReference and SessionReference -->
     <value>disciplineAction</value> <!-- needs DID ref resolution for ResponsibilitySchoolReference --> 
     <value>disciplineIncident</value> <!-- needs DID ref resolution for SchoolReference -->
-<!--    <value>educationOrganization</value> This should probably be removed - no smooks mapping for this -->
     <value>grade</value> <!-- needs DID ref resolution for GradingPeriodReference -->
     <value>gradebookEntry</value> <!-- needs at least DID ref resolution for SectionReference -->
-    <value>gradingPeriod</value> <!-- may work if PropertyUtils.getProperty can find a field name match recursively -->
+    <value>gradingPeriod</value> <!-- nested field reference -->
     <value>graduationPlan</value>
-    <value>learningStandard</value> <!-- does not include interchange in createOn value, key field name is nested so confirm is found -->
+    <value>learningStandard</value> <!-- does not include interchange in createOn value, key field name is nested -->
     <value>localEducationAgency</value>
     <value>parent</value>
     <value>program</value>
@@ -35,7 +34,7 @@
     <value>student</value>
     <value>studentAcademicRecord</value>
     <value>studentCohortAssociation</value>
-    <!-- value>studentCompetency</value> DID work does not appear to have been completed for this entity -->
+    <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentParentAssociation</value>
@@ -46,7 +45,7 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-<!--    <value>attendance</value> Transformed so needs additional work.  Needs to be excluded from DID resolver due to StudentReference -->
+<!--    <value>attendance</value> Transformed so needs additional work.  Excluded from DID resolver due to StudentReference - should be fixed later. -->
     <value>learningObjective</value>
     <value>courseTranscript</value>
   </util:set>

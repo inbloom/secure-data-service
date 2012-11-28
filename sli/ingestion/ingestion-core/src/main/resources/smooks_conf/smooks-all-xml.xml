@@ -3857,7 +3857,14 @@
     createOnElement="InterchangeStudentGrade/StudentCompetency">
     <jb:expression property="recordType">'studentCompetency'</jb:expression>
     <jb:value property="localId" data="StudentCompetency/@id" />
+    <jb:wiring property="metaData" beanIdRef="studentCompetencyMetaData" />   
     <jb:wiring property="attributes" beanIdRef="StudentCompetencyAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="studentCompetencyMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentCompetency">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentSectionAssociationReference,competencyLevel.codeValue'</jb:expression>
+    <jb:expression property="optionalNeutralRecordKeyValueFieldNames">'StudentCompetencyObjectiveReference,LearningObjectiveReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="StudentCompetencyAttributes" class="java.util.HashMap"
