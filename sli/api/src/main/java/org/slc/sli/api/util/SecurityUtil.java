@@ -201,13 +201,6 @@ public class SecurityUtil {
         return Response.status(Response.Status.FORBIDDEN).entity(body).build();
     }
 
-    @SuppressWarnings("unused")
-    private static Response forbiddenResponse(String response) {
-        EntityBody body = new EntityBody();
-        body.put("response", response);
-        return Response.status(Response.Status.FORBIDDEN).entity(body).build();
-    }
-
     /**
      * Throws an InsufficientAuthenticationException (401) if a user is logged in anonymously,
      * e.g. they don't have an access token or they have an expired token.

@@ -46,7 +46,7 @@ public class IndexValidatorTest {
 
     @Test
     public void parseJson() {
-        HashMap<String, Object> value = indexValidator.parseJson("{\"batchJobId\" : 1, \"creationTime\":1}");
+        HashMap<String, Object> value = (HashMap<String, Object>) indexValidator.parseJson("{\"batchJobId\" : 1, \"creationTime\":1}");
         Assert.assertFalse(value == null);
         Assert.assertFalse(!value.get("batchJobId").equals(1));
         Assert.assertFalse(!value.get("creationTime").equals(1));

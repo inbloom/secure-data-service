@@ -35,7 +35,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Resolver for deterministic id resolution.
@@ -64,14 +63,6 @@ public class DeterministicIdResolver {
     private static final String PATH_SEPARATOR = "\\.";
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
-        resolveInternalIdsImpl(entity, tenantId, true, errorReport);
-    }
-
-    public void resolveInternalIds(Entity entity, String tenantId, boolean addContext, ErrorReport errorReport) {
-        resolveInternalIdsImpl(entity, tenantId, addContext, errorReport);
-    }
-
-    public void resolveInternalIdsImpl(Entity entity, String tenantId, boolean addContext, ErrorReport errorReport) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -84,7 +75,6 @@ public class DeterministicIdResolver {
             return;
         }
 
-        String collectionName = "";
         String referenceEntityType = "";
         String sourceRefPath = "";
 
@@ -94,12 +84,7 @@ public class DeterministicIdResolver {
 
                 sourceRefPath = didRefSource.getSourceRefPath();
 
-                NeutralSchema schema = schemaRepository.getSchema(referenceEntityType);
-                if (schema != null && schema.getAppInfo() != null) {
-                    collectionName = schema.getAppInfo().getCollectionType();
-                }
-
-                handleDeterministicIdForReference(entity, didRefSource, collectionName, tenantId, addContext);
+                handleDeterministicIdForReference(entity, didRefSource, tenantId);
 
             } catch (IdResolutionException e) {
                 handleException(sourceRefPath, entity.getType(), referenceEntityType, e, errorReport);
@@ -122,8 +107,8 @@ public class DeterministicIdResolver {
         return didSchemaParser.getRefConfigs().get(refType);
     }
 
-    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
-            String tenantId, boolean addContext) throws IdResolutionException {
+    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource,
+                                                   String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -146,7 +131,7 @@ public class DeterministicIdResolver {
 
         //resolve and set all the parentNodes
         for (Map<String, Object> node : parentNodes) {
-            Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), entity, didRefConfig, collectionName, tenantId);
+            Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), didRefConfig, tenantId);
             if (resolvedRef != null) {
                 node.put(refObjName, resolvedRef);
             }
@@ -177,8 +162,8 @@ public class DeterministicIdResolver {
         }
     }
 
-    private Object resolveReference(Object referenceObject, boolean isOptional, Entity entity, DidRefConfig didRefConfig,
-            String collectionName, String tenantId) throws IdResolutionException {
+    private Object resolveReference(Object referenceObject, boolean isOptional, DidRefConfig didRefConfig,
+            String tenantId) throws IdResolutionException {
 
         String refType = didRefConfig.getEntityType();
 

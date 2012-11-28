@@ -225,7 +225,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String id = xmlEvent.asStartElement().getAttributeByName(ID_ATTR).getValue();
-                String content = getXmlContentForId(id, xmlEvent, eventReader, errorReport);
+                String content = getXmlContentForId(xmlEvent, eventReader, errorReport);
                 bucketCache.addToBucket(namespace, id, new TransformableXmlString(content, false));
             }
 
@@ -237,7 +237,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         browse(xml, collectRefContent, errorReport);
     }
 
-    private String getXmlContentForId(String key, XMLEvent xmlEvent, XMLEventReader eventReader,
+    private String getXmlContentForId(XMLEvent xmlEvent, XMLEventReader eventReader,
             final ErrorReport errorReport) {
 
         String xmlSnippetString = null;
@@ -448,7 +448,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     }
 
                     if (contentToAdd != null) {
-                        addContent(contentToAdd, wr, errorReport);
+                        addContent(contentToAdd, wr);
                     }
                 }
 
@@ -540,7 +540,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
     }
 
-    private void addContent(String contentToAdd, final XMLEventWriter xmlEventWriter, ErrorReport errorReport) {
+    private void addContent(String contentToAdd, final XMLEventWriter xmlEventWriter) {
         XmlEventVisitor addToXml = new XmlEventVisitor() {
 
             @Override

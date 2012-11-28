@@ -56,7 +56,7 @@ public class TransformationFactory implements ApplicationContextAware {
      * @return
      */
     public Transmogrifier createTransmogrifier(WorkNote workNote, Job job) {
-        Set<String> collectionsToConsider = determineCollectionsToConsider(workNote, job);
+        Set<String> collectionsToConsider = determineCollectionsToConsider(workNote);
         List<TransformationStrategy> transformationStrategies = deriveTransformsRequired(collectionsToConsider);
         return TransmogrifierImpl.createInstance(job, transformationStrategies, workNote);
     }
@@ -78,11 +78,11 @@ public class TransformationFactory implements ApplicationContextAware {
         return transformationStrategies;
     }
 
-    private Set<String> determineCollectionsToConsider(WorkNote workNote, Job job) {
+    private Set<String> determineCollectionsToConsider(WorkNote workNote) {
         Set<String> collectionsToConsider = null;
         if (workNote.getIngestionStagedEntity().getCollectionNameAsStaged() == null) {
 
-            collectionsToConsider = defineCollectionsInJob(job);
+            collectionsToConsider = defineCollectionsInJob();
         } else {
 
             collectionsToConsider = new HashSet<String>();
@@ -91,7 +91,7 @@ public class TransformationFactory implements ApplicationContextAware {
         return collectionsToConsider;
     }
 
-    private Set<String> defineCollectionsInJob(Job job) {
+    private Set<String> defineCollectionsInJob() {
         return neutralRecordMongoAccess.getRecordRepository().getStagedCollectionsForJob();
     }
 

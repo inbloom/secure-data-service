@@ -17,16 +17,16 @@
 
 package org.slc.sli.test.generators;
 
-import org.slc.sli.test.edfi.entities.AssessmentItem;
-import org.slc.sli.test.edfi.entities.AssessmentItemIdentityType;
-import org.slc.sli.test.edfi.entities.AssessmentItemReferenceType;
+import org.slc.sli.test.edfi.entities.SLCAssessmentItem;
+import org.slc.sli.test.edfi.entities.SLCAssessmentItemIdentityType;
+import org.slc.sli.test.edfi.entities.SLCAssessmentItemReferenceType;
 import org.slc.sli.test.edfi.entities.ItemCategoryType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentItemMeta;
 
 public class AssessmentItemGenerator {
 
-    public static AssessmentItem generateLowFi(final AssessmentItemMeta assessmentItemMeta) {
-        AssessmentItem assessmentItem = new AssessmentItem();
+    public static SLCAssessmentItem generateLowFi(final AssessmentItemMeta assessmentItemMeta) {
+        SLCAssessmentItem assessmentItem = new SLCAssessmentItem();
         assessmentItem.setIdentificationCode(assessmentItemMeta.id);
         assessmentItem.setItemCategory(ItemCategoryType.ANALYTIC);
         assessmentItem.setMaxRawScore(100);
@@ -42,17 +42,17 @@ public class AssessmentItemGenerator {
         return assessmentItem;
     }
 
-    public static AssessmentItemReferenceType getAssessmentItemReferenceType(final String code) {
-        AssessmentItemReferenceType ref = new AssessmentItemReferenceType();
-        AssessmentItemIdentityType identity = new AssessmentItemIdentityType();
+    public static SLCAssessmentItemReferenceType getAssessmentItemReferenceType(final String code) {
+        SLCAssessmentItemReferenceType ref = new SLCAssessmentItemReferenceType();
+        SLCAssessmentItemIdentityType identity = new SLCAssessmentItemIdentityType();
         ref.setAssessmentItemIdentity(identity);
         identity.setAssessmentItemIdentificationCode(code);
         return ref;
     }
 
-    public static AssessmentItemReferenceType getAssessmentItemReferenceType(final AssessmentItem item) {
-        AssessmentItemReferenceType ref = new AssessmentItemReferenceType();
-        AssessmentItemIdentityType identity = new AssessmentItemIdentityType();
+    public static SLCAssessmentItemReferenceType getAssessmentItemReferenceType(final SLCAssessmentItem item) {
+        SLCAssessmentItemReferenceType ref = new SLCAssessmentItemReferenceType();
+        SLCAssessmentItemIdentityType identity = new SLCAssessmentItemIdentityType();
         ref.setAssessmentItemIdentity(identity);
         identity.setAssessmentItemIdentificationCode(item.getIdentificationCode());
         return ref;

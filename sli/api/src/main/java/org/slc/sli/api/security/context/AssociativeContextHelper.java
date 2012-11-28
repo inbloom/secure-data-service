@@ -175,7 +175,6 @@ public class AssociativeContextHelper {
         neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(0);
-        // BasicService.addDefaultQueryParams(neutralQuery, collectionName);
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
         return entities;
     }
@@ -260,7 +259,6 @@ public class AssociativeContextHelper {
         neutralQuery.setEmbeddedFieldString(referenceLocation);
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(0);
-        // BasicService.addDefaultQueryParams(neutralQuery, collectionName);
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
         return entities;
     }

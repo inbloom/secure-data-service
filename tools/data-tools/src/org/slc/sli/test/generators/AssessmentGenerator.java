@@ -17,38 +17,39 @@
 
 package org.slc.sli.test.generators;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
-import org.slc.sli.test.edfi.entities.Assessment;
+import org.slc.sli.test.edfi.entities.AssessmentIdentityType;
+import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCAssessment;
 import org.slc.sli.test.edfi.entities.AssessmentCategoryType;
 import org.slc.sli.test.edfi.entities.AssessmentIdentificationCode;
 import org.slc.sli.test.edfi.entities.AssessmentIdentificationSystemType;
-import org.slc.sli.test.edfi.entities.AssessmentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCAssessmentIdentityType;
 import org.slc.sli.test.edfi.entities.AssessmentItemIdentityType;
 import org.slc.sli.test.edfi.entities.AssessmentItemReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentPerformanceLevel;
-import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCAssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
 import org.slc.sli.test.edfi.entities.ContentStandardType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
-import org.slc.sli.test.edfi.entities.ReferenceType;
-import org.slc.sli.test.edfi.entities.SectionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessmentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCSectionReferenceType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class AssessmentGenerator {
 
-    public static Assessment generate(AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
+    public static SLCAssessment generate(AssessmentMeta assessmentMeta, Map<String, SLCObjectiveAssessment> objAssessMap) {
         return generate(StateEdFiXmlGenerator.fidelityOfData, assessmentMeta, objAssessMap);
     }
     
-    public static Assessment generate(String fidelity, AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
-        Assessment assessment = new Assessment();
+    public static SLCAssessment generate(String fidelity, AssessmentMeta assessmentMeta, Map<String, SLCObjectiveAssessment> objAssessMap) {
+        SLCAssessment assessment = new SLCAssessment();
 
         populateRequiredFields(fidelity, assessmentMeta, objAssessMap, assessment);
 
@@ -56,7 +57,7 @@ public class AssessmentGenerator {
     }
 
     private static void populateRequiredFields(String fidelity, AssessmentMeta assessmentMeta,
-            Map<String, ObjectiveAssessment> objAssessMap, Assessment assessment) {
+            Map<String, SLCObjectiveAssessment> objAssessMap, SLCAssessment assessment) {
         assessment.setAssessmentTitle(assessmentMeta.id + "Title");
 
         AssessmentIdentificationCode aidCode = new AssessmentIdentificationCode();
@@ -101,24 +102,21 @@ public class AssessmentGenerator {
         }
 
         // AssessmentItemReference
-        List<AssessmentItemReferenceType> value = new ArrayList<AssessmentItemReferenceType>();
         for (@SuppressWarnings("unused") String assessItemIdString : assessmentMeta.assessmentItemIds) {
             AssessmentItemIdentityType identity = new AssessmentItemIdentityType();
             identity.setAssessmentItemIdentificationCode(assessItemIdString);
             AssessmentItemReferenceType refType = new AssessmentItemReferenceType();
             refType.setAssessmentItemIdentity(identity);
-            value.add(refType);
-        }
-        if (value.size() != 0) {
-            assessment.setAssessmentItemReference(value);
+            assessment.getAssessmentItemReference().add(refType);
         }
         
         // ObjectiveAssessmentReference
         for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
             if (objAssessMap.get(objAssessmentIdString) != null) {
-                ReferenceType objAssessRef = new ReferenceType();
-                objAssessRef
-                .setRef(objAssessMap.get(objAssessmentIdString));
+                SLCObjectiveAssessmentReferenceType objAssessRef = new SLCObjectiveAssessmentReferenceType();
+                SLCObjectiveAssessmentIdentityType objAssessId = new SLCObjectiveAssessmentIdentityType();
+                objAssessId.setObjectiveAssessmentIdentificationCode(objAssessmentIdString);
+                objAssessRef.setObjectiveAssessmentIdentity(objAssessId);
                 assessment.getObjectiveAssessmentReference().add(
                         objAssessRef);
             }
@@ -135,13 +133,30 @@ public class AssessmentGenerator {
         for (String sectionIdString : assessmentMeta.sectionIds) {
             // TODO: need to populate this type further in order to validate. need either
             // StateOrganizationId or an EducationOrgIdentificationCode object
-            SectionReferenceType srType = new SectionReferenceType();
+            SLCSectionReferenceType srType = new SLCSectionReferenceType();
             srType.getSectionIdentity().setUniqueSectionCode(sectionIdString);
             assessment.getSectionReference().add(srType);
         }
     }
 
-    public static AssessmentReferenceType getAssessmentReference(final String assessmentId) {
+    public static SLCAssessmentReferenceType getAssessmentReference(final String assessmentId) {
+        AssessmentIdentificationCode aic = new AssessmentIdentificationCode();
+        aic.setID(assessmentId);
+        aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
+
+        SLCAssessmentIdentityType ait = new SLCAssessmentIdentityType();
+        ait.setAssessmentTitle(assessmentId+"Title");
+//        ait.setAssessmentCategory(AssessmentCategoryType.ACHIEVEMENT_TEST);
+        ait.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
+        ait.setGradeLevelAssessed(GradeLevelType.ADULT_EDUCATION);
+        ait.setVersion(1);
+
+        SLCAssessmentReferenceType art = new SLCAssessmentReferenceType();
+        art.setAssessmentIdentity(ait);
+        return art;
+    }
+
+    public static AssessmentReferenceType getEdFiAssessmentReference(final String assessmentId) {
         AssessmentIdentificationCode aic = new AssessmentIdentificationCode();
         aic.setID(assessmentId);
         aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
