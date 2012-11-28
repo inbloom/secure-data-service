@@ -1452,12 +1452,12 @@ Then /^I should see following map of indexes in the corresponding collections:$/
     @entity_collection = @db.collection(row["collectionName"])
     @indexcollection = @db.collection("system.indexes")
     #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
-    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "key" => {row["index"] => 1}).to_a.count()
 
     #puts "Index Count = " + @indexCount.to_s
 
     if @indexCount.to_s == "0"
-      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with key = " + row["index"]
       @result = "false"
     end
   end
