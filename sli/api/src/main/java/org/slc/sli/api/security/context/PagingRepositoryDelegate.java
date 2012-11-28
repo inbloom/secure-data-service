@@ -38,6 +38,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
+ *
+ * @param <T>
  */
 @Component
 public class PagingRepositoryDelegate<T> implements Repository<T> {

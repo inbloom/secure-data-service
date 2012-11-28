@@ -59,11 +59,11 @@ public class CsvCombine {
     public List<NeutralRecord> getNeutralRecordsFromCollection(String entityName) {
         PRINT_STREAM.println("importing from collection " + entityName);
 
-        ArrayList<NeutralRecord> records = new ArrayList<NeutralRecord>();
+        List<NeutralRecord> records = new ArrayList<NeutralRecord>();
 
         // Get a list of all the collections in the staging DB
         Set<String> allCollections = db.getCollectionNames();
-        ArrayList<DBCollection> dbSupportingCollections = new ArrayList<DBCollection>();
+        List<DBCollection> dbSupportingCollections = new ArrayList<DBCollection>();
         Iterator<String> it = allCollections.iterator();
         while (it.hasNext()) {
             dbSupportingCollections.add(db.getCollection(it.next().toString()));
@@ -86,7 +86,7 @@ public class CsvCombine {
      * Initiates recursive parsing of sub tables filling the neutralRecord map.
      */
     private NeutralRecord createNeutralRecord(DBObject dbElement, String entityName,
-            ArrayList<DBCollection> supportingCollections) {
+            List<DBCollection> supportingCollections) {
 
         NeutralRecord record = new NeutralRecord();
         record.setRecordType(entityName);
@@ -107,7 +107,7 @@ public class CsvCombine {
      * Parse an element (table row) representing a complex type and return the associated NR map.
      */
     private Map<String, Object> parseDbElement(DBObject dbElement, int joinKey, String entityName,
-            ArrayList<DBCollection> supportingCollections) {
+            List<DBCollection> supportingCollections) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         Set<String> keySet = dbElement.keySet();
@@ -145,7 +145,7 @@ public class CsvCombine {
      * of complex types (maps). This is defined by the column name "SimpleType".
      */
     private List<Object> getListFromCollection(String entityName, String collectionName, int parentJoinKey,
-            ArrayList<DBCollection> supportingCollections) {
+            List<DBCollection> supportingCollections) {
         List<Object> result = new ArrayList<Object>();
 
         DBCollection dbCollection = db.getCollection(collectionName);

@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative '../OutputGeneration/XML/studentGenerator'
+require_relative '../OutputGeneration/XML/enrollmentGenerator'
 require_relative '../Shared/EntityClasses/student.rb'
 require_relative '../Shared/EntityClasses/studentSchoolAssociation.rb'
 require_relative '../Shared/EntityClasses/studentSectionAssociation.rb'
@@ -32,21 +34,18 @@ class WorkOrderProcessor
 
   def build
     s = Student.new(@id, @work_order[:birth_day_after])
-    @student_interchange << s
+    @student_interchange << s unless @student_interchange.nil?
+    unless @enrollment_interchange.nil?
+      @work_order[:sessions].each{ |session|
+        gen_enrollment session
+      }
+    end
   end
 
   def gen_enrollment(session)
     school_id = session[:school]
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id, @rand)
+    schoolAssoc = StudentSchoolAssociation.new(@id, school_id)
     @enrollment_interchange << schoolAssoc
-    session[:sections].each{ |section|
-      gen_section(section)
-    }
-  end
-
-  def gen_section(section)
-    sectionAssoc = StudentSectionAssociation.new(@id, section[:id], section[:edOrg], @rand)
-    @enrollment_interchange << sectionAssoc
   end
 
 end
@@ -54,11 +53,15 @@ end
 def run_work_orders(yamlHash, batch_size)
   numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
   File.open("generated/InterchangeStudent.xml", 'w') do |studentParentFile|
-    studentParent = StudentGenerator.new(studentParentFile, 10000)
-    interchanges = {:studentParent => studentParent}
-    for id in 1..yamlHash['studentCount'] do
-      work_order = make_work_order(id, yamlHash, numSchools)
-      WorkOrderProcessor.new(work_order, interchanges).build
+    studentParent = StudentGenerator.new(studentParentFile, batch_size)
+    File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
+      enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
+      interchanges = {:studentParent => studentParent, :enrollment => enrollment}
+      for id in 1..yamlHash['studentCount'] do
+        work_order = make_work_order(id, yamlHash, numSchools)
+        WorkOrderProcessor.new(work_order, interchanges).build
+      end
+      enrollment.finalize
     end
     studentParent.finalize
   end
