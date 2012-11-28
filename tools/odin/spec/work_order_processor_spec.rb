@@ -19,6 +19,7 @@ limitations under the License.
 require_relative '../lib/EntityCreation/work_order_processor.rb'
 require_relative '../lib/Shared/demographics.rb'
 require_relative '../lib/OutputGeneration/XML/studentGenerator.rb'
+require_relative '../lib/OutputGeneration/XML/enrollmentGenerator.rb'
 
 describe "WorkOrderProcessor" do
   describe "#build" do
@@ -30,7 +31,7 @@ describe "WorkOrderProcessor" do
                                                                                   {:id => 17, :edOrg => 65}]}],
                          :demographics => Demographics.new, :birth_day_after => Date.new(2000, 9, 1)}}
       let(:studentParent) {StudentGenerator.new StringIO.new('', 'w'), 1}
-      let(:enrollment) {StringIO.new('', 'w')}
+      let(:enrollment) {EnrollmentGenerator.new StringIO.new('', 'w'), 1}
       let(:processor) {WorkOrderProcessor.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}
       before {processor.build}
 
@@ -39,13 +40,12 @@ describe "WorkOrderProcessor" do
       end
 
       it "will have the right number of schools associations" do
-        pending "not implmented yet"
-        enrollment.string.lines.select{|l| l.match('<StudentSchoolAssociation>')}.length.should eq(2)
+        enrollment.interchange.string.lines.select{|l| l.match('<StudentSchoolAssociation>')}.length.should eq(2)
       end
 
       it "will have the right number of section associations" do
         pending "not implmented yet"
-        enrollment.string.lines.select{|l| l.match('<StudentSectionAssociation>')}.length.should eq(5)
+        enrollment.interchange.string.lines.select{|l| l.match('<StudentSectionAssociation>')}.length.should eq(5)
       end
     end
   end

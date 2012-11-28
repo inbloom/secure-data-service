@@ -15,21 +15,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+require 'mustache'
 
-require_relative 'baseEntity.rb'
+require_relative "./interchangeGenerator"
+require_relative "../../Shared/EntityClasses/studentSchoolAssociation"
 
-class StudentSchoolAssociation < BaseEntity
+class StudentEnrollment < Mustache
+  attr_accessor :studentSchools
 
-  def initialize(studentId, schoolId)
-    @studentId = studentId
-    @schoolId = schoolId
+  def initialize(entities)
+    @studentSchools = entities
   end
 
-  def studentId
-    "#{@studentId}"
+  def self.template_path
+    "#{File.dirname(__FILE__)}/interchangeTemplates"
+  end
+    
+end
+
+class EnrollmentGenerator < InterchangeGenerator
+
+  def initialize(interchange, batchSize)
+    super(interchange, batchSize)
+
+    @header, @footer = build_header_footer( "StudentEnrollment" )
+    @generator = StudentEnrollment 
+
+    start()
   end
 
-  def schoolStateOrgId
-    "school#{@schoolId}"
-  end
 end
