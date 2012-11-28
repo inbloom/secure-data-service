@@ -30,13 +30,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slc.sli.search.process.Admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import org.slc.sli.search.process.Admin;
 
 public class RemoteCommandService implements ApplicationContextAware, Runnable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -59,7 +60,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
 
     /**
      * initial method run by Spring init-method
-     * 
+     *
      * @throws IOException
      */
     public void init() throws IOException {
@@ -84,6 +85,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     }
 
     // Thread run
+    @Override
     public void run() {
         // make loop
         while (this.stopRemoteCommandService == false) {
@@ -131,10 +133,11 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                         if (options.contains("sync")) {
                             this.admin.reloadAll();
                         } else if (!options.isEmpty()) {
-                            this.admin.reconcile(options.get(0));
+                            this.admin.reload(options.get(0));
                         } else {
                             final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
+                                @Override
                                 public void run() {
                                     try {
                                         admin.reloadAll();
@@ -156,6 +159,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                         } else {
                             final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
+                                @Override
                                 public void run() {
                                     try {
                                         admin.reconcileAll();
@@ -179,6 +183,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                             logger.info("Remote Service received Stop command, shutting down in " + delay
                                     + " second(s)");
                             scheduledService.schedule(new Runnable() {
+                                @Override
                                 public void run() {
                                     commandShutdown();
                                 }
@@ -220,6 +225,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         }
     }
 
+    @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         this.context = (ClassPathXmlApplicationContext) context;
     }
@@ -258,8 +264,9 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 // This prevents throwing exception by removing an element when a List is created
                 // from an array.
                 options = new ArrayList<String>(Arrays.asList(commandLine));
-                if (!options.isEmpty())
+                if (!options.isEmpty()) {
                     options.remove(0);
+                }
             }
         }
 
