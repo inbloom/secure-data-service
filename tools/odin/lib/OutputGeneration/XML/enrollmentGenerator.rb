@@ -19,6 +19,7 @@ require 'mustache'
 
 require_relative "./interchangeGenerator"
 require_relative "../../Shared/EntityClasses/studentSchoolAssociation"
+require_relative '../../Shared/util'
 
 class StudentEnrollment < Mustache
   attr_accessor :studentSchools
