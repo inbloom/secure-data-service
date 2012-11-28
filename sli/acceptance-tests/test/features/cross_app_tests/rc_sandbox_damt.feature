@@ -16,7 +16,7 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I should see Admin link
       And I click on Admin
       Then I should be on the admin page
-      And under System Tools, I click on "Manage Developer Accounts"
+      And under System Tools, I click on "Developer Account Management"
       And I switch to the iframe
       Then I am redirected to the "Sandbox Account Management" page
 
