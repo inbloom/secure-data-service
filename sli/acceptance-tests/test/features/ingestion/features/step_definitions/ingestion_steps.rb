@@ -84,7 +84,7 @@ Before do
         puts "removing record"
         @tenantColl.remove(row)
       else
-        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule' and row['body']['tenantId'] != PropLoader.getProps['tenant'] != PropLoader.getProps['sandbox_tenant']
+        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule' and row['body']['tenantId'] != PropLoader.getProps['tenant'] and row['body']['tenantId'] != PropLoader.getProps['sandbox_tenant']
           puts "removing record"
           @tenantColl.remove(row)
         end
