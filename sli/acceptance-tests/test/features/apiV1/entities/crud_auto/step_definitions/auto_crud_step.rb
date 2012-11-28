@@ -333,33 +333,15 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = @entityData[arg1]
 end
 When /^I navigate to POST for each resource available$/ do
-  successList =[]
-  failurList = []
   resources.each do |resource|
     begin
-    #post is not allowed for associations
-    if (resource.include? "ssociation") == false
-      steps %Q{
-          Given a valid entity json document for a \"#{resource[1..-2]}\"
-          When I navigate to POST \"/v1#{resource}\"
-          Then I should receive a return code of 201
-          And I should receive an ID for the newly created entity
-      }
-      assert(@newId != nil, "After POST, URI is nil")
-      steps %Q{
-          When I navigate to GET \"/v1#{resource}/#{@newId}\"
-          Then I should receive a return code of 200
-          And the response should contain the appropriate fields and values
-      }
-      #test DELETE operation
-      steps %Q{
-          When I navigate to DELETE \"/v1#{resource}/#{@newId}\"
-          Then I should receive a return code of 204
-          And I navigate to GET \"/v1#{resource}/#{@newId}\"
-          Then I should receive a return code of 404
-      }
-      puts  "|#{resource[1..-2]}|"
-    end
+      #post is not allowed for associations
+      if (resource.include? "ssociation") == false
+        post_resource resource
+        get_resource resource
+        delete_resource resource
+        puts  "|#{resource[1..-2]}|"
+      end
     rescue =>e
       $stderr.puts"#{resource} ==> #{e}"
     end
@@ -381,4 +363,29 @@ def get_resource_paths resources, base = ""
     end
   end
   paths
+end
+def post_resource resource
+  steps %Q{
+          Given a valid entity json document for a \"#{resource[1..-2]}\"
+          When I navigate to POST \"/v1#{resource}\"
+          Then I should receive a return code of 201
+          And I should receive an ID for the newly created entity
+  }
+      assert(@newId != nil, "After POST, URI is nil")
+
+end
+def get_resource resource
+      steps %Q{
+          When I navigate to GET \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 200
+          And the response should contain the appropriate fields and values
+      }
+end
+def delete_resource resource
+      steps %Q{
+          When I navigate to DELETE \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 204
+          And I navigate to GET \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 404
+      }
 end
