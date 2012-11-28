@@ -61,8 +61,7 @@ public final class SliDeltaManager {
 
         String tenantId = TenantContext.getTenantId();
 
-        // US4439 TODO: This is POC code and needs to be cleaned up and put where it makes most
-        // sense
+        // US4439 TODO: clean up and put where it makes most sense
 
         // Align Ed-Fi and SLI schema recordType
         String sliEntityType = MapUtils.getString(n.getMetaData(), "sliEntityType");
@@ -95,8 +94,6 @@ public final class SliDeltaManager {
         n.addMetaData("rhId", recordId);
         n.addMetaData("rhHash", recordHashValues);
         n.addMetaData("rhTenantId", tenantId);
-
-        System.out.println("Generated DID " + recordId);
 
         // US4439 TODO end
 

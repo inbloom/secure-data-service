@@ -3716,11 +3716,11 @@
     createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
     <jb:expression property="recordType">'competencyLevelDescriptor'</jb:expression>
     <jb:value property="localId" data="CompetencyLevelDescriptor/@id" />
-    <jb:wiring property="metaData" beanIdRef="competencyLevelDescriptorMetaData" />
+    <jb:wiring property="metaData" beanIdRef="edOrgCompetencyLevelDescriptorMetaData" />
     <jb:wiring property="attributes" beanIdRef="CompetencyLevelDescriptorAttributesFromEdorgInterchange" />
   </jb:bean>
 
-  <jb:bean beanId="competencyLevelDescriptorMetaData" class="java.util.HashMap"
+  <jb:bean beanId="edOrgCompetencyLevelDescriptorMetaData" class="java.util.HashMap"
     createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
     <jb:expression property="neutralRecordKeyValueFieldNames">'codeValue'</jb:expression>
   </jb:bean>
@@ -3738,7 +3738,13 @@
     createOnElement="InterchangeStudentGrade/CompetencyLevelDescriptor">
     <jb:expression property="recordType">'competencyLevelDescriptor'</jb:expression>
     <jb:value property="localId" data="CompetencyLevelDescriptor/@id" />
+    <jb:wiring property="metaData" beanIdRef="studentGrade_CompetencyLevelDescriptorMetaData" />
     <jb:wiring property="attributes" beanIdRef="CompetencyLevelDescriptorAttributesFromStudentGradesInterchange" />
+  </jb:bean>
+
+  <jb:bean beanId="studentGrade_CompetencyLevelDescriptorMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/CompetencyLevelDescriptor">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'codeValue'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="CompetencyLevelDescriptorAttributesFromStudentGradesInterchange" class="java.util.HashMap"
