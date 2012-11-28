@@ -62,16 +62,6 @@ public class DeterministicIdResolver {
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
 
-    /*
-    public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
-        resolveInternalIdsImpl(entity, tenantId, true, errorReport);
-    }
-
-    public void resolveInternalIds(Entity entity, String tenantId, boolean addContext, ErrorReport errorReport) {
-        resolveInternalIdsImpl(entity, tenantId, addContext, errorReport);
-    }
-    */
-
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
