@@ -27,8 +27,8 @@ import org.slc.sli.test.edfi.entities.Name;
 import org.slc.sli.test.edfi.entities.OtherName;
 import org.slc.sli.test.edfi.entities.OtherNameType;
 import org.slc.sli.test.edfi.entities.Parent;
-import org.slc.sli.test.edfi.entities.ParentIdentityType;
-import org.slc.sli.test.edfi.entities.ParentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCParentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCParentReferenceType;
 import org.slc.sli.test.edfi.entities.PersonalInformationVerificationType;
 import org.slc.sli.test.edfi.entities.PersonalTitlePrefixType;
 import org.slc.sli.test.edfi.entities.SexType;
@@ -68,9 +68,9 @@ public class ParentGenerator {
         }
     }
 
-    public static ParentReferenceType getParentReferenceType(String parentId) {
-        ParentReferenceType prt = new ParentReferenceType();
-        ParentIdentityType pit = new ParentIdentityType();
+    public static SLCParentReferenceType getParentReferenceType(String parentId) {
+        SLCParentReferenceType prt = new SLCParentReferenceType();
+        SLCParentIdentityType pit = new SLCParentIdentityType();
         prt.setParentIdentity(pit);
         pit.setParentUniqueStateId(parentId);
         return prt;
