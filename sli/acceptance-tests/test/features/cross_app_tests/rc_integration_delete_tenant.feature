@@ -2,8 +2,7 @@
 @rc
 Feature: Delete tenant and drop tenant database
 
-Background: 
-  Make a connection to Mongo
+Background: Make a connection to Mongo
   Given I have a connection to Mongo
 
 Scenario: Delete tenant from sli.tenant and drop tenant database

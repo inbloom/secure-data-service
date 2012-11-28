@@ -152,10 +152,10 @@ task :rcTests do
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
-  Rake::Task["rcCleanUpTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
-  Rake::Task["rcTenantCleanUp"].execute if tenant_exists
-  
+  Rake::Task["rcCleanUpTests"].execute if tenant_exists
+  Rake::Task["rcTenantCleanUp"].execute
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
