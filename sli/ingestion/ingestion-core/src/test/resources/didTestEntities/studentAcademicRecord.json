@@ -1,0 +1,20 @@
+{
+"recordType":"studentAcademicRecord",
+"attributes":
+{
+    "SessionReference":
+    {
+       "SessionIdentity":
+       {
+           "EducationalOrgReference":
+           {
+               "EducationalOrgIdentity":
+                {
+                    "StateOrganizationId":"testSchoolId"
+                }
+           },
+           "SessionName":"theSessionName"
+       }
+    }
+}
+}

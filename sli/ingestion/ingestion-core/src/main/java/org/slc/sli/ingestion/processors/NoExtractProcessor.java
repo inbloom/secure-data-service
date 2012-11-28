@@ -49,18 +49,6 @@ public class NoExtractProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
-
-
         File file = exchange.getIn().getBody(File.class);
         String batchJobId = file.getName().substring(0, file.getName().indexOf(".noextract"));
         exchange.getIn().setHeader("BatchJobId", batchJobId);
