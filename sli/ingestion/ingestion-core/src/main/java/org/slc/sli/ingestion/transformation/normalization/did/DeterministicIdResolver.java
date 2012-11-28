@@ -115,13 +115,8 @@ public class DeterministicIdResolver {
         return didSchemaParser.getRefConfigs().get(refType);
     }
 
-<<<<<<< HEAD
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
             String tenantId, boolean addContext) throws IdResolutionException {
-=======
-    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource,
-            String tenantId) throws IdResolutionException {
->>>>>>> master
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
