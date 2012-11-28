@@ -79,7 +79,7 @@ import org.slc.sli.domain.enums.Right;
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
 
     @Value("${sli.sandbox.enabled}")
-    protected boolean isSandboxEnabled;
+    private boolean isSandboxEnabled;
 
     protected void setSandboxEnabled(boolean isSandboxEnabled) {
         this.isSandboxEnabled = isSandboxEnabled;

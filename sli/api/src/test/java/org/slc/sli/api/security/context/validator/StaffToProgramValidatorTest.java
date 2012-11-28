@@ -58,34 +58,34 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class StaffToProgramValidatorTest {
 
     @Resource
-	private StaffToProgramValidator val;
-    
+    private StaffToProgramValidator val;
+
     @Resource
     private ValidatorTestHelper helper;
-    
+
     @Resource
     private MockRepo repo;
 
-	@Resource
-	private SecurityContextInjector injector;
-    
+    @Resource
+    private SecurityContextInjector injector;
+
     private Set<String> programIds;
 
-	@Before
-	public void init() {
+    @Before
+    public void init() {
         // Set up the principal
         String user = "fake Staff";
         String fullName = "Fake Staff";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
-        
+
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("staff");
         Mockito.when(entity.getEntityId()).thenReturn(helper.STAFF_ID);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
-        
+
         programIds = new HashSet<String>();
-	}
-    
+    }
+
     @After
     public void tearDown() {
         repo.deleteAll(EntityNames.PROGRAM, new NeutralQuery());
@@ -94,17 +94,17 @@ public class StaffToProgramValidatorTest {
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
     }
 
-	@Test
-	public void testCanValidate() {
-		Assert.assertTrue("Must be able to validate",val.canValidate(EntityNames.PROGRAM, false));
-		Assert.assertFalse("Must not be able to validate",val.canValidate(EntityNames.ADMIN_DELEGATION, false));
-	}
-	
-	@Test
-	public void testValidation() {
-		Assert.assertFalse(val.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList("lamb"))));
-	}
-    
+    @Test
+    public void testCanValidate() {
+        Assert.assertTrue("Must be able to validate", val.canValidate(EntityNames.PROGRAM, false));
+        Assert.assertFalse("Must not be able to validate", val.canValidate(EntityNames.ADMIN_DELEGATION, false));
+    }
+
+    @Test
+    public void testValidation() {
+        Assert.assertFalse(val.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList("lamb"))));
+    }
+
     @Test
     public void testCanNotValidateWithStuendRecordAccess() {
         Entity lea = helper.generateEdorgWithParent(null);

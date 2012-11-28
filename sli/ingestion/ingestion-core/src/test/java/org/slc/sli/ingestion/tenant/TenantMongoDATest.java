@@ -81,7 +81,7 @@ public class TenantMongoDATest {
         when(mockRepository.findAll(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).thenReturn(
                 testTenantRecords);
 
-        List<String> lzPathsResult = tenantDA.getLzPaths(ingestionServerName);
+        List<String> lzPathsResult = tenantDA.getLzPaths();
 
         assertNotNull("lzPathsResult was null", lzPathsResult);
         assertEquals("lzPathsResult was not match expected size", 2, lzPathsResult.size());

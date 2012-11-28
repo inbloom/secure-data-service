@@ -16,20 +16,14 @@ limitations under the License.
 
 =end
 
-require_relative 'baseEntity.rb'
+require 'factory_girl'
 
-class StudentSchoolAssociation < BaseEntity
-
-  def initialize(studentId, schoolId)
-    @studentId = studentId
-    @schoolId = schoolId
-  end
-
-  def studentId
-    "#{@studentId}"
-  end
-
-  def schoolStateOrgId
-    "school#{@schoolId}"
+FactoryGirl.define do
+  factory :student do
+    initialize_with { new(42, Date.new(2000, 9, 1)) }
+    sex "Male"
+    firstName "John"
+    lastName "Snow"
+    email "jsnow@thewall.com"
   end
 end

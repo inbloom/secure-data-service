@@ -18,26 +18,29 @@ limitations under the License.
 require 'mustache'
 
 require_relative "./interchangeGenerator"
-require_relative "../../Shared/EntityClasses/student"
+require_relative "../../Shared/EntityClasses/studentSchoolAssociation"
 require_relative '../../Shared/util'
 
-class StudentGenerator < InterchangeGenerator
+class StudentEnrollment < Mustache
+  attr_accessor :studentSchools
 
-  class StudentInterchange < Mustache
-    attr_accessor :students
-
-    def initialize(students)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/student.mustache"
-      @students = students
-    end
-
+  def initialize(entities)
+    @studentSchools = entities
   end
+
+  def self.template_path
+    "#{File.dirname(__FILE__)}/interchangeTemplates"
+  end
+    
+end
+
+class EnrollmentGenerator < InterchangeGenerator
 
   def initialize(interchange, batchSize)
     super(interchange, batchSize)
 
-    @header, @footer = build_header_footer( "StudentParent" )
-    @generator = StudentGenerator::StudentInterchange 
+    @header, @footer = build_header_footer( "StudentEnrollment" )
+    @generator = StudentEnrollment 
 
     start()
   end

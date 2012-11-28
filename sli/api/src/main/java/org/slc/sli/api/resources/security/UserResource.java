@@ -351,7 +351,7 @@ public class UserResource {
 
     private void updateUnmodifiableFields(User user, User userInLdap) {
         //home directory should not be updatable from API
-        user.setHomeDir(userInLdap == null? "/dev/null" : userInLdap.getHomeDir());
+        user.setHomeDir(userInLdap == null ? "/dev/null" : userInLdap.getHomeDir());
     }
 
     private Response validateCannotRemoveLastSuperAdmin(User updateTo, User userInLdap) {
@@ -425,7 +425,7 @@ public class UserResource {
                 && userToDelete.getGroups() == null) {
             result = null;
         } else if (!(secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR) || secUtil
-                .hasRole(RoleInitializer.SLC_OPERATOR))&&!(tenant.equals(userToDelete.getTenant()))) {
+                .hasRole(RoleInitializer.SLC_OPERATOR)) && !(tenant.equals(userToDelete.getTenant()))) {
             // verify user tenant match up with userToDelete
             return composeForbiddenResponse("You are not authorized to access this resource.");
         } else {
@@ -605,13 +605,6 @@ public class UserResource {
      */
     private boolean isUserLeaAdmin(User user) {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
-    }
-
-    /*
-     * Determines if the specified user has SLC operator permission
-     */
-    private boolean isSLCOperator(User user) {
-        return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
     }
 
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
