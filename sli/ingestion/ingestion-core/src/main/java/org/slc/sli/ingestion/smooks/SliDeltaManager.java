@@ -172,12 +172,8 @@ public final class SliDeltaManager {
 
     private static void handleFieldAccessException(String fieldName, NeutralRecord n, boolean optional) {
         if (!optional) {
-            String message =
-                    "An entity is missing one or more required natural key fields specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml for \"" + "\n"
-            + "       Entity      " + n.getRecordType() + "\n"
-            + "       Source file " + n.getSourceFile() + "\n"
-            + "       Location    " + n.getLocationInSourceFile() + "\n"
-            + "       Field       " + fieldName;
+            String message = "The \"" + n.getRecordType() + "\" entity at location " + n.getLocationInSourceFile() + " in file \"" + n.getSourceFile()
+                    + "\" is missing a value for required natural key field \"" + fieldName + "\" as specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml.";
 
             System.out.println(message);
             throw new NaturalKeyValidationException(message);
