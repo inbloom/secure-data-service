@@ -143,8 +143,6 @@ end
 desc "Run RC E2E Tests in Production mode"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
-  Rake::Task["rcCleanUpTests"].execute if tenant_exists #&& RUN_ON_RC
-  Rake::Task["rcTenantCleanUp"].execute if RUN_ON_RC
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
@@ -154,8 +152,10 @@ task :rcTests do
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
+  Rake::Task["rcCleanUpTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
-
+  Rake::Task["rcTenantCleanUp"].execute if tenant_exists
+  
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
