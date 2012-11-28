@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DEFAULT_CHECK_SLI_CONF="../../config/properties/sli.properties"
-DEFAULT_CHECK_KEYSTORE="../../data-access/dal/keyStore/ciKeyStore.jks"
+DEFAULT_CHECK_SLI_CONF="../config/properties/sli.properties"
+DEFAULT_CHECK_KEYSTORE="../data-access/dal/keyStore/ciKeyStore.jks"
 DEFAULT_SEARCH_INDEXER_JAR="target/search-indexer-1.0-SNAPSHOT.jar"
 DEFAULT_MAX_MEMORY="1024m"
 DEFAULT_MIN_MEMORY="1024m"
