@@ -21,8 +21,8 @@ def check_email(config = {})
   imap_port = config[:imap_port] || PropLoader.getProps['email_imap_port']
   imap_username = config[:imap_username] || PropLoader.getProps['email_imap_registration_user']
   imap_password = config[:imap_password] || PropLoader.getProps['email_imap_registration_pass']
-  content_substring = config[:content_substring]
-  subject_substring = config[:subject_substring]
+  content_substring = config[:content_substring].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
+  subject_substring = config[:subject_substring].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
   initial_wait_time = config[:initial_wait_time] || 1
   retry_attempts = config[:retry_attempts] || 30
   retry_wait_time = config[:retry_wait_time] || 1
@@ -48,8 +48,8 @@ def check_email(config = {})
     unless(messages_new.empty?)
       messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
       messages.each do |message|
-        content = message.attr["BODY[TEXT]"]
-        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+        content = message.attr["BODY[TEXT]"].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
+        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"].gsub(/\s/, '') # remove spaces because the imap client add unnecessary spaces
         if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
             (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
           return content
