@@ -1,14 +1,7 @@
 {
-"recordType":"section",
+"recordType":"studentAcademicRecord",
 "attributes":
 {
-	"SchoolReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"testSchoolId"
-		}
-	},
     "SessionReference":
     {
        "SessionIdentity":
