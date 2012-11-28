@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -308,7 +309,7 @@ public class StaffToStudentValidatorTest {
     }
 
     @Test
-    public void testGetValid() {
+    public void testGetValidWithSomeValid() {
         StaffToStudentValidator mock = Mockito.spy(validator);
         Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("1"))));
         Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("2"))));
@@ -318,5 +319,15 @@ public class StaffToStudentValidatorTest {
         validated.removeAll(new HashSet<String>(Arrays.asList("1", "2", "3")));
         // has to have only 1,2,3
         assertTrue(validated.isEmpty());
+    }
+
+    @Test
+    public void testGetValidWithAllValid() {
+        StaffToStudentValidator mock = Mockito.spy(validator);
+        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("5", "6", "7", "8"))));
+        HashSet<String> input = new HashSet<String>(Arrays.asList("5", "6", "7", "8"));
+        Set<String> validated = mock.getValid(EntityNames.STUDENT, input);
+        assertEquals(4, validated.size());
+        assertTrue(validated.containsAll(input));
     }
 }
