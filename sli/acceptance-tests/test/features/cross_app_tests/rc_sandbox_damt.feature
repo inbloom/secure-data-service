@@ -5,6 +5,7 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
 
   Background:
     Given I have an open web browser
+    And I am running in Sandbox mode
     When I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Admin" realm in "Sandbox"

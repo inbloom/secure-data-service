@@ -176,7 +176,7 @@ Then /^I set my password to "(.*?)"$/ do |password|
     @driver.find_element(:id, "new_account_password_new_pass").send_keys password
     @driver.find_element(:id, "new_account_password_confirmation").clear
     @driver.find_element(:id, "new_account_password_confirmation").send_keys password
-    if(@mode == "sandbox")
+    if(@mode == "SANDBOX")
       @driver.find_element(:id, "terms_and_conditions").click
     end
     @driver.find_element(:id, "submitForgotPasswordButton").click
