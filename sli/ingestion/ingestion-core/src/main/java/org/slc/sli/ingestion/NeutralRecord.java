@@ -39,9 +39,6 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-
 /**
  * Container format to store any type of Ingestion data generically.
  *
@@ -157,36 +154,7 @@ public class NeutralRecord implements Cloneable {
         this.recordId = recordId;
     }
 
-    /**
-     * @param strategy
-     *            the Id generator strategy
-     * @param naturalKeyDescriptor
-     *            the object describing the natural keys to use when generating the ID
-     * @return
-     *            the generated ID
-     */
-    public String generateRecordId(UUIDGeneratorStrategy strategy, NaturalKeyDescriptor naturalKeyDescriptor) {
-        if (this.recordId == null) {
-            this.recordId = strategy.generateId(naturalKeyDescriptor);
-        }
-
-        return this.recordId;
-    }
-
-    /**
-     * @param strategy
-     *            the Id generator strategy
-     * @return
-     *            the generated ID
-     */
-    public String generateRecordId(UUIDGeneratorStrategy strategy) {
-        if (this.recordId == null) {
-            this.recordId = strategy.generateId();
-        }
-
-        return this.recordId;
-    }
-
+        
     /**
      * @param localId
      *            the localId to set

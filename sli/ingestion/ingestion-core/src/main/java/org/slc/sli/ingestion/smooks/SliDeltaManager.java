@@ -59,8 +59,6 @@ public final class SliDeltaManager {
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
             DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, ErrorReport errorReport) {
 
-        // Calculate DiD using natural key values (that are references) in their Did form
-        String recordId = null;
         String tenantId = TenantContext.getTenantId();
 
         // US4439 TODO: This is POC code and needs to be cleaned up and put where it makes most
@@ -86,17 +84,20 @@ public final class SliDeltaManager {
         // HACK HACK HACK HACK ... and needs more work
         // didResolver has problems resolving StudentReference in "attendance" currently,
         // but it is not needed for DID calculation so we skip it
-        NeutralRecord neutralRecordResolved = null;
-        if ("attendance".equals(n.getRecordType())) {
-            recordId = n.generateRecordId(dIdStrategy, nkd);
-        } else {
 
+        // Calculate DiD using natural key values (that are references) in their Did form
+        String recordId = null;
+        Object recordIdObj = n.getMetaDataByName("rhId");
+        if ( null == recordIdObj )
+        	recordId = dIdStrategy.generateId(nkd);
+        else
+        	recordId = recordIdObj.toString();
+        
+        NeutralRecord neutralRecordResolved = null;
+        if (! "attendance".equals(n.getRecordType())) {
             neutralRecordResolved = (NeutralRecord) n.clone();
             Entity entity = new NeutralRecordEntity(neutralRecordResolved);
             didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
-
-            recordId = neutralRecordResolved.generateRecordId(dIdStrategy, nkd);
-            n.setRecordId(recordId);
         }
 
         // Calculate record hash using natural keys' values

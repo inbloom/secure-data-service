@@ -68,7 +68,13 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
             encryptedBody = encryptor.encrypt(neutralRecord.getRecordType(), neutralRecord.getAttributes());
         }
 
-        String uid = neutralRecord.generateRecordId(uuidGeneratorStrategy);
+        String uid = null;
+        if (neutralRecord.getRecordId() == null) {
+            uid = uuidGeneratorStrategy.generateId();
+            neutralRecord.setRecordId(uid);
+        } else {
+            uid = neutralRecord.getRecordId();
+        }
         
         Map<String, Object> localParentIds = neutralRecord.getLocalParentIds();
         if (localParentIds != null) {
