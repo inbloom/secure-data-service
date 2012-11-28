@@ -59,8 +59,12 @@ Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
-And I enable my app for all districts
-And I click on the button Submit
+Then I can see the on-boarded states
+When I select a state
+Then I see all of the Districts
+Then I check the Districts
+When I click on Save
+Then the "Schlemiel" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
 Then I will be redirected to realm selector web page
@@ -68,36 +72,9 @@ When I click on the "Sandbox" realm in "Sandbox"
 Then I should be redirected to the impersonation page
 And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
-#IT Administrator can access the Databrowser
-And I want to select "jstevenson" from the "SmallDatasetUsers" in automatic mode
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under Application Configuration, I see the following: "SLC Dashboards"
-And under System Tools, I see the following "SLC Data Browser"
-And under System Tools, I click on "SLC Data Browser"
-Then I should be redirected to the Data Browser home page
-And I should see my available links labeled
-And I should navigate to "/entities/teachers"
-Then I should see that there are "3" teachers 
-When I click on the row containing "linda.kim"
-When I click on the "My Sections" link
-Then I am redirected to the particular associations Simple View
-When I click on the row containing "8th Grade English - Sec 6"
-Then I am redirected to the particular associations Simple View
-When I click on the "GetStudents" link
-Then I am redirected to the particular associations Simple View
-When I click on the row containing "Sollars"
-Then I am redirected to the particular associations Simple View
-And I exit out of the iframe
-And I click on log out
-Then I will be redirected to realm selector web page
-When I click on the "Sandbox" realm in "Sandbox"
-Then I should be redirected to the impersonation page
-And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
-
-#Educator can see SLC Dashboards and New App
+#Educator can see non-installed Apps
 And I want to select "cgray" from the "SmallDatasetUsers" in automatic mode
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "SLC Dashboards;Schlemiel"
+And under My Applications, I click on "Schlemiel"
+Then my current url is "http://www.google.com/"	
