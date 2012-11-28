@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -59,13 +60,13 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     private Logger log = LoggerFactory.getLogger(IndexValidator.class);
 
     @Autowired
-    MongoTemplate batchJobMongoTemplate;
+    private MongoTemplate batchJobMongoTemplate;
 
     @Autowired
-    MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
-    MongoTemplate neutralRecordMongoTemplate;
+    private MongoTemplate neutralRecordMongoTemplate;
 
     private HashMap<String, List<HashMap<String, Object>>> sliIndexCache;
     private HashMap<String, List<HashMap<String, Object>>> isIndexCache;
@@ -119,13 +120,15 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
 
     private String parseFile(File file, HashMap<String, List<HashMap<String, Object>>> indexCache,
             MongoTemplate mongoTemplate) {
-        String errorMessage = "";
+        StringBuilder errorMessage = new StringBuilder("");
+        FileInputStream fstream = null;
+        BufferedReader br = null;
 
         try {
-            FileInputStream fstream = new FileInputStream(file);
+            fstream = new FileInputStream(file);
 
             DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            br = new BufferedReader(new InputStreamReader(in));
 
             String currentFileLine;
             while ((currentFileLine = br.readLine()) != null) {
@@ -138,19 +141,19 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
                     if (indexMap != null) {
                         boolean indexPresent = verifyIndex(indexCache, mongoTemplate, collectionName, indexMap);
                         if (!indexPresent) {
-                            errorMessage += "\nIndex " + jsonString + " missing from collection " + collectionName;
+                            errorMessage.append("\nIndex " + jsonString + " missing from collection " + collectionName);
                         }
                     }
                 }
             }
-
-            // Close the input stream
-            in.close();
         } catch (IOException e) {
             log.error("Error occured while verifying indexes: " + e.getLocalizedMessage());
+        } finally {
+            IOUtils.closeQuietly(br);
+            IOUtils.closeQuietly(fstream);
         }
 
-        return errorMessage;
+        return errorMessage.toString();
     }
 
     protected Matcher ensureIndexStatement(String statement) {

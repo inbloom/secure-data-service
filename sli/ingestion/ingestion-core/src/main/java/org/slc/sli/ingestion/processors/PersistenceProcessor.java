@@ -87,10 +87,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
-
-    @Autowired
-    private static DeterministicUUIDGeneratorStrategy dIdStrategy;
-
+    
     private EdFi2SLITransformer transformer;
 
     private Map<String, Set<String>> entityPersistTypeMap;
@@ -115,10 +112,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     // TODO: make it configurable. From schema, maybe.  
     // represents the configuration of a self-referencing entity schema
     static class SelfRefEntityConfig {
-        String idPath;              // path to the id field
+        private String idPath;              // path to the id field
         // Exactly one of the following fields can be non-null: 
-        String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
-        String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
+        private String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
+        private String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
         SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
             parentAttributePath = p;
@@ -606,10 +603,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
         if (recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
             String newHashValues = nr.getMetaDataByName("rhHash").toString();
-            if (newHashValues == null) {
+            if (newHashValues == null)
                 return;
-            }
-            String recordId = nr.generateRecordId(dIdStrategy);
+                        
+            String recordId = nr.getMetaDataByName("rhId").toString();
             String tenantId = nr.getMetaDataByName("rhTenantId").toString();
 
             // Consider DE2002, removing a query per record vs. tracking version

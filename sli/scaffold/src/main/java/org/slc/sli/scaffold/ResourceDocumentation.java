@@ -30,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Handles adding documentation to a resource document
+ */
 public class ResourceDocumentation {
     private static final String DEFAULT_RESOURCE_LOC = "/wadl/v1_resources.json";
     private final Document doc;

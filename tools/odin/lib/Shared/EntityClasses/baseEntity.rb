@@ -16,26 +16,28 @@ limitations under the License.
 
 =end
 
+# base entity
 class BaseEntity
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end
   
   def wChoose(distribution)
-    wArray = []
+    r = @rand.rand weight_total(distribution)
     distribution.each do |element, weight|
-      weight.times {wArray << element}
+      if r < weight
+        return element
+      end
+      r -= weight
     end 
-    choose(wArray)
   end
-  
-  def to_hash
-    hash = {}
-    tmp = {}
-    self.instance_variables.each do |var|
-      tmp[var[1..-1].to_sym] = self.instance_variable_get(var)
+
+  def weight_total(distribution)
+    sum = 0
+    distribution.each do |_, weight|
+      sum +=weight
     end
-    hash[self.class.name.downcase.to_sym] = tmp
-    hash
+    sum
   end
+
 end

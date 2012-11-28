@@ -59,8 +59,6 @@ public final class SliDeltaManager {
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
             DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, ErrorReport errorReport) {
 
-        // Calculate DiD using natural key values (that are references) in their Did form
-        String recordId = null;
         String tenantId = TenantContext.getTenantId();
 
         // US4439 TODO: This is POC code and needs to be cleaned up and put where it makes most
@@ -74,23 +72,21 @@ public final class SliDeltaManager {
             sliEntityType = n.getRecordType();
         }
 
+        // HACK HACK HACK HACK ... and needs more work
         // Determine the neutralrecord key fields from smooks config - temporary solution until
         // annotations are added identifying key fields in SLI-Ed-Fi.xsd
         // that can be mapped deterministically to the neutralrecord fields
         Map<String, String> naturalKeys = new HashMap<String, String>();
 
-        populateNaturalKeys(n, naturalKeys);
-
-        NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, sliEntityType, null);
-
-        NeutralRecord neutralRecordResolved = null;
-
-        neutralRecordResolved = (NeutralRecord) n.clone();
+        NeutralRecord neutralRecordResolved = (NeutralRecord) n.clone();
         Entity entity = new NeutralRecordEntity(neutralRecordResolved);
         didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
 
-        recordId = neutralRecordResolved.generateRecordId(dIdStrategy, nkd);
-        n.setRecordId(recordId);
+        // Calculate DiD using natural key values (that are references) in their Did form
+        populateNaturalKeys(neutralRecordResolved, naturalKeys);
+        NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, sliEntityType, null);
+
+        String recordId = dIdStrategy.generateId(nkd);
 
         // Calculate record hash using natural keys' values
         String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + tenantId);

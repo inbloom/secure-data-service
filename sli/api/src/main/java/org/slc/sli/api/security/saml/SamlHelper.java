@@ -71,6 +71,7 @@ public class SamlHelper {
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String ARTIFACT_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact";
     private static final String NAMEID_FORMAT_TRANSIENT = "urn:oasis:names:tc:SAML:2.0:nameid-format:transient";
+    private static final String SUCCESS_STATUS = "urn:oasis:names:tc:SAML:2.0:status:Success";
 
     // private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
 
@@ -198,6 +199,13 @@ public class SamlHelper {
             Document jdomDocument = null;
             synchronized (builder) {
                 jdomDocument = builder.build(doc);
+            }
+            
+            Element status = jdomDocument.getRootElement().getChild("Status", SAMLP_NS);
+            Element statusCode = status.getChild("StatusCode", SAMLP_NS);
+            String statusValue = statusCode.getAttributeValue("Value");
+            if (!statusValue.equals(SUCCESS_STATUS)) {
+            	error("SAML Response did not have a success status, instead status was {}", statusValue);
             }
 
             synchronized (validator) {

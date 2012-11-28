@@ -24,9 +24,6 @@ SLIAdmin::Application.routes.draw do
   end
 
   resources :change_passwords
-  get "tenant_metrics", :to => "tenant_metrics#index"
-  match "tenant_metrics/(:id)" => "tenant_metrics#show", :constraints  => { :id => /[^\?\/]*/ }
-
   resources :waitlist_users
   resources :admin_delegations
 

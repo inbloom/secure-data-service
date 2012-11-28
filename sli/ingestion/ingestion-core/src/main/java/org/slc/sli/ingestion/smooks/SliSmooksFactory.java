@@ -53,7 +53,7 @@ public class SliSmooksFactory {
     private NeutralRecordMongoAccess nrMongoStagingWriter;
 
     @Autowired
-    public BatchJobDAO batchJobDAO;
+    private BatchJobDAO batchJobDAO;
 
     public DeterministicUUIDGeneratorStrategy dIdStrategy;
     public DeterministicIdResolver dIdResolver;

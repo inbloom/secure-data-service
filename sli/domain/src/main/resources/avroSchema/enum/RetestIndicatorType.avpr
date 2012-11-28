@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "RetestIndicatorType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Indicator if the test was retaken.  For example:\n\t\t\tPrimary administration\nFirst retest\nSecond retest\n...",
-  "xsd-type" : "token",
-  "symbols" : [ "Primary_Administration", "TODO_1st_Retest", "TODO_2nd_Retest" ]
-}
