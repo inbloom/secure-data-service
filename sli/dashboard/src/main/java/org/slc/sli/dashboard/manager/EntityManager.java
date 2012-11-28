@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.Link;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -343,6 +344,8 @@ public class EntityManager extends ApiClientManager {
 	 */
 	public GenericEntity getSectionForProfile(String token, String sectionId,
 			Map<String, GenericEntity> cache) {
+		
+		
 		if (cache == null) {
 			cache = new HashMap<String, GenericEntity>();
 		}
@@ -360,13 +363,16 @@ public class EntityManager extends ApiClientManager {
 		// Retrieve teacher of record for the section, and add the teacher's
 		// name to the section
 		// entity.
-		GenericEntity teacher = cache.get(section.getString(Constants.ATTR_ID));
+
+		
+		String teacherId = getApiClient().getTeacherIdForSection(token, sectionId);
+		GenericEntity teacher = cache.get(teacherId);
 
 		if (teacher == null) {
-			teacher = ((SDKAPIClient) getApiClient()).getTeacherForSection(
-					token, section.getString(Constants.ATTR_ID), cache);
+			teacher = getApiClient().getTeacherForSection(
+					token, section.getString(Constants.ATTR_ID));
 			log.info("got teacher - but shouldn't have!");
-			cacheThis(cache, section.getString(Constants.ATTR_ID), teacher);
+			cacheThis(cache, teacherId, teacher);
 		}
 
 		if (teacher != null) {
@@ -394,8 +400,7 @@ public class EntityManager extends ApiClientManager {
 		String courseOfferingId = section.get("courseOfferingId").toString();
 		GenericEntity courseOffering = cache.get(courseOfferingId);
 		if (courseOffering == null) {
-			courseOffering = getApiClient().readEntity(token,
-					courseOfferingId);
+			courseOffering = getCourseOffering(token, courseOfferingId);
 			log.info("got course offering - but shouldn't have!");
 			cacheThis(cache, courseOfferingId, courseOffering);
 		}
@@ -423,6 +428,11 @@ public class EntityManager extends ApiClientManager {
 		}
 
 		return section;
+	}
+	
+	private GenericEntity getCourseOffering(String token, String id) {
+		// get Teacher information
+		return getApiClient().readEntity(token, "/" + PathConstants.COURSE_OFFERINGS + "/" + id);
 	}
 
 	private List<GenericEntity> cacheStudent(String token, List<Link> links,
@@ -706,6 +716,9 @@ public class EntityManager extends ApiClientManager {
 
 	private void cacheThis(Map<String, GenericEntity> cache, String key,
 			GenericEntity value) {
+		if (value == null) {
+			return;
+		}
 		if (cache.containsKey(value)) {
 			first++;
 		} else {

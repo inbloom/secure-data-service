@@ -352,8 +352,7 @@ public class SDKAPIClient implements APIClient {
 		List<GenericEntity> schools = this
 				.readEntityList(
 						token,
-						SDKConstants.SCHOOLS_ENTITY + "?"
-								+ this.buildQueryString(null));
+						 ids, null, SDKConstants.SCHOOLS_ENTITY);
 
 		return schools;
 	}
@@ -946,35 +945,6 @@ public class SDKAPIClient implements APIClient {
 	 * @param sectionId
 	 * @return
 	 */
-	public GenericEntity getTeacherForSection(String token, String sectionId,
-			Map<String, GenericEntity> cache) {
-		GenericEntity teacher = null;
-
-		String teacherId = getTeacherIdForSection(token, sectionId);
-		if (teacherId == null) {
-			return null;
-		}
-		try {
-			teacher = cache.get(teacherId);
-			if (teacher == null) {
-				teacher = this.getTeacher(token, teacherId);
-				if (cache != null) {
-					cache.put(teacherId, teacher);
-				}
-			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-		return teacher;
-	}
-	
-	/**
-	 * Get the teacher for a specified section
-	 * 
-	 * @param token
-	 * @param sectionId
-	 * @return
-	 */
 	@Override
 	public GenericEntity getTeacherForSection(String token, String sectionId) {
 		GenericEntity teacher = null;
@@ -1301,6 +1271,9 @@ public class SDKAPIClient implements APIClient {
 			// Retrieve the school for the corresponding student school
 			// association
 			GenericEntity school = cache.get(schoolId);
+			if (school == null) {
+				school = getSchool(token, schoolId);
+			}
 			studentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
 		}
 
