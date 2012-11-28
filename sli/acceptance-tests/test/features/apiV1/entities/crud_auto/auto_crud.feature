@@ -123,48 +123,22 @@ Background: Nothing yet
 #
 #
 #
-#        Scenario Outline: CRUD operations on invalid entities
-#    Given entity URI <Entity Resource URI>
-#    #Read invalid
-#     When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
-#     Then I should receive a return code of 404
-#    #Update Invalid
-#    Given a valid entity json document for a <Entity Type>
-#     When I set the <Update Field> to <Updated Value>
-#     When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
-#     Then I should receive a return code of 404
-#    #Delete Invalid
-#     When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
-#     Then I should receive a return code of 404
-#
-#Examples:
-#| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-#| "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-#| "attendance"                   | "attendances"             | "schoolYearAttendance"   | "[]"                                         |
-#| "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
-#| "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
-#| "disciplineAction"             | "disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
-#| "disciplineIncident"           | "disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
-#| "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
-#| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
-#| "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
-#| "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
-#| "parent"                       | "parents"                 | "parentUniqueStateId"    | "ParentID102"                                |
-#| "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
-#| "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
-#| "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
-#| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
-#| "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
-#| "student"                      | "students"                | "sex"                    | "Female"                                     |
-#| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
-#| "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
-#| "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
-#| "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
-#| "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-#| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
-#| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
-#| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
-#| "studentCompetencyObjective"   | "studentCompetencyObjectives" | "objectiveGradeLevel"| "First grade"                                |
+
+
+
+
+        Scenario: CRUD operations on invalid entities
+        #Read invalid
+        Then I navigate to GET with invalid id for each resource available
+        #Update Invalid
+        Then I navigate to PUT with invalid id for each resource available
+        #Delete Invalid
+        Then I navigate to DELETE with invalid id for each resource available
+
+
+
+
+
 #
 #    Scenario Outline: Get All Entities as State Staff
 #    Given my contextual access is defined by table:

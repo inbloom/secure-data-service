@@ -20,10 +20,77 @@ require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../common.rb'
 require_relative '../../../utils/api_utils.rb'
 
+
+
+When /^I navigate to GET with invalid id for each resource available$/ do
+  resources.each do |resource|
+    badId = "bad1111111111111111111111111111111111111_id"
+    uri = "/v1#{resource}/#{badId}"
+    puts "GET " + uri
+    steps %Q{
+      When I navigate to GET \"#{uri}\"
+      Then I should receive a return code of 404
+    }
+  end
+end
+
+When /^I navigate to PUT with invalid id for each resource available$/ do
+  resources.each do |resource|
+
+    #PUT is not allowed for /home
+    if (resource.include? "home") == false
+      badId = "bad1111111111111111111111111111111111111_id"
+      uri = "/v1#{resource}/#{badId}"
+
+      # strip leading "/"
+      resource_type = get_resource_type resource
+
+      puts "PUT #{uri}"
+      steps %Q{
+        Given a valid entity json document for a \"#{resource_type}\"
+      }
+      # split the steps calls so that @updates will have been populated
+      steps %Q{
+        When I set the "#{@updates['field']}" to "#{@updates['value']}"
+        When I navigate to PUT \"#{uri}\"
+        Then I should receive a return code of 404
+
+      }
+      #step "I should receive a return code of 404"
+    end
+  end
+end
+
+
+When /^I navigate to DELETE with invalid id for each resource available$/ do
+  resources.each do |resource|
+    badId = "bad1111111111111111111111111111111111111_id"
+    uri = "/v1#{resource}/#{badId}"
+    puts "DELETE " + uri
+    steps %Q{
+      When I navigate to DELETE \"#{uri}\"
+      Then I should receive a return code of 404
+    }
+  end
+end
+
+
+
+When /^I navigate to PUT "([^"]*)"$/ do |url|
+  @result = @fields if !defined? @result
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+
+
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   resource_config = File.expand_path(File.dirname(__FILE__))+ "/resource_config.json"
 @entityData = JSON.parse(File.read(resource_config))
   @fields = @entityData[arg1]["POST"]
+  @updates = @entityData[arg1]["UPDATE"]
 end
 When /^I navigate to POST for each resource available$/ do
   resources.each do |resource|

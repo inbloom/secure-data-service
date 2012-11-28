@@ -14,6 +14,10 @@
       "beginDate": "2012-07-01",
       "endDate": "2012-07-31",
       "totalInstructionalDays": 20
+    },
+    "UPDATE": { 
+      "field": "gradebookEntryType"       ,
+      "value": "Homework"
     }
   },
   "userAccount": {
@@ -41,12 +45,20 @@
           ]
         }
       ]
+    },
+    "UPDATE": { 
+      "field": "schoolYearAttendance"     ,
+      "value": "[]"
     }
   },
   "studentAcademicRecord": {
     "POST": {
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
       "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+    },
+    "UPDATE": { 
+      "field": "sessionId"                ,
+      "value": "67ce204b-9999-4a11-aacb-000000000003"
     }
   },
   "student": {
@@ -62,6 +74,10 @@
         "middleName": "John",
         "lastSurname": "Doe"
       }
+    },
+    "UPDATE": { 
+      "field": "sex"                      ,
+      "value": "Female"  
     }
   },
   "cohort": {
@@ -75,6 +91,10 @@
       "programId": [
         "9b8cafdc-8fd5-11e1-86ec-0021701f543f"
       ]
+    },
+    "UPDATE": { 
+      "field": "cohortDescription"        ,
+      "value": "frisbee golf team"
     }
   },
   "course": {
@@ -109,6 +129,10 @@
       "careerPathway": "Hospitality and Tourism",
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "uniqueCourseId": "Chinese-1-10"
+    },
+    "UPDATE": { 
+      "field": "cohortDescription"        ,
+      "value": "frisbee golf team"
     }
   },
   "courseOffering": {
@@ -118,6 +142,10 @@
       "courseId": "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
       "localCourseCode": "LCCGR101",
       "localCourseTitle": "German 101 - Intro"
+    },
+    "UPDATE": { 
+      "field": "localCourseTitle"         ,
+      "value": "German 101 - Introduction"  
     }
   },
   "disciplineAction": {
@@ -145,6 +173,10 @@
       ],
       "responsibilitySchoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "assignmentSchoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    },
+    "UPDATE": { 
+      "field": "disciplineDate"           ,
+      "value": "2012-03-18" 
     }
   },
   "disciplineIncident": {
@@ -164,6 +196,10 @@
         ]
       ],
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    },
+    "UPDATE": { 
+      "field": "incidentTime"             ,
+      "value": "01:02:15"
     }
   },
   "educationOrganization": {
@@ -182,6 +218,10 @@
           "nameOfCounty": "Wake"
         }
       ]
+    },
+    "UPDATE": { 
+      "field": "nameOfInstitution"        ,
+      "value": "Bananas School District"    
     }
   },
   "gradebookEntry": {
@@ -189,6 +229,10 @@
       "gradebookEntryType": "Quiz",
       "dateAssigned": "2012-02-14",
       "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
+    },
+    "UPDATE": { 
+      "field": "gradebookEntryType"       ,
+      "value": "Homework"
     }
   },
   "learningObjective": {
@@ -196,6 +240,10 @@
       "academicSubject": "Mathematics",
       "objective": "Learn Mathematics",
       "objectiveGradeLevel": "Fifth grade"
+    },
+    "UPDATE": { 
+      "field": "academicSubject"          ,
+      "value": "Mathematics"
     }
   },
   "learningStandard": {
@@ -207,6 +255,10 @@
       "gradeLevel": "Ninth grade",
       "contentStandard": "State Standard",
       "subjectArea": "English"
+    },
+    "UPDATE": { 
+      "field": "gradeLevel"               ,
+      "value": "Ninth grade"
     }
   },
   "program": {
@@ -227,6 +279,10 @@
           }
         ]
       ]
+    },
+    "UPDATE": { 
+      "field": "programSponsor"           ,
+      "value": "State Education Agency"     
     }
   },
   "section": {
@@ -242,6 +298,10 @@
       "assessmentReferences": [
         "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"
       ]
+    },
+    "UPDATE": { 
+      "field": "sequenceOfCourse"         ,
+      "value": "2" 
     }
   },
   "session": {
@@ -256,6 +316,10 @@
         "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
       ],
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    },
+    "UPDATE": { 
+      "field": "totalInstructionalDays"   ,
+      "value": "43"
     }
   },
   "staff": {
@@ -269,6 +333,10 @@
         "middleName": "D.",
         "lastSurname": "Students"
       }
+    },
+    "UPDATE": { 
+      "field": "sex"                      ,
+      "value": "Female"  
     }
   },
   "studentGradebookEntry": {
@@ -281,6 +349,10 @@
       "numericGradeEarned": 98,
       "dateFulfilled": "2012-01-31",
       "diagnosticStatement": "Finished the quiz in 5 minutes"
+    },
+    "UPDATE": { 
+      "field": "diagnosticStatement"      ,
+      "value": "Finished the quiz in 5 hours"     
     }
   },
   "assessment": {
@@ -297,6 +369,10 @@
       "gradeLevelAssessed": "Adult Education",
       "contentStandard": "LEA Standard",
       "version": 2
+    },
+    "UPDATE": { 
+      "field": "assessmentTitle"          ,
+      "value": "Advanced Placement Test - Subject: Writing"
     }
   },
   "parent": {
@@ -306,6 +382,10 @@
         "firstName": "John",
         "lastSurname": "Doe"
       }
+    },
+    "UPDATE": { 
+      "field": "parentUniqueStateId"      ,
+      "value": "ParentID102"
     }
   },
   "school": {
@@ -335,6 +415,10 @@
         "Fourth grade",
         "Fifth grade"
       ]
+    },
+    "UPDATE": { 
+      "field": "nameOfInstitution"        ,
+      "value": "Yellow Middle School"       
     }
   },
   "teacher": {
@@ -350,6 +434,10 @@
         "middleName": "Hairfire",
         "lastSurname": "Esquith"
       }
+    },
+    "UPDATE": { 
+      "field": "highlyQualifiedTeacher"   ,
+      "value": "false"   
     }
   },
   "grade": {
@@ -357,6 +445,10 @@
       "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
       "letterGradeEarned": "B+",
       "gradeType": "Final"
+    },
+    "UPDATE": { 
+      "field": "gradeType"                ,
+      "value": "Mid-Term Grade"   
     }
   },
   "studentCompetency": {
@@ -369,6 +461,10 @@
       },
       "diagnosticStatement": "passed with flying colors",
       "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+    },
+    "UPDATE": { 
+      "field": "diagnosticStatement"      ,
+      "value": "advanced nuclear thermodynamics"  
     }
   },
   "reportCard": {
@@ -386,6 +482,10 @@
       "numberOfDaysTardy": 10,
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
       "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
+    },
+    "UPDATE": { 
+      "field": "numberOfDaysAbsent"       ,
+      "value": "17"
     }
   },
   "graduationPlan": {
@@ -408,6 +508,10 @@
         "creditType": "Semester hour credit",
         "credit": 32
       }
+    },
+    "UPDATE": { 
+      "field": "individualPlan"           ,
+      "value": "true"    
     }
   },
   "competencyLevelDescriptor": {
@@ -415,6 +519,10 @@
       "description": "Herman tends to throw tantrums",
       "codeValue": "Temper Tantrum",
       "performanceBaseConversion": "Basic"
+    },
+    "UPDATE": { 
+      "field": "description"              ,
+      "value": "Herman throws a lot of tantrums"  
     }
   },
   "studentCompetencyObjective": {
@@ -423,6 +531,10 @@
       "objective": "Phonemic Awareness",
       "studentCompetencyObjectiveId": "SCO-K-1",
       "educationOrganizationId": "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+    },
+    "UPDATE": { 
+      "field": "objectiveGradeLevel"      ,
+      "value": "First grade"
     }
   },
   "courseTranscript": {
@@ -436,6 +548,10 @@
       },
       "gradeType": "Final",
       "finalLetterGradeEarned": "A"
+    },
+    "UPDATE": { 
+      "field": "finalLetterGradeEarned"   ,
+      "value": "D-"
     }
   },
   "staffCohortAssociation": {
@@ -445,6 +561,10 @@
       "beginDate": "2010-01-15",
       "endDate": "2012-03-29",
       "studentRecordAccess": true
+    },
+    "UPDATE": { 
+      "field": "retestIndicator"          ,
+      "value": "2nd Retest" 
     }
   },
   "staffEducationOrganizationAssociation": {
@@ -453,6 +573,10 @@
       "educationOrganizationReference": "92d6d5a0-852c-45f4-907a-912752831772",
       "staffClassification": "Counselor",
       "beginDate": "2011-01-13"
+    },
+    "UPDATE": { 
+      "field": "beginDate"                ,
+      "value": "2011-02-12" 
     }
   },
   "staffProgramAssociation": {
@@ -461,6 +585,10 @@
       "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-01-01",
       "endDate": "2012-12-31"
+    },
+    "UPDATE": { 
+      "field": "endDate"                  ,
+      "value": "2012-11-30" 
     }
   },
   "studentAssessment": {
@@ -470,6 +598,10 @@
       "administrationDate": "2011-10-01",
       "administrationEndDate": "2012-01-01",
       "retestIndicator": "1st Retest"
+    },
+    "UPDATE": { 
+      "field": "sessionId"                ,
+      "value": "67ce204b-9999-4a11-aacb-000000000003"
     }
   },
   "studentCohortAssociation": {
@@ -478,6 +610,10 @@
       "cohortId": "b408d88e-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-02-29",
       "endDate": "2012-03-29"
+    },
+    "UPDATE": { 
+      "field": "endDate"                  ,
+      "value": "2012-04-04" 
     }
   },
   "studentDisciplineIncidentAssociation": {
@@ -485,6 +621,10 @@
       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
       "disciplineIncidentId": "0e26de79-7efa-5e67-9201-5113ad50a03b",
       "studentParticipationCode": "Reporter"
+    },
+    "UPDATE": { 
+      "field": "studentParticipationCode" ,
+      "value": "Witness" 
     }
   },
   "studentParentAssociation": {
@@ -492,6 +632,10 @@
       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
       "parentId": "9b8f7237-ce8e-4dff-98cf-66535880987b",
       "livesWith": true
+    },
+    "UPDATE": { 
+      "field": "livesWith"                ,
+      "value": false     
     }
   },
   "studentProgramAssociation": {
@@ -502,6 +646,10 @@
       "endDate": "2012-05-01",
       "reasonExited": "Refused services",
       "educationOrganizationId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    },
+    "UPDATE": { 
+      "field": "endDate"                  ,
+      "value": "2012-07-01" 
     }
   },
   "studentSchoolAssociation": {
@@ -510,6 +658,10 @@
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "entryGradeLevel": "First grade",
       "entryDate": "2011-09-01"
+    },
+    "UPDATE": { 
+      "field": "entryDate"                ,
+      "value": "2011-07-01" 
     }
   },
   "studentSectionAssociation": {
@@ -520,6 +672,10 @@
       "beginDate": "2011-12-01",
       "endDate": "2012-01-01",
       "homeroomIndicator": true
+    },
+    "UPDATE": { 
+      "field": "repeatIdentifier"         ,
+      "value": "Not repeated"     
     }
   },
   "teacherSchoolAssociation": {
@@ -527,13 +683,21 @@
       "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
       "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
       "programAssignment": "Regular Education"
-    }
+    },
+    "UPDATE": { 
+      "field": "programAssignment"        ,
+      "value": "Special Education"
+    } 
   },
   "teacherSectionAssociation": {
     "POST": {
       "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
       "sectionId": "392d1835-f372-4690-b221-7065db1aed33",
       "classroomPosition": "Teacher of Record"
+    },
+    "UPDATE": { 
+      "field": "classroomPosition"        ,
+      "value": "Assistant Teacher"
     }
   }
 }
