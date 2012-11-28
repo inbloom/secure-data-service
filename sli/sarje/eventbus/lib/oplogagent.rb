@@ -50,6 +50,13 @@ module Eventbus
             else
               sleep(1)
             end
+          rescue Mongo::OperationFailure => ex
+            # catch invalid cursor on mongo reconnects
+            @logger.error ex if @logger
+            if !cursor.closed?
+              cursor.close
+              cursor = get_oplog_mongo_cursor(true)
+            end
           rescue Exception => e
             @logger.error e if @logger
           end
@@ -73,6 +80,7 @@ module Eventbus
             cursor = coll.find({'ts' => {'$gte'=> BSON::Timestamp.new(Integer(last_ts), 0) }})
             cursor.add_option(Mongo::Constants::OP_QUERY_TAILABLE)
             cursor.add_option(Mongo::Constants::OP_QUERY_OPLOG_REPLAY)
+            cursor.add_option(Mongo::Constants::OP_QUERY_NO_CURSOR_TIMEOUT)
           else
             # skip to the current last entry 
             @logger.info "skipping to the current last entry" if @logger
