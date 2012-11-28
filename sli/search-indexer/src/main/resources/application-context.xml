@@ -101,8 +101,9 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	    userName="${sli.search.indexer.broker.username}" password="${sli.search.indexer.broker.password}"  />
      
     <amq:topic id="sarjeSubTopic" physicalName="${sli.search.indexer.sarje.sub.topic}"/>
-	<jms:listener-container connection-factory="jmsFactory" >
-	    <jms:listener destination="${sli.search.indexer.queue.name}" ref="incrementalListener"/>
+    <bean id="stompMessageConverter" class="org.slc.sli.search.util.StompMessageConverter"/>
+	<jms:listener-container connection-factory="jmsFactory" message-converter="stompMessageConverter">
+	    <jms:listener destination="${sli.search.indexer.queue.name}" ref="incrementalListener" method="process"/>
 	    <jms:listener destination="${sli.search.indexer.sarje.sub.req.queue}" ref="sarjeSubscriptionAdmin" method="publishOnDemand"/>
 	</jms:listener-container>
 	

@@ -15,25 +15,12 @@
  */
 package org.slc.sli.search.process.impl;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
-
-import org.apache.activemq.command.ActiveMQBytesMessage;
-import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.IncrementalLoader;
@@ -41,6 +28,8 @@ import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.OplogConverter;
 import org.slc.sli.search.util.OplogConverter.Meta;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -50,7 +39,7 @@ import org.slc.sli.search.util.OplogConverter.Meta;
  * @author dwu
  *
  */
-public class IncrementalListenerImpl implements IncrementalLoader, MessageListener {
+public class IncrementalListenerImpl implements IncrementalLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -58,12 +47,7 @@ public class IncrementalListenerImpl implements IncrementalLoader, MessageListen
 
     private IndexEntityConverter indexEntityConverter;
 
-    private ObjectMapper mapper = new ObjectMapper();
-
-    @Override
-    public void onMessage(Message message) {
-        process(message);
-    }
+    private final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Process a message from the queue
@@ -71,29 +55,10 @@ public class IncrementalListenerImpl implements IncrementalLoader, MessageListen
      * @param opLog
      */
     @Override
-    public void process(Message message) {
+    public void process(String message) {
         if (message != null) {
             try {
-                String opLog = "";
-                // for now we will always receive ActiveMQBytesMessage.
-                // we also support TextMessage if it ever needs to be used.
-                if (message instanceof ActiveMQBytesMessage) {
-                    ActiveMQBytesMessage byteMessage = (ActiveMQBytesMessage) message;
-                    ByteSequence bs = byteMessage.getContent();
-                    InputStream is = new ByteArrayInputStream(bs.getData());
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                    String line = "";
-                    StringBuilder sb = new StringBuilder();
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    opLog = sb.toString();
-
-                } else if (message instanceof TextMessage) {
-                    TextMessage textMessage = (TextMessage) message;
-                    opLog = textMessage.getText();
-                }
-                processEntities(opLog);
+                processEntities(message);
             } catch (Exception e) {
                 logger.error("Error processing message", e);
             }

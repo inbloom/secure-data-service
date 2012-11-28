@@ -11,13 +11,10 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.Topic;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.search.config.IndexConfig;
+import org.slc.sli.search.config.IndexConfigStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Id;
@@ -26,8 +23,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
-import org.slc.sli.search.config.IndexConfig;
-import org.slc.sli.search.config.IndexConfigStore;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * Helper class to maintain search related subscriptions for sarje
@@ -50,7 +49,7 @@ public class SarjeSubscriptionAdmin {
     // topic oplog agents listen to for subscriptions
     private Topic subscriptionBroadcastTopic;
 
-    private ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private MongoTemplate mongoTemplate;
 
     public void init() {

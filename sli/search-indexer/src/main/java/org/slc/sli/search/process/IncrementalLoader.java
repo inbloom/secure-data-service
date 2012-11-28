@@ -15,7 +15,6 @@
  */
 package org.slc.sli.search.process;
 
-import javax.jms.Message;
 
 public interface IncrementalLoader extends Process {
 
@@ -24,6 +23,6 @@ public interface IncrementalLoader extends Process {
      *
      * @throws Exception
      */
-    void process(Message message);
+    void process(String message);
 
 }

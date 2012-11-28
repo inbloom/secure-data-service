@@ -62,7 +62,10 @@ public class LoaderImpl implements FileAlterationListener, Loader {
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads );
         File inbox = new File(inboxDir);
-        inbox.mkdir();
+        inbox.mkdirs();
+        if (!inbox.exists()) {
+            throw new IllegalStateException("Unable to create inbox directory " + inbox.getAbsolutePath());
+        }
         FileAlterationObserver observer = new FileAlterationObserver(inbox);
         monitor.addObserver(observer);
         observer.addListener(this);
@@ -94,6 +97,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
             this.index = index;
         }
 
+        @Override
         public void run() {
             // read records from file
             BufferedReader br = null;
@@ -131,6 +135,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
         }
     }
     
+    @Override
     public void processFile(File inFile) {
         String[] nameTokens = inFile.getName().split("_");
         if (nameTokens.length < 2) {
@@ -144,6 +149,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      * 
      * @see org.slc.sli.search.process.Loader#processFile(java.io.File)
      */
+    @Override
     public void processFile(String index, Action action, File inFile) {
 
         logger.info("Processing file: " + inFile.getName());
@@ -167,28 +173,36 @@ public class LoaderImpl implements FileAlterationListener, Loader {
         executor.execute(new LoaderWorker(index, action, inFile));
     }
 
+    @Override
     public void onDirectoryChange(File inFile) {
     }
 
+    @Override
     public void onDirectoryCreate(File inFile) {
     }
 
+    @Override
     public void onDirectoryDelete(File inFile) {
     }
 
+    @Override
     public void onFileChange(File inFile) {
     }
 
+    @Override
     public void onFileCreate(File inFile) {
         processFile(inFile);
     }
 
+    @Override
     public void onFileDelete(File inFile) {
     }
 
+    @Override
     public void onStart(FileAlterationObserver arg0) {
     }
 
+    @Override
     public void onStop(FileAlterationObserver arg0) {
     }
 
@@ -212,6 +226,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
         this.executorThreads = executorThreads;
     }
     
+    @Override
     public String getHealth() {
         ThreadPoolExecutor tpe = (ThreadPoolExecutor)executor;
         return getClass() + ": {active count:" + tpe.getActiveCount() + ", completed count:" + tpe.getCompletedTaskCount() + "}";
