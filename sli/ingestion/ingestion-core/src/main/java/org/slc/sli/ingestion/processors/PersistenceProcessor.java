@@ -601,21 +601,31 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
-        if (recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
-            String newHashValues = nr.getMetaDataByName("rhHash").toString();
-            if (newHashValues == null)
-                return;
+        
+    	if (!recordLvlHashNeutralRecordTypes.contains(nr.getRecordType()))
+        	return;
+        
+        Object rhHashObj = nr.getMetaDataByName("rhHash");
+        Object rhIdObj = nr.getMetaDataByName("rhId");
+        Object rhTenantIdObj = nr.getMetaDataByName("rhTenantId");
+        
+        // Make sure complete metadata is present
+        if ( null == rhHashObj || null == rhIdObj || null == rhTenantIdObj )
+        	return;
+        
+        String newHashValues = rhHashObj.toString();
+        if (newHashValues == null)
+            return;
                         
-            String recordId = nr.getMetaDataByName("rhId").toString();
-            String tenantId = nr.getMetaDataByName("rhTenantId").toString();
+        String recordId = rhIdObj.toString();
+        String tenantId = rhTenantIdObj.toString();
 
-            // Consider DE2002, removing a query per record vs. tracking version
-            RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
-            if (rh == null) {
-                batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
-            } else {
-                batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
-            }
-        }
+        // Consider DE2002, removing a query per record vs. tracking version
+        RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+        if (rh == null)
+            batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
+        else
+            batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
     }
+     
 }
