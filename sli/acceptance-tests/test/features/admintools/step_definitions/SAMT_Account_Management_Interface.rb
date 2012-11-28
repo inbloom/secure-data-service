@@ -104,6 +104,10 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
 
 end
 
+Given /^there is a "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
+    step "there is a production \"#{role}\" with tenancy \"#{tenant}\" and in \"#{edorg}\""
+end
+
 Given /^there is no users in edorg "(.*?)"$/ do |edorg| 
     idpRealmLogin("operator", nil)
     step "I navigate to GET \"/users\""

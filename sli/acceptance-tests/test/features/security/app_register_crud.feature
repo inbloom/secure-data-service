@@ -73,9 +73,9 @@ Scenario Outline: Deny update when user updating read-only auto-generated field
 	| "client_id"     |
 	| "client_secret" |
 
-@sandbox @RALLY_DE387
+@sandbox @RALLY_DE387 
 Scenario: CRUD operations on Applications In Sandbox as a Developer
-	Given I am logged in using "developer" "developer1234" to realm "SLI"
+	Given I am logged in using "sandboxdeveloper" "sandboxdeveloper1234" to realm "SLI"
 	When I navigate to POST "/apps"
 	Then I should receive a return code of 201
      And I should receive an ID for the newly created application
