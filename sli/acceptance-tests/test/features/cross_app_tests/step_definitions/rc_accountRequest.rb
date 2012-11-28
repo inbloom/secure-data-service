@@ -22,6 +22,8 @@ limitations under the License.
 
 require_relative '../../utils/email.rb'
 
+require_relative '../../sandbox/Provision/step_definitions/ProvisionIntegrated_steps.rb'
+
 Given /^I go to the account registration page on RC$/ do
   @driver.get PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
 end
