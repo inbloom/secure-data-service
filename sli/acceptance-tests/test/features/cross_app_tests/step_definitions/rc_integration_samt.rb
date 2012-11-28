@@ -155,7 +155,7 @@ end
 Then /^I set my password to "(.*?)"$/ do |password|
   first_name = @user_full_name.split(" ", 2)[0]
   content = check_email({:content_substring => first_name,
-                         :subject_substring => "Reset Password"
+                         :subject_substring => "Reset Password",
                          :imap_username => @email_username,
                          :imap_password => @email_password}) do
     @driver.get(PropLoader.getProps["admintools_server_url"] + "/forgot_passwords")
