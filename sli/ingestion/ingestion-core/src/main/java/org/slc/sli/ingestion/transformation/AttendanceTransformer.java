@@ -61,13 +61,20 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
     private static final String ATTENDANCE = "attendance";
-    private static final String SCHOOL = "school";
-    private static final String SESSION = "session";
-    private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
+    private static final String ATTENDANCE_EVENT = "attendanceEvent";
+    private static final String ATTENDANCE_EVENT_REASON = "attendanceEventReason";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
 
     private static final String STATE_ORGANIZATION_ID = "StateOrganizationId";
     private static final String EDUCATIONAL_ORG_ID = "EducationalOrgIdentity";
+    private static final String SCHOOL = "school";
+    private static final String SCHOOL_ID = "schoolId";
+    private static final String SCHOOL_YEAR = "schoolYear";
+    private static final String STUDENT_ID = "studentId";
+    private static final String SESSION = "session";
+    private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
+    private static final String DATE = "date";
+    private static final String EVENT = "event";
 
     private int numAttendancesIngested = 0;
 
@@ -132,8 +139,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
             }
 
-            if (attributes.containsKey("schoolId")) {
-                Object stateOrganizationId = attributes.get("schoolId");
+            if (attributes.containsKey(SCHOOL_ID)) {
+                Object stateOrganizationId = attributes.get(SCHOOL_ID);
                 if (stateOrganizationId != null && stateOrganizationId instanceof String) {
                     String schoolId = (String) stateOrganizationId;
                     List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
@@ -145,10 +152,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                     Map<String, Object> event = new HashMap<String, Object>();
                     String eventDate = (String) attributes.get("eventDate");
                     String eventCategory = (String) attributes.get("attendanceEventCategory");
-                    event.put("date", eventDate);
-                    event.put("event", eventCategory);
-                    if (attributes.containsKey("attendanceEventReason")) {
-                        String eventReason = (String) attributes.get("attendanceEventReason");
+                    event.put(DATE, eventDate);
+                    event.put(EVENT, eventCategory);
+                    if (attributes.containsKey(ATTENDANCE_EVENT_REASON)) {
+                        String eventReason = (String) attributes.get(ATTENDANCE_EVENT_REASON);
                         event.put("reason", eventReason);
                     }
                     events.add(event);
@@ -164,10 +171,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 Map<String, Object> event = new HashMap<String, Object>();
                 String eventDate = (String) attributes.get("eventDate");
                 String eventCategory = (String) attributes.get("attendanceEventCategory");
-                event.put("date", eventDate);
-                event.put("event", eventCategory);
-                if (attributes.containsKey("attendanceEventReason")) {
-                    String eventReason = (String) attributes.get("attendanceEventReason");
+                event.put(DATE, eventDate);
+                event.put(EVENT, eventCategory);
+                if (attributes.containsKey(ATTENDANCE_EVENT_REASON)) {
+                    String eventReason = (String) attributes.get(ATTENDANCE_EVENT_REASON);
                     event.put("reason", eventReason);
                 }
                 events.add(event);
@@ -255,7 +262,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
-                query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
+                query.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentId));
                 query.addCriteria(new NeutralCriteria("schoolId." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID, NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                         NeutralCriteria.OPERATOR_EQUAL, schoolYear));
@@ -293,8 +300,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             String schoolYear = year.getKey();
             List<Map<String, Object>> events = year.getValue();
             Map<String, Object> schoolYearAttendanceEvents = new HashMap<String, Object>();
-            schoolYearAttendanceEvents.put("schoolYear", schoolYear);
-            schoolYearAttendanceEvents.put("attendanceEvent", events);
+            schoolYearAttendanceEvents.put(SCHOOL_YEAR, schoolYear);
+            schoolYearAttendanceEvents.put(ATTENDANCE_EVENT, events);
             daily.add(schoolYearAttendanceEvents);
         }
 
@@ -307,8 +314,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         studentReference.put("StudentIdentity", studentIdentity);
 
         attendanceAttributes.put("StudentReference", studentReference);
-        attendanceAttributes.put("studentId", studentId);
-        attendanceAttributes.put("schoolId", createEdfiSchoolReference(schoolId));
+        attendanceAttributes.put(STUDENT_ID, studentId);
+        attendanceAttributes.put(SCHOOL_ID, createEdfiSchoolReference(schoolId));
         attendanceAttributes.put("schoolYearAttendance", daily);
 
         record.setAttributes(attendanceAttributes);
@@ -340,7 +347,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             List<String> schoolIds = new ArrayList<String>();
             for (NeutralRecord association : associations) {
                 Map<String, Object> associationAttributes = association.getAttributes();
-                String schoolId = (String) associationAttributes.get("schoolId");
+                String schoolId = (String) associationAttributes.get(SCHOOL_ID);
                 schoolIds.add(schoolId);
             }
 
@@ -378,14 +385,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         }
 
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
+        query.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
         Iterable<Entity> associations = getMongoEntityRepository().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, query);
 
         if (associations != null) {
             List<String> schoolIds = new ArrayList<String>();
             for (Entity association : associations) {
                 Map<String, Object> associationAttributes = association.getBody();
-                String schoolId = (String) associationAttributes.get("schoolId");
+                String schoolId = (String) associationAttributes.get(SCHOOL_ID);
                 schoolIds.add(schoolId);
             }
 
@@ -506,7 +513,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-            String schoolYear = (String) sessionAttributes.get("schoolYear");
+            String schoolYear = (String) sessionAttributes.get(SCHOOL_YEAR);
             if (schoolYear != null) {
                 placeholders.put(schoolYear, new ArrayList<Map<String, Object>>());
             }
@@ -538,7 +545,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-            String schoolYear = (String) sessionAttributes.get("schoolYear");
+            String schoolYear = (String) sessionAttributes.get(SCHOOL_YEAR);
             DateTime sessionBegin = DateTimeUtil.parseDateTime((String) sessionAttributes.get("beginDate"));
             DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get("endDate"));
 
@@ -546,7 +553,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
             for (int i = 0; i < attendance.size(); i++) {
                 Map<String, Object> event = attendance.get(i);
-                String eventDate = (String) event.get("date");
+                String eventDate = (String) event.get(DATE);
                 DateTime date = DateTimeUtil.parseDateTime(eventDate);
                 if (DateTimeUtil.isLeftDateBeforeRightDate(sessionBegin, date)
                         && DateTimeUtil.isLeftDateBeforeRightDate(date, sessionEnd)) {
@@ -631,7 +638,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      */
     @SuppressWarnings("unchecked")
     private Set<SchoolYearAttendance> getSliSchoolYearAttendances(String studentUniqueStateId, String stateOrganizationId) {
-        Set<SchoolYearAttendance> attendances = new HashSet<SchoolYearAttendance>();
+        Set<SchoolYearAttendance> attendanceSet = new HashSet<SchoolYearAttendance>();
 
         NeutralQuery studentQuery = new NeutralQuery(0);
         studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
@@ -640,7 +647,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         if (studentEntity != null) {
             studentEntityId = studentEntity.getEntityId();
         } else {
-            return attendances;
+            return attendanceSet;
         }
 
         NeutralQuery schoolQuery = new NeutralQuery(0);
@@ -650,29 +657,29 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         if (schoolEntity != null) {
             schoolEntityId = schoolEntity.getEntityId();
         } else {
-            return attendances;
+            return attendanceSet;
         }
 
         NeutralQuery attendanceQuery = new NeutralQuery(0);
-        attendanceQuery.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
-        attendanceQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
+        attendanceQuery.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
+        attendanceQuery.addCriteria(new NeutralCriteria(SCHOOL_ID, NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
         Entity attendanceEntity = getMongoEntityRepository().findOne(EntityNames.ATTENDANCE, attendanceQuery);
         if (attendanceEntity == null) {
-            return attendances;
+            return attendanceSet;
         }
         List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) attendanceEntity.getBody().get("schoolYearAttendance");
         if (schoolYearAttendance == null || schoolYearAttendance.size() == 0) {
-            return attendances;
+            return attendanceSet;
         }
 
         for (Map<String, Object> yearAttendance : schoolYearAttendance) {
-            String schoolYear = (String) yearAttendance.get("schoolYear");
-            List<Map<String, Object>> attendanceEvent = (List<Map<String, Object>>) yearAttendance.get("attendanceEvent");
+            String schoolYear = (String) yearAttendance.get(SCHOOL_YEAR);
+            List<Map<String, Object>> attendanceEvent = (List<Map<String, Object>>) yearAttendance.get(ATTENDANCE_EVENT);
             if (attendanceEvent.size() > 0) {
-                attendances.add(new SchoolYearAttendance(schoolYear, attendanceEvent));
+                attendanceSet.add(new SchoolYearAttendance(schoolYear, attendanceEvent));
             }
         }
-        return attendances;
+        return attendanceSet;
     }
 
     private Entity getSliSchool(String stateOrganizationId) {
@@ -699,7 +706,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         }
 
         NeutralQuery sessionQuery = new NeutralQuery(0);
-        sessionQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, sliSchoolId));
+        sessionQuery.addCriteria(new NeutralCriteria(SCHOOL_ID, NeutralCriteria.OPERATOR_EQUAL, sliSchoolId));
         Iterable<NeutralRecord> sliSessions = transformIntoNeutralRecord(getMongoEntityRepository().findAll(EntityNames.SESSION, sessionQuery));
 
         return sliSessions;
@@ -775,10 +782,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             }
             for (Map<String, Object> stageAttendance : obj.attendanceEvent) {
                 for (Map<String, Object> sliAttendance : this.attendanceEvent) {
-                    Object sliEvent = sliAttendance.get("event");
-                    Object stageEvent = stageAttendance.get("event");
-                    Object sliDate = sliAttendance.get("date");
-                    Object stageDate = stageAttendance.get("date");
+                    Object sliEvent = sliAttendance.get(EVENT);
+                    Object stageEvent = stageAttendance.get(EVENT);
+                    Object sliDate = sliAttendance.get(DATE);
+                    Object stageDate = stageAttendance.get(DATE);
                     boolean eventMatch = sliEvent != null && stageEvent != null && sliEvent.equals(stageEvent);
                     boolean dateMatch = sliDate != null && stageDate != null && sliDate.equals(stageDate);
                     if (eventMatch && dateMatch) {

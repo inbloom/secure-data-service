@@ -8,6 +8,20 @@
 		{
 			"StateOrganizationId":"testSchoolId"
 		}
-	}
+	},
+    "SessionReference":
+    {
+       "SessionIdentity":
+       {
+           "EducationalOrgReference":
+           {
+               "EducationalOrgIdentity":
+                {
+                    "StateOrganizationId":"testSchoolId"
+                }
+           },
+           "SessionName":"theSessionName"
+       }
+    }
 }
 }

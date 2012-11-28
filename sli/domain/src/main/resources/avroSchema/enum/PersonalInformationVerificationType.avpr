@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "PersonalInformationVerificationType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The evidence presented to verify one's personal identity; for example: drivers license, passport, birth certificate, etc.",
-  "xsd-type" : "token",
-  "symbols" : [ "Baptismal_or_church_certificate", "Birth_certificate", "Drivers_license", "Entry_in_family_Bible", "Hospital_certificate", "Immigration_document_visa", "Life_insurance_policy", "Other", "Other_non_official_document", "Other_official_document", "Parents_affidavit", "Passport", "Physicians_certificate", "Previously_verified_school_records", "State_issued_ID" ]
-}

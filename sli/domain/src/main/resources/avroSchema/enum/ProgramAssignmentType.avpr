@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ProgramAssignmentType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The name of the education program for which a teacher is assigned to a school.",
-  "symbols" : [ "Regular_Education", "Title_I_Academic", "Title_I_Non_Academic", "Special_Education", "Bilingual_English_as_a_Second_Language" ]
-}

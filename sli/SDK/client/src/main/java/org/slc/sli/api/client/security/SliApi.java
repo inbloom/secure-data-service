@@ -17,8 +17,6 @@
 
 package org.slc.sli.api.client.security;
 
-import java.net.URL;
-
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
@@ -32,13 +30,14 @@ import org.scribe.oauth.OAuthService;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
+import java.net.URL;
+
 /**
  * @author jnanney
  *
  */
 public class SliApi extends DefaultApi20 {
 
-    // TODO - this assumes we're sharing this across all sessions. Is this assumption valid?
     private static URL apiUrl;
     private static final String REQUEST_TOKEN_FRAGMENT = "%sapi/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
     private static final String AUTH_TOKEN_FRAGMENT = "%sapi/oauth/token?grant_type=authorization_code";
@@ -78,7 +77,7 @@ public class SliApi extends DefaultApi20 {
     }
 
     /**
-     * TODO: add javadoc
+     * POJO for Token and Response
      */
     public static class TokenResponse {
         private Token token;
@@ -99,7 +98,7 @@ public class SliApi extends DefaultApi20 {
     }
 
     /**
-     * TODO: add javadoc
+     * SLI Implementation of the OAuth 2.0 Service
      */
     public class SLIOauth20ServiceImpl extends OAuth20ServiceImpl {
 

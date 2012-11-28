@@ -37,12 +37,12 @@ import org.slc.sli.ingestion.IngestionHealthCheck;
 @RequestMapping("/healthcheck")
 public class HealthCheckController {
 
-    Map<String, Heart> hearts = new HashMap<String, Heart>();
+    private Map<String, Heart> hearts = new HashMap<String, Heart>();
 
-    Heart heart;
+    private Heart heart;
 
     @Autowired
-    IngestionHealthCheck ingestionHealthCheck;
+    private IngestionHealthCheck ingestionHealthCheck;
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody

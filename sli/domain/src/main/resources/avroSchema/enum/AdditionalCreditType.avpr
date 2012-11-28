@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AdditionalCreditType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of additional credits or units of value awarded for the completion of a course.",
-  "xsd-type" : "token",
-  "symbols" : [ "AP", "Dual_credit", "IB", "Other", "Vocational" ]
-}

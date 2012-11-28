@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "TitleIPartAServiceItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The enumeration items for the Title I supplemental educational services received by students within the school during the school year:  Reading, Mathematics, Science, Social Studies,etc.",
-  "xsd-type" : "token",
-  "symbols" : [ "Reading", "Mathematics", "Science", "Social_Studies", "Homeless_Services" ]
-}

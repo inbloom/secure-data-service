@@ -15,10 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 require 'equivalent-xml'
 require_relative 'spec_helper'
 require_relative '../lib/odin.rb'
 
+# specifications for ODIN
 describe "Odin" do
   describe "#validate" do
     it "generates valid XML for the default scenario" do
@@ -32,10 +34,24 @@ describe "Odin" do
     it "will compare the output to baseline" do
       odin = Odin.new
       odin.generate( nil )
-      doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml" ) )
-      baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/InterchangeStudent.xml" ) )
+      for f in Dir.entries(File.new "#{File.dirname(__FILE__)}/../generated") do
+        if (f.end_with?(".xml") || f.end_with?(".ctl"))
+          doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/#{f}" ) )
 
-      doc.should be_equivalent_to(baseline)
+          # ensure there are no extra generated files without a corresponding baseline
+          # as a hedge against adding files without a corresponding baseline.
+          File.exists?("#{File.dirname(__FILE__)}/test_data/baseline/#{f}").should be TRUE
+
+          baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/#{f}" ) )
+          doc.should be_equivalent_to(baseline)
+        end
+      end
+      # ensure there are no missing generated files.
+      for f in Dir.entries(File.new "#{File.dirname(__FILE__)}/test_data/baseline") do
+        if (f.end_with?(".xml") || f.end_with?(".ctl"))
+          File.exists?("#{File.dirname(__FILE__)}/../generated/#{f}").should be TRUE
+        end
+      end
     end
   end
 
@@ -55,11 +71,41 @@ describe "Odin" do
     let(:odin) {Odin.new}
     before {odin.generate "10students"}
     let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml"}
-
+    let(:ctlFile) {File.new "#{File.dirname(__FILE__)}/../generated/ControlFile.ctl"}
+    let(:lines) {ctlFile.readlines}
+    
+    before(:each) do
+      @interchanges = Hash.new
+      lines.each do |line|
+        @interchanges[line.split(',')[1]] = line
+      end
+    end
+    
     describe "#generate" do
       it "will generate lists of 10 students" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
       end
+      
+      it "will generate a valid control file with 5 interchanges" do     
+        @interchanges.length.should eq(5)
+      end
+      
+      it "will generate a valid control file with Student as a type" do
+        @interchanges["Student"].should match(/Student.xml/)
+      end
+      
+      it "will generate a valid control file with EducationOrganization as a type" do
+        @interchanges["EducationOrganization"].should match(/EducationOrganization.xml/)
+      end
+      
+      it "will generate a valid control file with EducationOrgCalendar as a type" do
+        @interchanges["EducationOrgCalendar"].should match(/EducationOrgCalendar.xml/)
+      end
+      
+      it "will generate a valid control file with MasterSchedule as a type" do
+        @interchanges["MasterSchedule"].should match(/MasterSchedule.xml/)
+      end
+      
     end
   end
 

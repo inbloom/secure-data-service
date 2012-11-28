@@ -264,9 +264,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 	}
 
 	private static class LearningObjectiveId {
-		final String objective;
-		final String academicSubject;
-		final String objectiveGradeLevel;
+	    private final String objective;
+	    private final String academicSubject;
+	    private final String objectiveGradeLevel;
 
 		public LearningObjectiveId(String objective, String academicSubject,
 				String objectiveGradeLevel) {

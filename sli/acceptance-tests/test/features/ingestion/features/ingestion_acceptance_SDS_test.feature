@@ -537,6 +537,12 @@ Scenario: Verify deterministic ids generated: Clean Database
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.learningStandards               | 62b9f6af06aa6a931b0e5e47b5a3356849db0724_id |
     | learningStandard                     | 84a2dbad54ca44b613728cdfbe92d2e9a3bbcd9f_id | body.learningStandardId.identificationCode | 9DB2617F615743cfA8D225346AC4CB4D |
 
+@smoke
+Scenario: Verify references were resolved correctly
+  And I check that references were resolved correctly:
+    | entityCollection                      | deterministicId                             | referenceField                              | referenceCollection                        |
+	#educationOrganization
+	| graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.educationOrganizationId				| educationOrganization						 |
 
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database

@@ -20,10 +20,9 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
-import org.slc.sli.test.edfi.entities.GradingPeriod;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriod;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
-import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 
 public class GradingPeriodGenerator {
     private static final Logger log = Logger.getLogger(GradingPeriodGenerator.class);
@@ -32,13 +31,14 @@ public class GradingPeriodGenerator {
     private String endDate = null;
     Random generator = new Random(31);
 
-    public GradingPeriod getGradingPeriod (String orgId,  int gradePeriodType) {
+    public SLCGradingPeriod getGradingPeriod (String orgId,  int gradePeriodType) {
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
         
         gpit.setGradingPeriod(getGradingPeriodType(gradePeriodType));
         gpit.setSchoolYear("2011-2012");
-        gpit.setStateOrganizationId(orgId);
-        GradingPeriod gp = new GradingPeriod();
+//        gpit.setStateOrganizationId(orgId);
+        gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(orgId);
+        SLCGradingPeriod gp = new SLCGradingPeriod();
 //        gp.setGradingPeriod(getGradingPeriodType());
         //gp.setId(orgId);
         gp.setGradingPeriodIdentity(gpit);
@@ -64,7 +64,7 @@ public class GradingPeriodGenerator {
     public static void main(String args[]) {
         GradingPeriodGenerator gpg = new GradingPeriodGenerator();
         for(int i = 0; i < 5; i++ ){
-            GradingPeriod gp = gpg.getGradingPeriod(i+"",i);
+            SLCGradingPeriod gp = gpg.getGradingPeriod(i+"",i);
 
             log.info("GradingPeriodType = " + gp.getGradingPeriodIdentity() + ",\n" +  "beginDate = " + gp.getBeginDate() + ",\n" +
                      "endDate = " + gp.getEndDate() + ",\n" + "totalInstructionDays = " + gp.getTotalInstructionalDays() + ",\n");

@@ -59,8 +59,6 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     private boolean validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
-        // Defect: DE2198
-        // TODO need programs/cohorts with studentRecordAccess = true
         boolean isValid = true;
 
         // lookup current staff edOrg associations and get the Ed Org Ids

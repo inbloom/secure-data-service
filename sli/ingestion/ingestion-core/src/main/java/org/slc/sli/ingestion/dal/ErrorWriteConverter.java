@@ -36,9 +36,7 @@ public class ErrorWriteConverter implements Converter<Error, DBObject> {
 
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordWriteConverter.class);
 
-    // private EntityEncryption encryptor;
-    // @Autowired
-    EntityEncryption encryptor;
+    private EntityEncryption encryptor;
 
     @Override
     public DBObject convert(Error error) {

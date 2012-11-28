@@ -21,6 +21,7 @@ require 'logger'
 
 require_relative "../OutputGeneration/XML/educationOrganizationGenerator.rb"
 require_relative "../OutputGeneration/XML/educationOrgCalendarGenerator.rb"
+require_relative "../OutputGeneration/XML/masterScheduleGenerator.rb"
 require_relative "../Shared/EntityClasses/enum/GradeLevelType.rb"
 require_relative "../Shared/EntityClasses/enum/GradingPeriodType.rb"
 require_relative "../Shared/EntityClasses/schoolEducationOrganization.rb"
@@ -47,8 +48,11 @@ class WorldBuilder
     @edOrgs["middle"]     = []
     @edOrgs["high"]       = []
 
+    @breakdown = Hash.new
+
     @education_organization_writer = EducationOrganizationGenerator.new
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new
+    @master_schedule_writer        = MasterScheduleGenerator.new
   end
 
   # Builds the initial snapshot of the world
@@ -83,10 +87,12 @@ class WorldBuilder
     # create grade breakdown from total number of students
     # populate education organization structure using breakdown (number of students per grade)
     # update structure with time information
+    # use time information to create master schedule (course offerings, sections)
     # finally, write interchanges
-    breakdown = compute_grade_breakdown(rand, yaml, num_students)
-    create_edOrgs_using_breakdown(rand, yaml, breakdown)
+    compute_grade_breakdown(rand, yaml, num_students)
+    create_edOrgs_using_breakdown(rand, yaml)
     add_time_information_to_edOrgs(rand, yaml)
+    create_master_schedule(rand, yaml)
     write_interchanges(rand, yaml)
   end
 
@@ -94,22 +100,20 @@ class WorldBuilder
   # the default percentages (as defined in yaml configuration file) for minimum and maximum per grade
   # to compute the number of students that will initially populate the specified grade level.
   def compute_grade_breakdown(rand, yaml, num_students)
-    breakdown = {}
     students_so_far = 0
     GradeLevelType::get_ordered_grades.each do |level|
       num_students_this_grade = get_num_students_per_grade(rand, yaml, num_students)
       students_so_far += num_students_this_grade
       if students_so_far > num_students
-        breakdown[level] = 0
+        @breakdown[level] = 0
       else
         if level == :TWELFTH_GRADE
-          breakdown[level] = num_students - students_so_far
+          @breakdown[level] = num_students - students_so_far
         else
-          breakdown[level] = num_students_this_grade
+          @breakdown[level] = num_students_this_grade
         end 
       end
     end
-    breakdown
   end
 
   # randomly select the number of students for the current grade by using the minimum percentage,
@@ -117,54 +121,62 @@ class WorldBuilder
   def get_num_students_per_grade(rand, yaml, num_students)
     min = yaml["MINIMUM_GRADE_PERCENTAGE"]
     max = yaml["MAXIMUM_GRADE_PERCENTAGE"]
+
+    if min.nil?
+      @log.error "MINIMUM_GRADE_PERCENTAGE must be set for a world to be created --> Exiting..."
+      abort
+    end
+    if max.nil?
+      @log.error "MAXIMUM_GRADE_PERCENTAGE must be set for a world to be created --> Exiting..."
+      abort
+    end
+
     ((random_on_interval(rand, min, max) / 100) * num_students).round
   end
 
   # Uses the breakdown hash to bucketize number of students according to type of school
   # they would be enrolled at, and then computes the number of schools required to hold those
   # students according to national averages (average students per elementary school, ...).
-  def create_edOrgs_using_breakdown(rand, yaml, breakdown)
+  def create_edOrgs_using_breakdown(rand, yaml)
     num_elementary_school_students = 0
     num_middle_school_students     = 0
     num_high_school_students       = 0
 
     GradeLevelType::elementary.each do |level| 
-      num_elementary_school_students += breakdown[level]
+      num_elementary_school_students += @breakdown[level]
     end
 
     GradeLevelType::middle.each do |level|
-      num_middle_school_students += breakdown[level]
+      num_middle_school_students += @breakdown[level]
     end
 
     GradeLevelType::high.each do |level|
-      num_high_school_students += breakdown[level]
+      num_high_school_students += @breakdown[level]
     end
 
-    avg_elementary_school_students = yaml["AVERAGE_ELEMENTARY_SCHOOL_NUM_STUDENTS"]
-    avg_middle_school_students     = yaml["AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS"]
-    avg_high_school_students       = yaml["AVERAGE_HIGH_SCHOOL_NUM_STUDENTS"]
-    avg_num_students_threshold     = yaml["AVERAGE_NUM_STUDENTS_THRESHOLD"]
-
-    min_elementary_school_students = avg_elementary_school_students - (avg_elementary_school_students * avg_num_students_threshold)
-    max_elementary_school_students = avg_elementary_school_students + (avg_elementary_school_students * avg_num_students_threshold)
-    min_middle_school_students     = avg_middle_school_students     - (avg_middle_school_students * avg_num_students_threshold)
-    max_middle_school_students     = avg_middle_school_students     + (avg_middle_school_students * avg_num_students_threshold)
-    min_high_school_students       = avg_high_school_students       - (avg_high_school_students * avg_num_students_threshold)
-    max_high_school_students       = avg_high_school_students       + (avg_high_school_students * avg_num_students_threshold)
-    
     num_schools   = 0
-    num_schools   = create_schools(rand, "elementary", num_schools, num_elementary_school_students, min_elementary_school_students, max_elementary_school_students)
-    num_schools   = create_schools(rand, "middle", num_schools, num_middle_school_students, min_middle_school_students, max_middle_school_students)
-    num_schools   = create_schools(rand, "high", num_schools, num_high_school_students, min_high_school_students, max_high_school_students)
+    num_schools   = create_schools(rand, yaml, "elementary", num_schools, num_elementary_school_students)
+    num_schools   = create_schools(rand, yaml, "middle", num_schools, num_middle_school_students)
+    num_schools   = create_schools(rand, yaml, "high", num_schools, num_high_school_students)
     num_districts = update_schools_with_districts(rand, yaml, num_schools)
     update_districts_with_states(rand, yaml, num_districts)
   end
 
   # uses the total number of students, as well as range of [min, max] to compute students at a school of type 'tag', and then
   # populates the edOrgs structure according to that tag (which should be "elementary", "middle", or "high").
-  def create_schools(rand, tag, num_schools, total_num_students, min, max)
-    school_counter  = num_schools
-    student_counter = 0
+  def create_schools(rand, yaml, tag, num_schools, total_num_students)
+    if tag == "elementary"
+      avg_num_students = yaml["AVERAGE_ELEMENTARY_SCHOOL_NUM_STUDENTS"]
+    elsif tag == "middle"
+      avg_num_students = yaml["AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS"]
+    elsif tag == "high"
+      avg_num_students = yaml["AVERAGE_HIGH_SCHOOL_NUM_STUDENTS"]
+    end
+    avg_num_students_threshold = yaml["AVERAGE_NUM_STUDENTS_THRESHOLD"]
+    min                        = avg_num_students - (avg_num_students * avg_num_students_threshold)
+    max                        = avg_num_students + (avg_num_students * avg_num_students_threshold)
+    school_counter             = num_schools
+    student_counter            = 0
     while student_counter < total_num_students
       current_students = random_on_interval(rand, min, max).round
       school_counter  += 1
@@ -173,15 +185,15 @@ class WorldBuilder
       end
       student_counter += current_students
       
-      edOrg             = Hash.new
-      edOrg["id"]       = school_counter
-      edOrg["parent"]   = nil
-      edOrg["programs"] = []
-      edOrg["sessions"] = []
-      edOrg["staff"]    = []
-      edOrg["teachers"] = []
-      edOrg["students"] = current_students
-      @edOrgs[tag]     << edOrg
+      edOrg              = Hash.new
+      edOrg["id"]        = school_counter
+      edOrg["parent"]    = nil
+      edOrg["programs"]  = []
+      edOrg["sessions"]  = []
+      edOrg["staff"]     = create_staff_for_school(rand, yaml)
+      edOrg["offerings"] = Hash.new
+      edOrg["students"]  = current_students
+      @edOrgs[tag]       << edOrg
     end
     return school_counter
   end
@@ -213,9 +225,9 @@ class WorldBuilder
       edOrg["parent"]   = nil
       edOrg["programs"] = []
       edOrg["sessions"] = []
-      edOrg["staff"]    = []
-      @edOrgs["leas"]  << edOrg
-      school_counter   += num_schools_in_this_district
+      edOrg["staff"]    = create_staff_for_local_education_agency(rand, yaml)
+      @edOrgs["leas"]   << edOrg
+      school_counter    += num_schools_in_this_district
     end
     return district_counter
   end
@@ -258,13 +270,31 @@ class WorldBuilder
     edOrg             = Hash.new
     edOrg["id"]       = state_id
     edOrg["courses"]  = create_courses(yaml)
-    edOrg["staff"]    = []
+    edOrg["staff"]    = create_staff_for_state_education_agency(rand, yaml)
     edOrg["programs"] = []
     @edOrgs["seas"]  << edOrg
     
     @edOrgs["leas"].each do |edOrg| 
       edOrg["parent"] = state_id
     end
+  end
+
+  # creates staff members at the state education agency level
+  def create_staff_for_state_education_agency(rand, yaml)
+    members = []
+    members
+  end
+
+  # creates staff members at the local education agency level
+  def create_staff_for_local_education_agency(rand, yaml)
+    members = []
+    members
+  end  
+
+  # creates staff members at the school level
+  def create_staff_for_school(rand, yaml)
+    members = []
+    members
   end
 
   def build_world_from_edOrgs(rand, yaml)
@@ -295,7 +325,7 @@ class WorldBuilder
       # create session for LEAs
       # -> create grading period(s) for session
       # -> create calendar date(s) for grading period
-      # -> [not done] iterate through schools and determine with some probability if school overrides existing lea session
+      # -> [not implemented] iterate through schools and determine with some probability if school overrides existing lea session
       @log.info "creating session information for school year: #{year}-#{year+1}"
       @edOrgs["leas"].each_index do |index|
         edOrg = @edOrgs["leas"][index]
@@ -313,17 +343,145 @@ class WorldBuilder
       end
     end
   end
+  
+  # create master schedule interchange
+  # -> create course offerings
+  # -> create sections (using course offerings and breakdown of students per grade)
+  # --> do NOT create teachers for course offerings at elementary school (this should be done for sections)
+  # --> in middle and high schools, create teacher for course offering (teachers can teach multiple sections)
+  def create_master_schedule(rand, yaml)
+    offering_id = 0
+    create_course_offerings_for_school_type("elementary", offering_id)
+    create_course_offerings_for_school_type("middle", offering_id)
+    create_course_offerings_for_school_type("high", offering_id)
+  end
+
+  # iterate through schools of 'type' (should be "elementary", "middle", or "high" schools)
+  # -> create course offerings by
+  # --> getting set of sessions to be used
+  # --> getting set of courses  to be used
+  # -> iterate through sessions
+  # -> iterate through courses
+  # --> use {session, course} pair to create course offering at current school
+  def create_course_offerings_for_school_type(type, num_offerings)
+    offering_id = num_offerings
+    @edOrgs[type].each_index do |index|
+      school    = @edOrgs[type][index]
+      sessions  = get_sessions_to_be_used_by_school(school)
+      courses   = get_courses_to_be_used_by_school(type, school)
+      sessions.each do |session|
+        offerings    = []
+        current_year = session["year"]
+        courses.each do |grade, current_courses| 
+          current_courses.each do |course|
+            # increment course offering unique id
+            offering_id                += 1
+            # create map for session information
+            local_session              = Hash.new
+            local_session["name"]      = session["name"]
+            local_session["ed_org_id"] = session["edOrgId"]
+            # create course offering container
+            offering = Hash.new
+            offering["id"]        = offering_id
+            if type == "elementary"
+              offering["ed_org_id"] = DataUtility.get_elementary_school_id(school["id"])
+            elsif type == "middle"
+              offering["ed_org_id"] = DataUtility.get_middle_school_id(school["id"])
+            elsif type == "high"
+              offering["ed_org_id"] = DataUtility.get_high_school_id(school["id"])
+            end            
+            offering["session"]   = local_session
+            offering["course"]    = course
+            offering["grade"]     = grade
+            # add course offering into 'offerings' (course offerings for current year)
+            offerings << offering
+          end
+        end
+        @edOrgs[type][index]["offerings"][current_year] = offerings
+      end
+    end
+  end
+
+  # gets the sequence of sessions to be used by the school when creating course offerings
+  # -> if school has its own sessions, use those
+  # -> if not, traverse up leas hierarchy until sessions are found
+  def get_sessions_to_be_used_by_school(school)
+    sessions = []
+    if school["sessions"].nil? or school["sessions"].size == 0
+      parent   = school["parent"]
+      while sessions.size == 0
+        lea = @edOrgs["leas"].detect {|lea| lea["id"] == parent}
+        if !lea["sessions"].nil? and lea["sessions"].size > 0
+          sessions = lea["sessions"]
+        else
+          parent = lea["parent"]
+        end
+      end
+    else
+      # school has published its own sessions --> use those
+      # this is not implemented because schools do not currently override district's sessions
+    end
+    sessions
+  end
+
+  # gets the set of courses to be used by the school when creating course offerings
+  # -> traverses up to state education agency to find course catalog
+  # -> future implementations should traverse until a set of courses is found (allow districts to extend state-level course catalog)
+  def get_courses_to_be_used_by_school(type, school)
+    # get school's immediate parent
+    # traverse up local education agencies until no parent can be found
+    # check in state education agencies for parent that failed to be in leas
+    # if found, return state education agency
+    parent_id = school["parent"]
+    parent    = @edOrgs["leas"].detect {|lea| lea["id"] == parent_id}
+    while parent != nil
+      parent_id = parent["parent"]
+      parent    = @edOrgs["leas"].detect {|lea| lea["id"] == parent_id}
+    end
+    # parent_id should now be populated with id of the state education agency
+    state_education_agency = @edOrgs["seas"].detect {|sea| sea["id"] == parent_id}
+
+    courses = Hash.new
+    if type == "elementary"
+      GradeLevelType.elementary.each do |grade|
+        # get the current set of courses that the state education agency has published
+        # add state education agency id to courses --> makes life easier when creating course offering
+        current_courses              = state_education_agency["courses"][grade]
+        current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
+        courses[grade]               = current_courses
+      end
+    elsif type == "middle"
+      GradeLevelType.middle.each do |grade|
+        # get the current set of courses that the state education agency has published
+        # add state education agency id to courses --> makes life easier when creating course offering
+        current_courses              = state_education_agency["courses"][grade]
+        current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
+        courses[grade]               = current_courses
+      end
+    elsif type == "high"
+      GradeLevelType.high.each do |grade|
+        # get the current set of courses that the state education agency has published
+        # add state education agency id to courses --> makes life easier when creating course offering
+        current_courses              = state_education_agency["courses"][grade]
+        current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
+        courses[grade]               = current_courses
+      end
+    end
+    courses
+  end
 
   # writes ed-fi xml interchanges
   def write_interchanges(rand, yaml)
     write_education_organization_interchange(rand, yaml)
     write_education_org_calendar_interchange(rand, yaml)
+    write_master_schedule_interchange(rand, yaml)
   end
 
   # close all file handles used for writing ed-fi xml interchanges
   def close_interchanges
     @education_organization_writer.close
     @education_org_calendar_writer.close
+    @master_schedule_writer.close
   end
 
   # writes ed-fi xml interchange: education organization
@@ -358,8 +516,8 @@ class WorldBuilder
   # writes ed-fi xml interchange: education organization calendar
   # entities:
   # - Session
-  # - [not done] GradingPeriod
-  # - [not done] CalendarDate
+  # - GradingPeriod
+  # - CalendarDate
   def write_education_org_calendar_interchange(rand, yaml)
     # write sessions at the district level
     @edOrgs["leas"].each do |ed_org|
@@ -393,6 +551,44 @@ class WorldBuilder
         # write calendar date(s)
         calendar_dates.each do |calendar_date|
           @education_org_calendar_writer.create_calendar_date(calendar_date["date"], calendar_date["event"])
+        end
+      end
+    end
+  end
+
+  # writes ed-fi xml interchange: master schedule
+  # entities:
+  # - [not done] CourseOffering
+  # - [not done] Section
+  def write_master_schedule_interchange(rand, yaml)
+    write_course_offerings("elementary")
+    write_course_offerings("middle")
+    write_course_offerings("high")
+  end
+
+  # writes the course offerings for each 'type' of school ("elementary", "middle", or "high" school)
+  # -> iterates through schools of 'type'
+  # -> if the school has course offerings
+  # --> assembles course offering and passes to master schedule interchange writer
+  def write_course_offerings(type)
+    @edOrgs[type].each do |school|
+      if !school["offerings"].nil? and school["offerings"].size > 0
+        school["offerings"].each do |year, course_offerings|
+          course_offerings.each do |course_offering|
+            id        = course_offering["id"]
+            ed_org_id = course_offering["ed_org_id"]
+            session   = course_offering["session"]
+            course    = course_offering["course"]
+            grade     = course_offering["grade"]
+          
+            if GradeLevelType.is_elementary_school_grade(grade)
+              title   = GradeLevelType.get(grade)
+            else
+              title   = GradeLevelType.get(grade) + course["title"]
+            end
+          
+            @master_schedule_writer.create_course_offering(id, title, ed_org_id, session, course)
+          end
         end
       end
     end

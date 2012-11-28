@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "RelationType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The nature of an individual's relationship to a student.",
-  "xsd-type" : "token",
-  "symbols" : [ "Adopted_daughter", "Adopted_son", "Adoptive_parents", "Advisor", "Agency_representative", "Aunt", "Brother_half", "Brother_natural_adoptive", "Brother_step", "Brother_in_law", "Case_Worker_CPS", "Court_appointed_guardian", "Cousin", "Daughter", "Daughter_in_law", "Dependent", "Doctor", "Employer", "Family_member", "Fathers_significant_other", "Father_foster", "Father", "Father_step", "Father_in_law", "Fiance", "Fiancee", "Former_husband", "Former_wife", "Foster_daughter", "Foster_parent", "Foster_son", "Friend", "Granddaughter", "Grandparent", "Great_Grandparent", "Grandson", "Great_aunt", "Great_uncle", "Guardian", "Husband", "Life_partner", "Life_partner_of_parent", "Minister_or_priest", "Mothers_significant_other", "Mother_foster", "Mother", "Mother_step", "Mother_in_law", "Nephew", "Niece", "None", "Other", "Parent", "Partner", "Partner_of_parent", "Probation_officer", "Sibling", "Sister_half", "Sister_natural_adoptive", "Sister_step", "Sister_in_law", "Son", "Son_in_law", "Spouse", "Stepdaughter", "Stepson", "Stepsibling", "Uncle", "Ward", "Wife" ]
-}

@@ -21,6 +21,7 @@ require 'yaml'
 require_relative '../lib/Shared/date_utility.rb'
 require_relative '../lib/Shared/date_interval.rb'
 
+# specifications for date interval
 describe "DateInterval" do
   before(:each) do
     @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))

@@ -15,6 +15,22 @@
     	{
     		"StateOrganizationId":"someAssignmentSchoolReference"
     	}
-    }
+    },
+    "DisciplineIncidentReference":
+    [
+        {
+            "DisciplineIncidentIdentity":
+            {
+                "EducationalOrgReference":
+                {
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "IncidentIdentifier":"theIncident"
+            }
+        }
+    ]
 }
 }

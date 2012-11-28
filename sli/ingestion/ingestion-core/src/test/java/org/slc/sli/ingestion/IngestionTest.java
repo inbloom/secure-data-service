@@ -145,48 +145,6 @@ public class IngestionTest {
         return file;
     }
     
-    public static File createNeutralRecordsFile(List<NeutralRecord> neutralRecords) throws IOException {
-        File file = createTempFile();
-        
-        // Create Ingestion Neutral record writer
-        NeutralRecordFileWriter fileWriter = new NeutralRecordFileWriter(file);
-        
-        try {
-            for (NeutralRecord item : neutralRecords)
-                fileWriter.writeRecord(item);
-        } finally {
-            fileWriter.close();
-        }
-        
-        return file;
-    }
-    
-    public static List<NeutralRecord> getNeutralRecords(File inputFile) throws IOException {
-        List<NeutralRecord> list = new ArrayList<NeutralRecord>();
-        
-        // Create Ingestion Neutral record reader
-        NeutralRecordFileReader fileReader = new NeutralRecordFileReader(inputFile);
-        
-        // Ingestion Neutral record
-        NeutralRecord ingestionRecord;
-        
-        try {
-            
-            // Iterate Ingestion neutral records/lines
-            while (fileReader.hasNext()) {
-                
-                // Read next Ingestion neutral record/line
-                ingestionRecord = fileReader.next();
-                
-                list.add(ingestionRecord);
-            }
-        } finally {
-            fileReader.close();
-        }
-        
-        return list;
-    }
-    
     public static long getTotalCountOfEntityInRepository(Repository repository, String entityType) {
         int count = 0;
         Iterator<Entity> entities = repository.findAll(entityType, new NeutralQuery()).iterator();

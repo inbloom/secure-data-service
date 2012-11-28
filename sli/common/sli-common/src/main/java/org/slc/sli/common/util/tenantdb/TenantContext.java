@@ -75,5 +75,14 @@ public class TenantContext {
     public static void setIsSystemCall(boolean isSystemCall) {
         threadLocalIsSystemCall.set(isSystemCall);
     }
+    
+    /**
+     * Remove all the ThreadLocals used by TenantContext for the current thread
+     */
+    public static void cleanup() {
+        threadLocalTenantId.remove();
+        threadLocalJobId.remove();
+        threadLocalIsSystemCall.remove();
+    }
 
 }

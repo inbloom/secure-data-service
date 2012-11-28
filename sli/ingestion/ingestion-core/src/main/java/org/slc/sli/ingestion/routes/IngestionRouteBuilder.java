@@ -171,6 +171,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
+    private static final String HAS_ERRORS = "hasErrors";
+
+    private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+
     // Spring's dependency management can confuse camel due to some circular dependencies. Removing
     // this constructor, even if it doesn't look like it will change things, may affect loading
     // order and cause ingestion to fail to start on certain JVMs
@@ -238,7 +242,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: lzDropFile
         from(landingZoneQueueUri).routeId("lzDropFile")
             .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.").process(landingZoneProcessor)
-            .choice().when(header("hasErrors").isEqualTo(true))
+            .choice().when(header(HAS_ERRORS).isEqualTo(true))
                 .to("direct:stop")
             .otherwise()
                 .to("direct:processLzFile");
@@ -248,19 +252,19 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .choice().when(header("filePath").endsWith(".ctl"))
                 .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                 .process(controlFilePreProcessor)
-                .choice().when(header("hasErrors").isEqualTo(true))
+                .choice().when(header(HAS_ERRORS).isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
                     .to(workItemQueueUri).endChoice()
             .when(header("filePath").endsWith(".zip"))
                 .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                 .process(zipFileProcessor)
-                .choice().when(header("hasErrors").isEqualTo(true))
+                .choice().when(header(HAS_ERRORS).isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
                     .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
                     .process(controlFilePreProcessor)
-                        .choice().when(header("hasErrors").isEqualTo(true))
+                        .choice().when(header(HAS_ERRORS).isEqualTo(true))
                             .to("direct:stop")
                         .otherwise()
                             .to(workItemQueueUri).endChoice().endChoice()
@@ -292,7 +296,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("direct:transformationSplitter").routeId("transformationSplitter")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for transformation splitting.")
                 .split().method("WorkNoteSplitter", "splitTransformationWorkNotes")
-                .setHeader("IngestionMessageType", constant(MessageType.DATA_TRANSFORMATION.name()))
+                .setHeader(INGESTION_MESSAGE_TYPE, constant(MessageType.DATA_TRANSFORMATION.name()))
                 .to(pitNodeQueueUri);
 
         // persistenceSplitter
@@ -302,7 +306,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("direct:persistenceSplitter").routeId("persistenceSplitter")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for persistence splitting.")
                 .split().method("WorkNoteSplitter", "splitPersistanceWorkNotes")
-                .setHeader("IngestionMessageType", constant(MessageType.PERSIST_REQUEST.name())).to(pitNodeQueueUri);
+                .setHeader(INGESTION_MESSAGE_TYPE, constant(MessageType.PERSIST_REQUEST.name())).to(pitNodeQueueUri);
 
         // workNoteLatch
         from(maestroQueueUri).routeId("workNoteLatch")
@@ -310,9 +314,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .bean(this.lookup(WorkNoteLatch.class))
                 .choice().when(header("latchOpened").isEqualTo(true))
                     .log(LoggingLevel.INFO, "CamelRouting", "WorkNote latch opened.")
-                    .choice().when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+                    .choice().when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                         .to("direct:persistenceSplitter")
-                    .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                    .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
                         .process(aggregationPostProcessor)
                         .choice().when(header("processedAllStagedEntities").isEqualTo(true))
                             .to("direct:stop")
@@ -342,27 +346,27 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: extraction
         from(workItemQueueUri).routeId("extraction").choice()
-                .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.ERROR.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.").to("direct:stop")
 
-                .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.BATCH_REQUEST.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to ControlFileProcessor.").process(ctlFileProcessor)
                 .to("direct:assembledJobs")
 
-                .when(header("IngestionMessageType").isEqualTo(MessageType.PURGE.name()))
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PURGE.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to PurgeProcessor.")
                 .process(purgeProcessor).to("direct:stop")
 
-                .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + xmlProcessorMode + "XmlFileProcessor.")
                 .process(xmlFileProcessorToUse).to(workItemQueueUri)
 
-                .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + edfiProcessorMode + "EdfiProcessor.")
                 .process(edfiProcessorToUse).to("direct:postExtract");
 
         // routeId: assembledJobs
-        from("direct:assembledJobs").routeId("assembledJobs").choice().when(header("hasErrors").isEqualTo(true))
+        from("direct:assembledJobs").routeId("assembledJobs").choice().when(header(HAS_ERRORS).isEqualTo(true))
                 .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.").to("direct:stop")
                 .otherwise().to(workItemQueueUri);
 
@@ -383,13 +387,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: pitNodes
         from(pitNodeQueueUri).routeId("pitNodes")
                 .log(LoggingLevel.DEBUG, "CamelRouting", "Pit message received: ${body}").choice()
-                .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
                 .process(transformationProcessor)
                 .log(LoggingLevel.INFO, "CamelRouting", "TransformationProcessor complete. Routing back to Maestro.")
                 .to(maestroQueueUri)
 
-                .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
                 .log("persist: jobId: " + header("jobId").toString()).choice()
                 .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))

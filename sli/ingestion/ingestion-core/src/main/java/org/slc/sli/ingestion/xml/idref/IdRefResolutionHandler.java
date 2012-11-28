@@ -152,8 +152,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         final Set<String> idRefs = new HashSet<String>();
 
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
-            Stack<StartElement> parents = new Stack<StartElement>();
-            String currentXPath;
+            private Stack<StartElement> parents = new Stack<StartElement>();
+            private String currentXPath;
 
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
@@ -225,7 +225,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String id = xmlEvent.asStartElement().getAttributeByName(ID_ATTR).getValue();
-                String content = getXmlContentForId(id, xmlEvent, eventReader, errorReport);
+                String content = getXmlContentForId(xmlEvent, eventReader, errorReport);
                 bucketCache.addToBucket(namespace, id, new TransformableXmlString(content, false));
             }
 
@@ -237,7 +237,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         browse(xml, collectRefContent, errorReport);
     }
 
-    private String getXmlContentForId(String key, XMLEvent xmlEvent, XMLEventReader eventReader,
+    private String getXmlContentForId(XMLEvent xmlEvent, XMLEventReader eventReader,
             final ErrorReport errorReport) {
 
         String xmlSnippetString = null;
@@ -253,8 +253,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             XmlEventVisitor writeRefContent = new XmlEventVisitor() {
 
-                Stack<StartElement> parents = new Stack<StartElement>();
-                Map<String, Integer> parentIds = new HashMap<String, Integer>();
+                private Stack<StartElement> parents = new Stack<StartElement>();
+                private Map<String, Integer> parentIds = new HashMap<String, Integer>();
 
                 @Override
                 public boolean isSupported(XMLEvent xmlEvent) {
@@ -373,7 +373,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
-                Stack<StartElement> parents = new Stack<StartElement>();
+                private Stack<StartElement> parents = new Stack<StartElement>();
 
                 @Override
                 public boolean isSupported(XMLEvent xmlEvent) {
@@ -448,7 +448,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     }
 
                     if (contentToAdd != null) {
-                        addContent(contentToAdd, wr, errorReport);
+                        addContent(contentToAdd, wr);
                     }
                 }
 
@@ -540,7 +540,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
     }
 
-    private void addContent(String contentToAdd, final XMLEventWriter xmlEventWriter, ErrorReport errorReport) {
+    private void addContent(String contentToAdd, final XMLEventWriter xmlEventWriter) {
         XmlEventVisitor addToXml = new XmlEventVisitor() {
 
             @Override

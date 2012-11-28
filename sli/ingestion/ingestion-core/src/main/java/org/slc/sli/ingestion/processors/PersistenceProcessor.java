@@ -108,10 +108,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     // TODO: make it configurable. From schema, maybe.  
     // represents the configuration of a self-referencing entity schema
     static class SelfRefEntityConfig {
-        String idPath;              // path to the id field
+        private String idPath;              // path to the id field
         // Exactly one of the following fields can be non-null: 
-        String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
-        String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
+        private String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
+        private String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
         SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
             parentAttributePath = p;
@@ -283,11 +283,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     LOG.error("Exception processing record with entityPersistentHandler", darfe);
                 }
             }
-        } catch (Exception e) {
-            String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
-                    + collectionNameAsStaged + "\n";
-            errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
-            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {

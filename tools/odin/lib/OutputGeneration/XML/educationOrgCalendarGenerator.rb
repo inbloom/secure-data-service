@@ -75,14 +75,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # writes header to education organization calendar interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize
-    @header = <<-HEADER
-<?xml version="1.0"?>
-<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd ">
-HEADER
-    @footer = <<-FOOTER
-</InterchangeEducationOrgCalendar>
-FOOTER
+    @header, @footer = build_header_footer( "EducationOrgCalendar" )
     @handle = File.new("generated/InterchangeEducationOrgCalendar.xml", 'w')
     @handle.write(@header)
 

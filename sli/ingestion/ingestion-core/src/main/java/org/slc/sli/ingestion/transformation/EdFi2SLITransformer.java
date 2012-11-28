@@ -61,6 +61,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected static final String METADATA_BLOCK = "metaData";
 
+    private static final String EDORGS = "edOrgs";
+
     protected static final String ID = "_id";
 
     private DeterministicIdResolver didResolver;
@@ -108,8 +110,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
-                if (item.getMetaData().get("edOrgs") != null) {
-                    entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
+                if (item.getMetaData().get(EDORGS) != null) {
+                    entity.getMetaData().put(EDORGS, item.getMetaData().get(EDORGS));
                 }
 
                 try {
@@ -172,18 +174,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             entity.setEntityId(matched.getEntityId());
 
             @SuppressWarnings("unchecked")
-            List<String> edOrgs = (List<String>) entity.getMetaData().get("edOrgs");
+            List<String> edOrgs = (List<String>) entity.getMetaData().get(EDORGS);
 
             if (edOrgs != null && edOrgs.size() > 0) {
                 @SuppressWarnings("unchecked")
-                List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get("edOrgs");
+                List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get(EDORGS);
                 if (matchedEdOrgs != null) {
                     for (String edOrg : edOrgs) {
                         if (!matchedEdOrgs.contains(edOrg)) {
                             matchedEdOrgs.add(edOrg);
                         }
                     }
-                    matched.getMetaData().put("edOrgs", matchedEdOrgs);
+                    matched.getMetaData().put(EDORGS, matchedEdOrgs);
                 }
             }
             entity.getMetaData().putAll(matched.getMetaData());
@@ -210,13 +212,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         try {
             naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
         } catch (NaturalKeyValidationException e1) {
-            String message = "An entity is missing one or more required natural key fields" + "\n"
-                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber();
+            StringBuilder message = new StringBuilder("An entity is missing one or more required natural key fields" + "\n"
+                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber());
 
             for (String fieldName : e1.getNaturalKeys()) {
-                message += "\n" + "       Field      " + fieldName;
+                message.append("\n" + "       Field      " + fieldName);
             }
-            errorReport.error(message, this);
+            errorReport.error(message.toString(), this);
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);
@@ -242,14 +244,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             ErrorReport errorReport) {
         Query query = new Query();
 
-        String errorMessage = "ERROR: Invalid key fields for an entity\n";
+        StringBuilder errorMessage = new StringBuilder("ERROR: Invalid key fields for an entity\n");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
         } else {
-            errorMessage += "       Entity      " + entity.getType() + "\n" + "       Key Fields  "
-                    + entityConfig.getKeyFields() + "\n";
+            errorMessage.append("       Entity      " + entity.getType() + "\n" + "       Key Fields  "
+                    + entityConfig.getKeyFields() + "\n");
             if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
-                errorMessage += "     The following collections are referenced by the key fields:" + "\n";
+                errorMessage.append("     The following collections are referenced by the key fields:" + "\n");
                 for (RefDef refDef : entityConfig.getReferences()) {
                     String collectionName = "";
                     NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
@@ -260,7 +262,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         }
                     }
 
-                    errorMessage += "       collection = " + collectionName + "\n";
+                    errorMessage.append("       collection = " + collectionName + "\n");
                 }
             }
         }
@@ -297,7 +299,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         fieldValue));
             }
         } catch (Exception e) {
-            errorReport.error(errorMessage, this);
+            errorReport.error(errorMessage.toString(), this);
         }
 
         return query;

@@ -231,11 +231,11 @@ public class NewBatchJob implements Job {
     }
 
     public Date getJobStartTimestamp() {
-        return jobStartTimestamp;
+        return new Date (jobStartTimestamp.getTime());
     }
 
     public Date getJobStopTimestamp() {
-        return jobStopTimestamp;
+        return new Date(jobStopTimestamp.getTime());
     }
 
     public List<ResourceEntry> getResourceEntries() {

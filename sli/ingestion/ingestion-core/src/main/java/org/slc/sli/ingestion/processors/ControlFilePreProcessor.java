@@ -259,8 +259,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     private ControlFileDescriptor createControlFileDescriptor(NewBatchJob newBatchJob, ControlFile controlFile) {
         File sourceFile = new File(newBatchJob.getSourceId());
         LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
-        ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
-        return controlFileDescriptor;
+        return new ControlFileDescriptor(controlFile, resolvedLandingZone);
     }
 
     /**

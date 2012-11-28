@@ -18,29 +18,47 @@ limitations under the License.
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
 class InterchangeGenerator
+  @@totalEntityCount = 0
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(filename)
+  def initialize(interchange, batchSize=10000)
     @stime = Time.now
     @entityCount = 0
-    @filename = filename
+    @interchange = interchange
+    @entities = []
+    @batchSize = batchSize
   end
 
   def start()
-    @interchange = File.open("generated/#{@filename}", 'w')
     @interchange << @header
   end
 
-  def <<(entities)
-    @entityCount = @entityCount + entities.length
-    if @entityCount % 100000 == 0
-      puts "\t#@entityCount entities created."
+  def <<(entity)
+    @entities << entity
+    if @entities.size >= @batchSize
+      batchRender
+      @entities = []
     end
+  end
 
+  def batchRender
+    report(@entities)
+    generator = @generator.new @entities
+    generator.template_path = "#{File.dirname(__FILE__)}/interchangeTemplates"
+    @interchange << generator.render()
+  end
+
+  def report(entities)
+    @entityCount += entities.length
+    @@totalEntityCount += entities.length
+    if @@totalEntityCount % 100000 == 0
+      puts "\t#@@totalEntityCount entities created."
+    end
   end
 
   def finalize()
+    batchRender
     @interchange << @footer
     @interchange.close()
 

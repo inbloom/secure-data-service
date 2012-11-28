@@ -50,7 +50,7 @@ public class User {
     }
 
     public void setFullName(final String name) {
-    	String fullName = name;
+        String fullName = name;
         if (fullName == null) {
             this.sn = null;
             this.givenName = null;

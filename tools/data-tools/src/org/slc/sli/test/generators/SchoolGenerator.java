@@ -29,14 +29,16 @@ import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
-import org.slc.sli.test.edfi.entities.ProgramIdentityType;
-import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
+import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.School;
+import org.slc.sli.test.edfi.entities.SLCSchool;
 import org.slc.sli.test.edfi.entities.SchoolCategoriesType;
 import org.slc.sli.test.edfi.entities.SchoolCategoryItemType;
 import org.slc.sli.test.edfi.entities.SchoolType;
@@ -48,7 +50,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 public class SchoolGenerator {
 
     private static final Logger log = Logger.getLogger(SchoolGenerator.class);
-    private List<School> schools = null;
+    private List<SLCSchool> schools = null;
     private int schoolPtr = 0;
     private int schoolCount = 0;
     private AddressGenerator ag;
@@ -102,15 +104,23 @@ public class SchoolGenerator {
         }
     }
 
-    public static EducationalOrgReferenceType getEducationalOrgReferenceType(String schoolId) {
+    public static SLCEducationalOrgReferenceType getEducationalOrgReferenceType(String schoolId) {
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+        eoit.setStateOrganizationId(schoolId);
+        SLCEducationalOrgReferenceType eor = new SLCEducationalOrgReferenceType();
+        eor.setEducationalOrgIdentity(eoit);
+        return eor;
+    }
+
+    public static EducationalOrgReferenceType getNonSLCEducationalOrgReferenceType(String schoolId) {
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
         eoit.setStateOrganizationId(schoolId);
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
         return eor;
     }
-
-    private List<School> getNYSchools() {
+    
+    private List<SLCSchool> getNYSchools() {
         try {
             if (ag == null)
                 ag = new AddressGenerator(StateAbbreviationType.NY);
@@ -119,10 +129,10 @@ public class SchoolGenerator {
             e.printStackTrace();
         }
 
-        List<School> schools = new ArrayList<School>();
+        List<SLCSchool> schools = new ArrayList<SLCSchool>();
         for (String name : schoolNames) {
 
-            School school = new School();
+            SLCSchool school = new SLCSchool();
             school.setId(name.replaceAll(" ", "") + schoolPtr++);
             school.setStateOrganizationId("New York School Board");
             school.setNameOfInstitution(name);
@@ -181,14 +191,16 @@ public class SchoolGenerator {
             school.setMagnetSpecialProgramEmphasisSchool(MagnetSpecialProgramEmphasisSchoolType.ALL_STUDENTS_PARTICIPATE);
             school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL);
 
-            EducationalOrgIdentityType edOrgIdenType = new EducationalOrgIdentityType();
+            SLCEducationalOrgIdentityType edOrgIdenType = new SLCEducationalOrgIdentityType();
             // TODO remove hardcoded story data value used for testing
-            EducationOrgIdentificationCode code = new EducationOrgIdentificationCode();
-            code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
-            code.setID("SchoolId");
-            edOrgIdenType.getEducationOrgIdentificationCode().add(code);
-
-            EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
+//            EducationOrgIdentificationCode code = new EducationOrgIdentificationCode();
+//            code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
+//            code.setID("SchoolId");
+//            edOrgIdenType.getEducationOrgIdentificationCode().add(code);
+            // TODO the LEA StateOrganizationId needs to be available
+            edOrgIdenType.setStateOrganizationId("SchoolId");
+            
+            SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
             edOrgRef.setEducationalOrgIdentity(edOrgIdenType);
             school.setLocalEducationAgencyReference(edOrgRef);
             schools.add(school);
@@ -196,24 +208,27 @@ public class SchoolGenerator {
         return schools;
     }
 
-    public static EducationalOrgReferenceType getEducationalOrgReferenceType(School school)
+    public static SLCEducationalOrgReferenceType getEducationalOrgReferenceType(SLCSchool school)
     {
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
-        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+//        eoit.getEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
+        // TODO: Confirm StateOrganizationId is already set for the school when this is called
+        eoit.setStateOrganizationId(school.getStateOrganizationId());
+        
+        SLCEducationalOrgReferenceType eor = new SLCEducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
     	return eor;
     }
 
-    public School getSchool(String schoolId) {
-        School school = schools.get(schoolPtr++ % schoolCount);
+    public SLCSchool getSchool(String schoolId) {
+        SLCSchool school = schools.get(schoolPtr++ % schoolCount);
         school.setId(schoolId);
         school.setStateOrganizationId(schoolId);
         return school;
     }
 
-    public static School generateLowFi(String schoolId, String leaId, String programId) {
-        School school = new School();
+    public static SLCSchool generateLowFi(String schoolId, String leaId, String programId) {
+        SLCSchool school = new SLCSchool();
         school.setId(schoolId);
 
         // support school references in two ways:
@@ -294,23 +309,23 @@ public class SchoolGenerator {
         if(MetaRelations.School_Ref)
         {
         	Ref leaRef = new Ref(leaId);
-        	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        	SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
         	eort.setRef(leaRef);
         	school.setLocalEducationAgencyReference(eort);
 		} else {
-			EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+		    SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
 			edOrgIdentityType.setStateOrganizationId(leaId);
 
-			EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
+			SLCEducationalOrgReferenceType leaRef = new SLCEducationalOrgReferenceType();
 			leaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
 			school.setLocalEducationAgencyReference(leaRef);
 		}
 
 		if (programId != null) {
-			ProgramIdentityType pit = new ProgramIdentityType();
+		    SLCProgramIdentityType pit = new SLCProgramIdentityType();
 			pit.setProgramId(programId);
-			ProgramReferenceType prt = new ProgramReferenceType();
+			SLCProgramReferenceType prt = new SLCProgramReferenceType();
 			prt.setProgramIdentity(pit);
 			school.getProgramReference().add(prt);
 		}
@@ -320,8 +335,8 @@ public class SchoolGenerator {
 
     public static void main(String[] args) {
         SchoolGenerator factory = new SchoolGenerator(StateAbbreviationType.NY);
-        List<School> schools = factory.getNYSchools().subList(0, 5);
-        for (School school : schools) {
+        List<SLCSchool> schools = factory.getNYSchools().subList(0, 5);
+        for (SLCSchool school : schools) {
             String schoolDesc = "\n\nId: " + school.getId() + ",\n" + "StateOrganizationId: "
                     + school.getStateOrganizationId() + ",\n" + "NameOfInstitution: " + school.getNameOfInstitution()
                     + ",\n" + "ShortNameOfInstitution: " + school.getShortNameOfInstitution() + ",\n" + "WebSite: "
@@ -337,7 +352,7 @@ public class SchoolGenerator {
             System.out.println(schoolDesc);
         }
 
-        School school = factory.getSchool("schoolId-1");
+        SLCSchool school = factory.getSchool("schoolId-1");
         school = factory.getSchool("schoolId-2");
         String schoolDesc = "\n\nId: " + school.getId() + ",\n" + "StateOrganizationId: "
                 + school.getStateOrganizationId() + ",\n" + "NameOfInstitution: " + school.getNameOfInstitution()

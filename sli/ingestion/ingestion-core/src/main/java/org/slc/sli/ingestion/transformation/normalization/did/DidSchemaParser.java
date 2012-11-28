@@ -175,7 +175,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Extract entity configs
      */
     private Map<String, DidEntityConfig> extractEntityConfigs() {
-        Map<String, DidEntityConfig> entityConfigs = new HashMap<String, DidEntityConfig>();
+        Map<String, DidEntityConfig> extractedEntityConfigs = new HashMap<String, DidEntityConfig>();
 
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> complexType : complexTypes.entrySet()) {
@@ -193,7 +193,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 if (annotation != null) {
                     String recordType = parseAnnotationForRecordType(annotation);
                     if (recordType != null) {
-                        entityConfigs.put(recordType, entityConfig);
+                        extractedEntityConfigs.put(recordType, entityConfig);
                     } else {
                         LOG.error("Failed to extract DidEntityConfig for type " + complexType.getKey() + ", couldn't find recordType annotation");
                     }
@@ -203,24 +203,24 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         }
 
-        return entityConfigs;
+        return extractedEntityConfigs;
     }
 
     /**
      * Extract ref configs
      */
     private Map<String, DidRefConfig> extractRefConfigs() {
-        Map<String, DidRefConfig> refConfigs = new HashMap<String, DidRefConfig>();
+        Map<String, DidRefConfig> extractedRefConfigs = new HashMap<String, DidRefConfig>();
 
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> refType : referenceTypes.entrySet()) {
             DidRefConfig refConfig = extractRefConfig(refType.getValue());
             if (refConfig != null) {
-                refConfigs.put(refConfig.getEntityType(), refConfig);
+                extractedRefConfigs.put(refConfig.getEntityType(), refConfig);
             }
         }
 
-        return refConfigs;
+        return extractedRefConfigs;
     }
 
     /**
@@ -239,7 +239,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
     private XmlSchema parseXmlSchema(final InputStream is, final String baseXsdPath) {
         try {
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
-            // schemaCollection.setBaseUri(baseUri);
             schemaCollection.setSchemaResolver(new URIResolver() {
                 @Override
                 public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
@@ -427,13 +426,13 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
         //parse base type as well if it has one - we only ever need to go
         if (complexType.getBaseSchemaTypeName() != null) {
-        	String baseTypeName =  complexType.getBaseSchemaTypeName().getLocalPart();
-        	XmlSchemaComplexType baseType = complexTypes.get(baseTypeName);
-        	if (baseType != null) {
-        		parseParticleForRef(extractParticle(baseType), refSources, false);
-        	} else {
-        		LOG.error("Failed to parse base entity type " + baseTypeName + " - could not find complex type");
-        	}
+            String baseTypeName =  complexType.getBaseSchemaTypeName().getLocalPart();
+            XmlSchemaComplexType baseType = complexTypes.get(baseTypeName);
+            if (baseType != null) {
+                parseParticleForRef(extractParticle(baseType), refSources, false);
+            } else {
+                LOG.error("Failed to parse base entity type " + baseTypeName + " - could not find complex type");
+            }
         }
 
         // if any DidRefSources were found for this complex type, create a DidEntityConfig
@@ -578,7 +577,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
                         isOptional = true;
                     }
 
-                    // TODO, this could be pre-computed for all refTypes to avoid some repetition
                     XmlSchemaComplexType refSchema = referenceTypes.get(elementType.getLocalPart());
 
                     DidRefSource refSource = getRefSource(refSchema);
@@ -617,16 +615,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
         XmlSchemaAppInfo appInfo = null;
 
         if (annotation != null) {
-        	XmlSchemaObjectCollection items = annotation.getItems();
+            XmlSchemaObjectCollection items = annotation.getItems();
 
-        	for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+            for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
 
-        		XmlSchemaObject item = items.getItem(annotationIdx);
-        		if (item instanceof XmlSchemaAppInfo) {
-        			appInfo = (XmlSchemaAppInfo) item;
-        			break;
-        		}
-        	}
+                XmlSchemaObject item = items.getItem(annotationIdx);
+                if (item instanceof XmlSchemaAppInfo) {
+                    appInfo = (XmlSchemaAppInfo) item;
+                    break;
+                }
+            }
         }
 
         return appInfo;

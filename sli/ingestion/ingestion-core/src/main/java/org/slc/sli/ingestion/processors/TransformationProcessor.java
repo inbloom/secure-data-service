@@ -92,7 +92,7 @@ public class TransformationProcessor implements Processor {
             TenantContext.setTenantId(newJob.getTenantId());
             TenantContext.setJobId(batchJobId);
 
-            addMetricsToStage(workNote, stage, batchJobId);
+            addMetricsToStage(workNote, stage);
 
             performDataTransformations(workNote, newJob);
 
@@ -106,12 +106,8 @@ public class TransformationProcessor implements Processor {
         }
     }
 
-    private void addMetricsToStage(WorkNote workNote, Stage stage, String batchJobId) {
+    private void addMetricsToStage(WorkNote workNote, Stage stage) {
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
-        // FIXME: transformation needs to actually count processed records and errors
-        // Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
-        // .lt(workNote.getRangeMaximum());
-        // Query query = new Query().addCriteria(limiter);
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("creationTime", NeutralCriteria.CRITERIA_GTE, workNote.getRangeMinimum(),
                 false));
@@ -137,7 +133,6 @@ public class TransformationProcessor implements Processor {
      * Invokes transformations strategies
      *
      * @param workNote
-     *            TODO
      * @param job
      */
     void performDataTransformations(WorkNote workNote, Job job) {

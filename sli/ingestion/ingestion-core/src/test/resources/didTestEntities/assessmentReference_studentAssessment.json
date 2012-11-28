@@ -1,0 +1,15 @@
+{
+"recordType":"studentAssessment",
+"attributes":
+{
+    "assessmentId":
+    {
+        "AssessmentIdentity":
+        {
+            "AssessmentTitle":"Fraction Homework 123",
+            "GradeLevelAssessed":"Fifth grade",
+            "Version":"1"
+        }
+    }
+}
+}

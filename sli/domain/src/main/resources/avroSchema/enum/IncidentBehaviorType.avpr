@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "IncidentBehaviorType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Enumeration items defining the behavior coded for use in describing an incident.",
-  "xsd-type" : "token",
-  "symbols" : [ "Alcohol", "Arson", "Attendance_Policy_Violation", "Battery", "Burglary_Breaking_and_Entering", "Disorderly_Conduct", "Drugs_Excluding_Alcohol_and_Tobacco", "Fighting", "Harassment_Nonsexual", "Harassment_Sexual", "Homicide", "Inappropriate_Use_of_Medication", "Insubordination", "Kidnapping", "Obscene_Behavior", "Physical_Altercation_Minor", "Robbery", "School_Threat", "Theft", "Threat_Intimidation", "Tobacco_Possession_or_Use", "Trespassing", "Vandalism", "Violation_of_School_Rules", "Weapons_Possession", "Harassment_or_bullying_on_the_basis_of_disability", "Harassment_or_bullying_on_the_basis_of_race_color_or_national_origin", "Harassment_or_bullying_on_the_basis_of_sex" ]
-}

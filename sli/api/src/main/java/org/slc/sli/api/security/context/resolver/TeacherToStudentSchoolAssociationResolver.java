@@ -16,16 +16,16 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Resolves which StudentSchoolAssociation a given teacher is allowed to see.
@@ -46,14 +46,13 @@ public class TeacherToStudentSchoolAssociationResolver implements EntityContextR
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return (EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SCHOOL_ASSOCIATION
                 .equals(toEntityType));
-        // return false;
     }
     
     @Override
     public List<String> findAccessible(Entity principal) {
         // We can see the associations of all the students we can see.
         
-        List<String> studentIds = new ArrayList<String>();
+        List<String> studentIds;
         if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
             studentIds = studentResolver.findAccessible(principal);
         } else {

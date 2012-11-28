@@ -35,7 +35,7 @@ import org.slc.sli.ingestion.model.Error;
  */
 public class ErrorReadConverter implements Converter<DBObject, Error> {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordWriteConverter.class);
-    EntityEncryption encryptor;
+    private EntityEncryption encryptor;
 
     public EntityEncryption getEncryptor() {
         return encryptor;

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "MagnetSpecialProgramEmphasisSchoolType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A school that has been designed: 1) to attract students of different racial/ethnic backgrounds for the purpose of reducing, preventing, or eliminating racial isolation; and/or 2)to provide an academic or social focus on a particular theme (e.g., science/math, performing arts, gifted/talented, or foreign language).",
-  "xsd-type" : "token",
-  "symbols" : [ "All_students_participate", "No_students_participate", "Some_but_not_all_students_participate" ]
-}

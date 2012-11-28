@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "GenerationCodeSuffixType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An appendage, if any, used to denote an individual's generation in his family (e.g., Jr., Sr., III).",
-  "xsd-type" : "token",
-  "symbols" : [ "Jr", "Sr", "II", "III", "IV", "V", "VI", "VII", "VIII" ]
-}

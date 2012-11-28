@@ -85,6 +85,16 @@ class DataUtility
   end  
   #----------   INTERCHANGE: STAFF ASSOCIATION   ----------
 
+  #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
+  def self.get_course_offering_code(id)
+    "cofr-" + pad_id_with_zeroes(id, 10)
+  end
+
+  def self.get_unique_section_id(id)
+    "sctn-" + pad_id_with_zeroes(id, 10)
+  end
+  #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
+
   def self.pad_id_with_zeroes(id, num_zeroes)
   	id.to_s.rjust(num_zeroes, '0')
   end

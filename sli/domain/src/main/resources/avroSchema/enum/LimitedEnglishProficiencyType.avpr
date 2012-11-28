@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "LimitedEnglishProficiencyType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An indication that the student has been identified as limited English proficient by the Language Proficiency Assessment Committee (LPAC), or English proficient.",
-  "xsd-type" : "token",
-  "symbols" : [ "Yes", "No", "Ever" ]
-}

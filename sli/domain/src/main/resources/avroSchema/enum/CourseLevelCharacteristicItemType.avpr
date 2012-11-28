@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CourseLevelCharacteristicItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The item for indication of the nature and difficulty of instruction: remedial, basic, honors, Ap, IB, Dual Credit, CTE. etc.",
-  "xsd-type" : "token",
-  "symbols" : [ "Advanced", "Advanced_Placement", "Core_Subject", "CTE", "Dual_Credit", "Gifted_Talented", "Graduation_Credit", "Honors", "IB_Course", "Magnet", "Pre_AP", "Pre_IB", "Remedial", "Students_with_disabilities", "Basic", "General", "Gifted_and_Talented", "College_level", "English_Language_Learner", "Untracked", "Accepted_as_high_school_equivalent", "Other" ]
-}

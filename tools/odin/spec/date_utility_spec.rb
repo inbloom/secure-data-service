@@ -20,8 +20,8 @@ require 'yaml'
 
 require_relative '../lib/Shared/date_utility.rb'
 
+# specifications for date utility
 describe "DateUtility" do
-
   before(:each) do
     @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
     @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))

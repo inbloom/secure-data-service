@@ -29,12 +29,6 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -42,6 +36,11 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -61,6 +60,35 @@ public class DidReferenceResolutionTest {
     private static final String TENANT_ID = "tenant_id";
 
     @Test
+    public void resolvesAssessmentRefDidInAssessmentItemCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/assessmentReference_assessmentItem.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("assessmentTitle", "Fraction Homework 123");
+		naturalKeys.put("gradeLevelAssessed", "Fifth grade");
+		naturalKeys.put("version", "1");
+		naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
+
+        checkId(entity, "AssessmentReference", naturalKeys, "assessment");
+    }
+
+    @Test
+    public void resolvesAssessmentRefDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/assessmentReference_studentAssessment.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("AssessmentTitle", "Fraction Homework 123");
+		naturalKeys.put("GradeLevelAssessed", "Fifth grade");
+		naturalKeys.put("Version", "1");
+		naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
+
+        checkId(entity, "assessmentId", naturalKeys, "assessment");
+    }
+
+    @Test
     public void resolvesEdOrgRefDidInAttendanceEventCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/attendanceEvent.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -68,6 +96,7 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
         checkId(entity, "schoolId", naturalKeys, "educationOrganization");
+
     }
 
     @Test
@@ -91,13 +120,35 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void resolvesEdOrgRefDidInCourseOfferingCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    public void shouldResolveSchoolReferenceDidsInCourseOfferingCorrectly() throws JsonParseException,
+            JsonMappingException,
+            IOException {
         Entity entity = loadEntity("didTestEntities/courseOffering.json");
         ErrorReport errorReport = new TestErrorReport();
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("stateOrganizationId", "testSchoolId");
-        checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        checkId(entity, "SchoolReference", edOrgNaturalKeys, "educationOrganization");
+
+    }
+
+    @Test
+    public void shouldResolveSessionRefDidsInCourseOfferingCorrectly() throws JsonParseException, JsonMappingException,
+            IOException {
+        Entity entity = loadEntity("didTestEntities/courseOffering.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+        sessionNaturalKeys.put("schoolId", edOrgId);
+        sessionNaturalKeys.put("sessionId", "theSessionName");
+
+        checkId(entity, "SessionReference", sessionNaturalKeys, "session");
     }
 
 
@@ -120,6 +171,43 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someAssignmentSchoolReference");
         checkId(entity, "AssignmentSchoolReference", naturalKeys, "educationOrganization");
+    }
+
+    @Test
+    public void resolvesDisciplineIncidentReferenceDidInDisciplineActionCorrectly() throws JsonParseException,
+            JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/disciplineAction.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> disciplineIncidentNaturalKeys = new HashMap<String, String>();
+        disciplineIncidentNaturalKeys.put("schoolId", edOrgId);
+        disciplineIncidentNaturalKeys.put("disciplineActionIdentifier", "theIncident");
+
+        checkId(entity, "DisciplineIncidentReference", disciplineIncidentNaturalKeys, "disciplineIncident");
+    }
+
+    @Test
+    public void resolvesDisciplineIncidentReferenceEdOrgRefDidInStudentDisciplineIncidentAssocCorrectly()
+            throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentDisciplineIncidentAssociation.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> disciplineIncidentNaturalKeys = new HashMap<String, String>();
+        disciplineIncidentNaturalKeys.put("schoolId", edOrgId);
+        disciplineIncidentNaturalKeys.put("disciplineActionIdentifier", "theIncident");
+
+        checkId(entity, "DisciplineIncidentReference", disciplineIncidentNaturalKeys,
+ "disciplineIncident");
     }
 
     @Test
@@ -174,13 +262,48 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void resolvesEdOrgRefDidInSectionCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    public void shouldResolveSchoolRefDidInSectionCorrectly() throws JsonParseException, JsonMappingException,
+            IOException {
         Entity entity = loadEntity("didTestEntities/section.json");
         ErrorReport errorReport = new TestErrorReport();
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
         checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
+    }
+
+    @Test
+    public void shouldResolveSessionRefDidInSectionCorrectly() throws JsonParseException, JsonMappingException,
+            IOException {
+        Entity entity = loadEntity("didTestEntities/section.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(naturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+        sessionNaturalKeys.put("schoolId", edOrgId);
+        sessionNaturalKeys.put("sessionId", "theSessionName");
+
+        checkId(entity, "SessionReference", sessionNaturalKeys, "session");
+    }
+
+    @Test
+    public void shouldResolveSessionRefDidInStudentAcademicRecordCorrectly() throws JsonParseException,
+            JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(naturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+        sessionNaturalKeys.put("schoolId", edOrgId);
+        sessionNaturalKeys.put("sessionId", "theSessionName");
+
+        checkId(entity, "SessionReference", sessionNaturalKeys, "session");
     }
 
     @Test
@@ -357,7 +480,7 @@ public class DidReferenceResolutionTest {
 
         checkId(entity, "objectiveAssessment.[0].learningObjectives", naturalKeys, "learningObjective");
     }
-	
+
 	@Test
 	public void shouldResolveStudentSectionAssociationDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/studentSectionAssociationReference.json");
@@ -398,7 +521,8 @@ public class DidReferenceResolutionTest {
 
     // validate reference resolution
     @SuppressWarnings("unchecked")
-    private void checkId(Entity entity, String referenceField, Map<String, String> naturalKeys, String collectionName) throws JsonParseException, JsonMappingException, IOException {
+    private void checkId(Entity entity, String referenceField, Map<String, String> naturalKeys, String collectionName)
+            throws JsonParseException, JsonMappingException, IOException {
         String expectedDid =  generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = null;
@@ -409,7 +533,7 @@ public class DidReferenceResolutionTest {
 			Assert.fail("Exception thrown accessing resolved reference: " + e);
 		}
 
-        Assert.assertNotNull(resolvedRef);
+        Assert.assertNotNull("Expected non-null reference", resolvedRef);
 
         if (resolvedRef instanceof List) {
             List<Object> refs = (List<Object>) resolvedRef;
@@ -418,6 +542,7 @@ public class DidReferenceResolutionTest {
         } else {
             Assert.assertEquals(expectedDid, resolvedRef);
         }
+
     }
 
     // load a sample NeutralRecordEntity from a json file

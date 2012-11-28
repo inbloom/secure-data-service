@@ -18,6 +18,7 @@ limitations under the License.
 
 require_relative "../lib/Shared/EntityClasses/enum/GradeLevelType.rb"
 
+# specifications for grade level type functions
 describe "GradeLevelType" do
   describe "Correctly translates grades into strings" do
   	describe "for symbol that identifies Kindergarten" do
