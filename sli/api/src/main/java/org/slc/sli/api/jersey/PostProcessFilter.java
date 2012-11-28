@@ -171,8 +171,5 @@ public class PostProcessFilter implements ContainerResponseFilter {
         }
 
     }
-    private DateTime getDateTime(String dateTime) throws IllegalArgumentException {
-        return DateTime.parse(dateTime, new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter());
-    }
 
 }
