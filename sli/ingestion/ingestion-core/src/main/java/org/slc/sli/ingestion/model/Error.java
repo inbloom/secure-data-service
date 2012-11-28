@@ -65,7 +65,7 @@ public final class Error {
         this.sourceIp = sourceIp;
         this.hostname = hostname;
         this.recordIdentifier = recordIdentifier;
-        this.timestamp = timestamp;
+        this.timestamp = new Date(timestamp.getTime());
         this.severity = severity;
         this.errorType = errorType;
         this.errorDetail = errorDetail;
@@ -139,11 +139,11 @@ public final class Error {
     }
 
     public Date getTimestamp() {
-        return timestamp;
+        return new Date(timestamp.getTime());
     }
 
     public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+        this.timestamp = new Date(timestamp.getTime());
     }
 
     public String getSeverity() {
