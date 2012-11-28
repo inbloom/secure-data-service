@@ -45,11 +45,7 @@ class Odin
 
     configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
 
-    if ( scenario.nil? )
-      scenario = configYAML['scenario']
-    end
-
-    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), '/../scenarios', scenario ))
+    scenarioYAML = load_scenario(scenario, configYAML)
 
     prng = Random.new(configYAML['seed'])
     Dir.mkdir('../generated') if !Dir.exists?('../generated')
