@@ -5,9 +5,7 @@ Feature: Ingestion
 
         Scenario: Ingest Small Sample Dataset for End to End Testing
 
-            Given I am using local data store
-            Given I am using default landing zone
-            Given I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE PORT>"
+            Given a landing zone
             And I drop the file "SmallSampleDataSet.zip" into the landingzone
             And I check for the file "job*.log" every "30" seconds for "600" seconds
             Then the landing zone should contain a file with the message "Processed 4251 records"
