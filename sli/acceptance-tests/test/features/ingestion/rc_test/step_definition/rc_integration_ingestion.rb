@@ -37,6 +37,10 @@ end
 
 World(NoLandingZone)
 
+Before do
+  RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
+end
+
 ############################################################
 # TEST SETUP FUNCTIONS
 ############################################################
@@ -249,4 +253,20 @@ end
 Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg1|
   result = fileContainsMessage("", arg1, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
   assert result
+end
+
+Given /^a landing zone$/ do
+  if RUN_ON_RC
+    steps %Q{
+        Given I am using local data store
+        And I am using default landing zone
+        And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE PORT>"
+
+  }
+  else
+    steps %Q{
+        Given I am using local data store
+        And I have a local configured landing zone for my tenant
+  }
+  end
 end

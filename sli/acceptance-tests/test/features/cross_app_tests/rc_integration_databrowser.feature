@@ -84,7 +84,6 @@ Scenario: Click on Available Links associations and entities
   When I click on the "GetStaffCohortAssociations" link
   Then I am redirected to the particular associations Simple View
 
-@wip
 Scenario: Get a Forbidden message when we access something that is forbidden
   When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   Then I should be on Portal home page
@@ -94,7 +93,11 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   And under System Tools, I click on "SLC Data Browser"
   Then I should be redirected to the Data Browser home page
   And I have navigated to the "Schools" listing of the Data Browser
-  #When I should navigate to "/entities/schools/a13489364c2eb015c219172d561c62350f0453f3_id"
+  And I click on the "GetEducationOrganizations" link
+  And I click on the "GetParentEducationOrganizations" link
+  And I click on the "GetFeederSchools" link
+  When I click on the row containing "Daybreak Central High"
+  And I click on the "Me" of any of the associating entities
   And I click on the "GetTeachers" link
   Then I see a "You do not have access to view this." alert box
   And I click the X

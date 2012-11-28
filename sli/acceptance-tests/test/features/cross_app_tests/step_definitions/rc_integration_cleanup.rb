@@ -46,18 +46,14 @@ When /^I drop a control file to purge tenant data as "([^\"]*)" with password "(
       And I am using default landing zone
       And I use the landingzone user name "#{user}" and password "#{pass}" on landingzone server "#{server}-lz.slidev.org" on port "443"
       And I drop the file "Purge.zip" into the landingzone
-      Then a batch job log has been created
-      And I should not see an error log file created
-      And I should not see a warning log file created
+      And I check for the file "job*.log" every "30" seconds for "600" seconds
     }
   else
     steps %Q{
       Given I am using local data store
       And I have a local configured landing zone for my tenant
       And I drop the file "Purge.zip" into the landingzone
-      Then a batch job log has been created
-      And I should not see an error log file created
-      And I should not see a warning log file created
+      And I check for the file "job*.log" every "30" seconds for "600" seconds
     }
   end
 end
@@ -72,7 +68,7 @@ end
 ###############################################################################
 
 Then /^my tenant database should be cleared$/ do
-  step "When I get the database name"
+  step "I get the database name"
   tenant_db = @conn.db(@tenant_db_name)
   coll_names = tenant_db.collection_names
   coll_to_skip = ["system.indexes",
