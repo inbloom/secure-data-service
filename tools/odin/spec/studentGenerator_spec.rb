@@ -23,11 +23,19 @@ FactoryGirl.find_definitions
 
 describe 'StudentGenerator' do
   let(:interchange) {StringIO.new('', 'w')}
-  let(:generator) {StudentGenerator.new(interchange, 1)}
+  let(:generator) {StudentParentInterchangeGenerator.new(interchange, 1)}
   let(:student) {FactoryGirl.build(:student)}
+  let(:parent) {FactoryGirl.build(:parent)}
+  let(:entities) { [:student, :parent]}
   describe '<<' do
     it 'will write a student to edfi' do
+
+      entities = [student,parent]
+    
       generator << student
+      generator << parent
+
+      puts "Interchange #{interchange.string}"
       interchange.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
       interchange.string.match('<FirstName>John</FirstName>').should_not be_nil
       interchange.string.match('<LastSurname>Snow</LastSurname>').should_not be_nil

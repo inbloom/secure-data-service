@@ -20,15 +20,27 @@ require 'mustache'
 require_relative "./interchangeGenerator"
 require_relative "../../Shared/EntityClasses/student"
 require_relative '../../Shared/util'
-
-class StudentGenerator < InterchangeGenerator
-
-  class StudentInterchange < Mustache
+class StudentParentInterchangeGenerator < InterchangeGenerator
+  
+  class StudentGenerator < Mustache
     attr_accessor :students
-
+   
     def initialize(students)
       @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/student.mustache"
       @students = students
+
+    end
+
+  end
+  
+  
+  class ParentGenerator < Mustache
+    attr_accessor :parents
+   
+    def initialize(parents)
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/parent.mustache"
+      @parents = parents
+
     end
 
   end
@@ -37,7 +49,9 @@ class StudentGenerator < InterchangeGenerator
     super(interchange, batchSize)
 
     @header, @footer = build_header_footer( "StudentParent" )
-    @generator = StudentGenerator::StudentInterchange 
+    @generators = Hash.new
+    @generators[ Student] = StudentParentInterchangeGenerator::StudentGenerator
+    @generators[ Parent ] = StudentParentInterchangeGenerator::ParentGenerator
 
     start()
   end

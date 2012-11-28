@@ -16,12 +16,10 @@ limitations under the License.
 
 =end
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
-
 class InterchangeGenerator
   @@totalEntityCount = 0
 
   attr_accessor :interchange, :header, :footer
-
   def initialize(interchange, batchSize=10000)
     @stime = Time.now
     @entityCount = 0
@@ -32,6 +30,7 @@ class InterchangeGenerator
 
   def start()
     @interchange << @header
+    puts "header"
   end
 
   def <<(entity)
@@ -44,9 +43,18 @@ class InterchangeGenerator
 
   def batchRender
     report(@entities)
-    generator = @generator.new @entities
-    generator.template_path = "#{File.dirname(__FILE__)}/interchangeTemplates"
-    @interchange << generator.render()
+    #filter_entities
+    split_entities = @entities.group_by( &:class )
+   
+
+    split_entities.each do |k, v |
+      generator = @generators[k].new v
+      generator.context
+      generator.template_path = "#{File.dirname(__FILE__)}/interchangeTemplates"
+      r = generator.render()
+  puts "R: #{r}"
+      @interchange << r
+    end
   end
 
   def report(entities)
@@ -59,6 +67,7 @@ class InterchangeGenerator
 
   def finalize()
     batchRender
+   
     @interchange << @footer
     @interchange.close()
 
