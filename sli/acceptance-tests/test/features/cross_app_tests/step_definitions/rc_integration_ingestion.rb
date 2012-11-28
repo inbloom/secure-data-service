@@ -193,13 +193,13 @@ Given /^I have a local configured landing zone for my tenant$/ do
   conn = Mongo::Connection.new(host)
   db = conn.db(db_name)
 
-  if (@mode=="SANDBOX")
-   tenant_name = PropLoader.getProps['sandbox_tenant']
+  if (@mode == "SANDBOX")
+   @tenant_name = PropLoader.getProps['sandbox_tenant']
   else
-   tenant_name = PropLoader.getProps['tenant']
+   @tenant_name = PropLoader.getProps['tenant']
   end
 
-  tenants = db.collection("tenant").find("body.tenantId" => tenant_name).to_a
+  tenants = db.collection("tenant").find("body.tenantId" => @tenant_name).to_a
 
   if tenants.empty?
     puts "#{tenant_name} tenantId not found in Mongo - skipping tenant database deletion"
