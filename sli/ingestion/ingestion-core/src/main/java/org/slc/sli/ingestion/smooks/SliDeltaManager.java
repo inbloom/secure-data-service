@@ -27,6 +27,8 @@ import java.util.StringTokenizer;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -38,6 +40,8 @@ import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 
 /**
  * @author unavani
@@ -46,6 +50,12 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public final class SliDeltaManager {
+
+    // Logging
+    private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
+
+    private static String NRKEYVALUEFIELDNAMES = "neutralRecordKeyValueFieldNames";
+    private static String OPTIONALNRKEYVALUEFIELDNAMES = "optionalNeutralRecordKeyValueFieldNames";
 
 	/**
 	 * Calculate record ID and values hash for NeutralRecord and save in metadata.
@@ -58,7 +68,7 @@ public final class SliDeltaManager {
 	 */
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
             DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, ErrorReport errorReport) {
-
+        boolean isPrevIngested = false;
         String tenantId = TenantContext.getTenantId();
 
         // US4439 TODO: clean up and put where it makes most sense
@@ -82,31 +92,47 @@ public final class SliDeltaManager {
         didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
 
         // Calculate DiD using natural key values (that are references) in their Did form
-        populateNaturalKeys(neutralRecordResolved, naturalKeys);
-        NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, sliEntityType, null);
+        try {
+            populateNaturalKeys(neutralRecordResolved, naturalKeys);
+            NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, sliEntityType, null);
 
-        String recordId = dIdStrategy.generateId(nkd);
+            String recordId = dIdStrategy.generateId(nkd);
 
-        // Calculate record hash using natural keys' values
-        String recordHashValues = DigestUtils.shaHex(neutralRecordResolved.getRecordType() + "-" + neutralRecordResolved.getAttributes().toString() + "-" + tenantId);
-        RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
+            // Calculate record hash using natural keys' values
+            String recordHashValues = DigestUtils.shaHex(neutralRecordResolved.getRecordType() + "-"
+                    + neutralRecordResolved.getAttributes().toString() + "-" + tenantId);
+            RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
-        n.addMetaData("rhId", recordId);
-        n.addMetaData("rhHash", recordHashValues);
-        n.addMetaData("rhTenantId", tenantId);
+            n.addMetaData("rhId", recordId);
+            n.addMetaData("rhHash", recordHashValues);
+            n.addMetaData("rhTenantId", tenantId);
+
+            isPrevIngested = (record != null && record.hash.equals(recordHashValues));
+
+        } catch (NoNaturalKeysDefinedException e) {
+            // If we can't determine the natural keys, don't include it in recordHash processing
+            // Errors will be logged by normal (non-recordHash) processing
+            LOG.warn(e.getMessage());
+            isPrevIngested = false;
+        } catch (NaturalKeyValidationException e) {
+            // If we can't determine the natural key values, don't include it in recordHash processing
+            // Errors will be logged by normal (non-recordHash) processing
+            LOG.warn(e.getMessage());
+            isPrevIngested = false;
+        }
 
         // US4439 TODO end
 
-        return (record != null && record.hash.equals(recordHashValues));
+        return isPrevIngested;
     }
 
 
-    private static void populateNaturalKeys(NeutralRecord n, Map<String, String> naturalKeys) {
-        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), "neutralRecordKeyValueFieldNames"), false);
-        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), "optionalNeutralRecordKeyValueFieldNames"), true);
+    private static void populateNaturalKeys(NeutralRecord n, Map<String, String> naturalKeys) throws NoNaturalKeysDefinedException {
+        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), NRKEYVALUEFIELDNAMES), false);
+        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), OPTIONALNRKEYVALUEFIELDNAMES), true);
     }
 
-    private static void addFieldsToNaturalKeysImpl(NeutralRecord n, Map<String, String> naturalKeys, String fieldNames, boolean optional) {
+    private static void addFieldsToNaturalKeysImpl(NeutralRecord n, Map<String, String> naturalKeys, String fieldNames, boolean optional) throws NoNaturalKeysDefinedException {
 
         String recordType = n.getRecordType();
 
@@ -115,8 +141,8 @@ public final class SliDeltaManager {
             if (optional) {
                 return;
             } else {
-                System.out.println("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
-                throw new RuntimeException("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
+                System.out.println("A mapping for \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
+                throw new NoNaturalKeysDefinedException("A mapping for \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
             }
         }
         StringTokenizer fieldNameTokenizer = new StringTokenizer(fieldNames, ",");
@@ -128,26 +154,33 @@ public final class SliDeltaManager {
             try {
                 value = PropertyUtils.getProperty(n.getAttributes(), fieldName);
             } catch (IllegalAccessException e) {
-                handleFieldAccessException(fieldName, recordType, optional);
+                handleFieldAccessException(fieldName, n, optional);
             } catch (InvocationTargetException e) {
-                handleFieldAccessException(fieldName, recordType, optional);
+                handleFieldAccessException(fieldName, n, optional);
             } catch (NoSuchMethodException e) {
-                handleFieldAccessException(fieldName, recordType, optional);
+                handleFieldAccessException(fieldName, n, optional);
             }
             String strValue = "";
             if (value != null) {
                 strValue = value.toString();
             } else {
-                handleFieldAccessException(fieldName, recordType, optional);
+                handleFieldAccessException(fieldName, n, optional);
             }
             naturalKeys.put(fieldName, strValue);
         }
     }
 
-    private static void handleFieldAccessException(String fieldName, String recordType, boolean optional) {
+    private static void handleFieldAccessException(String fieldName, NeutralRecord n, boolean optional) {
         if (!optional) {
-            System.out.println("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
-            throw new RuntimeException("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
+            String message =
+                    "An entity is missing one or more required natural key fields specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml for \"" + "\n"
+            + "       Entity      " + n.getRecordType() + "\n"
+            + "       Source file " + n.getSourceFile() + "\n"
+            + "       Location    " + n.getLocationInSourceFile() + "\n"
+            + "       Field       " + fieldName;
+
+            System.out.println(message);
+            throw new NaturalKeyValidationException(message);
         }
     }
 
