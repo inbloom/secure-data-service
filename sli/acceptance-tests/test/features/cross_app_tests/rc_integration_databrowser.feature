@@ -93,7 +93,7 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   And under System Tools, I click on "SLC Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "GetEducationOrganizations" link
-  And I click on the "GetParentEducationOrganizations" link
+  And I click on the "GetParentEducationOrganization" link
   And I click on the "GetFeederSchools" link
   When I click on the row containing "Daybreak Central High"
   And I click on the "Me" of any of the associating entities
