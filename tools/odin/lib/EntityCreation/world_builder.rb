@@ -574,7 +574,7 @@ class WorldBuilder
             if GradeLevelType.is_elementary_school_grade(grade)
               title   = GradeLevelType.get(grade)
             else
-              title   = GradeLevelType.get(grade) + course["title"]
+              title   = GradeLevelType.get(grade) + " " + course["title"]
             end
           
             @master_schedule_writer.create_course_offering(id, title, ed_org_id, session, course)
