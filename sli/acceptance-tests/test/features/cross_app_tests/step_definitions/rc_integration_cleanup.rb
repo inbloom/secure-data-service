@@ -46,18 +46,12 @@ When /^I drop a control file to purge tenant data as "([^\"]*)" with password "(
       And I am using default landing zone
       And I use the landingzone user name "#{user}" and password "#{pass}" on landingzone server "#{server}-lz.slidev.org" on port "443"
       And I drop the file "Purge.zip" into the landingzone
-      Then a batch job log has been created
-      And I should not see an error log file created
-      And I should not see a warning log file created
     }
   else
     steps %Q{
       Given I am using local data store
       And I have a local configured landing zone for my tenant
       And I drop the file "Purge.zip" into the landingzone
-      Then a batch job log has been created
-      And I should not see an error log file created
-      And I should not see a warning log file created
     }
   end
 end
