@@ -217,34 +217,6 @@ And the Deny button next to it is enabled
 And I exit out of the iframe
 And I click on log out
 
-#For debugging refer to build #143
-@wip
-Scenario: User Logs into databrowser from portal
-When I navigate to the Portal home page
-When I selected the realm "Daybreak Test Realm"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under Application Configuration, I see the following: "SLC Dashboards"
-And under System Tools, I see the following "SLC Data Browser"
-And under System Tools, I click on "SLC Data Browser"
-Then I should be redirected to the Data Browser home page
-And I should see my available links labeled
-And I should navigate to "/entities/teachers"
-Then I should see that there are "3" teachers 
-When I click on the row containing "linda.kim"
-When I click on the "My Sections" link
-Then I am redirected to the particular associations Simple View
-When I click on the row containing "8th Grade English - Sec 6"
-Then I am redirected to the particular associations Simple View
-When I click on the "GetStudents" link
-Then I am redirected to the particular associations Simple View
-When I click on the row containing "Sollars"
-Then I am redirected to the particular associations Simple View
-
 #US4878: Logout Test Coverage
 @wip 
 Scenario: Sessions are shared between Databrowser and Dashboard apps
