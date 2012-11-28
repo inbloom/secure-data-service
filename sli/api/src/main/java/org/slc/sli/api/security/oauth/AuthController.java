@@ -280,7 +280,7 @@ public class AuthController {
             idpType = 4;
         }
 
-        // {messageId,encodedSAML}
+        // pair contains {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn, idpType);
 
         sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, realmEnt.getEntityId(),
