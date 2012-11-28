@@ -17,11 +17,6 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -29,6 +24,11 @@ import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCach
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Resolves teacher's access and security context to cohort records.
@@ -57,7 +57,7 @@ public class TeacherCohortResolver implements EntityContextResolver {
     @SuppressWarnings("unchecked")
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = new ArrayList<String>();
+        List<String> studentIds;
         if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
             studentIds = studentResolver.findAccessible(principal);
         } else {

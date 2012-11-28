@@ -34,10 +34,12 @@ class WorkOrderProcessor
 
   def build
     s = Student.new(@id, @work_order[:birth_day_after])
-    @student_interchange << s
-    @work_order[:sessions].each{ |session|
-      gen_enrollment session
-    }
+    @student_interchange << s unless @student_interchange.nil?
+    unless @enrollment_interchange.nil?
+      @work_order[:sessions].each{ |session|
+        gen_enrollment session
+      }
+    end
   end
 
   def gen_enrollment(session)
