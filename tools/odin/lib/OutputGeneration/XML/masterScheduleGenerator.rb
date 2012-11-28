@@ -87,13 +87,14 @@ class MasterScheduleGenerator < InterchangeGenerator
   end
 
   # creates and writes section to interchange
-  def create_section
-    #@handle.write @section_writer.write(Section.new(name, year, term, interval, ed_org_id, grading_periods))
+  def create_section(id, sequence, environment, medium, population, school_id, course_offering, session)
+    @section_writer.write(@handle, Section.new(id, sequence, environment, medium, population, school_id, course_offering, session))
   end
 
   # writes footer and closes education organization calendar interchange file handle
   def close
     @course_offering_writer.flush(@handle)
+    @section_writer.flush(@handle)
     @handle.write(@footer)
     @handle.close()
   end

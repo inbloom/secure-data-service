@@ -95,14 +95,14 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # initialization will define the header and footer for the education organization calendar interchange
   # writes header to education organization calendar interchange
   # leaves file handle open for event-based writing of ed-fi entities
-  def initialize
+  def initialize(batch_size)
     @header, @footer = build_header_footer( "EducationOrgCalendar" )
     @handle = File.new("generated/InterchangeEducationOrgCalendar.xml", 'w')
     @handle.write(@header)
 
-    @session_writer        = SessionWriter.new(500)
-    @grading_period_writer = GradingPeriodWriter.new(500)
-    @calendar_date_writer  = CalendarDateWriter.new(500)
+    @session_writer        = SessionWriter.new(batch_size)
+    @grading_period_writer = GradingPeriodWriter.new(batch_size)
+    @calendar_date_writer  = CalendarDateWriter.new(batch_size)
   end
 
   # creates and writes session to interchange

@@ -37,7 +37,9 @@ require_relative "../Shared/date_utility.rb"
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldBuilder
   def initialize
-    batch_size   = 25000
+    small_batch_size  = 500
+    medium_batch_size = 5000
+    large_batch_size  = 25000
 
     $stdout.sync = true
     @log         = Logger.new($stdout)
@@ -51,9 +53,9 @@ class WorldBuilder
     @edOrgs["middle"]     = []
     @edOrgs["high"]       = []
 
-    @education_organization_writer = EducationOrganizationGenerator.new(batch_size)
-    @education_org_calendar_writer = EducationOrgCalendarGenerator.new
-    @master_schedule_writer        = MasterScheduleGenerator.new(batch_size)
+    @education_organization_writer = EducationOrganizationGenerator.new(medium_batch_size)
+    @education_org_calendar_writer = EducationOrgCalendarGenerator.new(medium_batch_size)
+    @master_schedule_writer        = MasterScheduleGenerator.new(medium_batch_size)
   end
 
   # Builds the initial snapshot of the world
@@ -115,6 +117,8 @@ class WorldBuilder
         end 
       end
     end
+
+    # for the case where a smaller number of students was specified, assemble 'waves' of students
   end
 
   # randomly select the number of students for the current grade by using the minimum percentage,
@@ -342,9 +346,65 @@ class WorldBuilder
   # --> in middle and high schools, create teacher for course offering (teachers can teach multiple sections)
   def create_master_schedule(rand, yaml)
     offering_id = 0
-    create_course_offerings_for_school_type("elementary", offering_id)
-    create_course_offerings_for_school_type("middle", offering_id)
-    create_course_offerings_for_school_type("high", offering_id)
+    create_course_offerings_for_school("elementary", offering_id)
+    create_course_offerings_for_school("middle", offering_id)
+    create_course_offerings_for_school("high", offering_id)
+
+    #puts "create sections for course offering: #{offering_id} at school: #{offering["ed_org_id"]} in grade: #{grade} using num students: #{school["students"]}"
+    @edOrgs["elementary"].each_index do |index|
+      school       = @edOrgs["elementary"][index]
+      num_students = school["students"]
+      puts "there are #{num_students} students initially enrolled at school: #{DataUtility.get_elementary_school_id(school["id"])}"
+
+      # update school enrollment with time information
+      # -> number of students enrolled at school in given year
+      # -> assembles 'waves' of students
+      # this will be updated to 'type' == once refactored
+      if "elementary" == "elementary"
+        grades = GradeLevelType.elementary
+        min_students_per_section = yaml["MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
+        max_students_per_section = yaml["MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
+        students_per_grade = Hash.new
+        grades.each do |grade|
+          students_per_grade[grade] = 0
+        end
+        while num_students > 0
+          grades.each do |grade|
+            current_students = random_on_interval(rand, min_students_per_section, max_students_per_section)
+            if num_students < current_students
+              current_students = num_students
+            end
+            students_per_grade[grade] += current_students
+            num_students              -= current_students
+          end
+        end
+
+        puts "initial students per grade: #{students_per_grade}"
+        students_by_year = Hash.new
+        school["offerings"].each do |year, courses|
+          students_by_year[year] = students_per_grade
+          shuffle_students_forward(students_per_grade)
+        end 
+
+      elsif "elementary" == "middle"
+      elsif "elementary" == "high"
+      end
+    end
+  end
+
+  # ripples students forward for next year
+  # -> 1st graders become 2nd graders, 2nd graders become 3rd graders, ...
+  # -> actually performs work by iterating through grades in reverse order (12 -> 11 -> 10 ...)
+  # -> returns number of students who were 'shuffled' out of the current school
+  # --> 12th graders who graduated, incoming 9th graders, incoming 6th graders
+  # --> returns 0 by default (no students were shuffled out of current school)
+  def shuffle_students_forward(students_per_grade)
+    students_shuffled_out = 0
+    grades                = GradeLevelType.get_ordered_grades.reverse
+    grades.each do |grade|
+      if students_per_grade.has_key?(grade)
+      end
+    end
   end
 
   # iterate through schools of 'type' (should be "elementary", "middle", or "high" schools)
@@ -354,7 +414,7 @@ class WorldBuilder
   # -> iterate through sessions
   # -> iterate through courses
   # --> use {session, course} pair to create course offering at current school
-  def create_course_offerings_for_school_type(type, num_offerings)
+  def create_course_offerings_for_school(type, num_offerings)
     offering_id = num_offerings
     @edOrgs[type].each_index do |index|
       school    = @edOrgs[type][index]
@@ -384,6 +444,8 @@ class WorldBuilder
             offering["session"]   = local_session
             offering["course"]    = course
             offering["grade"]     = grade
+            offering["sections"]  = []            
+
             # add course offering into 'offerings' (course offerings for current year)
             offerings << offering
           end
