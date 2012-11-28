@@ -1254,10 +1254,9 @@ public class SDKAPIClient implements APIClient {
 			schoolIds.add(schoolId);
 		}
 		
-		Map<String, GenericEntity> cache = new HashMap<String, GenericEntity>();
-		
 		List<GenericEntity> schools = getSchools(token, schoolIds);
-		
+
+		Map<String, GenericEntity> cache = new HashMap<String, GenericEntity>();
 		for (GenericEntity school : schools) {
 			cache.put(school.getId(), school);
 		}
@@ -1272,6 +1271,7 @@ public class SDKAPIClient implements APIClient {
 			// association
 			GenericEntity school = cache.get(schoolId);
 			if (school == null) {
+				LOGGER.warn("reading school from API, but should be reading from cache.");
 				school = getSchool(token, schoolId);
 			}
 			studentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);

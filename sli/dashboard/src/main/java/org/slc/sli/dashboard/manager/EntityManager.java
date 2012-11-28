@@ -344,8 +344,6 @@ public class EntityManager extends ApiClientManager {
 	 */
 	public GenericEntity getSectionForProfile(String token, String sectionId,
 			Map<String, GenericEntity> cache) {
-		
-		
 		if (cache == null) {
 			cache = new HashMap<String, GenericEntity>();
 		}
@@ -353,25 +351,21 @@ public class EntityManager extends ApiClientManager {
 		GenericEntity section = cache.get(sectionId);
 		if (section == null) {
 			section = getApiClient().getSection(token, sectionId);
-			log.info("got section - but shouldn't have!");
 			cacheThis(cache, sectionId, section);
 		}
 
 		if (section == null) {
 			return null;
 		}
+
 		// Retrieve teacher of record for the section, and add the teacher's
 		// name to the section
 		// entity.
-
-		
 		String teacherId = getApiClient().getTeacherIdForSection(token, sectionId);
 		GenericEntity teacher = cache.get(teacherId);
 
 		if (teacher == null) {
-			teacher = getApiClient().getTeacherForSection(
-					token, section.getString(Constants.ATTR_ID));
-			log.info("got teacher - but shouldn't have!");
+			teacher = getApiClient().getTeacher(token, teacherId);
 			cacheThis(cache, teacherId, teacher);
 		}
 
@@ -401,7 +395,6 @@ public class EntityManager extends ApiClientManager {
 		GenericEntity courseOffering = cache.get(courseOfferingId);
 		if (courseOffering == null) {
 			courseOffering = getCourseOffering(token, courseOfferingId);
-			log.info("got course offering - but shouldn't have!");
 			cacheThis(cache, courseOfferingId, courseOffering);
 		}
 
@@ -414,7 +407,6 @@ public class EntityManager extends ApiClientManager {
 					course = cache.get(courseId);
 				} else {
 					course = getApiClient().getCourse(token, courseId);
-					log.info("got course - but shouldn't have!");
 					cacheThis(cache, courseId, course);
 				}
 
@@ -439,8 +431,6 @@ public class EntityManager extends ApiClientManager {
 			Map<String, GenericEntity> cache,
 			Map<String, List<GenericEntity>> entityListCache) {
 
-		// Navigate links to retrieve course and subject.
-		List<String> sectionIds = new ArrayList<String>();
 
 		List<GenericEntity> studentSectionAssociations = null;
 		// create a method that receive links and return List of generic
@@ -454,9 +444,7 @@ public class EntityManager extends ApiClientManager {
 				studentSectionAssociations = entityListCache.get(link
 						.getResourceURL().toString());
 				if (studentSectionAssociations == null) {
-					studentSectionAssociations = getApiClient().readEntityList(
-							token,
-							link.getResourceURL().toString() + "?limit=0");
+					studentSectionAssociations = getApiClient().readEntityList(token, link.getResourceURL().toString() + "?limit=0");
 					entityListCache.put(link.getResourceURL().toString(),
 							studentSectionAssociations);
 				}
@@ -464,6 +452,9 @@ public class EntityManager extends ApiClientManager {
 				break;
 			}
 		}
+
+		// Navigate links to retrieve course and subject.
+		List<String> sectionIds = new ArrayList<String>();
 
 		for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
 			// cache sections
@@ -488,8 +479,6 @@ public class EntityManager extends ApiClientManager {
 			String teacherId = section.getString(Constants.ATTR_ID);
 
 			teacherIds.add(teacherId);
-
-			List<Link> sectionLinks = section.getLinks();
 
 			courseOfferingIds.add(section.get("courseOfferingId").toString());
 		}
@@ -674,16 +663,10 @@ public class EntityManager extends ApiClientManager {
 				// studentSectionAssociation.
 				for (Link stuSecLinks : studentSectionAssociation.getLinks()) {
 					if (stuSecLinks.getLinkName().equals(Constants.GET_GRADES)) {
-
 						String key = stuSecLinks.getResourceURL().toString();
 						List<GenericEntity> grades;
-						// if (cache.containsKey(key)) {
-						// grades = cache.get(key);
-						// }
-						// else {
+	
 						grades = getApiClient().readEntityList(token, key);
-						// cacheThis(cache, key, grades);
-						// }
 
 						for (GenericEntity grade : grades) {
 							toAdd.put(

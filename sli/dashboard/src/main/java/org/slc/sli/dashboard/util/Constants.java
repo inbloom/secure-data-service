@@ -285,6 +285,7 @@ public final class Constants {
     public static final String LOCAL_EDUCATION_AGENCY = "Local Education Agency";
 
     public static final int MAX_RESULTS = 0;
+    // TODO: add comment
     public static final int MAX_IDS_PER_API_CALL = 10;
     public static final String LIMIT = "limit";
     public static final String ATTR_PARENTS = "parents";
