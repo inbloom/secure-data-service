@@ -26,7 +26,7 @@ module ApprovalEngine
   # Custom Exception and error codes 
   class ApprovalException < StandardError 
     attr :error_code 
-    def initialize(msg, error_code)
+    def initialize(error_code, msg)
       super(msg)
       @error_code = error_code
     end 

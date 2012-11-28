@@ -48,7 +48,7 @@ class LandingZone
 
   def self.provision(edorg_id, tenant, uid, sample_data_select = nil, public_key = nil)
     hasPublicKey = !public_key.nil? && !public_key.empty?
-    Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}, hasPublicKey = #{hasPublicKey}"
+    logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}, hasPublicKey = #{hasPublicKey}"
 
     user_info = APP_LDAP_CLIENT.read_user(uid)
     if(!user_info)
@@ -56,15 +56,15 @@ class LandingZone
     end
 
     if (hasPublicKey)
-      Rails.logger.debug("Doing something with this public key: #{public_key}")
+      logger.debug("Doing something with this public key: #{public_key}")
       if (!LandingZoneHelper.valid_rsa_key?(public_key))
         public_key = LandingZoneHelper.convert_key(public_key, uid)
         if (public_key.nil? || !LandingZoneHelper.valid_rsa_key?(public_key))
-          Rails.logger.debug("Invalid key")
+          logger.debug("Invalid key")
           raise KeyValidationError.new "Received invalid public key"
         end
       end
-      Rails.logger.debug("Valid key")
+      logger.debug("Valid key")
       LandingZoneHelper.create_key(public_key, uid)
     end
 
@@ -82,14 +82,14 @@ class LandingZone
 
     @landingzone = result.attributes[:landingZone]
     @server = result.attributes[:serverName]
-    Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
-    Rails.logger.info "the tenant uuid is: #{result.attributes[:tenantUuid]}"
+    logger.info "landing zone is #{@landingzone}, server is #{@server}"
+    logger.info "the tenant uuid is: #{result.attributes[:tenantUuid]}"
 
     if(APP_CONFIG['is_sandbox'] && sample_data_select != nil && sample_data_select != "")
       begin
-        Rails.logger.info("start preload data to tenant uuid: #{result.attributes[:tenantUuid]}, with #{sample_data_select} sample data")
+        logger.info("start preload data to tenant uuid: #{result.attributes[:tenantUuid]}, with #{sample_data_select} sample data")
         preload_result = OnBoarding.new.preload(result.attributes[:tenantUuid], sample_data_select)
-        Rails.logger.info("preload status code is: #{preload_result.code}")
+        logger.info("preload status code is: #{preload_result.code}")
         if preload_result.code == 409
           isDuplicate = true
         end
@@ -107,7 +107,10 @@ class LandingZone
     begin
       APP_LDAP_CLIENT.update_user_info(user_info)
     rescue => e
-      Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+
+        logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
     end
 
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
@@ -118,7 +121,9 @@ class LandingZone
           ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
         end
       rescue => e
-        Rails.logger.error "Could not send email to #{user_info[:emailAddress]}."
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+        logger.error "Could not send email to #{user_info[:emailAddress]}."
       end
 
       @emailWarningMessage = ""

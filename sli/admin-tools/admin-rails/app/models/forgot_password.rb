@@ -67,8 +67,12 @@ class ForgotPassword
         yield(emailAddress, fullName)
         return true
       rescue InvalidPasswordException => e
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
         APP_CONFIG['password_policy'].each { |msg|  errors.add(:new_pass, msg) }
       rescue Exception => e
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
         errors.add(:base, "Unable to change password, please try again.")
       end
     end
