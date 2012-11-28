@@ -88,7 +88,7 @@ public final class SliDeltaManager {
         String recordId = dIdStrategy.generateId(nkd);
 
         // Calculate record hash using natural keys' values
-        String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + tenantId);
+        String recordHashValues = DigestUtils.shaHex(neutralRecordResolved.getRecordType() + "-" + neutralRecordResolved.getAttributes().toString() + "-" + tenantId);
         RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
         n.addMetaData("rhId", recordId);
@@ -137,6 +137,8 @@ public final class SliDeltaManager {
             String strValue = "";
             if (value != null) {
                 strValue = value.toString();
+            } else {
+                handleFieldAccessException(fieldName, recordType, optional);
             }
             naturalKeys.put(fieldName, strValue);
         }
