@@ -351,17 +351,19 @@ When /^I navigate to POST for each resource available$/ do
           Then I should receive a return code of 200
           And the response should contain the appropriate fields and values
       }
-      successList << "#{resource}"
+      #test DELETE operation
+      steps %Q{
+          When I navigate to DELETE \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 204
+          And I navigate to GET \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 404
+      }
+      puts  "|#{resource[1..-2]}|"
     end
     rescue =>e
-      failurList << "#{resource} ==> #{e}"
+      $stderr.puts"#{resource} ==> #{e}"
     end
   end
-  puts " Successfully validated"
-  puts successList
-  puts "*******************************************"
-  puts "Failed to validate"
-  puts failurList
 end
 
 def resources
