@@ -16,8 +16,6 @@ limitations under the License.
 
 =end
 
-require_relative '../../ingestion/rc_test/step_definition/rc_integration_ingestion.rb'
-
 ###############################################################################
 # BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
 ###############################################################################

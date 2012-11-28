@@ -26,7 +26,7 @@ require 'net/http'
 require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../features/step_definitions/ingestion_steps.rb'
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 

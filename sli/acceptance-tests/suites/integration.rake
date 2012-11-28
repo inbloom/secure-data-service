@@ -23,7 +23,7 @@ require_relative '../test/features/utils/rakefile_common.rb'
 
 desc "Run Ingestion RC Test"
 task :rcIngestionTests do
-    runTests("test/features/ingestion/rc_test/rc_integration_ingestion.feature")
+    runTests("test/features/cross_app_tests/rc_integration_ingestion.feature")
 end
 
 desc "Run Provision LZ Test"
@@ -84,11 +84,6 @@ end
 desc "Run RC Sandbox Provision Test"
 task :rcSandboxProvisionTests do
   runTests("test/features/cross_app_tests/rc_sandbox_provision_lz.feature")
-end
-
-desc "Run RC Sandbox Provision Test"
-task :rcSandboxPreloadVerificationTests do
-  runTests("test/features/ingestion/rc_test/rc_sandbox_preload.feature")
 end
 
 desc "Run RC Sandbox Databrowser Test"
@@ -170,7 +165,6 @@ task :rcSandboxTests do
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
-  Rake::Task["rcSandboxPreloadVerificationTests"].execute
   Rake::Task["rcSandboxAppApprovalTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
