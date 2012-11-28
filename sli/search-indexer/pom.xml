@@ -12,7 +12,7 @@
 
     <properties>
         <spring.version>3.0.7.RELEASE</spring.version>
-        <sli.conf>../../config/properties/sli.properties</sli.conf>
+        <sli.conf>../config/properties/sli.properties</sli.conf>
         <sli.encryption.keyStore>./../data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
     </properties>
 
