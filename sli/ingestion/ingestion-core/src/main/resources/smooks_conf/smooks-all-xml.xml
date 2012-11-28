@@ -3641,7 +3641,8 @@
 
   <jb:bean beanId="gradeMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/Grade">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'GradingPeriodReference,uniqueSectionCode,studentId'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentSectionAssociationReference'</jb:expression>
+    <jb:expression property="optionalNeutralRecordKeyValueFieldNames">'GradingPeriodReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="gradeAttributes" class="java.util.HashMap"
