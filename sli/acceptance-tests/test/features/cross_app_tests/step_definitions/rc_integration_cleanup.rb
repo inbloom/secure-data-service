@@ -72,7 +72,7 @@ end
 ###############################################################################
 
 Then /^my tenant database should be cleared$/ do
-  step "When I get the database name"
+  #step "When I get the database name"
   tenant_db = @conn.db(@tenant_db_name)
   coll_names = tenant_db.collection_names
   coll_to_skip = ["system.indexes",
