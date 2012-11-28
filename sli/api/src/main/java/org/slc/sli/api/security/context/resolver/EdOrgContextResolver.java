@@ -17,21 +17,19 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Returns all Education Organization Ids a principal entity has access to
@@ -63,10 +61,8 @@ public class EdOrgContextResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
         
         if (securityCachingStrategy.contains(EntityNames.STAFF)) {
-            //debug("USING EXISTING CACHE " + securityCachingStrategy);
             List<String> cachedIds = new ArrayList<String>();
             cachedIds.addAll(securityCachingStrategy.retrieve(EntityNames.STAFF));
-            //debug(cachedIds.toString());
             return cachedIds;
         }
 
