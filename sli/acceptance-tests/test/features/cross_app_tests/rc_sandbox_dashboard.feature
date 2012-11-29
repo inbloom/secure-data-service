@@ -26,7 +26,8 @@ Scenario: All-in-one scenario
 	And I paste Valid json config into the text box
 	And click Save
 	Then I should be shown a success message
-	When I navigate to the Dashboard home page
+   When I navigate to the Portal home page
+   And under My Applications, I click on "SLC Dashboards"
 	When I select ed org "Daybreak School District 4529"
 	When I select school "East Daybreak Junior High"
 	When I select course "8th Grade English"
