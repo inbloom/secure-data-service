@@ -1086,6 +1086,8 @@ end
 def isCompleted?(file)
   lines = IO.readlines(@landing_zone_path + '/' + file)
   return lines.any?{|line| /^INFO  Processed [0-9]+ records.\n$/.match line}
+rescue SystemCallError
+  return false
 end
 
 def dirContainsBatchJobLog?(dir)
