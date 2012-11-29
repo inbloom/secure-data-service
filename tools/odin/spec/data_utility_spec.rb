@@ -23,73 +23,73 @@ describe "DataUtility" do
   describe "Generates correct _id for each supported entity" do
     describe "#get_student_unique_state_id" do
       it "will generate a student unique state id with the correct format" do
-        DataUtility.get_student_unique_state_id(8042) == "sdnt-0000008042"
+        DataUtility.get_student_unique_state_id(8042).should match("sdnt-0000008042")
       end
     end
 
     describe "#get_parent_unique_state_id" do
       it "will generate a student unique state id with the correct format" do
-        DataUtility.get_parent_unique_state_id(8042) == "prnt-0000008042"
+        DataUtility.get_parent_unique_state_id(8042).should match("prnt-0000008042")
       end
     end
 
     describe "#get_state_education_agency_state_organization_id" do
       it "will generate a student unique state id with the correct format" do
-        DataUtility.get_state_education_agency_id(8042) == "stte-0000008042"
+        DataUtility.get_state_education_agency_id(8042).should match("stte-0000008042")
       end
     end
 
     describe "#get_local_education_agency_state_organization_id" do
       it "will generate a student unique state id with the correct format" do
-        DataUtility.get_local_education_agency_id(8042) == "locl-0000008042"
+        DataUtility.get_local_education_agency_id(8042).should match("locl-0000008042")
       end
     end
 
     describe "#get_elementary_school_id" do
       it "will generate an elementary school stateOrganizationId with the correct format" do
-        DataUtility.get_elementary_school_id(26) == "elem-0000000026"
+        DataUtility.get_elementary_school_id(26).should match("elem-0000000026")
       end
     end
 
     describe "#get_middle_school_id" do
       it "will generate a middle school stateOrganizationId with the correct format" do
-        DataUtility.get_middle_school_id(47) == "midl-0000000047"
+        DataUtility.get_middle_school_id(47).should match("midl-0000000047")
       end
     end
 
     describe "#get_high_school_id" do
       it "will generate a high school stateOrganizationId with the correct format" do
-        DataUtility.get_high_school_id(100375) == "high-0000100375"
+        DataUtility.get_high_school_id(100375).should match("high-0000100375")
       end
     end
 
     describe "#get_course_unique_id" do
       it "will generate a course unique id with the correct format" do
-        DataUtility.get_course_unique_id(100375) == "crse-0000100375"
+        DataUtility.get_course_unique_id(100375).should match("crse-0000100375")
       end
     end
 
     describe "#get_staff_unique_state_id" do
       it "will generate a staff unique state id with the correct format" do
-        DataUtility.get_staff_unique_state_id(146724) == "stff-0000146724"
+        DataUtility.get_staff_unique_state_id(146724).should match("stff-0000146724")
       end
     end
 
     describe "#get_teacher_unique_state_id" do
       it "will generate a teacher unique state id with the correct format" do
-        DataUtility.get_teacher_unique_state_id(146724) == "tech-0000146724"
+        DataUtility.get_teacher_unique_state_id(146724).should match("tech-0000146724")
       end
     end
 
     describe "#get_course_offering_code" do
       it "will generate a course offering code with the correct format" do
-        DataUtility.get_course_offering_code(90125555) == "cofr-0090125555"
+        DataUtility.get_course_offering_code(90125555).should match("cofr-0090125555")
       end
     end
 
     describe "#get_unique_section_id" do
       it "will generate a unique section id with the correct format" do
-        DataUtility.get_unique_section_id(90125555) == "sctn-0090125555"
+        DataUtility.get_unique_section_id(90125555).should match("sctn-0090125555")
       end
     end
   end
@@ -97,15 +97,15 @@ describe "DataUtility" do
   describe "Handles edge cases" do
     describe "state organization id edge cases" do
       it "will handle null input" do
-        DataUtility.get_elementary_school_id(nil) == "elem-0000000000"
+        DataUtility.get_elementary_school_id(nil).should match("elem-0000000000")
       end
 
       it "will handle zero input" do
-        DataUtility.get_elementary_school_id(0) == "elem-0000000000"
+        DataUtility.get_elementary_school_id(0).should match("elem-0000000000")
       end
 
       it "will handle organization ids with more than 10 characters" do
-        DataUtility.get_elementary_school_id(1123581321345589) == "elem-1123581321345589"
+        DataUtility.get_elementary_school_id(1123581321345589).should match("elem-1123581321345589")
       end
     end
   end

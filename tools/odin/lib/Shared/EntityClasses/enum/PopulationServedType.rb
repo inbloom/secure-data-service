@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative "Enum.rb"
+
 # Enumerates the types of populations served. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="PopulationServedType">
 #   <xs:annotation>
@@ -47,4 +49,9 @@ class PopulationServedType
   PopulationServedType.define :MIGRANT_STUDENTS, "Migrant Students"
   PopulationServedType.define :REGULAR_STUDENTS, "Regular Students"
   PopulationServedType.define :SPECIAL_EDUCATION_STUDENTS, "Special Education Students"
+
+  # returns the ed-fi compliant string representation for a population served type
+  def self.to_string(type)
+    const_get(key)
+  end
 end
