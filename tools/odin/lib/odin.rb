@@ -82,7 +82,8 @@ class Odin
     valid = true
     Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
 
-      valid = valid && validate_file(f)
+      
+      valid = valid && validate_file( f )
 
     }
     return valid
