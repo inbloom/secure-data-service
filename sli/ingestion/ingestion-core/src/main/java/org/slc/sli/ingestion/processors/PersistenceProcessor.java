@@ -287,6 +287,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     LOG.error("Exception processing record with entityPersistentHandler", darfe);
                 }
             }
+        } catch (RuntimeException e) {
+            String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
+                    + collectionNameAsStaged + "\n";
+            errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
+            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {

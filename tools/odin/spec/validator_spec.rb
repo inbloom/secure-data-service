@@ -5,7 +5,7 @@ describe "Validator" do
   context "InvalidXML" do
 
     it "should detect Invalid Ed-Fi XML" do
-      valid = validate_file ( File.join( "#{File.dirname(__FILE__)}", "test_data/invalid/InterchangeStudentParent.xml") )
+      valid = validate_file (  File.join( "#{File.dirname(__FILE__)}", "test_data/invalid/InterchangeStudentParent.xml") )
       valid.should be false
     end
   end
