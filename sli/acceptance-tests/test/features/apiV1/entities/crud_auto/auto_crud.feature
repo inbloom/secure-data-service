@@ -13,24 +13,12 @@ Background: Nothing yet
         # Create
         #        Given a valid entity json document for each resource available
         When I navigate to POST for each resource available
-#        # Read
-#        When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 200
-#         And the response should contain the appropriate fields and values
-#         And "entityType" should be <Entity Type>
-#         And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        # Update
+        # Update
 #        When I set the <Update Field> to <Updated Value>
 #         And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
 #        Then I should receive a return code of 204
 #         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
 #         And <Update Field> should be <Updated Value>
-#        # Delete
-#        When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 204
-#         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#         And I should receive a return code of 404
-#
 #
 #
 #    Scenario Outline: CRUD operations requiring explicit associations on an entity as staff

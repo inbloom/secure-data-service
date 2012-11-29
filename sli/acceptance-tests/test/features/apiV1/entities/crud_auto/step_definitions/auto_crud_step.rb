@@ -336,12 +336,10 @@ When /^I navigate to POST for each resource available$/ do
   resources.each do |resource|
     begin
       #post is not allowed for associations
-      if (resource.include? "ssociation") == false
         post_resource resource
         get_resource resource
         delete_resource resource
         puts  "|#{resource[1..-2]}|"
-      end
     rescue =>e
       $stderr.puts"#{resource} ==> #{e}"
     end
