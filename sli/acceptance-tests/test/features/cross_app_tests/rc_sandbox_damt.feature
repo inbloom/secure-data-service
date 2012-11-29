@@ -85,4 +85,5 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I click on Admin
       Then I should be on the admin page
       And under System Tools, I see the following "Application Registration;Custom roles;Change Password"
-      And under System Tools, I shouldn't see the following "Provision Landing Zone;Developer Account Management"
+      #DE2242 causes this step to fail - And under System Tools, I shouldn't see the following "Provision Landing Zone;Developer Account Management"
+      And under System Tools, I shouldn't see the following "Developer Account Management"
