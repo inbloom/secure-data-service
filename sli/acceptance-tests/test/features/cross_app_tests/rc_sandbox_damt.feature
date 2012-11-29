@@ -65,7 +65,8 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       When I click button "Update"
       Then I am redirected to the "Sandbox Account Management" page
       And the "Success" message is displayed
-      When I click on log out
+      When I exit out of the iframe
+      And I click on log out
       Then I will be redirected to realm selector web page
       When I click on the "Sandbox" realm in "Sandbox"
       Then I should be redirected to the impersonation page
