@@ -62,10 +62,11 @@ public class Stage {
         this.status = status;
         this.startTimestamp = new Date(startTimestamp.getTime());
         this.stopTimestamp = new Date (stopTimestamp.getTime());
-        if (metrics == null) {
-            metrics = new LinkedList<Metrics>();
+        List<Metrics> theMetrics = metrics;
+        if (theMetrics == null) {
+            theMetrics = new LinkedList<Metrics>();
         }
-        this.metrics = metrics;
+        this.metrics = theMetrics;
     }
 
     public static Stage createAndStartStage(BatchJobStageType batchJobStageType, String stageDesc) {
