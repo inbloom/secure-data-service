@@ -13,34 +13,60 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
-{{#section}}
+{{#entity}}
   <Section>
-    <UniqueSectionCode>{{id}}</UniqueSectionCode>
+    <UniqueSectionCode>{{unique_section_code}}</UniqueSectionCode>
     <SequenceOfCourse>{{sequence}}</SequenceOfCourse>
     <EducationalEnvironment>{{environment}}</EducationalEnvironment>
     <MediumOfInstruction>{{medium}}</MediumOfInstruction>
     <PopulationServed>{{population}}</PopulationServed>
+    {{#course_offering}}
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>{{courseCode}}</LocalCourseCode>
-         {{>partials/_session_reference}}
+        <LocalCourseCode>{{code}}</LocalCourseCode>
+        {{#session}}
+        <SessionReference>
+          <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-              <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
+                <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>{{name}}</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        {{/session}}
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
             </EducationalOrgIdentity>
           </EducationalOrgReference>
         </CourseOfferingIdentity>
     </CourseOfferingReference>
+    {{/course_offering}}
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
+        <StateOrganizationId>{{school_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    {{>partials/_session_reference}}
+    {{#session}}
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>{{name}}</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    {{/session}}
+    {{#program}}
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>{{program}}</ProgramId>
+        <ProgramId>{{program_id}}</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    {{/program}}
   </Section>
-{{#section}}
+{{#entity}}

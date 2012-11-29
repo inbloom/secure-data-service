@@ -63,7 +63,7 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
  * JUnits for testing the BatchJobMongoDA class.
@@ -113,7 +113,7 @@ public class BatchJobMongoDATest {
     public void testFindBatchJobErrors() {
         List<Error> errors = new ArrayList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid", "sourceIp",
-                "hostname", "recordId", BatchJobUtils.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
+                "hostname", "recordId", BatchJobUtils2.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
         errors.add(error);
 
         when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq("error"))).thenReturn(errors);
@@ -380,7 +380,7 @@ public class BatchJobMongoDATest {
                 "sourceIp" + errorIndex,
                 "hostname" + errorIndex,
                 "recordId" + errorIndex,
-                BatchJobUtils.getCurrentTimeStamp(),
+                BatchJobUtils2.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(),
                 "errorType" + errorIndex,
                 "errorDetail" + errorIndex));

@@ -80,7 +80,7 @@ When zip files are scped to the ingestion landing zone
         | studentAcademicRecord       | 117   |
         | studentAssessment           | 203   |
         | studentCohortAssociation    | 6     |
-        | studentCompetency           | 59    |
+        | studentCompetency           | 60    |
         | studentCompetencyObjective  | 4     |
         | studentDisciplineIncidentAssociation| 8|
         | studentGradebookEntry       | 315   |

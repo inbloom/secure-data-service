@@ -51,8 +51,11 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
  */
 public final class SliDeltaManager {
 
+
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
+
+    private SliDeltaManager() { }
 
     public static final String NRKEYVALUEFIELDNAMES = "neutralRecordKeyValueFieldNames";
     public static final String OPTIONALNRKEYVALUEFIELDNAMES = "optionalNeutralRecordKeyValueFieldNames";

@@ -402,6 +402,17 @@ Then /^I can see the ed\-orgs I want to approve for my application$/ do
   assert(@driver.find_element(:css, 'div.edorgs input[type="checkbox"]') != nil, "We should see the edorgs available for this app")
 end
 
+And /^I can update the version to "100"$/ do 
+  @driver.find_element(:name, 'app[version]').send_keys "100"
+end 
+
+And /^I can delete "(.*?)"$/ do |app_name|
+    step "I have clicked on the button 'Deny' for the application named \"#{app_name}\""
+    step "I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'"
+    step "I click 'Yes'"
+    step "the application named \"#{app_name}\" is removed from the SLI"
+end
+
 private
 def build_edorg(name, tenant, parent = nil, stateId = "Waffles", isLea=true)
   @@mongoid ||= 0

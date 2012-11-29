@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
@@ -109,4 +111,7 @@ public interface BatchJobDAO {
     void removeRecordHashByTenant(String tenantId);
 
     public RecordHash findRecordHash(String tenantId, String recordId);
+
+    public MongoTemplate getMongoTemplate();
+
 }

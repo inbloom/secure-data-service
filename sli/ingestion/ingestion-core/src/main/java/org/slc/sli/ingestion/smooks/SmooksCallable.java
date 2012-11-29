@@ -42,7 +42,6 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.handler.SmooksFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -134,11 +133,11 @@ public class SmooksCallable implements Callable<Boolean> {
                     "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
                     e);
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
-                    SmooksFileHandler.class);
+                    SmooksCallable.class);
         } catch (SAXException e) {
             LogUtil.error(LOG, "Could not instantiate smooks, problem parsing configuration file", e);
             errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
-                    SmooksFileHandler.class);
+                    SmooksCallable.class);
         }
     }
 
@@ -158,7 +157,7 @@ public class SmooksCallable implements Callable<Boolean> {
         } catch (SmooksException se) {
             LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
-            errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
+            errorReport.error("SmooksException encountered while filtering input.", SmooksCallable.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
         }

@@ -182,4 +182,8 @@ public class ParameterConstants {
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
     public static final String PARENT_EDUCATION_AGENCY_REFERENCE = "parentEducationAgencyReference";
     public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+    public static final String STUDENT_UNIQUE_STATE_ID = "studentUniqueStateId";
+    public static final String STAFF_UNIQUE_STATE_ID = "staffUniqueStateId";
+    public static final String PARENT_UNIQUE_STATE_ID = "parentUniqueStateId";
+    public static final String STATE_ORGANIZATION_ID = "stateOrganizationId";
 }
