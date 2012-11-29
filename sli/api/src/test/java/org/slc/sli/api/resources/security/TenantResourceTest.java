@@ -24,6 +24,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -86,7 +88,6 @@ public class TenantResourceTest {
     private SecurityContextInjector injector;
 
     private UriInfo uriInfo;
-    private HttpHeaders httpHeaders;
     private SecurityUtilProxy secUtil;
 
     private static final String TENANT_1 = "IL";
@@ -106,14 +107,9 @@ public class TenantResourceTest {
         // inject administrator security context for unit testing
         injector.setRealmAdminContext();
 
-        List<String> acceptRequestHeaders = new ArrayList<String>();
-        acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-
-        httpHeaders = mock(HttpHeaders.class);
         secUtil = mock(SecurityUtilProxy.class);
         tenantResource.setSecUtil(secUtil);
-        when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
-        when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
+        when(uriInfo.getQueryParameters()).thenReturn(new MultivaluedMapImpl());
 
         tenantResource.setIngestionServerList(Arrays.asList("FIRST", "Second", "third"));
     }
@@ -198,8 +194,9 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testCreate() {
-        Response response = tenantResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+    public void testCreate() throws URISyntaxException {
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants"));
+        Response response = tenantResource.post(new EntityBody(createTestEntity()), uriInfo);
         assertEquals("Status code should be 403", Status.FORBIDDEN.getStatusCode(), response.getStatus());
 
         // String id = ResourceTestUtil.parseIdFromLocation(response);
@@ -208,7 +205,9 @@ public class TenantResourceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCreateAppends() {
+    public void testCreateAppends() throws URISyntaxException {
+
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants"));
 
         String id1 = createLandingZone(new EntityBody(createTestEntity()));
         String id2 = createLandingZone(new EntityBody(createTestAppendEntity()));
@@ -216,7 +215,8 @@ public class TenantResourceTest {
         assertEquals("Both creates should return same id", id1, id2);
 
         // try to get it
-        Response getResponse = tenantResource.read(id1, httpHeaders, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + id1));
+        Response getResponse = tenantResource.getWithId(id1, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
@@ -227,11 +227,12 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testRead() {
+    public void testRead() throws URISyntaxException {
         // create one entity
         String id = createLandingZone(new EntityBody(createTestEntity()));
 
-        Response response = tenantResource.read(id, httpHeaders, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + id));
+        Response response = tenantResource.getWithId(id, uriInfo);
 
         Object responseEntityObj = null;
 
@@ -254,17 +255,18 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete() throws URISyntaxException {
         // create one entity
         String id = createLandingZone(new EntityBody(createTestEntity()));
 
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + id));
         // delete it
-        Response response = tenantResource.delete(id, httpHeaders, uriInfo);
+        Response response = tenantResource.delete(id, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
         try {
             @SuppressWarnings("unused")
-            Response getResponse = tenantResource.read(id, httpHeaders, uriInfo);
+            Response getResponse = tenantResource.getWithId(id, uriInfo);
             fail("should have thrown EntityNotFoundException");
         } catch (EntityNotFoundException e) {
             return;
@@ -274,16 +276,17 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws URISyntaxException {
         // create one entity
         String id = createLandingZone(new EntityBody(createTestEntity()));
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + id));
 
         // update it
-        Response response = tenantResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
+        Response response = tenantResource.put(id, new EntityBody(createTestUpdateEntity()), uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
         // try to get it
-        Response getResponse = tenantResource.read(id, httpHeaders, uriInfo);
+        Response getResponse = tenantResource.getWithId(id, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
@@ -294,13 +297,14 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testReadAll() {
+    public void testReadAll() throws URISyntaxException {
         // create two entities
         createLandingZone(new EntityBody(createTestEntity()));
         createLandingZone(new EntityBody(createTestSecondaryEntity()));
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants"));
 
         // read everything
-        Response response = tenantResource.readAll(0, 100, httpHeaders, uriInfo);
+        Response response = tenantResource.getAll(uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         EntityResponse entityResponse = (EntityResponse) response.getEntity();
@@ -311,8 +315,10 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testReadCommaSeparatedResources() {
-        Response response = tenantResource.read(getIDList("tenants"), httpHeaders, uriInfo);
+    public void testReadCommaSeparatedResources() throws URISyntaxException {
+        String idList = getIDList("tenants");
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + idList));
+        Response response = tenantResource.getWithId(idList, uriInfo);
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
 
         EntityResponse entityResponse = (EntityResponse) response.getEntity();
@@ -332,12 +338,13 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testIngestionServerAssignment() {
+    public void testIngestionServerAssignment() throws URISyntaxException {
         createLandingZone(new EntityBody(createTestEntity()));
         createLandingZone(new EntityBody(createTestAppendEntity()));
         createLandingZone(new EntityBody(createTestSecondaryEntity()));
         // read everything
-        Response response = tenantResource.readAll(0, 100, httpHeaders, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants"));
+        Response response = tenantResource.getAll(uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         EntityResponse entityResponse = (EntityResponse) response.getEntity();
@@ -383,11 +390,12 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testPreload() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public void testPreload() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException {
         injector.setDeveloperContext();
         String id = createLandingZone(new EntityBody(createTestEntity()));
         when(secUtil.getTenantId()).thenReturn(TENANT_1);
         tenantResource.setSandboxEnabled(true);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + id + "/preload"));
         Response r = tenantResource.preload(id, "small", uriInfo);
         assertEquals(Status.CREATED.getStatusCode(), r.getStatus());
         Map<String, Object> e = repo.findById("tenant", id).getBody();

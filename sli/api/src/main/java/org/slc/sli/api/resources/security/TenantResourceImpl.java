@@ -16,18 +16,26 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.DefaultResource;
+import org.slc.sli.api.resources.generic.UnversionedResource;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
@@ -44,30 +52,20 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.context.resolver.RealmHelper;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.enums.Right;
+import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- *
  * Provides CRUD operations on registered application through the /tenants path.
  *
  * @author
@@ -75,8 +73,8 @@ import org.slc.sli.domain.enums.Right;
 @Component
 @Scope("request")
 @Path("tenants")
-@Produces({ HypermediaType.JSON + ";charset=utf-8" })
-public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
+@Produces({HypermediaType.JSON + ";charset=utf-8"})
+public class TenantResourceImpl extends UnversionedResource implements TenantResource {
 
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
@@ -125,7 +123,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     public static final String UUID = "uuid";
-    public static final String RESOURCE_NAME = "tenant";
+    public static final String RESOURCE_NAME = "tenants";
     public static final String TENANT_ID = "tenantId";
     public static final String DB_NAME = "dbName";
     public static final String LZ = "landingZone";
@@ -143,19 +141,17 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
-        super(entityDefs, RESOURCE_NAME);
         store = entityDefs;
     }
 
     @Override
     @POST
-    public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response post(EntityBody newTenant, @Context final UriInfo uriInfo) {
 
         // Tenants can not be created using this class. They will be created via OnboardingResource
         return SecurityUtil.forbiddenResponse();
     }
 
-    @Override
     public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox)
             throws TenantResourceCreationException {
         String newTenantId = createLandingZone(tenantId, edOrgId, null, null, isSandbox);
@@ -172,7 +168,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 "Failed to find landing zone information after creation.");
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     protected String createLandingZone(EntityBody newTenant, boolean isSandbox) throws TenantResourceCreationException {
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
 
@@ -191,9 +187,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 (List<String>) newLz.get(LZ_USER_NAMES), isSandbox);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames,
-            boolean isSandbox) throws TenantResourceCreationException {
+                                       boolean isSandbox) throws TenantResourceCreationException {
 
         // get the exisint tenant resource
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
@@ -291,7 +287,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     private Map<String, Object> buildLandingZone(String edOrgId, String desc, String ingestionServer, String path,
-            List<String> userNames) {
+                                                 List<String> userNames) {
         Map<String, Object> newLandingZone = new HashMap<String, Object>();
         newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
         newLandingZone.put(LZ_DESC, desc);
@@ -313,7 +309,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     /**
      * A mutable integer
-     *
      */
     static class MutableInt {
         int value = 0;
@@ -364,58 +359,49 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Override
     @GET
-    public Response readAll(
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response getAll(@Context final UriInfo uriInfo) {
         SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to view tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-
-        return super.readAll(offset, limit, headers, uriInfo);
+        return super.getAll(uriInfo);
     }
 
     /**
      * Looks up a specific application based on client ID, ie.
      * /api/rest/tenants/<tenantId>
      *
-     * @param tenantId
-     *            the client ID, not the "id"
+     * @param tenantId the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
      */
     @Override
     @GET
     @Path("{" + UUID + "}")
-    public Response read(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to view tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-
-        return super.read(uuid, headers, uriInfo);
+        return super.getWithId(uuid, uriInfo);
     }
 
     /**
      * Preload a landing zone with a sample data set
      *
-     * @param tenantId
-     *            tenant id
-     * @param dataSet
-     *            the name of the data set to preload
-     * @param context
-     *            the uri info
+     * @param tenantId tenant id
+     * @param dataSet  the name of the data set to preload
+     * @param context  the uri info
      * @return
      */
     @SuppressWarnings("deprecation")
     @POST
     @Path("{" + UUID + "}" + "/preload")
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
-        EntityService service = getEntityDefinition("tenant").getService();
+        EntityService service = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody entity = service.get(tenantId);
         String tenantName = (String) entity.get("tenantId");
 
@@ -464,30 +450,27 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @Override
     @DELETE
     @Path("{" + UUID + "}")
-    public Response delete(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to delete tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-
-        return super.delete(uuid, headers, uriInfo);
+        return super.delete(uuid, uriInfo);
     }
 
     @Override
     @PUT
     @Path("{" + UUID + "}")
-    public Response update(@PathParam(UUID) String uuid, EntityBody tenant, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+    public Response put(@PathParam(UUID) String uuid, EntityBody tenant, @Context final UriInfo uriInfo) {
         SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to provision tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-
-        return super.update(uuid, tenant, headers, uriInfo);
+        return super.put(uuid, tenant, uriInfo);
     }
 
     IngestionOnboardingLockChecker getLockChecker() {
