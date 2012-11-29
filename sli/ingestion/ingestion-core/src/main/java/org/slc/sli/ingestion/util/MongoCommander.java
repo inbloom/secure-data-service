@@ -118,13 +118,12 @@ public class MongoCommander {
                 }
 
                 try{
-                    dbConn.getCollection(collection)
-                        .ensureIndex(keys, "idx_"+indexOrder, unique);
+                    dbConn.getCollection(collection).resetIndexCache();
+                    dbConn.getCollection(collection).ensureIndex(keys, "idx_" + indexOrder, unique);
                 } catch(Exception e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }
             }
-
         } else {
             throw new IllegalStateException("Indexes configuration not found.");
         }
@@ -171,6 +170,11 @@ public class MongoCommander {
      */
     private static void moveChunks(String collection, List<String> shards, DB dbConn) {
         int numShards = shards.size();
+
+        if(numShards == 0) {
+            return;
+        }
+
         int charOffset = (int)Math.floor(256 / numShards);
 
         List<String> moveStrings = new ArrayList<String>();
@@ -229,6 +233,11 @@ public class MongoCommander {
 
         List<String> shards = getShards(dbConn);
 
+        //Don't do anything if it is non-sharded
+        if (shards.size() == 0) {
+            return ;
+        }
+
         for(String coll : shardCollections) {
             String collection = dbName + "." + coll;
 
@@ -251,7 +260,6 @@ public class MongoCommander {
 
         //set balancer off
         setBalancerState(dbConn, false);
-        dbConn.getLastError();
     }
 
 }
