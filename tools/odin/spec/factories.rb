@@ -26,12 +26,18 @@ FactoryGirl.define do
     lastName "Snow"
     email "jsnow@thewall.com"
   end
-  
+
   factory :parent do
     initialize_with { new(52, Date.new(1980, 10, 2)) }
     sex "Male"
     firstName "James"
     lastName "Snow"
     email "jsnow1@thewall.com"
+  end
+
+  factory :studentParentAssociation do
+    rand = Random.new(42)
+    initialize_with { new(52, 42, rand) }
+    primaryContactStatus true
   end
 end

@@ -27,58 +27,74 @@ class MasterScheduleGenerator < InterchangeGenerator
 
   # course offering writer
   class CourseOfferingWriter < Mustache
-    def initialize
+    def initialize(batch_size)
       @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/course_offering.mustache"
-      @entity = nil
+      @batch_size    = batch_size
+      @entities      = []
     end
-    def course_offering
-      @entity
+    def course_offerings
+      @entities
     end
-    def write(entity)
-      @entity = entity
-      render
+    def write(handle, entity)
+      @entities << entity
+      if @entities.size >= @batch_size
+        handle.write render
+        @entities = []
+      end
+    end
+    def flush(handle)
+      handle.write render
     end
   end
 
   # section writer
   class SectionWriter < Mustache
-    def initialize
+    def initialize(batch_size)
       @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/section.mustache"
-      @entity = nil
+      @batch_size    = batch_size
+      @entities      = []
     end
-    def section
-      @entity
+    def sections
+      @entities
     end
-    def write(entity)
-      @entity = entity
-      render
+    def write(handle, entity)
+      @entities << entity
+      if @entities.size >= @batch_size
+        handle.write render
+        @entities = []
+      end
+    end
+    def flush(handle)
+      handle.write render
     end
   end
 
   # initialization will define the header and footer for the master schedule interchange
   # writes header to master schedule interchange
   # leaves file handle open for event-based writing of ed-fi entities
-  def initialize
+  def initialize(batch_size)
     @header, @footer = build_header_footer( "MasterSchedule" )
     @handle = File.new("generated/InterchangeMasterSchedule.xml", 'w')
     @handle.write(@header)
 
-    @course_offering_writer = CourseOfferingWriter.new
-    @section_writer         = SectionWriter.new
+    @course_offering_writer = CourseOfferingWriter.new(batch_size)
+    @section_writer         = SectionWriter.new(batch_size)
   end
 
   # creates and writes course offering to interchange
   def create_course_offering(id, title, ed_org_id, session, course)
-    @handle.write @course_offering_writer.write(CourseOffering.new(id, title, ed_org_id, session, course))
+    @course_offering_writer.write(@handle, CourseOffering.new(id, title, ed_org_id, session, course))
   end
 
   # creates and writes section to interchange
-  def create_section
-    #@handle.write @section_writer.write(Section.new(name, year, term, interval, ed_org_id, grading_periods))
+  def create_section(id, sequence, environment, medium, population, school_id, course_offering, session)
+    @section_writer.write(@handle, Section.new(id, sequence, environment, medium, population, school_id, course_offering, session))
   end
 
   # writes footer and closes education organization calendar interchange file handle
   def close
+    @course_offering_writer.flush(@handle)
+    @section_writer.flush(@handle)
     @handle.write(@footer)
     @handle.close()
   end
