@@ -398,4 +398,4 @@ Then I should see user "tenant-b-sea"
 Given I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
 When I attempt to delete the user "tenant-b-sea"
 Then I should receive a return code "404"
->>>>>>> DE2179: add AT for deleting users outside of tenant
+
