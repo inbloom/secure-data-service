@@ -49,9 +49,9 @@ class UserAccountValidation
       ApplicationHelper.verify_email(emailToken)
       return ACCOUNT_VERIFICATION_COMPLETE
     rescue ApprovalEngine::ApprovalException => e
-      logger.error "VERIFICATION ERROR:   #{e}"
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
+      Rails.logger.error "VERIFICATION ERROR:   #{e}"
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join("\n")
 
       if e.error_code == ApprovalEngine::ERR_INVALID_TRANSITION
         return ACCOUNT_PREVIOUSLY_VERIFIED
