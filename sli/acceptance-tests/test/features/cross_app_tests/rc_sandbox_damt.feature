@@ -60,8 +60,11 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And the Role combobox is populated with "Sandbox Administrator"
       And the Role checkbox is checked with "Application Developer,Ingestion User"
       And I can select "Application Developer" from a choice of "Sandbox Administrator, Application Developer, Ingestion User" Role
+      Then the Role combobox is populated with "Application Developer"
       And I can also check "Ingestion User" Role
+      Then the Role checkbox is checked with "Application Developer"
       And I can also check "Application Developer" Role
+      Then the Role checkbox is checked with ""
       When I click button "Update"
       Then I am redirected to the "Sandbox Account Management" page
       And the "Success" message is displayed
@@ -84,4 +87,4 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I click on Admin
       Then I should be on the admin page
       And under System Tools, I see the following "Application Registration;Custom roles;Change Password"
-      And under System Tools, I shouldn't see the following "Developer Account Management"
+      And under System Tools, I shouldn't see the following "Provision Landing Zone;Developer Account Management"
