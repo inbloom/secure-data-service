@@ -97,9 +97,8 @@ end
 
 After do |scenario|
   begin
-     File.delete("./cats_with_lasers.png")
+    File.delete("./cats_with_lasers.png")
   rescue Exception => e
-    STDOUT.puts e.message
   end
   #puts "Running the After hook for Scenario: #{scenario}"s
   if (scenario.failed? and !@driver.nil?)
