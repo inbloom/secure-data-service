@@ -30,9 +30,7 @@ def validate_file ( file )
 
   doc = Nokogiri.XML( File.open( file ) )
 
-  puts doc
-  puts file
-  puts doc.root
+ 
   valid = true
   schemata_by_ns = Hash[ doc.root['schemaLocation'].scan(/(\S+)\s+(\S+)/) ]
   schemata_by_ns.each do |ns,xsd_uri|
