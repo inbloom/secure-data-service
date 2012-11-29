@@ -88,9 +88,12 @@
     <!-- creationTime indexes for all collections -->
     
     <!-- Low cardinality collections -->
+    <!-- approved 10/30 by Tony/Billy -->
     <value>adminDelegation,false,body.localEdorgId,body.appApprovalEnabled</value>
     <value>applicationAuthorization,false,body.appIds</value>
+    <value>applicationAuthorization,false,body.authId,body.authType</value>
     <value>customRole,false,body.realmId</value>
+    <value>customRole,false,metaData.tenantId,body.realmId</value>
     <value>custom_entities,false,metaData.entityId,metaData.clientId</value>
     
     <!-- These should not be needed - we should be able to search on the _id of the container entity -->
@@ -142,8 +145,8 @@
     <value>section,false,body.programReference</value>
     <value>section,false,body.schoolId</value>
     <value>section,false,body.sessionId</value>
-    <value>section,false,body.gradingPeriodReference</value>
-    <value>section,false,body.schoolId</value>
+    <value>session,false,body.gradingPeriodReference</value>
+    <value>session,false,body.schoolId</value>
     <value>staffCohortAssociation,false,body.cohortId</value>
     <value>staffCohortAssociation,false,body.staffId</value>
     <value>staffEducationOrganizationAssociation,false,body.educationOrganizationReference</value>
