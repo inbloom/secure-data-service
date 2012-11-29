@@ -15,28 +15,31 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+require 'mustache'
+require_relative './TemplateCache'
 
-require 'nokogiri'
-require 'open-uri'
+class EntityWriter < Mustache
 
-def xsd_for_file ( file )
-  interchange = file.to_str.match( /Interchange(.*).xml/m)[1]
-  return "SLI-Interchange-#{interchange}.xsd";
-end
+  def initialize(template_name)
+    @template_cache = TemplateCache.instance()
+    @template_name = template_name
+    @entity = nil
 
-def validate_file ( file )
-  xsd = xsd_for_file ( file )
-
-  doc = Nokogiri.XML( File.open( file ) )
-
-  valid = true
-  schemata_by_ns = Hash[ doc.root['schemaLocation'].scan(/(\S+)\s+(\S+)/) ]
-  schemata_by_ns.each do |ns,xsd_uri|
-    xsd = Nokogiri::XML.Schema(open(xsd_uri))
-    xsd.validate(doc).each do |error|
-      valid = false
-      puts "File: #{file} Line: #{error.line} #{error.message}"
-    end
+    ## Enable this to debug mustache issues. This asserts for any missing context lookups.
+    # @raise_on_context_miss = true
   end
-  return valid
+
+  def partial(name)
+    @template_cache.templates["#{name}"]
+  end
+
+  def entity
+    @entity
+  end
+
+  def write(entity)
+    @entity = entity
+    render(@template_cache.templates[@template_name], entity)
+  end
+
 end

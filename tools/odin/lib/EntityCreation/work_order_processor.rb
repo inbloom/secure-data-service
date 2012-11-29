@@ -36,8 +36,10 @@ class WorkOrderProcessor
     numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
     File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
       studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
+      studentParent.start
       File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
         enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
+        enrollment.start
         interchanges = {:studentParent => studentParent, :enrollment => enrollment}
         processor = WorkOrderProcessor.new(interchanges)
         for id in 1..yamlHash['studentCount'] do
@@ -61,9 +63,9 @@ class WorkOrderProcessor
             initial_grade_breakdown = students[years.first]
             initial_grade_breakdown.each{|grade, num_students|
               (1..num_students).each{|_|
-                student_id += 1
+              student_id += 1
                 y.yield StudentWorkOrder.new(student_id, edOrg, years, grade)
-              }
+            }
             }
           end
         }
