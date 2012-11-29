@@ -323,18 +323,26 @@ After do |scenario|
       conn = Mongo::Connection.new("jenkins.slidev.org")
       db = conn.db("test_job_failures")
       failures = db.collection("failure")
-      title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.title : scenario.title
+      title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.name.split("\n")[0] : scenario.feature.name.split("\n")[0]
+      scenarioName = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.name : scenario.name
+      host = Socket.gethostname.include?("cislave")? Socket.gethostname : "local"
+      
+      filepath = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.file : scenario.feature.file
+      component = filepath.match(/test[\\\/]features[\\\/]([^\\\/]+)[\\\/]/)[1]
+      
       failureHash = {
        "timestamp" => Time.now.to_f,
        "feature" => title,
-       "scenario" => scenario.name,
-       "hostname" => Socket.gethostname
+       "scenario" => scenarioName,
+       "component" => component,
+       "hostname" => host
       }
       failures.insert(failureHash)
       db.get_last_error()
-      conn.close
     rescue
       # If couldn't report failure, swallow the exception and continue
+    ensure
+      conn.close if conn != nil
     end
     Cucumber.wants_to_quit = true if !ENV['FAILSLOW']
   end

@@ -20,10 +20,8 @@ require 'mustache'
 require_relative "./interchangeGenerator"
 require_relative "../../Shared/EntityClasses/studentSchoolAssociation"
 require_relative '../../Shared/util'
-
 class StudentEnrollment < Mustache
   attr_accessor :studentSchools
-
   def initialize(entities)
     @studentSchools = entities
   end
@@ -31,16 +29,16 @@ class StudentEnrollment < Mustache
   def self.template_path
     "#{File.dirname(__FILE__)}/interchangeTemplates"
   end
-    
+
 end
 
 class EnrollmentGenerator < InterchangeGenerator
-
   def initialize(interchange, batchSize)
     super(interchange, batchSize)
 
     @header, @footer = build_header_footer( "StudentEnrollment" )
-    @generator = StudentEnrollment 
+    @generators = Hash.new
+    @generators[ StudentSchoolAssociation ] = StudentEnrollment
 
     start()
   end

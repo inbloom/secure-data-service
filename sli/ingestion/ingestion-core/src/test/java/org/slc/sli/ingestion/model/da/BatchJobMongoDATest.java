@@ -428,8 +428,8 @@ public class BatchJobMongoDATest {
 
         // First call to upsertRecordHash.
         mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
-        String savedTimestamp = dbAnswer.savedRecordHash.timestamp;
-        String savedId = dbAnswer.savedRecordHash._id;
+        String savedTimestamp = dbAnswer.savedRecordHash.getTimestamp();
+        String savedId = dbAnswer.savedRecordHash.get_id();
 
         // Add delay between 2 calls to findAndUpsertRecordHash() so that recordHash timestamp changes.
         try {
@@ -440,8 +440,8 @@ public class BatchJobMongoDATest {
 
         // Second call to upsertRecordHash.
         mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
-        String updatedTimestamp = dbAnswer.savedRecordHash.timestamp;
-        String updatedId = dbAnswer.savedRecordHash._id;
+        String updatedTimestamp = dbAnswer.savedRecordHash.getTimestamp();
+        String updatedId = dbAnswer.savedRecordHash.get_id();
         Assert.assertTrue(savedId.equals(updatedId));
 
         // The timestamp on the recordHash should have changed after the second call.

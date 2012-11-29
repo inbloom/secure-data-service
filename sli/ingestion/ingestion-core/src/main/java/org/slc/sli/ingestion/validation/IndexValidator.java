@@ -92,7 +92,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
             errorMessage += parseFile("sli_indexes.js", sliIndexCache, mongoTemplate);
             errorMessage += parseFile("ingestion_batch_job_indexes.js", batchJobIndexCache, batchJobMongoTemplate);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
             log.error("Error occured while verifying indexes: " + e.getLocalizedMessage());
         }
 

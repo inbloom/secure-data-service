@@ -29,7 +29,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # session writer
   class SessionWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/session.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/session.mustache"
       @entity = nil
     end
     def session
@@ -44,7 +44,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # grading period writer
   class GradingPeriodWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/grading_period.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/grading_period.mustache"
       @entity = nil
     end
     def grading_period
@@ -59,7 +59,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # calendar date writer
   class CalendarDateWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/calendar_date.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/calendar_date.mustache"
       @entity = nil
     end
     def calendar_date

@@ -30,7 +30,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # state education agency writer
   class StateEducationAgencyWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/state_education_organization.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/state_education_organization.mustache"
       @entity = nil
     end
     def state_education_agency
@@ -45,7 +45,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # local education agency writer
   class LocalEducationAgencyWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/local_education_organization.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/local_education_organization.mustache"
       @entity = nil
     end
     def local_education_agency
@@ -60,7 +60,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # school writer
   class SchoolWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/school.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/school.mustache"
       @entity = nil
     end
     def school
@@ -75,7 +75,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # course writer
   class CourseWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/course.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/course.mustache"
       @entity = nil
     end
     def course
