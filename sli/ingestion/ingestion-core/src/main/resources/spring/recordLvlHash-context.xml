@@ -7,17 +7,20 @@
 
   <!-- SLI-Ed-Fi neutral record types for which record level hash processing is supported -->
   <util:set id="recordLvlHashNeutralRecordTypes" set-class="java.util.HashSet" value-type="java.lang.String">
+<!--    <value>attendance</value> Transformed so needs additional work.  Excluded from DID resolver due to StudentReference - should be fixed later. -->
     <value>calendarDate</value>  <!-- no EdOrgId in Ed-Fi yet --> 
     <value>cohort</value> <!-- has EdOrg ref as key field -->
     <value>competencyLevelDescriptor</value>
     <value>course</value>
-    <value>courseOffering</value> <!-- needs DID ref resolution for SchoolReference and SessionReference -->
-    <value>disciplineAction</value> <!-- needs DID ref resolution for ResponsibilitySchoolReference --> 
-    <value>disciplineIncident</value> <!-- needs DID ref resolution for SchoolReference -->
-    <value>grade</value> <!-- needs DID ref resolution for GradingPeriodReference -->
-    <value>gradebookEntry</value> <!-- needs at least DID ref resolution for SectionReference -->
-    <value>gradingPeriod</value> <!-- nested field reference -->
+    <value>courseOffering</value>
+    <value>courseTranscript</value>
+    <value>disciplineAction</value>
+    <value>disciplineIncident</value>
+    <value>grade</value>
+    <value>gradebookEntry</value>
+    <value>gradingPeriod</value>
     <value>graduationPlan</value>
+    <value>learningObjective</value>
     <value>learningStandard</value> <!-- does not include interchange in createOn value, key field name is nested -->
     <value>localEducationAgency</value>
     <value>parent</value>
@@ -45,9 +48,6 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-<!--    <value>attendance</value> Transformed so needs additional work.  Excluded from DID resolver due to StudentReference - should be fixed later. -->
-    <value>learningObjective</value>
-    <value>courseTranscript</value>
   </util:set>
 
 </beans>

@@ -54,18 +54,18 @@ public final class SliDeltaManager {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
 
-    private static String NRKEYVALUEFIELDNAMES = "neutralRecordKeyValueFieldNames";
-    private static String OPTIONALNRKEYVALUEFIELDNAMES = "optionalNeutralRecordKeyValueFieldNames";
+    public static final String NRKEYVALUEFIELDNAMES = "neutralRecordKeyValueFieldNames";
+    public static final String OPTIONALNRKEYVALUEFIELDNAMES = "optionalNeutralRecordKeyValueFieldNames";
 
-	/**
-	 * Calculate record ID and values hash for NeutralRecord and save in metadata.
-	 * Return true iff data is unchanged (no updated needed)
-	 *
-	 * @param n
-	 * @param batchJobDAO
-	 * @param dIdStrategy
-	 * @return
-	 */
+    /**
+     * Calculate record ID and values hash for NeutralRecord and save in metadata.
+     * Return true iff data is unchanged (no updated needed)
+     *
+     * @param n
+     * @param batchJobDAO
+     * @param dIdStrategy
+     * @return
+     */
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
             DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, ErrorReport errorReport) {
         boolean isPrevIngested = false;
