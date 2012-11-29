@@ -82,6 +82,8 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="searchUsername" value="${sli.search.username}" />
 		<property name="searchPassword" value="${sli.search.password}" />
 		<property name="searchTemplate" ref="searchTemplate" />
+		<property name="retryCount" value="${sli.search.indexer.retryCount:2}"></property>
+		<property name="retryWaitMillis" value="${sli.search.indexer.retryWaitMillis:2000}"></property>
 	</bean>
 	
 	<bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl" init-method="init" destroy-method="destroy">

@@ -21,19 +21,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-
 import org.slc.sli.search.connector.SearchEngineConnector;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.util.IndexEntityUtil;
 import org.slc.sli.search.util.NestedMapUtil;
 import org.slc.sli.search.util.RecoverableIndexerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 
 /**
  * A convenience class for elasticsearch bulk operations
@@ -41,6 +40,8 @@ import org.slc.sli.search.util.RecoverableIndexerException;
  */
 public class ESOperation extends ESConnector implements SearchEngineConnector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private int retryCount = 2;
+    private long retryWaitMillis = 200;
 
     private String esUrl;
     private String bulkUri;
@@ -87,12 +88,20 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
             if (docs == null || docs.isEmpty()) {
                 return;
             }
+            tryExecute(docs, 0);
+        }
+        
+        void tryExecute(List<IndexEntity> docs, int currentRetryCount) {
             try {
                 try {
                     doExecute(docs);
                 } catch (RecoverableIndexerException e) {
-                    logger.error("An exception trying to execute ES operation. Retrying...", e);
-                    doExecute(docs);
+                    if (currentRetryCount < retryCount) {
+                        logger.error("An exception trying to execute ES operation. Retrying...", e);
+                        // TODO: recovery and number of retries should be something configurable
+                        Thread.sleep(retryWaitMillis);
+                        tryExecute(docs, currentRetryCount ++);
+                    }
                 }
             } catch (Exception e) {
                 logger.error("Something happened while performing ES operation. Will not re-try.", e);
@@ -289,5 +298,13 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
 
     public String getIndexTypeUri() {
         return indexTypeUri;
+    }
+    
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
+    
+    public void setRetryWaitMillis(long retryWaitMillis) {
+        this.retryWaitMillis = retryWaitMillis;
     }
 }
