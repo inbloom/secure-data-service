@@ -23,7 +23,7 @@ require 'factory_girl'
 FactoryGirl.find_definitions
 
 describe 'StudentGenerator' do
-  let(:path) { File.join( "#{File.dirname(__FILE__)}/", "unit_generated/InterchangeStudent2.xml" ) }
+  let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudent.xml" ) }
   let(:interchange) { File.open( path, 'w')}
   let(:generator) {StudentParentInterchangeGenerator.new(interchange, 1)}
   let(:student) {FactoryGirl.build(:student)}
