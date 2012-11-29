@@ -1,3 +1,4 @@
+@wip
 Feature: Test the long lived session token generator
 
 Scenario: Create a long lived session for user sgoddard
