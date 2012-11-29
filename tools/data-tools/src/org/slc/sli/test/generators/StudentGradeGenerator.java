@@ -17,6 +17,7 @@
 package org.slc.sli.test.generators;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,43 +33,50 @@ import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.CourseAttemptResultType;
 import org.slc.sli.test.edfi.entities.CourseReferenceType;
 import org.slc.sli.test.edfi.entities.CourseRepeatCodeType;
-import org.slc.sli.test.edfi.entities.CourseTranscript;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
+import org.slc.sli.test.edfi.entities.SLCCourseReferenceType;
+import org.slc.sli.test.edfi.entities.SLCCourseTranscript;
 import org.slc.sli.test.edfi.entities.CreditType;
 import org.slc.sli.test.edfi.entities.Credits;
 import org.slc.sli.test.edfi.entities.Diploma;
 import org.slc.sli.test.edfi.entities.DiplomaLevelType;
 import org.slc.sli.test.edfi.entities.DiplomaType;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.Grade;
+import org.slc.sli.test.edfi.entities.SLCDiplomaReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCGrade;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.GradeReferenceType;
+import org.slc.sli.test.edfi.entities.SLCGradeReferenceType;
 import org.slc.sli.test.edfi.entities.GradeType;
-import org.slc.sli.test.edfi.entities.GradebookEntry;
-import org.slc.sli.test.edfi.entities.GradingPeriod;
-import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
-import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
+import org.slc.sli.test.edfi.entities.SLCGradebookEntry;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriod;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriodReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
-import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
+import org.slc.sli.test.edfi.entities.SLCLearningObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.MethodCreditEarnedType;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.Recognition;
 import org.slc.sli.test.edfi.entities.RecognitionType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
-import org.slc.sli.test.edfi.entities.ReportCard;
+import org.slc.sli.test.edfi.entities.SLCReportCard;
+import org.slc.sli.test.edfi.entities.SLCReportCardReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentCompetencyReferenceType;
 import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
-import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.SessionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCSectionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCSessionReferenceType;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
-import org.slc.sli.test.edfi.entities.StudentAcademicRecord;
-import org.slc.sli.test.edfi.entities.StudentAcademicRecordReferenceType;
-import org.slc.sli.test.edfi.entities.StudentCompetency;
-import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
-import org.slc.sli.test.edfi.entities.StudentGradebookEntry;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.StudentSectionAssociationIdentityType;
-import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentAcademicRecord;
+import org.slc.sli.test.edfi.entities.SLCStudentAcademicRecordReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentCompetency;
+import org.slc.sli.test.edfi.entities.SLCStudentCompetencyObjectiveReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentGradebookEntry;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 
 public class StudentGradeGenerator {
 
@@ -94,33 +102,35 @@ public class StudentGradeGenerator {
         return num < 0 ? -1 * num : num;
     }
 
-    public static StudentSectionAssociationReferenceType getStudentSectionAssociationReference(
-            StudentReferenceType student, SectionReferenceType section) {
-        StudentSectionAssociationReferenceType ssaRef = new StudentSectionAssociationReferenceType();
-        StudentSectionAssociationIdentityType ssaIdentity = new StudentSectionAssociationIdentityType();
+    public static SLCStudentSectionAssociationReferenceType getStudentSectionAssociationReference(
+            SLCStudentReferenceType student, SLCSectionReferenceType section) {
+    	SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
+    	SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
-        ssaIdentity.setStudentIdentity(student.getStudentIdentity());
-        ssaIdentity.setSectionIdentity(section.getSectionIdentity());
+        ssaIdentity.setStudentReference(student);
+        ssaIdentity.setSectionReference(section);
+        ssaIdentity.setBeginDate(CalendarDateGenerator.generatDate());
         return ssaRef;
     }
 
     public static SLCStudentSectionAssociationReferenceType getSLCStudentSectionAssociationReference(
-            StudentReferenceType student, SectionReferenceType section) {
+    		SLCStudentReferenceType student, SLCSectionReferenceType section) {
         SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
         SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
-        StudentReferenceType stuRef = new StudentReferenceType();
-        SectionReferenceType secRef = new SectionReferenceType();
+        SLCStudentReferenceType stuRef = new SLCStudentReferenceType();
+        SLCSectionReferenceType secRef = new SLCSectionReferenceType();
         stuRef.setStudentIdentity(student.getStudentIdentity());
         secRef.setSectionIdentity(section.getSectionIdentity());
         ssaIdentity.setStudentReference(stuRef);
         ssaIdentity.setSectionReference(secRef);
+        ssaIdentity.setBeginDate(CalendarDateGenerator.generatDate());
         return ssaRef;
     }
 
-    public static StudentAcademicRecord getStudentAcademicRecord(StudentReferenceType studentRef,
-            SessionReferenceType sessionRef, List<ReferenceType> reportCardRef, ReferenceType diplomaRef) {
-        StudentAcademicRecord sar = new StudentAcademicRecord();
+    public static SLCStudentAcademicRecord getStudentAcademicRecord(SLCStudentReferenceType studentRef,
+            SLCSessionReferenceType sessionRef, List<SLCReportCardReferenceType> reportCardRef, SLCDiplomaReferenceType diplomaRef) {
+        SLCStudentAcademicRecord sar = new SLCStudentAcademicRecord();
         Credits earned = new Credits();
         sar.setCumulativeCreditsEarned(earned);
         earned.setCredit(new BigDecimal(3));
@@ -163,16 +173,16 @@ public class StudentGradeGenerator {
         if (sessionRef != null)
             sar.setSessionReference(sessionRef);
         if (reportCardRef != null)
-            sar.getReportCardReference().addAll(reportCardRef);
+        	sar.getReportCardReference().addAll(reportCardRef);
         if (diplomaRef != null)
             sar.setDiplomaReference(diplomaRef);
         return sar;
     }
 
-    public static ReportCard getReportCard(StudentReferenceType studentRef,
-            GradingPeriodReferenceType gradingPeriodRef, List<GradeReferenceType> gradeReference,
-            List<ReferenceType> scReference) {
-        ReportCard reportCard = new ReportCard();
+    public static SLCReportCard getReportCard(SLCStudentReferenceType studentRef,
+            SLCGradingPeriodReferenceType gradingPeriodRef, List<SLCGradeReferenceType> gradeReference,
+            List<SLCStudentCompetencyReferenceType> scReference) {
+        SLCReportCard reportCard = new SLCReportCard();
         if (gradeReference != null)
             reportCard.getGradeReference().addAll(gradeReference);
         if (scReference != null)
@@ -189,12 +199,12 @@ public class StudentGradeGenerator {
         return reportCard;
     }
 
-    public static Grade getGrade(StudentSectionAssociationReferenceType ssaRef,
-            GradingPeriodReferenceType gradingPeriodRef) {
+    public static SLCGrade getGrade(SLCStudentSectionAssociationReferenceType ssaRef,
+            SLCGradingPeriodReferenceType gradingPeriodRef) {
 
-        Grade grade = new Grade();
+        SLCGrade grade = new SLCGrade();
         grade.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
-        grade.setNumericGradeEarned(3);
+        grade.setNumericGradeEarned(BigInteger.valueOf(3));
         grade.setDiagnosticStatement("Grade Exam Taken");
         grade.setGradeType(GradeType.EXAM);
         grade.setPerformanceBaseConversion(PerformanceBaseType.BASIC);
@@ -205,9 +215,9 @@ public class StudentGradeGenerator {
         return grade;
     }
 
-    public static StudentCompetency getStudentCompetency(StudentSectionAssociationReferenceType ssaRef,
-            LearningObjectiveReferenceType learningObjectiveRef, StudentCompetencyObjectiveReferenceType scoRef) {
-        StudentCompetency studentCompetancy = new StudentCompetency();
+    public static SLCStudentCompetency getStudentCompetency(SLCStudentSectionAssociationReferenceType ssaRef,
+            SLCLearningObjectiveReferenceType learningObjectiveRef, SLCStudentCompetencyObjectiveReferenceType scoRef) {
+    	SLCStudentCompetency studentCompetancy = new SLCStudentCompetency();
         CompetencyLevelDescriptorType cl = new CompetencyLevelDescriptorType();
         studentCompetancy.setCompetencyLevel(cl);
         // cl.getCodeValueOrDescription()
@@ -250,9 +260,9 @@ public class StudentGradeGenerator {
         return diploma;
     }
 
-    public static CourseTranscript getCourseTranscript(CourseReferenceType courseRef,
-            StudentAcademicRecordReferenceType academicRecordRef, EducationalOrgReferenceType school) {
-        CourseTranscript courseTranscript = new CourseTranscript();
+    public static SLCCourseTranscript getCourseTranscript(SLCCourseReferenceType courseRef,
+            SLCStudentAcademicRecordReferenceType academicRecordRef, SLCEducationalOrgReferenceType school) {
+        SLCCourseTranscript courseTranscript = new SLCCourseTranscript();
         courseTranscript.setCourseAttemptResult(CourseAttemptResultType.PASS);
 
         Credits creditsAttempted = new Credits();
@@ -278,16 +288,23 @@ public class StudentGradeGenerator {
         courseTranscript.setCourseRepeatCode(CourseRepeatCodeType.REPEAT_COUNTED);
 
         courseTranscript.setCourseReference(courseRef);
-        courseTranscript.getEducationOrganizationReference().add(school);
+
+        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        eoit.setStateOrganizationId(school.getEducationalOrgIdentity().getStateOrganizationId());
+
+        eort.setEducationalOrgIdentity(eoit);
+
+        courseTranscript.getEducationOrganizationReference().add(eort);
 
         courseTranscript.setStudentAcademicRecordReference(academicRecordRef);
         return courseTranscript;
     }
 
-    public static GradebookEntry getGradeBookEntry(GradingPeriodReferenceType gradingPeriodRef,
-            SectionReferenceType sectionRef) {
+    public static SLCGradebookEntry getGradeBookEntry(SLCGradingPeriodReferenceType gradingPeriodRef,
+    		SLCSectionReferenceType sectionRef) {
         idCount++;
-        GradebookEntry gbe = new GradebookEntry();
+        SLCGradebookEntry gbe = new SLCGradebookEntry();
         gbe.setDateAssigned(thisDay);
 
         String gradeBookEntry = "Quiz Test".split(" ")[rand.nextInt(2)] + " " + idCount;
@@ -298,8 +315,8 @@ public class StudentGradeGenerator {
         return gbe;
     }
 
-    public static GradingPeriod getGradingPeriod() {
-        GradingPeriod period = new GradingPeriod();
+    public static SLCGradingPeriod getGradingPeriod() {
+    	SLCGradingPeriod period = new SLCGradingPeriod();
         period.setBeginDate(oneYearAgo);
         period.setEndDate(thisDay);
 
@@ -313,9 +330,9 @@ public class StudentGradeGenerator {
         return period;
     }
 
-    public static GradingPeriodReferenceType getGradingPeriodReferenceType(GradingPeriod period,
+    public static SLCGradingPeriodReferenceType getGradingPeriodReferenceType(SLCGradingPeriod period,
             EducationOrgIdentificationCode edOrg) {
-        GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
+    	SLCGradingPeriodReferenceType ref = new SLCGradingPeriodReferenceType();
         SLCGradingPeriodIdentityType identity = new SLCGradingPeriodIdentityType();
         identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
         identity.setBeginDate(period.getBeginDate());
@@ -324,22 +341,23 @@ public class StudentGradeGenerator {
         return ref;
     }
 
-    public static StudentGradebookEntry getStudentGradebookEntry(SectionReferenceType section,
-            StudentReferenceType student) {
-        StudentGradebookEntry sgbe = new StudentGradebookEntry();
+    public static SLCStudentGradebookEntry getStudentGradebookEntry(SLCSectionReferenceType section,
+    		SLCStudentReferenceType student) {
+    	SLCStudentGradebookEntry sgbe = new SLCStudentGradebookEntry();
         sgbe.setDateFulfilled(thisDay);
         sgbe.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
-        sgbe.setNumericGradeEarned(1);
+        sgbe.setNumericGradeEarned(BigInteger.valueOf(1));
 
         CompetencyLevelDescriptorType cld = new CompetencyLevelDescriptorType();
         sgbe.setCompetencyLevel(cld);
         sgbe.setDiagnosticStatement("Diagnostic Statement");
 
-        StudentSectionAssociationReferenceType ssRef = new StudentSectionAssociationReferenceType();
-        StudentSectionAssociationIdentityType ssIdentity = new StudentSectionAssociationIdentityType();
+        SLCStudentSectionAssociationReferenceType ssRef = new SLCStudentSectionAssociationReferenceType();
+        SLCStudentSectionAssociationIdentityType ssIdentity = new SLCStudentSectionAssociationIdentityType();
         ssRef.setStudentSectionAssociationIdentity(ssIdentity);
-        ssIdentity.setSectionIdentity(section.getSectionIdentity());
-        ssIdentity.setStudentIdentity(student.getStudentIdentity());
+        ssIdentity.setSectionReference(section);
+        ssIdentity.setStudentReference(student);
+        ssIdentity.setBeginDate(CalendarDateGenerator.generatDate());
 
         sgbe.setStudentSectionAssociationReference(ssRef);
         return sgbe;

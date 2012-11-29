@@ -17,44 +17,46 @@
 
 package org.slc.sli.test.generators;
 
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.StaffClassificationType;
-import org.slc.sli.test.edfi.entities.StaffEducationOrgAssignmentAssociation;
-import org.slc.sli.test.edfi.entities.StaffIdentityType;
-import org.slc.sli.test.edfi.entities.StaffReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStaffEducationOrgAssignmentAssociation;
+import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StaffEdOrgAssignmentAssociationGenerator {
 
-    public static StaffEducationOrgAssignmentAssociation generateLowFi(StaffMeta staffMeta) {
-        StaffEducationOrgAssignmentAssociation staffEdOrgAssignmentAssoc = new StaffEducationOrgAssignmentAssociation();
+    public static SLCStaffEducationOrgAssignmentAssociation generateLowFi(StaffMeta staffMeta) {
+        SLCStaffEducationOrgAssignmentAssociation staffEdOrgAssignmentAssoc = new SLCStaffEducationOrgAssignmentAssociation();
 
-       
+
 
 		if (MetaRelations.StaffEducationOrgAssignment_Ref) {
-			StaffReferenceType staffReferenceType = new StaffReferenceType();
-			Ref staffRef = new Ref(staffMeta.id);
-			staffReferenceType.setRef(staffRef);
-			staffEdOrgAssignmentAssoc.setStaffReference(staffReferenceType);
+//			IDREF support deprecated
+//
+//			SLCStaffReferenceType staffReferenceType = new SLCStaffReferenceType();
+//			Ref staffRef = new Ref(staffMeta.id);
+//			staffReferenceType.setRef(staffRef);
+//			staffEdOrgAssignmentAssoc.setStaffReference(staffReferenceType);
 		} else {
-			StaffReferenceType staffReferenceType = new StaffReferenceType();
-			StaffIdentityType staffIdentityType = new StaffIdentityType();
+			SLCStaffReferenceType staffReferenceType = new SLCStaffReferenceType();
+			SLCStaffIdentityType staffIdentityType = new SLCStaffIdentityType();
 			staffIdentityType.setStaffUniqueStateId(staffMeta.id);
 			staffReferenceType.setStaffIdentity(staffIdentityType);
 			staffEdOrgAssignmentAssoc.setStaffReference(staffReferenceType);
 		}
-        
+
 //        staffReferenceType.setStaffIdentity(staffIdentityType);
 //        staffEdOrgAssignmentAssoc.setStaffReference(staffReferenceType);
 
-        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+		SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
         //edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(staffMeta.edOrgId);
         edOrgIdentity.setStateOrganizationId(staffMeta.edOrgId);
 
-        EducationalOrgReferenceType edOrgReferenceType = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType edOrgReferenceType = new SLCEducationalOrgReferenceType();
         edOrgReferenceType.setEducationalOrgIdentity(edOrgIdentity);
 
         staffEdOrgAssignmentAssoc.setEducationOrganizationReference(edOrgReferenceType);

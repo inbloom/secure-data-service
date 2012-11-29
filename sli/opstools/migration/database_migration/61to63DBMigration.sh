@@ -29,7 +29,8 @@
        #move adminDelegation into tenant db
        mongo sli --eval "db.adminDelegation.find({'metaData.tenantId': '${tenant}'}).forEach(function(d) {db = db.getSisterDB('${sha1DBName}');db.adminDelegation.insert(d);})"
 
-       #remove all the tenant-specified collections from sli
-       mongo sli --eval "db.getCollectionNames().forEach(function(coll) {if (coll!='system.indexes' && coll != 'system.js' && coll != 'system.profile' && coll != 'system.users' && coll != 'system.namespaces' && coll != 'tenant' && coll != 'securityEvent' && coll != 'realm' && coll != 'application' && coll != 'roles' && coll != 'tenantJobLock' && coll != 'userSession' && coll != 'userAccount') db[coll].drop(); })"
-
   done
+
+#remove all the tenant-specified collections from sli
+mongo sli --eval "db.getCollectionNames().forEach(function(coll) {if (coll!='system.indexes' && coll != 'system.js' && coll != 'system.profile' && coll != 'system.users' && coll != 'system.namespaces' && coll != 'tenant' && coll != 'securityEvent' && coll != 'realm' && coll != 'application' && coll != 'roles' && coll != 'tenantJobLock' && coll != 'userSession' && coll != 'userAccount') db[coll].drop(); })"
+
