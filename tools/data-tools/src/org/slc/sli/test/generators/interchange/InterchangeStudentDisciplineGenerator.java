@@ -24,11 +24,11 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import org.slc.sli.test.edfi.entities.DisciplineAction;
-import org.slc.sli.test.edfi.entities.DisciplineIncident;
+import org.slc.sli.test.edfi.entities.SLCDisciplineAction;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncident;
 import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
-import org.slc.sli.test.edfi.entities.Program;
-import org.slc.sli.test.edfi.entities.StudentDisciplineIncidentAssociation;
+import org.slc.sli.test.edfi.entities.SLCProgram;
+import org.slc.sli.test.edfi.entities.SLCStudentDisciplineIncidentAssociation;
 import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
@@ -77,7 +77,7 @@ public class InterchangeStudentDisciplineGenerator {
     }
 
     /**
-     * Call DisciplineIncidentGenerator to populates data into 
+     * Call DisciplineIncidentGenerator to populates data into
      * the interchange.
      *
      * @param interchangeObjects
@@ -87,7 +87,7 @@ public class InterchangeStudentDisciplineGenerator {
 
     	int count=0;
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
-            DisciplineIncident retVal;
+            SLCDisciplineIncident retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 retVal = null;
@@ -99,11 +99,11 @@ public class InterchangeStudentDisciplineGenerator {
             count++;
         }
         return count;
-        
+
     }
 
     /**
-     * Call DisciplineActionGenerator to populates data into 
+     * Call DisciplineActionGenerator to populates data into
      * the interchange.
      *
      * @param interchangeObjects
@@ -113,7 +113,7 @@ public class InterchangeStudentDisciplineGenerator {
 
     	int count=0;
         for (DisciplineActionMeta disciplineActionMeta : disciplineActionMetas) {
-            DisciplineAction retVal;
+            SLCDisciplineAction retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 retVal = null;
@@ -129,7 +129,7 @@ public class InterchangeStudentDisciplineGenerator {
     }
 
     /**
-     * Call StaffCohortAssociationGenerator to populates data into 
+     * Call StudentDisciplineIncidentAssociationGenerator to populates data into
      * the interchange.
      *
      * @param interchangeObjects
@@ -139,11 +139,11 @@ public class InterchangeStudentDisciplineGenerator {
 
     	int count=0;
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
-            
-            List<StudentDisciplineIncidentAssociation> retVal;
+
+            List<SLCStudentDisciplineIncidentAssociation> retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = new ArrayList<StudentDisciplineIncidentAssociation>(0);
+                retVal = new ArrayList<SLCStudentDisciplineIncidentAssociation>(0);
             } else {
                 StudentDisciplineAssociationGenerator.generateLowFi(iWriter,disciplineIncidentMeta);
             }
@@ -151,5 +151,5 @@ public class InterchangeStudentDisciplineGenerator {
         }
         return count;
     }
-    
+
 }

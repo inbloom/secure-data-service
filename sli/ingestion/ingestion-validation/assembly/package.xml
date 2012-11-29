@@ -39,13 +39,14 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>${project.parent.parent.basedir}/domain/src/main/resources/</directory>
-      <outputDirectory>/OfflineValidationTool/ingestion-base/src/main/resources</outputDirectory>
+      <directory>${project.parent.parent.basedir}/edfi-schema/src/main/resources/</directory>
+      <outputDirectory>/OfflineValidationTool/edfi-schema/src/main/resources</outputDirectory>
       <includes>
         <include>edfiXsd/Ed-Fi-Core.xsd</include>
         <include>edfiXsd-SLI/*</include>
       </includes>
     </fileSet>
+    
   </fileSets>
   
   <files>
@@ -60,9 +61,16 @@
     <destName>pom.xml</destName>
   </file>
   <file>
-    <source>${project.parent.basedir}/ingestion-validation/assembly/pom-ingestion-base.xml</source>
+    <source>${project.parent.basedir}/ingestion-base/pom.xml</source>
     <outputDirectory>/OfflineValidationTool/ingestion-base</outputDirectory>
     <destName>pom.xml</destName>
   </file>
+  
+    <file>
+    <source>${project.parent.parent.basedir}/edfi-schema/pom.xml</source>
+    <outputDirectory>/OfflineValidationTool/edfi-schema</outputDirectory>
+    <destName>pom.xml</destName>
+  </file>
+  
   </files>
 </assembly>
