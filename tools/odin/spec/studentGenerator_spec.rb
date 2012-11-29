@@ -28,11 +28,14 @@ describe 'StudentGenerator' do
   let(:generator) {StudentParentInterchangeGenerator.new(interchange, 1)}
   let(:student) {FactoryGirl.build(:student)}
   let(:parent) {FactoryGirl.build(:parent)}
+  let(:spa) {FactoryGirl.build( :studentParentAssociation)}
   describe '<<' do
     it 'will write a student to edfi' do
 
+ 
       generator << student
       generator << parent
+      generator << spa
 
       valid = true
 
