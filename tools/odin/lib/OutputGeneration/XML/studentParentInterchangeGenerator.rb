@@ -26,7 +26,7 @@ class StudentParentInterchangeGenerator < InterchangeGenerator
     attr_accessor :students
    
     def initialize(students)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/student.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student.mustache"
       @students = students
 
     end
@@ -38,7 +38,7 @@ class StudentParentInterchangeGenerator < InterchangeGenerator
     attr_accessor :parents
    
     def initialize(parents)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/student_generator/parent.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/parent.mustache"
       @parents = parents
 
     end

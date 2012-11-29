@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 require_relative 'spec_helper'
-require_relative '../lib/OutputGeneration/XML/studentGenerator'
+require_relative '../lib/OutputGeneration/XML/studentParentInterchangeGenerator'
 require 'factory_girl'
 
 FactoryGirl.find_definitions

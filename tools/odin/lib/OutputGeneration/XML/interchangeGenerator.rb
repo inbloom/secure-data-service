@@ -30,7 +30,7 @@ class InterchangeGenerator
 
   def start()
     @interchange << @header
-    puts "header"
+
   end
 
   def <<(entity)
@@ -45,14 +45,13 @@ class InterchangeGenerator
     report(@entities)
     #filter_entities
     split_entities = @entities.group_by( &:class )
-   
 
     split_entities.each do |k, v |
       generator = @generators[k].new v
       generator.context
       generator.template_path = "#{File.dirname(__FILE__)}/interchangeTemplates"
       r = generator.render()
-  puts "R: #{r}"
+
       @interchange << r
     end
   end
@@ -67,7 +66,7 @@ class InterchangeGenerator
 
   def finalize()
     batchRender
-   
+
     @interchange << @footer
     @interchange.close()
 

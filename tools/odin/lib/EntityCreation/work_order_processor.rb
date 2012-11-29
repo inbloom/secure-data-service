@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-require_relative '../OutputGeneration/XML/studentGenerator'
+require_relative '../OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative '../OutputGeneration/XML/enrollmentGenerator'
 require_relative '../Shared/EntityClasses/student.rb'
 require_relative '../Shared/EntityClasses/studentSchoolAssociation.rb'
@@ -53,7 +53,7 @@ end
 def run_work_orders(yamlHash, batch_size)
   numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
   File.open("generated/InterchangeStudent.xml", 'w') do |studentParentFile|
-    studentParent = StudentGenerator.new(studentParentFile, batch_size)
+    studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
     File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
       enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
       interchanges = {:studentParent => studentParent, :enrollment => enrollment}

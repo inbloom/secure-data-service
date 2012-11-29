@@ -18,7 +18,7 @@ limitations under the License.
 
 require_relative '../lib/EntityCreation/work_order_processor.rb'
 require_relative '../lib/Shared/demographics.rb'
-require_relative '../lib/OutputGeneration/XML/studentGenerator.rb'
+require_relative '../lib/OutputGeneration/XML/studentParentInterchangeGenerator.rb'
 require_relative '../lib/OutputGeneration/XML/enrollmentGenerator.rb'
 
 describe "WorkOrderProcessor" do

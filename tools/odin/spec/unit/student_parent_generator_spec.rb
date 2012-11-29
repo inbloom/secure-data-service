@@ -10,7 +10,7 @@ describe "StudentParentGenerator" do
 
     it "#generate" do
       students = [ :student ]
-        studentParent = StudentGenerator::StudentInterchange.new( students)
+        studentParent = StudentParentInterchangeGenerator::StudentGenerator.new( students)
         studentParent.template_path = "#{File.dirname(__FILE__)}/interchangeTemplates"
         File.open("generated/SeanInterchangeStudent.xml", 'w') do |studentParentFile|
  
