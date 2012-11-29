@@ -55,10 +55,15 @@ class WorkOrderProcessor
       student_id = 0
       world.each{|_, edOrgs|
         edOrgs.each{|edOrg|
-          unless edOrg['students'].nil? 
-            (0..edOrg['students']-1).each{|_|
-              y.yield StudentWorkOrder.new(student_id, edOrg)
-              student_id += 1
+          students = edOrg['students']
+          unless students.nil?
+            years = students.keys.sort
+            initial_grade_breakdown = students[years.first]
+            initial_grade_breakdown.each{|grade, num_students|
+              (1..num_students).each{|_|
+                student_id += 1
+                y.yield StudentWorkOrder.new(student_id, edOrg, years, grade)
+              }
             }
           end
         }
@@ -76,11 +81,13 @@ end
 class StudentWorkOrder
   attr_accessor :id, :sessions, :birth_day_after
 
-  def initialize(id, school)
+  def initialize(id, school, years = [], initial_grade = :KINDERGARTEN)
     @id = id
     @sessions = school['sessions'].map{|session| make_session(school, session)}
     @rand = Random.new(@id)
     @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
+    @years = years
+    @initial_grade = initial_grade
   end
 
   def build(interchanges)
