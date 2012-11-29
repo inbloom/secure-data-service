@@ -71,6 +71,7 @@ class Odin
     @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
+    genDataZip
   end
 
   def validate()
