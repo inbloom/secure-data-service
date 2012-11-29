@@ -8,6 +8,12 @@ Before do
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
 end
 
+After do
+    if @created_user 
+      idpRealmLogin("operator", nil)
+      restHttpDelete("/users/#{@created_user['uid']}")
+    end
+end
 
 Given /^I have logged in to realm "(.*?)" using "(.*?)" "(.*?)"$/ do |realm, user, pass|
   @user = user
@@ -112,7 +118,7 @@ Given /^I create a new "(.*?)" "(.*?)" with tenant "(.*?)" and edorg "(.*?)"$/ d
   user["email"] = "at_email@doesnot.exist"
   user["tenant"] = tenant
   user["edorg"] = edorg
-  user["homeDir"] = "/dev/null"
+  user["homeDir"] = "/"
   user["password"] = "Mark Abernathy is my hero"
   user = append_hostname(user)
   puts "User: #{JSON.pretty_generate user}" if $SLI_DEBUG
@@ -121,6 +127,34 @@ Given /^I create a new "(.*?)" "(.*?)" with tenant "(.*?)" and edorg "(.*?)"$/ d
   restHttpPost("/users", user.to_json)
   assert(@res.code == 201, "Could not create user: #{@res}")
   @created_user = user
+end
+
+And /^I verify this new user has home directory "(.*?)"$/ do |homeDir|
+  idpRealmLogin(@user, nil)
+  restHttpGet("/users")
+  if @res.code == 200 
+    all_users = JSON.parse(@res.body)
+    @new_user_in_ldap = all_users.select{|user| user["uid"] == @created_user["uid"]}[0]
+  end
+  assert(@new_user_in_ldap != nil, "could not found recently created user #{@created_user}")
+  assert(@new_user_in_ldap["homeDir"] == homeDir, "newly created user doesn't have homedir /dev/null")
+end
+
+Then /^I try to change his home directory to "(.*?)"$/  do |homeDir|
+  @new_user_homeDir_in_ldap = @new_user_in_ldap["homeDir"]
+
+  # attempt to update my homedir in ldap
+  @new_user_in_ldap["homeDir"] = homeDir
+  @new_user_in_ldap.delete "createTime"
+  @new_user_in_ldap.delete "modifyTime"
+  @new_user_in_ldap["password"] ="Mark Abernathy is still my hero" 
+  restHttpPut("/users", @new_user_in_ldap.to_json)
+  assert(@res.code == 204, "updating user has failed")
+end
+
+And /^It will not change$/ do
+  @new_user_in_ldap = nil
+  step "I verify this new user has home directory \"#{@new_user_homeDir_in_ldap}\"" 
 end
 
 Then /^I (should|should not) see user "(.*?)"$/ do |should, uid|

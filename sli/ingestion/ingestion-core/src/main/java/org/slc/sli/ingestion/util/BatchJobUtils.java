@@ -45,27 +45,6 @@ public final class BatchJobUtils {
 
     private BatchJobUtils() { }
 
-    private static InetAddress localhost;
-    static {
-        try {
-            localhost = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static String getHostAddress() {
-        return localhost.getHostAddress();
-    }
-
-    public static String getHostName() {
-        return localhost.getHostName();
-    }
-
-    public static Date getCurrentTimeStamp() {
-        return new Date();
-    }
-
     public static void writeErrorsWithDAO(String batchId, String resourceId, BatchJobStageType stage,
             FaultsReport errorReport, BatchJobDAO batchJobDAO) {
         if (errorReport.hasErrors()) {

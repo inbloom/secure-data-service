@@ -371,6 +371,10 @@ Given /^I am using destination-local data store$/ do
   @local_file_store_path = INGESTION_DESTINATION_DATA_STORE
 end
 
+Given /^I am using odin data store$/ do
+  @local_file_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/odin/generated/'
+end
+
 def lzFileRmWait(file, wait_time)
   intervalTime = 3 #seconds
   iters = (1.0*wait_time/intervalTime).ceil
@@ -1454,12 +1458,12 @@ Then /^I should see following map of indexes in the corresponding collections:$/
     @entity_collection = @db.collection(row["collectionName"])
     @indexcollection = @db.collection("system.indexes")
     #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
-    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "key" => {row["index"] => 1}).to_a.count()
 
     #puts "Index Count = " + @indexCount.to_s
 
     if @indexCount.to_s == "0"
-      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with key = " + row["index"]
       @result = "false"
     end
   end
@@ -2412,11 +2416,30 @@ Then /^I check that ids were generated properly:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-def extractField(record, fieldPath) 
+def extractField(record, fieldPath, subDocType, subDocId) 
 	pathArray = fieldPath.split('.')
 	result = record
+	
+	if subDocType
+		result = result[subDocType]
+		#if there is an array of subdocs, find the right one
+		if result.kind_of?(Array)
+			for subDoc in result
+				if subDoc["_id"] == subDocId
+					result = subDoc
+					break
+				end
+			end
+		end
+	
+	end
+	
 	for pathPart in pathArray
 		result = result[pathPart]
+		#handle arrays by always selecting the first element
+		while result.kind_of?(Array)
+			result = result[0]
+		end
 	end
 	result
 end
@@ -2424,7 +2447,6 @@ end
 def getRecord(did, collectionName)
 	db = @conn[@ingestion_db_name]
 	parentCollectionName = subDocParent(collectionName)
-	
 	if parentCollectionName
 		idField =  id_param = collectionName + "._id"
 		collection = db.collection(parentCollectionName)
@@ -2440,7 +2462,7 @@ end
 Then /^I check that references were resolved correctly:$/ do |table|
 	disable_NOTABLESCAN()
 	table.hashes.map do |row|
-		did = row['deterministicId']
+		did = row['entityId']
     	refField = row['referenceField']
     	refCollectionName = row['referenceCollection']
     	collectionName = row['entityCollection']
@@ -2448,10 +2470,15 @@ Then /^I check that references were resolved correctly:$/ do |table|
 		entity = getRecord(did, collectionName)
 		assert(entity != nil, "Failed to find an entity with _id = #{did} in collection #{collectionName}")
 	
-		refDid = extractField(entity, refField)
+		parentCollectionName = subDocParent(collectionName)
+		if parentCollectionName
+			refDid = extractField(entity, refField, collectionName, did)
+		else
+			refDid = extractField(entity, refField, nil, nil)
+		end
 		
 		referredEntity = getRecord(refDid, refCollectionName)
-		assert(referredEntity != nil, "Referenced entity with _id = #{refDid} in collection #{refCollectionName} does not exist")
+		assert(referredEntity != nil, "Referenced #{refCollectionName} entity with _id = #{refDid} in #{collectionName} does not exist")
 		
 	end
 	enable_NOTABLESCAN()
