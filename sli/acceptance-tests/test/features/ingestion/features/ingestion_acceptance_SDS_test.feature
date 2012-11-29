@@ -405,18 +405,6 @@ And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter               | searchValue     |searchType           |
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
-   And I check to find if record is in collection:
-     #check to make sure we're actually resolving references
-     | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
-     | cohort                       | 1 | body.programId.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
-     | educationOrganization        | 2 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
-     | educationOrganization        | 1 | body.programReference.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
-     | section                      | 1 | body.courseOfferingId | f987fc599bd78f69c57d4176163633bde1ffc3cb_id | string |
-     | section                      | 1 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
-     | staffProgramAssociation      | 3 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
-     | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
-     | studentProgramAssociation    | 6 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
-     | studentCompetency            | 1 | body.objectiveId.studentCompetencyObjectiveId | 028d7f8e25584d3353c9691e6aab89156029dde8_id | string |
  
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
@@ -569,8 +557,7 @@ Scenario: Verify references were resolved correctly
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_id88cb14f9fbf459281d79c7c0561d6d9542989e02_id | body.gradingPeriodId							 | gradingPeriod							  |
 	#graduationPlan
 	#learningObjective
-    #| assessment                            | d50118aaad960b54a8b2afc7268d01d13842cb58_id 											 | body.objectiveAssessment.learningObjectives  | learningObjective							  |
-	| studentCompetency                     | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											 | body.objectiveId.learningObjectiveId         | learningObjective							  |
+    | studentCompetency                     | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											 | body.objectiveId.learningObjectiveId         | learningObjective							  |
 	#learningStandard
 	| learningObjective						| e7ca691a652808cedd4fc8abd1275c94f9679e56_id											 | body.learningStandards						| learningStandard							  |
 	#parent
@@ -585,6 +572,7 @@ Scenario: Verify references were resolved correctly
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       		| section									  |
 	| studentSectionAssociation			    | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.sectionId								| section									  |
 	| teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            					| section									  |
+	| studentGradebookEntry					| 5326d70c0ce217608b0bf4d2c512a51b921d03a9_id											 | body.sectionId								| section									  |
 	#session
 	| courseOffering                        | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.sessionId                      			| session 									  |
 	| studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.sessionId                       		| session									  |
@@ -620,7 +608,6 @@ Scenario: Verify references were resolved correctly
 	| studentCompetency                     | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId    			| studentSectionAssociation  				  |
 
 	
-
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
