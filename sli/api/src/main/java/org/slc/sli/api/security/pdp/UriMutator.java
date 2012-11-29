@@ -30,6 +30,8 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.config.BasicDefinitionStore;
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
@@ -68,6 +70,8 @@ public class UriMutator {
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+    @Autowired
+    private BasicDefinitionStore definitionStore;
 
     private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
             Pair.of(ParameterConstants.STUDENT_UNIQUE_STATE_ID, ResourceNames.STUDENTS),
@@ -92,56 +96,28 @@ public class UriMutator {
         if (queryParameters == null) {
             queryParameters = "";
         }
+
         Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
-
-
-
+        for (Pair<String, String> parameterResourcePair : PARAMETER_RESOURCE_PAIRS) {
+            String parameter = parameterResourcePair.getLeft();
+            String resource = parameterResourcePair.getRight();
+            if (parameters.containsKey(parameter)) {
+                EntityDefinition definition = definitionStore.lookupByResourceName(resource);
+                if( definition != null) {
+                    NeutralQuery query = new NeutralQuery(new NeutralCriteria(parameter, NeutralCriteria.OPERATOR_EQUAL,
+                            parameters.get(parameter)));
+                    Entity e = repo.findOne(definition.getType(), query);
+                    if (e != null) {
+                        String newPath = String.format("/%s/%s", resource, e.getEntityId());
+                        info("Rewriting URI to {} based on natural keys", newPath);
+                        return Pair.of(newPath, null);
+                    }
+                }
+            }
+        }
 
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
-        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
-        String type = "";
-        String field = "";
-        String value = "";
-        String resourceName = "";
-        for (String query : queries) {
-            if (query.matches("(studentUniqueStateId)=.+")) {
-                field = ParameterConstants.STUDENT_UNIQUE_STATE_ID;
-                type = EntityNames.STUDENT;
-                resourceName = "students";
-
-            } else if (query.matches("(staffUniqueStateId)=.+")) {
-                field = ParameterConstants.STAFF_UNIQUE_STATE_ID;
-                type = EntityNames.STAFF;
-                resourceName = "staff";
-
-            } else if (query.matches("(parentUniqueStateId)=.+")) {
-                field = ParameterConstants.PARENT_UNIQUE_STATE_ID;
-                type = EntityNames.PARENT;
-                resourceName = "parents";
-
-            } else if (query.matches("(stateOrganizationId)=.+")) {
-                field = ParameterConstants.STATE_ORGANIZATION_ID;
-                type = EntityNames.EDUCATION_ORGANIZATION;
-                resourceName = "educationOrganizations";
-
-            }
-            if (type.length() != 0) {
-                // Stop iterating after the first.
-                value = query.substring(query.indexOf('=') + 1);
-                break;
-            }
-
-        }
-        if (type.length() != 0) {
-            NeutralQuery query = new NeutralQuery(new NeutralCriteria(field, NeutralCriteria.OPERATOR_EQUAL, value));
-            Entity e = repo.findOne(type, query);
-            if (e != null) {
-                String newPath = String.format("/%s/%s", resourceName, e.getEntityId());
-                info("Rewriting URI to {} based on natural keys", newPath);
-                return Pair.of(newPath, null);
-            }
-        }
 
         if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
