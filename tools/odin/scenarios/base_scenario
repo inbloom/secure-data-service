@@ -14,8 +14,8 @@ numCourseOffering: 2
 numBellSchedule: 2
 
 # Minimum and Maximum grade breakdown percentages
-MINIMUM_GRADE_PERCENTAGE: 6.0
-MAXIMUM_GRADE_PERCENTAGE: 8.0
+MINIMUM_GRADE_PERCENTAGE: 6.5
+MAXIMUM_GRADE_PERCENTAGE: 8.5
 
 # Average number of students per school type:
 # -> resouce: http://nces.ed.gov/pubs2002/overview/table5.asp
