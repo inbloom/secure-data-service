@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class RootSearchMutator {
     public String mutatePath(String resource, String queryParameters) {
         String mutatedPath = null;
 
-        Map<String, String> parameters = getParameterMap(queryParameters);
+        Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
 
         for (Pair<String, String> parameterResourcePair : parameterResourcePairs) {
             String curParameter = parameterResourcePair.getLeft();
@@ -61,16 +60,6 @@ public class RootSearchMutator {
         return isValid;
     }
 
-    private Map<String, String> getParameterMap(String queryParameters) {
-        Map<String, String> parameters = new HashMap<String, String>();
 
-        for (String query : queryParameters.split("&")) {
-            String[] keyAndValue = query.split("=", 2);
-            if (keyAndValue.length == 2) {
-                parameters.put(keyAndValue[0], keyAndValue[1]);
-            }
-        }
-        return parameters;
-    }
 
 }

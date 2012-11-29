@@ -16,6 +16,18 @@
 
 package org.slc.sli.api.security.pdp;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ws.rs.core.PathSegment;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.EntityNames;
@@ -26,17 +38,9 @@ import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ws.rs.core.PathSegment;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
 
 /**
  * Infers context about the {user,requested resource} pair, and restricts blanket API calls to
@@ -54,6 +58,13 @@ public class UriMutator {
     @Resource
     private RootSearchMutator rootSearchMutator;
 
+
+    private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
+            Pair.of(ParameterConstants.STUDENT_UNIQUE_STATE_ID, ResourceNames.STUDENTS),
+            Pair.of(ParameterConstants.STAFF_UNIQUE_STATE_ID, ResourceNames.STAFF),
+            Pair.of(ParameterConstants.PARENT_UNIQUE_STATE_ID, ResourceNames.PARENTS),
+            Pair.of(ParameterConstants.STATE_ORGANIZATION_ID, ResourceNames.EDUCATION_ORGANIZATIONS)
+    );
     /**
      * Acts as a filter to determine if the requested resource, given knowledge of the user
      * requesting it, should be rewritten. Returning null indicates that the URI should NOT be
@@ -70,8 +81,58 @@ public class UriMutator {
      *         to be rewritten.
      */
     public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
+
+
+        Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
+
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
+
+        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
+        String type = "";
+        String field = "";
+        String value = "";
+        String resourceName = "";
+        for (String query : queries) {
+            if (query.matches("(studentUniqueStateId)=.+")) {
+                field = ParameterConstants.STUDENT_UNIQUE_STATE_ID;
+                type = EntityNames.STUDENT;
+                resourceName = "students";
+
+            } else if (query.matches("(staffUniqueStateId)=.+")) {
+                field = ParameterConstants.STAFF_UNIQUE_STATE_ID;
+                type = EntityNames.STAFF;
+                resourceName = "staff";
+
+            } else if (query.matches("(parentUniqueStateId)=.+")) {
+                field = ParameterConstants.PARENT_UNIQUE_STATE_ID;
+                type = EntityNames.PARENT;
+                resourceName = "parents";
+
+            } else if (query.matches("(stateOrganizationId)=.+")) {
+                field = ParameterConstants.STATE_ORGANIZATION_ID;
+                type = EntityNames.EDUCATION_ORGANIZATION;
+                resourceName = "educationOrganizations";
+
+            }
+            if (type.length() != 0) {
+                // Stop iterating after the first.
+                value = query.substring(query.indexOf('=') + 1);
+                break;
+            }
+
+        }
+        if (type.length() != 0) {
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria(field, NeutralCriteria.OPERATOR_EQUAL, value));
+            Entity e = repo.findOne(type, query);
+            if (e != null) {
+                String newPath = String.format("/%s/%s", resourceName, e.getEntityId());
+                info("Rewriting URI to {} based on natural keys", newPath);
+                return Pair.of(newPath, null);
+            }
+        }
+
+        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
         if (segments.size() < 3) {
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
