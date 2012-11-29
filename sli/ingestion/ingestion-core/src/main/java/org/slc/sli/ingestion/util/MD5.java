@@ -34,7 +34,10 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
  * @author okrook
  *
  */
-public class MD5 {
+public final class MD5 {
+
+    private MD5() { }
+
     public static String calculate(String fileName, LandingZone lz) {
         String md5 = "";
 
