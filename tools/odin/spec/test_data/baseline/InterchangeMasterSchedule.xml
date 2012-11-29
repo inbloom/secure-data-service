@@ -525,7 +525,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000001</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -554,7 +554,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000002</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -583,7 +583,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000003</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -612,7 +612,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000004</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -641,7 +641,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000005</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -670,7 +670,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000006</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -699,7 +699,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000007</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -728,7 +728,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000008</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -757,7 +757,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000009</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -786,7 +786,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000010</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -815,7 +815,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000011</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -844,7 +844,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000012</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -873,7 +873,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000013</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -902,7 +902,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000014</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -931,7 +931,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000015</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -960,7 +960,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000016</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -989,7 +989,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000017</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1018,7 +1018,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000018</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1047,7 +1047,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000019</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1076,7 +1076,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000020</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1105,7 +1105,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000021</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1134,7 +1134,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000022</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1163,7 +1163,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000023</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1192,7 +1192,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000024</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1221,7 +1221,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000025</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1250,7 +1250,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000026</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1279,7 +1279,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000027</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1308,7 +1308,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000028</LocalCourseCode>
-    <LocalCourseTitle>Sixth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1337,7 +1337,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000029</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1366,7 +1366,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000030</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1395,7 +1395,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000031</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1424,7 +1424,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000032</LocalCourseCode>
-    <LocalCourseTitle>Seventh gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1453,7 +1453,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000033</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1482,7 +1482,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000034</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1511,7 +1511,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000035</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1540,7 +1540,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000036</LocalCourseCode>
-    <LocalCourseTitle>Eighth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1569,7 +1569,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000001</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1598,7 +1598,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000002</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1627,7 +1627,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000003</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1656,7 +1656,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000004</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1685,7 +1685,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000005</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1714,7 +1714,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000006</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1743,7 +1743,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000007</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1772,7 +1772,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000008</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1801,7 +1801,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000009</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1830,7 +1830,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000010</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1859,7 +1859,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000011</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1888,7 +1888,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000012</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1917,7 +1917,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000013</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1946,7 +1946,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000014</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -1975,7 +1975,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000015</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2004,7 +2004,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000016</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2033,7 +2033,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000017</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2062,7 +2062,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000018</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2091,7 +2091,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000019</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2120,7 +2120,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000020</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2149,7 +2149,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000021</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2178,7 +2178,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000022</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2207,7 +2207,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000023</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2236,7 +2236,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000024</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2265,7 +2265,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000025</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2294,7 +2294,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000026</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2323,7 +2323,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000027</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2352,7 +2352,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000028</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2381,7 +2381,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000029</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2410,7 +2410,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000030</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2439,7 +2439,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000031</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2468,7 +2468,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000032</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2497,7 +2497,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000033</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2526,7 +2526,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000034</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2555,7 +2555,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000035</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2584,7 +2584,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000036</LocalCourseCode>
-    <LocalCourseTitle>Ninth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2613,7 +2613,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000037</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2642,7 +2642,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000038</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2671,7 +2671,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000039</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2700,7 +2700,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000040</LocalCourseCode>
-    <LocalCourseTitle>Tenth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2729,7 +2729,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000041</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2758,7 +2758,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000042</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2787,7 +2787,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000043</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2816,7 +2816,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000044</LocalCourseCode>
-    <LocalCourseTitle>Eleventh gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2845,7 +2845,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000045</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeMathematics</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2874,7 +2874,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000046</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeScience</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2903,7 +2903,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000047</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeEnglish</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>
@@ -2932,7 +2932,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000048</LocalCourseCode>
-    <LocalCourseTitle>Twelfth gradeHistory</LocalCourseTitle>
+    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>high-0000000003</StateOrganizationId>

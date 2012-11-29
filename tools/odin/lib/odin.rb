@@ -30,7 +30,7 @@ require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
-require_relative 'OutputGeneration/XML/studentGenerator'
+require_relative 'OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
@@ -59,7 +59,8 @@ class Odin
     
     # Create a snapshot of the world
     edOrgs = WorldBuilder.new.build(prng, scenarioYAML)
-    @log.info "edOrgs: #{edOrgs}"
+    display_world_summary(edOrgs)
+
     # Batch size:  should be able ot optimize write time vs memory utilization.
     batchSize = 10000
     #
@@ -76,15 +77,22 @@ class Odin
     @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
+    genDataZip
+  end
+
+  # displays brief summary of the world just created
+  def display_world_summary(world) 
+    @log.info "Summary of World:"
+    @log.info " - state education agencies: #{world["seas"].size}"
+    @log.info " - local education agencies: #{world["leas"].size}"
+    @log.info " - elementary schools:       #{world["elementary"].size}"
+    @log.info " - middle     schools:       #{world["middle"].size}"
+    @log.info " - high       schools:       #{world["high"].size}"
   end
 
   def validate()
     valid = true
-    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
-
-      valid = valid && validate_file(f)
-
-    }
+    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f| valid = valid && validate_file(f) }
     return valid
   end
 
