@@ -92,7 +92,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = @entityData[arg1]["POST"]
   @updates = @entityData[arg1]["UPDATE"]
 end
-When /^I navigate to POST for each resource available$/ do
+Then /^I perform CRUD for each resource available$/ do
   resources.each do |resource|
     begin
       #post is not allowed for associations

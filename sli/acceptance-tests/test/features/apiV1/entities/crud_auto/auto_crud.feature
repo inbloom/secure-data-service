@@ -12,7 +12,7 @@ Background: Nothing yet
     #       Given entity URI <Entity Resource URI>
         # Create
         #        Given a valid entity json document for each resource available
-        When I navigate to POST for each resource available
+        Then I perform CRUD for each resource available
         # Update
 #        When I set the <Update Field> to <Updated Value>
 #         And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
