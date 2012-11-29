@@ -19,13 +19,11 @@ package org.slc.sli.ingestion.dal;
 import java.util.List;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -34,6 +32,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.util.MongoCommander;
 
 /**
  * write NeutralRecord objects to mongo
@@ -138,35 +137,7 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
     @Override
     public void ensureIndexes() {
-        if (stagingIndexes != null) {
-            LOG.info("Ensuring {} indexes for staging db", stagingIndexes.size());
-
-            int indexOrder = 0; // used to name the indexes
-
-            // each index is a comma delimited string in the format:
-            // (collection, unique, indexKeys ...)
-            for (String indexEntry : stagingIndexes) {
-                indexOrder++;
-                String[] indexTokens = indexEntry.split(",");
-
-                if (indexTokens.length < 3) {
-                    throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
-                            + indexTokens);
-                }
-
-                String collection = indexTokens[0];
-                boolean unique = Boolean.parseBoolean(indexTokens[1]);
-                DBObject keys = new BasicDBObject();
-
-                for (int i = 2; i < indexTokens.length; i++) {
-                    keys.put(indexTokens[i], 1);
-                }
-
-                neutralRecordRepository.getTemplate().getCollection(collection)
-                        .ensureIndex(keys, "is" + indexOrder, unique);
-            }
-        } else {
-            throw new IllegalStateException("staging indexes configuration not found.");
-        }
+        MongoTemplate mongoTemplate = neutralRecordRepository.getTemplate();
+        MongoCommander.ensureIndexes(stagingIndexes, mongoTemplate.getDb().getName(), mongoTemplate);
     }
 }
