@@ -84,8 +84,11 @@ Feature: Data Browser
     And under System Tools, I click on "SLC Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Amy Kopel" on the page
-    And I have navigated to the "Schools" listing of the Data Browser
-    When I should navigate to "/entities/schools/a13489364c2eb015c219172d561c62350f0453f3_id"
+    And I click on the "GetEducationOrganizations" link
+    And I click on the "GetParentEducationOrganization" link
+    And I click on the "GetFeederSchools" link
+    When I click on the row containing "Daybreak Central High"
+    And I click on the "Me" of any of the associating entities
     And I click on the "GetTeachers" link
     Then I see a "You do not have access to view this." alert box
     And I click the X
