@@ -30,7 +30,7 @@ require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
-require_relative 'OutputGeneration/XML/studentGenerator'
+require_relative 'OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
