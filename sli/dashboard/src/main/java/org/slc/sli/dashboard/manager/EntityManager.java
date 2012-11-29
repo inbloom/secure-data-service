@@ -52,7 +52,6 @@ import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 @Component
 public class EntityManager extends ApiClientManager {
 
-	private static final String EMPTY = "empty";
 	private static Logger log = LoggerFactory.getLogger(EntityManager.class);
 
 	public EntityManager() {
@@ -366,17 +365,17 @@ public class EntityManager extends ApiClientManager {
 		if (teacherId == null) {
 			teacherId =	getApiClient().getTeacherIdForSection(token, sectionId);
 			if (teacherId == null) {
-				teacherId = EMPTY;
+				teacherId = "empty";
 			}
 			teacherIdCache.put(sectionId, teacherId);
 		}
 
 		GenericEntity teacher = null;
-		if (teacherId != null && teacherId != EMPTY) {
+		if (teacherId != null && teacherId != "empty") {
 			teacher = cache.get(teacherId);
 		}
 		
-		if (teacherId != null && teacherId != EMPTY && teacher == null) {
+		if (teacherId != null && teacherId != "empty" && teacher == null) {
 			teacher = getApiClient().getTeacher(token, teacherId);
 			cacheThis(cache, teacherId, teacher);
 		}
@@ -483,6 +482,7 @@ public class EntityManager extends ApiClientManager {
 		List<String> teacherIds = new ArrayList<String>(sectionIds.size());
 		List<String> courseOfferingIds = new ArrayList<String>();
 		// Iterate over associations
+		getApiClient().getTeacherIdForSections(token, sectionIds, teacherIdCache);
 		for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
 			GenericEntity section = cache.get(studentSectionAssociation
 					.getString(Constants.ATTR_SECTION_ID));
@@ -491,12 +491,12 @@ public class EntityManager extends ApiClientManager {
 			if (teacherId == null) {
 				teacherId =	getApiClient().getTeacherIdForSection(token, section.getString(Constants.ATTR_ID));
 				if (teacherId == null) {
-					teacherId = EMPTY;
+					teacherId = "empty";
 				}
 				teacherIdCache.put(section.getString(Constants.ATTR_ID), teacherId);
 			}
 			
-			if (teacherId != null && teacherId != EMPTY) {
+			if (teacherId != null && teacherId != "empty") {
 				teacherIds.add(teacherId);
 			}
 			courseOfferingIds.add(section.get("courseOfferingId").toString());
@@ -527,7 +527,7 @@ public class EntityManager extends ApiClientManager {
 		
 		return studentSectionAssociations;
 	}
-
+//
 	/**
 	 * Get all schools for the district, and pass them to the ed-org profile.
 	 * 

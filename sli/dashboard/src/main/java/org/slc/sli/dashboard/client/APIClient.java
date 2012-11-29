@@ -607,4 +607,7 @@ public interface APIClient {
 	public List<GenericEntity> readEntityList(String token, List<String> ids, Map<String, String> params, String sections);
 
 	public String getTeacherIdForSection(String token, String sectionId);
+
+	public void getTeacherIdForSections(String token, List<String> sectionId,
+			Map<String, String> teacherIdCache);
 }

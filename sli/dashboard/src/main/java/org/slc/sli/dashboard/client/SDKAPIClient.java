@@ -982,7 +982,7 @@ public class SDKAPIClient implements APIClient {
 							.getString(Constants.ATTR_TEACHER_ID);
 
 					if (teacherId == null) {
-						LOGGER.debug("null");
+						//LOGGER.debug(arg0)
 					}
 					
 					return teacherId;
@@ -991,6 +991,42 @@ public class SDKAPIClient implements APIClient {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void getTeacherIdForSections(String token, List<String> sectionIds, Map<String, String> teacherIdCache) {
+		
+		List<GenericEntity> result = new ArrayList<GenericEntity>(sectionIds.size());
+		for (int i = 0; i <= sectionIds.size() / Constants.MAX_IDS_PER_API_CALL; i++) {
+			List<String> subList = sectionIds.subList(i * Constants.MAX_IDS_PER_API_CALL,
+					Math.min((i + 1) * Constants.MAX_IDS_PER_API_CALL, sectionIds.size()));
+			List<GenericEntity> entityList = this.readEntityList(
+					token,
+					SDKConstants.SECTIONS_ENTITY + buildListString(subList) + SDKConstants.TEACHER_SECTION_ASSOC + "?"
+							+ this.buildQueryString(null), subList);
+			result.addAll(entityList);
+		}
+
+		for (String sectionId : sectionIds) {
+			teacherIdCache.put(sectionId, "empty");
+		}
+		
+		if (result.size() > 0) {
+			for (GenericEntity teacherSectionAssociation : result) {
+				String teacherId = null;
+				if (teacherSectionAssociation.getString(
+						Constants.ATTR_CLASSROOM_POSITION).equals(
+								Constants.TEACHER_OF_RECORD)) {
+					teacherId = teacherSectionAssociation
+							.getString(Constants.ATTR_TEACHER_ID);
+				}
+				
+				String sectionId = teacherSectionAssociation
+						.getString(Constants.ATTR_SECTION_ID);
+				
+				teacherIdCache.put(sectionId, teacherId);
+			}
+		}
 	}
 
 	/**
@@ -1463,7 +1499,7 @@ public class SDKAPIClient implements APIClient {
 	}
 
 	/**
-	 * Get a list of sections using a list of ids
+	 * Get a list of generic entities using a list of ids, the calls to the API are done in batches of MAX_IDS_PER_API_CALL entities at a time.
 	 * 
 	 * @param token
 	 * @param ids
