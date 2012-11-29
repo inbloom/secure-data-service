@@ -143,13 +143,15 @@ public class MongoCommander {
 
         BasicDBList listShards = (BasicDBList)res.get("shards");
 
-        ListIterator<Object> iter = listShards.listIterator();
+        //Only get shards for sharding mongo
+        if(listShards != null) {
+            ListIterator<Object> iter = listShards.listIterator();
 
-        while(iter.hasNext()) {
-            BasicDBObject shard = (BasicDBObject) iter.next();
-            shards.add(shard.getString("_id"));
+            while(iter.hasNext()) {
+                BasicDBObject shard = (BasicDBObject) iter.next();
+                shards.add(shard.getString("_id"));
+            }
         }
-
         return shards;
     }
 
