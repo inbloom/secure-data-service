@@ -28,7 +28,9 @@ import java.util.concurrent.FutureTask;
  * @author dduran
  *
  */
-public class IngestionExecutor {
+public final class IngestionExecutor {
+
+    private IngestionExecutor() { }
 
     private static final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
     private static final Executor EXECUTOR = Executors.newFixedThreadPool(NUM_THREADS);

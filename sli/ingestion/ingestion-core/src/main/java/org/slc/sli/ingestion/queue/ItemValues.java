@@ -26,7 +26,10 @@ package org.slc.sli.ingestion.queue;
  * @author smelody
  *
  */
-public class ItemValues {
+public final class ItemValues {
+
+    private ItemValues() { }
+
     public static final String UNCLAIMED = "unclaimed";
     public static final String WORKING = "working";
 }
