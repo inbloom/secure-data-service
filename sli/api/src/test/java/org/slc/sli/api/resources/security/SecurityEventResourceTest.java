@@ -23,13 +23,16 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -51,8 +54,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 /**
  * Unit Tests for Security Event Resource class.
  *
@@ -71,7 +72,6 @@ public class SecurityEventResourceTest {
     SecurityContextInjector injector;
 
     private UriInfo uriInfo;
-    private HttpHeaders httpHeaders;
     private static boolean isExecuted = false;
 
     @Before
@@ -83,21 +83,19 @@ public class SecurityEventResourceTest {
 
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-
-        httpHeaders = mock(HttpHeaders.class);
-        when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
-        when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
+        URI mockUri = new URI("/rest/securityEvent");
+        when(uriInfo.getRequestUri()).thenReturn(mockUri);
 
         synchronized (this) {
             if (!isExecuted) {
                 isExecuted = true;
 
                 // create entities
-                resource.createSecurityEvent(new EntityBody(sampleEntity1()), httpHeaders, uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity2()), httpHeaders, uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity3()), httpHeaders, uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity4()), httpHeaders, uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity5()), httpHeaders, uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity1()), uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity2()), uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity3()), uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity4()), uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity5()), uriInfo);
             }
         }
     }
@@ -209,10 +207,12 @@ public class SecurityEventResourceTest {
 
 
     @Test
-    public void testSLCOperatorOffsetGetSecurityEvents() {
+    public void testSLCOperatorOffsetGetSecurityEvents() throws URISyntaxException {
         injector.setOperatorContext();
 
-        Response response = resource.getSecurityEvents(3, 100, httpHeaders, uriInfo);
+        URI mockUri = new URI("/rest/securityEvent?limit=100&offset=3");
+        when(uriInfo.getRequestUri()).thenReturn(mockUri);
+        Response response = resource.getAll(uriInfo);
 
         Object responseEntityObj = null;
 
@@ -236,10 +236,12 @@ public class SecurityEventResourceTest {
     }
 
     @Test
-    public void testSLCOperatorLimitGetSecurityEvents() {
+    public void testSLCOperatorLimitGetSecurityEvents() throws URISyntaxException {
         injector.setOperatorContext();
 
-        Response response = resource.getSecurityEvents(0, 2, httpHeaders, uriInfo);
+        URI mockUri = new URI("/rest/securityEvent?limit=2&offset=0");
+        when(uriInfo.getRequestUri()).thenReturn(mockUri);
+        Response response = resource.getAll(uriInfo);
 
         Object responseEntityObj = null;
 
@@ -263,10 +265,12 @@ public class SecurityEventResourceTest {
     }
 
     @Test
-    public void testSLCOperatorOffsetLimitGetSecurityEvents() {
+    public void testSLCOperatorOffsetLimitGetSecurityEvents() throws URISyntaxException {
         injector.setOperatorContext();
 
-        Response response = resource.getSecurityEvents(1, 3, httpHeaders, uriInfo);
+        URI mockUri = new URI("/rest/securityEvent?limit=3&offset=1");
+        when(uriInfo.getRequestUri()).thenReturn(mockUri);
+        Response response = resource.getAll(uriInfo);
 
         Object responseEntityObj = null;
 
@@ -293,7 +297,7 @@ public class SecurityEventResourceTest {
     public void testSLCOperatorGetSecurityEvents() {
         injector.setOperatorContext();
 
-        Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
+        Response response = resource.getAll(uriInfo);
 
         Object responseEntityObj = null;
 
@@ -320,7 +324,7 @@ public class SecurityEventResourceTest {
     public void testDeveloperGetSecurityEvents() {
         injector.setDeveloperContext();
 
-        Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
+        Response response = resource.getAll(uriInfo);
 
         if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
             fail("Developer shoudd be forbidden from accessing SecurityEvent. " + response);
@@ -331,7 +335,7 @@ public class SecurityEventResourceTest {
     public void testRealmAdminGetSecurityEvents() {
         injector.setRealmAdminContext();
 
-        Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
+        Response response = resource.getAll(uriInfo);
 
         if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
             fail("Realm Admin shoudd be forbidden from accessing SecurityEvent. " + response);
@@ -342,7 +346,7 @@ public class SecurityEventResourceTest {
     public void testEducatorGetSecurityEvents() {
         injector.setEducatorContext();
 
-        Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
+        Response response = resource.getAll(uriInfo);
 
         if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
             fail("Educator shoudd be forbidden from accessing SecurityEvent. " + response);
