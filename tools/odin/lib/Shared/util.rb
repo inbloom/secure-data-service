@@ -3,6 +3,10 @@ def stripInterchange(interchangeName)
   interchangeName[11..-5]
 end
 
+def runShellCommand(command)
+  `#{command}`
+end
+
 ## Creates a control file based on the xml files already generated
 def genCtlFile(dir='generated')
   File.open("#{dir}/ControlFile.ctl", 'w+') do |f|
@@ -44,4 +48,16 @@ def load_scenario (scenario_name, configYAML)
   end
 
   scenarioYAML = scenarioDefaults.merge!(YAML.load_file(File.join(File.dirname(__FILE__), '/../../scenarios', scenario_name )))
+end
+
+## Zips up the Interchange.xml files and .ctl file in odin/generated dir
+## The relative directory is such that this should be called from tools/odin/lib/odin.rb
+def genDataZip(dir='generated', file_name='OdinSampleDataSet.zip', zip_dir='generated')
+  # make sure the target file does not already exist
+  # if it does, rename it to a tmp file
+  runShellCommand("zip -j #{dir}/#{file_name} #{zip_dir}/*.xml #{zip_dir}/*.ctl")
+end
+
+def genDataUnzip(dir='generated', file_name='OdinSampleDataSet.zip', unzip_dir='OdinSampleDataSet')
+  runShellCommand("unzip #{dir}/#{file_name} -d #{dir}/#{unzip_dir}")
 end

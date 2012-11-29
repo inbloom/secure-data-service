@@ -77,6 +77,7 @@ class Odin
     @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
+    genDataZip
   end
 
   # displays brief summary of the world just created
