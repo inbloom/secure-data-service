@@ -1441,6 +1441,9 @@ sandbox:
         bootstrap.app.conf: ${sli.conf}
     dashboard:
         <<: *DASHBOARD-TEAM
+
+        portal.footer.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
     ingestion:
         <<: *INGESTION-TEAM
     data-access:
