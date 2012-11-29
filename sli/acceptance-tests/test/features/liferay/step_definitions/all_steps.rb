@@ -182,7 +182,9 @@ def verifyItemsInSections(expectedItems, section, sectionTitle, exist = true)
         break
       end
     end
-    assert(found == exist,"#{item} was not found under #{sectionTitle}")
+    message = (exist)? "#{item} should be found under #{sectionTitle}" :
+        "#{item} should not be found under #{sectionTitle}"
+    assert(found == exist, message)
   end
 end
 
