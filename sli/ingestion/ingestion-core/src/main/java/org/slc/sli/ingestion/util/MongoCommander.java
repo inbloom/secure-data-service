@@ -37,7 +37,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  * @author tke
  *
  */
-public class MongoCommander {
+public final class MongoCommander {
+
+    private MongoCommander() { }
+
     protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
 
     /**

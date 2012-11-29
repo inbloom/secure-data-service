@@ -454,8 +454,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.incidentIdentifier              | Disruption                           |
 # grade
-    | grade                                | eeb4b976b1e44d2c1511f88c8f6a0db3ba600b0c_id | body.studentSectionAssociationId     | 9a0c4a206bf607abc2dd4786ebc1e8506311c618_idf2d13bddb0c5e51904cbf3e7e9970319bf83396e_id |
-    | grade                                | eeb4b976b1e44d2c1511f88c8f6a0db3ba600b0c_id | body.gradingPeriodId                 | 51cb091a11fa7a32e3cda1e5ce68128b875cd3b8_id |
+    | grade                                | 3f8df929951a9ea94709be3aeef49a91c5addea9_id | body.studentSectionAssociationId     | 9a0c4a206bf607abc2dd4786ebc1e8506311c618_id5cd63b8dd94e74d07b1c22d4d88f84bff419c5fe_id |
+    | grade                                | 3f8df929951a9ea94709be3aeef49a91c5addea9_id | body.gradingPeriodId                 | 51cb091a11fa7a32e3cda1e5ce68128b875cd3b8_id |
 # gradebookEntry
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
@@ -548,7 +548,7 @@ Scenario: Verify references were resolved correctly
 	#educationOrganization
 	| graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
 	#grade
-	| reportCard							| 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id											 | body.grades									 | grade									  |
+	| reportCard							| 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id											 | body.grades									 | grade									  |
 	#gradebookEntry
 	| studentGradebookEntry					| acbc46150673fc24cbf23530c1baf408682f60de_id											 | body.gradebookEntryId						 | gradebookEntry							  |
 	#gradingPeriod
@@ -608,9 +608,9 @@ Scenario: Verify references were resolved correctly
     | studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.studentId                       		| student									  |
 	| studentAssessment	         		    | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            					| student 									  |
 	#studentSectionAssociation
-	#| studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				      |
-	#| grade                                | eeb4b976b1e44d2c1511f88c8f6a0db3ba600b0c_id 										    | body.studentSectionAssociationId     			| studentSectionAssociation					  |
-	| studentCompetency                     | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId    			| studentSectionAssociation  				  |
+	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
+	| grade                           | 3f8df929951a9ea94709be3aeef49a91c5addea9_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
+	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
 
 	
 @integration @IL-Sunset
