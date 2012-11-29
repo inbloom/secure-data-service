@@ -1,0 +1,20 @@
+{
+    "recordType":"courseTranscript",
+    "attributes":
+    {
+        "CourseReference":
+        {
+            "CourseIdentity":
+            {
+                "EducationalOrgReference":
+               {
+                   "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "UniqueCourseId":"testCourseId"
+           }
+        }
+    }
+}

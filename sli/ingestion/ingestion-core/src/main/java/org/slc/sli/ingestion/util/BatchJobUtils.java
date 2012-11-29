@@ -22,10 +22,6 @@ import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.time.FastDateFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -45,33 +41,9 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  * @author dduran
  *
  */
-public class BatchJobUtils {
+public final class BatchJobUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BatchJobUtils.class);
-
-    private static final String TIMESTAMPPATTERN = "yyyy-MM-dd:HH-mm-ss";
-    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(TIMESTAMPPATTERN);
-
-    private static InetAddress localhost;
-    static {
-        try {
-            localhost = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static String getHostAddress() {
-        return localhost.getHostAddress();
-    }
-
-    public static String getHostName() {
-        return localhost.getHostName();
-    }
-
-    public static Date getCurrentTimeStamp() {
-        return new Date();
-    }
+    private BatchJobUtils() { }
 
     public static void writeErrorsWithDAO(String batchId, String resourceId, BatchJobStageType stage,
             FaultsReport errorReport, BatchJobDAO batchJobDAO) {

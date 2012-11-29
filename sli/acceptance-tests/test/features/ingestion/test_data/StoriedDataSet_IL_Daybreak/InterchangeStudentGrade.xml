@@ -22477,7 +22477,7 @@
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
                 </SectionReference>
-                <BeginDate>2010-08-23</BeginDate>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
@@ -22547,7 +22547,7 @@
                                 <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                             </SectionIdentity>
                         </SectionReference>
-                        <BeginDate>2011-09-01</BeginDate>
+                        <BeginDate>2010-09-01</BeginDate>
                     </StudentSectionAssociationIdentity>
                 </StudentSectionAssociationReference>
                 <GradingPeriodReference>
@@ -22582,7 +22582,7 @@
                                 <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                             </SectionIdentity>
                         </SectionReference>
-                        <BeginDate>2011-09-01</BeginDate>
+                        <BeginDate>2011-04-11</BeginDate>
                     </StudentSectionAssociationIdentity>
                 </StudentSectionAssociationReference>
                 <GradingPeriodReference>
@@ -23666,7 +23666,7 @@
                                 <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                             </SectionIdentity>
                         </SectionReference>
-                        <BeginDate>2011-09-01</BeginDate>
+                        <BeginDate>2010-08-23</BeginDate>
                     </StudentSectionAssociationIdentity>
                 </StudentSectionAssociationReference>
                 <GradingPeriodReference>
@@ -23701,7 +23701,7 @@
                                 <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                             </SectionIdentity>
                         </SectionReference>
-                        <BeginDate>2011-09-01</BeginDate>
+                        <BeginDate>2011-04-11</BeginDate>
                     </StudentSectionAssociationIdentity>
                 </StudentSectionAssociationReference>
                 <GradingPeriodReference>
@@ -23717,9 +23717,6 @@
                 </GradingPeriodReference>
             </GradeIdentity>
         </GradeReference>
-        <!--
-		<GradeReference ref="GR-GR3-800000025-1"/>
-		<GradeReference ref="GR-GR3-800000025-2"/>-->
         <StudentCompetencyReference>
             <StudentCompetencyIdentity>
                 <LearningObjectiveReference>

@@ -728,6 +728,21 @@ end
 # Ingestion tests end
 ############################################################
 
+############################################################
+# Odin Data Generation tests start
+############################################################
+desc "Run Ingestion Acceptances Tests"
+task :odinTests => [:ingestionOdinDataSet] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Odin Data Generation tests end
+############################################################
 
 ############################################################
 # Integration Tests start

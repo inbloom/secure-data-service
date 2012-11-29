@@ -590,6 +590,36 @@ public class DidReferenceResolutionTest {
 		Assert.assertEquals(refId, resolvedRef);
 	}
 
+    @Test
+    public void shouldResolveCourseDidsCorrectly() throws JsonParseException, JsonMappingException, IOException {
+
+        ErrorReport errorReport = new TestErrorReport();
+
+        Entity courseTranscriptEntity = loadEntity("didTestEntities/courseTranscript.json");
+        didResolver.resolveInternalIds(courseTranscriptEntity, TENANT_ID, errorReport);
+        Map<String, Object> courseTranscriptBody = courseTranscriptEntity.getBody();
+        Object courseTranscriptResolvedRef = courseTranscriptBody.get("CourseReference");
+
+        Entity courseOfferingEntity = loadEntity("didTestEntities/courseOffering.json");
+        didResolver.resolveInternalIds(courseOfferingEntity, TENANT_ID, errorReport);
+        Map<String, Object> courseOfferingBody = courseTranscriptEntity.getBody();
+        Object courseOfferingResolvedRef = courseOfferingBody.get("CourseReference");
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", schoolId);
+        naturalKeys.put("uniqueCourseId", "testCourseId");
+
+        String courseReferenceDID = generateExpectedDid(naturalKeys, TENANT_ID, "course", null);
+
+        Assert.assertEquals(courseReferenceDID, courseTranscriptResolvedRef);
+        Assert.assertEquals(courseReferenceDID, courseOfferingResolvedRef);
+    }
+
+
 	@Test
 	public void resolvesStudentSectionAssociationDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
@@ -615,7 +645,7 @@ public class DidReferenceResolutionTest {
 		naturalKeys.put("sectionId", sectionDid);
 		naturalKeys.put("beginDate", "2011-09-01");
 
-		// because we don't have a full entity structure it thinks section is the parent, so use sectionDid
+		// section is the parent entity, so use sectionDid when generating expected DID
 		String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
 		Map<String, Object> body = entity.getBody();
 		Object resolvedRef = body.get("StudentSectionAssociationReference");
