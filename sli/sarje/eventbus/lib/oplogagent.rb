@@ -53,11 +53,7 @@ module Eventbus
             end
           rescue Mongo::OperationFailure => ex
             # catch invalid cursor on mongo reconnects
-            @logger.error ex if @logger
-            if !cursor.closed?
-              cursor.close
-              cursor = get_oplog_mongo_cursor(true)
-            end
+            cursor = mongo_operation_exception_handler(ex, cursor)
           rescue Exception => e
             @logger.error e if @logger
           end
@@ -83,7 +79,7 @@ module Eventbus
             cursor.add_option(Mongo::Constants::OP_QUERY_OPLOG_REPLAY)
             cursor.add_option(Mongo::Constants::OP_QUERY_NO_CURSOR_TIMEOUT)
           else
-            # skip to the current last entry 
+            # skip to the last entry 
             @logger.info "skipping to the current last entry" if @logger
             start_count = coll.count
             cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true, :order => [['$natural', 1]]).skip(start_count- 1)
@@ -147,7 +143,7 @@ module Eventbus
     end
     
     def get_oplog_marker_id
-      @config[:node_id] + Socket.gethostname + "-" + @connection.host
+      @config[:node_id] + Socket.gethostname + "-" +  @config[:mongo_host] 
     end
     
     def get_oplog_marker_collection()
@@ -163,6 +159,15 @@ module Eventbus
       end
       return coll
    end
+   
+   def mongo_operation_exception_handler(ex, cursor)
+     @logger.error ex if @logger
+     if !cursor.closed?
+       cursor.close
+     end 
+     return get_oplog_mongo_cursor(true) 
+   end
+   
   end
 
   class OpLogThrottler
