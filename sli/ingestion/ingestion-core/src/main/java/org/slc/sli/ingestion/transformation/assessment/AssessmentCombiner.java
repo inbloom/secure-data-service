@@ -209,7 +209,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private String getAssocationFamilyMap(String assessmentFamilyTitle, HashMap<String, Map<String, Object>> deepFamilyMap,
             String familyHierarchyName) {
-        String returnValue = familyHierarchyName;
+        String theFamilyHierarchyName = familyHierarchyName;
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
         query.addCriteria(Criteria.where("body.AssessmentFamilyTitle").is(assessmentFamilyTitle));
@@ -219,21 +219,21 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         for (NeutralRecord neutralRecord : neutralRecords) {
             Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
-            if ("".equals(familyHierarchyName)) {
-                returnValue = (String) associationAttrs.get("AssessmentFamilyTitle");
+            if ("".equals(theFamilyHierarchyName)) {
+                theFamilyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
             } else {
-                returnValue = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
+                theFamilyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + theFamilyHierarchyName;
             }
             deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
 
             // check if there are parent nodes
             if (associationAttrs.containsKey("parentAssessmentFamilyTitle")
                     && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyTitle"))) {
-                returnValue = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
-                        deepFamilyMap, familyHierarchyName);
+                theFamilyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
+                        deepFamilyMap, theFamilyHierarchyName);
             }
         }
 
-        return returnValue;
+        return theFamilyHierarchyName;
     }
 }
