@@ -29,6 +29,10 @@ def validate_file ( file )
   xsdfile =  File.join( "#{File.dirname(__FILE__)}", "../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/", xsd )
 
   doc = Nokogiri.XML( File.open( file ) )
+
+  puts doc
+  puts file
+  puts doc.root
   valid = true
   schemata_by_ns = Hash[ doc.root['schemaLocation'].scan(/(\S+)\s+(\S+)/) ]
   schemata_by_ns.each do |ns,xsd_uri|
