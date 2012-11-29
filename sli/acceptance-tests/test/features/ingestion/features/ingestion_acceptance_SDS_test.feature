@@ -26,6 +26,7 @@
 @RALLY_US4399
 @RALLY_US4398
 @RALLY_DE2150
+@RALLY_DE2218
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -1156,7 +1157,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | collectionName              | count |
         | gradebookEntry              | 12    |
         | studentGradebookEntry       | 315   |
-        | studentCompetency           | 59    |
+        | studentCompetency           | 60    |
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
@@ -1187,7 +1188,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | collectionName              | count |
         | gradebookEntry              | 13    |
         | studentGradebookEntry       | 316   |
-        | studentCompetency           | 59    |
+        | studentCompetency           | 60    |
         | grade                       | 5     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
