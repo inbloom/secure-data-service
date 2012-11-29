@@ -130,7 +130,7 @@ public class SarjeSubscriptionAdmin {
             @Override
             public Message createMessage(Session session) throws JMSException {
                 try {
-                    return session.createTextMessage(objectMapper.writeValueAsString(getAllSubscriptions()));
+                    return session.createTextMessage(objectMapper.writeValueAsString(getAllSubscriptions().values()));
                 } catch (Exception e) {
                     throw new SearchIndexerException("Unable to publish subscriptions", e);
                 }
