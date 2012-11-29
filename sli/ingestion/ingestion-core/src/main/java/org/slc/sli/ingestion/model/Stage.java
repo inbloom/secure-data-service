@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
  * Model for the different stages of ingestion processing.
@@ -62,10 +62,11 @@ public class Stage {
         this.status = status;
         this.startTimestamp = new Date(startTimestamp.getTime());
         this.stopTimestamp = new Date (stopTimestamp.getTime());
-        if (metrics == null) {
-            metrics = new LinkedList<Metrics>();
+        List<Metrics> theMetrics = metrics;
+        if (theMetrics == null) {
+            theMetrics = new LinkedList<Metrics>();
         }
-        this.metrics = metrics;
+        this.metrics = theMetrics;
     }
 
     public static Stage createAndStartStage(BatchJobStageType batchJobStageType, String stageDesc) {
@@ -173,14 +174,14 @@ public class Stage {
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
-        this.sourceIp = BatchJobUtils.getHostAddress();
-        this.hostname = BatchJobUtils.getHostName();
+        this.setStartTimestamp(BatchJobUtils2.getCurrentTimeStamp());
+        this.sourceIp = BatchJobUtils2.getHostAddress();
+        this.hostname = BatchJobUtils2.getHostName();
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
+        this.setStopTimestamp(BatchJobUtils2.getCurrentTimeStamp());
         this.elapsedTime = calcElapsedTime();
     }
 

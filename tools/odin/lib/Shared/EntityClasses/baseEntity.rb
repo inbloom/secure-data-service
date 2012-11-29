@@ -39,5 +39,9 @@ class BaseEntity
     end
     sum
   end
+  
+  def bit_choose() 
+    rand(2) == 1
+  end
 
 end

@@ -560,7 +560,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :v1SelectorTests] do
+                     :v1SelectorTests,
+                     :longLivedSessionTests] do
   displayFailureReport()
 end
 
