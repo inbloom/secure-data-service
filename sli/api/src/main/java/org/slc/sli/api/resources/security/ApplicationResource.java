@@ -41,7 +41,8 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.generic.DefaultResource;
+import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
@@ -71,7 +72,7 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 @Path("apps")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
-public class ApplicationResource extends DefaultCrudEndpoint {
+public class ApplicationResource extends UnversionedResource {
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
 
@@ -100,7 +101,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String APPROVAL_DATE = "approval_date";
     public static final String REQUEST_DATE = "request_date";
     public static final String STATUS = "status";
-    public static final String RESOURCE_NAME = "application";
+    public static final String RESOURCE_NAME = "apps";
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
 
@@ -115,13 +116,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @Autowired
     public ApplicationResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, RESOURCE_NAME);
         store = entityDefs;
         service = store.lookupByResourceName(RESOURCE_NAME).getService();
     }
 
     @POST
-    public Response createApplication(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    @Override
+    public Response post(EntityBody newApp, @Context final UriInfo uriInfo) {
         if (newApp.containsKey(CLIENT_SECRET) || newApp.containsKey(CLIENT_ID) || newApp.containsKey("id")) {
             EntityBody body = new EntityBody();
             body.put("message", "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
@@ -167,8 +168,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         for (String fieldName : PERMANENT_FIELDS) {
             newApp.remove(fieldName);
         }
-
-        return super.create(newApp, headers, uriInfo);
+        return super.post(newApp, uriInfo);
     }
 
     private boolean isDuplicateToken(String token) {
@@ -187,18 +187,16 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @SuppressWarnings("rawtypes")
     @GET
-    public Response getApplications(
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp = super.readAll(offset, limit, headers, uriInfo);
+    @Override
+    public Response getAll(@Context final UriInfo uriInfo) {
+        Response resp = super.getAll(uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
 
 
-
-    @Override
+    // TODO
+    // what do do with you...
     protected void addAdditionalCritera(NeutralQuery query) {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -237,10 +235,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
      */
     @SuppressWarnings("rawtypes")
     @GET
+    @Override
     @Path("{" + UUID + "}")
-    public Response getApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        Response resp = super.read(uuid, headers, uriInfo);
+    public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
+        Response resp = super.getWithId(uuid, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
@@ -280,9 +278,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     }
 
     @DELETE
+    @Override
     @Path("{" + UUID + "}")
-    public Response deleteApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+    public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
@@ -294,14 +292,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if (ent != null) {
             validateDeveloperHasAccessToApp(ent);
         } //if it is null, then we'll let the super.delete handle the case of deleting an app with bad ID
-        return super.delete(uuid, headers, uriInfo);
+        return super.delete(uuid, uriInfo);
     }
 
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
-    public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+    @Override
+    public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
             EntityBody body = new EntityBody();
             body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
@@ -428,8 +426,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
         }
 
-
-        return super.update(uuid, app, headers, uriInfo);
+        return super.put(uuid, app, uriInfo);
     }
 
     private void validateDeveloperHasAccessToApp(EntityBody app) {

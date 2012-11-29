@@ -30,6 +30,8 @@ import static org.slc.sli.api.resources.security.ApplicationResource.REQUEST_DAT
 import static org.slc.sli.api.resources.security.ApplicationResource.RESOURCE_NAME;
 import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -113,6 +115,7 @@ public class ApplicationResourceTest {
         headers = mock(HttpHeaders.class);
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
+        when(uriInfo.getQueryParameters()).thenReturn(new MultivaluedMapImpl());
     }
 
     @After
@@ -124,10 +127,12 @@ public class ApplicationResourceTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void testGoodCreate() {
+    public void testGoodCreate() throws URISyntaxException {
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps"));
+
         EntityBody app = getNewApp();
 
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        Response resp = resource.post(app, uriInfo);
         assertEquals(STATUS_CREATED, resp.getStatus());
         assertTrue("Client id set", app.get(CLIENT_ID).toString().length() == 10);
         assertTrue("Client secret set", app.get(CLIENT_SECRET).toString().length() == 48);
@@ -139,7 +144,8 @@ public class ApplicationResourceTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void testGoodCreateWithSandbox() {
+    public void testGoodCreateWithSandbox() throws URISyntaxException {
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps"));
         EntityBody app = getNewApp();
 
         // test create during dup check
@@ -148,48 +154,52 @@ public class ApplicationResourceTest {
         // .thenReturn(new ArrayList<String>());
 
         resource.setAutoRegister(true);
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        Response resp = resource.post(app, uriInfo);
         assertEquals(STATUS_CREATED, resp.getStatus());
         Map reg = (Map) app.get(REGISTRATION);
         assertTrue("Autoregistered", reg.get(STATUS).toString().equals("APPROVED"));
     }
 
     @Test
-    public void testBadCreate1() {   //include id in POST
+    public void testBadCreate1() throws URISyntaxException {   //include id in POST
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps"));
         EntityBody app = getNewApp();
         app.put("id", "123");
 
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        Response resp = resource.post(app, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
 
     @Test
-    public void testBadCreate2() {   //include client_id in POST
+    public void testBadCreate2() throws URISyntaxException {   //include client_id in POST
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps"));
         EntityBody app = getNewApp();
         app.put(CLIENT_ID, "123");
 
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        Response resp = resource.post(app, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
     @Test
-    public void testBadCreate3() {   // include client_secret in POST
+    public void testBadCreate3() throws URISyntaxException {   // include client_secret in POST
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps"));
         EntityBody app = getNewApp();
         app.put(CLIENT_SECRET, "123");
 
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        Response resp = resource.post(app, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
     @Test
-    public void testBadAsAdmin() {   // include client_secret in POST
+    public void testBadAsAdmin() throws URISyntaxException {   // include client_secret in POST
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps"));
         SecurityContextHolder.clearContext();
         injector.setAdminContextWithElevatedRights();
         EntityBody app = getNewApp();
         app.put(CLIENT_SECRET, "123");
 
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        Response resp = resource.post(app, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
@@ -213,20 +223,23 @@ public class ApplicationResourceTest {
     }
 
     @Test
-    public void testGoodDelete() {
+    public void testGoodDelete() throws URISyntaxException {
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps"));
         EntityBody toDelete = getNewApp();
-        Response created = resource.createApplication(toDelete, headers, uriInfo);
+        Response created = resource.post(toDelete, uriInfo);
         String uuid = parseIdFromLocation(created);
-        Response resp = resource.deleteApplication(uuid, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        Response resp = resource.delete(uuid, uriInfo);
         assertEquals(STATUS_DELETED, resp.getStatus());
     }
 
     @Test
-    public void testBadDelete() {
+    public void testBadDelete() throws URISyntaxException {
         String uuid = "9999999999";
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         try {
             @SuppressWarnings("unused")
-            Response resp = resource.deleteApplication(uuid, headers, uriInfo);
+            Response resp = resource.delete(uuid, uriInfo);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
             return;
@@ -235,27 +248,31 @@ public class ApplicationResourceTest {
     }
 
     @Test
-    public void testGoodGet() {
+    public void testGoodGet() throws URISyntaxException {
         String uuid = createApp();
-        Response resp = resource.getApplication(uuid, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        Response resp = resource.getWithId(uuid, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
 
     @Test
-    public void testGoodGetAsOperator() {
+    public void testGoodGetAsOperator() throws URISyntaxException {
         EntityBody toGet = getNewApp();
 
         // Mock repo can't do real queries for arrays.
 
-        Response created = resource.createApplication(toGet, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(toGet, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
         toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
         String uuid = parseIdFromLocation(created);
-        created = resource.update(uuid, toGet, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        created = resource.put(uuid, toGet, uriInfo);
         assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
-        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response resp = resource.getAll(uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
         @SuppressWarnings("unchecked")
@@ -264,14 +281,17 @@ public class ApplicationResourceTest {
     }
 
     @Test
-    public void testGoodGetAsDeveloper() {
+    public void testGoodGetAsDeveloper() throws URISyntaxException {
         EntityBody toGet = getNewApp();
         // Mock repo can't do real queries for arrays.
 
-        Response created = resource.createApplication(toGet, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(toGet, uriInfo);
         String uuid = parseIdFromLocation(created);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         assertEquals(STATUS_CREATED, created.getStatus());
-        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response resp = resource.getAll(uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
         @SuppressWarnings("unchecked")
@@ -281,18 +301,21 @@ public class ApplicationResourceTest {
     }
 
     @Test
-    public void testEmptyGetAsAdmin() {
+    public void testEmptyGetAsAdmin() throws URISyntaxException {
         EntityBody toGet = getNewApp();
         // Mock repo can't do real queries for arrays.
-        Response created = resource.createApplication(toGet, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(toGet, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
         toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, "3333-3333-3333");
         String uuid = parseIdFromLocation(created);
-        created = resource.update(uuid, toGet, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        created = resource.put(uuid, toGet, uriInfo);
         assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setAdminContextWithElevatedRights();
-        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response resp = resource.getAll(uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
         @SuppressWarnings("unchecked")
@@ -301,18 +324,21 @@ public class ApplicationResourceTest {
     }
 
     @Test
-    public void testGoodGetAsAdmin() {
+    public void testGoodGetAsAdmin() throws URISyntaxException {
         EntityBody toGet = getNewApp();
         // Mock repo can't do real queries for arrays.
-        Response created = resource.createApplication(toGet, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(toGet, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
         toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
         String uuid = parseIdFromLocation(created);
-        created = resource.update(uuid, toGet, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        created = resource.put(uuid, toGet, uriInfo);
         assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setAdminContextWithElevatedRights();
-        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response resp = resource.getAll(uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
         @SuppressWarnings("unchecked")
@@ -321,10 +347,11 @@ public class ApplicationResourceTest {
     }
 
     @Test
-    public void testBadGet() {
+    public void testBadGet() throws URISyntaxException {
         String uuid = "9999999999";
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         try {
-            Response resp = resource.getApplication(uuid, headers, uriInfo);
+            Response resp = resource.getWithId(uuid, uriInfo);
             assertEquals(STATUS_NOT_FOUND, resp.getStatus());
         } catch (EntityNotFoundException e) {
             assertTrue(true);
@@ -338,24 +365,26 @@ public class ApplicationResourceTest {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws URISyntaxException {
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        Response created = resource.post(app, uriInfo);
 
         //switch to operator and approve
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "APPROVED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
         //switch back to developer and try to update
         SecurityContextHolder.clearContext();
         injector.setDeveloperContext();
         app.put("description", "coolest app ever.");
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
     }
 
@@ -365,67 +394,78 @@ public class ApplicationResourceTest {
         String uuid = createApp();
         EntityBody app = getNewApp();
         app.put(ApplicationResource.AUTHORIZED_ED_ORGS, "12341234");
-        Response updated = resource.update(uuid, app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        Response updated = resource.put(uuid, app, uriInfo);
         assertEquals(STATUS_NO_CONTENT, updated.getStatus());
     }
 
-    private String createApp() {
+    private String createApp() throws URISyntaxException {
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        Response created = resource.post(app, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
         return parseIdFromLocation(created);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
-    public void testUpdateRegistrationAsDeveloper() {
+    public void testUpdateRegistrationAsDeveloper() throws URISyntaxException {
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         String uuid = parseIdFromLocation(created);
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "APPROVED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
     @Test
-    public void testUpdateWhilePending() {
+    public void testUpdateWhilePending() throws URISyntaxException {
         //a pending application is read-only accept for operator changing registration status
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         String uuid = parseIdFromLocation(created);
-        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void testUpdateApprovalDate() {
+    public void testUpdateApprovalDate() throws URISyntaxException {
         EntityBody app = getNewApp();
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response resp = resource.post(app, uriInfo);
         String uuid = parseIdFromLocation(resp);
         Map reg = getRegistrationDataForApp(uuid);
         reg.put(APPROVAL_DATE, 2343L);
         app.put(REGISTRATION, reg);
-        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void testUpdateRequestDate() {
+    public void testUpdateRequestDate() throws URISyntaxException {
         EntityBody app = getNewApp();
-        Response resp = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response resp = resource.post(app, uriInfo);
         String uuid = parseIdFromLocation(resp);
         Map reg = getRegistrationDataForApp(uuid);
         reg.put(REQUEST_DATE, 2343L);
         app.put(REGISTRATION, reg);
-        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void testUpdateRegistrationAsOperator() {
+    public void testUpdateRegistrationAsOperator() throws URISyntaxException {
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         String uuid = parseIdFromLocation(created);
         // Switch to operator
         SecurityContextHolder.clearContext();
@@ -433,85 +473,95 @@ public class ApplicationResourceTest {
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "APPROVED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void testUpdateAppAsOperator() {
+    public void testUpdateAppAsOperator() throws URISyntaxException {
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         // Switch to operator
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         //app.put("registered", false);
         app.put("name", "Super mega awesome app!");
         String uuid = parseIdFromLocation(created);
-        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
 
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void denyApplication() {
+    public void denyApplication() throws URISyntaxException {
         // Create - Deny
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "DENIED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void approveApplication() {
+    public void approveApplication() throws URISyntaxException {
         //Create - Approve
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "APPROVED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
         Map reg = getRegistrationDataForApp(uuid);
         assertTrue("approval date set", reg.containsKey(APPROVAL_DATE));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Map getRegistrationDataForApp(String uuid) {
-        Response resp = resource.getApplication(uuid, headers, uriInfo);
+    private Map getRegistrationDataForApp(String uuid) throws URISyntaxException {
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        Response resp = resource.getWithId(uuid, uriInfo);
         Map data = (Map) resp.getEntity();
         Map toReturn = new HashMap();
-        toReturn.putAll((Map) ((Map) data.get(RESOURCE_NAME)).get(REGISTRATION));
+        toReturn.putAll((Map) ((Map) data.get("application")).get(REGISTRATION));
         return toReturn;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void unregisterApplication() {
+    public void unregisterApplication() throws URISyntaxException {
         //Create - Approve - Unregister
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "APPROVED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
         registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "UNREGISTERED");
         app.put(REGISTRATION, registration);
 
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
         Map reg = getRegistrationDataForApp(uuid);
         assertFalse("approval date not set", reg.containsKey(APPROVAL_DATE));
         assertFalse("request date not set", reg.containsKey(REQUEST_DATE));
@@ -519,23 +569,26 @@ public class ApplicationResourceTest {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void resubmitDeniedApplication() {
+    public void resubmitDeniedApplication() throws URISyntaxException {
         //Create - Deny - Dev Update
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "DENIED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
         SecurityContextHolder.clearContext();
         injector.setDeveloperContext();
         app.put("name", "My new app name");
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
-        Response resp = resource.getApplication(uuid, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
+        Response resp = resource.getWithId(uuid, uriInfo);
         Map data = (Map) resp.getEntity();
         Map reg = (Map) ((Map) data.get("application")).get(REGISTRATION);
         assertEquals("back to pending", "PENDING", reg.get(STATUS));
@@ -544,22 +597,23 @@ public class ApplicationResourceTest {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void unregisterDeniedApplication() {
+    public void unregisterDeniedApplication() throws URISyntaxException {
         //Create - Deny - Unregister
         EntityBody app = getNewApp();
-        Response created = resource.createApplication(app, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
+        Response created = resource.post(app, uriInfo);
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
         Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "DENIED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
         registration = new HashMap();
         registration.put(STATUS, "UNREGISTERED");
         app.put(REGISTRATION, registration);
-        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
