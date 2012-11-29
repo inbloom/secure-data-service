@@ -92,7 +92,7 @@ public class MongoCommander {
             LOG.info("Ensuring {} indexes for {} db", indexes.size(), db);
             DB dbConn = mongoTemplate.getDb();
 
-            if(dbConn.getName() != db) {
+            if(!dbConn.getName().equals(db)) {
                 dbConn = dbConn.getSisterDB(db);
             }
 
