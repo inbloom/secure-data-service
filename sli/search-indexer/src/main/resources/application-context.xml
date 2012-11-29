@@ -90,7 +90,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="sourceDatastoreConnector" ref="sourceDatasourceConnector" />
 		<property name="indexConfigStore" ref="indexConfigStore" />
 		<property name="loader" ref="loader" />
-		<property name="extractDir" value="${sli.search.indexer.dir.extract}" />
+		<property name="extractDir" value="${sli.search.indexer.dir.extract:data/tmp}" />
 		<property name="runOnStartup" value="${sli.search.indexer.extract.runOnStartup}" />
 	</bean>
 	
@@ -112,15 +112,15 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy" lazy-init="false">
 		<property name="indexer" ref="indexer" />
 		<property name="indexEntityConverter" ref="indexEntityConverter" />
-		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
-		<property name="executorThreads" value="${sli.search.indexer.thread.number:5}" />
+		<property name="inboxDir" value="${sli.search.indexer.dir.inbox:data/inbox}" />
+		<property name="executorThreads" value="${sli.search.loader.thread.number:5}" />
 	</bean>
 	
 	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" >
 		<constructor-arg>
 			<bean class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-				<property name="connectTimeout" value="${sli.search.indexer.connTimeout:5000}" />
-				<property name="readTimeout" value="${sli.search.indexer.readTimeout:10000}" />
+				<property name="connectTimeout" value="${sli.search.indexer.search.connTimeout:5000}" />
+				<property name="readTimeout" value="${sli.search.indexer.search.readTimeout:10000}" />
 			</bean>
 		</constructor-arg>
 	</bean>
