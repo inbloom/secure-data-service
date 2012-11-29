@@ -71,38 +71,36 @@ email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
 
 ################# e2e test properties #################################
-
 # For CI environments
-
 email_imap_hostname: mon.slidev.org
 email_imap_portname: 993
 
-#SEA Admin creds
+#SEA Admin creds - For CI environments
 primary_email_imap_registration_user: e2etestsea
 primary_email_imap_registration_user_email: e2etestsea@slidev.org
 primary_email_imap_registration_pass: test1234
 
-#LEA Admin creds
+#LEA Admin creds - For CI environments
 secondary_email_imap_registration_user: e2etestlea
 secondary_email_imap_registration_user_email: e2etestlea@slidev.org
 secondary_email_imap_registration_pass: test1234
 
-#Developer creds
+#Developer creds - For CI environments
 developer_email_imap_registration_user: e2etestdev
 developer_email_imap_registration_user_email: e2etestdev@slidev.org
 developer_email_imap_registration_pass: test1234
 
-#Developer creds (sandbox)
+#Developer creds (sandbox) - For CI environments
 developer_sb_email_imap_registration_user: e2etestdev_sb
 developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev.org
 developer_sb_email_imap_registration_pass: test1234
 
-#Developer 2 creds (sandbox)
+#Developer 2 creds (sandbox) - For CI environments
 developer2_sb_email_imap_registration_user: e2etestdev_sb2
 developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev.org
 developer2_sb_email_imap_registration_pass: test1234
 
-#Landing zone
+#Landing zone -
 landingzone: picard-lz.slidev.org
 landingzone_port: 443
 
@@ -113,25 +111,34 @@ edorg: STANDARD-SEA
 # IDP and Redirect Endpoint URL for Realm Management
 ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 
-# for RC environments (amazon)
-#email_imap_host: imap.gmail.com
-#email_imap_registration_user: testuser0.wgen@gmail.com
-#email_imap_registration_user_email: testuser0.wgen@gmail.com
-#email_imap_registration_pass: liferaywgen
+##For RC environments
+#email_imap_hostname: imap.gmail.com
+#email_imap_portname: 993
+
+##SEA Admin creds - For RC environments
+#primary_email_imap_registration_user: testuser0.wgen@gmail.com
+#primary_email_imap_registration_user_email: testuser0.wgen@gmail.com
+#primary_email_imap_registration_pass: liferaywgen
+
+##LEA Admin creds - For RC environments
 #secondary_email_imap_registration_user: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_pass: liferaywgen
 
-#For RC environments
+##Developer creds - For RC environments
+#developer_email_imap_registration_user: testdev.wgen@gmail.com
+#developer_email_imap_registration_user_email: testdev.wgen@gmail.com
+#developer_email_imap_registration_pass: test1234
 
-#e2e_tenant_name: RCTestTenant
-#e2e_edorg: RCTestEdOrg
-#e2e_edorg: STANDARD-SEA
-#e2e_sea_email: testuser0.wgen@gmail.com
-#e2e_lea_email: testuser1.wgen@gmail.com
-#e2e_dev_email: testdev.wgen@gmail.com
-#e2e_password: test1234
+##Developer creds (sandbox) - For RC environments
+#developer_sb_email_imap_registration_user: 
+#developer_sb_email_imap_registration_user_email: 
+#developer_sb_email_imap_registration_pass: 
 
+##Developer 2 creds (sandbox) - For RC environments
+#developer2_sb_email_imap_registration_user: 
+#developer2_sb_email_imap_registration_user_email: 
+#developer2_sb_email_imap_registration_pass: 
 
 ################# /e2e test properties #################################
 
