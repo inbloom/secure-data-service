@@ -17,7 +17,7 @@ Scenario: Login and logout
   Then I should be on the admin page
   And under System Tools, I click on "SLC Data Browser"
   Then I should be redirected to the Data Browser home page
-  When I click on log out
+  When I click on the Logout link
   And I am forced to reauthenticate to access the databrowser
 
 Scenario: Navigate to home page from any page
