@@ -62,8 +62,6 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I can select "Application Developer" from a choice of "Sandbox Administrator, Application Developer, Ingestion User" Role
       Then the Role combobox is populated with "Application Developer"
       And I can also check "Ingestion User" Role
-      Then the Role checkbox is checked with "Application Developer"
-      And I can also check "Application Developer" Role
       Then the Role checkbox is checked with ""
       When I click button "Update"
       Then I am redirected to the "Sandbox Account Management" page
