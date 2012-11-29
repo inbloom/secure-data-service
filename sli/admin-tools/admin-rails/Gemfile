@@ -50,7 +50,7 @@ group :test do
 	gem "mocha" ,:require => false
 end
 
-
+gem 'encrypted-cookie-store'
 
 
 

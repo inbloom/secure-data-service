@@ -67,6 +67,31 @@ def run_work_orders(yamlHash, batch_size)
   end
 end
 
+def gen_work_orders(world)
+  Enumerator.new do |y|
+    student_id = 0
+    world.each{|_, edOrgs|
+      edOrgs.each{|edOrg|
+        unless edOrg['students'].nil? 
+          (0..edOrg['students']-1).each{|_|
+            y.yield gen_work_order(student_id, edOrg)
+            student_id += 1
+          }
+        end
+      }
+    }
+  end
+end
+
+def gen_work_order(id, school)
+  {:id => id, :sessions => school['sessions'].map{|session| make_session(school, session)},
+   :birth_day_after => Date.new(2000,9,1)} #TODO fix this once I figure out what age they should be
+end
+
+def make_session(school, session)
+  {:school => school['id'], :sections => [], :sessionInfo => session}
+end
+
 #TODO this is a mocked out work order, make one more intelligent and relating to the world
 def make_work_order(id, yamlHash, numSchools)
   {:id => id, :sessions => (1..yamlHash['numYears']).map{|i| {:school => i % numSchools, :sections => []}},
