@@ -48,18 +48,16 @@ class Odin
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-    configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
+    scenarioYAML, prng = getScenario(scenario)
 
-    scenarioYAML = load_scenario(scenario, configYAML)
-
-    prng = Random.new(configYAML['seed'])
     Dir.mkdir('../generated') if !Dir.exists?('../generated')
 
     time = Time.now
     
     # Create a snapshot of the world
     edOrgs = WorldBuilder.new.build(prng, scenarioYAML)
-    @log.info "edOrgs: #{edOrgs}"
+    display_world_summary(edOrgs)
+
     # Batch size:  should be able ot optimize write time vs memory utilization.
     batchSize = 10000
     #
@@ -70,22 +68,28 @@ class Odin
     # |   100000   |       277 sec      |   460 Mb    |  -43 sec  | +428 Mb  |
     #
     
-    run_work_orders scenarioYAML, batchSize
+    WorkOrderProcessor.run scenarioYAML, batchSize
 
     finalTime = Time.now - time
     @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
+    genDataZip
+  end
+
+  # displays brief summary of the world just created
+  def display_world_summary(world) 
+    @log.info "Summary of World:"
+    @log.info " - state education agencies: #{world["seas"].size}"
+    @log.info " - local education agencies: #{world["leas"].size}"
+    @log.info " - elementary schools:       #{world["elementary"].size}"
+    @log.info " - middle     schools:       #{world["middle"].size}"
+    @log.info " - high       schools:       #{world["high"].size}"
   end
 
   def validate()
     valid = true
-    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
-
-      
-      valid = valid && validate_file( f )
-
-    }
+    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f| valid = valid && validate_file(f) }
     return valid
   end
 
@@ -100,3 +104,7 @@ class Odin
   end
 end
 
+def getScenario(scenario_name)
+  configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
+  [load_scenario(scenario_name, configYAML), Random.new(configYAML['seed'])]
+end
