@@ -1226,8 +1226,8 @@ team:
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
         security.server.url: https://${sli.dev.subdomain}.slidev.org/
-        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 7E184E161B63E561E4AA70BC67A5E3F8
         oauth.client.secret: C060D6BCA12B9AFD202E3E105DEF1B1CD349203DB9A306C89CC953055D8D5D69C636611846AE11810D209D766299EF6157A2D2D65D536975E960723B26A2E6B1
@@ -1441,9 +1441,6 @@ sandbox:
         bootstrap.app.conf: ${sli.conf}
     dashboard:
         <<: *DASHBOARD-TEAM
-
-        portal.footer.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
     ingestion:
         <<: *INGESTION-TEAM
     data-access:
