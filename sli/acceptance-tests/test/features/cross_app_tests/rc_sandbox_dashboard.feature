@@ -3,7 +3,9 @@
 @sandbox
 Feature: As a Dashboard user, I want to be able to be able to traverse all of the data I have access to.
 
-Background:
+Background: None
+
+Scenario: All-in-one scenario
     Given I have an open web browser
     When I navigate to the Portal home page
     Then I will be redirected to realm selector web page
@@ -13,7 +15,7 @@ Background:
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
-Scenario: District Level IT Admin Logs into dashboard from portal
+	#Title: District Level IT Admin Logs into dashboard from portal
     And I want to select "jstevenson" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page  
 	Then I should see Admin link
@@ -41,7 +43,7 @@ Scenario: District Level IT Admin Logs into dashboard from portal
 	 |Rudolph Krinsky  |12       |Daybreak Central High      |
 	And I click on log out
 
-Scenario: Educator Logs into dashboard from portal 
+	#Title: Educator Logs into dashboard from portal 
     And I want to select "linda.kim" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page  
 	And under My Applications, I see the following apps: "SLC Dashboards"
@@ -140,7 +142,7 @@ Scenario: Educator Logs into dashboard from portal
 	|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
 	And I click on log out
 
-Scenario: State Level IT Admin Logs into dashboard from portal
+	#Title: State Level IT Admin Logs into dashboard from portal
     And I want to select "rrogers" from the "SmallDatasetUsers" in automatic mode  
 	Then I should be on Portal home page
 	Then I should see Admin link
