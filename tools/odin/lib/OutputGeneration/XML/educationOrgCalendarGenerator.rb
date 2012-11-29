@@ -29,7 +29,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # session writer
   class SessionWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/session.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/session.mustache"
       @batch_size    = batch_size
       @entities      = []
     end
@@ -51,7 +51,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # grading period writer
   class GradingPeriodWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/grading_period.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/grading_period.mustache"
       @batch_size    = batch_size
       @entities      = []
     end
@@ -73,7 +73,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # calendar date writer
   class CalendarDateWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/calendar_date.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/calendar_date.mustache"
       @batch_size    = batch_size
       @entities      = []
     end

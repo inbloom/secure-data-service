@@ -19,29 +19,33 @@ package org.slc.sli.test.generators;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.LearningObjective;
-import org.slc.sli.test.edfi.entities.LearningObjectiveIdentityType;
-import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
+import org.slc.sli.test.edfi.entities.SLCLearningObjective;
+import org.slc.sli.test.edfi.entities.SLCLearningObjectiveIdentityType;
+import org.slc.sli.test.edfi.entities.SLCLearningObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.LearningStandardId;
-import org.slc.sli.test.edfi.entities.LearningStandardIdentityType;
-import org.slc.sli.test.edfi.entities.LearningStandardReferenceType;
+import org.slc.sli.test.edfi.entities.SLCLearningStandardIdentityType;
+import org.slc.sli.test.edfi.entities.SLCLearningStandardReferenceType;
 import org.slc.sli.test.edfi.entities.meta.LearningObjectiveMeta;
 
 public class LearningObjectiveGenerator {
 
     private int loId = 0;
-    private LearningStandardReferenceType learningStandardRef;
+    private SLCLearningStandardReferenceType learningStandardRef;
     private LearningStandardId learningStandardId;
-
+    private static int i = 0;
+    
     public LearningObjectiveGenerator() {
-        LearningStandardIdentityType lsIdentity = new LearningStandardIdentityType();
-        lsIdentity.setLearningStandardId("Learning Standard Content Standard G1");
+        SLCLearningStandardIdentityType lsIdentity = new SLCLearningStandardIdentityType();
+//        lsIdentity.setLearningStandardId("Learning Standard Content Standard G1");
+        // TODO match up this id to a valid learningStandard when needed
+        lsIdentity.setIdentificationCode("ls" + i);
+        i = i + 1;
         learningStandardRef.setLearningStandardIdentity(lsIdentity);
     }
 
-    public LearningObjective getLearningObjective(String learningObjectiveId) {
+    public SLCLearningObjective getLearningObjective(String learningObjectiveId) {
         loId++;
-        LearningObjective lo = new LearningObjective();
+        SLCLearningObjective lo = new SLCLearningObjective();
         String id = learningObjectiveId == null ? ("LOID" + loId) : learningObjectiveId;
         lo.setId(id);
 
@@ -59,18 +63,18 @@ public class LearningObjectiveGenerator {
         return lo;
     }
 
-    public static LearningObjectiveReferenceType getLearningObjectiveReferenceType(LearningObjective lo) {
-        LearningObjectiveIdentityType loId = new LearningObjectiveIdentityType();
+    public static SLCLearningObjectiveReferenceType getLearningObjectiveReferenceType(SLCLearningObjective lo) {
+        SLCLearningObjectiveIdentityType loId = new SLCLearningObjectiveIdentityType();
         loId.setObjective(lo.getObjective());
         loId.setObjectiveGradeLevel(lo.getObjectiveGradeLevel());
         loId.setAcademicSubject(lo.getAcademicSubject());
-        LearningObjectiveReferenceType lor = new LearningObjectiveReferenceType();
+        SLCLearningObjectiveReferenceType lor = new SLCLearningObjectiveReferenceType();
         lor.setLearningObjectiveIdentity(loId);
         return lor;
     }
 
-    public static LearningObjective generateLowFi(LearningObjectiveMeta learningObjectiveMeta) {
-        LearningObjective lo = new LearningObjective();
+    public static SLCLearningObjective generateLowFi(LearningObjectiveMeta learningObjectiveMeta) {
+        SLCLearningObjective lo = new SLCLearningObjective();
 
         LearningStandardId learningStdIdForObjective = new LearningStandardId();
         learningStdIdForObjective.setContentStandardName("Content Standard Name");

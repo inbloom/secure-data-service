@@ -28,7 +28,7 @@ class MasterScheduleGenerator < InterchangeGenerator
   # course offering writer
   class CourseOfferingWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/course_offering.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/course_offering.mustache"
       @batch_size    = batch_size
       @entities      = []
     end
@@ -50,7 +50,7 @@ class MasterScheduleGenerator < InterchangeGenerator
   # section writer
   class SectionWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/section.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/section.mustache"
       @batch_size    = batch_size
       @entities      = []
     end

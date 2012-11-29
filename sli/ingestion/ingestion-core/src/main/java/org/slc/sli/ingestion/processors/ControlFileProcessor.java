@@ -146,7 +146,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             setExchangeHeaders(exchange, newJob, errorReport);
 
             setExchangeBody(exchange, batchJobId);
-            cf.getFile().delete();
+            if (!cf.getFile().delete())
+                LOG.debug("Failed to delete: " + cf.getFile().getPath());
 
 
         } catch (Exception exception) {

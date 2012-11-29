@@ -52,7 +52,6 @@ public class TeacherToStudentCompetencyResolver implements EntityContextResolver
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-//        return false;
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_COMPETENCY.equals(toEntityType);
     }
 

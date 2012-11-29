@@ -73,8 +73,7 @@ public class TenantMongoDA implements TenantDA {
 
     @Override
     public List<String> getLzPaths() {
-        List<String> lzPaths = findTenantPathsByIngestionServer();
-        return lzPaths;
+        return findTenantPathsByIngestionServer();
     }
 
     @Override

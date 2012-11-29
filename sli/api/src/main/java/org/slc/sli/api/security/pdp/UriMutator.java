@@ -52,6 +52,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UriMutator {
 
+    public static final int NUM_SEGMENTS_IN_TWO_PART_REQUEST = 3;
     @Resource
     private EdOrgHelper edOrgHelper;
 
@@ -124,7 +125,7 @@ public class UriMutator {
             }
         }
 
-        if (segments.size() < 3) {
+        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
                 Pair<String, String> mutated;
@@ -157,7 +158,7 @@ public class UriMutator {
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
         boolean skipMutation = false;
 
-        if (segments.size() < 3) {
+        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
             String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
@@ -857,8 +858,7 @@ public class UriMutator {
 
     private String removeQueryFromQueryParameters(String queryName, String queryParameters) {
         String queryRegEx = Matcher.quoteReplacement(queryName) + "=[^&]*&?";
-        String updatedQueryParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
-        return updatedQueryParameters;
+        return queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
     }
 
 

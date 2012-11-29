@@ -74,6 +74,10 @@ import org.springframework.stereotype.Component;
 public class ApplicationResource extends DefaultCrudEndpoint {
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
+    public static final String APPLICATION = "application";
+    public static final String MESSAGE = "message";
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_APPROVED = "APPROVED";
 
     @Autowired
     private EntityDefinitionStore store;
@@ -100,7 +104,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String APPROVAL_DATE = "approval_date";
     public static final String REQUEST_DATE = "request_date";
     public static final String STATUS = "status";
-    public static final String RESOURCE_NAME = "application";
+    public static final String RESOURCE_NAME = APPLICATION;
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
 
@@ -124,18 +128,18 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public Response createApplication(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         if (newApp.containsKey(CLIENT_SECRET) || newApp.containsKey(CLIENT_ID) || newApp.containsKey("id")) {
             EntityBody body = new EntityBody();
-            body.put("message", "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
+            body.put(MESSAGE, "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
                     + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to create new applications.");
+            body.put(MESSAGE, "You are not authorized to create new applications.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         if (!missingRequiredUrls(newApp)) {
             EntityBody body = new EntityBody();
-            body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
+            body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
@@ -152,10 +156,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         newApp.put(CREATED_BY, principal.getExternalId());
 
         Map<String, Object> registration = new HashMap<String, Object>();
-        registration.put(STATUS, "PENDING");
+        registration.put(STATUS, STATUS_PENDING);
         if (autoRegister) {
             registration.put(APPROVAL_DATE, System.currentTimeMillis());
-            registration.put(STATUS, "APPROVED");
+            registration.put(STATUS, STATUS_APPROVED);
         }
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
@@ -215,7 +219,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             //know this is ugly, but having trouble getting or queries to work
             List<String> idList = new ArrayList<String>();
             NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
-            Iterable<String> ids = repo.findAllIds("application", newQuery);
+            Iterable<String> ids = repo.findAllIds(APPLICATION, newQuery);
             for (String id : ids) {
                 idList.add(id);
             }
@@ -224,7 +228,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             newQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
             newQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
 
-            ids = repo.findAllIds("application", newQuery);
+            ids = repo.findAllIds(APPLICATION, newQuery);
             for (String id : ids) {
                 idList.add(id);
             }
@@ -259,7 +263,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void filterSensitiveData(Map entity) {
-        Object appObj = entity.get("application");
+        Object appObj = entity.get(APPLICATION);
         List appList = new ArrayList();
         if (appObj != null) {
             if (appObj instanceof Map) {
@@ -273,7 +277,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 Map reg = (Map) appMap.get("registration");
                 //only see client id and secret if you're an app developer and it's approved
                 if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
-                    if (!reg.get("status").equals("APPROVED")) {
+                    if (!reg.get("status").equals(STATUS_APPROVED)) {
                         appMap.remove(CLIENT_ID);
                         appMap.remove(CLIENT_SECRET);
                     }
@@ -292,7 +296,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
         if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
-            body.put("message", "You cannot delete this application");
+            body.put(MESSAGE, "You cannot delete this application");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         
@@ -310,7 +314,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
             EntityBody body = new EntityBody();
-            body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
+            body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
@@ -352,7 +356,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 || (!registrationDatesMatch(oldReg, newReg, REQUEST_DATE))) {
 
             EntityBody body = new EntityBody();
-            body.put("message",
+            body.put(MESSAGE,
                     "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date|created_by) specified in PUT.  "
                             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -365,23 +369,23 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if (SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {
             if (changedKeys.size() > 0) {
                 EntityBody body = new EntityBody();
-                body.put("message", "You are not authorized to alter applications.");
+                body.put(MESSAGE, "You are not authorized to alter applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
-            if (newRegStatus.equals("APPROVED") && oldRegStatus.equals("PENDING")) {
+            if (newRegStatus.equals(STATUS_APPROVED) && oldRegStatus.equals(STATUS_PENDING)) {
                 debug("App approved");
-                newReg.put(STATUS, "APPROVED");
+                newReg.put(STATUS, STATUS_APPROVED);
                 newReg.put(APPROVAL_DATE, System.currentTimeMillis());
-            } else if (newRegStatus.equals("DENIED") && oldRegStatus.equals("PENDING")) {
+            } else if (newRegStatus.equals("DENIED") && oldRegStatus.equals(STATUS_PENDING)) {
                 debug("App denied");
-            } else if (newRegStatus.equals("UNREGISTERED") && oldRegStatus.equals("APPROVED")) {
+            } else if (newRegStatus.equals("UNREGISTERED") && oldRegStatus.equals(STATUS_APPROVED)) {
                 debug("App unregistered");
                 newReg.remove(APPROVAL_DATE);
                 newReg.remove(REQUEST_DATE);
             } else {
                 EntityBody body = new EntityBody();
-                body.put("message", "Invalid state change: " + oldRegStatus + " to " + newRegStatus);
+                body.put(MESSAGE, "Invalid state change: " + oldRegStatus + " to " + newRegStatus);
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
@@ -389,20 +393,20 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             validateDeveloperHasAccessToApp(oldApp);
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
-                body.put("message", "You are not authorized to register applications.");
+                body.put(MESSAGE, "You are not authorized to register applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
-            if (oldRegStatus.equals("PENDING")) {
+            if (oldRegStatus.equals(STATUS_PENDING)) {
                 EntityBody body = new EntityBody();
-                body.put("message", "Application cannot be modified while approval request is in Pending state.");
+                body.put(MESSAGE, "Application cannot be modified while approval request is in Pending state.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
             // when a denied or unreg'ed app is altered, it goes back into pending
             if (oldRegStatus.equals("DENIED") || oldRegStatus.equals("UNREGISTERED")) {
 
-                newReg.put(STATUS, "PENDING");
+                newReg.put(STATUS, STATUS_PENDING);
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
 
@@ -414,7 +418,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 //validate sandbox user isn't trying to authorize an edorg outside of their tenant
                 if (!edOrgsBelongToTenant(edOrgs)) {
                     EntityBody body = new EntityBody();
-                    body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
+                    body.put(MESSAGE, "Attempt to authorized edorg in sandbox outside of tenant.");
                     return Response.status(Status.BAD_REQUEST).entity(body).build();
                 }
 
@@ -423,7 +427,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
         } else {
             EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to update application.");
+            body.put(MESSAGE, "You are not authorized to update application.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 

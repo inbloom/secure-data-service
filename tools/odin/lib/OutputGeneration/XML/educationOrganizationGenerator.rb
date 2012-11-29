@@ -30,7 +30,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # state education agency writer
   class StateEducationAgencyWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/state_education_organization.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/state_education_organization.mustache"
       @batch_size    = batch_size
       @entities      = []
     end
@@ -52,7 +52,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # local education agency writer
   class LocalEducationAgencyWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/local_education_organization.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/local_education_organization.mustache"
       @batch_size    = batch_size
       @entities      = []
     end
@@ -74,7 +74,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # school writer
   class SchoolWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/school.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/school.mustache"
       @batch_size    = batch_size
       @entities      = []
     end
@@ -96,7 +96,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
   # course writer
   class CourseWriter < Mustache
     def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/course.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/course.mustache"
       @batch_size    = batch_size
       @entities      = []
     end

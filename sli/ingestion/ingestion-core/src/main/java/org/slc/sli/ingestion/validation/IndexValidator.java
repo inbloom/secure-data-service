@@ -92,7 +92,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
             errorMessage += parseFile("sli_indexes.js", sliIndexCache, mongoTemplate);
             errorMessage += parseFile("ingestion_batch_job_indexes.js", batchJobIndexCache, batchJobMongoTemplate);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
             log.error("Error occured while verifying indexes: " + e.getLocalizedMessage());
         }
 
@@ -175,8 +174,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
         };
         try {
-            Map<String, Object> indexMap = mapper.readValue(jsonString, typeRef);
-            return indexMap;
+            return mapper.readValue(jsonString, typeRef);
         } catch (JsonParseException e) {
             log.error("Error validating indexes " + e.getLocalizedMessage());
         } catch (JsonMappingException e) {

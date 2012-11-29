@@ -129,7 +129,7 @@ public class CsvCombine {
              */
             for (Iterator<DBCollection> iter = supportingCollections.iterator(); iter.hasNext();) {
                 String collectionName = iter.next().toString();
-                if (collectionName.lastIndexOf("_") == entityName.length()) {
+                if (collectionName.lastIndexOf('_') == entityName.length()) {
                     String listName = collectionName.substring(entityName.length() + 1);
                     addMapEntry(listName,
                             getListFromCollection(collectionName, joinKey, supportingCollections), result);

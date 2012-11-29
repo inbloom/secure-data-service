@@ -476,9 +476,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
         // record was not found
         RecordHash rh = new RecordHash();
-        rh._id = recordId;
-        rh.tenantId = tenantId;
-        rh.timestamp = "" + System.currentTimeMillis();
+        rh.set_id(recordId);
+        rh.setTenantId(tenantId);
+        rh.setTimestamp("" + System.currentTimeMillis());
         this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
    }
 
