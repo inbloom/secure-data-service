@@ -3,6 +3,10 @@ getEdorgs = ->
   $('input#app_authorized_ed_orgs').map ->
     edorgs.push $(@).val()
   edorgs
+
+jQuery ->
+  #Always focus the first text input on a page.
+  $('input:text:visible:first').focus()
   
 jQuery ->
     $("#state-menu select").change ->
