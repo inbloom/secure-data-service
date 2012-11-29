@@ -43,7 +43,7 @@ if __FILE__ == $0
 
     # set up the oplog agent and keep waiting indefinitely until the threads terminate
     node_id = config.fetch(:node_id, "") + Socket.gethostname 
-    agent = Eventbus::EventPublisher.new(node_id, 'oplog', config, logger)
+    agent = Eventbus::EventPublisher.new(node_id, '/topic/oplog', config, logger)
     config.update(:event_publisher => agent)
     oplog_agent = Eventbus::OpLogAgent.new(config, logger)
     threads = oplog_agent.threads 

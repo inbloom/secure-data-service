@@ -43,3 +43,6 @@ mongo_timestamp_marker: oplog.marker
 # All messages within this timeframe will be processed together and generate 
 # a single event. 
 collect_events_interval: 5
+
+# Queue name used to publish a message to for getting the subscriptions at startup
+initial_subscription_queue: /queue//queue/subscription/poll

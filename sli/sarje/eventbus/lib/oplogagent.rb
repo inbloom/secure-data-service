@@ -22,6 +22,7 @@ limitations under the License.
 require 'mongo'
 require 'thread'
 require 'eventbus'
+require 'messaging_service'
 
 module Eventbus
   class OpLogReader
@@ -286,6 +287,9 @@ module Eventbus
           @oplog_reader.save_timestamp(@oplog_throttler.get_last_oplog_timestamp)
         end
       end
+      
+      # Publish msg to queue to ensure oplogagent gets subscription on startup
+      publish_msg_for_subscription(config)
     end
 
     def shutdown
@@ -293,6 +297,13 @@ module Eventbus
         thread.kill
       end
       @event_publisher.shutdown
+    end
+    
+    def publish_msg_for_subscription(config)
+      msgService = MessagingService.new(config, @logger)
+      publisher = msgService.get_publisher(config[:initial_subscription_queue])
+      publisher.publish({})
+      publisher.close()
     end
   end
 end
