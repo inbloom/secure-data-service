@@ -53,6 +53,8 @@ import org.springframework.stereotype.Component;
 public class UriMutator {
 
     public static final int NUM_SEGMENTS_IN_TWO_PART_REQUEST = 3;
+    public static final int NUM_SEGMENTS_IN_ONE_PART_REQUEST = 2;
+
     @Resource
     private EdOrgHelper edOrgHelper;
 
@@ -87,7 +89,9 @@ public class UriMutator {
      */
     public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
 
-
+        if (queryParameters == null) {
+            queryParameters = "";
+        }
         Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
 
 
@@ -171,20 +175,15 @@ public class UriMutator {
 
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
         boolean skipMutation = false;
-
-        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
-
+        if (segments.size() == NUM_SEGMENTS_IN_ONE_PART_REQUEST) {
             String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
                 if (!query
                         .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|optionalFields|views|includeCustom|selector)=.+")) {
-                    int baseResourceIndex = 1;
-                    if (segments.size() >= 2
-                            && publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
+                    final int baseResourceIndex = 1;
+                    if (publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
                         skipMutation = true;
                         break;
-                    } else {
-                        debug("Search request /{}?{}", segments.get(baseResourceIndex).getPath(), queryParameters);
                     }
                 }
             }
