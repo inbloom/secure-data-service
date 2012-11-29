@@ -52,13 +52,13 @@ public class Stage {
 
     public Stage(String stageName, String stageDesc) {
         this.stageName = stageName;
-        this.setStageDesc(stageDesc);
+        this.stageDesc = stageDesc;
         this.metrics = new LinkedList<Metrics>();
     }
 
     public Stage(String stageName, String stageDesc, String status, Date startTimestamp, Date stopTimestamp, List<Metrics> metrics) {
         this.stageName = stageName;
-        this.setStageDesc(stageDesc);
+        this.stageDesc = stageDesc;
         this.status = status;
         this.startTimestamp = new Date(startTimestamp.getTime());
         this.stopTimestamp = new Date (stopTimestamp.getTime());
