@@ -134,8 +134,8 @@ Given /^the developer submits the account registration request$/ do
 end
 
 Then /^the developer is redirected to a page with terms and conditions$/ do
-   assert(@driver.current_url.include?("#{@admin_url}/eula"))
-   assertText("Terms and Conditions")
+  @explicitWait.until{@driver.current_url.include?("#{@admin_url}/eula")}
+  assertText("Terms and Conditions")
 end
 
 When /^the developer click "([^"]*)"$/ do |button|

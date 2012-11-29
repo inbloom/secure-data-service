@@ -15,6 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+# require 'perftools'
+# PerfTools::CpuProfiler.start("/tmp/odin_profile")
 
 require_relative 'lib/odin'
 
@@ -32,3 +34,5 @@ end
 
 o = Odin.new
 o.generate( scenario )
+
+# PerfTools::CpuProfiler.stop

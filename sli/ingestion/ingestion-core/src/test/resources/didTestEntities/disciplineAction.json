@@ -2,6 +2,13 @@
 "recordType":"disciplineAction",
 "attributes":
 {
+	"StaffReference":
+	{
+		"StaffIdentity":
+		{
+			"StaffUniqueStateId":"jjackson"
+		}
+	},
 	"ResponsibilitySchoolReference":
 	{
 		"EducationalOrgIdentity":

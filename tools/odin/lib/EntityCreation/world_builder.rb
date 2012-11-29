@@ -42,21 +42,20 @@ class WorldBuilder
     large_batch_size  = 25000
 
     $stdout.sync = true
-    @log         = Logger.new($stdout)
-    @log.level   = Logger::INFO
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
 
     @breakdown                        = Hash.new
-    @edOrgs                           = Hash.new
-    @edOrgs["seas"]                   = []
-    @edOrgs["leas"]                   = []
-    @edOrgs["elementary"]             = []
-    @edOrgs["middle"]                 = []
-    @edOrgs["high"]                   = []
-    
-    # master schedule writer will need to be created in odin.rb and passed in to be used here
-    @education_organization_writer = EducationOrganizationGenerator.new(medium_batch_size)
-    @education_org_calendar_writer = EducationOrgCalendarGenerator.new(medium_batch_size)
-    @master_schedule_writer        = MasterScheduleGenerator.new(medium_batch_size)
+    @edOrgs = Hash.new
+    @edOrgs["seas"]       = []
+    @edOrgs["leas"]       = []
+    @edOrgs["elementary"] = []
+    @edOrgs["middle"]     = []
+    @edOrgs["high"]       = []
+
+    @breakdown = Hash.new
+
+    initialize_interchanges()
   end
 
   # Builds the initial snapshot of the world
@@ -76,7 +75,7 @@ class WorldBuilder
       @log.error "studentCount or schoolCount must be set for a world to be created --> Exiting..."
     end
 
-    close_interchanges
+    finalize_interchanges
     return @edOrgs
   end
 
@@ -112,9 +111,9 @@ class WorldBuilder
       num_students_this_grade = 0                              if students_so_far >= num_students
       num_students_this_grade = num_students - students_so_far if grade == :TWELFTH_GRADE and num_students_this_grade != 0
       @breakdown[grade]       = num_students_this_grade
-      students_so_far         += num_students_this_grade
+      students_so_far += num_students_this_grade
+      end
     end
-  end
 
   # randomly select the number of students for the current grade by using the minimum percentage,
   # maximum percentage, and total number of students
@@ -310,7 +309,7 @@ class WorldBuilder
     @edOrgs["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
-  end
+      end
 
   # updates the populated edOrgs arrays for leas (local education agencies) by determining how many districts are to be
   # contained in a given state. current implementation assumes:
@@ -377,7 +376,7 @@ class WorldBuilder
     end
 
     if num_years.nil?
-      @log.info "Property: numYears  --> not set for scenario. Using default: 1"
+      @log.info "Property: numYears --> not set for scenario. Using default: 1"
       num_years = 1
     else
       @log.info "Property: numYears  --> Set in configuration: #{num_years}"
@@ -385,7 +384,7 @@ class WorldBuilder
 
     # loop over years updating infrastructure and population
     @log.info "iterating between #{begin_year} and #{(begin_year + num_years - 1)} to create session information"
-    for year in begin_year..(begin_year + num_years - 1) do
+    for year in begin_year..(begin_year+num_years-1) do
       # create session for LEAs
       # -> create grading period(s) for session
       # -> create calendar date(s) for grading period
@@ -461,8 +460,8 @@ class WorldBuilder
       grade = :NINTH_GRADE
       min = yaml["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
       max = yaml["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-    end
-
+  end
+  
     if @breakdown[grade] != 0
       # actually perform split
       students_to_be_split = @breakdown[grade]
@@ -680,6 +679,16 @@ class WorldBuilder
     courses
   end
 
+  def initialize_interchanges
+    @education_organization_writer = EducationOrganizationGenerator.new
+    @education_org_calendar_writer = EducationOrgCalendarGenerator.new
+    @master_schedule_writer        = MasterScheduleGenerator.new
+
+    @education_organization_writer.start
+    @education_org_calendar_writer.start
+    @master_schedule_writer.start
+  end
+
   # writes ed-fi xml interchanges
   def write_interchanges(rand, yaml)
     write_education_organization_interchange(rand, yaml)
@@ -688,10 +697,10 @@ class WorldBuilder
   end
 
   # close all file handles used for writing ed-fi xml interchanges
-  def close_interchanges
-    @education_organization_writer.close
-    @education_org_calendar_writer.close
-    @master_schedule_writer.close
+  def finalize_interchanges
+    @education_organization_writer.finalize
+    @education_org_calendar_writer.finalize
+    @master_schedule_writer.finalize
   end
 
   # writes ed-fi xml interchange: education organization
@@ -790,7 +799,7 @@ class WorldBuilder
             session   = course_offering["session"]
             course    = course_offering["course"]
             grade     = course_offering["grade"]
-            
+          
             if GradeLevelType.is_elementary_school_grade(grade)
               title   = GradeLevelType.get(grade)
             else
