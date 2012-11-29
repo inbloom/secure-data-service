@@ -436,7 +436,7 @@ public class BatchJobMongoDATest {
         Assert.assertNull(rh);
         
         mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "TestRecordHashValues");
-        String savedTimestamp =  dbAnswer.savedRecordHash.updated;
+        long savedTimestamp =  dbAnswer.savedRecordHash.updated;
         String savedId        =  dbAnswer.savedRecordHash._id;
         String savedHash      =  dbAnswer.savedRecordHash.hash;
         //introduce delay between calls so that recordHash timestamp changes.
@@ -445,13 +445,13 @@ public class BatchJobMongoDATest {
         rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNotNull(rh);
         mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "TestRecordHashValuesNew");
-        String updatedTimestamp = dbAnswer.savedRecordHash.updated;
+        long updatedTimestamp = dbAnswer.savedRecordHash.updated;
         String updatedId        = dbAnswer.savedRecordHash._id;
         String updatedHash      = dbAnswer.savedRecordHash.hash;
         Assert.assertTrue(savedId.equals(updatedId));
 
         // The timestamp on the recordHash should have changed after the second call, and the create time should be the same
-        Assert.assertTrue(Long.parseLong(savedTimestamp) < Long.parseLong(updatedTimestamp));
+        Assert.assertTrue(savedTimestamp < updatedTimestamp);
     }
 
 }

@@ -180,11 +180,6 @@ public final class SliDeltaManager {
         }
     }
 
-    public static String createRecordHash(byte[] input, String algorithmName) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance(algorithmName);
-        return byteArray2Hex(md.digest(input));
-    }
-
     private static String byteArray2Hex(final byte[] hash) {
         Formatter formatter = new Formatter();
         for (byte b : hash) {
@@ -192,15 +187,4 @@ public final class SliDeltaManager {
         }
         return formatter.toString();
     }
-
-    public static RecordHash createRecordHash(String tenantId, String recordId, String hashValues) {
-        RecordHash rh = new RecordHash();
-        rh._id = recordId;
-        rh.hash = hashValues;
-        rh.tenantId = tenantId;
-        rh.created = "" + System.currentTimeMillis();
-        rh.updated = rh.created;
-        return rh;
-    }
-
 }

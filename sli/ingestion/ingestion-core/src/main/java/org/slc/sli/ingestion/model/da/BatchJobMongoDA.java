@@ -480,28 +480,38 @@ public class BatchJobMongoDA implements BatchJobDAO {
         rh._id = recordId;
         rh.hash = newHashValues;
         rh.tenantId = tenantId;
-        rh.created = "" + System.currentTimeMillis();
+        rh.created = System.currentTimeMillis();
         rh.updated = rh.created;
-        this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).insert(new BasicDBObject(rh.toKVMap()));
     }
     
     public void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException {
         rh.hash = newHashValues;
-        rh.updated = "" + System.currentTimeMillis();
+        rh.updated = System.currentTimeMillis();
         rh.version += 1;
         // Detect tenant collision - should never occur since tenantId is in the hash
         if ( ! rh.tenantId.equals(tenantId) )
         	throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.tenantId + "', input data has '" + tenantId + "' for entity ID '" + rh._id + "'");
-        this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh._id).getQueryObject(), new BasicDBObject(rh.toKVMap()));
     }
 
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
-        Query query = new Query().limit(1);
-        query.addCriteria(Criteria.where("_id").is(recordId));
-        return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
+        Map<String, Object> map = (Map <String, Object>) this.batchJobHashCacheMongoTemplate.findOne(recordHashQuery(recordId), Map.class, RECORD_HASH);
+        if ( null == map )
+        	return null;
+        return new RecordHash(map);
     }
 
+    /*
+     * Get SpringData Query object that locates a recordHash item by its recordId
+     */
+    public Query recordHashQuery(String recordId) {
+    	Query query = new Query().limit(1);
+        query.addCriteria(Criteria.where("_id").is(RecordHash.Hex2Binary(recordId)));
+        return query;
+    }
+    
     @Override
     public void removeRecordHashByTenant(String tenantId) {
         Query searchTenantId = new Query();
