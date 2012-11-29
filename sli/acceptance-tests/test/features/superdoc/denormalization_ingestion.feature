@@ -83,7 +83,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | studentAcademicRecord                 | 117   |
       | studentAssessment                     | 203   |
       | studentCohortAssociation              | 6     |
-      | studentCompetency                     | 59    |
+      | studentCompetency                     | 60    |
       | studentCompetencyObjective            | 4     |
       | studentDisciplineIncidentAssociation  | 4     |
       | studentGradebookEntry                 | 315   |
@@ -94,7 +94,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | courseTranscript                      | 196   |
       | teacherSchoolAssociation              | 3     |
       | teacherSectionAssociation             | 11    |
-    And I should see "Processed 4261 records." in the resulting batch job file
+    And I should see "Processed 4262 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
 
