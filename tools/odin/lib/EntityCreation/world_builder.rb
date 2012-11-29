@@ -344,23 +344,19 @@ class WorldBuilder
         @edOrgs["leas"][index]["sessions"] << session
       end
     end
-    update_schools_with_sessions
+
+    # update each of the schools already in existence with the sessions that were just created at the local education agency level
+    # -> suggest implementing school 'extending' inherited sessions in these functions rather than above
+    update_schools_with_sessions("elementary")
+    update_schools_with_sessions("middle")
+    update_schools_with_sessions("high")
   end
 
-  # iterate through each type of school and set the sessions to be used
-  def update_schools_with_sessions
-    # update elementary schools
-    @edOrgs["elementary"].each do |edOrg|
-      edOrg["sessions"] = get_sessions_to_be_used_by_school(edOrg)
-    end
-    # update middle schools
-    @edOrgs["middle"].each do |edOrg|
-      edOrg["sessions"] = get_sessions_to_be_used_by_school(edOrg)
-    end
-    # update high schools
-    @edOrgs["high"].each_index do |index|
-      school = @edOrgs["high"][index]
-      @edOrgs["high"][index]["sessions"] = get_sessions_to_be_used_by_school(school)
+  # iterate through schools of matching 'type' and set the sessions to be used
+  def update_schools_with_sessions(type)
+    @edOrgs[type].each_index do |index|
+      school = @edOrgs[type][index]
+      @edOrgs[type][index]["sessions"] = get_sessions_to_be_used_by_school(school)
     end
   end
   
