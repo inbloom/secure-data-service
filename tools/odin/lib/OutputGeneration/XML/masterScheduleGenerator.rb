@@ -28,7 +28,7 @@ class MasterScheduleGenerator < InterchangeGenerator
   # course offering writer
   class CourseOfferingWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/course_offering.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/course_offering.mustache"
       @entity = nil
     end
     def course_offering
@@ -43,7 +43,7 @@ class MasterScheduleGenerator < InterchangeGenerator
   # section writer
   class SectionWriter < Mustache
     def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/section.mustache"
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/section.mustache"
       @entity = nil
     end
     def section
