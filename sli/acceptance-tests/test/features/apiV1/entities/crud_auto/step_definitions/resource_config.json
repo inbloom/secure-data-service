@@ -19,10 +19,19 @@
       "field": "gradebookEntryType",
       "value": "Homework"
     },
-    "naturalKey": [
-      "gradingPeriodIdentity",
-      "beginDate"
-    ]
+    "naturalKey": {
+      "gradingPeriodIdentity": {
+        "educationalOrgIdentity": [
+          {
+            "stateOrganizationId": "Daybreak Elementary School"
+          }
+        ],
+        "stateOrganizationId": "Daybreak Elementary School",
+        "gradingPeriod": "First Six Weeks",
+        "schoolYear": "2011-2012"
+      },
+      "beginDate": "2012-07-01"
+    }
   },
   "userAccount": {
     "POST": {
@@ -54,10 +63,10 @@
       "field": "schoolYearAttendance",
       "value": "[]"
     },
-    "naturalKey": [
-      "studentId",
-      "schoolId"
-    ]
+    "naturalKey": {
+      "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735a",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
   },
   "studentAcademicRecord": {
     "POST": {
@@ -68,10 +77,10 @@
       "field": "sessionId",
       "value": "67ce204b-9999-4a11-aacb-000000000003"
     },
-    "naturalKey": [
-      "studentId",
-      "sessionId"
-    ]
+    "naturalKey": {
+      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
+      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+    }
   },
   "student": {
     "POST": {
@@ -91,9 +100,9 @@
       "field": "sex",
       "value": "Female"
     },
-    "naturalKey": [
-      "studentUniqueStateId"
-    ]
+    "naturalKey": {
+      "studentUniqueStateId": "123456"
+    }
   },
   "cohort": {
     "POST": {
@@ -111,10 +120,10 @@
       "field": "cohortDescription",
       "value": "frisbee golf team"
     },
-    "naturalKey": [
-      "cohortIdentifier",
-      "educationOrgId"
-    ]
+    "naturalKey": {
+      "cohortIdentifier": "ACC-TEST-COH-4",
+      "educationOrgId": "92d6d5a0-852c-45f4-907a-912752831772"
+    }
   },
   "course": {
     "POST": {
@@ -153,10 +162,10 @@
       "field": "cohortDescription",
       "value": "frisbee golf team"
     },
-    "naturalKey": [
-      "uniqueCourseId",
-      "schoolId"
-    ]
+    "naturalKey": {
+      "uniqueCourseId": "Chinese-1-10",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
   },
   "courseOffering": {
     "POST": {
@@ -170,11 +179,11 @@
       "field": "localCourseTitle",
       "value": "German 101 - Introduction"
     },
-    "naturalKey": [
-      "localCourseCode",
-      "schoolId",
-      "sessionId"
-    ]
+    "naturalKey": {
+      "localCourseCode": "LCCGR101",
+      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
+      "sessionId": "c549e272-9a7b-4c02-aff7-b105ed76c904"
+    }
   },
   "disciplineAction": {
     "POST": {
@@ -206,10 +215,10 @@
       "field": "disciplineDate",
       "value": "2012-03-18"
     },
-    "naturalKey": [
-      "disciplineActionIdentifier",
-      "responsibilitySchoolId"
-    ]
+    "naturalKey": {
+      "disciplineActionIdentifier": "Discipline act XXX",
+      "responsibilitySchoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
   },
   "disciplineIncident": {
     "POST": {
@@ -233,10 +242,10 @@
       "field": "incidentTime",
       "value": "01:02:15"
     },
-    "naturalKey": [
-      "incidentIdentifier",
-      "schoolId"
-    ]
+    "naturalKey": {
+      "incidentIdentifier": "Incident ID XXX",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
   },
   "educationOrganization": {
     "POST": {
@@ -259,9 +268,9 @@
       "field": "nameOfInstitution",
       "value": "Bananas School District"
     },
-    "naturalKey": [
-      "stateOrganizationId"
-    ]
+    "naturalKey": {
+      "stateOrganizationId": "SomeUniqueSchoolDistrict-2422883"
+    }
   },
   "gradebookEntry": {
     "POST": {
@@ -270,14 +279,14 @@
       "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
     },
     "UPDATE": {
-      "field": "gradebookEntryType",
+      "field": "description",
       "value": "Homework"
     },
-    "naturalKey": [
-      "gradebookEntryType",
-      "dateAssigned",
-      "sectionId"
-    ]
+    "naturalKey": {
+      "gradebookEntryType": "Quiz",
+      "dateAssigned": "2012-02-14",
+      "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
+    }
   },
   "learningObjective": {
     "POST": {
@@ -289,11 +298,11 @@
       "field": "academicSubject",
       "value": "Mathematics"
     },
-    "naturalKey": [
-      "objective",
-      "academicSubject",
-      "objectiveGradeLevel"
-    ]
+    "naturalKey": {
+      "objective": "Learn Mathematics",
+      "academicSubject": "Mathematics",
+      "objectiveGradeLevel": "Fifth grade"
+    }
   },
   "learningStandard": {
     "POST": {
@@ -309,9 +318,11 @@
       "field": "gradeLevel",
       "value": "Ninth grade"
     },
-    "naturalKey": [
-      "learningStandardId"
-    ]
+    "naturalKey": {
+      "learningStandardId": {
+        "identificationCode": "apiTestLearningStandard"
+      }
+    }
   },
   "program": {
     "POST": {
@@ -336,9 +347,9 @@
       "field": "programSponsor",
       "value": "State Education Agency"
     },
-    "naturalKey": [
-      "programId"
-    ]
+    "naturalKey": {
+      "programId": "ACC-TEST-PROG-3"
+    }
   },
   "section": {
     "POST": {
@@ -358,10 +369,10 @@
       "field": "sequenceOfCourse",
       "value": "2"
     },
-    "naturalKey": [
-      "uniqueSectionCode",
-      "schoolId"
-    ]
+    "naturalKey": {
+      "uniqueSectionCode": "SpanishB09",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
   },
   "session": {
     "POST": {
@@ -380,10 +391,10 @@
       "field": "totalInstructionalDays",
       "value": "43"
     },
-    "naturalKey": [
-      "sessionName",
-      "schoolId"
-    ]
+    "naturalKey": {
+      "sessionName": "Spring 2012",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
   },
   "staff": {
     "POST": {
@@ -401,9 +412,9 @@
       "field": "sex",
       "value": "Female"
     },
-    "naturalKey": [
-      "staffUniqueStateId"
-    ]
+    "naturalKey": {
+      "staffUniqueStateId": "EMPLOYEE123456789"
+    }
   },
   "studentGradebookEntry": {
     "POST": {
@@ -420,10 +431,10 @@
       "field": "diagnosticStatement",
       "value": "Finished the quiz in 5 hours"
     },
-    "naturalKey": [
-      "gradebookEntryId",
-      "studentSectionAssociationId"
-    ]
+    "naturalKey": {
+      "gradebookEntryId": "20120613-56b6-4d17-847b-2997b7227686",
+      "studentSectionAssociationId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id"
+    }
   },
   "assessment": {
     "POST": {
@@ -444,12 +455,12 @@
       "field": "assessmentTitle",
       "value": "Advanced Placement Test - Subject: Writing"
     },
-    "naturalKey": [
-      "assessmentTitle",
-      "academicSubject",
-      "gradeLevelAssessed",
-      "version"
-    ]
+    "naturalKey": {
+      "assessmentTitle": "Writing Advanced Placement Test",
+      "academicSubject": "Mathematics",
+      "gradeLevelAssessed": "Adult Education",
+      "version": 2
+    }
   },
   "parent": {
     "POST": {
@@ -463,9 +474,9 @@
       "field": "parentUniqueStateId",
       "value": "ParentID102"
     },
-    "naturalKey": [
-      "parentUniqueStateId"
-    ]
+    "naturalKey": {
+      "parentUniqueStateId": "ParentID101"
+    }
   },
   "school": {
     "POST": {
@@ -529,10 +540,10 @@
       "field": "gradeType",
       "value": "Mid-Term Grade"
     },
-    "naturalKey": [
-      "studentSectionAssociationId",
-      "gradingPeriodId"
-    ]
+    "naturalKey": {
+      "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
+      "gradingPeriodId": null
+    }
   },
   "studentCompetency": {
     "POST": {
@@ -549,11 +560,15 @@
       "field": "diagnosticStatement",
       "value": "advanced nuclear thermodynamics"
     },
-    "naturalKey": [
-      "objectiveId",
-      "competencyLevel",
-      "studentSectionAssociationId"
-    ]
+    "naturalKey": {
+      "objectiveId": {
+        "learningObjectiveId": "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
+      },
+      "competencyLevel": {
+        "description": "really hard competency"
+      },
+      "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+    }
   },
   "reportCard": {
     "POST": {
@@ -575,10 +590,10 @@
       "field": "numberOfDaysAbsent",
       "value": "17"
     },
-    "naturalKey": [
-      "studentId",
-      "gradingPeriodId"
-    ]
+    "naturalKey": {
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
+    }
   },
   "graduationPlan": {
     "POST": {
@@ -605,10 +620,10 @@
       "field": "individualPlan",
       "value": "true"
     },
-    "naturalKey": [
-      "graduationPlanType",
-      "educationOrganizationId"
-    ]
+    "naturalKey": {
+      "graduationPlanType": "Minimum",
+      "educationOrganizationId": "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
+    }
   },
   "competencyLevelDescriptor": {
     "POST": {
@@ -620,9 +635,9 @@
       "field": "description",
       "value": "Herman throws a lot of tantrums"
     },
-    "naturalKey": [
-      "codeValue"
-    ]
+    "naturalKey": {
+      "codeValue": "Temper Tantrum"
+    }
   },
   "studentCompetencyObjective": {
     "POST": {
@@ -635,9 +650,9 @@
       "field": "objectiveGradeLevel",
       "value": "First grade"
     },
-    "naturalKey": [
-      "studentCompetencyObjectiveId"
-    ]
+    "naturalKey": {
+      "studentCompetencyObjectiveId": "SCO-K-1"
+    }
   },
   "courseTranscript": {
     "POST": {
@@ -655,11 +670,11 @@
       "field": "finalLetterGradeEarned",
       "value": "D-"
     },
-    "naturalKey": [
-      "courseAttemptResult",
-      "courseId",
-      "studentAcademicRecordId"
-    ]
+    "naturalKey": {
+      "courseAttemptResult": "Pass",
+      "courseId": "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
+      "studentAcademicRecordId": "16afc8d4-6c91-48f9-8a51-de527c1131b7"
+    }
   },
   "staffCohortAssociation": {
     "POST": {
@@ -673,11 +688,11 @@
       "field": "retestIndicator",
       "value": "2nd Retest"
     },
-    "naturalKey": [
-      "staffId",
-      "cohortId",
-      "beginDate"
-    ]
+    "naturalKey": {
+      "staffId": "04f708bc-928b-420d-a440-f1592a5d1073",
+      "cohortId": "b408635d-8fd5-11e1-86ec-0021701f543f",
+      "beginDate": "2010-01-15"
+    }
   },
   "staffEducationOrganizationAssociation": {
     "POST": {
@@ -690,12 +705,12 @@
       "field": "beginDate",
       "value": "2011-02-12"
     },
-    "naturalKey": [
-      "staffReference",
-      "educationOrganizationReference",
-      "staffClassification",
-      "beginDate"
-    ]
+    "naturalKey": {
+      "staffReference": "04f708bc-928b-420d-a440-f1592a5d1073",
+      "educationOrganizationReference": "92d6d5a0-852c-45f4-907a-912752831772",
+      "staffClassification": "Counselor",
+      "beginDate": "2011-01-13"
+    }
   },
   "staffProgramAssociation": {
     "POST": {
@@ -708,11 +723,11 @@
       "field": "endDate",
       "value": "2012-11-30"
     },
-    "naturalKey": [
-      "staffId",
-      "programId",
-      "beginDate"
-    ]
+    "naturalKey": {
+      "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
+      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+      "beginDate": "2012-01-01"
+    }
   },
   "studentAssessment": {
     "POST": {
@@ -726,11 +741,11 @@
       "field": "sessionId",
       "value": "67ce204b-9999-4a11-aacb-000000000003"
     },
-    "naturalKey": [
-      "administrationDate",
-      "studentId",
-      "assessmentId"
-    ]
+    "naturalKey": {
+      "administrationDate": "2011-10-01",
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "assessmentId": "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"
+    }
   },
   "studentCohortAssociation": {
     "POST": {
@@ -743,11 +758,11 @@
       "field": "endDate",
       "value": "2012-04-04"
     },
-    "naturalKey": [
-      "studentId",
-      "cohortId",
-      "beginDate"
-    ]
+    "naturalKey": {
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "cohortId": "b408d88e-8fd5-11e1-86ec-0021701f543f",
+      "beginDate": "2012-02-29"
+    }
   },
   "studentDisciplineIncidentAssociation": {
     "POST": {
@@ -759,10 +774,10 @@
       "field": "studentParticipationCode",
       "value": "Witness"
     },
-    "naturalKey": [
-      "studentId",
-      "disciplineIncidentId"
-    ]
+    "naturalKey": {
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "disciplineIncidentId": "0e26de79-7efa-5e67-9201-5113ad50a03b"
+    }
   },
   "studentParentAssociation": {
     "POST": {
@@ -774,10 +789,10 @@
       "field": "livesWith",
       "value": false
     },
-    "naturalKey": [
-      "studentId",
-      "parentId"
-    ]
+    "naturalKey": {
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "parentId": "9b8f7237-ce8e-4dff-98cf-66535880987b"
+    }
   },
   "studentProgramAssociation": {
     "POST": {
@@ -792,12 +807,12 @@
       "field": "endDate",
       "value": "2012-07-01"
     },
-    "naturalKey": [
-      "studentId",
-      "programId",
-      "beginDate",
-      "educationOrganizationId"
-    ]
+    "naturalKey": {
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
+      "beginDate": "2012-01-12",
+      "educationOrganizationId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
   },
   "studentSchoolAssociation": {
     "POST": {
@@ -807,14 +822,14 @@
       "entryDate": "2011-09-01"
     },
     "UPDATE": {
-      "field": "entryDate",
-      "value": "2011-07-01"
+      "field": "entryGradeLevel",
+      "value": "Third grade"
     },
-    "naturalKey": [
-      "studentId",
-      "schoolId",
-      "entryDate"
-    ]
+    "naturalKey": {
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "entryDate": "2011-09-01"
+    }
   },
   "studentSectionAssociation": {
     "POST": {
@@ -829,11 +844,11 @@
       "field": "repeatIdentifier",
       "value": "Not repeated"
     },
-    "naturalKey": [
-      "studentId",
-      "sectionId",
-      "beginDate"
-    ]
+    "naturalKey": {
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234",
+      "beginDate": "2011-12-01"
+    }
   },
   "teacherSchoolAssociation": {
     "POST": {
@@ -845,11 +860,11 @@
       "field": "programAssignment",
       "value": "Special Education"
     },
-    "naturalKey": [
-      "teacherId",
-      "schoolId",
-      "programAssignment"
-    ]
+    "naturalKey": {
+      "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
+      "programAssignment": "Regular Education"
+    }
   },
   "teacherSectionAssociation": {
     "POST": {
@@ -861,167 +876,9 @@
       "field": "classroomPosition",
       "value": "Assistant Teacher"
     },
-    "naturalKey": [
-      "teacherId",
-      "sectionId"
-    ]
-  },
-  "assessmentIdentificationCode": {
-  },
-  "assessmentItem": {
-  },
-  "assessmentPerformanceLevel": {
-  },
-  "learningStyles": {
-  },
-  "miscellaneousEvent": {
-  },
-  "name": {
-  },
-  "localEducationAgency": {
-  },
-  "objectiveAssessment": {
-    "naturalKey": [
-      "identificationCode"
-    ]
-  },
-  "otherName": {
-  },
-  "performanceLevelDescriptor": {
-  },
-  "postSecondaryEvent": {
-  },
-  "restraintEvent": {
-  },
-  "restraintEventReasonsType": {
-  },
-  "scoreResult": {
-  },
-  "secondaryBehavior": {
-  },
-  "staffIdentificationCode": {
-  },
-  "serviceDescriptor": {
-  },
-  "serviceDescriptorType": {
-  },
-  "stateEducationAgency": {
-  },
-  "studentAssessmentItem": {
-  },
-  "studentCharacteristic": {
-  },
-  "studentCTEProgramAssociation": {
-  },
-  "studentIdentificationCode": {
-  },
-  "studentIndicator": {
-  },
-  "studentObjectiveAssessment": {
-  },
-  "studentSpecialEdProgramAssociation": {
-  },
-  "telephone": {
-  },
-  "disability": {
-  },
-  "educationOrgIdentificationCode": {
-  },
-  "educationalOrgIdentityType": {
-  },
-  "electronicMail": {
-  },
-  "accountabilityRating": {
-  },
-  "additionalCredits": {
-  },
-  "address": {
-  },
-  "academicSubjectsType": {
-  },
-  "academicWeek": {
-  },
-  "credential": {
-  },
-  "credentialFieldDescriptor": {
-  },
-  "credits": {
-  },
-  "creditsByCourse": {
-  },
-  "creditsBySubject": {
-  },
-  "CTEProgram": {
-  },
-  "diploma": {
-    "naturalKey": [
-      "diplomaAwardDate",
-      "diplomaType",
-      "schoolReference"
-    ]
-  },
-  "learningObjectiveIdentityType": {
-  },
-  "learningStandardIdentityType": {
-  },
-  "employmentPeriod": {
-  },
-  "feederSchoolType": {
-  },
-  "gradingPeriodIdentityType": {
-    "naturalKey": [
-      "gradingPeriod",
-      "schoolId"
-    ]
-  },
-  "institutionTelephone": {
-  },
-  "learningStandardId": {
-    "naturalKey": [
-      "identificationCode"
-    ]
-  },
-  "cohortYear": {
-  },
-  "courseCode": {
-  },
-  "academicHonor": {
-  },
-  "assessmentPeriodDescriptor": {
-  },
-  "attendanceEvent": {
-  },
-  "behaviorDescriptor": {
-  },
-  "disciplineDescriptor": {
-  },
-  "birthData": {
-  },
-  "calendarDate": {
-    "naturalKey": [
-      "date"
-    ]
-  },
-  "classRanking": {
-  },
-  "programParticipation": {
-  },
-  "recognition": {
-  },
-  "weaponsType": {
-  },
-  "schoolYearAttendanceType": {
-  },
-  "behaviorDescriptorType": {
-  },
-  "disciplineDescriptorType": {
-  },
-  "competencyLevelDescriptorType": {
-  },
-  "studentCompetencyObjectiveReference": {
-  },
-  "home": {
-  },
-  "links": {
+    "naturalKey": {
+      "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
+      "sectionId": "392d1835-f372-4690-b221-7065db1aed33"
+    }
   }
 }

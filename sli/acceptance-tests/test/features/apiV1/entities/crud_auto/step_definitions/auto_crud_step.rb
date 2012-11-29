@@ -91,6 +91,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 @entityData = JSON.parse(File.read(resource_config))
   @fields = @entityData[arg1]["POST"]
   @updates = @entityData[arg1]["UPDATE"]
+  @naturalKey = @entityData[arg1]["naturalKey"]
 end
 Then /^I perform CRUD for each resource available$/ do
   resources.each do |resource|
@@ -98,6 +99,12 @@ Then /^I perform CRUD for each resource available$/ do
       #post is not allowed for associations
         post_resource resource
         get_resource resource
+        steps %Q{
+          When I set the "#{@updates['field']}" to "#{@updates['value']}"
+          When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 204
+        }
+        update_natural_key resource
         delete_resource resource
         puts  "|#{get_resource_type(resource)}|"
     rescue =>e
@@ -159,4 +166,13 @@ def get_resource_type resource
     resource_type.sub!(%r/s\z/,"")
   end
   resource_type
+end
+def update_natural_key resource
+  @naturalKey.each do |nKey,nVal|
+    steps %Q{
+          When I set the "#{nKey}" to "#{nVal}"
+          When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 204 
+    }
+  end
 end
