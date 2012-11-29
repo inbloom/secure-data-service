@@ -556,6 +556,7 @@ Scenario: Verify references were resolved correctly
 	| grade                                 | 6b024f0c5e85c6acbe10bec0f7d441236a1c56b1_id 											 | body.gradingPeriodId                 		 | gradingPeriod 							  |
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_id88cb14f9fbf459281d79c7c0561d6d9542989e02_id | body.gradingPeriodId							 | gradingPeriod							  |
 	#graduationPlan
+	| studentSchoolAssociation				| 53570e4b376fc1466f47eb3f2c0404f5b17eae37_id											 | body.graduationPlanId						| graduationPlan							  |
 	#learningObjective
     | studentCompetency                     | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											 | body.objectiveId.learningObjectiveId         | learningObjective							  |
 	#learningStandard
@@ -572,7 +573,7 @@ Scenario: Verify references were resolved correctly
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       		| section									  |
 	| studentSectionAssociation			    | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.sectionId								| section									  |
 	| teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            					| section									  |
-	| studentGradebookEntry					| 5326d70c0ce217608b0bf4d2c512a51b921d03a9_id											 | body.sectionId								| section									  |
+	| studentGradebookEntry					| 5e4a91f91f408fc9e50cfed32c18e46858839e78_id											 | body.sectionId								| section									  |
 	#session
 	| courseOffering                        | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.sessionId                      			| session 									  |
 	| studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.sessionId                       		| session									  |
