@@ -18,10 +18,8 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -54,6 +52,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UriMutator {
 
+    public static final int NUM_SEGMENTS_IN_TWO_PART_REQUEST = 3;
     @Resource
     private EdOrgHelper edOrgHelper;
 
@@ -83,7 +82,6 @@ public class UriMutator {
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
         String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
-        Map<String, String> keys = new HashMap<String, String>();
         String type = "";
         String field = "";
         String value = "";
@@ -127,7 +125,7 @@ public class UriMutator {
             }
         }
 
-        if (segments.size() < 3) {
+        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
                 Pair<String, String> mutated;
@@ -160,7 +158,7 @@ public class UriMutator {
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
         boolean skipMutation = false;
 
-        if (segments.size() < 3) {
+        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
             String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
@@ -860,8 +858,7 @@ public class UriMutator {
 
     private String removeQueryFromQueryParameters(String queryName, String queryParameters) {
         String queryRegEx = Matcher.quoteReplacement(queryName) + "=[^&]*&?";
-        String updatedQueryParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
-        return updatedQueryParameters;
+        return queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
     }
 
 

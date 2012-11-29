@@ -33,7 +33,7 @@ class Parent < BaseEntity
     @id = id
     @year_of = year_of
     @rand = Random.new(@id)
-    buildStudent
+    buildParent
   end
 
   def buildParent

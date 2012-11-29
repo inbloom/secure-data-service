@@ -36,7 +36,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -82,7 +81,7 @@ public class TenantProcessorTest {
 
         List<String> testLzPaths = new ArrayList<String>();
         testLzPaths.add("."); // this must be a path that exists on all platforms
-        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(testLzPaths);
+        when(mockedTenantDA.getLzPaths()).thenReturn(testLzPaths);
 
         // get a test tenantRecord
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());

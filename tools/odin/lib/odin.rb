@@ -15,6 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+# Enable tailcall optimizations to reduce overall stack size.
+RubyVM::InstructionSequence.compile_option = {
+    :tailcall_optimization => true,
+    :trace_instruction => false
+}
 
 require 'digest/md5'
 require 'digest/sha1'
@@ -25,7 +30,7 @@ require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
-require_relative 'OutputGeneration/XML/studentGenerator'
+require_relative 'OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
@@ -78,7 +83,8 @@ class Odin
     valid = true
     Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
 
-      valid = valid && validate_file(f)
+      
+      valid = valid && validate_file( f )
 
     }
     return valid

@@ -21,25 +21,27 @@ import org.slc.sli.test.edfi.entities.AccountabilityRating;
 import org.slc.sli.test.edfi.entities.CharterStatusType;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
-import org.slc.sli.test.edfi.entities.EducationOrganization;
-import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
-import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
-import org.slc.sli.test.edfi.entities.EducationServiceCenter;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationOrganization;
+import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
+import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
+import org.slc.sli.test.edfi.entities.SLCEducationServiceCenter;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.FeederSchoolAssociation;
 import org.slc.sli.test.edfi.entities.InstitutionTelephone;
 import org.slc.sli.test.edfi.entities.InstitutionTelephoneNumberType;
 import org.slc.sli.test.edfi.entities.LEACategoryType;
-import org.slc.sli.test.edfi.entities.LocalEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCLocalEducationAgency;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
-import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCStateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
 
 public class EducationAgencyGenerator {
 
-    public StateEducationAgency getSEA(String id) {
-        StateEducationAgency agency = new StateEducationAgency();
+    public SLCStateEducationAgency getSEA(String id) {
+        SLCStateEducationAgency agency = new SLCStateEducationAgency();
         if (id != null)
             agency.setId(id);
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();
@@ -71,26 +73,26 @@ public class EducationAgencyGenerator {
         return agency;
     }
 
-    public EducationalOrgReferenceType getEducationalOrgReferenceType(EducationOrganization edOrg) {
-        EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
-        EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
-        identity.getEducationOrgIdentificationCode().addAll(edOrg.getEducationOrgIdentificationCode());
+    public SLCEducationalOrgReferenceType getEducationalOrgReferenceType(SLCEducationOrganization edOrg) {
+        SLCEducationalOrgReferenceType ref = new SLCEducationalOrgReferenceType();
+//        SLCEducationalOrgIdentityType identity = new SLCEducationalOrgIdentityType();
+//        identity.getEducationOrgIdentificationCode().addAll(edOrg.getEducationOrgIdentificationCode());
         // identity.getStateOrganizationIdOrEducationOrgIdentificationCode().
         // addAll(edOrg.getEducationOrgIdentificationCode());
         return ref;
     }
 
-    public static EducationalOrgReferenceType generateReference(String stateOrganizationId) {
-        EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
-        EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
+    public static SLCEducationalOrgReferenceType generateReference(String stateOrganizationId) {
+        SLCEducationalOrgReferenceType ref = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType identity = new SLCEducationalOrgIdentityType();
         identity.setStateOrganizationId(stateOrganizationId);
         ref.setEducationalOrgIdentity(identity);
         return ref;
 
     }
 
-    public LocalEducationAgency getLEA(String id) {
-        LocalEducationAgency agency = new LocalEducationAgency();
+    public SLCLocalEducationAgency getLEA(String id) {
+        SLCLocalEducationAgency agency = new SLCLocalEducationAgency();
         agency.setStateOrganizationId("ManhattanLEA");
         agency.setId(id);
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();
@@ -127,8 +129,8 @@ public class EducationAgencyGenerator {
         return agency;
     }
 
-    public static EducationServiceCenter getEducationServiceCenter(String id, String seaId) {
-        EducationServiceCenter agency = new EducationServiceCenter();
+    public static SLCEducationServiceCenter getEducationServiceCenter(String id, String seaId) {
+        SLCEducationServiceCenter agency = new SLCEducationServiceCenter();
         agency.setStateOrganizationId(id);
         agency.setId(id);
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();

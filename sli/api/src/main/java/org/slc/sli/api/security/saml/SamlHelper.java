@@ -66,8 +66,6 @@ public class SamlHelper {
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String SUCCESS_STATUS = "urn:oasis:names:tc:SAML:2.0:status:Success";
 
-    // private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
-
     public static final Namespace SAML_NS = Namespace.getNamespace("saml", "urn:oasis:names:tc:SAML:2.0:assertion");
     public static final Namespace SAMLP_NS = Namespace.getNamespace("samlp", "urn:oasis:names:tc:SAML:2.0:protocol");
 

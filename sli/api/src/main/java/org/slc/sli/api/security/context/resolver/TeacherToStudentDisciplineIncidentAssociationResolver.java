@@ -47,7 +47,6 @@ public class TeacherToStudentDisciplineIncidentAssociationResolver implements En
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-//        return false;
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(toEntityType);
     }
 

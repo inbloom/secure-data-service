@@ -21,14 +21,14 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.BehaviorDescriptorType;
-import org.slc.sli.test.edfi.entities.DisciplineIncident;
-import org.slc.sli.test.edfi.entities.DisciplineIncidentIdentityType;
-import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncident;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncidentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncidentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SecondaryBehavior;
-import org.slc.sli.test.edfi.entities.StaffIdentityType;
-import org.slc.sli.test.edfi.entities.StaffReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.WeaponsType;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 
@@ -52,7 +52,7 @@ public class DisciplineIncidentGenerator {
      *
      * @return <code>DisciplineIncident</code>
      */
-    public static DisciplineIncident generateLowFi(DisciplineIncidentMeta meta) {
+    public static SLCDisciplineIncident generateLowFi(DisciplineIncidentMeta meta) {
         String disciplineIncidentId = meta.id;
         String schoolId = meta.schoolId;
         String staffId = meta.staffId;
@@ -62,19 +62,19 @@ public class DisciplineIncidentGenerator {
 
     /**
      * Generates a DisciplineIncidentReferenceType
-     * 
+     *
      * @param disciplineIncidentId
      * @param schoolId
      * @return
      */
-    public static DisciplineIncidentReferenceType generateReference(String disciplineIncidentId, String schoolId) {
-        DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
-        DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
+    public static SLCDisciplineIncidentReferenceType generateReference(String disciplineIncidentId, String schoolId) {
+        SLCDisciplineIncidentReferenceType dirt = new SLCDisciplineIncidentReferenceType();
+        SLCDisciplineIncidentIdentityType diit = new SLCDisciplineIncidentIdentityType();
         dirt.setDisciplineIncidentIdentity(diit);
         diit.setIncidentIdentifier(disciplineIncidentId);
-        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
         edOrgIdentity.setStateOrganizationId(schoolId);
-        EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
         edOrgRef.setEducationalOrgIdentity(edOrgIdentity);
         diit.setEducationalOrgReference(edOrgRef);
 
@@ -91,9 +91,9 @@ public class DisciplineIncidentGenerator {
      *
      * @return <code>DisciplineIncident</code>
      */
-    public static DisciplineIncident generateLowFi(String disciplineIncidentId, String schoolId, String staffId) {
+    public static SLCDisciplineIncident generateLowFi(String disciplineIncidentId, String schoolId, String staffId) {
 
-        DisciplineIncident incident = new DisciplineIncident();
+        SLCDisciplineIncident incident = new SLCDisciplineIncident();
 
         incident.setIncidentIdentifier(disciplineIncidentId);
         incident.setId(disciplineIncidentId);
@@ -141,18 +141,18 @@ public class DisciplineIncidentGenerator {
         wt.getWeapon().add(GeneratorUtils.generateWeaponItemType());
         incident.setWeapons(wt);
         // construct and add the school references
-        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
         edOrgIdentity.setStateOrganizationId(schoolId);
 //        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
         incident.setSchoolReference(schoolRef);
 
         // construct and add the staff reference
         if (staffId != null && staffId.length() > 0) {
-            StaffIdentityType sit = new StaffIdentityType();
+            SLCStaffIdentityType sit = new SLCStaffIdentityType();
             sit.setStaffUniqueStateId(staffId);
-            StaffReferenceType srt = new StaffReferenceType();
+            SLCStaffReferenceType srt = new SLCStaffReferenceType();
             srt.setStaffIdentity(sit);
             incident.setStaffReference(srt);
         }
