@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mongo="http://www.springframework.org/schema/data/mongo"
   xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd ">
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+    >
 
   <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
@@ -36,6 +40,7 @@
   <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
   <import resource="idRefResolution-context.xml" />
+  <import resource="tenantdb-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
@@ -128,4 +133,20 @@
     <property name="neutralRecordAccess" ref="dummyNeutralRecordAccess" />
   </bean>
 
+
+    <mongo:db-factory id="testMongoFactory" dbname="commanderTest" host="${sli.mongodb.host}"
+    port="${sli.mongodb.port}" />
+
+  <bean id="testMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
+    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="testMongoFactory" />
+  </bean>
+  
+  <util:set id="testIndexes" set-class="java.util.TreeSet">
+    <!-- (collection,unique,indexKeys ...) -->
+    <!-- creationTime indexes for all collections -->
+    <value>assessment,false,creationTime</value>
+    <value>assessmentFamily,false,creationTime</value>
+    <value>assessmentItem,false,creationTime</value>
+  </util:set>
+  
 </beans>

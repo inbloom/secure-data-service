@@ -69,7 +69,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     private MongoTemplate neutralRecordMongoTemplate;
 
     private Map<String, List<HashMap<String, Object>>> sliIndexCache;
-    private Map<String, List<HashMap<String, Object>>> isIndexCache;
     private Map<String, List<HashMap<String, Object>>> batchJobIndexCache;
 
     @Override
@@ -80,15 +79,11 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         if (sliIndexCache == null) {
             sliIndexCache = new HashMap<String, List<HashMap<String, Object>>>();
         }
-        if (isIndexCache == null) {
-            isIndexCache = new HashMap<String, List<HashMap<String, Object>>>();
-        }
         if (batchJobIndexCache == null) {
             batchJobIndexCache = new HashMap<String, List<HashMap<String, Object>>>();
         }
 
         try {
-            errorMessage += parseFile("is_indexes.js", isIndexCache, neutralRecordMongoTemplate);
             errorMessage += parseFile("sli_indexes.js", sliIndexCache, mongoTemplate);
             errorMessage += parseFile("ingestion_batch_job_indexes.js", batchJobIndexCache, batchJobMongoTemplate);
         } catch (URISyntaxException e) {

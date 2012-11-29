@@ -16,17 +16,6 @@
 
 package org.slc.sli.api.ldap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.naming.directory.SearchControls;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -40,6 +29,16 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.OrFilter;
 import org.springframework.stereotype.Component;
 
+import javax.naming.directory.SearchControls;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * implementation of LdapService interface for basic CRUD and search operations on LDAP directory
  *
@@ -50,8 +49,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class LdapServiceImpl implements LdapService {
 
+    public static final String OBJECTCLASS = "objectclass";
     @Autowired
-    LdapTemplate ldapTemplate;
+    private LdapTemplate ldapTemplate;
 
     @Value("${sli.simple-idp.userSearchAttribute}")
     private String userSearchAttribute;
@@ -73,7 +73,7 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public User getUser(String realm, String uid) {
         AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, uid));
+        filter.and(new EqualsFilter(OBJECTCLASS, userObjectClass)).and(new EqualsFilter(userSearchAttribute, uid));
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         User user;
         try {
@@ -98,7 +98,7 @@ public class LdapServiceImpl implements LdapService {
     public Collection<Group> getUserGroups(String realm, String uid) {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter(groupSearchAttribute, uid));
+        filter.and(new EqualsFilter(OBJECTCLASS, groupObjectClass)).and(new EqualsFilter(groupSearchAttribute, uid));
         List<Group> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         return groups;
     }
@@ -213,7 +213,7 @@ public class LdapServiceImpl implements LdapService {
         }
 
         AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", userObjectClass));
+        filter.and(new EqualsFilter(OBJECTCLASS, userObjectClass));
         OrFilter orFilter = new OrFilter();
         for (String uid : allowedUsers) {
             orFilter.or(new EqualsFilter(userSearchAttribute, uid));
@@ -257,10 +257,9 @@ public class LdapServiceImpl implements LdapService {
     public Group getGroup(String realm, String groupName) {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter("cn", groupName));
+        filter.and(new EqualsFilter(OBJECTCLASS, groupObjectClass)).and(new EqualsFilter("cn", groupName));
         try {
-            Group group = (Group) ldapTemplate.searchForObject(dn, filter.toString(), new GroupContextMapper());
-            return group;
+            return (Group) ldapTemplate.searchForObject(dn, filter.toString(), new GroupContextMapper());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -320,17 +319,15 @@ public class LdapServiceImpl implements LdapService {
     }
 
     private DistinguishedName buildUserDN(String realm, String cn) {
-        DistinguishedName dn = new DistinguishedName("cn=" + cn + ",ou=people,ou=" + realm);
-        return dn;
+        return new DistinguishedName("cn=" + cn + ",ou=people,ou=" + realm);
     }
 
     private DistinguishedName buildGroupDN(String realm, String groupName) {
-        DistinguishedName dn = new DistinguishedName("cn=" + groupName + ",ou=groups,ou=" + realm);
-        return dn;
+        return new DistinguishedName("cn=" + groupName + ",ou=groups,ou=" + realm);
     }
 
     private void mapUserToContext(DirContextAdapter context, User user) {
-        context.setAttributeValues("objectclass", new String[] { "inetOrgPerson", "posixAccount", "top" });
+        context.setAttributeValues(OBJECTCLASS, new String[] { "inetOrgPerson", "posixAccount", "top" });
         context.setAttributeValue("givenName", user.getGivenName());
         String surName = user.getSn();
         context.setAttributeValue("sn", surName == null ? " " : surName);

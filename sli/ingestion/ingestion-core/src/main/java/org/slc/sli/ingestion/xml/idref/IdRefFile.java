@@ -25,6 +25,7 @@ import java.io.File;
  *
  */
 public class IdRefFile extends File {
+    private static final long serialVersionUID = 1L;
 
     public IdRefFile(File file) {
         super(file.toURI());
