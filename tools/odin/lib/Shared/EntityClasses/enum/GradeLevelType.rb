@@ -101,16 +101,42 @@ class GradeLevelType
 
   # returns true if the specified grade is an elementary school grade, false otherwise
   def self.is_elementary_school_grade(grade)
-    elementary.include? grade
+    elementary.include?(grade)
   end
 
   # returns true if the specified grade is a middle school grade, false otherwise
   def self.is_middle_school_grade(grade)
-    middle.include? grade
+    middle.include?(grade)
   end
 
   # returns true if the specified grade is a high school grade, false otherwise
   def self.is_high_school_grade(grade)
-    high.include? grade
+    high.include?(grade)
+  end
+
+  # overload the subtraction operator to move between the set of ordered grades
+  def self.decrement(grade, num_grades)
+    if grade == :KINDERGARTEN
+      return grade
+    end
+    ordered = GradeLevelType.get_ordered_grades
+    current = ordered.index(grade)
+    if current != nil
+      return ordered.fetch(current - num_grades)
+    end    
+    return grade
+  end
+
+  # overload the addition operator to move between the set of ordered grades
+  def self.increment(grade, num_grades)
+    if grade == :TWELFTH_GRADE
+      return grade
+    end
+    ordered = GradeLevelType.get_ordered_grades
+    current = ordered.index(grade)
+    if current != nil
+      return ordered.fetch(current + num_grades)
+    end
+    return grade
   end
 end

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -28,7 +29,6 @@ import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -53,6 +53,8 @@ import org.springframework.stereotype.Component;
 public class UriMutator {
 
     public static final int NUM_SEGMENTS_IN_TWO_PART_REQUEST = 3;
+    public static final int NUM_SEGMENTS_IN_ONE_PART_REQUEST = 2;
+
     @Resource
     private EdOrgHelper edOrgHelper;
 
@@ -66,6 +68,13 @@ public class UriMutator {
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+
+    private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
+            Pair.of(ParameterConstants.STUDENT_UNIQUE_STATE_ID, ResourceNames.STUDENTS),
+            Pair.of(ParameterConstants.STAFF_UNIQUE_STATE_ID, ResourceNames.STAFF),
+            Pair.of(ParameterConstants.PARENT_UNIQUE_STATE_ID, ResourceNames.PARENTS),
+            Pair.of(ParameterConstants.STATE_ORGANIZATION_ID, ResourceNames.EDUCATION_ORGANIZATIONS)
+    );
     /**
      * Acts as a filter to determine if the requested resource, given knowledge of the user
      * requesting it, should be rewritten. Returning null indicates that the URI should NOT be
@@ -79,6 +88,15 @@ public class UriMutator {
      *         to be rewritten.
      */
     public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
+
+        if (queryParameters == null) {
+            queryParameters = "";
+        }
+        Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
+
+
+
+
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
         String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
@@ -88,22 +106,22 @@ public class UriMutator {
         String resourceName = "";
         for (String query : queries) {
             if (query.matches("(studentUniqueStateId)=.+")) {
-                field = "studentUniqueStateId";
+                field = ParameterConstants.STUDENT_UNIQUE_STATE_ID;
                 type = EntityNames.STUDENT;
                 resourceName = "students";
 
             } else if (query.matches("(staffUniqueStateId)=.+")) {
-                field = "staffUniqueStateId";
+                field = ParameterConstants.STAFF_UNIQUE_STATE_ID;
                 type = EntityNames.STAFF;
                 resourceName = "staff";
 
             } else if (query.matches("(parentUniqueStateId)=.+")) {
-                field = "parentUniqueStateId";
+                field = ParameterConstants.PARENT_UNIQUE_STATE_ID;
                 type = EntityNames.PARENT;
                 resourceName = "parents";
 
             } else if (query.matches("(stateOrganizationId)=.+")) {
-                field = "stateOrganizationId";
+                field = ParameterConstants.STATE_ORGANIZATION_ID;
                 type = EntityNames.EDUCATION_ORGANIZATION;
                 resourceName = "educationOrganizations";
 
@@ -157,20 +175,15 @@ public class UriMutator {
 
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
         boolean skipMutation = false;
-
-        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
-
+        if (segments.size() == NUM_SEGMENTS_IN_ONE_PART_REQUEST) {
             String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
                 if (!query
                         .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|optionalFields|views|includeCustom|selector)=.+")) {
-                    int baseResourceIndex = 1;
-                    if (segments.size() >= 2
-                            && publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
+                    final int baseResourceIndex = 1;
+                    if (publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
                         skipMutation = true;
                         break;
-                    } else {
-                        debug("Search request /{}?{}", segments.get(baseResourceIndex).getPath(), queryParameters);
                     }
                 }
             }
