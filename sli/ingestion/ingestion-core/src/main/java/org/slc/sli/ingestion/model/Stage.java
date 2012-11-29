@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
  * Model for the different stages of ingestion processing.
@@ -174,14 +174,14 @@ public class Stage {
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
-        this.sourceIp = BatchJobUtils.getHostAddress();
-        this.hostname = BatchJobUtils.getHostName();
+        this.setStartTimestamp(BatchJobUtils2.getCurrentTimeStamp());
+        this.sourceIp = BatchJobUtils2.getHostAddress();
+        this.hostname = BatchJobUtils2.getHostName();
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
+        this.setStopTimestamp(BatchJobUtils2.getCurrentTimeStamp());
         this.elapsedTime = calcElapsedTime();
     }
 

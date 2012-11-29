@@ -26,6 +26,7 @@
 @RALLY_US4399
 @RALLY_US4398
 @RALLY_DE2150
+@RALLY_DE2218
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -429,11 +430,11 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idd8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
     | studentAssessment         | 0f037add13a1b0590b9e7f19bd9edf8c38e0e1ac_id4f3903628a3e67a727cbd88c5cc68aae17f243e5_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
     | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idd8e0b70696b616712641162668edffe64511abcc_id | body.administrationDate   | 2011-10-01                           |
-    | studentAssessment	         		   | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            | c04d5891b6b1f10ce9b9e48b80581cda7788312c_id |
-    | studentAssessment   			       | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
-    | studentAssessment         		   | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.administrationDate   | 2011-05-01                                    |
-    | studentAssessment         		   | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentAssessmentItems.assessmentItem.learningStandards   | 316a4af0c4f2a43c958c1dcf1102777862f86307_id |
-    | studentAssessment			           | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |   
+    | studentAssessment                    | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            | c04d5891b6b1f10ce9b9e48b80581cda7788312c_id |
+    | studentAssessment                    | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
+    | studentAssessment                    | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.administrationDate   | 2011-05-01                                    |
+    | studentAssessment                    | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentAssessmentItems.assessmentItem.learningStandards   | 316a4af0c4f2a43c958c1dcf1102777862f86307_id |
+    | studentAssessment                    | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ide7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |   
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
@@ -547,7 +548,7 @@ Scenario: Verify references were resolved correctly
 	#educationOrganization
 	| graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
 	#grade
-	#| reportCard							| 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id											 | body.grades									 | grade									  |
+	| reportCard							| 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id											 | body.grades									 | grade									  |
 	#gradebookEntry
 	| studentGradebookEntry					| acbc46150673fc24cbf23530c1baf408682f60de_id											 | body.gradebookEntryId						 | gradebookEntry							  |
 	#gradingPeriod
@@ -568,7 +569,9 @@ Scenario: Verify references were resolved correctly
 	| cohort								| d4141f13a54a30a0daef0adced5db8ef9c3d8879_id											 | body.programId								| program									  |
 	| educationOrganization					| b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id											 | body.programReference						| program									  |
 	| staffProgramAssociation				| 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id											 | body.programId								| program									  |
+	| section								| 135963f2abd3320ae508546fbff31f37e10b949e_id											 | body.programReference						| program									  |
 	#reportCard
+	| studentAcademicRecord					| 3def063da11388ae3cb1b86c3bd1e0bbc9bb15d9_id											 | body.reportCards								| reportCard								  |
 	#section
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       		| section									  |
 	| studentSectionAssociation			    | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.sectionId								| section									  |
@@ -591,6 +594,7 @@ Scenario: Verify references were resolved correctly
 	#studentCompetency
 	| reportCard							| 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id											 | body.studentCompetencyId						| studentCompetency							  |
 	#studentCompetencyObjective
+	| studentCompetency						| 0d1963676e1627e9a971d748851f549fdc9528c6_id											 | body.objectiveId.studentCompetencyObjectiveId | studentCompetencyObjective				  |
 	#student
 	| studentCohortAssociation              | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId           					| student									  |
     | studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              					| student									  |
@@ -1153,7 +1157,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | collectionName              | count |
         | gradebookEntry              | 12    |
         | studentGradebookEntry       | 315   |
-        | studentCompetency           | 59    |
+        | studentCompetency           | 60    |
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
@@ -1184,7 +1188,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | collectionName              | count |
         | gradebookEntry              | 13    |
         | studentGradebookEntry       | 316   |
-        | studentCompetency           | 59    |
+        | studentCompetency           | 60    |
         | grade                       | 5     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
