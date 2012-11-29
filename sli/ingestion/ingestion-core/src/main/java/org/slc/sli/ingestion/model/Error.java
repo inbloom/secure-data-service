@@ -22,7 +22,7 @@ import java.util.Date;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
  *
@@ -78,16 +78,16 @@ public final class Error {
 
         String theSourceIp = sourceIp;
         if (theSourceIp == null) {
-            theSourceIp = BatchJobUtils.getHostAddress();
+            theSourceIp = BatchJobUtils2.getHostAddress();
         }
 
         String theHostname = hostname;
         if (theHostname == null) {
-            theHostname = BatchJobUtils.getHostName();
+            theHostname = BatchJobUtils2.getHostName();
         }
 
         Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
-                BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
+                BatchJobUtils2.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
         return error;
     }
