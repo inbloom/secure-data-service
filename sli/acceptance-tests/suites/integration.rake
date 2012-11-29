@@ -106,6 +106,22 @@ task :rcSandboxDatabrowserTests do
   runTests("test/features/cross_app_tests/rc_sandbox_databrowser.feature")
 end
 
+desc "Run RC Sandbox Tenant Purge Test"
+task :rcSandboxPurgeTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_purge.feature")
+end
+
+desc "Run RC Sandbox Cleanup"
+task :rcSandboxCleanUpTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_cleanup.feature")
+end
+
+desc "Run RC Tenant Cleanup"
+task :rcSandboxTenantCleanUp do
+  runTests("test/features/cross_app_tests/rc_sandbox_delete_tenant.feature")
+end
+
+
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
@@ -174,6 +190,9 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
+  Rake::Task["rcSandboxPurgeTests"].execute
+  Rake::Task["rcSandboxCleanUpTests"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
+  Rake::Task["rcSandboxTenantCleanUp"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
