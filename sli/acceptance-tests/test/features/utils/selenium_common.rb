@@ -96,10 +96,11 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 end
 
 After do |scenario|
- begin
-    File.rm("./cats_with_lasers.png")
- rescue
- end
+  begin
+     File.delete("./cats_with_lasers.png")
+  rescue Exception => e
+    puts e.message
+  end
   #puts "Running the After hook for Scenario: #{scenario}"s
   if (scenario.failed? and !@driver.nil?)
     @driver.save_screenshot("./cats_with_lasers.png")
