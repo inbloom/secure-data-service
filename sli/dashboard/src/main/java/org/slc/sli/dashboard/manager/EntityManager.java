@@ -344,8 +344,9 @@ public class EntityManager extends ApiClientManager {
 	 */
 	public GenericEntity getSectionForProfile(String token, String sectionId,
 			Map<String, GenericEntity> cache, Map<String, String> teacherIdCache) {
-		if (cache == null) {
+		if (cache == null || teacherIdCache == null) {
 			cache = new HashMap<String, GenericEntity>();
+			teacherIdCache = new HashMap<String, String>();
 		}
 
 		GenericEntity section = cache.get(sectionId);
