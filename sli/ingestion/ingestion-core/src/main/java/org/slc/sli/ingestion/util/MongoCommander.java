@@ -119,7 +119,7 @@ public class MongoCommander {
 
                 try{
                     dbConn.getCollection(collection)
-                        .ensureIndex(keys, "tenant"+indexOrder, unique);
+                        .ensureIndex(keys, "idx_"+indexOrder, unique);
                 } catch(Exception e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }
