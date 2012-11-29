@@ -20412,6 +20412,38 @@
         <StudentAcademicRecordReference ref="SAR-800000025-8"/>
     </CourseTranscript>
     <!-- ReportCard, Grade and StudentCompetency records for Matt Sollars grade 3 -->
+    <StudentCompetency>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>Fluency and Expression</Objective>
+                <AcademicSubject>Reading</AcademicSubject>
+                <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <CompetencyLevel>
+            <CodeValue>3</CodeValue>
+        </CompetencyLevel>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+    </StudentCompetency>
     <StudentCompetency id="SC-GR3-800000025-1">
         <!-- LearningObjectiveReference>
             <LearningObjectiveIdentity>
