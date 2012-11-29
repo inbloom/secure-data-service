@@ -496,4 +496,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
         batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
     }
 
+    @Override
+    public MongoTemplate getMongoTemplate() {
+        return sliMongo;
+    }
 }

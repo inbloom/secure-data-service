@@ -30,7 +30,9 @@ import org.springframework.util.StringUtils;
  * @author ablum
  *
  */
-public class NeutralRecordUtils {
+public final class NeutralRecordUtils {
+
+    private NeutralRecordUtils() { }
 
     @SuppressWarnings("unchecked")
     public static <T> T decodeAndTrimXmlStrings(T obj) {

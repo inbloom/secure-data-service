@@ -96,10 +96,6 @@
                   <directory>../../config/indexes</directory>
                   <filtering>true</filtering>
                 </resource>
-                <resource>
-                  <directory>../../config/shards</directory>
-                  <filtering>true</filtering>
-                </resource>
               </resources>
             </configuration>
           </execution>

@@ -52,11 +52,8 @@ class WorldBuilder
     @edOrgs["elementary"]             = []
     @edOrgs["middle"]                 = []
     @edOrgs["high"]                   = []
-    @edOrgs["students"]               = Hash.new
-    @edOrgs["students"]["elementary"] = Hash.new
-    @edOrgs["students"]["middle"]     = Hash.new
-    @edOrgs["students"]["high"]       = Hash.new
-
+    
+    # master schedule writer will need to be created in odin.rb and passed in to be used here
     @education_organization_writer = EducationOrganizationGenerator.new(medium_batch_size)
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new(medium_batch_size)
     @master_schedule_writer        = MasterScheduleGenerator.new(medium_batch_size)
@@ -93,13 +90,14 @@ class WorldBuilder
 
     # create grade breakdown from total number of students
     # populate education organization structure using breakdown (number of students per grade)
-    # update structure with time information
+    # update structure with time information (create sessions using begin year and number of years)
+    # expand school enrollment information using previously created session information
     # use time information to create master schedule (course offerings, sections)
     # finally, write interchanges
     compute_grade_breakdown(rand, yaml, num_students)
-    @log.info "breakdown by grade: #{@breakdown} --> total number of students: #{@breakdown.values.inject(:+)}"
     create_edOrgs_using_breakdown(rand, yaml)
-    add_time_information_to_edOrgs(rand, yaml)
+    begin_year, num_years = add_time_information_to_edOrgs(rand, yaml)
+    expand_student_counts_using_time_information(rand, yaml, begin_year, num_years)
     create_master_schedule(rand, yaml)
     write_interchanges(rand, yaml)
   end
@@ -110,8 +108,9 @@ class WorldBuilder
   def compute_grade_breakdown(rand, yaml, num_students)
     students_so_far = 0
     GradeLevelType::get_ordered_grades.each do |grade|
-      num_students_this_grade = get_num_students_per_grade(rand, yaml, num_students)      
-      num_students_this_grade = num_students - students_so_far if grade == :TWELFTH_GRADE
+      num_students_this_grade = get_num_students_per_grade(rand, yaml, num_students)
+      num_students_this_grade = 0                              if students_so_far >= num_students
+      num_students_this_grade = num_students - students_so_far if grade == :TWELFTH_GRADE and num_students_this_grade != 0
       @breakdown[grade]       = num_students_this_grade
       students_so_far         += num_students_this_grade
     end
@@ -143,17 +142,9 @@ class WorldBuilder
     num_middle_school_students     = 0
     num_high_school_students       = 0
 
-    GradeLevelType::elementary.each do |level| 
-      num_elementary_school_students += @breakdown[level]
-    end
-
-    GradeLevelType::middle.each do |level|
-      num_middle_school_students += @breakdown[level]
-    end
-
-    GradeLevelType::high.each do |level|
-      num_high_school_students += @breakdown[level]
-    end
+    GradeLevelType::elementary.each { |level| num_elementary_school_students += @breakdown[level] }
+    GradeLevelType::middle.each     { |level| num_middle_school_students     += @breakdown[level] }
+    GradeLevelType::high.each       { |level| num_high_school_students       += @breakdown[level] }
 
     num_schools   = 0
     num_schools   = create_schools(rand, yaml, "elementary", num_schools, num_elementary_school_students)
@@ -161,6 +152,39 @@ class WorldBuilder
     num_schools   = create_schools(rand, yaml, "high", num_schools, num_high_school_students)
     num_districts = update_schools_with_districts(rand, yaml, num_schools)
     update_districts_with_states(rand, yaml, num_districts)
+
+    # re-shuffle breakdown so that it is representative of actual student distribution (this is primarly for scaled down scenarios)
+    update_breakdown_based_on_student_distribution(yaml["beginYear"])
+  end
+
+  # go through education organizations and make sure that the @breakdown instance variable is representative of the world
+  # that was built
+  # -> divergence will occur when scenarios have been specified that are relatively 'small' (less than 500 students)
+  # -> occurs because creation of education organizations assembles students into 'waves' (thought of as cohorts)
+  def update_breakdown_based_on_student_distribution(year)
+    new_breakdown = Hash.new
+    @edOrgs["elementary"].each do |school|
+      students_by_grade = school["students"][year]
+      students_by_grade.each do |grade, num_students|
+        new_breakdown[grade] = 0 if !new_breakdown.has_key?(grade)
+        new_breakdown[grade] += num_students
+      end
+    end
+    @edOrgs["middle"].each do |school|
+      students_by_grade = school["students"][year]
+      students_by_grade.each do |grade, num_students|
+        new_breakdown[grade] = 0 if !new_breakdown.has_key?(grade)
+        new_breakdown[grade] += num_students
+      end
+    end
+    @edOrgs["high"].each do |school|
+      students_by_grade = school["students"][year]
+      students_by_grade.each do |grade, num_students|
+        new_breakdown[grade] = 0 if !new_breakdown.has_key?(grade)
+        new_breakdown[grade] += num_students
+      end
+    end
+    @breakdown = new_breakdown
   end
 
   # uses the total number of students, as well as range of [min, max] to compute students at a school of type 'tag', and then
@@ -189,17 +213,56 @@ class WorldBuilder
       edOrg              = Hash.new
       edOrg["id"]        = school_counter
       edOrg["parent"]    = nil
-      edOrg["programs"]  = []
+      #edOrg["programs"]  = []
       edOrg["sessions"]  = []
       edOrg["staff"]     = create_staff_for_school(rand, yaml)
       edOrg["offerings"] = Hash.new
       edOrg["students"]  = Hash.new
       begin_year         = yaml["beginYear"]
-      edOrg["students"][begin_year] = current_students
-
+      edOrg["students"][begin_year] = assemble_students_into_waves(rand, yaml, tag, current_students)
       @edOrgs[tag]       << edOrg
     end
     return school_counter
+  end
+
+  # assembles students into waves by iterating through each grade and 'allocating' a section in each grade
+  # until the specified number of students are exhausted.
+  # -> if a small number of students are specified, it is likely that a single wave will exist
+  # -> for larger numbers of students, many waves will be created
+  def assemble_students_into_waves(rand, yaml, type, num_students)
+    if type == "elementary"
+      min = yaml["MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
+      max = yaml["MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
+      return get_students_per_grade(rand, GradeLevelType.elementary, num_students, min, max)
+    elsif type == "middle"
+      min = yaml["MINIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
+      max = yaml["MAXIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
+      return get_students_per_grade(rand, GradeLevelType.middle, num_students, min, max)
+    elsif type == "high"
+      min = yaml["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+      max = yaml["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+      return get_students_per_grade(rand, GradeLevelType.high, num_students, min, max)
+    end
+  end
+
+  # takes the specified grades and uses the total number of students, as well as the minimum and maximum
+  # number of students per section, to assemble 'waves' of students by grade
+  def get_students_per_grade(rand, grades, num_students, min, max)
+    students_per_grade = Hash.new
+    grades.each do |grade|
+      students_per_grade[grade] = 0
+    end
+    while num_students > 0
+      grades.each do |grade|
+        current_students = random_on_interval(rand, min, max)
+        if num_students < current_students
+          current_students = num_students
+        end
+        students_per_grade[grade] += current_students
+        num_students              -= current_students
+      end
+    end
+    students_per_grade
   end
 
   # updates the populated edOrgs arrays for elementary, middle, and high schools by determining how many schools are to be
@@ -227,7 +290,7 @@ class WorldBuilder
       edOrg             = Hash.new
       edOrg["id"]       = district_counter
       edOrg["parent"]   = nil
-      edOrg["programs"] = []
+      #edOrg["programs"] = []
       edOrg["sessions"] = []
       edOrg["staff"]    = create_staff_for_local_education_agency(rand, yaml)
       @edOrgs["leas"]   << edOrg
@@ -242,17 +305,11 @@ class WorldBuilder
   # of those matching edOrgs to the district id.
   def update_schools_with_district_id(district_id, schools_in_this_district)
     # check in elementary schools
-    @edOrgs["elementary"].each do |edOrg|
-      edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"])        
-    end
     # check in middle schools
-    @edOrgs["middle"].each do |edOrg|
-      edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"])
-    end
     # check in high schools
-    @edOrgs["high"].each do |edOrg|
-      edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"])
-    end
+    @edOrgs["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
+    @edOrgs["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
+    @edOrgs["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
   end
 
   # updates the populated edOrgs arrays for leas (local education agencies) by determining how many districts are to be
@@ -269,7 +326,7 @@ class WorldBuilder
     edOrg["id"]       = state_id
     edOrg["courses"]  = create_courses(yaml)
     edOrg["staff"]    = create_staff_for_state_education_agency(rand, yaml)
-    edOrg["programs"] = []
+    #edOrg["programs"] = []
     @edOrgs["seas"]  << edOrg
     
     @edOrgs["leas"].each do |edOrg| 
@@ -315,15 +372,20 @@ class WorldBuilder
       this_year = Date.today.year
       @log.info "Property: beginYear --> not set for scenario. Using default: #{this_year}"
       begin_year = this_year
+    else
+      @log.info "Property: beginYear --> Set in configuration: #{begin_year}"
     end
 
     if num_years.nil?
-      @log.info "Property: numYears --> not set for scenario. Using default: 1"
+      @log.info "Property: numYears  --> not set for scenario. Using default: 1"
       num_years = 1
+    else
+      @log.info "Property: numYears  --> Set in configuration: #{num_years}"
     end
 
     # loop over years updating infrastructure and population
-    for year in begin_year..(begin_year+num_years-1) do
+    @log.info "iterating between #{begin_year} and #{(begin_year + num_years - 1)} to create session information"
+    for year in begin_year..(begin_year + num_years - 1) do
       # create session for LEAs
       # -> create grading period(s) for session
       # -> create calendar date(s) for grading period
@@ -350,91 +412,87 @@ class WorldBuilder
     update_schools_with_sessions("elementary")
     update_schools_with_sessions("middle")
     update_schools_with_sessions("high")
+    return begin_year, num_years
   end
 
   # iterate through schools of matching 'type' and set the sessions to be used
   def update_schools_with_sessions(type)
+    @log.info "updating #{type} schools to include inherited sessions"
     @edOrgs[type].each_index do |index|
       school = @edOrgs[type][index]
       @edOrgs[type][index]["sessions"] = get_sessions_to_be_used_by_school(school)
     end
   end
-  
-  # create master schedule interchange
-  # -> create course offerings
-  # -> create sections (using course offerings and breakdown of students per grade)
-  # --> do NOT create teachers for course offerings at elementary school (this should be done for sections)
-  # --> in middle and high schools, create teacher for course offering (teachers can teach multiple sections)
-  def create_master_schedule(rand, yaml)
-    offering_id = 0
-    create_course_offerings_for_school("elementary", offering_id)
-    create_course_offerings_for_school("middle", offering_id)
-    create_course_offerings_for_school("high", offering_id)
 
-    #update_shuffled_students(rand, yaml, "elementary")
-    #update_shuffled_students(rand, yaml, "middle")
-    #update_shuffled_students(rand, yaml, "high")
-    #puts "all students shuffled during course of simulation: #{@edOrgs["students"]}"
+  # uses the breakdown structure (maps each grade => number of students in that grade) to update student enrollment
+  # counts at each school over the course of the simulation
+  # -> this method will update the @breakdown structure as it walks through years
+  # -> this method will embed enrollment information for each school on the school itself
+  def expand_student_counts_using_time_information(rand, yaml, begin_year, num_years)
+    for year in (begin_year + 1)..(begin_year + num_years - 1) do
+      # this method operates on @breakdown structure
+      shuffle_students_forward
 
-    #update_student_counts_at_schools(rand, yaml)
-  end
+      # update students counts for each school
+      update_students_within_school("elementary", year)
+      update_students_within_school("middle", year)
+      update_students_within_school("high", year)
 
-  # updates the number of students shuffled out of each type of school
-  # --> used for determining number of incoming students for given year to next school type ('middle' --> 'high')
-  # --> allows for consistent number of students to remain in system at any given time
-  def update_shuffled_students(rand, yaml, type)
-    @edOrgs[type].each_index do |index|
-      school       = @edOrgs[type][index]
-      num_students = school["students"]
-
-      # update school enrollment with time information
-      # -> number of students enrolled at school in given year
-      # -> assembles 'waves' of students
-      if type == "elementary"
-        min = yaml["MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-        max = yaml["MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-        students_per_grade = get_students_per_grade(rand, GradeLevelType.elementary, num_students, min, max)
-      elsif type == "middle"
-        min = yaml["MINIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-        max = yaml["MAXIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-        students_per_grade = get_students_per_grade(rand, GradeLevelType.middle, num_students, min, max)
-      elsif type == "high"
-        min = yaml["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-        max = yaml["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-        students_per_grade = get_students_per_grade(rand, GradeLevelType.high, num_students, min, max)
-      end
-      students_by_year = Hash.new
-      school["offerings"].each do |year, courses|
-        students_by_year[year] = Hash[students_per_grade]
-        #shuffled_out           = shuffle_students_forward(students_per_grade)
-
-        # update number of students shuffled out of current school --> into next school (by year)
-        #if @edOrgs["students"][type][year].nil?
-        #  @edOrgs["students"][type][year] = 0
-        #end
-        #@edOrgs["students"][type][year] += shuffled_out
-      end 
+      # after students have been shuffled...
+      # -> update education organizations to include students that graduated and incoming kindergarten students
+      assign_incoming_students(rand, yaml, "elementary", year)
+      assign_incoming_students(rand, yaml, "middle", year)
+      assign_incoming_students(rand, yaml, "high", year)
     end
   end
 
-  # takes the specified grades and uses the total number of students, as well as the minimum and maximum
-  # number of students per section, to assemble 'waves' of students by grade
-  def get_students_per_grade(rand, grades, num_students, min, max)
-    students_per_grade = Hash.new
-    grades.each do |grade|
-      students_per_grade[grade] = 0
+  # uses the specified education organization 'type' to determine which grade to analyze in the @breakdown instance variable,
+  # and if incoming students are present, assigns them across education organizations of specified 'type'
+  def assign_incoming_students(rand, yaml, type, year)
+    if type == "elementary"
+      grade = :KINDERGARTEN
+      min   = yaml["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+      max   = yaml["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+    elsif type == "middle"
+      grade = :SIXTH_GRADE
+      min = yaml["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+      max = yaml["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+    elsif type == "high"
+      grade = :NINTH_GRADE
+      min = yaml["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+      max = yaml["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     end
-    while num_students > 0
-      grades.each do |grade|
-        current_students = random_on_interval(rand, min, max)
-        if num_students < current_students
-          current_students = num_students
+
+    if @breakdown[grade] != 0
+      # actually perform split
+      students_to_be_split = @breakdown[grade]
+      students_so_far      = 0
+      @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.get(grade)} students to be split across #{@edOrgs[type].size} schools"
+      while students_to_be_split > 0
+        @edOrgs[type].each_index do |index|
+          num_students_assigned_to_this_school = random_on_interval(rand, min, max)
+          if students_to_be_split == 0
+            num_students_assigned_to_this_school = 0
+          elsif num_students_assigned_to_this_school > students_to_be_split - students_so_far
+            num_students_assigned_to_this_school = students_to_be_split - students_so_far 
+          end
+          students_so_far                               += num_students_assigned_to_this_school
+          students_to_be_split                          -= num_students_assigned_to_this_school
+          @edOrgs[type][index]["students"][year][grade] += num_students_assigned_to_this_school
         end
-        students_per_grade[grade] += current_students
-        num_students              -= current_students
       end
     end
-    students_per_grade
+  end
+
+  # iterates through education organizations of specified 'type' and ripples student counts forward for the specified 'year'
+  def update_students_within_school(type, year)
+    @edOrgs[type].each_index do |index|
+      school = @edOrgs[type][index]
+      students_by_year = school["students"]
+      if school["students"][year].nil?
+        @edOrgs[type][index]["students"][year] = shuffle_students_forward_at_school(school["students"][year - 1])
+      end
+    end
   end
 
   # ripples number of students forward to next year
@@ -442,25 +500,42 @@ class WorldBuilder
   # -> actually performs work by iterating through grades in reverse order (12 -> 11 -> 10 ...)
   # -> number of 12th graders who graduated becomes number of incoming kindergarteners --> keeps number of students in world consistent
   # -> no current support for students who failed current grade to be held back
-  def shuffle_students_forward(students_per_grade)
+  def shuffle_students_forward
     grades          = GradeLevelType.get_ordered_grades.reverse
     kindergarteners = @breakdown[:TWELFTH_GRADE]
     grades.each do |grade|
       if grade != :TWELFTH_GRADE
         @breakdown[GradeLevelType.increment(grade, 1)] = @breakdown[grade]
       end
-      # if students_per_grade.has_key?(grade)
-      #   if !students_per_grade.has_key?(GradeLevelType.increment(grade, 1)) or grade == GradeLevelType.increment(grade, 1)
-      #     students_shuffled_out = students_per_grade[grade]
-      #   else
-      #     students_per_grade[GradeLevelType.increment(grade, 1)] = students_per_grade[grade]
-      #     if grade == :KINDERGARTEN or grade == :SIXTH_GRADE or grade == :NINTH_GRADE
-      #       students_per_grade[grade] = 0
-      #     end
-      #   end
-      # end
     end
     @breakdown[:KINDERGARTEN] = kindergarteners
+  end
+
+  # ripples students forward to next year at current school
+  def shuffle_students_forward_at_school(students_per_grade)
+    new_breakdown = Hash.new
+    grades        = GradeLevelType.get_ordered_grades.reverse
+    grades.each do |grade|
+      if students_per_grade.has_key?(grade) and students_per_grade.has_key?(GradeLevelType.increment(grade, 1))
+        new_breakdown[GradeLevelType.increment(grade, 1)] = students_per_grade[grade]
+        if grade == :KINDERGARTEN or grade == :SIXTH_GRADE or grade == :NINTH_GRADE
+          new_breakdown[grade] = 0
+        end
+      end
+    end
+    new_breakdown
+  end
+  
+  # create master schedule interchange
+  # -> create course offerings
+  # -> sections will be created later
+  def create_master_schedule(rand, yaml)
+    # creating course offerings does not require any randomization --> only logic
+    # -> computes intersection of courses to be offered at school with school's sessions
+    offering_id = 0
+    offering_id = create_course_offerings_for_school("elementary", offering_id)
+    offering_id = create_course_offerings_for_school("middle", offering_id)
+    offering_id = create_course_offerings_for_school("high", offering_id)
   end
 
   # iterate through schools of 'type' (should be "elementary", "middle", or "high" schools)
@@ -509,6 +584,7 @@ class WorldBuilder
         @edOrgs[type][index]["offerings"][current_year] = offerings
       end
     end
+    offering_id
   end
 
   # gets the sequence of sessions to be used by the school when creating course offerings
@@ -714,7 +790,7 @@ class WorldBuilder
             session   = course_offering["session"]
             course    = course_offering["course"]
             grade     = course_offering["grade"]
-          
+            
             if GradeLevelType.is_elementary_school_grade(grade)
               title   = GradeLevelType.get(grade)
             else

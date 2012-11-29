@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  *
@@ -40,7 +39,7 @@ import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
  */
 
 public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrategy {
-    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
+    public static final Logger LOG = LoggerFactory.getLogger(SmooksExtendedReferenceResolver.class);
 
     private static ThreadLocal<Map<String, Smooks>> threadLocalIdRefConfigs = new ThreadLocal<Map<String, Smooks>>() {
         @Override
