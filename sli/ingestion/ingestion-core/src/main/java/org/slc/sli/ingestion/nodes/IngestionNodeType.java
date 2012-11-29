@@ -23,7 +23,9 @@ package org.slc.sli.ingestion.nodes;
  * @author smelody
  *
  */
-public class IngestionNodeType {
+public final class IngestionNodeType {
+
+    private IngestionNodeType() { }
 
     /** Maestro has the execution vision for the job */
     public static final String MAESTRO = "maestro";
