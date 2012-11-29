@@ -49,10 +49,10 @@ end
 describe "gen_work_orders" do
   context "with a world with 20 students in 4 schools" do
     let(:world) {{'seas' => [{'id' => 'sea1'}], 'leas' => [{'id' => 'lea1'}], 
-                  'elementary' => [{'id' => 0, 'students' => 5, 'sessions' => [{}]},
-                                   {'id' => 1, 'students' => 5, 'sessions' => [{}]}],
-                  'middle' => [{'id' => 2, 'students' => 5, 'sessions' => [{}]}],
-                  'high' => [{'id' => 3, 'students' => 5, 'sessions' => [{}]}]}}
+                  'elementary' => [{'id' => 0, 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]},
+                                   {'id' => 1, 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]}],
+                  'middle' => [{'id' => 2, 'students' => {2001 => {:SEVENTH_GRADE => 5}}, 'sessions' => [{}]}],
+                  'high' => [{'id' => 3, 'students' => {2001 => {:NINTH_GRADE => 5}}, 'sessions' => [{}]}]}}
     let(:work_orders) {WorkOrderProcessor.gen_work_orders world}
 
     it "will create a work order for each student" do
@@ -72,7 +72,7 @@ describe "gen_work_orders" do
   end
   
   context "with an infinitely large school" do
-    let(:world) {{'high' => [{'id' => "Zeno High", 'students' => 1.0/0, 'sessions' => [{}]}]}}
+    let(:world) {{'high' => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 1.0/0}}, 'sessions' => [{}]}]}}
 
     it "will lazily create work orders in finite time" do
       Timeout::timeout(5){
