@@ -568,7 +568,9 @@ Scenario: Verify references were resolved correctly
 	| cohort								| d4141f13a54a30a0daef0adced5db8ef9c3d8879_id											 | body.programId								| program									  |
 	| educationOrganization					| b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id											 | body.programReference						| program									  |
 	| staffProgramAssociation				| 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id											 | body.programId								| program									  |
+	| section								| 135963f2abd3320ae508546fbff31f37e10b949e_id											 | body.programReference						| program									  |
 	#reportCard
+	| studentAcademicRecord					| 3def063da11388ae3cb1b86c3bd1e0bbc9bb15d9_id											 | body.reportCards								| reportCard								  |
 	#section
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       		| section									  |
 	| studentSectionAssociation			    | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.sectionId								| section									  |
@@ -591,6 +593,7 @@ Scenario: Verify references were resolved correctly
 	#studentCompetency
 	| reportCard							| 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id											 | body.studentCompetencyId						| studentCompetency							  |
 	#studentCompetencyObjective
+	| studentCompetency						| 0d1963676e1627e9a971d748851f549fdc9528c6_id											 | body.objectiveId.studentCompetencyObjectiveId | studentCompetencyObjective				  |
 	#student
 	| studentCohortAssociation              | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId           					| student									  |
     | studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              					| student									  |
