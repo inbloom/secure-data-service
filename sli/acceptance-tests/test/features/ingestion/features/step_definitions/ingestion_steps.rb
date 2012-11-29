@@ -371,6 +371,10 @@ Given /^I am using destination-local data store$/ do
   @local_file_store_path = INGESTION_DESTINATION_DATA_STORE
 end
 
+Given /^I am using odin data store$/ do
+  @local_file_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/odin/generated/'
+end
+
 def lzFileRmWait(file, wait_time)
   intervalTime = 3 #seconds
   iters = (1.0*wait_time/intervalTime).ceil

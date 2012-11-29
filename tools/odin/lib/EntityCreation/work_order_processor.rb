@@ -52,7 +52,7 @@ end
 
 def run_work_orders(yamlHash, batch_size)
   numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
-  File.open("generated/InterchangeStudent.xml", 'w') do |studentParentFile|
+  File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
     studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
     File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
       enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
