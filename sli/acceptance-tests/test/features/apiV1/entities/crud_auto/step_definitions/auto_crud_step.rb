@@ -107,12 +107,12 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "uniqueCourseId" => "Chinese-1-10"
   },
-  "courseOffering" => {
-    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008",
-    "localCourseCode" => "LCCMA1",
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002",
-    "localCourseTitle" => "Math 1 - Intro to Mathematics",
-    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"
+    "courseOffering" => {
+    "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+    "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904",
+    "courseId" => "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
+    "localCourseCode" => "LCCGR101",
+    "localCourseTitle" => "German 101 - Intro"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -328,13 +328,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         "objective" => "Phonemic Awareness",
         "studentCompetencyObjectiveId" => "SCO-K-1",
         "educationOrganizationId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731"
-    }
-    "courseOffering" => {
-        "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
-        "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904",
-        "courseId" => "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
-        "localCourseCode" => "LCCGR101",
-        "localCourseTitle" => "German 101 - Intro"
     },
     "courseTranscript" => {
         "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
@@ -433,7 +426,7 @@ When /^I navigate to POST for each resource available$/ do
         post_resource resource
         get_resource resource
         delete_resource resource
-        puts  "|#{resource[1..-2]}|"
+        puts  "|#{get_resource_type(resource)}|"
     rescue =>e
       $stderr.puts"#{resource} ==> #{e}"
     end
@@ -457,8 +450,9 @@ def get_resource_paths resources, base = ""
   paths
 end
 def post_resource resource
+  resource_type = get_resource_type resource
   steps %Q{
-          Given a valid entity json document for a \"#{resource[1..-2]}\"
+          Given a valid entity json document for a \"#{resource_type}\"
           When I navigate to POST \"/v1#{resource}\"
           Then I should receive a return code of 201
           And I should receive an ID for the newly created entity
@@ -467,11 +461,12 @@ def post_resource resource
 
 end
 def get_resource resource
+  resource_type = get_resource_type resource
   steps %Q{
           When I navigate to GET \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 200
           And the response should contain the appropriate fields and values
-         And "entityType" should be \"#{resource[1..-2]}\"
+         And "entityType" should be \"#{resource_type}\"
          And I should receive a link named "self" with URI \"/v1#{resource}/#{@newId}\"
   }
 end
@@ -482,4 +477,13 @@ def delete_resource resource
           And I navigate to GET \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 404
       }
+end
+def get_resource_type resource
+  resource_type = resource[1..-1]
+  if resource_type.include? "staffEducationOrgAssignmentAssociation" 
+    resource_type = "staffEducationOrganizationAssociation"
+  elsif resource_type.sub!(%r/ies\z/,"y").nil?
+    resource_type.sub!(%r/s\z/,"")
+  end
+  resource_type
 end
