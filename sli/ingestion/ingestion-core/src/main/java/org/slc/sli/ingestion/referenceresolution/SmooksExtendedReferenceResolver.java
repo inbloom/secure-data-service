@@ -45,8 +45,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
     private static ThreadLocal<Map<String, Smooks>> threadLocalIdRefConfigs = new ThreadLocal<Map<String, Smooks>>() {
         @Override
         protected Map<String, Smooks> initialValue() {
-            Map<String, Smooks> idRefConfigs = new HashMap<String, Smooks>();
-            return idRefConfigs;
+            return new HashMap<String, Smooks>();
         }
     };
 

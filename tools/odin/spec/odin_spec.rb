@@ -19,6 +19,7 @@ limitations under the License.
 require 'equivalent-xml'
 require_relative 'spec_helper'
 require_relative '../lib/odin.rb'
+require_relative '../lib/Shared/util.rb'
 
 # specifications for ODIN
 describe "Odin" do
@@ -73,6 +74,7 @@ describe "Odin" do
     let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudent.xml"}
     let(:ctlFile) {File.new "#{File.dirname(__FILE__)}/../generated/ControlFile.ctl"}
     let(:lines) {ctlFile.readlines}
+    let(:zipFile) {File.new "#{File.dirname(__FILE__)}/../generated/OdinSampleDataSet.zip"}
     
     before(:each) do
       @interchanges = Hash.new
@@ -86,8 +88,8 @@ describe "Odin" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
       end
       
-      it "will generate a valid control file with 4 interchanges" do     
-        @interchanges.length.should eq(4)
+      it "will generate a valid control file with 5 interchanges" do     
+        @interchanges.length.should eq(5)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -104,6 +106,18 @@ describe "Odin" do
       
       it "will generate a valid control file with MasterSchedule as a type" do
         @interchanges["MasterSchedule"].should match(/MasterSchedule.xml/)
+      end
+      
+      it "will generate a zip file of the included interchanges" do
+        # Make sure the zipfile exists in the dir we expect
+        zipDir = "#{File.dirname(__FILE__)}/../generated"
+        zipFile.should_not be_nil
+        
+        # Unzip the file in odin/generated/
+        genDataUnzip(zipDir, "OdinSampleDataSet.zip", "OdinSampleDataSet") 
+        # Verify the dumb number of files matches expected values
+        # --> always add 2 files to your expected count for . and ..      
+        Dir.entries(File.new "#{zipDir}/OdinSampleDataSet").length.should eq(8)          
       end
       
     end

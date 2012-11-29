@@ -29,106 +29,138 @@ class EducationOrganizationGenerator < InterchangeGenerator
 
   # state education agency writer
   class StateEducationAgencyWriter < Mustache
-    def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/state_education_organization.mustache"
-      @entity = nil
+    def initialize(batch_size)
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/state_education_organization.mustache"
+      @batch_size    = batch_size
+      @entities      = []
     end
-    def state_education_agency
-      @entity
+    def state_education_agencies
+      @entities
     end
-    def write(entity)
-      @entity = entity
-      render
+    def write(handle, entity)
+      @entities << entity
+      if @entities.size >= @batch_size
+        handle.write render
+        @entities = []
+      end
+    end
+    def flush(handle)
+      handle.write render
     end
   end
 
   # local education agency writer
   class LocalEducationAgencyWriter < Mustache
-    def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/local_education_organization.mustache"
-      @entity = nil
+    def initialize(batch_size)
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/local_education_organization.mustache"
+      @batch_size    = batch_size
+      @entities      = []
     end
-    def local_education_agency
-      @entity
+    def local_education_agencies
+      @entities
     end
-    def write(entity)
-      @entity = entity
-      render
+    def write(handle, entity)
+      @entities << entity
+      if @entities.size >= @batch_size
+        handle.write render
+        @entities = []
+      end
+    end
+    def flush(handle)
+      handle.write render
     end
   end
 
   # school writer
   class SchoolWriter < Mustache
-    def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/school.mustache"
-      @entity = nil
+    def initialize(batch_size)
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/school.mustache"
+      @batch_size    = batch_size
+      @entities      = []
     end
-    def school
-      @entity
+    def schools
+      @entities
     end
-    def write(entity)
-      @entity = entity
-      render
+    def write(handle, entity)
+      @entities << entity
+      if @entities.size >= @batch_size
+        handle.write render
+        @entities = []
+      end
+    end
+    def flush(handle)
+      handle.write render
     end
   end
 
   # course writer
   class CourseWriter < Mustache
-    def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/course.mustache"
-      @entity = nil
+    def initialize(batch_size)
+      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/course.mustache"
+      @batch_size    = batch_size
+      @entities      = []
     end
-    def course
-      @entity
+    def courses
+      @entities
     end
-    def write(entity)
-      @entity = entity
-      render
+    def write(handle, entity)
+      @entities << entity
+      if @entities.size >= @batch_size
+        handle.write render
+        @entities = []
+      end
+    end
+    def flush(handle)
+      handle.write render
     end
   end
 
   # initialization will define the header and footer for the education organization interchange
   # writes header to education organization interchange
   # leaves file handle open for event-based writing of ed-fi entities
-  def initialize
+  def initialize(batch_size)
     @header, @footer = build_header_footer("EducationOrganization")
     
     @handle = File.new("generated/InterchangeEducationOrganization.xml", 'w')
     @handle.write(@header)
 
-    @state_education_agency_writer = StateEducationAgencyWriter.new
-    @local_education_agency_writer = LocalEducationAgencyWriter.new
-    @school_writer                 = SchoolWriter.new
-    @course_writer                 = CourseWriter.new
+    @state_education_agency_writer = StateEducationAgencyWriter.new(1)
+    @local_education_agency_writer = LocalEducationAgencyWriter.new(batch_size)
+    @school_writer                 = SchoolWriter.new(batch_size)
+    @course_writer                 = CourseWriter.new(batch_size)
   end
 
   # creates and writes state education agency to interchange
   def create_state_education_agency(rand, id)
-    @handle.write @state_education_agency_writer.write(SeaEducationOrganization.new(id, rand))
+    @state_education_agency_writer.write(@handle, SeaEducationOrganization.new(id, rand))
   end
 
   # creates and writes local education agency to interchange
   def create_local_education_agency(rand, id, parent_id)
-    @handle.write @local_education_agency_writer.write(LeaEducationOrganization.new(id, parent_id, rand))
+    @local_education_agency_writer.write(@handle, LeaEducationOrganization.new(id, parent_id, rand))
   end
 
   # creates and writes school to interchange
   def create_school(rand, id, parent_id, type)
-    @handle.write @school_writer.write(SchoolEducationOrganization.new(rand, id, parent_id, type))
+    @school_writer.write(@handle, SchoolEducationOrganization.new(rand, id, parent_id, type))
   end
 
   # creates and writes course to interchange
   def create_course(rand, id, title, ed_org_id)
-    @handle.write @course_writer.write(Course.new(id, title, ed_org_id))
+    @course_writer.write(@handle, Course.new(id, title, ed_org_id))
   end
 
   # creates and writes program to interchange
   def create_program(rand, id)
-    @handle.write Program.new(id.to_s, prng).render
+    #@handle.write Program.new(id.to_s, prng).render
   end
 
   # writes footer and closes education organization interchange file handle
   def close
+    @state_education_agency_writer.flush(@handle)
+    @local_education_agency_writer.flush(@handle)
+    @school_writer.flush(@handle)
+    @course_writer.flush(@handle)
     @handle.write(@footer)
     @handle.close()
   end

@@ -53,9 +53,9 @@ public class SliDeltaManagerTest {
         record.getAttributes().put("key2", "value2");
         record.getAttributes().put("key3", "value3");
         RecordHash hash = new RecordHash();
-        hash._id       = "id";
-        hash.timestamp = "timestamp";
-        hash.tenantId  = "tenantId";
+        hash.set_id("id");
+        hash.setTimestamp("timestamp");
+        hash.setTenantId("tenantId");
         TenantContext.setTenantId("tenantId");
         Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(null);
         Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(record, mockBatchJobMongoDA));

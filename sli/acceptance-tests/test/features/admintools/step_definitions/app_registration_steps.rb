@@ -38,6 +38,11 @@ When /^I hit the Application Registration Tool URL$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 end
 
+Then /^I can navigate to app registration page with that user$/ do
+  step "I hit the Application Registration Tool URL"
+  step "I submit the credentials \"#{@user_info[:email]}\" \"test1234\" for the \"Simple\" login page"
+end
+
 Then /^I am redirected to the Application Approval Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Approve Applications") != nil}
 end
@@ -73,6 +78,7 @@ Then /^application "([^"]*)" is pending approval$/ do |app|
   trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
   assert(trs.length > 0, "#{app} is pending")
 end
+
 
 Then /^the pending apps are on top$/ do
   appsTable = @driver.find_element(:id, "applications")
@@ -335,6 +341,10 @@ Then /^I see the list of my registered applications only$/ do
   assert(trs.length > 0, "Should see at least one of my apps")
 end
 
+Then /^I see the list of registered applications as well$/ do
+    step "I see the list of my registered applications only"
+end
+
 Then /^the application is registered$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs  = appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='NewApp']")
@@ -387,6 +397,7 @@ When /^I click on the In Progress button$/ do
   step 'I clicked on the button Edit for the application "NewApp"'
   db.remove()
 end
+
 Then /^I can see the ed\-orgs I want to approve for my application$/ do
   assert(@driver.find_element(:css, 'div.edorgs input[type="checkbox"]') != nil, "We should see the edorgs available for this app")
 end

@@ -104,10 +104,6 @@ When /^I enter valid data into all fields$/ do
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Unique Identifier"
 end
 
-When /^I click the "([^"]*)" button$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
 Then /^I should see that I am on the "([^"]*)" page$/ do |arg1|
   pending # express the regexp above with the code you wish you had
 end

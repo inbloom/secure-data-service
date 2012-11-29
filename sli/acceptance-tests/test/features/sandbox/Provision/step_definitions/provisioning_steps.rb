@@ -55,7 +55,7 @@ uri="/v1/educationOrganizations"
   restHttpGet(uri)
   assert(@res.length>0,"didnt see a top level ed org with #{key1} is #{value1}")
   dataH=JSON.parse(@res.body)
- @edorgId=dataH[0]["id"]
+  @edorgId=dataH["id"]
 end
 
   

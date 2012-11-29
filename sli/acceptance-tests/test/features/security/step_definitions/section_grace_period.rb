@@ -33,7 +33,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   # students
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if human_readable_id == "'MARVIN MILLER'"
-  id = "5738d251-dd0b-4734-9ea6-417ac9320a15"    if human_readable_id == "'MATT SOLLARS'"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id" if human_readable_id == "'MATT SOLLARS'"
   id = "e04118fd-5025-4d3b-b58d-3ed0d4f270a6"    if human_readable_id == "'CARMEN ORTIZ JR'"
   id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe"    if human_readable_id == "'CHARLA CHRISTOFF'"
   id = "51db306f-4fa5-405b-b587-5fac7605e4b3"    if human_readable_id == "'STEVE DONG'"
@@ -107,9 +107,15 @@ Given /^"([^\"]*)" is not enrolled in "([^\"]*)"$/ do |studentId, schoolId|
 end
 
 Given /^"([^\"]*)" exited "([^\"]*)" on "([^\"]*)"$/ do |studentId, schoolId, exitDate|
-  uri = "/v1/studentSchoolAssociations?studentId=#{studentId}&schoolId=#{schoolId}&sortBy=exitWithdrawDate&sortOrder=descending"
-  step "I navigate to GET \"#{uri}\""
-  assert(@result[0]["exitWithdrawDate"] == exitDate, "Expected #{exitDate}, received #{@result[0]["exitWithdrawDate"]}")
+  disable_NOTABLESCAN()
+
+  db = Mongo::Connection.new.db(convertTenantIdToDbName('Midgar'))
+  tenant_coll = db.collection('studentSchoolAssociation')
+
+  matches = tenant_coll.find({'body.studentId' => studentId, 'body.schoolId' => schoolId}, :sort => ['body.exitWithdrawDate', Mongo::DESCENDING]).to_a
+  assert(matches[0]["body"]["exitWithdrawDate"] == exitDate, "Expected #{exitDate}, received #{matches[0]["body"]["exitWithdrawDate"]}")
+
+  enable_NOTABLESCAN()
 end
 
 ###############################################################################

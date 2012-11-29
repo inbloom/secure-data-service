@@ -175,7 +175,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Extract entity configs
      */
     private Map<String, DidEntityConfig> extractEntityConfigs() {
-        Map<String, DidEntityConfig> entityConfigs = new HashMap<String, DidEntityConfig>();
+        Map<String, DidEntityConfig> extractedEntityConfigs = new HashMap<String, DidEntityConfig>();
 
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> complexType : complexTypes.entrySet()) {
@@ -193,7 +193,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 if (annotation != null) {
                     String recordType = parseAnnotationForRecordType(annotation);
                     if (recordType != null) {
-                        entityConfigs.put(recordType, entityConfig);
+                        extractedEntityConfigs.put(recordType, entityConfig);
                     } else {
                         LOG.error("Failed to extract DidEntityConfig for type " + complexType.getKey() + ", couldn't find recordType annotation");
                     }
@@ -203,24 +203,24 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         }
 
-        return entityConfigs;
+        return extractedEntityConfigs;
     }
 
     /**
      * Extract ref configs
      */
     private Map<String, DidRefConfig> extractRefConfigs() {
-        Map<String, DidRefConfig> refConfigs = new HashMap<String, DidRefConfig>();
+        Map<String, DidRefConfig> extractedRefConfigs = new HashMap<String, DidRefConfig>();
 
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> refType : referenceTypes.entrySet()) {
             DidRefConfig refConfig = extractRefConfig(refType.getValue());
             if (refConfig != null) {
-                refConfigs.put(refConfig.getEntityType(), refConfig);
+                extractedRefConfigs.put(refConfig.getEntityType(), refConfig);
             }
         }
 
-        return refConfigs;
+        return extractedRefConfigs;
     }
 
     /**

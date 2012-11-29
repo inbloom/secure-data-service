@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.test.edfi.entities.ProgramIdentityType;
-import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
+import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.StaffIdentityType;
-import org.slc.sli.test.edfi.entities.StaffProgramAssociation;
-import org.slc.sli.test.edfi.entities.StaffReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStaffProgramAssociation;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
@@ -33,62 +33,64 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
  * Generates StudentProgramAssociation from ProgramMeta
  * or
  * String studentId, String programId, String schoolId
- * 
+ *
  * @author slee
- * 
+ *
  */
 public class StaffProgramAssociationGenerator {
-    
+
     private static String beginDate = "2011-03-04";
     private static String endDate = "2012-03-04";
     private static Boolean HAS_STUDENT_RECORD_ACCESS = true;
-    
+
     /**
      * Generates a StaffProgramAssociation.
-     * 
+     *
      * @param programMeta
-     * 
+     *
      * @return <code>List<StaffProgramAssociation></code>
      */
-    public static List<StaffProgramAssociation> generateLowFi(ProgramMeta programMeta) {
+    public static List<SLCStaffProgramAssociation> generateLowFi(ProgramMeta programMeta) {
         Set<String> staffIds = programMeta.staffIds;
         String programId = programMeta.id;
         String schoolId = programMeta.orgId;
-        
-        List<StaffProgramAssociation> staffProgramAssociations = new ArrayList<StaffProgramAssociation>();
-        
+
+        List<SLCStaffProgramAssociation> staffProgramAssociations = new ArrayList<SLCStaffProgramAssociation>();
+
         for (String staffId : staffIds) {
-            StaffProgramAssociation staffProgram = new StaffProgramAssociation();
-            
+        	SLCStaffProgramAssociation staffProgram = new SLCStaffProgramAssociation();
+
             // construct and add the staff references
-            StaffReferenceType srt = new StaffReferenceType();
+        	SLCStaffReferenceType srt = new SLCStaffReferenceType();
             if (MetaRelations.StaffProgramAssociation_Ref) {
-                srt.setRef(new Ref(staffIds.iterator().next()));
+//          IDREF deprecated
+//
+//                srt.setRef(new Ref(staffIds.iterator().next()));
             } else {
-                StaffIdentityType sit = new StaffIdentityType();
+            	SLCStaffIdentityType sit = new SLCStaffIdentityType();
                 sit.setStaffUniqueStateId(staffId);
                 srt.setStaffIdentity(sit);
             }
-            
+
             staffProgram.setStaffReference(srt);
-            
+
             // construct and add the program reference
-            ProgramIdentityType pi = new ProgramIdentityType();
+            SLCProgramIdentityType pi = new SLCProgramIdentityType();
             pi.setProgramId(programId);
-            ProgramReferenceType prt = new ProgramReferenceType();
+            SLCProgramReferenceType prt = new SLCProgramReferenceType();
             prt.setProgramIdentity(pi);
             staffProgram.setProgramReference(prt);
-            
+
             // set begin and end dates
             staffProgram.setBeginDate(beginDate);
             staffProgram.setEndDate(endDate);
-            
+
             // set has program access
             staffProgram.setStudentRecordAccess(HAS_STUDENT_RECORD_ACCESS);
-            
+
             staffProgramAssociations.add(staffProgram);
         }
-        
+
         return staffProgramAssociations;
     }
 }

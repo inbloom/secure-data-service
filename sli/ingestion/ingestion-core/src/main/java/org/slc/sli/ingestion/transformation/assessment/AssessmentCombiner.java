@@ -207,7 +207,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         return null;
     }
 
-    private String getAssocationFamilyMap(String assessmentFamilyTitle, HashMap<String, Map<String, Object>> deepFamilyMap,
+    private String getAssocationFamilyMap(String assessmentFamilyTitle, Map<String, Map<String, Object>> deepFamilyMap,
             String familyHierarchyName) {
         String theFamilyHierarchyName = familyHierarchyName;
         Query query = new Query().limit(0);

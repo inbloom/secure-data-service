@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -81,7 +80,7 @@ public class LandingZoneProcessorTest {
         String validLzPathname = validLzPathFile.getParent();
         List<String> testLzPaths = new ArrayList<String>();
         testLzPaths.add(validLzPathname);
-        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(testLzPaths);
+        when(mockedTenantDA.getLzPaths()).thenReturn(testLzPaths);
 
         // Submit a valid landing zone.
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
@@ -110,7 +109,7 @@ public class LandingZoneProcessorTest {
         String validLzPathname = validLzPathFile.getParent();
         List<String> testLzPaths = new ArrayList<String>();
         testLzPaths.add(validLzPathname);
-        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(testLzPaths);
+        when(mockedTenantDA.getLzPaths()).thenReturn(testLzPaths);
 
         // Submit an invalid landing zone.
         File inValidLzPathFile = new File("/test/lz/inbound/BAD-TEST-LZ/testFile.zip");
