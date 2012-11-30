@@ -367,14 +367,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         this.messageSource = messageSource;
     }
 
-    public Set<String> getTenantIndexes() {
-        return tenantIndexes;
-    }
-
-    public void setTenantIndexes(Set<String> tenantIndexes) {
-        this.tenantIndexes = tenantIndexes;
-    }
-
     public Set<String> getShardCollections() {
         return shardCollections;
     }
