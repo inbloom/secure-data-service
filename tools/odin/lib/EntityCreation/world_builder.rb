@@ -156,6 +156,9 @@ class WorldBuilder
 
     # re-shuffle breakdown so that it is representative of actual student distribution (this is primarly for scaled down scenarios)
     update_breakdown_based_on_student_distribution(@scenarioYAML["beginYear"])
+
+    # choose the feeder schools
+    WorldBuilder.choose_feeders(@edOrgs['elementary'], @edOrgs['middle'], @edOrgs['high'])
   end
 
   # go through education organizations and make sure that the @breakdown instance variable is representative of the world
@@ -914,5 +917,18 @@ class WorldBuilder
   # does NOT round
   def random_on_interval(min, max)
     min + @prng.rand(max - min)
+  end
+
+  def self.choose_feeders(elem, mid, high)
+    hs_cycle = high.cycle
+    mid.each{|school|
+      hs = hs_cycle.next
+      school['feeders'] = [hs['id']]
+    }
+    mid_cycle = mid.cycle
+    elem.each{|school|
+      ms = mid_cycle.next
+      school['feeders'] = [ms['id'], ms['feeders'][0]]
+    }
   end
 end

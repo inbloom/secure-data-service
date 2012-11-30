@@ -125,4 +125,28 @@ describe "WorldBuilder" do
       end
     end
   end
+  describe "choose_feeders" do
+    context "with 8 elementary schools, 4 middle schools, and 2 high schools" do
+      let(:elementary) {(1..8).map{|i| {'id' => i}}}
+      let(:middle) {(9..12).map{|i| {'id' => i}}}
+      let(:high) {(13..14).map{|i| {'id' => i}}}
+      before(:all) do
+        WorldBuilder.choose_feeders(elementary, middle, high)
+      end
+      it "will give middle schools a single feeder high school" do
+        middle.each{|i|
+          i['feeders'].should  have(1).items
+          i['feeders'][0].should satisfy {|i| 13 <= i and i <= 14}
+        }
+      end
+      it "will give elementary schools a feeder middle school and high school" do
+        puts elementary
+        elementary.each{|i|
+          i['feeders'].should  have(2).items
+          i['feeders'][0].should satisfy {|i| 9 <= i and i <= 12}
+          i['feeders'][1].should satisfy {|i| 13 <= i and i <= 14}
+        }
+      end
+    end
+  end
 end
