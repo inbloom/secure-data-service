@@ -61,11 +61,23 @@
     },
     "UPDATE": {
       "field": "schoolYearAttendance",
-      "value": "[]"
+      "value": [{
+          "schoolYear": "2011-2012",
+          "attendanceEvent": [
+            {
+              "date": "2011-09-16",
+              "event": "Tardy"
+            },
+          {
+              "date": "2011-09-17",
+              "event": "Tardy"
+            }
+          ]
+        }]
     },
     "naturalKey": {
-      "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735a",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735b",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fm"
     }
   },
   "studentAcademicRecord": {
@@ -75,11 +87,11 @@
     },
     "UPDATE": {
       "field": "sessionId",
-      "value": "67ce204b-9999-4a11-aacb-000000000003"
+      "value": "cb1fb2d3-a906-446a-bdfd-06ad23823265"
     },
     "naturalKey": {
-      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
-      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae5",
+      "sessionId": "abcff7ae-1f01-46bc-8cc7-cf409819bbce"
     }
   },
   "student": {
@@ -101,7 +113,7 @@
       "value": "Female"
     },
     "naturalKey": {
-      "studentUniqueStateId": "123456"
+      "studentUniqueStateId": "1234567"
     }
   },
   "cohort": {
@@ -121,8 +133,8 @@
       "value": "frisbee golf team"
     },
     "naturalKey": {
-      "cohortIdentifier": "ACC-TEST-COH-4",
-      "educationOrgId": "92d6d5a0-852c-45f4-907a-912752831772"
+      "cohortIdentifier": "ACC-TEST-COH-1",
+      "educationOrgId": "bd086bae-ee82-4cf2-baf9-221a9407ea07"
     }
   },
   "course": {
@@ -159,12 +171,12 @@
       "uniqueCourseId": "Chinese-1-10"
     },
     "UPDATE": {
-      "field": "cohortDescription",
-      "value": "frisbee golf team"
+      "field": "courseDescription",
+      "value": "Advanced Linguistic Studies"
     },
     "naturalKey": {
-      "uniqueCourseId": "Chinese-1-10",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      "uniqueCourseId": "Chinese-2-10",
+      "schoolId": "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
     }
   },
   "courseOffering": {
@@ -180,9 +192,9 @@
       "value": "German 101 - Introduction"
     },
     "naturalKey": {
-      "localCourseCode": "LCCGR101",
-      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
-      "sessionId": "c549e272-9a7b-4c02-aff7-b105ed76c904"
+      "localCourseCode": "LCCGR102",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
     }
   },
   "disciplineAction": {
@@ -216,8 +228,8 @@
       "value": "2012-03-18"
     },
     "naturalKey": {
-      "disciplineActionIdentifier": "Discipline act XXX",
-      "responsibilitySchoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      "disciplineActionIdentifier": "Discipline act YYY",
+      "responsibilitySchoolId": "92d6d5a0-852c-45f4-907a-912752831772"
     }
   },
   "disciplineIncident": {
@@ -243,8 +255,8 @@
       "value": "01:02:15"
     },
     "naturalKey": {
-      "incidentIdentifier": "Incident ID XXX",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      "incidentIdentifier": "Incident ID YYY",
+      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772"
     }
   },
   "educationOrganization": {
@@ -269,7 +281,7 @@
       "value": "Bananas School District"
     },
     "naturalKey": {
-      "stateOrganizationId": "SomeUniqueSchoolDistrict-2422883"
+      "stateOrganizationId": "SomeUniqueSchoolDistrict-12422883"
     }
   },
   "gradebookEntry": {
@@ -283,9 +295,9 @@
       "value": "Homework"
     },
     "naturalKey": {
-      "gradebookEntryType": "Quiz",
-      "dateAssigned": "2012-02-14",
-      "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
+      "gradebookEntryType": "Assignment",
+      "dateAssigned": "2012-02-07",
+      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234"
     }
   },
   "learningObjective": {
@@ -299,9 +311,9 @@
       "value": "Mathematics"
     },
     "naturalKey": {
-      "objective": "Learn Mathematics",
-      "academicSubject": "Mathematics",
-      "objectiveGradeLevel": "Fifth grade"
+      "objective": "Learn More Mathematics",
+      "academicSubject": "Mathematic",
+      "objectiveGradeLevel": "Sixth grade"
     }
   },
   "learningStandard": {
@@ -348,7 +360,7 @@
       "value": "State Education Agency"
     },
     "naturalKey": {
-      "programId": "ACC-TEST-PROG-3"
+      "programId": "ACC-TEST-PROG-4"
     }
   },
   "section": {
@@ -370,8 +382,8 @@
       "value": "2"
     },
     "naturalKey": {
-      "uniqueSectionCode": "SpanishB09",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      "uniqueSectionCode": "EnglishA11",
+      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772"
     }
   },
   "session": {
@@ -392,8 +404,8 @@
       "value": "43"
     },
     "naturalKey": {
-      "sessionName": "Spring 2012",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      "sessionName": "Summer 2012",
+      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772"
     }
   },
   "staff": {
@@ -413,7 +425,7 @@
       "value": "Female"
     },
     "naturalKey": {
-      "staffUniqueStateId": "EMPLOYEE123456789"
+      "staffUniqueStateId": "EMPLOYEE1234567890"
     }
   },
   "studentGradebookEntry": {
@@ -432,8 +444,8 @@
       "value": "Finished the quiz in 5 hours"
     },
     "naturalKey": {
-      "gradebookEntryId": "20120613-56b6-4d17-847b-2997b7227686",
-      "studentSectionAssociationId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id"
+      "gradebookEntryId": "7f05ef51-c974-4071-b91b-f644f9b087cf",
+      "studentSectionAssociationId": "bac890d6-b580-4d9d-a0d4-8bce4e8d351a"
     }
   },
   "assessment": {
@@ -452,11 +464,11 @@
       "version": 2
     },
     "UPDATE": {
-      "field": "assessmentTitle",
-      "value": "Advanced Placement Test - Subject: Writing"
+      "field": "contentStandard",
+      "value": "Advanced Placement"
     },
     "naturalKey": {
-      "assessmentTitle": "Writing Advanced Placement Test",
+      "assessmentTitle": "Advanced Placement Test - Subject: Writing",
       "academicSubject": "Mathematics",
       "gradeLevelAssessed": "Adult Education",
       "version": 2
@@ -471,11 +483,11 @@
       }
     },
     "UPDATE": {
-      "field": "parentUniqueStateId",
-      "value": "ParentID102"
+      "field": "sex",
+      "value": "Male"
     },
     "naturalKey": {
-      "parentUniqueStateId": "ParentID101"
+      "parentUniqueStateId": "ParentID102"
     }
   },
   "school": {
@@ -541,8 +553,8 @@
       "value": "Mid-Term Grade"
     },
     "naturalKey": {
-      "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
-      "gradingPeriodId": null
+         "studentSectionAssociationId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
+      "gradingPeriodId": "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
     }
   },
   "studentCompetency": {
@@ -591,8 +603,8 @@
       "value": "17"
     },
     "naturalKey": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
+      "studentId": "00209530-6e1f-4273-a5a7-eb686c79fcd9",
+      "gradingPeriodId": "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
     }
   },
   "graduationPlan": {
@@ -621,14 +633,14 @@
       "value": "true"
     },
     "naturalKey": {
-      "graduationPlanType": "Minimum",
-      "educationOrganizationId": "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
+      "graduationPlanType": "Recommended",
+      "educationOrganizationId": "ec2e4218-6483-4e9c-8954-0aecccfd4731"
     }
   },
   "competencyLevelDescriptor": {
     "POST": {
       "description": "Herman tends to throw tantrums",
-      "codeValue": "Temper Tantrum",
+      "codeValue": "Temper Tantrum 1",
       "performanceBaseConversion": "Basic"
     },
     "UPDATE": {
@@ -636,7 +648,7 @@
       "value": "Herman throws a lot of tantrums"
     },
     "naturalKey": {
-      "codeValue": "Temper Tantrum"
+      "codeValue": "Temper Tantrum 2"
     }
   },
   "studentCompetencyObjective": {
@@ -651,7 +663,7 @@
       "value": "First grade"
     },
     "naturalKey": {
-      "studentCompetencyObjectiveId": "SCO-K-1"
+      "studentCompetencyObjectiveId": "SCO-K-11"
     }
   },
   "courseTranscript": {
@@ -671,9 +683,9 @@
       "value": "D-"
     },
     "naturalKey": {
-      "courseAttemptResult": "Pass",
-      "courseId": "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
-      "studentAcademicRecordId": "16afc8d4-6c91-48f9-8a51-de527c1131b7"
+      "courseAttemptResult": "Fail",
+      "courseId": "c8a446ea-1138-4ae9-8655-fc8ef6a9ae47",
+      "studentAcademicRecordId": "56afc8d4-6c91-48f9-8a51-de527c1131b7"
     }
   },
   "staffCohortAssociation": {
@@ -685,13 +697,13 @@
       "studentRecordAccess": true
     },
     "UPDATE": {
-      "field": "retestIndicator",
-      "value": "2nd Retest"
+      "field": "endDate",
+      "value": "2012-03-30"
     },
     "naturalKey": {
-      "staffId": "04f708bc-928b-420d-a440-f1592a5d1073",
-      "cohortId": "b408635d-8fd5-11e1-86ec-0021701f543f",
-      "beginDate": "2010-01-15"
+      "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
+      "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
+      "beginDate": "2010-01-16"
     }
   },
   "staffEducationOrganizationAssociation": {
@@ -702,20 +714,20 @@
       "beginDate": "2011-01-13"
     },
     "UPDATE": {
-      "field": "beginDate",
+      "field": "endDate",
       "value": "2011-02-12"
     },
     "naturalKey": {
-      "staffReference": "04f708bc-928b-420d-a440-f1592a5d1073",
-      "educationOrganizationReference": "92d6d5a0-852c-45f4-907a-912752831772",
-      "staffClassification": "Counselor",
-      "beginDate": "2011-01-13"
+      "staffReference": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
+      "educationOrganizationReference": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "staffClassification": "Other",
+      "beginDate": "2011-01-14"
     }
   },
   "staffProgramAssociation": {
     "POST": {
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+      "programId": "cb292c7d-3503-414a-92a2-dc76a1585d79",
       "beginDate": "2012-01-01",
       "endDate": "2012-12-31"
     },
@@ -738,13 +750,13 @@
       "retestIndicator": "1st Retest"
     },
     "UPDATE": {
-      "field": "sessionId",
-      "value": "67ce204b-9999-4a11-aacb-000000000003"
+      "field": "retestIndicator",
+      "value": "2nd Retest"
     },
     "naturalKey": {
-      "administrationDate": "2011-10-01",
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
-      "assessmentId": "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"
+      "administrationDate": "2011-10-02",
+       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "assessmentId": "dd916592-7dfe-4e27-a8ac-bec5f4b757b7"
     }
   },
   "studentCohortAssociation": {
@@ -759,8 +771,8 @@
       "value": "2012-04-04"
     },
     "naturalKey": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "cohortId": "b408d88e-8fd5-11e1-86ec-0021701f543f",
+       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
       "beginDate": "2012-02-29"
     }
   },
@@ -775,8 +787,7 @@
       "value": "Witness"
     },
     "naturalKey": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
-      "disciplineIncidentId": "0e26de79-7efa-5e67-9201-5113ad50a03b"
+       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378"
     }
   },
   "studentParentAssociation": {
@@ -790,7 +801,7 @@
       "value": false
     },
     "naturalKey": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
       "parentId": "9b8f7237-ce8e-4dff-98cf-66535880987b"
     }
   },
@@ -808,10 +819,10 @@
       "value": "2012-07-01"
     },
     "naturalKey": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
       "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
-      "beginDate": "2012-01-12",
-      "educationOrganizationId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      "beginDate": "2012-02-12",
+      "educationOrganizationId": "92d6d5a0-852c-45f4-907a-912752831772"
     }
   },
   "studentSchoolAssociation": {
@@ -826,9 +837,9 @@
       "value": "Third grade"
     },
     "naturalKey": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-      "entryDate": "2011-09-01"
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
+      "entryDate": "2011-09-02"
     }
   },
   "studentSectionAssociation": {
@@ -845,9 +856,9 @@
       "value": "Not repeated"
     },
     "naturalKey": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
-      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234",
-      "beginDate": "2011-12-01"
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "sectionId": "392d1835-f372-4690-b221-7065db1aed33",
+      "beginDate": "2011-12-02"
     }
   },
   "teacherSchoolAssociation": {
@@ -857,13 +868,13 @@
       "programAssignment": "Regular Education"
     },
     "UPDATE": {
-      "field": "programAssignment",
-      "value": "Special Education"
+      "field": "academicSubjects",
+      "value": "Reading"
     },
     "naturalKey": {
-      "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
-      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
-      "programAssignment": "Regular Education"
+      "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
+      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "programAssignment": "Special Education"
     }
   },
   "teacherSectionAssociation": {
@@ -877,8 +888,8 @@
       "value": "Assistant Teacher"
     },
     "naturalKey": {
-      "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
-      "sectionId": "392d1835-f372-4690-b221-7065db1aed33"
+     "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+     "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
     }
   }
 }

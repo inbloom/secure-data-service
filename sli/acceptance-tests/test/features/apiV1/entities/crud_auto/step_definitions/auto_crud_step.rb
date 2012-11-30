@@ -168,11 +168,13 @@ def get_resource_type resource
   resource_type
 end
 def update_natural_key resource
-  @naturalKey.each do |nKey,nVal|
-    steps %Q{
+  if @naturalKey.nil? == false
+    @naturalKey.each do |nKey,nVal|
+      steps %Q{
           When I set the "#{nKey}" to "#{nVal}"
           When I navigate to PUT \"/v1#{resource}/#{@newId}\"
-          Then I should receive a return code of 204 
-    }
+          Then I should receive a return code of 409 
+      }
+    end
   end
 end
