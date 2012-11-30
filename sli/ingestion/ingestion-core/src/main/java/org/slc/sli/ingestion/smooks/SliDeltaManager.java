@@ -17,8 +17,6 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.lang.reflect.InvocationTargetException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,9 +81,15 @@ public final class SliDeltaManager {
         }
 
         // HACK HACK HACK HACK ... and needs more work
-        // Determine the neutralrecord key fields from smooks config - temporary solution until
-        // annotations are added identifying key fields in SLI-Ed-Fi.xsd
-        // that can be mapped deterministically to the neutralrecord fields
+        // Determine the neutralrecord key fields from smooks config
+        // TODOs
+        // 1. DE2260 Do deterministic id processing here directly on the neutralrecord,
+        //    however after attempting this is was determined there are non-trivial dependencies
+        //    in the existing ingestion pipeline in transformation and quite possibly other areas
+        //    that still depend on non-dId resolved reference structures.
+        // 2. DE2261 The natural key fields should be mapped deterministically from the "source of truth" rather than smooks-all-xml.
+        //    This is problematic right now since the current "source of truth" is the SLI schema which does not match up
+        //    to neutral record fields here which are based on SLI-Ed-Fi.
         Map<String, String> naturalKeys = new HashMap<String, String>();
 
         NeutralRecord neutralRecordResolved = (NeutralRecord) n.clone();
