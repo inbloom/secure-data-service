@@ -124,8 +124,8 @@ Feature: Data Browser
     When I navigated to the Data Browser Home URL
     And I should see the name "Charles Gray" on the page
     Then I am notified that "You are not authorized to use this app."
-    When I click on the logout link 
-    And I navigate to the Portal home page
+    When I navigate to the Portal home page
+    And I click on log out
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
