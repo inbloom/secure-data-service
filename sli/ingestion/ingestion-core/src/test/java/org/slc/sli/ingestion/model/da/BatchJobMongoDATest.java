@@ -434,13 +434,13 @@ public class BatchJobMongoDATest {
 
         // insert a record not in the db
         String testTenantId = "TestTenant";
-        String testRecordHashId = "TestRecordHashId";
+        String testRecordHashId = "TestRecordHashIdMustBeAtLeast40BytesInLength";
 
         // Record should not be in the db
         RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNull(rh);
 
-        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "TestRecordHashValues");
+        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "TestRecordHashValuesMustBeAtLeast40BytesInLength");
         long savedTimestamp =  dbAnswer.savedRecordHash.updated;
         String savedId        =  dbAnswer.savedRecordHash._id;
         String savedHash      =  dbAnswer.savedRecordHash.hash;
