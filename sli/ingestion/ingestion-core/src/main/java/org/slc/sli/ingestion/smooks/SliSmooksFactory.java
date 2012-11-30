@@ -36,10 +36,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-
-import scala.actors.threadpool.Arrays;
-
 /**
  * Factory class for Smooks
  *
@@ -89,8 +85,8 @@ public class SliSmooksFactory {
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDidGeneratorStrategy(dIdStrategy);
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDidResolver(dIdResolver);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDIdGeneratorStrategy(dIdStrategy);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDIdResolver(dIdResolver);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
 

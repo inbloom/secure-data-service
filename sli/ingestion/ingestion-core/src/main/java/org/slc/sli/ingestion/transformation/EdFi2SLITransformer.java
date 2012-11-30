@@ -65,7 +65,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected static final String ID = "_id";
 
-    private DeterministicIdResolver didResolver;
+    private DeterministicIdResolver dIdResolver;
 
     private EntityConfigFactory entityConfigurations;
 
@@ -133,7 +133,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
-        didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
+        dIdResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 }
 
     /**
@@ -307,12 +307,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);
 
-    public DeterministicIdResolver getDidResolver() {
-        return didResolver;
-    }
-
-    public void setDidResolver(DeterministicIdResolver didResolver) {
-        this.didResolver = didResolver;
+    public void setDIdResolver(DeterministicIdResolver dIdResolver) {
+        this.dIdResolver = dIdResolver;
     }
 
     public EntityConfigFactory getEntityConfigurations() {

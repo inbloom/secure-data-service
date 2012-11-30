@@ -76,7 +76,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private BatchJobDAO batchJobDAO;
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
-    private DeterministicIdResolver didResolver;
+    private DeterministicIdResolver dIdResolver;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -117,7 +117,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
 
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, didResolver, errorReport)) {
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, errorReport)) {
                     queueNeutralRecordForWriting(neutralRecord);
 
                 } else {
@@ -218,12 +218,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.recordLevelDeltaEnabledEntities = entities;
     }
 
-    public void setDidGeneratorStrategy(DeterministicUUIDGeneratorStrategy didGeneratorStrategy) {
-        this.dIdStrategy = didGeneratorStrategy;
+    public void setDIdGeneratorStrategy(DeterministicUUIDGeneratorStrategy dIdGeneratorStrategy) {
+        this.dIdStrategy = dIdGeneratorStrategy;
     }
 
-    public void setDidResolver(DeterministicIdResolver didResolver) {
-        this.didResolver = didResolver;
+    public void setDIdResolver(DeterministicIdResolver dIdResolver) {
+        this.dIdResolver = dIdResolver;
     }
 
     /* we are not using the below visitor hooks */

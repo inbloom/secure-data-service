@@ -24,14 +24,19 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -45,6 +50,16 @@ public class LearningObjectiveTest {
 
     @Value("#{recordLvlHashNeutralRecordTypes}")
     private Set<String> recordLevelDeltaEnabledEntityNames;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     private String validXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
             + "<LearningObjective>"
@@ -92,7 +107,7 @@ public class LearningObjectiveTest {
         String targetSelector = "InterchangeAssessmentMetadata/LearningObjective";
 
         NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                validXmlTestData, recordLevelDeltaEnabledEntityNames);
+                validXmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidLO(nr);
     }
@@ -103,7 +118,7 @@ public class LearningObjectiveTest {
         String targetSelector = "InterchangeStudentGrade/LearningObjective";
 
         NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-        		validXmlTestData_SG, recordLevelDeltaEnabledEntityNames);
+        		validXmlTestData_SG, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidLO(nr);
     }

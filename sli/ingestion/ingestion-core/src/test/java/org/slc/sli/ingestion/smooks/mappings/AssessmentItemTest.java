@@ -25,14 +25,20 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Smooks test for AssessmentItem
@@ -64,6 +70,15 @@ public class AssessmentItemTest {
             + "  <Nomenclature>nomen</Nomenclature>"
             + "</AssessmentItem>" + "</InterchangeAssessmentMetadata>";
 
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @SuppressWarnings("unchecked")
     @Test
@@ -71,7 +86,7 @@ public class AssessmentItemTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeAssessmentMetadata/AssessmentItem";
 
-        NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Map<String, Object> m = nr.getAttributes();
         Assert.assertEquals("test-id", nr.getLocalId());
@@ -88,7 +103,7 @@ public class AssessmentItemTest {
         Set<String> lsIdSet = new HashSet<String>();
 
         for (Map<String, Object> lsRef : refs) {
-        	Map<String, Object> identityType = (Map<String, Object>) lsRef.get("LearningStandardIdentity");
+            Map<String, Object> identityType = (Map<String, Object>) lsRef.get("LearningStandardIdentity");
         	Assert.assertNotNull(identityType);
         	Assert.assertTrue(identityType.containsKey("IdentificationCode"));
         	lsIdSet.add((String) identityType.get("IdentificationCode"));
@@ -96,7 +111,7 @@ public class AssessmentItemTest {
 
         Assert.assertTrue(lsIdSet.contains("id-code-1"));
         Assert.assertTrue(lsIdSet.contains("id-code-2"));
-        
+
         /*
          * Map<String, Object> assessmentRef = (Map<String, Object>)
          * nr.getAttributes().get("assessmentReference");
