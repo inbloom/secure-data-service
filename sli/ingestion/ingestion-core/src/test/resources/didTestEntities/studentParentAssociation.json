@@ -1,0 +1,13 @@
+{
+"recordType":"studentParentAssociation",
+"attributes":
+{
+	"ParentReference":
+	{
+		"ParentIdentity":
+		{
+			"ParentUniqueStateId":"testParentId"
+		}
+	}
+}
+}
