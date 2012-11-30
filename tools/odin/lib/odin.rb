@@ -18,7 +18,7 @@ limitations under the License.
 # Enable tailcall optimizations to reduce overall stack size.
 RubyVM::InstructionSequence.compile_option = {
     :tailcall_optimization => true,
-    :trace_instruction => false
+    :trace_instruction => true
 }
 
 require 'digest/md5'
