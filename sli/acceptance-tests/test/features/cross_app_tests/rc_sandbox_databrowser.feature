@@ -42,6 +42,7 @@ Feature: Data Browser
     When I click on the "GetFeederEducationOrganizations" link
     Then I should be on the detailed page for an LEA
     When I click on the logout link 
+    And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
@@ -70,6 +71,7 @@ Feature: Data Browser
     And I click on the "Me" of any of the associating entities
     Then I am redirected to a page that page lists all of the "dfec28d34c75a4d307d1e85579e26a81630f6a47_id" entity's fields
     When I click on the logout link 
+    And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
@@ -108,7 +110,8 @@ Feature: Data Browser
     # Search for something I don't have access to
     When I search for the identifier "<MATT SOLLARS UNIQUE ID>" in "students"
     Then I see a "There were no entries matching your search" alert box
-    When I click on the logout link 
+    When I click on the logout link
+    And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
@@ -122,6 +125,7 @@ Feature: Data Browser
     And I should see the name "Charles Gray" on the page
     Then I am notified that "You are not authorized to use this app."
     When I click on the logout link 
+    And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
