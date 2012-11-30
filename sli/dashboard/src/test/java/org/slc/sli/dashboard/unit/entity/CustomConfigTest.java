@@ -67,10 +67,6 @@ public class CustomConfigTest {
 
             + "}}";
 
-    @Before
-    public void setup() {
-    }
-
     @Test
     public void testCreate() throws Exception {
         Gson gson = new GsonBuilder().create();

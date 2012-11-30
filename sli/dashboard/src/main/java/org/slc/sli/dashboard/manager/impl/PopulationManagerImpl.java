@@ -77,14 +77,14 @@ public class PopulationManagerImpl extends ApiClientManager implements
 	private static final int DEFAULT_YEARS_BACK = 3;
 	private static final int NO_LIMIT = -1;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(PopulationManagerImpl.class);
 
 	@Autowired
 	private EntityManager entityManager;
 
 	public PopulationManagerImpl() {
-
+        //Default constructor
 	}
 
 	/*
@@ -115,7 +115,7 @@ public class PopulationManagerImpl extends ApiClientManager implements
 							(Map) studentAssessment.get("assessments"));
 					assessments.add(assessment);
 				} catch (ClassCastException cce) {
-					log.warn(cce.getMessage());
+					LOG.warn(cce.getMessage());
 				}
 			}
 		}
@@ -139,8 +139,8 @@ public class PopulationManagerImpl extends ApiClientManager implements
 
 		List<GenericEntity> studentSummaries = entityManager.getStudents(token,
 				sectionId);
-		log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}",
-				(System.nanoTime() - startTime) * 1.0e-9);
+		LOG.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}",
+                (System.nanoTime() - startTime) * 1.0e-9);
 
 		return studentSummaries;
 	}
@@ -263,7 +263,7 @@ public class PopulationManagerImpl extends ApiClientManager implements
 
 				int attendanceRate = Math
 						.round((((float) (attendances.size() - absenceCount)) / attendances
-								.size()) * 100);
+                                .size()) * 100);
 				int tardyRate = Math.round((((float) tardyCount) / attendances
 						.size()) * 100);
 
@@ -572,12 +572,12 @@ public class PopulationManagerImpl extends ApiClientManager implements
 					curSessionEndDate);
 
 		} catch (ClassCastException ex) {
-			log.error("Error occured processing Final Grades", ex);
+			LOG.error("Error occured processing Final Grades", ex);
 			Map<String, Object> grade = new LinkedHashMap<String, Object>();
 			student.put(Constants.ATTR_SCORE_RESULTS,
 					grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
 		} catch (NullPointerException ex) {
-			log.error("Error occured processing Final Grades", ex);
+			LOG.error("Error occured processing Final Grades", ex);
 			Map<String, Object> grade = new LinkedHashMap<String, Object>();
 			student.put(Constants.ATTR_SCORE_RESULTS,
 					grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
@@ -702,7 +702,7 @@ public class PopulationManagerImpl extends ApiClientManager implements
 				return formatter.parse(date);
 			}
 		} catch (ParseException e) {
-			log.error("Error parsing dates. Date string was: " + date);
+			LOG.error("Error parsing dates. Date string was: " + date);
 		}
 		return null;
 	}
@@ -793,7 +793,7 @@ public class PopulationManagerImpl extends ApiClientManager implements
 						}
 					}
 				} catch (ParseException e) {
-					log.error("Error parsing dates for a Current Section grade.");
+					LOG.error("Error parsing dates for a Current Section grade.");
 				}
 				gradeDate.put(Constants.ATTR_GRADE_EARNED, grade);
 				sortedList.add(gradeDate);
@@ -804,9 +804,9 @@ public class PopulationManagerImpl extends ApiClientManager implements
 			}
 
 		} catch (ClassCastException ex) {
-			log.error("Error occured processing Gradebook Entries", ex);
+			LOG.error("Error occured processing Gradebook Entries", ex);
 		} catch (NullPointerException ex) {
-			log.error("Error occured processing Gradebook Entries", ex);
+			LOG.error("Error occured processing Gradebook Entries", ex);
 		}
 	}
 
@@ -1047,9 +1047,9 @@ public class PopulationManagerImpl extends ApiClientManager implements
 			try {
 				intYearsBack = Integer.parseInt(yearsBack);
 			} catch (Exception e) {
-				log.error("params: value of yearsBack was not integer. ["
-						+ intYearsBack + "]. Using default value ["
-						+ DEFAULT_YEARS_BACK + "]");
+				LOG.error("params: value of yearsBack was not integer. ["
+                        + intYearsBack + "]. Using default value ["
+                        + DEFAULT_YEARS_BACK + "]");
 				intYearsBack = DEFAULT_YEARS_BACK;
 			}
 		}
@@ -1484,7 +1484,7 @@ public class PopulationManagerImpl extends ApiClientManager implements
 		GenericEntity student = entityManager.getStudentWithOptionalFields(
 				token, (String) id, Arrays.asList(Constants.ATTR_ASSESSMENTS));
 		if (student == null) {
-			log.error("Requested data for non-existing ID" + id);
+			LOG.error("Requested data for non-existing ID" + id);
 			return entity;
 		}
 		List<Map<String, Object>> assessements = filterAssessmentByFamily(
@@ -1646,7 +1646,7 @@ public class PopulationManagerImpl extends ApiClientManager implements
 				}
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 
 		ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);

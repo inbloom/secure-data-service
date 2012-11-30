@@ -35,6 +35,7 @@ import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.ApiClientManager;
+import org.slc.sli.dashboard.manager.ManagerRuntimeException;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.util.CacheableUserData;
 import org.slc.sli.dashboard.util.Constants;
@@ -233,7 +234,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     retVal.add(obj);
                 }
             } catch (Exception e) {
-                throw new RuntimeException("error creating json object for " + edOrgId);
+                throw new ManagerRuntimeException("error creating json object for " + edOrgId, e);
             }
         }
         
@@ -278,7 +279,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             obj.put(Constants.ATTR_SCHOOLS, schools);
             retVal.add(obj);
         } catch (Exception e) {
-            throw new RuntimeException("error creating json object for dummy edOrg");
+            throw new ManagerRuntimeException("error creating json object for dummy edOrg", e);
         }
         return retVal;
     }

@@ -43,7 +43,7 @@ import org.slc.sli.dashboard.util.SecurityUtil;
  */
 @Controller
 public abstract class GenericLayoutController {
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected static final Logger LOGGER = LoggerFactory.getLogger(GenericLayoutController.class);
     private static final String LAYOUT_DIR = "layout/";
     private static final String FTL_EXTENSION = ".ftl";
     private CustomizationAssemblyFactory customizationAssemblyFactory;
@@ -89,7 +89,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_VIEW_DATA_CONFIG_JSON, JsonConverter.toJson(modelAndConfig));
 
-        model.addAttribute(Constants.MM_KEY_LOGGER, logger);
+        model.addAttribute(Constants.MM_KEY_LOGGER, LOGGER);
         addCommonData(model, request);
         populateModelLegacyItems(model);
         return model;

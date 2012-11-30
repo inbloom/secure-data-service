@@ -204,6 +204,7 @@ public class Config implements Cloneable, Serializable {
         protected boolean lazy;
 
         public Data() {
+            //Default constructor
         }
 
         public Data(String entity, String cacheKey, boolean lazy, Map<String, Object> params) {
@@ -350,6 +351,7 @@ public class Config implements Cloneable, Serializable {
     }
 
     public Config() {
+        //Default constructor
     }
 
     public String getId() {

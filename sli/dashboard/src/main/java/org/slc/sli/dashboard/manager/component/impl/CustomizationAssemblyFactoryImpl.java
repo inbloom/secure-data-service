@@ -58,7 +58,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE =
             new Class[]{String.class, Object.class, Config.Data.class};
     public static final String SUBSTITUTE_TOKEN_PATTERN = "\\$\\{([^}]+)\\}";
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomizationAssemblyFactoryImpl.class);
     private ApplicationContext applicationContext;
     private ConfigManager configManager;
     private UserEdOrgManager userEdOrgManager;
@@ -271,7 +271,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             @SuppressWarnings("unchecked")
             Collection<String> expandMapperList = entity.getList(config.getRoot());
             if (expandMapperList == null) {
-                logger.error("Expand map is not available in the entity for config " + config);
+                LOGGER.error("Expand map is not available in the entity for config " + config);
                 return null;
             }
             List<Config.Item> expandedItems = new ArrayList<Config.Item>();
@@ -322,7 +322,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
         boolean foundInterface = false;
         for (Object manager : applicationContext.getBeansWithAnnotation(EntityMappingManager.class).values()) {
-            logger.info(manager.getClass().getCanonicalName());
+            LOGGER.info(manager.getClass().getCanonicalName());
             // managers can be advised (proxied) so original annotation are not seen on the method but
             // still available on the interface
             foundInterface = false;
@@ -389,7 +389,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         try {
             return (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
         } catch (Exception e) {
-            logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
+            LOGGER.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
                     + ", config " + componentId, e);
         }
         return null;

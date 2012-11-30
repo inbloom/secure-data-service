@@ -416,8 +416,4 @@ public class PopulationManagerTest {
         return studentSummaries;
     }
 
-    public void testStudentNameSearch() {
-
-    }
-
 }

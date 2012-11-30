@@ -54,7 +54,7 @@ public class ConfigControllerTest extends ControllerTestBase {
     private ConfigController configController = new ConfigController() {
         @Override
         public void putCustomConfig(ConfigMap map) {
-
+            //No Op
         }
     };
 

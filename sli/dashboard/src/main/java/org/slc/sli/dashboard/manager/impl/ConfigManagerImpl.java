@@ -59,7 +59,7 @@ import org.slc.sli.dashboard.util.JsonConverter;
  */
 public class ConfigManagerImpl extends ApiClientManager implements ConfigManager {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigManagerImpl.class);
 
     private String driverConfigLocation;
     private String userConfigLocation;
@@ -70,6 +70,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     private static final String TYPE = "type";
 
     public ConfigManagerImpl() {
+        //Default constructor
     }
 
     /**
@@ -172,8 +173,8 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             }
             return driverConfig;
         } catch (Exception ex) {
-            logger.error("Unable to read config for " + componentId, ex);
-            throw new DashboardException("Unable to read config for " + componentId);
+            LOGGER.error("Unable to read config for " + componentId, ex);
+            throw new DashboardException("Unable to read config for " + componentId, ex);
         }
     }
 
@@ -262,7 +263,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         File driverConfigDir = new File(this.driverConfigLocation);
         File[] driverConfigFiles = driverConfigDir.listFiles();
         if (driverConfigFiles == null) {
-            logger.error("Unable to read config directory");
+            LOGGER.error("Unable to read config directory");
             throw new DashboardException("Unable to read config directory!!!!");
         }
 
@@ -270,7 +271,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             try {
                 config = loadConfig(f);
             } catch (Exception e) {
-                logger.error("Unable to read config " + f.getName() + ". Skipping file", e);
+                LOGGER.error("Unable to read config " + f.getName() + ". Skipping file", e);
                 continue;
             }
 
@@ -292,7 +293,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                     }
                 } catch (Exception e) {
                     matchAll = false;
-                    logger.error("Error calling config method: " + methodName);
+                    LOGGER.error("Error calling config method: " + methodName);
                 }
             }
 
@@ -326,7 +327,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         } catch (Exception e) {
             // it's a valid scenario when there is no district specific config. Default will be used
             // in this case.
-            logger.debug( "No district specific config is available, the default config will be used" );
+            LOGGER.debug("No district specific config is available, the default config will be used");
             return null;
         }
     }

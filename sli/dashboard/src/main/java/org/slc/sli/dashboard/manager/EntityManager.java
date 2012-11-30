@@ -17,7 +17,6 @@
 package org.slc.sli.dashboard.manager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +28,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.ContactSorter;
@@ -52,10 +50,10 @@ import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 @Component
 public class EntityManager extends ApiClientManager {
 
-	private static Logger log = LoggerFactory.getLogger(EntityManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(EntityManager.class);
 
 	public EntityManager() {
-
+        //Default constructor
 	}
 
 	/**
@@ -298,7 +296,7 @@ public class EntityManager extends ApiClientManager {
 	public List<GenericEntity> getStudentsFromSearch(String token,
 			String firstName, String lastName, String schoolId) {
 		return getApiClient().getStudentsWithSearch(token, firstName, lastName,
-				schoolId);
+                schoolId);
 	}
 
 	public GenericEntity getSession(String token, String sessionId) {
@@ -612,7 +610,7 @@ public class EntityManager extends ApiClientManager {
 	public GenericEntity getCurrentCoursesAndGrades(String token,
 			String studentId) {
 
-		log.info("starting grades and courses");
+		LOG.info("starting grades and courses");
 		List<GenericEntity> toReturn = new LinkedList<GenericEntity>();
 
 		Map<String, GenericEntity> cache = new HashMap<String, GenericEntity>();
@@ -701,16 +699,15 @@ public class EntityManager extends ApiClientManager {
 				toReturn.add(toAdd);
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 
 		GenericEntity ge = new GenericEntity();
 		ge.put(Constants.COURSES_AND_GRADES, toReturn);
 
-		log.info(String.format("first: %s, repeat: %s", first, repeat));
+		LOG.info(String.format("first: %s, repeat: %s", first, repeat));
 
-		log.info("ending grades and courses");
+		LOG.info("ending grades and courses");
 
 		return ge;
 	}
