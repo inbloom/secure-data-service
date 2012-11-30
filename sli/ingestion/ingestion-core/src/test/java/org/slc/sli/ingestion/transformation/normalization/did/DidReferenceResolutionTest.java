@@ -65,11 +65,11 @@ public class DidReferenceResolutionTest {
         Entity entity = loadEntity("didTestEntities/assessmentItem.json");
         ErrorReport errorReport = new TestErrorReport();
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("assessmentTitle", "Fraction Homework 123");
-		naturalKeys.put("gradeLevelAssessed", "Fifth grade");
-		naturalKeys.put("version", "1");
-		naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("assessmentTitle", "Fraction Homework 123");
+        naturalKeys.put("gradeLevelAssessed", "Fifth grade");
+        naturalKeys.put("version", "1");
+        naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
         checkId(entity, "AssessmentReference", naturalKeys, "assessment");
     }
@@ -80,11 +80,11 @@ public class DidReferenceResolutionTest {
         ErrorReport errorReport = new TestErrorReport();
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("AssessmentTitle", "Fraction Homework 123");
-		naturalKeys.put("GradeLevelAssessed", "Fifth grade");
-		naturalKeys.put("Version", "1");
-		naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("AssessmentTitle", "Fraction Homework 123");
+        naturalKeys.put("GradeLevelAssessed", "Fifth grade");
+        naturalKeys.put("Version", "1");
+        naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
         checkId(entity, "assessmentId", naturalKeys, "assessment");
     }
@@ -155,7 +155,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesResponsibilitySchoolReferenceEdOrgRefDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/disciplineAction.json");
-		ErrorReport errorReport = new TestErrorReport();
+        ErrorReport errorReport = new TestErrorReport();
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someResponsibilitySchoolReference");
@@ -167,7 +167,7 @@ public class DidReferenceResolutionTest {
     public void resolvesAssignmentSchoolReferenceEdOrgRefDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/disciplineAction.json");
         ErrorReport errorReport = new TestErrorReport();
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someAssignmentSchoolReference");
         checkId(entity, "AssignmentSchoolReference", naturalKeys, "educationOrganization");
@@ -443,74 +443,74 @@ public class DidReferenceResolutionTest {
         Entity entity = loadEntity("didTestEntities/staffCohortAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
-		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
-
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
-		naturalKeys.put("educationOrgId", edOrgDID);
-
-		checkId(entity, "CohortReference", naturalKeys, "cohort");
-	}
-
-    @Test
-	public void resolvesCohortDidInStudentCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
-
-        ErrorReport errorReport = new TestErrorReport();
-
-        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-
-		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
-		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+        Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+        edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+        String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
-		naturalKeys.put("educationOrgId", edOrgDID);
+        naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+        naturalKeys.put("educationOrgId", edOrgDID);
 
-		checkId(entity, "CohortReference", naturalKeys, "cohort");
+        checkId(entity, "CohortReference", naturalKeys, "cohort");
     }
 
     @Test
-	public void resolvesCourseOfferingDidInSectionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-	    Entity entity = loadEntity("didTestEntities/section.json");
-	    ErrorReport errorReport = new TestErrorReport();
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+    public void resolvesCohortDidInStudentCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
 
-		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("stateOrganizationId", "state organization id 1");
-		String sessionEdOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+        ErrorReport errorReport = new TestErrorReport();
 
-		Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
-		sessionNaturalKeys.put("schoolId", sessionEdOrgDid);
-		sessionNaturalKeys.put("sessionName", "session name");
-		String sessionDid = generateExpectedDid(sessionNaturalKeys, TENANT_ID, "session", null);
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-		edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("stateOrganizationId", "state organization id 2");
-		String edOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+        Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+        edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+        String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("localCourseCode", "local course code");
-		naturalKeys.put("schoolId", edOrgDid);
-		naturalKeys.put("sessionId", sessionDid);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+        naturalKeys.put("educationOrgId", edOrgDID);
 
-		checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
-	}
+        checkId(entity, "CohortReference", naturalKeys, "cohort");
+    }
 
-	@Test
-	public void resolvesStudentCompetencyObjectiveDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/studentCompetency.json");
+    @Test
+    public void resolvesCourseOfferingDidInSectionCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/section.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+        edorgNaturalKeys.put("stateOrganizationId", "state organization id 1");
+        String sessionEdOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+        sessionNaturalKeys.put("schoolId", sessionEdOrgDid);
+        sessionNaturalKeys.put("sessionName", "session name");
+        String sessionDid = generateExpectedDid(sessionNaturalKeys, TENANT_ID, "session", null);
+
+        edorgNaturalKeys = new HashMap<String, String>();
+        edorgNaturalKeys.put("stateOrganizationId", "state organization id 2");
+        String edOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("localCourseCode", "local course code");
+        naturalKeys.put("schoolId", edOrgDid);
+        naturalKeys.put("sessionId", sessionDid);
+
+        checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
+    }
+
+    @Test
+    public void resolvesStudentCompetencyObjectiveDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentCompetency.json");
         ErrorReport errorReport = new TestErrorReport();
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("studentCompetencyObjectiveId", "student competency objective id");
+        naturalKeys.put("studentCompetencyObjectiveId", "student competency objective id");
 
-		checkId(entity, "StudentCompetencyObjectiveReference", naturalKeys, "studentCompetencyObjective");
+        checkId(entity, "StudentCompetencyObjectiveReference", naturalKeys, "studentCompetencyObjective");
     }
 
     @Test
@@ -526,69 +526,69 @@ public class DidReferenceResolutionTest {
         checkId(entity, "LearningStandardReference", naturalKeys, "learningStandard");
     }
 
-	@Test
-	public void resolvesStudentSectionAssociationDidInGradeCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/grade.json");
-		ErrorReport errorReport = new TestErrorReport();
+    @Test
+    public void resolvesStudentSectionAssociationDidInGradeCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/grade.json");
+        ErrorReport errorReport = new TestErrorReport();
 
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-		Map<String, String> studentNaturalKeys = new HashMap<String, String>();
-		studentNaturalKeys.put("studentUniqueStateId", "800000025");
-		String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "800000025");
+        String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
 
-		Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
-		schoolNaturalKeys.put("stateOrganizationId", "this school");
-		String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
-		sectionNaturalKeys.put("schoolId", schoolId);
-		sectionNaturalKeys.put("uniqueSectionCode", "this section");
-		String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+        Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+        sectionNaturalKeys.put("schoolId", schoolId);
+        sectionNaturalKeys.put("uniqueSectionCode", "this section");
+        String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("studentId", studentDid);
-		naturalKeys.put("sectionId", sectionDid);
-		naturalKeys.put("beginDate", "2011-09-01");
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("studentId", studentDid);
+        naturalKeys.put("sectionId", sectionDid);
+        naturalKeys.put("beginDate", "2011-09-01");
 
-		// because we don't have a full entity structure it thinks section is the parent, so use sectionDid
-		String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
-		Map<String, Object> body = entity.getBody();
-		Object resolvedRef = body.get("StudentSectionAssociationReference");
-		Assert.assertEquals(refId, resolvedRef);
-	}
+        // because we don't have a full entity structure it thinks section is the parent, so use sectionDid
+        String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
+        Map<String, Object> body = entity.getBody();
+        Object resolvedRef = body.get("StudentSectionAssociationReference");
+        Assert.assertEquals(refId, resolvedRef);
+    }
 
-	@Test
-	public void resolvesStudentSectionAssociationDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/studentCompetency.json");
-		ErrorReport errorReport = new TestErrorReport();
+    @Test
+    public void resolvesStudentSectionAssociationDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentCompetency.json");
+        ErrorReport errorReport = new TestErrorReport();
 
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-		Map<String, String> studentNaturalKeys = new HashMap<String, String>();
-		studentNaturalKeys.put("studentUniqueStateId", "800000025");
-		String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "800000025");
+        String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
 
-		Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
-		schoolNaturalKeys.put("stateOrganizationId", "this school");
-		String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
-		sectionNaturalKeys.put("schoolId", schoolId);
-		sectionNaturalKeys.put("uniqueSectionCode", "this section");
-		String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+        Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+        sectionNaturalKeys.put("schoolId", schoolId);
+        sectionNaturalKeys.put("uniqueSectionCode", "this section");
+        String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("studentId", studentDid);
-		naturalKeys.put("sectionId", sectionDid);
-		naturalKeys.put("beginDate", "2011-09-01");
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("studentId", studentDid);
+        naturalKeys.put("sectionId", sectionDid);
+        naturalKeys.put("beginDate", "2011-09-01");
 
-		// because we don't have a full entity structure it thinks section is the parent, so use sectionDid
-		String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
-		Map<String, Object> body = entity.getBody();
-		Object resolvedRef = body.get("StudentSectionAssociationReference");
-		Assert.assertEquals(refId, resolvedRef);
-	}
+        // because we don't have a full entity structure it thinks section is the parent, so use sectionDid
+        String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
+        Map<String, Object> body = entity.getBody();
+        Object resolvedRef = body.get("StudentSectionAssociationReference");
+        Assert.assertEquals(refId, resolvedRef);
+    }
 
     @Test
     public void shouldResolveCourseDidsCorrectly() throws JsonParseException, JsonMappingException, IOException {
@@ -620,37 +620,109 @@ public class DidReferenceResolutionTest {
     }
 
 
-	@Test
-	public void resolvesStudentSectionAssociationDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
-		ErrorReport errorReport = new TestErrorReport();
+    @Test
+    public void resolvesStudentSectionAssociationDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
+        ErrorReport errorReport = new TestErrorReport();
 
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-		Map<String, String> studentNaturalKeys = new HashMap<String, String>();
-		studentNaturalKeys.put("studentUniqueStateId", "800000025");
-		String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "800000025");
+        String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
 
-		Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
-		schoolNaturalKeys.put("stateOrganizationId", "this school");
-		String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
-		sectionNaturalKeys.put("schoolId", schoolId);
-		sectionNaturalKeys.put("uniqueSectionCode", "this section");
-		String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+        Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+        sectionNaturalKeys.put("schoolId", schoolId);
+        sectionNaturalKeys.put("uniqueSectionCode", "this section");
+        String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("studentId", studentDid);
-		naturalKeys.put("sectionId", sectionDid);
-		naturalKeys.put("beginDate", "2011-09-01");
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("studentId", studentDid);
+        naturalKeys.put("sectionId", sectionDid);
+        naturalKeys.put("beginDate", "2011-09-01");
 
-		// section is the parent entity, so use sectionDid when generating expected DID
-		String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
-		Map<String, Object> body = entity.getBody();
-		Object resolvedRef = body.get("StudentSectionAssociationReference");
-		Assert.assertEquals(refId, resolvedRef);
-	}
+        // section is the parent entity, so use sectionDid when generating expected DID
+        String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
+        Map<String, Object> body = entity.getBody();
+        Object resolvedRef = body.get("StudentSectionAssociationReference");
+        Assert.assertEquals(refId, resolvedRef);
+    }
+
+    @Test
+    public void resolvesSectionDidInGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/gradebookEntry.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", schoolId);
+        naturalKeys.put("uniqueSectionCode", "this section");
+
+        checkId(entity, "SectionReference", naturalKeys, "section");
+    }
+
+    @Test
+    public void resolvesSectionDidInStudentSectionAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentSectionAssociation.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", schoolId);
+        naturalKeys.put("uniqueSectionCode", "this section");
+
+        checkId(entity, "SectionReference", naturalKeys, "section");
+    }
+
+    @Test
+    public void resolvesSectionDidInTeacherSectionAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/teacherSectionAssociation.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", schoolId);
+        naturalKeys.put("uniqueSectionCode", "this section");
+
+        checkId(entity, "SectionReference", naturalKeys, "section");
+    }
+
+    @Test
+    public void resolvesSectionDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", schoolId);
+        naturalKeys.put("uniqueSectionCode", "this section");
+
+        checkId(entity, "SectionReference", naturalKeys, "section");
+    }
 
     // generate the expected deterministic ids to validate against
     private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
@@ -667,10 +739,10 @@ public class DidReferenceResolutionTest {
         Object resolvedRef = null;
 
         try {
-			resolvedRef = PropertyUtils.getProperty(body, referenceField);
-		} catch (Exception e) {
-			Assert.fail("Exception thrown accessing resolved reference: " + e);
-		}
+            resolvedRef = PropertyUtils.getProperty(body, referenceField);
+        } catch (Exception e) {
+            Assert.fail("Exception thrown accessing resolved reference: " + e);
+        }
 
         Assert.assertNotNull("Expected non-null reference", resolvedRef);
 
