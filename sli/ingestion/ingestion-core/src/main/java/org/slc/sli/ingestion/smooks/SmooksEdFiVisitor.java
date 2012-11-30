@@ -118,7 +118,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 } else {
                     String type = neutralRecord.getRecordType();
                     Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : Long.valueOf(0);
-                    duplicateCounts.put(type, new Long(count.longValue() + 1));
+                    duplicateCounts.put(type, Long.valueOf(count.longValue() + 1));
                 }
             }
 

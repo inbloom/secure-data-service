@@ -18,7 +18,7 @@ limitations under the License.
 # Enable tailcall optimizations to reduce overall stack size.
 RubyVM::InstructionSequence.compile_option = {
     :tailcall_optimization => true,
-    :trace_instruction => false
+    :trace_instruction => true
 }
 
 require 'digest/md5'
@@ -55,20 +55,10 @@ class Odin
     time = Time.now
     
     # Create a snapshot of the world
-    edOrgs = WorldBuilder.new.build(prng, scenarioYAML)
+    edOrgs = WorldBuilder.new(prng, scenarioYAML).build
     display_world_summary(edOrgs)
 
-    # Batch size:  should be able ot optimize write time vs memory utilization.
-    batchSize = 10000
-    #
-    # | Batch Size | Time / 1M Students | Peak Memory |  d(time)  |  d(mem)  |
-    # |      1     |       320 sec      |    32 Mb    |     -     |     -    |
-    # |    10000   |       288 sec      |   148 Mb    |  -32 sec  | +116 Mb  |
-    # |    25000   |       281 sec      |   246 Mb    |  -39 sec  | +214 Mb  |
-    # |   100000   |       277 sec      |   460 Mb    |  -43 sec  | +428 Mb  |
-    #
-    
-    WorkOrderProcessor.run edOrgs, batchSize
+    WorkOrderProcessor.run edOrgs, scenarioYAML
 
     finalTime = Time.now - time
     @log.info "Total generation time: #{finalTime} secs"

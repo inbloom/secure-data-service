@@ -197,16 +197,15 @@ public class RealmResource {
 
     @GET
     @Path("{realmId}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response readRealm(@PathParam("realmId") String realmId) {
-        SecurityUtil.ensureAuthenticated();
         EntityBody result = service.get(realmId);
         return Response.ok(result).build();
     }
 
     @GET
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getRealms(@QueryParam(REALM) @DefaultValue("") String realm, @Context UriInfo info) {
-        SecurityUtil.ensureAuthenticated();
-        
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         NeutralQuery neutralQuery = new NeutralQuery();

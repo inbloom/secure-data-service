@@ -87,6 +87,7 @@ public class LoggingAspectTest {
                     instance.warn(msg);
                     instance.warn(msg, param);
                     instance.error(msg, x);
+                    instance.error(msg, new Object[] {});
                 } catch (InstantiationException e) {
                     info("Error padding coverage for {}", cl.getName());
                 } catch (IllegalAccessException e) {
