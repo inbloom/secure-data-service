@@ -208,9 +208,10 @@ public class SubDocAccessor {
                 if (key.startsWith("$")) {
                     Map<String, Object> fieldAndValue = (Map<String, Object>) originalUpdate.getUpdateObject().get(key);
                     Map<String, Object> newFieldAndValue = new HashMap<String, Object>();
-                    for (String field : fieldAndValue.keySet()) {
+                    for (Entry<String, Object> entry : fieldAndValue.entrySet()) {
+                       String field = entry.getKey();
                         if (!field.startsWith("$")) {
-                            newFieldAndValue.put(subField + ".$." + field, fieldAndValue.get(field));
+                            newFieldAndValue.put(subField + ".$." + field, entry.getValue());
                         }
                     }
                     updateDBObject.put(key, newFieldAndValue);
