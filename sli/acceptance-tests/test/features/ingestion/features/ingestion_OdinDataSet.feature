@@ -155,4 +155,19 @@ Scenario: Verify entities in education organization calendar were ingested corre
      | calendarDate                | 1                   | body.date                                | 2003-09-05                                    | string               |
      | calendarDate                | 1                   | body.date                                | 2004-06-01                                    | string               |
      | calendarDate                | 0                   | body.date                                | 2004-06-02                                    | string               |
+     | student                     | 10                  | type                                     | student                                       | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 1                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 2                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 3                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 4                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 5                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 6                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 7                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 8                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 9                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 10                                            | string               |
+     | student                     | 10                  | schools.entryDate                        | 2011-09-01                                    | string               |
+     | student                     | 10                  | schools.engryGradeLevel                  | Eleventh grade                                | string               |
+     | student                     | 1                   | schools.edOrgs                           | somethingGoesHere                             | string               |
+     
  
