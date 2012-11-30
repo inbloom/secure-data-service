@@ -65,7 +65,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                           |              count|
      | assessment                               |                  0|
      | attendance                               |                  0|
-     | calendarDate                             |                594|
+     | calendarDate                             |                579|
      | cohort                                   |                  0|
      | competencyLevelDescriptor                |                  0|
      | course                                   |                 34|
@@ -73,12 +73,12 @@ Then I should see following map of entry counts in the corresponding collections
      | courseSectionAssociation                 |                  0|
      | disciplineAction                         |                  0|
      | disciplineIncident                       |                  0|
-     | educationOrganization                    |                  6|
+     | educationOrganization                    |                  5|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
      | grade                                    |                  0|
      | gradebookEntry                           |                  0|
-     | gradingPeriod                            |                  6|
+     | gradingPeriod                            |                  3|
      | graduationPlan                           |                  0|
      | learningObjective                        |                  0|
      | learningStandard                         |                  0|
@@ -89,7 +89,7 @@ Then I should see following map of entry counts in the corresponding collections
      | section                                  |                  0|
      | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
-     | session                                  |                  6|
+     | session                                  |                  3|
      | sessionCourseAssociation                 |                  0|
      | staff                                    |                  0|
      | staffCohortAssociation                   |                  0|
@@ -110,7 +110,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                  0|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 1355 records." in the resulting batch job file
+    And I should see "Processed 766 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
