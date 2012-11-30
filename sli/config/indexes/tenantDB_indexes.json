@@ -1,0 +1,27 @@
+{
+    "index" : [
+{
+    "collectionName" : "adminDelegation",
+    "keys" : [
+                {
+                    "field" : "body.localEdOrgId",
+                    "order" : 1
+                },
+                {
+                    "field" : "body.appApprovalEnabled",
+                    "order" : 1
+                }
+             ],
+     "unique" : false
+},
+{
+    "collectionName" : "applicationAuthorization",
+    "keys" : [
+                {
+                    "field" : "body.appIds",
+                    "order" : 1
+                }
+             ],
+     "unique" : false
+}]
+}
