@@ -32,14 +32,16 @@ describe 'StudentGenerator' do
   describe '<<' do
     it 'will write a student to edfi' do
 
- 
+      generator.start()
       generator << student
       generator << parent
       generator << spa
 
-      valid = true
+      generator.finalize()
 
-      #validate_file( path )
+     
+
+      valid = validate_file( path )
 
       valid.should be true
 
