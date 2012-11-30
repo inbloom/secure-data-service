@@ -507,17 +507,6 @@ task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :p
   end
 end
 
-#desc "Run Liferay Tests"
-#task :liferay => [:liferayTest] do
- # displayFailureReport()
-#  if $SUCCESS
- #   puts "Completed All Tests"
- # else
- #   raise "Tests have failed"
- # end
-#end
-
-
 desc "Run all sandbox tests"
 task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
