@@ -82,11 +82,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_STAGE_DESC = "Parses the control file";
 
-    public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
-    public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
-
-    @Resource
-    private Set<String> tenantIndexes;
+    public static final String INDEX_SCRIPT = "tenantDB_indexes.txt";
 
     @Resource
     private Set<String> shardCollections;
@@ -205,11 +201,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
-        //MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
-        MongoCommander.ensureIndexes(tenantIndexes, dbName, batchJobDAO.getMongoTemplate());
+        MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate());
 
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        //MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
         MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate());
 
         tenantDA.setTenantReadyFlag(tenantId);

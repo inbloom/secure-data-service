@@ -15,13 +15,18 @@
  */
 package org.slc.sli.ingestion.util;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -83,6 +88,43 @@ public final class MongoCommander {
         }
     }
 
+    private static boolean validIndex (String line) {
+        if (line.startsWith("#")) {
+            return false;
+        }
+        String[] indexTokens = line.split(",");
+        if (indexTokens.length < 3) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void ensureIndexes(String indexFile, String db, MongoTemplate mongoTemplate) {
+        InputStream indexesStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(indexFile);
+
+        DataInputStream in = new DataInputStream(indexesStream);
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+        Set<String> indexes = new TreeSet<String>();
+
+        String currentLine;
+
+        //Reading in all the indexes
+        try {
+            while((currentLine = br.readLine()) != null) {
+                //skipping lines starting with #
+                if(validIndex(currentLine)) {
+                    indexes.add(currentLine);
+                }
+            }
+        } catch (IOException e) {
+            LOG.error("Failed to create index from {}", indexFile);
+        }
+
+        ensureIndexes(indexes, db, mongoTemplate);
+    }
+
     /**
      * Ensure indexes for db
      *
@@ -117,7 +159,21 @@ public final class MongoCommander {
                 DBObject keys = new BasicDBObject();
 
                 for (int i = 2; i < indexTokens.length; i++) {
-                    keys.put(indexTokens[i], 1);
+                    String [] index = indexTokens[i].split(":");
+
+                    //default order of the index
+                    int order = 1;
+
+                    //If the key specifies order
+                    if (index.length == 2) {
+                        //remove all the non visible characters from order string
+                        order = Integer.parseInt(index[1].replaceAll("\\s", ""));
+                    } else if(index.length != 1) {
+                        throw new IllegalStateException("Unexpected index order: "
+                                + indexTokens[i]);
+                    }
+
+                    keys.put(index[0], order);
                 }
 
                 try{

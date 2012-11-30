@@ -19,7 +19,7 @@
     
     <!-- Low cardinality collections -->
     <!-- approved 10/30 by Tony/Billy -->
-    <value>adminDelegation,false,body.localEdorgId,body.appApprovalEnabled</value>
+    <value>adminDelegation,false,body.localEdOrgId,body.appApprovalEnabled</value>
     <value>applicationAuthorization,false,body.appIds</value>
     <value>applicationAuthorization,false,body.authId,body.authType</value>
     <value>customRole,false,body.realmId</value>
