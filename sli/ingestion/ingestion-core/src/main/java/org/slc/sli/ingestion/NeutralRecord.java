@@ -455,7 +455,12 @@ public class NeutralRecord implements Cloneable {
         }
     }
 
-    /* Clone, e.g. for the DiD calculation needs */
+    /*
+     * Clone, e.g. for the DiD calculation needs
+     * 
+     *  @return The cloned object, taking care to handle composite members such as maps.
+     * 
+     */
     @Override
     public Object clone() {
     	NeutralRecord result = null;
@@ -470,5 +475,4 @@ public class NeutralRecord implements Cloneable {
     	}
   		return result;
     }
-
 }

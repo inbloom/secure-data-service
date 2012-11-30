@@ -472,6 +472,14 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.sliMongo = sliMongo;
     }
 
+    /*
+     * @param tenantId
+     * 		The tenant Id
+     * @param recordId
+     * 		A 40-char hex string suffixed with "_id" identifying the object hashed
+     * @param newHashValues
+     * 		The (initial) value of the record hash, a 40-character hex string
+     */
     @Override
     public void insertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException {
     
@@ -485,6 +493,15 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).insert(new BasicDBObject(rh.toKVMap()));
     }
     
+    /*
+     * @param tenantId
+     * 		The tenant Id
+     * @param rh
+     * 		The RecordHash object to be updated in the database
+     * @param newHashValues
+     * 		The (updated) value of the record hash, a 40-character hex string
+     */
+    @Override
     public void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException {
         rh.hash = newHashValues;
         rh.updated = System.currentTimeMillis();
@@ -495,7 +512,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh._id).getQueryObject(), new BasicDBObject(rh.toKVMap()));
     }
 
-    @Override
+    /*
+     * @param tenantId
+     * 		The tenant Id
+     * @param recordId
+     * 		A 40-char hex string suffixed with "_id" identifying the object hashed
+     * 
+     */
     public RecordHash findRecordHash(String tenantId, String recordId) {
         Map<String, Object> map = (Map <String, Object>) this.batchJobHashCacheMongoTemplate.findOne(recordHashQuery(recordId), Map.class, RECORD_HASH);
         if ( null == map )
@@ -505,6 +528,11 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     /*
      * Get SpringData Query object that locates a recordHash item by its recordId
+     * 
+     * @param recordId
+     * 		A 40-char hex string suffixed with "_id" identifying the object hashed
+     * @return
+     * 		The SpringDadta Query object that looks the record up in the recordHash collection. 
      */
     public Query recordHashQuery(String recordId) {
     	Query query = new Query().limit(1);
