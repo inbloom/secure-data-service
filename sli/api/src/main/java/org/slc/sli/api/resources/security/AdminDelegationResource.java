@@ -165,6 +165,7 @@ public class AdminDelegationResource {
     }
 
     @POST
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response create(EntityBody body) {
         return setLocalDelegation(body);
     }

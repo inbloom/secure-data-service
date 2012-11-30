@@ -26,8 +26,8 @@ require_relative '../lib/OutputGeneration/XML/enrollmentGenerator.rb'
 describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
-      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, [{'school' => 64, 'year' => 2001},
-                                                                 {'school' => 64, 'year' => 2002}])}
+      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, 2001, {'id' => 64, 'sessions' => [{'year' => 2001}, 
+                                                                                                  {'year' => 2002}]})}
 
       it "will generate the right number of entities for the student generator" do
         studentParent = double
@@ -37,8 +37,21 @@ describe "WorkOrderProcessor" do
 
       it "will generate the right number of entities for the enrollment generator" do
         enrollment = double
-        enrollment.should_receive(:<<).with(an_instance_of(StudentSchoolAssociation)).once
+        enrollment.should_receive(:<<).with(an_instance_of(StudentSchoolAssociation)).twice
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
+      end
+
+      it "will generate a StudentSchoolAssociation with the correct information" do
+        enrollment = double
+        ssas = []
+        enrollment.stub(:<<) do |ssa|
+          ssas << ssa
+          ssa.studentId.should eq(42)
+          ssa.schoolStateOrgId.should eq('elem-0000000064')
+        end
+        WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
+        ssas[0].startYear.should eq(2001) and ssas[0].startGrade.should eq("Kindergarten")
+        ssas[1].startYear.should eq(2002) and ssas[1].startGrade.should eq("First grade")
       end
 
     end
@@ -48,10 +61,10 @@ end
 describe "gen_work_orders" do
   context "with a world with 20 students in 4 schools" do
     let(:world) {{'seas' => [{'id' => 'sea1'}], 'leas' => [{'id' => 'lea1'}], 
-                  'elementary' => [{'id' => 0, 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]},
-                                   {'id' => 1, 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]}],
-                  'middle' => [{'id' => 2, 'students' => {2001 => {:SEVENTH_GRADE => 5}}, 'sessions' => [{}]}],
-                  'high' => [{'id' => 3, 'students' => {2001 => {:NINTH_GRADE => 5}}, 'sessions' => [{}]}]}}
+                  'elementary' => [{'id' => 0, 'students' => {2011 => {:KINDERGARTEN => 5}, 2012 => {:FIRST_GRADE => 5}}, 'sessions' => [{}]},
+                                   {'id' => 1, 'students' => {2011 => {:KINDERGARTEN => 5}, 2012 => {:FIRST_GRADE => 5}}, 'sessions' => [{}]}],
+                  'middle' => [{'id' => 2, 'students' => {2011 => {:SEVENTH_GRADE => 5}, 2012 => {:EIGTH_GRADE => 5}}, 'sessions' => [{}]}],
+                  'high' => [{'id' => 3, 'students' => {2011 => {:NINTH_GRADE => 5}, 2012 => {:TENTH_GRADE => 5}}, 'sessions' => [{}]}]}}
     let(:work_orders) {WorkOrderProcessor.gen_work_orders world}
 
     it "will create a work order for each student" do
@@ -60,8 +73,18 @@ describe "gen_work_orders" do
 
     it "will put the students in the right schools" do
       work_orders.each_with_index{|work_order, index|
-        work_order.sessions[0][:school].should eq(index/5)
+        work_order.edOrg['id'].should eq(index/5)
       }
+    end
+
+    it "will give students the correct entry grade" do
+      work_orders.select{|wo| wo.initial_grade == :KINDERGARTEN}.count.should eq(10)
+      work_orders.select{|wo| wo.initial_grade == :SEVENTH_GRADE}.count.should eq(5)
+      work_orders.select{|wo| wo.initial_grade == :NINTH_GRADE}.count.should eq(5)
+    end
+
+    it "will give students the correct entry year" do
+      work_orders.select{|wo| wo.initial_year == 2011}.count.should eq(20)
     end
 
     it "will generate unique student ids" do

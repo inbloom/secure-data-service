@@ -462,22 +462,29 @@ class WorldBuilder
       max = yaml["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
   end
   
-    if @breakdown[grade] != 0
+    if @breakdown[grade] > 0 && min >= 0 && max >= min
       # actually perform split
       students_to_be_split = @breakdown[grade]
       students_so_far      = 0
       @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.get(grade)} students to be split across #{@edOrgs[type].size} schools"
+
       while students_to_be_split > 0
         @edOrgs[type].each_index do |index|
           num_students_assigned_to_this_school = random_on_interval(rand, min, max)
+
           if students_to_be_split == 0
             num_students_assigned_to_this_school = 0
-          elsif num_students_assigned_to_this_school > students_to_be_split - students_so_far
-            num_students_assigned_to_this_school = students_to_be_split - students_so_far 
+          elsif students_to_be_split < num_students_assigned_to_this_school
+            num_students_assigned_to_this_school = students_to_be_split
           end
-          students_so_far                               += num_students_assigned_to_this_school
-          students_to_be_split                          -= num_students_assigned_to_this_school
+          students_so_far      += num_students_assigned_to_this_school
+          students_to_be_split -= num_students_assigned_to_this_school
+
           @edOrgs[type][index]["students"][year][grade] += num_students_assigned_to_this_school
+
+          if students_to_be_split == 0
+            break
+          end
         end
       end
     end
@@ -574,8 +581,7 @@ class WorldBuilder
             offering["session"]   = local_session
             offering["course"]    = course
             offering["grade"]     = grade
-            offering["sections"]  = []            
-
+            
             # add course offering into 'offerings' (course offerings for current year)
             offerings << offering
           end

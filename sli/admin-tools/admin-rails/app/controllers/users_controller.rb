@@ -130,6 +130,9 @@ class UsersController < ApplicationController
         reset_password_link = "#{APP_CONFIG['email_replace_uri']}/reset_password"
         ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],params[:user][:primary_role],reset_password_link).deliver
       rescue =>e
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+
         logger.error "Could not send email to #{@user.email}."
         @email_error_message = "Failed to send notification email to #{@user.email}"
       end
