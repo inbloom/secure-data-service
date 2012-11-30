@@ -1,4 +1,4 @@
-@RALLY_US4088
+@RALLY_US4088 @clearIndexer
 Feature:  SARJE Search Listener
 
 Background:
@@ -16,5 +16,3 @@ And I see the following fields:
  |_source.name.firstName    |Matt                                     |
  |_source.name.lastSurname  |Sollars                                  |
  |_source.name.middleName   |D                                        |
- #Clear the indexer after the test
-Given I DELETE to clear the Indexer

@@ -8,6 +8,8 @@ end
 
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/entities/crud")
 end
 
@@ -61,6 +63,8 @@ end
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/xml")
 end
 

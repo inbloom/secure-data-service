@@ -1,4 +1,4 @@
-@RALLY_US4086 
+@RALLY_US4086 @clearIndexer
 Feature:  Context security implementation for staff and teachers in ES
 
 Scenario:  IT admins can search for students at their Ed Org Level only
