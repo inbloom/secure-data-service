@@ -18,6 +18,7 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -168,6 +169,33 @@ public class UriMutator {
         return skipMutation;
     }
 
+
+    private class MutateInfo {
+        String mutatedPathFormat;
+        String mutatedParameter;
+
+        private MutateInfo(String mutatedPathFormat, String mutatedParameter) {
+            this.mutatedPathFormat = mutatedPathFormat;
+            this.mutatedParameter = mutatedParameter;
+        }
+
+        public String getMutatedPathFormat() {
+            return mutatedPathFormat;
+        }
+
+        public void setMutatedPathFormat(String mutatedPathFormat) {
+            this.mutatedPathFormat = mutatedPathFormat;
+        }
+
+        public String getMutatedParameter() {
+            return mutatedParameter;
+        }
+
+        public void setMutatedParameter(String mutatedParameter) {
+            this.mutatedParameter = mutatedParameter;
+        }
+    }
+
     /**
      * Mutates the API call (not to a base entity) to a more-specific (and generally more
      * constrained) URI.
@@ -191,71 +219,58 @@ public class UriMutator {
                 String transitiveEntityId = stringifiedSegments.get(2);
                 String requestedEntity = stringifiedSegments.get(3);
 
-                String modifiedRequest = reconnectPathSegments(Arrays.asList(baseEntity, requestedEntity));
-                if (modifiedRequest.equals(PathConstants.ASSESSMENTS + ";"
-                        + PathConstants.STUDENT_ASSESSMENTS + ";")) {
+                String joinedSegments = joinPathSegments(baseEntity, requestedEntity);
+
+                Map<String, MutateInfo> teacherSectionMutations = new HashMap<String, MutateInfo>() {{
+                    put(joinPathSegments(PathConstants.ASSESSMENTS, PathConstants.STUDENT_ASSESSMENTS),
+                            new MutateInfo("/sections/%s/studentSectionAssociations/students/studentAssessments", "assessmentId"));
+
+                    put(joinPathSegments(PathConstants.COURSES, PathConstants.COURSE_TRANSCRIPTS),
+                            new MutateInfo("/sections/%s/studentSectionAssociations/students/courseTranscripts", "courseId"));
+
+                    put(joinPathSegments(PathConstants.COURSE_OFFERINGS, PathConstants.SECTIONS),
+                            new MutateInfo("/sections/%s/", "courseOfferingId"));
+
+                    put(joinPathSegments(PathConstants.SESSIONS, PathConstants.SECTIONS),
+                            new MutateInfo("/sections/%s/", "sessionId"));
+
+                    put(joinPathSegments(PathConstants.LEARNING_OBJECTIVES, PathConstants.STUDENT_COMPETENCIES),
+                            new MutateInfo("/sections/%s/studentSectionAssociations/studentCompetencies", "learningObjectiveId"));
+
+                    put(joinPathSegments(PathConstants.GRADING_PERIODS, PathConstants.REPORT_CARDS),
+                            new MutateInfo("/sections/%s/studentSectionAssociations/students/reportCards", "gradingPeriodId"));
+
+                    put(joinPathSegments(PathConstants.GRADING_PERIODS, PathConstants.GRADES),
+                            new MutateInfo("/sections/%s/studentSectionAssociations/grades", "gradingPeriodId"));
+
+                    put(joinPathSegments(PathConstants.SESSIONS, PathConstants.STUDENT_ACADEMIC_RECORDS),
+                            new MutateInfo("/sections/%s/studentSectionAssociations/students/studentAcademicRecords", "sessionId"));
+
+                    put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS),
+                            new MutateInfo("/sections/%s/studentSectionAssociations/students/studentSchoolAssociations", null));
+                }};
+
+                MutateInfo mutateInfo = teacherSectionMutations.get(joinedSegments);
+                if (mutateInfo != null) {
+                    String sectionIds = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                    mutatedPath = String.format(mutateInfo.getMutatedPathFormat(), sectionIds);
+
+                    if (mutateInfo.getMutatedParameter() != null) {
+                        verifySingleTransitiveId(transitiveEntityId);
+                        mutatedParameters = mutuateQueryParameterString(mutateInfo.getMutatedParameter(), transitiveEntityId, queryParameters);
+                    }
+                } else if (joinedSegments.equals(joinPathSegments(PathConstants.EDUCATION_ORGANIZATIONS, PathConstants.COHORTS))) {
                     verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("assessmentId", transitiveEntityId,
-                            mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.COURSES + ";" + PathConstants.COURSE_TRANSCRIPTS + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/courseTranscripts",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("courseId", transitiveEntityId, mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.COURSE_OFFERINGS + ";" + PathConstants.SECTIONS + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format("/sections/%s/",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("courseOfferingId", transitiveEntityId,
-                            mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.EDUCATION_ORGANIZATIONS + ";" + PathConstants.COHORTS
-                        + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
+
                     mutatedPath = String.format("/teachers/%s/staffCohortAssociations/cohorts", user.getEntityId());
-                    mutatedParameters = mutuateQueryParameterString("educationOrgId", transitiveEntityId,
-                            mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.GRADING_PERIODS + ";" + PathConstants.GRADES + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/grades",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("gradingPeriodId", transitiveEntityId,
-                            mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.GRADING_PERIODS + ";" + PathConstants.REPORT_CARDS
-                        + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/reportCards",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("gradingPeriodId", transitiveEntityId,
-                            mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.LEARNING_OBJECTIVES + ";"
-                        + PathConstants.STUDENT_COMPETENCIES + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/studentCompetencies",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("learningObjectiveId", transitiveEntityId,
-                            mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.SESSIONS + ";" + PathConstants.SECTIONS + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format("/sections/%s/",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("sessionId", transitiveEntityId, mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.SESSIONS + ";" + PathConstants.STUDENT_ACADEMIC_RECORDS
-                        + ";")) {
-                    verifySingleTransitiveId(transitiveEntityId);
-                    mutatedPath = String.format(
-                            "/sections/%s/studentSectionAssociations/students/studentAcademicRecords",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                    mutatedParameters = mutuateQueryParameterString("sessionId", transitiveEntityId, mutatedParameters);
-                } else if (modifiedRequest.equals(PathConstants.SCHOOLS + ";"
-                        + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + ";")) {
-                    mutatedPath = String.format(
-                            "/sections/%s/studentSectionAssociations/students/studentSchoolAssociations",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                } else if (modifiedRequest.equals(PathConstants.SCHOOLS + ";" + PathConstants.SECTIONS + ";")) {
+                    mutatedParameters = mutuateQueryParameterString("educationOrgId", transitiveEntityId, mutatedParameters);
+
+                } else if (joinedSegments.equals(joinPathSegments(PathConstants.SCHOOLS, PathConstants.SECTIONS))) {
+
                     mutatedPath = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
+
                 }
+
             } else if (stringifiedSegments.size() == 5) {
                 String baseEntity = stringifiedSegments.get(1);
                 String transitiveEntity = stringifiedSegments.get(3);
@@ -407,6 +422,36 @@ public class UriMutator {
         }
 
         return Pair.of(mutatedPath, mutatedParameters);
+    }
+
+    /**
+     * Joins a list of path segments and returns a string representing the path traversed.
+     *
+     * @param segments List of Strings representing Path Segments.
+     * @return String representing the list of Path Segments.
+     */
+    protected String joinPathSegments(String ... segments) {
+        return joinPathSegments(Arrays.asList(segments));
+    }
+
+    /**
+     * Joins a list of path segments and returns a string representing the path traversed.
+     *
+     * @param segments List of Strings representing Path Segments.
+     * @return String representing the list of Path Segments.
+     */
+    protected String joinPathSegments(List<String> segments) {
+        StringBuilder builder = new StringBuilder();
+        boolean firstSegment = true;
+        for (String segment : segments) {
+            if (firstSegment) {
+                firstSegment = false;
+            } else {
+                builder.append(";");
+            }
+            builder.append(segment);
+        }
+        return builder.toString();
     }
 
     /**
