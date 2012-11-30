@@ -189,13 +189,7 @@ public class SecurityUtil {
     }
 
     public static Response forbiddenResponse() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth instanceof OAuth2Authentication
-                && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
-            throw new InsufficientAuthenticationException("Login Required");
-        }
-
+        ensureAuthenticated();
         EntityBody body = new EntityBody();
         body.put("response", "\"You are not authorized to perform this action.\"");
         return Response.status(Response.Status.FORBIDDEN).entity(body).build();
