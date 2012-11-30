@@ -117,8 +117,8 @@
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
-log.info(&quot;Looked up school ID for  &quot; + vars.get(&quot;stateOrganizationId&quot;) + &quot;:  &quot; + resp[0].id);
-vars.put(&quot;schoolId&quot;, resp[0].id);
+log.info(&quot;Looked up school ID for  &quot; + vars.get(&quot;stateOrganizationId&quot;) + &quot;:  &quot; + resp.id);
+vars.put(&quot;schoolId&quot;, resp.id);
 </stringProp>
           </BSFPostProcessor>
           <hashTree/>

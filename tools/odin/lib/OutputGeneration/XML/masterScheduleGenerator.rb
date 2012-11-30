@@ -29,9 +29,8 @@ class MasterScheduleGenerator < InterchangeGenerator
   # initialization will define the header and footer for the master schedule interchange
   # writes header to master schedule interchange
   # leaves file handle open for event-based writing of ed-fi entities
-  def initialize
-    @interchange = File.new("generated/InterchangeMasterSchedule.xml", 'w')
-    super(@interchange)
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
     @header, @footer = build_header_footer( "MasterSchedule" )
 
