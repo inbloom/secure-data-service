@@ -90,7 +90,7 @@ public class RecordHash {
     	else
     		this.updated = updated.longValue();
     	
-    	Short version = (Short) map.get("v");
+    	Integer version = (Integer) map.get("v");
     	if ( null == version )
     		this.version = 0;
     	else
