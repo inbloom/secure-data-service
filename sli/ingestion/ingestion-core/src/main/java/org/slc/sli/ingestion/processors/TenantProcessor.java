@@ -147,8 +147,9 @@ public class TenantProcessor implements Processor {
         File landingZoneDir = new File(landingZone);
         try {
             if (!landingZoneDir.exists()) {
-                if (!landingZoneDir.createNewFile())
+                if (!landingZoneDir.createNewFile()) {
                     LOG.debug("Failed to createNewFile: " + landingZoneDir.getPath());
+                }
             }
         } catch (IOException e) {
             LOG.error("Could not create landing zone", e);
@@ -195,8 +196,9 @@ public class TenantProcessor implements Processor {
         boolean result = true;
         File preloadedFile = new File(landingZoneDir, "preload-" + (new Date()).getTime() + ".zip");
         try {
-            if (!preloadedFile.createNewFile())
+            if (!preloadedFile.createNewFile()) {
                 LOG.debug("Failed to createNewFile: " + preloadedFile.getPath());
+            }
             FileUtils.copyInputStreamToFile(sampleFile, preloadedFile);
 
             sendMessageToLzQueue(preloadedFile.getPath());
