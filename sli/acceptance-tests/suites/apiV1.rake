@@ -1,6 +1,11 @@
 ############################################################
 # API V1 tests start
 ############################################################
+task :longLivedSessionTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/long_lived_session/")
+end
+
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud")

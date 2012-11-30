@@ -2,11 +2,19 @@
 "recordType":"teacherSchoolAssociation",
 "attributes":
 {
+	
 	"SchoolReference":
 	{
 		"EducationalOrgIdentity":
 		{
 			"StateOrganizationId":"testSchoolId"
+		}
+	},
+	"TeacherReference":
+	{
+		"StaffIdentity":
+		{
+			"StaffUniqueStateId":"jjackson"
 		}
 	}
 }

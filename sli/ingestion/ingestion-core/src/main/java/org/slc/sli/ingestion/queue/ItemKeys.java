@@ -23,7 +23,10 @@ package org.slc.sli.ingestion.queue;
  * @author smelody
  *
  */
-public class ItemKeys {
+public final class ItemKeys {
+
+    private ItemKeys() { }
+
     public static final String STATE = "state";
 
 }
