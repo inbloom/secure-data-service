@@ -43,6 +43,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
@@ -125,6 +126,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     }
 
     @POST
+    @RightsAllowed({Right.DEV_APP_CRUD})
     public Response createApplication(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         if (newApp.containsKey(CLIENT_SECRET) || newApp.containsKey(CLIENT_ID) || newApp.containsKey("id")) {
             EntityBody body = new EntityBody();
@@ -132,11 +134,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                     + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
-            EntityBody body = new EntityBody();
-            body.put(MESSAGE, "You are not authorized to create new applications.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
+
         if (!missingRequiredUrls(newApp)) {
             EntityBody body = new EntityBody();
             body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
@@ -191,6 +189,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @SuppressWarnings("rawtypes")
     @GET
+    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
     public Response getApplications(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -248,6 +247,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @SuppressWarnings("rawtypes")
     @GET
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
     public Response getApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         Response resp = super.read(uuid, headers, uriInfo);
@@ -291,14 +291,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @DELETE
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.DEV_APP_CRUD})
     public Response deleteApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-
-        if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
-            EntityBody body = new EntityBody();
-            body.put(MESSAGE, "You cannot delete this application");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
         
         EntityBody ent = service.get(uuid);
         if (ent != null) {
@@ -310,6 +305,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
     public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
@@ -425,10 +421,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
                 iterateEdOrgs(uuid, edOrgs);
             }
-        } else {
-            EntityBody body = new EntityBody();
-            body.put(MESSAGE, "You are not authorized to update application.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
         //Make sure bootstrap and auto_authorize/approve fields aren't ever modified

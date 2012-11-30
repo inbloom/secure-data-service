@@ -19,6 +19,7 @@ package org.slc.sli.api.security;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Date;
 
@@ -52,7 +53,7 @@ public class SecurityEventBuilder {
         thisProcess = ManagementFactory.getRuntimeMXBean().getName();
     }
     
-    public SecurityEvent createSecurityEvent(String loggingClass, UriInfo requestUri, String slMessage) {
+    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage) {
         SecurityEvent event = new SecurityEvent();
         
         try {
@@ -71,7 +72,7 @@ public class SecurityEventBuilder {
             
             event.setTargetEdOrg("UnknownTargetEdOrg");
             if (requestUri != null) {
-                event.setActionUri(requestUri.getRequestUri().toString());
+                event.setActionUri(requestUri.toString());
             }
             event.setAppId(callingApplicationInfoProvider.getClientId());
             event.setTimeStamp(new Date());

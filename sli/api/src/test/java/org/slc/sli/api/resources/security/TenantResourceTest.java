@@ -395,32 +395,6 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testPreloadNoAuthorization() throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-        // test no right will get forbidden response
-        injector.setLeaAdminContext();
-        tenantResource.setSandboxEnabled(true);
-        String id = createLandingZone(new EntityBody(createTestEntity()));
-        when(secUtil.getTenantId()).thenReturn(TENANT_1);
-        Response r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
-        // test production environment will get forbidden response
-        injector.setDeveloperContext();
-        tenantResource.setSandboxEnabled(false);
-        r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
-        // test tenant mismatch will get forbidden response
-        injector.setDeveloperContext();
-        tenantResource.setSandboxEnabled(true);
-        when(secUtil.getTenantId()).thenReturn(TENANT_2);
-        r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
-    }
-
-    @Test
     public void testLandingZoneLocked() {
         injector.setDeveloperContext();
         String id = createLandingZone(new EntityBody(createTestEntity()));

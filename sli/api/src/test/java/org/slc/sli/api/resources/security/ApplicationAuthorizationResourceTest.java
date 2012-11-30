@@ -134,7 +134,6 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
         Mockito.when(service.update("some-uuid", auth)).thenReturn(Boolean.TRUE);
-        UriInfo uriInfo = null;
         SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Response resp = resource.updateAuthorization("some-uuid", auth, uriInfo);
 
@@ -150,8 +149,7 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
         Mockito.when(service.update("some-uuid", auth)).thenReturn(Boolean.TRUE);
-        UriInfo uriInfo = null;
-        Response resp = resource.updateAuthorization("some-uuid", auth, null);
+        Response resp = resource.updateAuthorization("some-uuid", auth, uriInfo);
 
     }
 
@@ -163,8 +161,7 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("authType", "blah");
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
-        UriInfo uriInfo = null;
-        Response resp = resource.updateAuthorization("some-uuid", auth, null);
+        Response resp = resource.updateAuthorization("some-uuid", auth, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
@@ -176,8 +173,7 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("authId", "somethingDifferent");
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
-        UriInfo uriInfo = null;
-        Response resp = resource.updateAuthorization("some-uuid", auth, null);
+        Response resp = resource.updateAuthorization("some-uuid", auth, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
@@ -187,7 +183,7 @@ public class ApplicationAuthorizationResourceTest {
         Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(null);
         List<Map<String, Object>> data;
         Response response;
-        response = resource.getAuthorizations(buildMockUriInfo(""));
+        response = resource.getAuthorizations(uriInfo);
         data = (List<Map<String, Object>>) response.getEntity();
         assertEquals(0, data.size());
     }
@@ -201,7 +197,7 @@ public class ApplicationAuthorizationResourceTest {
         List<Map<String, Object>> data;
         Response response;
 
-        response = resource.getAuthorizations(buildMockUriInfo(""));
+        response = resource.getAuthorizations(uriInfo);
         data = (List<Map<String, Object>>) response.getEntity();
         assertEquals(1, data.size());
     }

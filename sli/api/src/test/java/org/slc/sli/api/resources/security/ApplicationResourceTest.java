@@ -64,6 +64,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.MockRepo;
@@ -105,7 +106,7 @@ public class ApplicationResourceTest {
     @Before
     public void setUp() throws Exception {
 
-        uriInfo = buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo("");
         injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
@@ -562,40 +563,6 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
 
-    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
-        UriInfo mock = mock(UriInfo.class);
-        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("absolute");
-            }
-        });
-        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("base");
-            }
-        });
-        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("request");
-            }
-        });
-
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMapImpl>() {
-            @Override
-            public MultivaluedMapImpl answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return new MultivaluedMapImpl();
-            }
-        });
-
-        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
-        return mock;
-    }
 
     private static String parseIdFromLocation(Response response) {
         List<Object> locationHeaders = response.getMetadata().get("Location");

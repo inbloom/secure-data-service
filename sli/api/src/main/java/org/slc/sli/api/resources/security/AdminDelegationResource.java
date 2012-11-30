@@ -21,6 +21,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -89,6 +90,7 @@ public class AdminDelegationResource {
      * @return A list of admin delegation records.
      */
     @GET
+    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ})
     public Response getDelegations() {
         SecurityUtil.ensureAuthenticated();
         if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
@@ -133,12 +135,8 @@ public class AdminDelegationResource {
      */
     @PUT
     @Path("myEdOrg")
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response setLocalDelegation(EntityBody body) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
-            return SecurityUtil.forbiddenResponse();
-        }
-
         //verifyBodyEdOrgMatchesPrincipalEdOrg
         if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
             EntityBody response = new EntityBody();
@@ -173,6 +171,7 @@ public class AdminDelegationResource {
 
     @GET
     @Path("myEdOrg")
+    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ})
     public Response getSingleDelegation() {
         EntityBody entity = getEntity();
         if (entity == null) {
