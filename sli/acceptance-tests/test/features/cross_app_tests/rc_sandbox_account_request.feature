@@ -7,22 +7,6 @@ Background:
   Given I have an open web browser
   And I am running in Sandbox mode
 
-Scenario: SLC Operator logs into SAMT and deletes the developer account
-    When I navigate to the Portal home page
-    Then I will be redirected to realm selector web page
-    When I click on the "Admin" realm in "Sandbox"
-    And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-    Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
-    Then I should be on the admin page
-    And under System Tools, I click on "Administrative Account Management"
-
-    And I switch to the iframe
-    Then I delete the user "RCTest Developer" if exists
-    And I switch to the iframe  
-
 Scenario: As an app developer I request a sandbox account and  I want to verify my registration email
   And I go to the account registration page
   When I fill out the field "First Name" as "RCTest"
