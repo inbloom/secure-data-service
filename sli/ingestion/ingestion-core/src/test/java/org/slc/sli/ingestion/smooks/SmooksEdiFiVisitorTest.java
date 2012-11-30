@@ -58,59 +58,6 @@ public class SmooksEdiFiVisitorTest {
     }
 
     @Test
-    public void testSEADeterministicId() throws IOException {
-        // set up objects
-        final String recordType = "stateEducationAgency";
-        testDeterministicId(recordType);
-    }
-
-    @Test
-    public void testLEADeterministicId() throws IOException {
-        // set up objects
-        final String recordType = "localEducationAgency";
-        testDeterministicId(recordType);
-    }
-
-    @Test
-    public void testSchoolDeterministicId() throws IOException {
-        // set up objects
-        final String recordType = "school";
-        testDeterministicId(recordType);
-    }
-
-    private void testDeterministicId(String recordType) throws IOException {
-
-        BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
-
-        // set up objects
-        final String deterministicId = "deterministicId";
-        final String stateOrgId = "STATE_ID";
-        final DummyErrorReport errorReport = new DummyErrorReport();
-        final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
-        final String beanId = "ABeanId";
-        final ExecutionContext mockExecutionContext = Mockito.mock(ExecutionContext.class);
-        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry);
-        visitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
-        visitor.setBatchJobDAO(batchJobDAO);
-        visitor.setDIdGeneratorStrategy(mockDIdStrategy);
-        visitor.setDIdResolver(mockDIdResolver);
-
-        BeanContext mockBeanContext = Mockito.mock(BeanContext.class);
-        NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setRecordType(recordType);
-        neutralRecord.setAttributeField("stateOrganizationId", stateOrgId);
-
-        // set up behavior
-        Mockito.when(mockExecutionContext.getBeanContext()).thenReturn(mockBeanContext);
-        Mockito.when(mockBeanContext.getBean(beanId)).thenReturn(neutralRecord);
-        Mockito.when(mockDIdStrategy.generateId(Mockito.any(NaturalKeyDescriptor.class))).thenReturn(deterministicId);
-        Mockito.when(batchJobDAO.findRecordHash((String) Mockito.any(), (String) Mockito.any())).thenReturn(null);
-
-        // execute
-        visitor.visitAfter(null, mockExecutionContext);
-    }
-
-    @Test
     public void testNonAssignedId() throws IOException {
 
         BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
