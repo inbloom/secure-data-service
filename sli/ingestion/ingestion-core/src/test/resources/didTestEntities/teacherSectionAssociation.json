@@ -1,0 +1,13 @@
+{
+"recordType":"teacherSectionAssociation",
+"attributes":
+{
+	"TeacherReference":
+	{
+		"StaffIdentity":
+		{
+			"StaffUniqueStateId":"jjackson"
+		}
+	}
+}
+}

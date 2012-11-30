@@ -315,6 +315,11 @@ test_user.merge!({"uid" => user })
 remove_user(append_hostname(test_user))
 end
 
+When /^I attempt to delete the user "(.*?)"$/ do |user|
+  restHttpDelete("/users/#{user}", "application/json", @sessionId)
+  @response_code = @res.code
+end
+
 def get_user(uid)
 =begin
 @result.each { |user|
@@ -361,7 +366,7 @@ def append_hostname(user )
 end
 
 def remove_user(user)
- idpRealmLogin("operator", nil)
+  idpRealmLogin("operator", nil)
   sessionId = @sessionId
   format = "application/json"
   restHttpDelete("/users/"+user["uid"],format,sessionId)
