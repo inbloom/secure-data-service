@@ -57,6 +57,7 @@ import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -362,16 +363,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Override
     @GET
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to view tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
 
         return super.readAll(offset, limit, headers, uriInfo);
     }
@@ -387,14 +383,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @Override
     @GET
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response read(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to view tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
-
         return super.read(uuid, headers, uriInfo);
     }
 
@@ -412,12 +402,13 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @SuppressWarnings("deprecation")
     @POST
     @Path("{" + UUID + "}" + "/preload")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
         String tenantName = (String) entity.get("tenantId");
 
-        if (!SecurityUtil.hasRight(Right.INGEST_DATA) || !isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
+        if (!isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
@@ -458,29 +449,17 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @Override
     @DELETE
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response delete(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to delete tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
-
         return super.delete(uuid, headers, uriInfo);
     }
 
     @Override
     @PUT
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response update(@PathParam(UUID) String uuid, EntityBody tenant, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to provision tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
-
         return super.update(uuid, tenant, headers, uriInfo);
     }
 

@@ -78,6 +78,7 @@ public class StAXMsgBodyReader {
                 switch (reader.getEventType()) {
                     case XMLStreamConstants.START_ELEMENT : {
                         body = readDocumentElement(reader);
+                        return body;
                     }
                     case XMLStreamConstants.END_DOCUMENT : {
                         return body;

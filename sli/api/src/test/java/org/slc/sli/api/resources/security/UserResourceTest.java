@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -99,7 +100,7 @@ public class UserResourceTest {
                 new HashSet<String>(Arrays.asList(EDORG1, EDORG2)));
         Mockito.when(secUtil.getTenantId()).thenReturn(TENANT); // need a tenant without
                                                                 // CRUD_SLC_OPERATOR.
-        Mockito.when(securityEventBuilder.createSecurityEvent(Mockito.anyString(), (UriInfo) Mockito.anyObject(), Mockito.anyString())).thenReturn(new SecurityEvent());
+        Mockito.when(securityEventBuilder.createSecurityEvent(Mockito.anyString(), (URI) Mockito.anyObject(), Mockito.anyString())).thenReturn(new SecurityEvent());
     }
 
     @Test
