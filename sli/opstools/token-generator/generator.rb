@@ -58,7 +58,6 @@ end
 hashed=Digest::SHA1.hexdigest options[:tenant]
 hp = options[:mongo].split(':')
 db = Mongo::Connection.new(hp[0], hp[1])
-puts "dbname is #{hashed}"
 staffDb = db.db(hashed,:pl=>PKFactory.new)
 db = db.db('sli', :pk => PKFactory.new)
 
@@ -109,3 +108,4 @@ userSession[:metaData][:created]=Date.today.strftime("%Y-%m-%d")
 db[:userSession].insert(userSession)
 
 puts "Your new long-lived session token is #{appSession[:token]}"
+puts "dbname is #{hashed}"
