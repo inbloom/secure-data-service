@@ -86,6 +86,7 @@ public class BatchJobMongoDATest {
     private static final String RESOURCEID = "InterchangeStudentParent.xml";
     private static final int RESULTLIMIT = 3;
     private static final int START_INDEX = 0;
+    private static final String RECORD_HASH_COLLECTION = "recordHash";
 
     @InjectMocks
     @Autowired
@@ -417,30 +418,42 @@ public class BatchJobMongoDATest {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 String method = invocation.getMethod().getName();
+                Object[] args = invocation.getArguments();
                 if (method.equals("save")) {
-                    Object[] args = invocation.getArguments();
                     savedRecordHash = (RecordHash) args[0];
                     return null;
                 } else if (method.equals("findOne")) {
                     return savedRecordHash;
-                } else {
+                } else if (method.equals("insert")) {
+                	savedRecordHash = new RecordHash((Map<String, Object>) args[0]);
+                	return null;
+                } else if (method.equals("update")) {
+                	savedRecordHash = new RecordHash((Map<String, Object>) args[1]);
+                	return null;
+                }
+                else {
                     return null;
                 }
             }
         }
+
         DBAnswer dbAnswer = new DBAnswer();
-        doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
+        // doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
         doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
+
+        when(mockMongoTemplate.getCollection(eq(RECORD_HASH_COLLECTION))).thenReturn(mockedCollection);
+        doAnswer(dbAnswer).when(mockedCollection.insert(any(BasicDBObject.class)));
+        doAnswer(dbAnswer).when(mockedCollection.update(any(DBObject.class), any(BasicDBObject.class)));
 
         // insert a record not in the db
         String testTenantId = "TestTenant";
-        String testRecordHashId = "TestRecordHashIdMustBeAtLeast40BytesInLength";
+        String testRecordHashId = "0123456789abcdef0123456789abcdef01234567_id";
 
         // Record should not be in the db
         RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNull(rh);
 
-        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "TestRecordHashValuesMustBeAtLeast40BytesInLength");
+        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
         long savedTimestamp =  dbAnswer.savedRecordHash.updated;
         String savedId        =  dbAnswer.savedRecordHash._id;
         String savedHash      =  dbAnswer.savedRecordHash.hash;
@@ -449,7 +462,7 @@ public class BatchJobMongoDATest {
         // second call to findRecordHash should return non-null since Record is already in db.
         rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNotNull(rh);
-        mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "TestRecordHashValuesNew");
+        mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "aaacba9876543210fedcba9876543210fedcba98");
         long updatedTimestamp = dbAnswer.savedRecordHash.updated;
         String updatedId        = dbAnswer.savedRecordHash._id;
         String updatedHash      = dbAnswer.savedRecordHash.hash;
