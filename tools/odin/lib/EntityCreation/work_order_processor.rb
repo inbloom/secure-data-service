@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require 'set'
+
 require_relative '../OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative '../OutputGeneration/XML/enrollmentGenerator'
 require_relative '../Shared/EntityClasses/student.rb'
@@ -60,10 +62,11 @@ class WorkOrderProcessor
             years = students.keys.sort
             initial_grade_breakdown = students[years.first]
             initial_grade_breakdown.each{|grade, num_students|
+              sessions = edOrg['sessions'].map{|session| make_session(edOrg['id'], session)}
               (1..num_students).each{|_|
               student_id += 1
-                y.yield StudentWorkOrder.new(student_id, edOrg, years, grade)
-            }
+                y.yield StudentWorkOrder.new(student_id, grade, sessions)
+              }
             }
           end
         }
@@ -71,17 +74,22 @@ class WorkOrderProcessor
     end
   end
 
+  private
+
+  def self.make_session(school, session)
+    {:school => school, :sessionInfo => session}
+  end
+
 end
 
 class StudentWorkOrder
   attr_accessor :id, :sessions, :birth_day_after
 
-  def initialize(id, school, years = [], initial_grade = :KINDERGARTEN)
+  def initialize(id, initial_grade, sessions)
     @id = id
-    @sessions = school['sessions'].map{|session| make_session(school, session)}
+    @sessions = sessions
     @rand = Random.new(@id)
     @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
-    @years = years
     @initial_grade = initial_grade
   end
 
@@ -91,22 +99,18 @@ class StudentWorkOrder
     s = Student.new(@id, @birth_day_after)
     @student_interchange << s unless @student_interchange.nil?
     unless @enrollment_interchange.nil?
-      @sessions.each{ |session|
-        gen_enrollment session
+      schools = Set.new(@sessions.map{|s| s[:school]})
+      schools.each{ |school|
+        gen_enrollment school
       }
     end
   end
 
-  def gen_enrollment(session)
-    school_id = session[:school]
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id)
-    @enrollment_interchange << schoolAssoc
-  end
-
   private
 
-  def make_session(school, session)
-    {:school => school['id'], :sections => [], :sessionInfo => session}
+  def gen_enrollment(school_id)
+    schoolAssoc = StudentSchoolAssociation.new(@id, school_id)
+    @enrollment_interchange << schoolAssoc
   end
 
 end
