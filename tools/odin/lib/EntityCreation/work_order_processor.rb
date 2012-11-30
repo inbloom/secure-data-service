@@ -89,7 +89,7 @@ class StudentWorkOrder
     @id = id
     @edOrg = edOrg
     @rand = Random.new(@id)
-    @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
+    @birth_day_after = Date.new(initial_year - find_age(initial_grade),9,1)
     @initial_grade = initial_grade
     @initial_year = initial_year
   end
@@ -117,6 +117,10 @@ class StudentWorkOrder
 
   def self.make_session(school, session)
     {:school => school, :sessionInfo => session}
+  end
+
+  def find_age(grade)
+    5 + GradeLevelType.get_ordered_grades.index(grade)
   end
 
 end
