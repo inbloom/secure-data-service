@@ -1,0 +1,162 @@
+#Specify indexes for tenantDB here.
+#format:
+# collection,uniqueness,key1[:order],key2[:order]...
+#
+#collection: name of the collection to be index
+#uniquenesss: specifies the uniqueness of the field.Can only be true of false
+#key[:order]: index key. Order is optional. If not specify, default order is 1.
+
+# (collection,unique,indexKeys ...) 
+# creationTime indexes for all collections 
+
+# Low cardinality collections 
+# approved 10/30 by Tony/Billy 
+adminDelegation,false,body.localEdOrgId,body.appApprovalEnabled
+applicationAuthorization,false,body.appIds
+applicationAuthorization,false,body.authId,body.authType
+customRole,false,body.realmId
+customRole,false,metaData.tenantId,body.realmId
+custom_entities,false,metaData.entityId,metaData.clientId
+
+# These should not be needed - we should be able to search on the _id of the container entity 
+# Billy is investigating these 
+program,false,studentProgramAssociation._id
+student,false,studentAssessment._id
+student,false,studentParentAssociation._id
+student,false,studentParentAssociation.body.parentId
+section,false,studentSectionAssociation._id
+section,false,teacherSectionAssociation._id
+section,false,gradebookEntry._id
+
+# direct references, index on each direct reference 
+# These indexes will be reviewed as part of US4658 
+attendance,false,body.schoolId
+attendance,false,body.studentId
+cohort,false,body.educationOrgId
+cohort,false,studentCohortAssociation.body.studentId
+cohort,false,studentCohortAssociation._id
+cohort,false,body.programId
+course,false,body.schoolId
+courseOffering,false,body.courseId
+courseOffering,false,body.schoolId
+courseOffering,false,body.sessionId
+courseTranscript,false,body.courseId
+courseTranscript,false,body.studentAcademicRecordId
+courseTranscript,false,body.studentId
+disciplineAction,false,body.assignmentSchoolId
+disciplineAction,false,body.disciplineIncidentId
+disciplineAction,false,body.responsibilitySchoolId
+disciplineAction,false,body.staffId
+disciplineAction,false,body.studentId
+disciplineIncident,false,body.schoolId
+disciplineIncident,false,body.staffId
+educationOrganization,false,body.parentEducationAgencyReference
+educationOrganization,false,body.programReference
+grade,false,body.gradePeriodId
+grade,false,body.studentSectionAssociationId
+section,false,gradebookEntry.body.sectionId
+graduationPlan,false,body.educationOrganizationId
+learningObjective,false,body.learningStandards
+learningObjective,false,body.parentLearningObjective
+reportCard,false,body.grades
+reportCard,false,body.gradingPeriodId
+reportCard,false,body.studentCompetencyId
+reportCard,false,body.studentId
+section,false,body.assessmentReferences
+section,false,body.courseOfferingId
+section,false,body.programReference
+section,false,body.schoolId
+section,false,body.sessionId
+session,false,body.gradingPeriodReference
+session,false,body.schoolId
+staffCohortAssociation,false,body.cohortId
+staffCohortAssociation,false,body.staffId
+staffEducationOrganizationAssociation,false,body.educationOrganizationReference
+staffEducationOrganizationAssociation,false,body.staffReference
+staffProgramAssociation,false,body.programId
+staffProgramAssociation,false,body.staffId
+studentAcademicRecord,false,body.reportCards
+studentAcademicRecord,false,body.sessionId
+studentAcademicRecord,false,body.studentId
+# studentAssessment is embedded into student 
+student,false,studentAssessment.body.assessmentId
+student,false,studentAssessment.body.studentId  #  do we need this? 
+studentCohortAssociation,false,body.cohortId
+studentCohortAssociation,false,body.studentId
+studentCompetency,false,body.objectiveId.learningObjectiveId
+studentCompetency,false,body.objectiveId.studentCompetencyObjectiveId
+studentCompetency,false,body.studentSectionAssociationId
+studentCompetencyObjective,false,body.educationOrganizationId
+student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId
+student,false,studentDisciplineIncidentAssociation.body.studentId
+student,false,studentDisciplineIncidentAssociation._id
+studentGradebookEntry,false,body.gradebookEntryId
+studentGradebookEntry,false,body.sectionId
+studentGradebookEntry,false,body.studentId
+studentGradebookEntry,false,body.studentSectionAssociationId
+studentParentAssociation,false,body.parentId
+studentParentAssociation,false,body.studentId
+# studentProgramAssociation is embedded into program 
+program,false,studentProgramAssociation.body.educationOrganizationId
+program,false,studentProgramAssociation.body.programId
+program,false,studentProgramAssociation.body.studentId
+studentSchoolAssociation,false,body.graduationPlanId
+studentSchoolAssociation,false,body.schoolId
+studentSchoolAssociation,false,body.studentId
+# studentSectionAssociation is embedded into section  
+section,false,studentSectionAssociation.body.sectionId   # do we need this? 
+section,false,studentSectionAssociation.body.studentId
+teacherSchoolAssociation,false,body.schoolId
+teacherSchoolAssociation,false,body.teacherId
+# teacherSectionAssociation is embedded into section  
+section,false,teacherSectionAssociation.body.sectionId
+section,false,teacherSectionAssociation.body.teacherId
+
+# Ingestion 
+# These indexes are all used by ingestion and should be removed as part of reference resolution work 
+# TONY - Need to tie these to reference resolution stories 
+
+assessment,false,body.assessmentIdentificationCode  # US4388 
+assessment,false,body.assessmentPeriodDescriptor.codeValue  # US4388 
+assessment,false,body.assessmentTitle,body.academicSubject,body.gradeLevelAssessed  # US4388 
+calendarDate,false,body.date,body.calendarEvent
+course,false,body.courseCode.ID,body.courseCode.identificationSystem
+disciplineIncident,false,body.incidentIdentifier
+educationOrganization,false,body.stateOrganizationId
+educationOrganization,false,body.educationOrgIdentificationCode # needs to be combined with next 
+educationOrganization,false,body.educationOrgIdentificationCode.ID
+gradingPeriod,false,body.gradingPeriodIdentity.schoolYear
+graduationPlan,false,body.graduationPlanType
+learningObjective,false,body.learningObjectiveId  # needs to combined with next 
+learningObjective,false,body.learningObjectiveId.identificationCode
+learningObjective,false,body.objective
+learningStandard,false,body.learningStandardId.identificationCode
+parent,false,body.parentUniqueStateId
+program,false,body.programId
+section,false,body.uniqueSectionCode
+session,false,body.sessionName
+student,false,body.studentUniqueStateId
+studentCompetency,false,metaData.externalId,metaData.studentUniqueStateId,metaData.uniqueSectionCode
+studentCompetencyObjective,false,body.studentCompetencyObjectiveId
+
+# Profiled 
+# These indexes will be reviewed as part of US4658 
+educationOrganization,false,body.parentEducationAgencyReference,type
+educationOrganization,false,type,body.nameOfInstitution
+gradingPeriod,false,body.beginDate
+staff,false,body.staffUniqueStateId
+staff,false,type
+
+
+#  TODO: Index to make querying acceptance tests pass - this is really bad!! 
+reportCard,false,body.gpaCumulative
+
+# US4365  
+student,false,cohort._id
+
+# DE2091, checked with Billy  
+competencyLevelDescriptor,false,body.codeValue
+
+# US4602, checked with Billy. 
+educationOrganization,false,body.organizationCategories
+
