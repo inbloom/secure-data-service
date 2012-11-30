@@ -17,85 +17,95 @@
 package org.slc.sli.ingestion.tool;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
-import junit.framework.TestCase;
-
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Test;
+
+import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 
 /**
  * @author tke
  *
  */
-public class ValidateBuildIT extends TestCase{
+public class ValidateBuildIT {
 
-    static final String TARGET = "target/";
+    static final String MAVEN_TARGET_DIR = "target";
+    static final String TARGET_DIR = "OfflineValidationTool";
     static final String SRC_FILE = "OfflineValidationTool-src.zip";
 
-    public void test() throws Exception{
-        File srcZip = new File(TARGET + SRC_FILE);
-        Assert.assertTrue(srcZip.exists());
+    @Test
+    public void testMvnBuild() throws Exception {
+        File srcZip = new File(MAVEN_TARGET_DIR, SRC_FILE);
+        Assert.assertTrue(srcZip.exists() && srcZip.isFile());
 
-        ZipFile zip = new ZipFile(srcZip);
+        File mvnTargetDir = new File(MAVEN_TARGET_DIR);
 
-        File target = new File(TARGET);
-        unzipFileIntoDirectory(zip, target);
+        Assert.assertTrue("Maven Target directory is not found", mvnTargetDir.isDirectory());
 
-        File dir = new File(TARGET + "OfflineValidationTool");
+        File targetDir = new File(MAVEN_TARGET_DIR, TARGET_DIR);
 
-        Process p = Runtime.getRuntime().exec("mvn clean package", null, dir);
+        PrintStream ps = System.out;
 
-        int ret = p.waitFor();
+        try {
+            ps.println("================== Verifying the SLC Offline Validation Tool package ==================");
 
-        Assert.assertTrue(ret == 0);
+            ZipFileUtil.extract(srcZip, mvnTargetDir, true);
+
+            int ret = executeMvnBuild(targetDir);
+
+            Assert.assertEquals(0, ret);
+        } finally {
+            FileUtils.deleteDirectory(mvnTargetDir);
+
+            ps.println("================== End of verification of the SLC Offline Validation Tool package ==================");
+        }
     }
 
-    public static void unzipFileIntoDirectory(ZipFile zipFile, File homeParentDir) {
-        Enumeration files = zipFile.entries();
-        File f = null;
-        FileOutputStream fos = null;
+    private static int executeMvnBuild(File dir) throws InterruptedException, IOException {
+        ProcessBuilder pb = new ProcessBuilder("mvn", "clean", "package");
+        pb.redirectErrorStream(true);
+        pb.directory(dir);
 
-        while (files.hasMoreElements()) {
-          try {
-            ZipEntry entry = (ZipEntry) files.nextElement();
-            InputStream eis = zipFile.getInputStream(entry);
-            byte[] buffer = new byte[1024];
-            int bytesRead = 0;
+        Process p = pb.start();
+        StreamGrabber sg = new StreamGrabber(p.getInputStream(), System.out);
 
-            f = new File(homeParentDir.getAbsolutePath() + File.separator + entry.getName());
+        sg.start();
 
-            if (entry.isDirectory()) {
-              f.mkdirs();
-              continue;
-            } else {
-              f.getParentFile().mkdirs();
-              f.createNewFile();
-            }
+        return p.waitFor();
+    }
 
-            fos = new FileOutputStream(f);
+    static class StreamGrabber extends Thread {
+        private InputStream in;
+        private OutputStream out;
 
-            while ((bytesRead = eis.read(buffer)) != -1) {
-              fos.write(buffer, 0, bytesRead);
-            }
-          } catch (IOException e) {
-            e.printStackTrace();
-            continue;
-          } finally {
-            if (fos != null) {
-              try {
-                fos.close();
-              } catch (IOException e) {
-                // ignore
-              }
-            }
-          }
+        public StreamGrabber(InputStream in, OutputStream out) {
+            this.in = in;
+            this.out = out;
         }
-      }
 
+        @Override
+        public void run() {
+            final byte[] buffer = new byte[1024];
 
+            try {
+                int bytes = 0;
+
+                while ((bytes = in.read(buffer, 0, 1024)) != -1) {
+                    out.write(buffer, 0, bytes);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public OutputStream getOutputStream() {
+            return out;
+        }
+
+    }
 }
