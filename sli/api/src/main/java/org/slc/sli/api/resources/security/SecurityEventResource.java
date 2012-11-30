@@ -47,11 +47,13 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -87,48 +89,32 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
     }
 
     @GET
+    @RightsAllowed({Right.SECURITY_EVENT_VIEW})
     public Response getSecurityEvents(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-            return retrieveEntities(offset, limit, uriInfo);
+        return retrieveEntities(offset, limit, uriInfo);
     }
 
 
     private Response retrieveEntities(final int offset, final int limit, final UriInfo uriInfo) {
-        // SecurityUtil.ensureAuthenticated();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-            if (principal != null) {
-                List<String> roles = principal.getRoles();
-                if (roles != null
-                        && (roles.contains(RoleInitializer.SEA_ADMINISTRATOR)
-                                || roles.contains(RoleInitializer.LEA_ADMINISTRATOR) || roles
-                                    .contains(RoleInitializer.SLC_OPERATOR))) {
-                    EntityDefinition entityDef = entityDefs.lookupByResourceName(RESOURCE_NAME);
-                    NeutralQuery mainQuery = new NeutralQuery();
-                    mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
-                    mainQuery.setOffset(offset);
-                    mainQuery.setLimit(limit);
-                    mainQuery.setSortBy("timeStamp");
-                    mainQuery.setSortOrder(SortOrder.descending);
 
-                    List<EntityBody> results = new ArrayList<EntityBody>();
-                    for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
-                        results.add(entityBody);
-                    }
-                    info("Found [" + results.size() + "] SecurityEvents!");
-                    return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
-                } else {
-                    return Response.status(Status.FORBIDDEN).build();
-                }
-            } else {
-                return Response.status(Status.FORBIDDEN).build();
-            }
-        } else {
-            return Response.status(Status.FORBIDDEN).build();
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(RESOURCE_NAME);
+        NeutralQuery mainQuery = new NeutralQuery();
+        mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
+        mainQuery.setOffset(offset);
+        mainQuery.setLimit(limit);
+        mainQuery.setSortBy("timeStamp");
+        mainQuery.setSortOrder(SortOrder.descending);
+
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
+            results.add(entityBody);
         }
+        debug("Found [" + results.size() + "] SecurityEvents!");
+        return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
+
     }
 }

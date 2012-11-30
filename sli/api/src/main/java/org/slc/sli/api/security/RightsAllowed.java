@@ -22,11 +22,39 @@ import java.lang.annotation.Target;
 
 import org.slc.sli.domain.enums.Right;
 
+/**
+ * Use to enable right checking on jax-rs endpoints.
+ * <p>
+ * First an authentication check takes place, which results in a 401 if the user isn't authenticated.
+ * Next the rights are checked, which results in a 403 if the user doesn't have the necessary rights.
+ * </p>
+ * <p>
+ * Example:
+ * </p>
+ * Check that the user has ADMIN_ACCESS right
+ * <pre>
+ *   {@literal @}GET
+ *   {@literal @}RightsAllowed({Right.ADMIN_ACCESS})
+ *   public Response getEntities() {
+ *   ...
+ *   }
+ * </pre>
+ * 
+ *  Check that the user is authenticated, but don't check a specific Right
+ * <pre>
+ *   {@literal @}GET
+ *   {@literal @}RightsAllowed(any=true)
+ *   public Response getEntities() {
+ *   ...
+ *   }
+ * </pre>
+ */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-
 public @interface RightsAllowed {
-    public Right[] value();
+    
+    public Right[] value() default {};
+    public boolean any() default false;
 }
 
 

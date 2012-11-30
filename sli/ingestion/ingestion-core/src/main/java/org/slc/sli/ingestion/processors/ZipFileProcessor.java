@@ -102,8 +102,9 @@ public class ZipFileProcessor implements Processor {
 
             setExchangeBody(exchange, ctlFile, errorReport, batchJobId);
 
-            if (!zipFile.delete())
+            if (!zipFile.delete()) {
                 LOG.debug("Failed to delete: " + zipFile.getPath());
+            }
 
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, exception);
