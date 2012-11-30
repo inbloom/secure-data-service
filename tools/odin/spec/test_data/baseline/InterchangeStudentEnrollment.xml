@@ -9,7 +9,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -23,7 +23,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -37,7 +37,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -51,7 +51,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -65,7 +65,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -79,7 +79,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -93,7 +93,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -107,7 +107,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -121,7 +121,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -135,7 +135,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -149,7 +149,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -163,7 +163,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -177,7 +177,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -191,7 +191,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -205,7 +205,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -219,7 +219,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -233,7 +233,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -247,7 +247,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -261,7 +261,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -275,7 +275,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -289,7 +289,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -303,7 +303,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -317,7 +317,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -331,7 +331,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -345,7 +345,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -359,7 +359,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -373,7 +373,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>2</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
@@ -387,7 +387,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>3</StateOrganizationId>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
@@ -401,7 +401,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>3</StateOrganizationId>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
@@ -415,7 +415,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
        </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>3</StateOrganizationId>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>

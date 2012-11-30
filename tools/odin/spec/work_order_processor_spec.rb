@@ -47,7 +47,7 @@ describe "WorkOrderProcessor" do
         enrollment.stub(:<<) do |ssa|
           ssas << ssa
           ssa.studentId.should eq(42)
-          ssa.schoolStateOrgId.should eq(64)
+          ssa.schoolStateOrgId.should eq('elem-0000000064')
         end
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
         ssas[0].startYear.should eq(2001) and ssas[0].startGrade.should eq("Kindergarten")
