@@ -757,6 +757,32 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
+    public void resolvesStudentAcademicRecordRefDidInCourseTranscriptCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/courseTranscript.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+        sessionNaturalKeys.put("schoolId", edOrgId);
+        sessionNaturalKeys.put("sessionId", "theSessionName");
+        String sessionId = generateExpectedDid(sessionNaturalKeys, TENANT_ID, "session", null);
+
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "100000000");
+        String studentId = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("studentId", studentId);
+        naturalKeys.put("sessionId", sessionId);
+
+        checkId(entity, "StudentAcademicRecordReference", naturalKeys, "studentAcademicRecord");
+    }
+
+    @Test
     public void resolvesStudentRefDidInStudentCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
