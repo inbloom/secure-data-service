@@ -36,6 +36,7 @@
   <import resource="classpath:/spring/base-applicationContext.xml" />
   <import resource="idRefResolution-context.xml" />
   <import resource="recordLvlHash-context.xml" />
+  <import resource="tenantdb-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
@@ -84,7 +85,7 @@
     <bean id="stageTrackingAspect" class="org.slc.sli.ingestion.aspect.StageTrackingAspect"
        factory-method="aspectOf">
   </bean>
-
+  
 </beans>
 
 

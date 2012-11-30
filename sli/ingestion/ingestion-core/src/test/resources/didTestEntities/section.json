@@ -22,6 +22,34 @@
            },
            "SessionName":"theSessionName"
        }
-    }
+    },
+    "CourseOfferingReference":
+	{
+		"CourseOfferingIdentity":
+		{
+			"LocalCourseCode":"local course code",
+			"SessionReference":
+			{
+				"SessionIdentity":
+				{
+					"EducationalOrgReference":
+					{
+						"EducationalOrgIdentity":
+						{
+							"StateOrganizationId":"state organization id 1"
+						}
+					},
+					"SessionName":"session name"
+				}
+			},
+			"EducationalOrgReference":
+			{
+				"EducationalOrgIdentity":
+				{
+					"StateOrganizationId":"state organization id 2"
+				}
+			}
+		}		
+	}
 }
 }

@@ -161,8 +161,8 @@ public class SliDeltaManagerTest {
         RecordHash hash = new RecordHash();
         hash._id       = RECORD_DID;
         hash.hash      = rHash;
-        hash.created   = "mockedCreated";
-        hash.updated   = "mockedUpdated";
+        hash.created   = 12345;
+        hash.updated   = 23456;
         hash.tenantId  = "tenantId";
         return hash;
     }

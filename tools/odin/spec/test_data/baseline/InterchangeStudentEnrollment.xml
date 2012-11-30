@@ -8,7 +8,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -21,7 +21,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -34,7 +34,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -47,7 +47,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -60,7 +60,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -73,7 +73,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -86,7 +86,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -99,7 +99,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -112,7 +112,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -125,7 +125,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -138,7 +138,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -151,7 +151,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -164,7 +164,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -177,7 +177,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -190,7 +190,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -203,7 +203,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -216,7 +216,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -229,7 +229,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>1</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -242,7 +242,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -255,7 +255,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -268,7 +268,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -281,7 +281,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -294,7 +294,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -307,7 +307,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -320,7 +320,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -333,7 +333,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -346,7 +346,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>2</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -359,7 +359,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>3</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -372,7 +372,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>3</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>
@@ -385,7 +385,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
            </StudentIdentity>
          </StudentReference>      <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
+          <StateOrganizationId>3</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <EntryDate>2011-09-01</EntryDate>

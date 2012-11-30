@@ -16,75 +16,59 @@ limitations under the License.
 
 =end
 
-require_relative 'baseEntity.rb'
+require_relative "../data_utility.rb"
+require_relative "baseEntity.rb"
+require_relative "enum/EducationalEnvironmentType.rb"
+require_relative "enum/MediumOfInstructionType.rb"
+require_relative "enum/PopulationServedType.rb"
 
+# creates section
 class Section < BaseEntity
 
-  def initialize(id, school, course, session, program, rand)
-    @id = id
-    @school = school
-    @course = course
-    @session = session
-    @rand = rand
+  attr_accessor :school_id
+
+  def initialize(id, sequence, environment, medium, population, school_id, course_offering, session, program = nil)
+    @id                                      = id
+    @sequence                                = sequence
+    @environment                             = environment
+    @medium                                  = medium
+    @population                              = population
+    @school_id                               = school_id
+    @course_offering                         = Hash.new
+    @course_offering["code"]                 = course_offering[""] # probably need to use DataUtility.create_course_offering_id()
+    @course_offering["ed_org_id"]            = course_offering[""]
+    @course_offering["session"]              = Hash.new
+    @course_offering["session"]["name"]      = course_offering["session"]["name"]
+    @course_offering["session"]["ed_org_id"] = course_offering["session"]["ed_org_id"]
+    @session                                 = Hash.new
+    @session["name"]                         = session["name"]
+    @session["ed_org_id"]                    = session["ed_org_id"]
+    #@program              = program
+    # --> programs are not currently implemented
   end
 
-  def id
-    @id
+  def unique_section_code
+    DataUtility.get_unique_section_id(@id)
   end 
 
   def sequence
-    @rand.rand(8) + 1
+    @sequence
   end
 
   def environment
-    choose(["Classroom",
-            "Homebound",
-            "Hospital class",
-            "In-school suspension",
-            "Laboratory",
-            "Mainstream (Special Education)",
-            "Off-school center",
-            "Pull-out class",
-            "Resource room",
-            "Self-contained (Special Education)",
-            "Self-study",
-            "Shop"])
+    EducationalEnvironmentType.to_string(@environment)
   end
 
   def medium 
-    choose(["Televised",
-            "Telepresence/video conference",
-            "Videotaped/prerecorded video",
-            "Other technology-based instruction",
-            "Technology-based instruction in classroom",
-            "Correspondence instruction",
-            "Face-to-face instruction",
-            "Virtual/On-line Distance learning",
-            "Center-based instruction",
-            "Independent study",
-            "Internship",
-            "Other"])
+    MediumOfInstructionType.to_string(@medium)
   end
 
   def population
-    choose(["Students",
-            "Bilingual Students",
-            "Compensatory/Remedial Education Students",
-            "Gifted and Talented Students",
-            "Career and Technical Education Students",
-            "Special Education Students",
-            "ESL Students",
-            "Adult Basic Education Students",
-            "Honors Students",
-            "Migrant Students"])
+    PopulationServedType.to_string(@population)
   end
 
-  def courseCode
-    @course
-  end
-
-  def edOrgId
-    @school
+  def course_offering
+    @course_offering
   end
 
   def session
@@ -94,5 +78,4 @@ class Section < BaseEntity
   def program
     @program
   end
-
 end

@@ -19,17 +19,11 @@ limitations under the License.
 require_relative 'baseEntity.rb'
 
 class StudentSchoolAssociation < BaseEntity
+  attr_accessor :studentId, :schoolStateOrgId
 
   def initialize(studentId, schoolId)
     @studentId = studentId
-    @schoolId = schoolId
+    @schoolStateOrgId = schoolId
   end
 
-  def studentId
-    "#{@studentId}"
-  end
-
-  def schoolStateOrgId
-    "school#{@schoolId}"
-  end
 end
