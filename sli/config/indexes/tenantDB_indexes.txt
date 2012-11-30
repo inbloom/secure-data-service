@@ -80,7 +80,8 @@ studentAcademicRecord,false,body.sessionId
 studentAcademicRecord,false,body.studentId
 # studentAssessment is embedded into student 
 student,false,studentAssessment.body.assessmentId
-student,false,studentAssessment.body.studentId  #  do we need this? 
+#  do we need this? 
+student,false,studentAssessment.body.studentId
 studentCohortAssociation,false,body.cohortId
 studentCohortAssociation,false,body.studentId
 studentCompetency,false,body.objectiveId.learningObjectiveId
@@ -104,7 +105,8 @@ studentSchoolAssociation,false,body.graduationPlanId
 studentSchoolAssociation,false,body.schoolId
 studentSchoolAssociation,false,body.studentId
 # studentSectionAssociation is embedded into section  
-section,false,studentSectionAssociation.body.sectionId   # do we need this? 
+# do we need this?
+section,false,studentSectionAssociation.body.sectionId 
 section,false,studentSectionAssociation.body.studentId
 teacherSchoolAssociation,false,body.schoolId
 teacherSchoolAssociation,false,body.teacherId
@@ -116,9 +118,12 @@ section,false,teacherSectionAssociation.body.teacherId
 # These indexes are all used by ingestion and should be removed as part of reference resolution work 
 # TONY - Need to tie these to reference resolution stories 
 
-assessment,false,body.assessmentIdentificationCode  # US4388 
-assessment,false,body.assessmentPeriodDescriptor.codeValue  # US4388 
-assessment,false,body.assessmentTitle,body.academicSubject,body.gradeLevelAssessed  # US4388 
+# US4388 
+assessment,false,body.assessmentIdentificationCode
+# US4388
+assessment,false,body.assessmentPeriodDescriptor.codeValue 
+# US4388
+assessment,false,body.assessmentTitle,body.academicSubject,body.gradeLevelAssessed 
 calendarDate,false,body.date,body.calendarEvent
 course,false,body.courseCode.ID,body.courseCode.identificationSystem
 disciplineIncident,false,body.incidentIdentifier
