@@ -61,13 +61,13 @@ Feature: Data Browser
     Then I am redirected to the associations list page
     And I see a table displaying the associations in a list
     And those names include the IDs of both "ProgramId" and "StaffId" in the association
-    When I click on the row containing "44afb0480154d13d0dc2860e0b57fcb729456e83_id"
+    When I click on the row containing "6ed3d037757c272d3aed577c213000b186cd21b3_id"
     Then the row expands below listing the rest of the attributes for the item
-    When I click on the row containing "44afb0480154d13d0dc2860e0b57fcb729456e83_id"
+    When I click on the row containing "6ed3d037757c272d3aed577c213000b186cd21b3_id"
     Then the row collapses hiding the additional attributes
     When I click and go back to Home
     And I have navigated to the "GetStaffProgramAssociations" page of the Data Browser
-    When I click on the row containing "44afb0480154d13d0dc2860e0b57fcb729456e83_id"
+    When I click on the row containing "6ed3d037757c272d3aed577c213000b186cd21b3_id"
     And I click on the "Me" of any of the associating entities
     Then I am redirected to a page that page lists all of the "dfec28d34c75a4d307d1e85579e26a81630f6a47_id" entity's fields
     When I click on the logout link 
