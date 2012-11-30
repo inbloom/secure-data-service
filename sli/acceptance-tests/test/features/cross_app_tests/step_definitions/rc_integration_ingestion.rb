@@ -124,6 +124,8 @@ def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_passwor
   else
     begin
       Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
+        #puts "clearing lz for old log files"
+        #clear_remote_lz(sftp)
         puts "attempting to remote copy " + srcPath + " to " + destPath
         sftp.upload!(srcPath, destPath)
       end
@@ -174,6 +176,7 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
   else
     Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
       sftp.dir.glob(landingZone, prefix + "*") do |entry|
+        next if entry.name == '.' or entry.name == '..' or entry.name.include?("unzip")
         entryPath = File.join(landingZone, entry.name)
         puts "found file " + entryPath
 
@@ -195,6 +198,16 @@ def clear_local_lz
   Dir.foreach(@landing_zone_path) do |file|
     if (/.*.log$/.match file) || (/.done$/.match file)
       FileUtils.rm_rf @landing_zone_path+file
+    end
+  end
+end
+
+def clear_remote_lz(sftp)
+  sftp.dir.foreach(@landing_zone_path) do |entry|
+    next if entry.name == '.' or entry.name == '..'
+    entryPath = File.join(@landing_zone_path, entry.name)
+    if !sftp.stat!(entryPath).directory?
+      sftp.remove!(entryPath)
     end
   end
 end
