@@ -8,6 +8,21 @@
             {
                 "StudentUniqueStateId":"100000000"
             }
+        },
+        "GradingPeriodReference":
+        {
+            "GradingPeriodIdentity":
+            {
+                "EducationalOrgReference":
+                {
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"this school"
+                    }
+                },
+                "GradingPeriod":"First Six Weeks",
+                "BeginDate":"2011-09-01"
+            }
         }
     }
 }
