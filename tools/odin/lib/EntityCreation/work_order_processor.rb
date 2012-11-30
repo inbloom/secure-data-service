@@ -97,8 +97,8 @@ class StudentWorkOrder
   def build(interchanges)
     @student_interchange = interchanges[:studentParent]
     @enrollment_interchange = interchanges[:enrollment]
-    s = Student.new(@id, @birth_day_after)
-    @student_interchange << s unless @student_interchange.nil?
+    student = Student.new(@id, @birth_day_after)
+    @student_interchange << student unless @student_interchange.nil?
     unless @enrollment_interchange.nil?
       @edOrg['sessions'].each{ |session|
         year = session['year']
