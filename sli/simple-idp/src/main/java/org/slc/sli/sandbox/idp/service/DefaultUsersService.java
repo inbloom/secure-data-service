@@ -130,23 +130,35 @@ public class DefaultUsersService {
         return users;
     }
     private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream(file)));
-        String line = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
+        InputStreamReader isr = null;
+        try {
+            isr = new InputStreamReader(Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream(file));
+            BufferedReader reader = new BufferedReader(isr);
+            String line = null;
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            
+            return stringBuilder.toString();
+        } finally {
+            if (isr != null) {
+                isr.close(); 
+            }
         }
-        
-        return stringBuilder.toString();
     }
     
+    /**
+     * Provided DataSets 
+     *
+     */
     public static class Dataset {
         String key;
         String displayName;
         
-        public Dataset(String key, String displayName){
+        public Dataset(String key, String displayName) {
             this.key = key;
             this.displayName = displayName;
         }
