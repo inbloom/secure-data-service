@@ -119,7 +119,7 @@ public class NestedMapUtil {
             if (fieldChain.isEmpty()) {
                 return (delete) ? map.remove(field) : map.get(field);
             }
-            entity = findRecursively(fieldChain, map.get(field), delete, count ++);
+            entity = findRecursively(fieldChain, map.get(field), delete, count + 1);
             Object obj = map.get(field);
             if (delete && obj != null && obj instanceof Map) {
                 Map<String, Object> sub = (Map<String, Object>)obj;
