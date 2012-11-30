@@ -1,0 +1,13 @@
+{
+"recordType":"reportCard",
+"attributes":
+    {
+        "StudentReference":
+        {
+            "StudentIdentity":
+            {
+                "StudentUniqueStateId":"100000000"
+            }
+        }
+    }
+}

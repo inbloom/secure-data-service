@@ -1,27 +1,27 @@
 {
-"recordType":"teacherSectionAssociation",
-"attributes":
-{
-    "TeacherReference":
+    "recordType":"teacherSectionAssociation",
+    "attributes":
     {
-        "StaffIdentity":
+        "TeacherReference":
         {
-            "StaffUniqueStateId":"jjackson"
-        }
-    },
-    "SectionReference":
-    {
-        "SectionIdentity":
-        {
-            "EducationalOrgReference":
+            "StaffIdentity":
             {
-                "EducationalOrgIdentity":
+                "StaffUniqueStateId":"jjackson"
+            }
+        },
+        "SectionReference":
+        {
+            "SectionIdentity":
+            {
+                "EducationalOrgReference":
                 {
-                    "StateOrganizationId":"this school"
-                }
-            },
-            "UniqueSectionCode":"this section"
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"this school"
+                    }
+                },
+                "UniqueSectionCode":"this section"
+            }
         }
     }
-}
 }

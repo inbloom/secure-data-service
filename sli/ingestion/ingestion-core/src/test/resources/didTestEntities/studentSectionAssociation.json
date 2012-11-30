@@ -1,20 +1,27 @@
 {
-"recordType":"studentSectionAssociation",
-"attributes":
-{
-    "SectionReference":
+    "recordType":"studentSectionAssociation",
+    "attributes":
     {
-        "SectionIdentity":
+        "StudentReference":
         {
-            "EducationalOrgReference":
+            "StudentIdentity":
             {
-                "EducationalOrgIdentity":
+                "StudentUniqueStateId":"100000000"
+            }
+        },
+        "SectionReference":
+        {
+            "SectionIdentity":
+            {
+                "EducationalOrgReference":
                 {
-                    "StateOrganizationId":"this school"
-                }
-            },
-            "UniqueSectionCode":"this section"
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"this school"
+                    }
+                },
+                "UniqueSectionCode":"this section"
+            }
         }
     }
-}
 }
