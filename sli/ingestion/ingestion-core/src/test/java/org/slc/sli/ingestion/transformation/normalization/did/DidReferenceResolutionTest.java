@@ -515,7 +515,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesLearningStandardDidInLearningObjectiveCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/LearningObjective.json");
+        Entity entity = loadEntity("didTestEntities/learningObjective.json");
         ErrorReport errorReport = new TestErrorReport();
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);

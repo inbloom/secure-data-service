@@ -16,10 +16,10 @@ limitations under the License.
 
 =end
 # Enable tailcall optimizations to reduce overall stack size.
-#RubyVM::InstructionSequence.compile_option = {
-#    :tailcall_optimization => true,
-#    :trace_instruction => false
-#}
+RubyVM::InstructionSequence.compile_option = {
+    :tailcall_optimization => true,
+    :trace_instruction => false
+}
 
 require 'digest/md5'
 require 'digest/sha1'
@@ -68,7 +68,7 @@ class Odin
     # |   100000   |       277 sec      |   460 Mb    |  -43 sec  | +428 Mb  |
     #
     
-    WorkOrderProcessor.run scenarioYAML, batchSize
+    WorkOrderProcessor.run edOrgs, batchSize
 
     finalTime = Time.now - time
     @log.info "Total generation time: #{finalTime} secs"

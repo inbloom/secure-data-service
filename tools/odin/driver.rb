@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+# uncomment this out to enable profiling.
 # require 'perftools'
 # PerfTools::CpuProfiler.start("/tmp/odin_profile")
 
