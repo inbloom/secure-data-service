@@ -968,6 +968,84 @@ public class DidReferenceResolutionTest {
         checkId(entity, "studentId", naturalKeys, "student");
     }
 
+    @Ignore
+    @Test
+    public void resolvesStudentCompetencyRefDidInReportCardCorrectlyUsingLearningObjectiveReference() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/reportCard.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "100000000");
+        String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+        sectionNaturalKeys.put("schoolId", schoolId);
+        sectionNaturalKeys.put("uniqueSectionCode", "this section");
+        String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+
+        Map<String, String> studentSectionAssociationNaturalKeys = new HashMap<String, String>();
+        studentSectionAssociationNaturalKeys.put("studentId", studentDid);
+        studentSectionAssociationNaturalKeys.put("sectionId", sectionDid);
+        studentSectionAssociationNaturalKeys.put("beginDate", "2011-09-01");
+        String studentSectionAssociationId = generateExpectedDid(studentSectionAssociationNaturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
+
+        Map<String, String> learningObjectiveNaturalKeys = new HashMap<String, String>();
+        learningObjectiveNaturalKeys.put("objective", "Writing: Informational Text");
+        learningObjectiveNaturalKeys.put("objectiveGradeLevel", "Twelfth grade");
+        learningObjectiveNaturalKeys.put("academicSubject", "ELA");
+        String learningObjectiveId = generateExpectedDid(learningObjectiveNaturalKeys, TENANT_ID, "learningObjective", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("objectiveId.learningObjectiveId", learningObjectiveId);
+        naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
+        naturalKeys.put("competencyLevel.codeValue", "code");
+
+        checkId(entity, "StudentCompetencyReference", naturalKeys, "studentCompetency");
+    }
+
+    @Ignore
+    @Test
+    public void resolvesStudentCompetencyRefDidInReportCardCorrectlyUsingStudentCompetencyObjectiveReference() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/reportCard2.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> studentCompetencyObjectiveNaturalKeys = new HashMap<String, String>();
+        studentCompetencyObjectiveNaturalKeys.put("studentCompetencyObjectiveId", "student competency objective id");
+        String studentCompetencyObjectiveId = generateExpectedDid(studentCompetencyObjectiveNaturalKeys, TENANT_ID, "studentCompetencyObjective", null);
+
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "100000000");
+        String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+        sectionNaturalKeys.put("schoolId", schoolId);
+        sectionNaturalKeys.put("uniqueSectionCode", "this section");
+        String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+
+        Map<String, String> studentSectionAssociationNaturalKeys = new HashMap<String, String>();
+        studentSectionAssociationNaturalKeys.put("studentId", studentDid);
+        studentSectionAssociationNaturalKeys.put("sectionId", sectionDid);
+        studentSectionAssociationNaturalKeys.put("beginDate", "2011-09-01");
+        String studentSectionAssociationId = generateExpectedDid(studentSectionAssociationNaturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", studentCompetencyObjectiveId);
+        naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
+        naturalKeys.put("competencyLevel.codeValue", "code");
+
+        checkId(entity, "StudentCompetencyReference", naturalKeys, "studentCompetency");
+    }
+
     @Test
     public void resolvesStaffRefDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/disciplineAction.json");
