@@ -176,9 +176,13 @@ public final class MongoCommander {
                     keys.put(index[0], order);
                 }
 
+                DBObject options = new BasicDBObject();
+                options.put("name", "idx_" + indexOrder);
+                options.put("unique", unique);
+                options.put("ns", dbConn.getCollection(collection).getFullName());
+
                 try{
-                    dbConn.getCollection(collection).resetIndexCache();
-                    dbConn.getCollection(collection).ensureIndex(keys, "idx_" + indexOrder, unique);
+                    dbConn.getCollection(collection).createIndex(keys, options);
                 } catch(Exception e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }
