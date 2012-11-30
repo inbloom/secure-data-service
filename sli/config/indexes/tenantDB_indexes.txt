@@ -1,167 +1,166 @@
 #Specify indexes for tenantDB here.
 #format:
-# collection,uniqueness,key1[:order],key2[:order]...
+# collection,uniqueness,key1:order,key2:order...
 #
 #collection: name of the collection to be index
 #uniquenesss: specifies the uniqueness of the field.Can only be true of false
-#key[:order]: index key. Order is optional. If not specify, default order is 1.
+#key:order: index key and order .
 
 # (collection,unique,indexKeys ...) 
 # creationTime indexes for all collections 
 
 # Low cardinality collections 
 # approved 10/30 by Tony/Billy 
-adminDelegation,false,body.localEdOrgId,body.appApprovalEnabled
-applicationAuthorization,false,body.appIds
-applicationAuthorization,false,body.authId,body.authType
-customRole,false,body.realmId
-customRole,false,metaData.tenantId,body.realmId
-custom_entities,false,metaData.entityId,metaData.clientId
+adminDelegation,false,body.localEdOrgId:1,body.appApprovalEnabled:1
+applicationAuthorization,false,body.appIds:1
+applicationAuthorization,false,body.authId:1,body.authType:1
+customRole,false,body.realmId:1
+customRole,false,metaData.tenantId:1,body.realmId:1
+custom_entities,false,metaData.entityId:1,metaData.clientId:1
 
 # These should not be needed - we should be able to search on the _id of the container entity 
 # Billy is investigating these 
-program,false,studentProgramAssociation._id
-student,false,studentAssessment._id
-student,false,studentParentAssociation._id
-student,false,studentParentAssociation.body.parentId
-section,false,studentSectionAssociation._id
-section,false,teacherSectionAssociation._id
-section,false,gradebookEntry._id
+program,false,studentProgramAssociation._id:1
+student,false,studentAssessment._id:1
+student,false,studentParentAssociation._id:1
+student,false,studentParentAssociation.body.parentId:1
+section,false,studentSectionAssociation._id:1
+section,false,teacherSectionAssociation._id:1
+section,false,gradebookEntry._id:1
 
 # direct references, index on each direct reference 
 # These indexes will be reviewed as part of US4658 
-attendance,false,body.schoolId
-attendance,false,body.studentId
-cohort,false,body.educationOrgId
-cohort,false,studentCohortAssociation.body.studentId
-cohort,false,studentCohortAssociation._id
-cohort,false,body.programId
-course,false,body.schoolId
-courseOffering,false,body.courseId
-courseOffering,false,body.schoolId
-courseOffering,false,body.sessionId
-courseTranscript,false,body.courseId
-courseTranscript,false,body.studentAcademicRecordId
-courseTranscript,false,body.studentId
-disciplineAction,false,body.assignmentSchoolId
-disciplineAction,false,body.disciplineIncidentId
-disciplineAction,false,body.responsibilitySchoolId
-disciplineAction,false,body.staffId
-disciplineAction,false,body.studentId
-disciplineIncident,false,body.schoolId
-disciplineIncident,false,body.staffId
-educationOrganization,false,body.parentEducationAgencyReference
-educationOrganization,false,body.programReference
-grade,false,body.gradePeriodId
-grade,false,body.studentSectionAssociationId
-section,false,gradebookEntry.body.sectionId
-graduationPlan,false,body.educationOrganizationId
-learningObjective,false,body.learningStandards
-learningObjective,false,body.parentLearningObjective
-reportCard,false,body.grades
-reportCard,false,body.gradingPeriodId
-reportCard,false,body.studentCompetencyId
-reportCard,false,body.studentId
-section,false,body.assessmentReferences
-section,false,body.courseOfferingId
-section,false,body.programReference
-section,false,body.schoolId
-section,false,body.sessionId
-session,false,body.gradingPeriodReference
-session,false,body.schoolId
-staffCohortAssociation,false,body.cohortId
-staffCohortAssociation,false,body.staffId
-staffEducationOrganizationAssociation,false,body.educationOrganizationReference
-staffEducationOrganizationAssociation,false,body.staffReference
-staffProgramAssociation,false,body.programId
-staffProgramAssociation,false,body.staffId
-studentAcademicRecord,false,body.reportCards
-studentAcademicRecord,false,body.sessionId
-studentAcademicRecord,false,body.studentId
+attendance,false,body.schoolId:1
+attendance,false,body.studentId:1
+cohort,false,body.educationOrgId:1
+cohort,false,studentCohortAssociation.body.studentId:1
+cohort,false,studentCohortAssociation._id:1
+cohort,false,body.programId:1
+course,false,body.schoolId:1
+courseOffering,false,body.courseId:1
+courseOffering,false,body.schoolId:1
+courseOffering,false,body.sessionId:1
+courseTranscript,false,body.courseId:1
+courseTranscript,false,body.studentAcademicRecordId:1
+courseTranscript,false,body.studentId:1
+disciplineAction,false,body.assignmentSchoolId:1
+disciplineAction,false,body.disciplineIncidentId:1
+disciplineAction,false,body.responsibilitySchoolId:1
+disciplineAction,false,body.staffId:1
+disciplineAction,false,body.studentId:1
+disciplineIncident,false,body.schoolId:1
+disciplineIncident,false,body.staffId:1
+educationOrganization,false,body.parentEducationAgencyReference:1
+educationOrganization,false,body.programReference:1
+grade,false,body.gradePeriodId:1
+grade,false,body.studentSectionAssociationId:1
+section,false,gradebookEntry.body.sectionId:1
+graduationPlan,false,body.educationOrganizationId:1
+learningObjective,false,body.learningStandards:1
+learningObjective,false,body.parentLearningObjective:1
+reportCard,false,body.grades:1
+reportCard,false,body.gradingPeriodId:1
+reportCard,false,body.studentCompetencyId:1
+reportCard,false,body.studentId:1
+section,false,body.assessmentReferences:1
+section,false,body.courseOfferingId:1
+section,false,body.programReference:1
+section,false,body.schoolId:1
+section,false,body.sessionId:1
+session,false,body.gradingPeriodReference:1
+session,false,body.schoolId:1
+staffCohortAssociation,false,body.cohortId:1
+staffCohortAssociation,false,body.staffId:1
+staffEducationOrganizationAssociation,false,body.educationOrganizationReference:1
+staffEducationOrganizationAssociation,false,body.staffReference:1
+staffProgramAssociation,false,body.programId:1
+staffProgramAssociation,false,body.staffId:1
+studentAcademicRecord,false,body.reportCards:1
+studentAcademicRecord,false,body.sessionId:1
+studentAcademicRecord,false,body.studentId:1
 # studentAssessment is embedded into student 
-student,false,studentAssessment.body.assessmentId
+student,false,studentAssessment.body.assessmentId:1
 #  do we need this? 
-student,false,studentAssessment.body.studentId
-studentCohortAssociation,false,body.cohortId
-studentCohortAssociation,false,body.studentId
-studentCompetency,false,body.objectiveId.learningObjectiveId
-studentCompetency,false,body.objectiveId.studentCompetencyObjectiveId
-studentCompetency,false,body.studentSectionAssociationId
-studentCompetencyObjective,false,body.educationOrganizationId
-student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId
-student,false,studentDisciplineIncidentAssociation.body.studentId
-student,false,studentDisciplineIncidentAssociation._id
-studentGradebookEntry,false,body.gradebookEntryId
-studentGradebookEntry,false,body.sectionId
-studentGradebookEntry,false,body.studentId
-studentGradebookEntry,false,body.studentSectionAssociationId
-studentParentAssociation,false,body.parentId
-studentParentAssociation,false,body.studentId
+student,false,studentAssessment.body.studentId:1
+studentCohortAssociation,false,body.cohortId:1
+studentCohortAssociation,false,body.studentId:1
+studentCompetency,false,body.objectiveId.learningObjectiveId:1
+studentCompetency,false,body.objectiveId.studentCompetencyObjectiveId:1
+studentCompetency,false,body.studentSectionAssociationId:1
+studentCompetencyObjective,false,body.educationOrganizationId:1
+student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId:1
+student,false,studentDisciplineIncidentAssociation.body.studentId:1
+student,false,studentDisciplineIncidentAssociation._id:1
+studentGradebookEntry,false,body.gradebookEntryId:1
+studentGradebookEntry,false,body.sectionId:1
+studentGradebookEntry,false,body.studentId:1
+studentGradebookEntry,false,body.studentSectionAssociationId:1
+studentParentAssociation,false,body.parentId:1
+studentParentAssociation,false,body.studentId:1
 # studentProgramAssociation is embedded into program 
-program,false,studentProgramAssociation.body.educationOrganizationId
-program,false,studentProgramAssociation.body.programId
-program,false,studentProgramAssociation.body.studentId
-studentSchoolAssociation,false,body.graduationPlanId
-studentSchoolAssociation,false,body.schoolId
-studentSchoolAssociation,false,body.studentId
+program,false,studentProgramAssociation.body.educationOrganizationId:1
+program,false,studentProgramAssociation.body.programId:1
+program,false,studentProgramAssociation.body.studentId:1
+studentSchoolAssociation,false,body.graduationPlanId:1
+studentSchoolAssociation,false,body.schoolId:1
+studentSchoolAssociation,false,body.studentId:1
 # studentSectionAssociation is embedded into section  
 # do we need this?
-section,false,studentSectionAssociation.body.sectionId 
-section,false,studentSectionAssociation.body.studentId
-teacherSchoolAssociation,false,body.schoolId
-teacherSchoolAssociation,false,body.teacherId
+section,false,studentSectionAssociation.body.sectionId:1
+section,false,studentSectionAssociation.body.studentId:1
+teacherSchoolAssociation,false,body.schoolId:1
+teacherSchoolAssociation,false,body.teacherId:1
 # teacherSectionAssociation is embedded into section  
-section,false,teacherSectionAssociation.body.sectionId
-section,false,teacherSectionAssociation.body.teacherId
+section,false,teacherSectionAssociation.body.sectionId:1
+section,false,teacherSectionAssociation.body.teacherId:1
 
 # Ingestion 
 # These indexes are all used by ingestion and should be removed as part of reference resolution work 
 # TONY - Need to tie these to reference resolution stories 
 
 # US4388 
-assessment,false,body.assessmentIdentificationCode
+assessment,false,body.assessmentIdentificationCode:1
 # US4388
-assessment,false,body.assessmentPeriodDescriptor.codeValue 
+assessment,false,body.assessmentPeriodDescriptor.codeValue:1
 # US4388
-assessment,false,body.assessmentTitle,body.academicSubject,body.gradeLevelAssessed 
-calendarDate,false,body.date,body.calendarEvent
-course,false,body.courseCode.ID,body.courseCode.identificationSystem
-disciplineIncident,false,body.incidentIdentifier
-educationOrganization,false,body.stateOrganizationId
-educationOrganization,false,body.educationOrgIdentificationCode # needs to be combined with next 
-educationOrganization,false,body.educationOrgIdentificationCode.ID
-gradingPeriod,false,body.gradingPeriodIdentity.schoolYear
-graduationPlan,false,body.graduationPlanType
-learningObjective,false,body.learningObjectiveId  # needs to combined with next 
-learningObjective,false,body.learningObjectiveId.identificationCode
-learningObjective,false,body.objective
-learningStandard,false,body.learningStandardId.identificationCode
-parent,false,body.parentUniqueStateId
-program,false,body.programId
-section,false,body.uniqueSectionCode
-session,false,body.sessionName
-student,false,body.studentUniqueStateId
-studentCompetency,false,metaData.externalId,metaData.studentUniqueStateId,metaData.uniqueSectionCode
-studentCompetencyObjective,false,body.studentCompetencyObjectiveId
+assessment,false,body.assessmentTitle:1,body.academicSubject:1,body.gradeLevelAssessed:1
+calendarDate,false,body.date:1,body.calendarEvent:1
+course,false,body.courseCode.ID:1,body.courseCode.identificationSystem:1
+disciplineIncident,false,body.incidentIdentifier:1
+educationOrganization,false,body.stateOrganizationId:1
+educationOrganization,false,body.educationOrgIdentificationCode:1 # needs to be combined with next 
+educationOrganization,false,body.educationOrgIdentificationCode.ID:1
+gradingPeriod,false,body.gradingPeriodIdentity.schoolYear:1
+graduationPlan,false,body.graduationPlanType:1
+learningObjective,false,body.learningObjectiveId:1  # needs to combined with next 
+learningObjective,false,body.learningObjectiveId.identificationCode:1
+learningObjective,false,body.objective:1
+learningStandard,false,body.learningStandardId.identificationCode:1
+parent,false,body.parentUniqueStateId:1
+program,false,body.programId:1
+section,false,body.uniqueSectionCode:1
+session,false,body.sessionName:1
+student,false,body.studentUniqueStateId:1
+studentCompetency,false,metaData.externalId:1,metaData.studentUniqueStateId:1,metaData.uniqueSectionCode:1
+studentCompetencyObjective,false,body.studentCompetencyObjectiveId:1
 
 # Profiled 
 # These indexes will be reviewed as part of US4658 
-educationOrganization,false,body.parentEducationAgencyReference,type
-educationOrganization,false,type,body.nameOfInstitution
-gradingPeriod,false,body.beginDate
-staff,false,body.staffUniqueStateId
-staff,false,type
+educationOrganization,false,body.parentEducationAgencyReference:1,type:1
+educationOrganization,false,type:1,body.nameOfInstitution:1
+gradingPeriod,false,body.beginDate:1
+staff,false,body.staffUniqueStateId:1
+staff,false,type:1
 
 
 #  TODO: Index to make querying acceptance tests pass - this is really bad!! 
-reportCard,false,body.gpaCumulative
+reportCard,false,body.gpaCumulative:1
 
 # US4365  
-student,false,cohort._id
+student,false,cohort._id:1
 
 # DE2091, checked with Billy  
-competencyLevelDescriptor,false,body.codeValue
+competencyLevelDescriptor,false,body.codeValue:1
 
 # US4602, checked with Billy. 
-educationOrganization,false,body.organizationCategories
-
+educationOrganization,false,body.organizationCategories:1
