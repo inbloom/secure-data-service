@@ -38,7 +38,6 @@ import org.slc.sli.api.search.service.SearchResourceService;
  * Resource for handling search requests
  *
  */
-
 @Component
 @Scope("request")
 public class SearchResource extends GenericResource {
@@ -49,27 +48,13 @@ public class SearchResource extends GenericResource {
     @GET
     public Response get(@Context final UriInfo uriInfo) {
 
-        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
-            @Override
-            public ServiceResponse run(Resource resource) {
-
-                return resourceService.list(resource, null, uriInfo.getRequestUri(), false);
-            }
-        });
-
+        return getAll(ResourceTemplate.ONE_PART, null, uriInfo, false);
     }
 
     @GET
     @Path("{entity}")
     public Response get(@PathParam("entity") final String entity, @Context final UriInfo uriInfo) {
-
-        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.SEARCH, ResourceMethod.GET, new GetResourceLogic() {
-            @Override
-            public ServiceResponse run(Resource resource) {
-
-                return resourceService.list(resource, entity, uriInfo.getRequestUri(), false);
-            }
-        });
+        return getAll(ResourceTemplate.SEARCH, entity, uriInfo, false);
 
     }
 
@@ -78,11 +63,16 @@ public class SearchResource extends GenericResource {
     @Consumes("application/vnd.slc.search.full+json")
     public Response getAndRoute(@PathParam("entity") final String entity, @Context final UriInfo uriInfo) {
 
-        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.SEARCH, ResourceMethod.GET, new GetResourceLogic() {
+        return getAll(ResourceTemplate.SEARCH, entity, uriInfo, true);
+    }
+
+    public Response getAll(ResourceTemplate resourceTemplate, final String entity, final UriInfo uriInfo, final boolean routeToEntityApp) {
+
+        return getAllResponseBuilder.build(uriInfo, resourceTemplate, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
 
-                return resourceService.list(resource, entity, uriInfo.getRequestUri(), true);
+                return resourceService.list(resource, entity, uriInfo.getRequestUri(), routeToEntityApp);
             }
         });
     }
