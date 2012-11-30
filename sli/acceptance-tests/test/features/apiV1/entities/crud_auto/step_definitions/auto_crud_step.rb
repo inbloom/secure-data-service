@@ -22,6 +22,15 @@ require_relative '../../../utils/api_utils.rb'
 
 
 
+
+
+###############################################################################
+# GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
+###############################################################################
+
+
+
+
 When /^I navigate to GET with invalid id for each resource available$/ do
   resources.each do |resource|
     badId = "bad1111111111111111111111111111111111111_id"
@@ -38,26 +47,28 @@ When /^I navigate to PUT with invalid id for each resource available$/ do
   resources.each do |resource|
 
     #PUT is not allowed for /home
-    if (resource.include? "home") == false
-      badId = "bad1111111111111111111111111111111111111_id"
-      uri = "/v1#{resource}/#{badId}"
-
-      # strip leading "/"
-      resource_type = get_resource_type resource
-
-      puts "PUT #{uri}"
-      steps %Q{
-        Given a valid entity json document for a \"#{resource_type}\"
-      }
-      # split the steps calls so that @updates will have been populated
-      steps %Q{
-        When I set the "#{@updates['field']}" to "#{@updates['value']}"
-        When I navigate to PUT \"#{uri}\"
-        Then I should receive a return code of 404
-
-      }
-      #step "I should receive a return code of 404"
+    if (resource.include? "home") 
+      next
     end
+
+    badId = "bad1111111111111111111111111111111111111_id"
+    uri = "/v1#{resource}/#{badId}"
+
+    # strip leading "/"
+    resource_type = get_resource_type resource
+
+    puts "PUT #{uri}"
+    steps %Q{
+      Given a valid entity json document for a \"#{resource_type}\"
+    }
+    # split the steps calls so that @updates will have been populated
+    steps %Q{
+      When I set the "#{@updates['field']}" to "#{@updates['value']}"
+      When I navigate to PUT \"#{uri}\"
+      Then I should receive a return code of 404
+
+    }
+    #step "I should receive a return code of 404"
   end
 end
 
@@ -178,3 +189,91 @@ def update_natural_key resource
     end
   end
 end
+
+Given /^my contextual access is defined by table:$/ do |table|
+  @ctx={}
+  table.hashes.each do |hash|
+    @ctx[hash["Context"]]=hash["Ids"]
+  end
+end
+
+Given /^the expected staff rewrite results are defined by table:$/ do |table|
+  # table is a Cucumber::Ast::Table
+  @state_staff_expected_results={}
+  table.hashes.each do |hash|
+    @state_staff_expected_results[hash["Entity Resource URI"]]=hash
+  end
+end
+
+
+Given /^the staff queries and rewrite rules work$/ do
+ 
+
+  puts "Given entity URI \"<resource>\""
+  puts "Given parameter \"limit\" is \"0\""
+  puts "When I navigate to GET \"/v1</Resource URI>\""
+  puts "Then I should receive a return code of 200"  
+  puts "And each entity's \"entityType\" should be \"<Resource Type>\""
+  puts "And I should receive a collection of \"<Count>\" entities"
+  puts "And uri was rewritten to \"#<Rewrite URI>\""
+
+  resources.each do |resource_as_uri|
+    if (resource_as_uri.include? "home") 
+      next
+    end
+
+    resource = resource_as_uri[1..-1]
+    resource_type = get_resource_type resource_as_uri
+
+    puts "Evaluating: #{resource}"
+
+    row_data = @state_staff_expected_results[resource]
+    assert(!row_data.nil?, "No entry in expected staff rewrite results table for resource uri: #{resource}")
+
+    
+    step "entity URI \"#{resource}\""
+    step "parameter \"limit\" is \"0\""
+    step "I navigate to GET \"/v1#{resource_as_uri}\""
+    step "I should receive a return code of 200"  
+    step "each entity's \"entityType\" should be \"#{resource_type}\""
+  
+    entity_count = row_data["Count"]
+    step "I should receive a collection of \"#{entity_count}\" entities"
+    
+    rewrite_url = row_data["Rewrite URI"]
+    step "uri was rewritten to \"#{rewrite_url}\""
+  end
+end
+
+
+Given /^entity URI "([^"]*)"$/ do |arg1|
+  @entityUri = arg1
+end
+
+Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
+  version = "v1"
+  root = expectedUri.match(/\/(.+?)\/|$/)[1]
+  expected = version+expectedUri
+  actual = @headers["x-executedpath"][0]
+
+  #First, make sure the paths of the URIs are the same
+  expectedPath = expected.gsub("@ids", "[^/]+")
+
+  assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
+
+  #Then, validate the list of ids are the same
+  ids = []
+  if @ctx.has_key? root
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
+    actualIds = idsString.split(",")
+    expectedIds = @ctx[root].split(",")
+    
+    assert(actualIds.length == expectedIds.length,"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    expectedIds.each do |id|
+      assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    end
+  end
+end
+
+
+

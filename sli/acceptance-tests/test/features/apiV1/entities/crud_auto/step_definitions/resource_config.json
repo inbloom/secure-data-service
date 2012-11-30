@@ -60,20 +60,8 @@
       ]
     },
     "UPDATE": {
-      "field": "schoolYearAttendance",
-      "value": [{
-          "schoolYear": "2011-2012",
-          "attendanceEvent": [
-            {
-              "date": "2011-09-16",
-              "event": "Tardy"
-            },
-          {
-              "date": "2011-09-17",
-              "event": "Tardy"
-            }
-          ]
-        }]
+      "field": "schoolYearAttendance.schoolYear",
+      "value": "2012-1013"
     },
     "naturalKey": {
       "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735b",
