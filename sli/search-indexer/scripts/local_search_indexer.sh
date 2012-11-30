@@ -181,14 +181,23 @@ function run {
    elif [ ${RUN_STOP} == 1 ]; then
       if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
          echo -e "${BGreen}Stopping.... accessing port ${REMOTE_COMMAND_PORT}${Color_off}"
-         echo stop | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
+         exec 3<>/dev/tcp/127.0.0.1/"${REMOTE_COMMAND_PORT}"
+		 echo "stop" >&3
+		 
+		 read -r msg_in <&3
+		 echo "$msg_in"
       else
          echo -e "${BRed}Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}${Color_off}"
       fi
    elif [ ${RUN_EXTRACT} == 1 ]; then
       if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
+
          echo -e "${BGreen}Extracting.... accessing port ${REMOTE_COMMAND_PORT}${Color_off}"
-         echo extract sync | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
+         exec 3<>/dev/tcp/127.0.0.1/"${REMOTE_COMMAND_PORT}"
+		 echo "extract sync" >&3
+		 
+		 read -r msg_in <&3
+		 echo "$msg_in"
       else
          echo -e "${BRed}Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}${Color_off}"
       fi
