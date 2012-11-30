@@ -53,38 +53,38 @@ class WorkOrderProcessor
   end
 
   def self.gen_work_orders(world)
+    next_student = 0
     Enumerator.new do |y|
-      student_id = 0
       world.each{|_, edOrgs|
         edOrgs.each{|edOrg|
           students = edOrg['students']
           unless students.nil?
-            years = students.keys.sort
-            initial_year = years.first
-            initial_grade_breakdown = students[initial_year]
-            initial_grade_breakdown.each{|grade, num_students|
-              sessions = edOrg['sessions'].map{|session| make_session(edOrg['id'], session)}
-              (1..num_students).each{|_|
-                student_id += 1
-                y.yield StudentWorkOrder.new(student_id, grade, initial_year, sessions)
-              }
-            }
+            next_student = StudentWorkOrder.gen_work_orders(students, edOrg, next_student, y)
           end
         }
       }
     end
   end
 
-  private
-
-  def self.make_session(school, session)
-    {:school => school, :sessionInfo => session}
-  end
-
 end
 
 class StudentWorkOrder
   attr_accessor :id, :sessions, :birth_day_after, :initial_grade, :initial_year
+
+  def self.gen_work_orders(students, edOrg, start_with_id, yielder)
+    student_id = start_with_id
+    years = students.keys.sort
+    initial_year = years.first
+    initial_grade_breakdown = students[initial_year]
+    initial_grade_breakdown.each{|grade, num_students|
+      sessions = edOrg['sessions'].map{|session| make_session(edOrg['id'], session)}
+      (1..num_students).each{|_|
+        student_id += 1
+        yielder.yield StudentWorkOrder.new(student_id, grade, initial_year, sessions)
+      }
+    }
+    student_id
+ end
 
   def initialize(id, initial_grade, initial_year, sessions)
     @id = id
@@ -113,6 +113,10 @@ class StudentWorkOrder
   def gen_enrollment(school_id, start_year, start_grade)
     schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
     @enrollment_interchange << schoolAssoc
+  end
+
+  def self.make_session(school, session)
+    {:school => school, :sessionInfo => session}
   end
 
 end
