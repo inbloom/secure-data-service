@@ -26,7 +26,7 @@ describe 'EnrollmentGenerator' do
     it 'will write a studentSchoolAssociation to edfi' do
       generator << ssa
       interchange.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
-      interchange.string.match('<StateOrganizationId>64</StateOrganizationId>').should_not be_nil
+      interchange.string.match('<StateOrganizationId>elem-0000000064</StateOrganizationId>').should_not be_nil
       interchange.string.match('<EntryDate>2004-09-01</EntryDate>').should_not be_nil
       interchange.string.match('<EntryGradeLevel>First grade</EntryGradeLevel>').should_not be_nil
     end
