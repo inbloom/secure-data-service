@@ -325,13 +325,13 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      * Throws an IngestionException if a tenantId could not be resolved.
      */
     private String setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
-        lzPath = new File(lzPath).getAbsolutePath();
+        String absLzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
-        String tenantId = tenantDA.getTenantId(lzPath);
+        String tenantId = tenantDA.getTenantId(absLzPath);
         if (tenantId != null) {
             cf.getConfigProperties().put("tenantId", tenantId);
         } else {
-            throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
+            throw new IngestionException("Could not find tenantId for landing zone: " + absLzPath);
         }
         return tenantId;
     }

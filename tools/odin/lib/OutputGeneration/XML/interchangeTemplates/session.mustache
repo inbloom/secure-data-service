@@ -13,38 +13,31 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
-{{#course_offering}}
-  <CourseOffering>
-    <LocalCourseCode>{{code}}</LocalCourseCode>
-    <LocalCourseTitle>{{title}}</LocalCourseTitle>
-    <SchoolReference>
+{{#sessions}}
+  <Session>
+    <SessionName>{{name}}</SessionName>
+    <SchoolYear>{{school_year}}</SchoolYear>
+    <Term>{{term}}</Term>
+    <BeginDate>{{begin_date}}</BeginDate>
+    <EndDate>{{end_date}}</EndDate>
+    <TotalInstructionalDays>{{num_school_days}}</TotalInstructionalDays>
+    <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
-    </SchoolReference>
-    {{#session}}
-    <SessionReference>
-      <SessionIdentity>
+    </EducationOrganizationReference>
+    {{#grading_periods}}
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>{{name}}</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    {{/session}}
-    {{#course}}
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>{{id}}</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-    {{/course}}
-  </CourseOffering>
-{{/course_offering}}
+        <GradingPeriod>{{type}}</GradingPeriod>
+        <BeginDate>{{begin_date}}</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    {{/grading_periods}}
+  </Session>
+{{/sessions}}
