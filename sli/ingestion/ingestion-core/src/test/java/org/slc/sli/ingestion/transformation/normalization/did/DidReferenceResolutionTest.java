@@ -830,7 +830,7 @@ public class DidReferenceResolutionTest {
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
-//        checkId(entity, "StudentReference", naturalKeys, "student");
+        checkId(entity, "studentId", naturalKeys, "student");
     }
 
     @Test
@@ -928,6 +928,33 @@ public class DidReferenceResolutionTest {
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = body.get("GradebookEntryReference");
         Assert.assertEquals(refId, resolvedRef);
+    }
+
+    @Test
+    public void resolvesReportCardRefDidInStudentAcademicRecordCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "100000000");
+        String studentId = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> gradingPeriodNaturalKeys = new HashMap<String, String>();
+        gradingPeriodNaturalKeys.put("beginDate", "2011-09-01");
+        gradingPeriodNaturalKeys.put("gradingPeriod", "First Six Weeks");
+        gradingPeriodNaturalKeys.put("stateOrganizationId", edOrgId);
+        String gradingPeriodId = generateExpectedDid(gradingPeriodNaturalKeys, TENANT_ID, "gradingPeriod", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("gradingPeriodId", gradingPeriodId);
+        naturalKeys.put("studentId", studentId);
+        checkId(entity, "ReportCardReference", naturalKeys, "reportCard");
     }
 
     @Test

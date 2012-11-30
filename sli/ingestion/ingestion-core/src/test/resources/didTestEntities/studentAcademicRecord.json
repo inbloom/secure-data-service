@@ -1,27 +1,57 @@
 {
-"recordType":"studentAcademicRecord",
-"attributes":
-{
-    "StudentReference":
+    "recordType":"studentAcademicRecord",
+    "attributes":
     {
-        "StudentIdentity":
+        "StudentReference":
         {
-            "StudentUniqueStateId":"100000000"
-        }
-    },
-    "SessionReference":
-    {
-       "SessionIdentity":
-       {
-           "EducationalOrgReference":
+            "StudentIdentity":
+            {
+                "StudentUniqueStateId":"100000000"
+            }
+        },
+        "SessionReference":
+        {
+           "SessionIdentity":
            {
-               "EducationalOrgIdentity":
+               "EducationalOrgReference":
+               {
+                   "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "SessionName":"theSessionName"
+           }
+        },
+        "ReportCardReference":
+        [
+            {
+                "ReportCardIdentity":
                 {
-                    "StateOrganizationId":"testSchoolId"
+                    "StudentReference":
+                    {
+                        "StudentIdentity":
+                        {
+                            "StudentUniqueStateId":"100000000"
+                        }
+                    },
+                    "GradingPeriodReference":
+                    {
+                        "GradingPeriodIdentity":
+                        {
+                            "EducationalOrgReference":
+                            {
+                                "EducationalOrgIdentity":
+                                {
+                                    "StateOrganizationId":"testSchoolId"
+                                }
+                            },
+                            "GradingPeriod":"First Six Weeks",
+                            "BeginDate":"2011-09-01"
+                        }
+                    }
                 }
-           },
-           "SessionName":"theSessionName"
-       }
+            }
+        ]
     }
-}
 }
