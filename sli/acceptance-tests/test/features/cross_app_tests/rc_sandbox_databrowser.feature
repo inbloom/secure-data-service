@@ -69,7 +69,7 @@ Feature: Data Browser
     And I have navigated to the "GetStaffProgramAssociations" page of the Data Browser
     When I click on the row containing "6ed3d037757c272d3aed577c213000b186cd21b3_id"
     And I click on the "Me" of any of the associating entities
-    Then I am redirected to a page that page lists all of the "dfec28d34c75a4d307d1e85579e26a81630f6a47_id" entity's fields
+    Then I am redirected to a page that page lists all of the "6ed3d037757c272d3aed577c213000b186cd21b3_id" entity's fields
     When I click on the logout link 
     And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
