@@ -295,9 +295,12 @@ public class UriMutator {
         String baseEntityIds = null;
 
         if (segmentStrings.size() > NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
+
             int ENTITY_IDS_SEGMENT_INDEX = 2;
+            int API_VERSION_SEGMENT_INDEX = 0;
             baseEntityIds = segmentStrings.get(ENTITY_IDS_SEGMENT_INDEX);
             segmentStrings.remove(ENTITY_IDS_SEGMENT_INDEX);
+            segmentStrings.remove(API_VERSION_SEGMENT_INDEX);
             joinedSegments = joinPathSegments(segmentStrings);
         }
 
