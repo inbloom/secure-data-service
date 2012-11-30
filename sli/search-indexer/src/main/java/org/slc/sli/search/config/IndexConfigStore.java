@@ -42,32 +42,33 @@ public class IndexConfigStore {
         if (configFile == null) {
             throw new IllegalArgumentException("sli.search.indexer.config must be provided");
         }
-        File config = new File(configFile);
+        
         InputStream is = null; 
         Map<String, IndexConfig> map = new HashMap<String, IndexConfig>();
         try {
-        
-        if (!configFile.startsWith("/")) {
-            is = getClass().getResourceAsStream("/" + configFile);
-            if (is == null){
-                throw new IllegalArgumentException("File " + configFile + " does not exist");
+            
+            if (!configFile.startsWith("/")) {
+                is = getClass().getResourceAsStream("/" + configFile);
+                if (is == null){
+                    throw new IllegalArgumentException("File " + configFile + " does not exist");
+                }
             }
-        }
-        else {
-            if (!config.exists()) {
-                throw new IllegalArgumentException("File " + config.getAbsolutePath() + " does not exist");
+            else {
+                File config = new File(configFile);
+                if (!config.exists()) {
+                    throw new IllegalArgumentException("File " + config.getAbsolutePath() + " does not exist");
+                }
+                is = new FileInputStream(config);
             }
-            is = new FileInputStream(config);
-        }
-        map = mapper.readValue(is, new TypeReference<Map<String, IndexConfig>>(){});
-        IndexConfig indexConfig;
-        for (Map.Entry<String, IndexConfig> entry: map.entrySet()) {
-            indexConfig = entry.getValue();  
-            indexConfig.prepare(entry.getKey());
-            if (indexConfig.isChildDoc()) {
-                map.get(indexConfig.getIndexType()).addDependent(entry.getKey());
+            map = mapper.readValue(is, new TypeReference<Map<String, IndexConfig>>(){});
+            IndexConfig indexConfig;
+            for (Map.Entry<String, IndexConfig> entry: map.entrySet()) {
+                indexConfig = entry.getValue();  
+                indexConfig.prepare(entry.getKey());
+                if (indexConfig.isChildDoc()) {
+                    map.get(indexConfig.getIndexType()).addDependent(entry.getKey());
+                }
             }
-        }
         } finally {
             IOUtils.closeQuietly(is);
         }
