@@ -225,18 +225,6 @@ public class DeterministicIdResolver {
         return referenceObject;
     }
 
-    private void setProperty(Object bean, String fieldPath, Object uuid) throws IdResolutionException {
-        try {
-            PropertyUtils.setProperty(bean, fieldPath, uuid);
-        } catch (IllegalAccessException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        } catch (InvocationTargetException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        } catch (NoSuchMethodException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        }
-    }
-
     private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
             ErrorReport errorReport) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
