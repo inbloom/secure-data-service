@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.search.resource;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -70,6 +71,20 @@ public class SearchResource extends GenericResource {
             }
         });
 
+    }
+
+    @GET
+    @Path("{entity}")
+    @Consumes("application/vnd.slc.search.full+json")
+    public Response getAndRoute(@PathParam("entity") final String entity, @Context final UriInfo uriInfo) {
+
+        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.SEARCH, ResourceMethod.GET, new GetResourceLogic() {
+            @Override
+            public ServiceResponse run(Resource resource) {
+
+                return resourceService.list(resource, entity, uriInfo.getRequestUri(), true);
+            }
+        });
     }
 
 }

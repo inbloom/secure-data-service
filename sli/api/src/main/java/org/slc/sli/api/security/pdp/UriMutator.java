@@ -27,8 +27,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
+import com.sun.jersey.core.header.InBoundHeaders;
+
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -75,13 +76,14 @@ public class UriMutator {
      * @param segments        List of Path Segments representing request URI.
      * @param queryParameters String containing query parameters.
      * @param user            User requesting resource.
-     * @return Pair of {String, String} representing {mutated path (if necessary), mutated
+     * @return MutatedContainer representing {mutated path (if necessary), mutated
      *         parameters (if necessary)}, where path or parameters will be null if they didn't need
      *         to be rewritten.
      */
-    public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
+    public MutatedContainer mutate(List<PathSegment> segments, String queryParameters, Entity user) {
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
+        InBoundHeaders mutatedHeaders = null;
         String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
         String type = "";
         String field = "";
@@ -122,30 +124,31 @@ public class UriMutator {
             if (e != null) {
                 String newPath = String.format("/%s/%s", resourceName, e.getEntityId());
                 info("Rewriting URI to {} based on natural keys", newPath);
-                return Pair.of(newPath, null);
+                return new MutatedContainer(newPath, null);
             }
         }
 
         if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
-                Pair<String, String> mutated;
+                MutatedContainer mutated;
                 if (segments.size() == 1) {
                     // api/v1
                     mutated = mutateBaseUri(ResourceNames.HOME, queryParameters, user);
                 } else {
                     mutated = mutateBaseUri(segments.get(1).getPath(), queryParameters, user);
                 }
-                mutatedPath = mutated.getLeft();
-                mutatedParameters = mutated.getRight();
+                mutatedPath = mutated.getPath();
+                mutatedParameters = mutated.getQueryParameters();
+                mutatedHeaders = mutated.getHeaders();
             }
         } else {
-            Pair<String, String> mutated = mutateUriAsNecessary(segments, queryParameters, user);
-            mutatedPath = mutated.getLeft();
-            mutatedParameters = mutated.getRight();
+            MutatedContainer mutated = mutateUriAsNecessary(segments, queryParameters, user);
+            mutatedPath = mutated.getPath();
+            mutatedParameters = mutated.getQueryParameters();
         }
 
-        return Pair.of(mutatedPath, mutatedParameters);
+        return new MutatedContainer(mutatedPath, mutatedParameters, mutatedHeaders);
     }
 
     private Set<String> publicResourcesThatAllowSearch;
@@ -187,11 +190,11 @@ public class UriMutator {
      * @param segments        List of Path Segments representing request URI.
      * @param queryParameters String containing query parameters.
      * @param user            User requesting resource.
-     * @return Pair of {String, String} representing {mutated path (if necessary), mutated
+     * @return MutatedContainer representing {mutated path (if necessary), mutated
      *         parameters (if necessary)}, where path or parameters will be null if they didn't need
      *         to be rewritten.
      */
-    private Pair<String, String> mutateUriAsNecessary(List<PathSegment> segments, String queryParameters, Entity user)
+    private MutatedContainer mutateUriAsNecessary(List<PathSegment> segments, String queryParameters, Entity user)
             throws ResponseTooLargeException {
         String mutatedPath = null;
         String mutatedParameters = queryParameters != null ? queryParameters : "";
@@ -418,7 +421,7 @@ public class UriMutator {
             }
         }
 
-        return Pair.of(mutatedPath, mutatedParameters);
+        return new MutatedContainer(mutatedPath, mutatedParameters);
     }
 
     /**
@@ -482,15 +485,18 @@ public class UriMutator {
         return stringified;
     }
 
-    private Pair<String, String> mutateForTeacher(String resource, String mutatedParameters, Entity user) {
+    private MutatedContainer mutateForTeacher(String resource, String mutatedParameters, Entity user) {
 
         String mutatedPath = null;
+        InBoundHeaders mutatedHeaders = null;
         if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                 || ResourceNames.LEARNINGSTANDARDS.equals(resource)
                 || ResourceNames.ASSESSMENTS.equals(resource)
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
             mutatedPath = "/" + ResourceNames.SEARCH + "/" + resource;
+            mutatedHeaders = new InBoundHeaders();
+            mutatedHeaders.putSingle("Content-Type", "application/vnd.slc.search.full+json");
         } else if (ResourceNames.HOME.equals(resource)) {
             mutatedPath = "/" + resource;
         } else if (ResourceNames.ATTENDANCES.equals(resource)) {
@@ -673,13 +679,14 @@ public class UriMutator {
             mutatedPath = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
         }
 
-        return Pair.of(mutatedPath, mutatedParameters);
+        return new MutatedContainer(mutatedPath, mutatedParameters, mutatedHeaders);
     }
 
 
-    private Pair<String, String> mutateForStaff(String resource, final String mutatedParameters, Entity user, String queryParameters) {
+    private MutatedContainer mutateForStaff(String resource, final String mutatedParameters, Entity user, String queryParameters) {
         String mParameters = mutatedParameters;
         String mutatedPath = null;
+        InBoundHeaders mutatedHeaders = null;
 
         if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                 || ResourceNames.LEARNINGSTANDARDS.equals(resource)
@@ -687,6 +694,8 @@ public class UriMutator {
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
             mutatedPath = "/" + ResourceNames.SEARCH + "/" + resource;
+            mutatedHeaders = new InBoundHeaders();
+            mutatedHeaders.putSingle("Content-Type", "application/vnd.slc.search.full+json");
         } else if (ResourceNames.HOME.equals(resource)) {
             mutatedPath = "/" + resource;
         } else if (ResourceNames.ATTENDANCES.equals(resource)) {
@@ -816,7 +825,7 @@ public class UriMutator {
                     "/schools/%s/teacherSchoolAssociations/teachers/teacherSectionAssociations", ids);
         }
 
-        return Pair.of(mutatedPath, mParameters);
+        return new MutatedContainer(mutatedPath, mParameters, mutatedHeaders);
     }
 
     /**
@@ -827,7 +836,7 @@ public class UriMutator {
      * @param user     entity representing user making API call.
      * @return Mutated String representing new API call, or null if no mutation takes place.
      */
-    public Pair<String, String> mutateBaseUri(String resource, final String queryParameters, Entity user) {
+    public MutatedContainer mutateBaseUri(String resource, final String queryParameters, Entity user) {
         String qParameters = queryParameters;
         if (qParameters == null) {
             qParameters = "";
@@ -839,7 +848,7 @@ public class UriMutator {
         } else if (mutatedPath == null && isStaff(user)) {
             return this.mutateForStaff(resource, qParameters, user, qParameters);
         } else {
-            return Pair.of(mutatedPath, qParameters);
+            return new MutatedContainer(mutatedPath, qParameters);
         }
     }
 
@@ -885,7 +894,7 @@ public class UriMutator {
         return principal.getType().equals(EntityNames.STAFF);
     }
 
-    private Pair<String, String> formQueryBasedOnParameter(String path, String parameters, String parameter) {
+    private MutatedContainer formQueryBasedOnParameter(String path, String parameters, String parameter) {
         String mutatedPath = null;
         String mutatedParameters = null;
 
@@ -902,7 +911,7 @@ public class UriMutator {
             }
         }
 
-        return Pair.of(mutatedPath, mutatedParameters);
+        return new MutatedContainer(mutatedPath, mutatedParameters);
     }
 
     private String removeQueryParameter(String parameters, String queryParameterToRemove) {

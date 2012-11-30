@@ -131,9 +131,10 @@ public class SearchResourceService {
         // set up query criteria, make query
         try {
             finalEntities = retrieveResults(prepareQuery(resource, resourcesToSearch, queryUri));
-            setRealEntityTypes(finalEntities);
             if (routeToDefaultApp) {
                 finalEntities = routeToDefaultApp(finalEntities, new ApiQuery(queryUri));
+            } else {
+                setRealEntityTypes(finalEntities);
             }
         } catch (HttpStatusCodeException hsce) { // TODO: create some sli exception for this
             warn("Error retrieving results from ES: " + hsce.getMessage());
