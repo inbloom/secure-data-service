@@ -25,6 +25,7 @@ FactoryGirl.define do
     firstName "John"
     lastName "Snow"
     email "jsnow@thewall.com"
+    
   end
 
   factory :parent do
@@ -33,6 +34,14 @@ FactoryGirl.define do
     firstName "James"
     lastName "Snow"
     email "jsnow1@thewall.com"
+  end
+  
+   factory :teacher do
+    initialize_with { new(52, Date.new(1980, 10, 2)) }
+    sex "Male"
+    firstName "Frank"
+    lastName "McCourt"
+    email "fmccourt@thewall.com"
   end
 
   factory :studentParentAssociation do
