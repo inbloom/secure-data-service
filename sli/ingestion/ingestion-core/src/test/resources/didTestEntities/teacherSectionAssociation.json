@@ -2,12 +2,12 @@
 "recordType":"teacherSectionAssociation",
 "attributes":
 {
-	"TeacherReference":
-	{
-		"StaffIdentity":
-		{
-			"StaffUniqueStateId":"jjackson"
-		}
-	}
+    "TeacherReference":
+    {
+        "StaffIdentity":
+        {
+            "StaffUniqueStateId":"jjackson"
+        }
+    }
 }
 }
