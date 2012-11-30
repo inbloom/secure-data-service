@@ -17,19 +17,16 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity.rb'
+require_relative 'enum/GradeLevelType'
 
 class StudentSchoolAssociation < BaseEntity
+  attr_accessor :studentId, :schoolStateOrgId, :startYear, :startGrade
 
-  def initialize(studentId, schoolId)
+  def initialize(studentId, schoolId, startYear = 2011, startGrade = :ELEVENTH_GRADE)
     @studentId = studentId
-    @schoolId = schoolId
+    @schoolStateOrgId = schoolId
+    @startYear = startYear
+    @startGrade = GradeLevelType.get(startGrade)
   end
-
-  def studentId
-    "#{@studentId}"
-  end
-
-  def schoolStateOrgId
-    "school#{@schoolId}"
-  end
+  
 end

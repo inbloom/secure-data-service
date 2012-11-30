@@ -1,7 +1,7 @@
-{{#parents}}
+{{#entity}}
 <Parent>
 		<ParentUniqueStateId>{{id}}</ParentUniqueStateId>
-		<Name Verification="{{nameVerification}}">
+		<Name {{#nameVerification}}Verification="{{nameVerification}}"{{/nameVerification}}>
 			{{#prefix}}
 			<PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
 			{{/prefix}}
@@ -30,9 +30,6 @@
 		</OtherName>
 		{{/otherName}}
 		<Sex>{{sex}}</Sex>
-		<BirthData>
-			<BirthDate>{{birthDay}}</BirthDate>
-		</BirthData>
 		<Address AddressType="Home">
 			<StreetNumberName>{{address}}</StreetNumberName>
 			<City>{{city}}</City>
@@ -46,4 +43,4 @@
 		<LoginId>{{loginId}}</LoginId>
 		{{/loginId}}
 	</Parent>
-{{/parents}}
+{{/entity}}
