@@ -43,9 +43,9 @@ import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
@@ -104,9 +104,10 @@ public class UserResource {
         return buf.toString();
     }
 
+    
     @POST
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
     public final Response create(final User newUser) {
-        SecurityUtil.ensureAuthenticated();
         Response result = validateUserCreate(newUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -126,8 +127,8 @@ public class UserResource {
     }
 
     @GET
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
     public final Response readAll() {
-        SecurityUtil.ensureAuthenticated();
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
 
@@ -161,8 +162,8 @@ public class UserResource {
     }
 
     @PUT
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
     public final Response update(final User updateUser) {
-        SecurityUtil.ensureAuthenticated();
         Response result = validateUserUpdate(updateUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -176,8 +177,8 @@ public class UserResource {
 
     @DELETE
     @Path("{uid}")
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
     public final Response delete(@PathParam("uid") final String uid) {
-        SecurityUtil.ensureAuthenticated();
         Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -197,8 +198,8 @@ public class UserResource {
      */
     @GET
     @Path("edorgs")
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
     public final Response getEdOrgs() {
-        SecurityUtil.ensureAuthenticated();
         String tenant = secUtil.getTenantId();
 
         Response result = validateAdminRights(secUtil.getAllRights(), tenant);
@@ -641,16 +642,16 @@ public class UserResource {
         private static final String[] GROUPS_ONLY_PROD_ADMINS_ALLOW_TO_READ = new String[] { RoleInitializer.REALM_ADMINISTRATOR };
         private static final String[] GROUPS_ONLY_SANDBOX_ADMINS_ALLOW_TO_READ = new String[] { RoleInitializer.APP_DEVELOPER };
 
-        private final Map<GrantedAuthority, Collection<String>> rightToRoleMap;
+        private final Map<Right, Collection<String>> rightToRoleMap;
         private static final RightToGroupMapper INSTANCE = new RightToGroupMapper();
 
         private RightToGroupMapper() {
-            rightToRoleMap = new HashMap<GrantedAuthority, Collection<String>>();
-            Collection<GrantedAuthority> prodAdminCrudRights = Arrays.asList(Right.PROD_ADMIN_CRUD_RIGHTS);
-            Collection<GrantedAuthority> sandboxAdminCrudRights = Arrays.asList(Right.SANDBOX_ADMIN_CRUD_RIGHTS);
-            Collection<GrantedAuthority> allAdminCrudRights = Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS);
+            rightToRoleMap = new HashMap<Right, Collection<String>>();
+            Collection<Right> prodAdminCrudRights = Arrays.asList(Right.PROD_ADMIN_CRUD_RIGHTS);
+            Collection<Right> sandboxAdminCrudRights = Arrays.asList(Right.SANDBOX_ADMIN_CRUD_RIGHTS);
+            Collection<Right> allAdminCrudRights = Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS);
 
-            for (GrantedAuthority right : Right.ALL_ADMIN_CRUD_RIGHTS) {
+            for (Right right : Right.ALL_ADMIN_CRUD_RIGHTS) {
                 Collection<String> groups = new HashSet<String>();
                 if (allAdminCrudRights.contains(right)) {
                     groups.addAll(Arrays.asList(GROUPS_ALL_ADMINS_ALLOW_TO_READ));
@@ -662,24 +663,23 @@ public class UserResource {
                     groups.addAll(Arrays.asList(GROUPS_ONLY_SANDBOX_ADMINS_ALLOW_TO_READ));
                 }
 
-                if (right instanceof Right) {
-                    switch ((Right) right) {
-                        case CRUD_SLC_OPERATOR:
-                            groups.add(RoleInitializer.SLC_OPERATOR);
-                            break;
-                        case CRUD_SEA_ADMIN:
-                            groups.add(RoleInitializer.SEA_ADMINISTRATOR);
-                            break;
-                        case CRUD_LEA_ADMIN:
-                            groups.add(RoleInitializer.LEA_ADMINISTRATOR);
-                            break;
-                        case CRUD_SANDBOX_SLC_OPERATOR:
-                            groups.add(RoleInitializer.SANDBOX_SLC_OPERATOR);
-                            break;
-                        case CRUD_SANDBOX_ADMIN:
-                            groups.add(RoleInitializer.SANDBOX_ADMINISTRATOR);
-                            break;
-                    }
+   
+                switch ((Right) right) {
+                    case CRUD_SLC_OPERATOR:
+                        groups.add(RoleInitializer.SLC_OPERATOR);
+                        break;
+                    case CRUD_SEA_ADMIN:
+                        groups.add(RoleInitializer.SEA_ADMINISTRATOR);
+                        break;
+                    case CRUD_LEA_ADMIN:
+                        groups.add(RoleInitializer.LEA_ADMINISTRATOR);
+                        break;
+                    case CRUD_SANDBOX_SLC_OPERATOR:
+                        groups.add(RoleInitializer.SANDBOX_SLC_OPERATOR);
+                        break;
+                    case CRUD_SANDBOX_ADMIN:
+                        groups.add(RoleInitializer.SANDBOX_ADMINISTRATOR);
+                        break;
                 }
 
                 rightToRoleMap.put(right, groups);

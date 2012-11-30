@@ -26,9 +26,8 @@ require_relative '../lib/OutputGeneration/XML/enrollmentGenerator.rb'
 describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
-      let(:work_order) {StudentWorkOrder.new(42, {'id' => 64, 'sessions' => [{'sections' => [{'id' => 32, 'edOrg' => 64},
-                                                                                             {'id' => 33, 'edOrg' => 64},
-                                                                                             {'id' => 34, 'edOrg' => 128}]}]})}
+      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, [{'school' => 64, 'year' => 2001},
+                                                                 {'school' => 64, 'year' => 2002}])}
 
       it "will generate the right number of entities for the student generator" do
         studentParent = double

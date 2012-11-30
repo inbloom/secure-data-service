@@ -53,6 +53,9 @@ class CustomRolesController < ApplicationController
         @custom_roles.roles = params[:json]
         success =  @custom_roles.save()
       rescue ActiveResource::BadRequest => error
+        logger.error error.message
+        logger.error error.backtrace.join("\n")
+
         errorMsg = error.response.body
         logger.debug("Error: #{errorMsg}")
       end
