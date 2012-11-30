@@ -20,39 +20,38 @@ class InterchangeGenerator
   @@totalEntityCount = 0
 
   attr_accessor :interchange, :header, :footer
+
   def initialize(interchange, batchSize=10000)
     @stime = Time.now
     @entityCount = 0
     @interchange = interchange
     @entities = []
     @batchSize = batchSize
+    @writers = Hash.new
+    @header = ""
+    @footer = ""
   end
 
   def start()
     @interchange << @header
-
   end
 
   def <<(entity)
     @entities << entity
     if @entities.size >= @batchSize
-      batchRender
+      renderBatch
       @entities = []
     end
   end
 
-  def batchRender
+  def renderBatch
     report(@entities)
+
     #filter_entities
     split_entities = @entities.group_by( &:class )
 
-    split_entities.each do |k, v |
-      generator = @generators[k].new v
-      generator.context
-      generator.template_path = "#{File.dirname(__FILE__)}/interchangeTemplates"
-      r = generator.render()
-
-      @interchange << r
+    split_entities.each do |k, v|
+      @interchange << (@writers[k].write(v))
     end
   end
 
@@ -65,9 +64,10 @@ class InterchangeGenerator
   end
 
   def finalize()
-    batchRender
+    renderBatch
 
     @interchange << @footer
+    @interchange.flush()
     @interchange.close()
 
     elapsed = Time.now - @stime

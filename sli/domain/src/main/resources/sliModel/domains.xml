@@ -557,15 +557,7 @@
 			<class name="EducationOrganization"></class>
 		</entity>
 		<!-- EducationServiceCenter is not defined for SLI -->
-		<entity>
-			<title xml:lang="en">Leave Event</title>
-			<class name="LeaveEvent"></class>
-		</entity>
 		<!-- LocalEducationAgency is not defined for SLI -->
-		<entity>
-			<title xml:lang="en">Open Staff Position</title>
-			<class name="OpenStaffPosition"></class>
-		</entity>
 		<entity>
 			<title xml:lang="en">School</title>
 			<class name="School"></class>
