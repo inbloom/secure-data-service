@@ -51,7 +51,9 @@ public class ValidateBuildIT {
         PrintStream ps = System.out;
 
         try {
+            ps.println();
             ps.println("================== Verifying the SLC Offline Validation Tool package ==================");
+            ps.println();
 
             ZipFileUtil.extract(srcZip, mvnTargetDir, true);
 
@@ -61,7 +63,9 @@ public class ValidateBuildIT {
         } finally {
 //            FileUtils.deleteDirectory(mvnTargetDir);
 
+            ps.println();
             ps.println("================== End of verification of the SLC Offline Validation Tool package ==================");
+            ps.println();
         }
     }
 
