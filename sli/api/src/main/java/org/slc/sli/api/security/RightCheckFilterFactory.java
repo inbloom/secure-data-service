@@ -16,14 +16,19 @@
 package org.slc.sli.api.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.slc.sli.api.resources.SecuritySessionResource;
+import org.slc.sli.api.resources.SupportResource;
+import org.slc.sli.api.resources.generic.GenericResource;
+import org.slc.sli.api.resources.security.SamlFederationResource;
+import org.slc.sli.api.resources.v1.HomeResource;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
 
 import com.sun.jersey.api.model.AbstractMethod;
@@ -40,6 +45,9 @@ import com.sun.jersey.spi.container.ResourceFilterFactory;
  * 
  * When the resource method is called, the corresponding filter verifies that the
  * user is authenticated and has the rights specified in the annotation.
+ * 
+ * If no rights are specified, but any=true is used with the annotation,
+ * then we simply check that the user is authenticated without verifying specific rights.
  *
  */
 @Component
@@ -55,13 +63,45 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
         RightsAllowed check = am.getAnnotation(RightsAllowed.class);
         if (check != null) {
             rolesFilters.add(new RightCheckResourceFilter(check.value(), am.getResource()));
+            if (check.value().length == 0 && !check.any()) {
+                warn("Class {} should be specifying any=true in the {} annotation.", am.getResource().getClass().getName(), RightsAllowed.class.getSimpleName());
+            }
+            
         } else {
-           // debug("No RightsAllowed specified for {} of {}.", 
-           //         am.getMethod().getName(), 
-           //         am.getResource().getResourceClass().getName());
+            logNoFilterMessage(am);
         }
         return rolesFilters;
 
+    }
+
+    //These are all known endpoints that don't need any extra right checks
+    private static final List<String> LOG_EXCLUDE_LIST = Arrays.asList(
+            HomeResource.class.getName(),
+            SupportResource.class.getName(),
+            SamlFederationResource.class.getName(),
+            SecuritySessionResource.class.getName()
+            );
+    
+    private void logNoFilterMessage(AbstractMethod am) {
+        
+        Class<?> resourceClass = am.getResource().getResourceClass();
+        
+        if (LOG_EXCLUDE_LIST.contains(resourceClass.getName())) {
+            return;
+        }
+        
+        //Don't worry about non-sli classes
+        if (!resourceClass.getPackage().getName().startsWith("org.slc.sli")) {
+            return;
+        }
+        
+        //Don't worry about the dynamic endpoints
+        if (GenericResource.class.isAssignableFrom(resourceClass)) {
+            return;
+        }
+        debug("No RightsAllowed specified for {} of {}.", 
+                am.getMethod().getName(), 
+                am.getResource().getResourceClass().getName());
     }
 
     private class RightCheckResourceFilter implements ResourceFilter, ContainerRequestFilter {
@@ -100,6 +140,13 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
         public ContainerRequest filter(ContainerRequest request) {
             
             SecurityUtil.ensureAuthenticated();
+            
+            //If annotation user uses @RightsAllowed(any=true), 
+            //we just check that the user is authenticated and nothing else
+            if (rightList.size() == 0) {
+                return request;
+            }
+            
             for (Right right : rightList) {
                 if (SecurityUtil.hasRight(right)) {
                     debug("User has needed right {} to access {}.", right, request.getPath());
