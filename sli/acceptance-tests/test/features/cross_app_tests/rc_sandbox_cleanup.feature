@@ -41,7 +41,7 @@ Scenario: slcoperator deletes SB Dev1 and Dev2
     Then I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "Sandbox Account Management"
+    And under System Tools, I click on "Developer Account Management"
 
     And I switch to the iframe
    Then I delete the user "RCTestDev PartTwo"
