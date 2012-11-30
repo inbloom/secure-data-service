@@ -591,7 +591,7 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void shouldResolveCourseDidsCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    public void resolvesCourseDidInCourseTranscriptCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
         ErrorReport errorReport = new TestErrorReport();
 
@@ -600,9 +600,26 @@ public class DidReferenceResolutionTest {
         Map<String, Object> courseTranscriptBody = courseTranscriptEntity.getBody();
         Object courseTranscriptResolvedRef = courseTranscriptBody.get("CourseReference");
 
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "testSchoolId");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", schoolId);
+        naturalKeys.put("uniqueCourseId", "testCourseId");
+
+        String courseReferenceDID = generateExpectedDid(naturalKeys, TENANT_ID, "course", null);
+        Assert.assertEquals(courseReferenceDID, courseTranscriptResolvedRef);
+    }
+
+    @Test
+    public void resolvesCourseDidInCourseOfferingCorrectly() throws JsonParseException, JsonMappingException, IOException {
+
+        ErrorReport errorReport = new TestErrorReport();
+
         Entity courseOfferingEntity = loadEntity("didTestEntities/courseOffering.json");
         didResolver.resolveInternalIds(courseOfferingEntity, TENANT_ID, errorReport);
-        Map<String, Object> courseOfferingBody = courseTranscriptEntity.getBody();
+        Map<String, Object> courseOfferingBody = courseOfferingEntity.getBody();
         Object courseOfferingResolvedRef = courseOfferingBody.get("CourseReference");
 
         Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
@@ -614,8 +631,6 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("uniqueCourseId", "testCourseId");
 
         String courseReferenceDID = generateExpectedDid(naturalKeys, TENANT_ID, "course", null);
-
-        Assert.assertEquals(courseReferenceDID, courseTranscriptResolvedRef);
         Assert.assertEquals(courseReferenceDID, courseOfferingResolvedRef);
     }
 
