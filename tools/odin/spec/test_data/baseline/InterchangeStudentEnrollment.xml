@@ -18,7 +18,77 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSchoolAssociation>
     	<StudentReference>
          <StudentIdentity>
+           <StudentUniqueStateId>1</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>1</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
            <StudentUniqueStateId>2</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>2</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>2</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>3</StudentUniqueStateId>
          </StudentIdentity>
        </StudentReference>
     <SchoolReference>
@@ -40,6 +110,34 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>1</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>3</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>4</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
     <EntryGradeLevel>Kindergarten</EntryGradeLevel>
   </StudentSchoolAssociation>
@@ -47,6 +145,34 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     	<StudentReference>
          <StudentIdentity>
            <StudentUniqueStateId>4</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>4</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>5</StudentUniqueStateId>
          </StudentIdentity>
        </StudentReference>
     <SchoolReference>
@@ -68,8 +194,22 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>1</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>5</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
     	<StudentReference>
@@ -88,7 +228,77 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSchoolAssociation>
     	<StudentReference>
          <StudentIdentity>
+           <StudentUniqueStateId>6</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>6</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
            <StudentUniqueStateId>7</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>7</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>7</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>8</StudentUniqueStateId>
          </StudentIdentity>
        </StudentReference>
     <SchoolReference>
@@ -110,8 +320,22 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>2</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>8</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
     	<StudentReference>
@@ -130,6 +354,34 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSchoolAssociation>
     	<StudentReference>
          <StudentIdentity>
+           <StudentUniqueStateId>9</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>9</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
            <StudentUniqueStateId>10</StudentUniqueStateId>
          </StudentIdentity>
        </StudentReference>
@@ -140,5 +392,33 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>10</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>3</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>10</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>3</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
 </InterchangeStudentEnrollment>
