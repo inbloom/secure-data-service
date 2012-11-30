@@ -8,9 +8,10 @@ Given /^I used the long lived session token generator script to create a token f
   puts("Currently in directory #{File.dirname(__FILE__)}")
   puts("The path is #{script_loc}")
   out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
-  match = /token is (.*)/.match(out)
-  @sessionId = match[1]
-  puts("The generated token is #{@sessionId}") if $SLI_DEBUG
+  puts("The output of the script was #{out}")
+  # match = /token is (.*)/.match(out)
+  # @sessionId = match[1]
+  # puts("The generated token is #{@sessionId}") if $SLI_DEBUG
 end
 
 Then /^I should see that my role is "(.*?)"$/ do |role|
