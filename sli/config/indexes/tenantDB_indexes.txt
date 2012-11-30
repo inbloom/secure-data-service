@@ -128,11 +128,13 @@ calendarDate,false,body.date:1,body.calendarEvent:1
 course,false,body.courseCode.ID:1,body.courseCode.identificationSystem:1
 disciplineIncident,false,body.incidentIdentifier:1
 educationOrganization,false,body.stateOrganizationId:1
-educationOrganization,false,body.educationOrgIdentificationCode:1 # needs to be combined with next 
+# needs to be combined with next 
+educationOrganization,false,body.educationOrgIdentificationCode:1
 educationOrganization,false,body.educationOrgIdentificationCode.ID:1
 gradingPeriod,false,body.gradingPeriodIdentity.schoolYear:1
 graduationPlan,false,body.graduationPlanType:1
-learningObjective,false,body.learningObjectiveId:1  # needs to combined with next 
+# needs to combined with next 
+learningObjective,false,body.learningObjectiveId:1
 learningObjective,false,body.learningObjectiveId.identificationCode:1
 learningObjective,false,body.objective:1
 learningStandard,false,body.learningStandardId.identificationCode:1
