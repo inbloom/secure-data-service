@@ -132,8 +132,8 @@ class LDAPStorage
 
   # Initialize the module
   def initialize(host, port, base, username, password)
-        @people_base = "ou=people,#{base}"
-        @group_base  = "ou=groups,#{base}"
+    @people_base = "ou=people,#{base}"
+    @group_base  = "ou=groups,#{base}"
     @ldap_conf = {
         :host => host,
         :port => port,
@@ -146,7 +146,7 @@ class LDAPStorage
     }
 
     # make it secure connection if the port is 636
-    if port == 636
+    if port == 1636
       @ldap_conf[:encryption] = {    :method => :simple_tls    }
     end
 
@@ -211,7 +211,7 @@ class LDAPStorage
   end
 
   def authenticate(uid, password)
-    # retrieve the raw user record 
+    # retrieve the raw user record
     filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, uid)
     user = search_map_user_fields(filter, 1, true)[0]
     return false if !user
@@ -226,29 +226,29 @@ class LDAPStorage
     return ldap.bind
   end
 
-    # returns extended user_info
-    def read_user(email_address)
-        filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
-        return search_map_user_fields(filter, 1)[0]
-    end
-    
-    # returns extended user_info for the given emailtoken (see create_user) or nil 
-    def read_user_emailtoken(emailtoken)
-        filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
-        return search_map_user_fields(filter, 1)[0]        
-    end
+  # returns extended user_info
+  def read_user(email_address)
+    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
+    return search_map_user_fields(filter, 1)[0]
+  end
 
-    # returns extended user_info for the given resetKey (see create_user) or nil 
-    def read_user_resetkey(resetKey)
-        filter = Net::LDAP::Filter.begins(ENTITY_ATTR_MAPPING[:resetKey].to_s, resetKey + "@")
-        return search_map_user_fields(filter, 1)[0]        
-    end
+  # returns extended user_info for the given emailtoken (see create_user) or nil
+  def read_user_emailtoken(emailtoken)
+    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
+    return search_map_user_fields(filter, 1)[0]
+  end
+
+  # returns extended user_info for the given resetKey (see create_user) or nil
+  def read_user_resetkey(resetKey)
+    filter = Net::LDAP::Filter.begins(ENTITY_ATTR_MAPPING[:resetKey].to_s, resetKey + "@")
+    return search_map_user_fields(filter, 1)[0]
+  end
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
   def read_users(status=nil)
     # if a filter is provided for the status then set it otherwise just search for people
-    # Note: The filter will not capture users that do not have their status set. 
-    if status 
+    # Note: The filter will not capture users that do not have their status set.
+    if status
       filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
     else
       filter = Net::LDAP::Filter.eq(:objectClass, "inetOrgPerson")
@@ -381,10 +381,10 @@ class LDAPStorage
                   if !(ldap.add_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]))
                     puts curr_user_info
                     puts user_info
-                    
+
                     ops = [[:add, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]]]
                     ldap.modify :dn => dn, :operations => ops
-                    
+
                     raise ldap_ex(ldap, "Unable to add new attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
                   end
                 else
@@ -414,7 +414,7 @@ class LDAPStorage
       end
     end
   end
-  
+
   # delete attribute for a user
   def delete_user_attribute(email_address, attribute)
     found_user = read_user(email_address)
@@ -425,7 +425,7 @@ class LDAPStorage
       end
     end
   end
-  
+
   # retrieve one group from ldap
   def get_group(group_id)
     group_found = nil
@@ -434,8 +434,8 @@ class LDAPStorage
       group_found = ldap.search(:base => @group_base, :filter => filter).to_a()[0]
     end
     group_found
-  end 
-  
+  end
+
   #############################################################################
   # PRIVATE methods
   #############################################################################
@@ -515,6 +515,6 @@ class LDAPStorage
 
 end
 
-# usage 
+# usage
 #require 'approval'
 #storage = LDAPStorage.new("ldap.slidev.org", 389, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")

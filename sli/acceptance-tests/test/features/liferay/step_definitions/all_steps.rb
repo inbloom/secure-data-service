@@ -40,7 +40,6 @@ Then /^I click on log out$/ do
   menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
   menu = menuList.find_element(:id,"menulink")
   menu.click
-  puts menuList.find_element(:link_text, "Logout").attribute("href")
   menuList.find_element(:link_text, "Logout").click
   assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
 end
@@ -59,7 +58,7 @@ Then /^I should be on Portal home page$/ do
 end
 
 Then /^I should be on the authentication failed page$/ do
-   @driver.page_source.include?('Invalid')
+  @driver.page_source.include?('Invalid')
 end
 
 Then /^I should be on the admin page$/ do
@@ -81,7 +80,7 @@ When /^I click on Admin$/ do
   clickOnLink("Admin")
 end
 
-And /^I should see logo$/ do 
+And /^I should see logo$/ do
   logo = @driver.find_element(:class, "company-logo")
   text = @driver.find_element(:class, "sli_logo_main").text
   assert(text == "SLC", "Expected: SLC, Actual: {#text}")
@@ -138,7 +137,7 @@ Then /^under My Applications, I see the following apps: "(.*?)"$/ do |apps|
 end
 
 Then /^I switch to the iframe$/ do
-  wait = Selenium::WebDriver::Wait.new(:timeout => 15) 
+  wait = Selenium::WebDriver::Wait.new(:timeout => 20)
   wait.until{(iframe = isIframePresent()) != nil}
 end
 
@@ -159,11 +158,11 @@ def isIframePresent()
     @driver.find_element(:id,"messageContainer")
     puts "iframe contents appears to be loaded"
     return iframe
-  rescue  
+  rescue
     puts "iframe not fully loaded yet"
     @driver.switch_to.default_content
     return nil
-  end 
+  end
 end
 
 def clickOnLink(linkText)
