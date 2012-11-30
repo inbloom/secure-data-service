@@ -104,7 +104,7 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
                 am.getResource().getResourceClass().getName());
     }
 
-    private class RightCheckResourceFilter implements ResourceFilter, ContainerRequestFilter {
+    protected class RightCheckResourceFilter implements ResourceFilter, ContainerRequestFilter {
 
         private List<Right> rightList;
 
@@ -155,7 +155,8 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
             }
 
             SecurityEvent evt = builder.createSecurityEvent(
-                            resource.getResourceClass().getName(), request.getRequestUri(), 
+                            resource.getResourceClass().getName(), 
+                            request.getRequestUri(), 
                             "Failed to access URL because of insufficient rights.");
             audit(evt);
 
