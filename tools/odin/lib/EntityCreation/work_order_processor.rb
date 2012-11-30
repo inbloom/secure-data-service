@@ -60,12 +60,13 @@ class WorkOrderProcessor
           students = edOrg['students']
           unless students.nil?
             years = students.keys.sort
-            initial_grade_breakdown = students[years.first]
+            initial_year = years.first
+            initial_grade_breakdown = students[initial_year]
             initial_grade_breakdown.each{|grade, num_students|
               sessions = edOrg['sessions'].map{|session| make_session(edOrg['id'], session)}
               (1..num_students).each{|_|
-              student_id += 1
-                y.yield StudentWorkOrder.new(student_id, grade, sessions)
+                student_id += 1
+                y.yield StudentWorkOrder.new(student_id, grade, initial_year, sessions)
               }
             }
           end
@@ -83,14 +84,15 @@ class WorkOrderProcessor
 end
 
 class StudentWorkOrder
-  attr_accessor :id, :sessions, :birth_day_after
+  attr_accessor :id, :sessions, :birth_day_after, :initial_grade, :initial_year
 
-  def initialize(id, initial_grade, sessions)
+  def initialize(id, initial_grade, initial_year, sessions)
     @id = id
     @sessions = sessions
     @rand = Random.new(@id)
     @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
     @initial_grade = initial_grade
+    @initial_year = initial_year
   end
 
   def build(interchanges)
@@ -101,15 +103,15 @@ class StudentWorkOrder
     unless @enrollment_interchange.nil?
       schools = Set.new(@sessions.map{|s| s[:school]})
       schools.each{ |school|
-        gen_enrollment school
+        gen_enrollment(school, @initial_year, @initial_grade)
       }
     end
   end
 
   private
 
-  def gen_enrollment(school_id)
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id)
+  def gen_enrollment(school_id, start_year, start_grade)
+    schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
     @enrollment_interchange << schoolAssoc
   end
 

@@ -574,8 +574,7 @@ class WorldBuilder
             offering["session"]   = local_session
             offering["course"]    = course
             offering["grade"]     = grade
-            offering["sections"]  = []            
-
+            
             # add course offering into 'offerings' (course offerings for current year)
             offerings << offering
           end

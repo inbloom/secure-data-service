@@ -11,9 +11,9 @@ Given /^I used the long lived session token generator script to create a token f
   puts("The output of the script was #{out}")
   ls, ls_status = Open3.capture2("ls #{File.dirname(__FILE__)}/../../../../../../")
   puts("The contents of sli directory are #{ls}")
-  # match = /token is (.*)/.match(out)
-  # @sessionId = match[1]
-  # puts("The generated token is #{@sessionId}") if $SLI_DEBUG
+  match = /token is (.*)/.match(out)
+  @sessionId = match[1]
+  puts("The generated token is #{@sessionId}") if $SLI_DEBUG
 end
 
 Then /^I should see that my role is "(.*?)"$/ do |role|
