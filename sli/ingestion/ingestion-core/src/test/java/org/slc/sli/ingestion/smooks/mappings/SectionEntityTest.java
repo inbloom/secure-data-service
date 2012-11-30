@@ -29,18 +29,23 @@ import java.util.Set;
 import junitx.util.PrivateAccessor;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.DummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
@@ -63,6 +68,16 @@ public class SectionEntityTest {
 
     @Autowired
     private DummyEntityRepository repo;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     private Entity makeDummyEntity(final String type, final String id) {
         return new Entity() {
@@ -128,10 +143,10 @@ public class SectionEntityTest {
             + "           <CourseOfferingIdentity>                                                             "
             + "               <LocalCourseCode>LocalCourseCode0</LocalCourseCode>                              "
             + "               <SessionReference>                                                               "
-            + "               	<SessionIdentity>                                                              "
-            + "               		<EducationalOrgReference>                                                  "
-            + "               			<EducationalOrgIdentity>                                               "
-            + "               				<StateOrganizationId>StateOrganizationId1</StateOrganizationId>    "
+            + "                 <SessionIdentity>                                                              "
+            + "                     <EducationalOrgReference>                                                  "
+            + "                         <EducationalOrgIdentity>                                               "
+            + "                            <StateOrganizationId>StateOrganizationId1</StateOrganizationId>    "
             + "               			</EducationalOrgIdentity>                                              "
             + "               		</EducationalOrgReference>                                                 "
             + "               		<SessionName>session name</SessionName>                                    "
@@ -208,7 +223,7 @@ public class SectionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Section";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                validXmlTestData, recordLevelDeltaEnabledEntityNames);
+                validXmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
         neutralRecord.setAttributeField("CourseOfferingReference", "1bce2323211dfds");
         neutralRecord.setAttributeField("SessionReference", "430982345345_id");
         neutralRecord.setAttributeField("schoolId", "StateOrganizationId1");
@@ -259,7 +274,7 @@ public class SectionEntityTest {
                 + "</SessionIdentity>" + "</SessionReference>" + "</Section>" + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingUniqueSectionCode, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingUniqueSectionCode, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -293,7 +308,7 @@ public class SectionEntityTest {
                 + "</SessionIdentity>" + "</SessionReference>" + "</Section>" + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingSequenceOfCourse, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingSequenceOfCourse, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -323,7 +338,7 @@ public class SectionEntityTest {
                 + "</SessionIdentity>" + "</SessionReference>" + "</Section>" + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingCourseOfferingReference, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingCourseOfferingReference, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -356,7 +371,7 @@ public class SectionEntityTest {
                 + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingSchoolReference, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingSchoolReference, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -395,7 +410,7 @@ public class SectionEntityTest {
                 + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlIncorrectEnum, recordLevelDeltaEnabledEntityNames);
+                invalidXmlIncorrectEnum, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -415,7 +430,7 @@ public class SectionEntityTest {
         String csvTestData = "UniqueSectionCode0,4,Classroom,Televised,Regular Students,Carnegie unit,0.0,50.0,LocalCourseCode0,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,StateOrganizationId1,NCES Pilot SNCCS course code,23,SessionName0,2,1997-1998,ELU,,ProgramId0,Bilingual";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                csvTestData, recordLevelDeltaEnabledEntityNames);
+                csvTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSectionNeutralRecord(neutralRecord);
 
@@ -427,7 +442,7 @@ public class SectionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Section";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                validXmlTestData, recordLevelDeltaEnabledEntityNames);
+                validXmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSectionNeutralRecord(neutralRecord);
 
@@ -453,10 +468,8 @@ public class SectionEntityTest {
         Assert.assertEquals("LocalCourseCode0", ((Map<String, Object>) ((Map<String, Object>) entity
                 .get("CourseOfferingReference")).get("CourseOfferingIdentity")).get("LocalCourseCode"));
 
-        @SuppressWarnings("unchecked")
         Map<String, Object> schoolRef = (Map<String, Object>) entity.get("SchoolReference");
         assertNotNull(schoolRef);
-        @SuppressWarnings("unchecked")
         Map<String, Object> schoolEdOrgId = (Map<String, Object>) schoolRef.get("EducationalOrgIdentity");
         assertNotNull(schoolEdOrgId);
         assertEquals("StateOrganizationId1", schoolEdOrgId.get("StateOrganizationId"));

@@ -27,14 +27,19 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -49,6 +54,16 @@ public class AssessmentEntityTest {
 
     @Value("#{recordLvlHashNeutralRecordTypes}")
     private Set<String> recordLvlHashNeutralRecordTypes;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void edfiXmlAssessmentTest() throws IOException, SAXException {
@@ -150,7 +165,7 @@ public class AssessmentEntityTest {
                 + "</Assessment></InterchangeAssessmentMetadata>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiAssessmentXml, recordLvlHashNeutralRecordTypes);
+                targetSelector, edfiAssessmentXml, recordLvlHashNeutralRecordTypes, mockDIdStrategy, mockDIdResolver);
 
         checkValidAssessmentNeutralRecord(neutralRecord);
     }

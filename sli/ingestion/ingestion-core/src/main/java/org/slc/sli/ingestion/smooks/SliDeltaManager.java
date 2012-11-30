@@ -74,8 +74,6 @@ public final class SliDeltaManager {
         boolean isPrevIngested = false;
         String tenantId = TenantContext.getTenantId();
 
-        // US4439 TODO: clean up and put where it makes most sense
-
         // Align Ed-Fi and SLI schema recordType
         String sliEntityType = MapUtils.getString(n.getMetaData(), "sliEntityType");
         if (sliEntityType == null) {
@@ -124,8 +122,6 @@ public final class SliDeltaManager {
             isPrevIngested = false;
         }
 
-        // US4439 TODO end
-
         return isPrevIngested;
     }
 
@@ -144,7 +140,6 @@ public final class SliDeltaManager {
             if (optional) {
                 return;
             } else {
-                System.out.println("A mapping for \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
                 throw new NoNaturalKeysDefinedException("A mapping for \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
             }
         }
@@ -152,7 +147,6 @@ public final class SliDeltaManager {
         while (fieldNameTokenizer.hasMoreElements()) {
             String fieldName = (String) fieldNameTokenizer.nextElement();
             // TODO: Use NaturalKeyExtractor or an impl of the interface once we annotate SLC-Ed-Fi.xml
-//                String strValue = MapUtils.getString(attributes, fieldName);
             Object value = null;
             try {
                 value = PropertyUtils.getProperty(n.getAttributes(), fieldName);
@@ -178,7 +172,6 @@ public final class SliDeltaManager {
             String message = "The \"" + n.getRecordType() + "\" entity at location " + n.getLocationInSourceFile() + " in file \"" + n.getSourceFile()
                     + "\" is missing a value for required natural key field \"" + fieldName + "\" as specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml.";
 
-            System.out.println(message);
             throw new NaturalKeyValidationException(message);
         }
     }

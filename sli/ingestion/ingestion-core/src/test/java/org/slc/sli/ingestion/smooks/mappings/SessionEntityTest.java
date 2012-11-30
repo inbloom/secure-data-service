@@ -22,13 +22,18 @@ import static org.junit.Assert.assertEquals;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -60,13 +65,23 @@ public class SessionEntityTest {
             + "</Session>"
             + "</InterchangeEducationOrgCalendar>";
 
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void testValidSession() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                validXmlTestData, recordLevelDeltaEnabledEntityNames);
+                validXmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }
@@ -93,7 +108,7 @@ public class SessionEntityTest {
                 + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingSessionName, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingSessionName, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }
@@ -120,7 +135,7 @@ public class SessionEntityTest {
                 + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingSchoolYear, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingSchoolYear, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }
@@ -147,7 +162,7 @@ public class SessionEntityTest {
                 + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingTerm, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingTerm, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }
@@ -174,7 +189,7 @@ public class SessionEntityTest {
                 + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingBeginDate, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingBeginDate, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }
@@ -201,7 +216,7 @@ public class SessionEntityTest {
                 + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingEndDate, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingEndDate, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }
@@ -226,7 +241,7 @@ public class SessionEntityTest {
                 + "<EndDate>2012-06-22</EndDate>" + "</Session>" + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingTotalInstructionalDays, recordLevelDeltaEnabledEntityNames);
+                invalidXmlMissingTotalInstructionalDays, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }
@@ -254,7 +269,7 @@ public class SessionEntityTest {
                 + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlIncorrectEnum, recordLevelDeltaEnabledEntityNames);
+                invalidXmlIncorrectEnum, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSessionNeutralRecord(neutralRecord);
     }

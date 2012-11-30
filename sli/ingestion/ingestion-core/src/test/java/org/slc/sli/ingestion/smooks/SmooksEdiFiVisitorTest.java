@@ -15,15 +15,19 @@
  */
 package org.slc.sli.ingestion.smooks;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
+import static org.mockito.Matchers.any;
 
+import java.io.IOException;
+import java.util.Set;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.container.ExecutionContext;
 import org.milyn.javabean.context.BeanContext;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,68 +37,24 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SmooksEdiFiVisitorTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
 
-    @Test
-    public void testSEADeterministicId() throws IOException {
-        // set up objects
-        final String recordType = "stateEducationAgency";
-        testDeterministicId(recordType);
-    }
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
 
-    @Test
-    public void testLEADeterministicId() throws IOException {
-        // set up objects
-        final String recordType = "localEducationAgency";
-        testDeterministicId(recordType);
-    }
-
-    @Test
-    public void testSchoolDeterministicId() throws IOException {
-        // set up objects
-        final String recordType = "school";
-        testDeterministicId(recordType);
-    }
-
-    private void testDeterministicId(String recordType) throws IOException {
-
-        BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
-
-        // set up objects
-        final String deterministicId = "deterministicId";
-        final String stateOrgId = "STATE_ID";
-        final DummyErrorReport errorReport = new DummyErrorReport();
-        final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
-        final String beanId = "ABeanId";
-        final DeterministicUUIDGeneratorStrategy mockUUIDStrategy = Mockito
-                .mock(DeterministicUUIDGeneratorStrategy.class);
-        final ExecutionContext mockExecutionContext = Mockito.mock(ExecutionContext.class);
-        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry);
-        HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
-        recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
-        visitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
-        visitor.setBatchJobDAO(batchJobDAO);
-
-        BeanContext mockBeanContext = Mockito.mock(BeanContext.class);
-        NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setRecordType(recordType);
-        neutralRecord.setAttributeField("stateOrganizationId", stateOrgId);
-
-        // set up behavior
-        Mockito.when(mockExecutionContext.getBeanContext()).thenReturn(mockBeanContext);
-        Mockito.when(mockBeanContext.getBean(beanId)).thenReturn(neutralRecord);
-        Mockito.when(mockUUIDStrategy.generateId(Mockito.any(NaturalKeyDescriptor.class))).thenReturn(deterministicId);
-        Mockito.when(batchJobDAO.findRecordHash((String) Mockito.any(), (String) Mockito.any())).thenReturn(null);
-
-        // execute
-        visitor.visitAfter(null, mockExecutionContext);
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -111,10 +71,10 @@ public class SmooksEdiFiVisitorTest {
                 .mock(DeterministicUUIDGeneratorStrategy.class);
         final ExecutionContext mockExecutionContext = Mockito.mock(ExecutionContext.class);
         SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry);
-        HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
-        recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
-        visitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
+        visitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
         visitor.setBatchJobDAO(batchJobDAO);
+        visitor.setDIdGeneratorStrategy(mockDIdStrategy);
+        visitor.setDIdResolver(mockDIdResolver);
 
         BeanContext mockBeanContext = Mockito.mock(BeanContext.class);
         NeutralRecord neutralRecord = new NeutralRecord();
@@ -124,6 +84,7 @@ public class SmooksEdiFiVisitorTest {
         Mockito.when(mockExecutionContext.getBeanContext()).thenReturn(mockBeanContext);
         Mockito.when(mockBeanContext.getBean(beanId)).thenReturn(neutralRecord);
         Mockito.when(batchJobDAO.findRecordHash((String) Mockito.any(), (String) Mockito.any())).thenReturn(null);
+        Mockito.when(mockDIdStrategy.generateId(any(NaturalKeyDescriptor.class))).thenReturn("recordId");
 
         // execute
         visitor.visitAfter(null, mockExecutionContext);

@@ -26,17 +26,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
@@ -55,6 +60,16 @@ public class StudentEntityTest {
 
     @Autowired
     EntityValidator validator;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testValidStudent() throws Exception {
@@ -169,7 +184,7 @@ public class StudentEntityTest {
                 + "</Student></InterchangeStudentParent>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                testData, recordLevelDeltaEnabledEntityNames);
+                testData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Entity e = mock(Entity.class);
 
@@ -217,7 +232,7 @@ public class StudentEntityTest {
                 + "student,student,student,2011-01-11,2011-01-12,School,aStudent";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                studentCsv, recordLevelDeltaEnabledEntityNames);
+                studentCsv, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidStudentNeutralRecord(neutralRecord);
     }
@@ -336,7 +351,7 @@ public class StudentEntityTest {
                 + "</Student></InterchangeStudentParent>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiStudentXml, recordLevelDeltaEnabledEntityNames);
+                targetSelector, edfiStudentXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidStudentNeutralRecord(neutralRecord);
     }
