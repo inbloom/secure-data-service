@@ -122,7 +122,7 @@ class GradeLevelType
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil
-      return ordered.fetch(current - num_grades)
+      return ordered[(current - num_grades)]
     end    
     return grade
   end
@@ -135,7 +135,7 @@ class GradeLevelType
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil
-      return ordered.fetch(current + num_grades)
+      return ordered[(current + num_grades)]
     end
     return grade
   end
