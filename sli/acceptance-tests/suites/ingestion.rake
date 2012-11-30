@@ -244,6 +244,12 @@ task :ingestionUniqueSectionCodeTest do
   runTests("test/features/ingestion/features/ingestion_uniqueSectionCode.feature")
 end
 
+desc "Odin Data Set Ingestion Tests"
+task :ingestionOdinDataSet do
+  runTests("test/features/ingestion/features/ingestion_OdinDataSet.feature")
+end
+
+
 ############################################################
 # Ingestion tests end
 ############################################################

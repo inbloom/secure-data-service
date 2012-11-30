@@ -2,7 +2,7 @@
 Feature: As an admin I can create admin accounts for tenancies I administer
 
   Background: none
-	
+
 	@production
 	Scenario Outline: SLC Operator, SEA Administrator, LEA Administrator, Sandbox SLC Operator, and Sandbox Administrator have access the Super Administrator Management Tool
 	Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
@@ -373,3 +373,29 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   Then I should receive a return code "403"
   Then I have logged in to realm "SLI" using "operator" "operator1234"
   And I delete the test user "il2admin"
+
+
+  Scenario Outline:  I can not change home directory for users I have permission with
+    Given I have logged in to realm "SLI" using "<USER>" "<PASS>"
+    And I create a new "Ingestion User" "il2admin" with tenant "<TENANT>" and edorg "<EDORG>"
+    And I verify this new user has home directory "/dev/null"
+    Then I try to change his home directory to "/"
+    And It will not change
+
+  Examples:
+    |USER                  |PASS                     |TENANT                          |EDORG         |
+    |operator              |operator1234             |Midgar                          |IL-SUNSET     |
+    |sunsetadmin           |sunsetadmin1234          |Midgar                          |IL-SUNSET     |
+    |iladmin               |iladmin1234              |Midgar                          |IL-SUNSET     |
+    |sandboxadministrator  |sandboxadministrator1234 |sandboxadministrator@slidev.org |STANDARD-SEA  |
+
+@production
+Scenario: Unhappy Path: DE2179 Ensure I can't delete users outside my tenant
+Given I have logged in to realm "SLI" using "operator" "operator234"
+And I create a new "SEA Administrator" "tenant-b-sea" with tenant "B" and edorg "IL-SUNSET"
+When I navigate to GET "/users"
+Then I should see user "tenant-b-sea"
+Given I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
+When I attempt to delete the user "tenant-b-sea"
+Then I should receive a return code "404"
+

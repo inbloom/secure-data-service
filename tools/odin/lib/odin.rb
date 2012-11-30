@@ -68,7 +68,7 @@ class Odin
     # |   100000   |       277 sec      |   460 Mb    |  -43 sec  | +428 Mb  |
     #
     
-    run_work_orders scenarioYAML, batchSize
+    WorkOrderProcessor.run edOrgs, batchSize
 
     finalTime = Time.now - time
     @log.info "Total generation time: #{finalTime} secs"

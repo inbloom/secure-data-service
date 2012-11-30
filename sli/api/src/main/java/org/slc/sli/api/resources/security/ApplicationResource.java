@@ -206,13 +206,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { 
-        	if (sandboxEnabled) {
-        		// Sandbox developer can see all apps in their tenancy
-        		query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId(), false));
-        	} else {
-        		// Prod. Developer sees all apps they own
-        		query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal .getExternalId()));
-        	}
+            if (sandboxEnabled) {
+                // Sandbox developer can see all apps in their tenancy
+                query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId(), false));
+            } else {
+                // Prod. Developer sees all apps they own
+                query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal .getExternalId()));
+            }
         } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
 
             //know this is ugly, but having trouble getting or queries to work
@@ -438,21 +438,21 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         if (sandboxEnabled) {
-        	@SuppressWarnings("unchecked")
-        	Map<String, Object> metaData = (Map<String, Object>) app.get("metaData");
-        	if (metaData != null) {
-        		String tenantId = (String) metaData.get("tenantId");
-        		if (tenantId != null && tenantId.equals(principal.getTenantId())) {
-        			return;
-        		}
-        	}
-        	throw new AccessDeniedException("Developer " + principal.getExternalId()
-        			+ " does not share the same tenant as the creator of this app and cannot modify it.");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> metaData = (Map<String, Object>) app.get("metaData");
+            if (metaData != null) {
+                String tenantId = (String) metaData.get("tenantId");
+                if (tenantId != null && tenantId.equals(principal.getTenantId())) {
+                    return;
+                }
+            }
+            throw new AccessDeniedException("Developer " + principal.getExternalId()
+                    + " does not share the same tenant as the creator of this app and cannot modify it.");
         } else {
-        	if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
-        		throw new AccessDeniedException("Developer " + principal.getExternalId()
-        				+ " is not the creator of this app and cannot modify it.");
-        	}
+            if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
+                throw new AccessDeniedException("Developer " + principal.getExternalId()
+                        + " is not the creator of this app and cannot modify it.");
+            }
         }
     }
 

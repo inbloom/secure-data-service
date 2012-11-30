@@ -654,6 +654,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @SuppressWarnings("serial")
     private static final class TransformableXmlString implements Serializable {
+        private static final long serialVersionUID = 1L;
         private final String string;
         private final boolean isTransformed;
 

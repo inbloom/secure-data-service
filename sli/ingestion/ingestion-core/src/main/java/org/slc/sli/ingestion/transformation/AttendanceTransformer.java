@@ -141,7 +141,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
             if (attributes.containsKey(SCHOOL_ID)) {
                 Object stateOrganizationId = attributes.get(SCHOOL_ID);
-                if (stateOrganizationId != null && stateOrganizationId instanceof String) {
+                if (stateOrganizationId instanceof String) {
                     String schoolId = (String) stateOrganizationId;
                     List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
 
@@ -767,7 +767,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      * TODO: add javadoc
      *
      */
-    class SchoolYearAttendance {
+    static class SchoolYearAttendance {
         private String schoolYear;
         private List<Map<String, Object>> attendanceEvent;
 

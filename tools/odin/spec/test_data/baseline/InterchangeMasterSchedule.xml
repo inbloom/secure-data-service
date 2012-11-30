@@ -13,17 +13,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000001</UniqueCourseId>
@@ -42,17 +42,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000002</UniqueCourseId>
@@ -71,17 +71,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000003</UniqueCourseId>
@@ -100,17 +100,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000004</UniqueCourseId>
@@ -129,17 +129,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000005</UniqueCourseId>
@@ -158,17 +158,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000006</UniqueCourseId>
@@ -187,17 +187,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000001</UniqueCourseId>
@@ -216,17 +216,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000002</UniqueCourseId>
@@ -245,17 +245,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000003</UniqueCourseId>
@@ -274,17 +274,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000004</UniqueCourseId>
@@ -303,17 +303,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000005</UniqueCourseId>
@@ -332,17 +332,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000006</UniqueCourseId>
@@ -361,17 +361,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000001</UniqueCourseId>
@@ -390,17 +390,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000002</UniqueCourseId>
@@ -419,17 +419,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000003</UniqueCourseId>
@@ -448,17 +448,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000004</UniqueCourseId>
@@ -477,17 +477,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000005</UniqueCourseId>
@@ -506,17 +506,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000005</StateOrganizationId>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000005</SessionName>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000006</UniqueCourseId>
@@ -524,530 +524,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000001</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000007</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000002</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000008</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000003</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000009</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000004</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000010</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000005</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000011</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000006</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000012</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000007</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000013</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000008</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000014</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000009</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000015</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000010</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000016</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000011</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000017</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000012</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000018</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000013</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000007</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000014</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000008</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000015</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000009</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000016</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000010</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000017</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000011</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000018</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000012</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
     <LocalCourseCode>cofr-0000000019</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>midl-0000000002</StateOrganizationId>
@@ -1060,196 +538,22 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000013</UniqueCourseId>
+        <UniqueCourseId>crse-0000000007</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000020</LocalCourseCode>
-    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000014</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000021</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000015</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000022</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000016</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000023</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000017</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000024</LocalCourseCode>
-    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000018</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000025</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>midl-0000000002</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000007</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000026</LocalCourseCode>
     <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1263,14 +567,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000008</UniqueCourseId>
@@ -1278,7 +582,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000027</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000021</LocalCourseCode>
     <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1292,14 +596,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000009</UniqueCourseId>
@@ -1307,7 +611,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000028</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000022</LocalCourseCode>
     <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1321,14 +625,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000010</UniqueCourseId>
@@ -1336,7 +640,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000029</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000023</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1350,14 +654,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000011</UniqueCourseId>
@@ -1365,7 +669,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000030</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000024</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1379,14 +683,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000012</UniqueCourseId>
@@ -1394,7 +698,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000031</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000025</LocalCourseCode>
     <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1408,14 +712,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000013</UniqueCourseId>
@@ -1423,7 +727,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000032</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000026</LocalCourseCode>
     <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1437,14 +741,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000014</UniqueCourseId>
@@ -1452,7 +756,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000033</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000027</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1466,14 +770,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000015</UniqueCourseId>
@@ -1481,7 +785,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000034</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000028</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1495,14 +799,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000016</UniqueCourseId>
@@ -1510,7 +814,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000035</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000029</LocalCourseCode>
     <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1524,14 +828,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000017</UniqueCourseId>
@@ -1539,7 +843,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000036</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000030</LocalCourseCode>
     <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1553,14 +857,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000018</UniqueCourseId>
@@ -1568,881 +872,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000001</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000019</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000002</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000020</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000003</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000021</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000004</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000022</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000005</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000023</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000006</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000024</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000007</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000025</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000008</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000026</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000009</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000027</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000010</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000028</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000011</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000029</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000012</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000030</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000013</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000031</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000014</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000032</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000015</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000033</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000016</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000034</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000017</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000019</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000018</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000020</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000019</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000021</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000020</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000022</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000021</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000023</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000022</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000024</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000023</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000025</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000024</LocalCourseCode>
-    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000026</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000025</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000027</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000026</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000028</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000027</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000029</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000028</LocalCourseCode>
-    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000030</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000029</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000031</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
-    <LocalCourseCode>cofr-0000000030</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000032</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-  </CourseOffering>
-  <CourseOffering>
     <LocalCourseCode>cofr-0000000031</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -2459,19 +893,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000033</UniqueCourseId>
+        <UniqueCourseId>crse-0000000007</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000032</LocalCourseCode>
-    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -2488,19 +922,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000034</UniqueCourseId>
+        <UniqueCourseId>crse-0000000008</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000033</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -2510,26 +944,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000019</UniqueCourseId>
+        <UniqueCourseId>crse-0000000009</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000034</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
+    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -2539,26 +973,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000020</UniqueCourseId>
+        <UniqueCourseId>crse-0000000010</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000035</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -2568,26 +1002,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000021</UniqueCourseId>
+        <UniqueCourseId>crse-0000000011</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000036</LocalCourseCode>
-    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-0000000003</StateOrganizationId>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -2597,22 +1031,1588 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>locl-0000000004</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000022</UniqueCourseId>
+        <UniqueCourseId>crse-0000000012</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
     <LocalCourseCode>cofr-0000000037</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000013</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000038</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000014</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000039</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000015</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000040</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000016</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000041</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000017</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000042</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000018</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000043</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000007</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000044</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000008</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000045</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000009</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000046</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000010</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000047</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000011</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000048</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000012</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000049</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000013</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000050</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000014</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000051</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000015</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000052</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000016</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000053</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000017</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000054</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000018</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000055</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000019</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000056</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000020</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000057</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000021</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000058</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000022</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000059</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000023</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000060</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000024</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000061</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000025</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000062</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000026</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000063</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000027</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000064</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000028</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000065</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000029</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000066</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000030</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000067</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000031</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000068</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000032</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000069</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000033</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000070</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000034</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000071</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000019</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000072</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000020</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000073</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000021</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000074</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000022</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000075</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000023</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000076</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000024</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000077</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000025</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000078</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000026</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000079</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000027</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000080</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000028</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000081</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000029</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000082</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000030</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000083</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000031</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000084</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000032</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000085</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000033</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000086</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000034</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000087</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000019</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000088</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000020</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000089</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000021</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000090</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>crse-0000000022</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>cofr-0000000091</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2633,7 +2633,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000023</UniqueCourseId>
@@ -2641,7 +2641,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000038</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000092</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2662,7 +2662,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000024</UniqueCourseId>
@@ -2670,7 +2670,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000039</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000093</LocalCourseCode>
     <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2691,7 +2691,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000025</UniqueCourseId>
@@ -2699,7 +2699,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000040</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000094</LocalCourseCode>
     <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2720,7 +2720,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000026</UniqueCourseId>
@@ -2728,7 +2728,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000041</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000095</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2749,7 +2749,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000027</UniqueCourseId>
@@ -2757,7 +2757,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000042</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000096</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2778,7 +2778,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000028</UniqueCourseId>
@@ -2786,7 +2786,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000043</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000097</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2807,7 +2807,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000029</UniqueCourseId>
@@ -2815,7 +2815,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000044</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000098</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2836,7 +2836,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000030</UniqueCourseId>
@@ -2844,7 +2844,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000045</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000099</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2865,7 +2865,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000031</UniqueCourseId>
@@ -2873,7 +2873,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000046</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000100</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2894,7 +2894,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000032</UniqueCourseId>
@@ -2902,7 +2902,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000047</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000101</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2923,7 +2923,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000033</UniqueCourseId>
@@ -2931,7 +2931,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000048</LocalCourseCode>
+    <LocalCourseCode>cofr-0000000102</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2952,7 +2952,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>stte-0000000006</StateOrganizationId>
+            <StateOrganizationId>stte-0000000005</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>crse-0000000034</UniqueCourseId>
