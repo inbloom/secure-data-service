@@ -521,7 +521,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
      */
     public RecordHash findRecordHash(String tenantId, String recordId) {
         Map<String, Object> map = (Map <String, Object>) this.batchJobHashCacheMongoTemplate.findOne(recordHashQuery(recordId), Map.class, RECORD_HASH);
-        if ( null == map )
+        if (null == map)
         	return null;
         return new RecordHash(map);
     }
