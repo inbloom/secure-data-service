@@ -22,7 +22,7 @@ $LOAD_PATH << testdir + "/../lib"
 require 'approval'
 
 
-ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
+ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{", true)
 
 username = "ychen"
 password = "yC12345!"
