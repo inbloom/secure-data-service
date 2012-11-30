@@ -57,6 +57,15 @@ public class SmooksEdiFiVisitorTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    /*
+     * TODO Add coverage for
+     * SmooksEdFiVisitor.java
+     * (low) visitAfter
+     *      No test for SliDeltaManager.isPreviouslyIngested(...) returning true
+     * (low) writeAndClearQueuedNeutralRecords
+     * (low) visitBefore, onChildElement, and onChildText could throw Unsupported Exception
+     */
+
     @Test
     public void testNonAssignedId() throws IOException {
 

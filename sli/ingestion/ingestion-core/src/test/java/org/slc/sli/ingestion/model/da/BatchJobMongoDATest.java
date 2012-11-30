@@ -70,6 +70,11 @@ import org.slc.sli.ingestion.util.BatchJobUtils2;
  *
  * @author bsuzuki
  *
+ * TODO Missing unit test coverage as of sprint 6.5 start
+ * (low) findLatestBatchJob
+ * (low) createPersistenceLatch - MongoException
+ * (medium) getStagedEntitiesForJob
+ * (medium) removeAllPersistedStagedEntitiesFromJob
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -426,15 +431,15 @@ public class BatchJobMongoDATest {
         DBAnswer dbAnswer = new DBAnswer();
         doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
         doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
-        
+
         // insert a record not in the db
         String testTenantId = "TestTenant";
         String testRecordHashId = "TestRecordHashId";
-        
+
         // Record should not be in the db
         RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNull(rh);
-        
+
         mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "TestRecordHashValues");
         long savedTimestamp =  dbAnswer.savedRecordHash.updated;
         String savedId        =  dbAnswer.savedRecordHash._id;

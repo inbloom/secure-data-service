@@ -59,6 +59,11 @@ public class SliDeltaManagerTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    /**
+     * TODO Unit test coverage for the following items:
+     * (low) NoSuchAlgorithmException
+     * (low) UnsupportedEncodingException
+     */
     @Test
     public void testIsPreviouslyIngested()  {
         NeutralRecord originalRecord = createBaseNeutralRecord();
