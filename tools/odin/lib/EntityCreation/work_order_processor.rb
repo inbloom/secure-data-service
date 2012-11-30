@@ -34,12 +34,12 @@ class WorkOrderProcessor
     work_order.build(@interchanges)
   end
 
-  def self.run(world, batch_size)
+  def self.run(world,  scenarioYAML)
     File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-      studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
+      studentParent = StudentParentInterchangeGenerator.new(scenarioYAML, studentParentFile)
       studentParent.start
       File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-        enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
+        enrollment = EnrollmentGenerator.new(scenarioYAML, enrollmentFile)
         enrollment.start
         interchanges = {:studentParent => studentParent, :enrollment => enrollment}
         processor = WorkOrderProcessor.new(interchanges)
@@ -89,7 +89,7 @@ class StudentWorkOrder
     @id = id
     @edOrg = edOrg
     @rand = Random.new(@id)
-    @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
+    @birth_day_after = Date.new(initial_year - find_age(initial_grade),9,1)
     @initial_grade = initial_grade
     @initial_year = initial_year
   end
@@ -97,8 +97,8 @@ class StudentWorkOrder
   def build(interchanges)
     @student_interchange = interchanges[:studentParent]
     @enrollment_interchange = interchanges[:enrollment]
-    s = Student.new(@id, @birth_day_after)
-    @student_interchange << s unless @student_interchange.nil?
+    student = Student.new(@id, @birth_day_after)
+    @student_interchange << student unless @student_interchange.nil?
     unless @enrollment_interchange.nil?
       @edOrg['sessions'].each{ |session|
         year = session['year']
@@ -117,6 +117,10 @@ class StudentWorkOrder
 
   def self.make_session(school, session)
     {:school => school, :sessionInfo => session}
+  end
+
+  def find_age(grade)
+    5 + GradeLevelType.get_ordered_grades.index(grade)
   end
 
 end

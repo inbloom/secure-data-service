@@ -26,8 +26,8 @@ Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load
 
 class EnrollmentGenerator < InterchangeGenerator
 
-  def initialize(interchange, batchSize)
-    super(interchange, batchSize)
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
     @header, @footer = build_header_footer( "StudentEnrollment" )
 
