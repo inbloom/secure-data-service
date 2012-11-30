@@ -46,7 +46,6 @@ import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -90,7 +89,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
 
+    	if  ( "calendarDate".equals(item.getRecordType()) )
+    		System.err.println("Before: " + item.getAttributes()); 
+    	
         resolveReferences(item, errorReport);
+        
+    	if  ( "calendarDate".equals(item.getRecordType()) )
+    		System.err.println("After: " + item.getAttributes()); 
 
         if (errorReport.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.resolveReferences()");

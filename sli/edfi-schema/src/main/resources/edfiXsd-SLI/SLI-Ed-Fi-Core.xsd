@@ -132,7 +132,7 @@
         <xs:annotation>
             <xs:documentation>Added EducationOrgReference.</xs:documentation>
             <xs:appinfo>
-                <sli:recordType>cohort</sli:recordType>
+                <sli:recordType>calendarDate</sli:recordType>
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
