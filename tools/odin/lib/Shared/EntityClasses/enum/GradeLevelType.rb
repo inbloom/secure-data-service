@@ -139,4 +139,11 @@ class GradeLevelType
     end
     return grade
   end
+
+  # return what type of school offers this grade
+  def self.school_type(grade)
+    (elementary.include?(grade) and :elementary) or
+    (middle.include?(grade) and :middle) or
+    (high.include?(grade) and :high)
+  end
 end

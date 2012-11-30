@@ -69,7 +69,7 @@ class WorkOrderProcessor
 end
 
 class StudentWorkOrder
-  attr_accessor :id, :sessions, :birth_day_after, :initial_grade, :initial_year
+  attr_accessor :id, :edOrg, :birth_day_after, :initial_grade, :initial_year
 
   def self.gen_work_orders(students, edOrg, start_with_id, yielder)
     student_id = start_with_id
@@ -77,18 +77,17 @@ class StudentWorkOrder
     initial_year = years.first
     initial_grade_breakdown = students[initial_year]
     initial_grade_breakdown.each{|grade, num_students|
-      sessions = edOrg['sessions'].map{|session| make_session(edOrg['id'], session)}
       (1..num_students).each{|_|
         student_id += 1
-        yielder.yield StudentWorkOrder.new(student_id, grade, initial_year, sessions)
+        yielder.yield StudentWorkOrder.new(student_id, grade, initial_year, edOrg)
       }
     }
     student_id
  end
 
-  def initialize(id, initial_grade, initial_year, sessions)
+  def initialize(id, initial_grade, initial_year, edOrg)
     @id = id
-    @sessions = sessions
+    @edOrg = edOrg
     @rand = Random.new(@id)
     @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
     @initial_grade = initial_grade
@@ -101,9 +100,10 @@ class StudentWorkOrder
     s = Student.new(@id, @birth_day_after)
     @student_interchange << s unless @student_interchange.nil?
     unless @enrollment_interchange.nil?
-      schools = Set.new(@sessions.map{|s| s[:school]})
-      schools.each{ |school|
-        gen_enrollment(school, @initial_year, @initial_grade)
+      @edOrg['sessions'].each{ |session|
+        year = session['year']
+        grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
+        gen_enrollment(@edOrg['id'], year, grade) unless grade.nil?
       }
     end
   end
