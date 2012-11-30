@@ -402,7 +402,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @SuppressWarnings("deprecation")
     @POST
     @Path("{" + UUID + "}" + "/preload")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({Right.INGEST_DATA})
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
