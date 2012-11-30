@@ -67,23 +67,20 @@ module Eventbus
         db = @connection.db(@config[:mongo_db])
         coll = db[@config[:mongo_oplog_collection]]
         cursor = nil
-        
         if initial_empty
           @logger.info "ignoring initial readings" if @logger
           last_ts = get_last_timestamp()
-          if last_ts
-            # if last timestamp exists, then find entries that happened after that time
-            @logger.info "using the last timestamp saved" if @logger
-            cursor = coll.find({'ts' => {'$gte'=> BSON::Timestamp.new(Integer(last_ts), 0) }})
-            cursor.add_option(Mongo::Constants::OP_QUERY_TAILABLE)
-            cursor.add_option(Mongo::Constants::OP_QUERY_OPLOG_REPLAY)
-            cursor.add_option(Mongo::Constants::OP_QUERY_NO_CURSOR_TIMEOUT)
-          else
-            # skip to the last entry 
-            @logger.info "skipping to the current last entry" if @logger
-            start_count = coll.count
-            cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true, :order => [['$natural', 1]]).skip(start_count- 1)
+          # if time stamp is not found in mongo, use the current time
+          if !last_ts
+            @logger.info "using current timestamp" if @logger
+            last_ts = Time.now.to_i
           end
+          @logger.info "using timestamp #{last_ts}" if @logger
+          cursor = coll.find({'ts' => {'$gte'=> BSON::Timestamp.new(Integer(last_ts), 0) }})
+          cursor.add_option(Mongo::Constants::OP_QUERY_TAILABLE)
+          cursor.add_option(Mongo::Constants::OP_QUERY_OPLOG_REPLAY)
+          cursor.add_option(Mongo::Constants::OP_QUERY_NO_CURSOR_TIMEOUT)
+        
           #TODO Do we want to go to end? or just start processing from here?
           while cursor.has_next?
             cursor.next_document

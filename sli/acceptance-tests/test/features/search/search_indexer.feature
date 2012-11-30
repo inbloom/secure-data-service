@@ -1,4 +1,4 @@
-@RALLY_US4006
+@RALLY_US4006 @clearIndexer
 Feature:  Search Indexer: Scheduler, Extract, Index
 
 Background:
