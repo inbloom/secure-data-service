@@ -34,12 +34,12 @@ class WorkOrderProcessor
     work_order.build(@interchanges)
   end
 
-  def self.run(world, batch_size)
+  def self.run(world,  scenarioYAML)
     File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-      studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
+      studentParent = StudentParentInterchangeGenerator.new(scenarioYAML, studentParentFile)
       studentParent.start
       File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-        enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
+        enrollment = EnrollmentGenerator.new(scenarioYAML, enrollmentFile)
         enrollment.start
         interchanges = {:studentParent => studentParent, :enrollment => enrollment}
         processor = WorkOrderProcessor.new(interchanges)

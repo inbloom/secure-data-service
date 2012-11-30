@@ -20,7 +20,7 @@ require_relative '../lib/OutputGeneration/XML/enrollmentGenerator'
 
 describe 'EnrollmentGenerator' do
   let(:interchange) {StringIO.new('', 'w')}
-  let(:generator) {EnrollmentGenerator.new(interchange, 1)}
+  let(:generator) {EnrollmentGenerator.new(get_spec_scenario(), interchange)}
   let(:ssa) {StudentSchoolAssociation.new(42, 64, 2004, :FIRST_GRADE)}
   describe '<<' do
     it 'will write a studentSchoolAssociation to edfi' do
