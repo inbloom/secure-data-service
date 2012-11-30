@@ -832,6 +832,34 @@ public class DidReferenceResolutionTest {
         checkId(entity, "TeacherReference", naturalKeys, "staff");
     }
 
+    @Test
+    public void resolvesGradebookEntryRefDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+        schoolNaturalKeys.put("stateOrganizationId", "this school");
+        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+        sectionNaturalKeys.put("schoolId", schoolId);
+        sectionNaturalKeys.put("uniqueSectionCode", "this section");
+        String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("gradebookEntryId", "Unit test");
+        naturalKeys.put("dateAssigned", "2011-09-15");
+        naturalKeys.put("sectionId", sectionDid);
+
+        // section is the parent entity, so use sectionDid when generating expected DID
+        String refId = generateExpectedDid(naturalKeys, TENANT_ID, "gradebookEntry", sectionDid);
+        Map<String, Object> body = entity.getBody();
+        Object resolvedRef = body.get("GradebookEntryReference");
+        Assert.assertEquals(refId, resolvedRef);
+    }
+
     // generate the expected deterministic ids to validate against
     private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
         NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, parentId);
