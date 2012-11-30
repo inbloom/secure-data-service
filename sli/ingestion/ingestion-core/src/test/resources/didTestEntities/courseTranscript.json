@@ -15,6 +15,33 @@
                },
                "UniqueCourseId":"testCourseId"
            }
+        },
+        "StudentAcademicRecordReference":
+        {
+            "StudentAcademicRecordIdentity":
+            {
+                "StudentReference":
+                {
+                    "StudentIdentity":
+                    {
+                        "StudentUniqueStateId":"100000000"
+                    }
+                },
+                "SessionReference":
+                {
+                   "SessionIdentity":
+                   {
+                       "EducationalOrgReference":
+                       {
+                           "EducationalOrgIdentity":
+                            {
+                                "StateOrganizationId":"testSchoolId"
+                            }
+                       },
+                       "SessionName":"theSessionName"
+                   }
+                }
+            }
         }
     }
 }

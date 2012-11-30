@@ -69,13 +69,4 @@ public class LandingZoneProcessor implements Processor {
         return result;
     }
 
-    /**
-     * Obtain the hostname for the ingestion server running.
-     *
-     * @throws UnknownHostException
-     */
-    private String getHostname() throws UnknownHostException {
-        return InetAddress.getLocalHost().getHostName();
-    }
-
 }

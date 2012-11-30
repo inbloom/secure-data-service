@@ -93,7 +93,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             String objective = getByPath("objective", attributes);
             String academicSubject = getByPath("academicSubject", attributes);
             String objectiveGradeLevel = getByPath("objectiveGradeLevel", attributes);
-            if (objective != null && academicSubject != null && academicSubject != null) {
+            if (objective != null && academicSubject != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject,
                         objectiveGradeLevel))) {
                     super.getErrorReport(lo.getSourceFile()).error(
@@ -128,42 +128,40 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (Map<String, Object> childLORef : childLearningObjRefs) {
 
-            if (childLearningObjRefs != null) {
-                String objective = getByPath("LearningObjectiveIdentity.Objective", childLORef);
-                String academicSubject = getByPath("LearningObjectiveIdentity.AcademicSubject", childLORef);
-                String objectiveGradeLevel = getByPath("LearningObjectiveIdentity.ObjectiveGradeLevel", childLORef);
+            String objective = getByPath("LearningObjectiveIdentity.Objective", childLORef);
+            String academicSubject = getByPath("LearningObjectiveIdentity.AcademicSubject", childLORef);
+            String objectiveGradeLevel = getByPath("LearningObjectiveIdentity.ObjectiveGradeLevel", childLORef);
 
-                LearningObjectiveId loId = new LearningObjectiveId(objective, academicSubject, objectiveGradeLevel);
-                NeutralRecord childNR = learningObjectiveIdMap.get(loId);
+            LearningObjectiveId loId = new LearningObjectiveId(objective, academicSubject, objectiveGradeLevel);
+            NeutralRecord childNR = learningObjectiveIdMap.get(loId);
 
-                if (childNR != null) {
-                    setParentObjectiveRef(childNR, parentLearningObjRefs);
+            if (childNR != null) {
+                setParentObjectiveRef(childNR, parentLearningObjRefs);
+            } else {
+                // try sli db
+                NeutralQuery query = new NeutralQuery();
+                query.addCriteria(new NeutralCriteria("objective", NeutralCriteria.OPERATOR_EQUAL, objective));
+                query.addCriteria(new NeutralCriteria("academicSubject", NeutralCriteria.OPERATOR_EQUAL,
+                        academicSubject));
+                query.addCriteria(new NeutralCriteria("objectiveGradeLevel", NeutralCriteria.OPERATOR_EQUAL,
+                        objectiveGradeLevel));
+
+                Entity childEntity = getMongoEntityRepository().findOne("learningObjective", query);
+
+                if (childEntity != null) {
+                    NeutralRecord childEntityNR = new NeutralRecord();
+                    childEntityNR.setAttributes(childEntity.getBody());
+                    childEntityNR.setRecordType(childEntity.getType());
+                    childEntityNR.setBatchJobId(parentLO.getBatchJobId());
+                    setParentObjectiveRef(childEntityNR, parentLearningObjRefs);
+
+                    // add this entity to our NR working set
+                    transformedLearningObjectives.add(childEntityNR);
                 } else {
-                    // try sli db
-                    NeutralQuery query = new NeutralQuery();
-                    query.addCriteria(new NeutralCriteria("objective", NeutralCriteria.OPERATOR_EQUAL, objective));
-                    query.addCriteria(new NeutralCriteria("academicSubject", NeutralCriteria.OPERATOR_EQUAL,
-                            academicSubject));
-                    query.addCriteria(new NeutralCriteria("objectiveGradeLevel", NeutralCriteria.OPERATOR_EQUAL,
-                            objectiveGradeLevel));
-
-                    Entity childEntity = getMongoEntityRepository().findOne("learningObjective", query);
-
-                    if (childEntity != null) {
-                        NeutralRecord childEntityNR = new NeutralRecord();
-                        childEntityNR.setAttributes(childEntity.getBody());
-                        childEntityNR.setRecordType(childEntity.getType());
-                        childEntityNR.setBatchJobId(parentLO.getBatchJobId());
-                        setParentObjectiveRef(childEntityNR, parentLearningObjRefs);
-
-                        // add this entity to our NR working set
-                        transformedLearningObjectives.add(childEntityNR);
-                    } else {
-                        super.getErrorReport(parentLO.getSourceFile()).error(
-                                "Could not resolve LearningObjectiveReference with Objective: " + objective
-                                        + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel"
-                                        + objectiveGradeLevel, this);
-                    }
+                    super.getErrorReport(parentLO.getSourceFile()).error(
+                            "Could not resolve LearningObjectiveReference with Objective: " + objective
+                                    + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel"
+                                    + objectiveGradeLevel, this);
                 }
             }
         }
