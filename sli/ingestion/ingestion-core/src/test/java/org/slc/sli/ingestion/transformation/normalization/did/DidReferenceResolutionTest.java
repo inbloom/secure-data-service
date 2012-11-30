@@ -135,6 +135,24 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
+    public void resolvesGraduationPlanDidInStudentSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("educationOrganizationId", "someEdOrg");
+        String edOrgId = generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("educationOrganizationId", edOrgId);
+        naturalKeys.put("graduationPlanType", "this graduation plan type");
+
+        checkId(entity, "GraduationPlanReference", naturalKeys, "graduationPlan");
+    }
+
+    @Test
     public void resolvesSessionRefDidsInCourseOfferingCorrectly() throws JsonParseException, JsonMappingException,
             IOException {
         Entity entity = loadEntity("didTestEntities/courseOffering.json");

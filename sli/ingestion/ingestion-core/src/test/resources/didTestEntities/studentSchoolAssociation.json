@@ -15,6 +15,20 @@
             {
                 "StateOrganizationId":"testSchoolId"
             }
+        },
+        "GraduationPlanReference":
+        {
+            "GraduationPlanIdentity":
+            {
+                "GraduationPlanType":"this graduation plan type",
+                "EducationalOrgReference":
+                {
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"someEdOrg"
+                    }
+                }
+            }
         }
     }
 }
