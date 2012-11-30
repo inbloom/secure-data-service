@@ -1,3 +1,5 @@
+require 'mongo'
+
 def indexTenantDb(host,dbName)
   
   dbConn = Mongo::Connection.new(host)
@@ -52,6 +54,6 @@ if __FILE__ == $0
     puts "Usage: " + $0 + " <host> <database name>"
     exit(1)
   end
-TENANTDB_INDEX_FILE = File.expand_path("../indexes/tenantDB_indexes.txt", __FILE__)
+TENANTDB_INDEX_FILE = File.expand_path("../../indexes/tenantDB_indexes.txt", __FILE__)
 indexTenantDb(ARGV[0], ARGV[1])
 end
