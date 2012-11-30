@@ -923,12 +923,12 @@ class WorldBuilder
     hs_cycle = high.cycle
     mid.each{|school|
       hs = hs_cycle.next
-      school['feeders'] = [hs['id']]
+      school['feeds_to'] = [hs['id']]
     }
     mid_cycle = mid.cycle
     elem.each{|school|
       ms = mid_cycle.next
-      school['feeders'] = [ms['id'], ms['feeders'][0]]
+      school['feeds_to'] = [ms['id'], ms['feeds_to'][0]]
     }
   end
 end
