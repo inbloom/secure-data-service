@@ -15,25 +15,31 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-# uncomment this out to enable profiling.
-# require 'perftools'
-# PerfTools::CpuProfiler.start("/tmp/odin_profile")
+require 'mustache'
+require_relative './TemplateCache'
 
-require_relative 'lib/odin'
+class EntityWriter < Mustache
 
-# Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
-scenario = nil
-if ARGV.length > 0
-  tmp = ARGV.last();
-  if File.file?("scenarios/#{tmp}")
-    scenario = tmp
-  else
-    puts "Specified scenario (\"#{tmp}\") does not exist.\n"
-    exit(1)
+  def initialize(template_name)
+    @template_cache = TemplateCache.instance()
+    @template_name = template_name
+    @entity = nil
+
+    ## Enable this to debug mustache issues. This asserts for any missing context lookups.
+    # @raise_on_context_miss = true
   end
+
+  def partial(name)
+    @template_cache.templates["#{name}"]
+  end
+
+  def entity
+    @entity
+  end
+
+  def write(entity)
+    @entity = entity
+    render(@template_cache.templates[@template_name], entity)
+  end
+
 end
-
-o = Odin.new
-o.generate( scenario )
-
-# PerfTools::CpuProfiler.stop
