@@ -45,8 +45,6 @@ class EulasController < ApplicationController
         redirect_to APP_CONFIG['redirect_slc_url']
       end
     rescue Exception => e
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
       render :noframe_500, :status => 500
     end
 

@@ -50,7 +50,7 @@ class ApplicationMailer < ActionMailer::Base
   def notify_reset_password(email, key)
     user = APP_LDAP_CLIENT.read_user(email)
     @fullName = user[:first] + " " + user[:last]
-    Rails.logger.info("user status is: #{user[:status]}")
+    logger.info("user status is: #{user[:status]}")
     if user[:status]=="submitted"
       @resetPasswordUrl=APP_CONFIG['email_replace_uri']+"/resetPassword/newAccount/"+key
     else
@@ -92,7 +92,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def notify_developer(app, first_name)
-    Rails.logger.debug {"Mailing to: #{app.metaData.createdBy}"}
+    logger.debug {"Mailing to: #{app.metaData.createdBy}"}
     @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
     @firstName = first_name
     @app = app
@@ -102,7 +102,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def samt_verify_email(email_address, firstName, primary_role,reset_password_link)
-    Rails.logger.info {"samt verification email is sent to: #{email_address}"}
+    logger.info {"samt verification email is sent to: #{email_address}"}
     @firstName = firstName
     @reset_password_link = reset_password_link
     @primary_role = primary_role

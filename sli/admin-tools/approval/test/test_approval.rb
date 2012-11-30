@@ -72,14 +72,6 @@ class TestApprovalEngine < Test::Unit::TestCase
     assert(user[:status] == ApprovalEngine::STATE_SUBMITTED)
     assert(!!user[:emailtoken])
 
-    assert_raise ApprovalEngine::ApprovalException do 
-      ApprovalEngine.change_user_status(user[:email], "invalid-random-transition")
-    end 
-
-    assert_raise ApprovalEngine::ApprovalException do 
-      ApprovalEngine.verify_email("invalid-random-email-token")
-    end 
-
     # transition to approve the eula. Note: transitions should only contain one
     # transition, namely to go to state EULA_ACCEPTED
     user = ApprovalEngine.get_user(@jd_email)
@@ -88,10 +80,6 @@ class TestApprovalEngine < Test::Unit::TestCase
     assert(user)
     assert(user[:email] == @jd_email)
     assert(user[:status] == ApprovalEngine::STATE_EULA_ACCEPTED)
-
-    assert_raise ApprovalEngine::ApprovalException do 
-      ApprovalEngine.change_user_status(user[:email], ApprovalEngine::ACTION_VERIFY_EMAIL)
-    end 
 
     ApprovalEngine.verify_email(user[:emailtoken])
     if !is_sandbox

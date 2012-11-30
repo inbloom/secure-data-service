@@ -71,18 +71,11 @@ class ChangePasswordsController < ApplicationController
             format.json { render :json => @change_password, status: :created, location: @change_password }
 
           rescue InvalidPasswordException => e
-            logger.error e.message
-            logger.error e.backtrace.join("\n")
-            
             APP_CONFIG['password_policy'].each { |msg|  @change_password.errors.add(:new_pass, msg) }
             format.html { render action: "new" }
             format.json { render json: @change_password.errors, status: :unprocessable_entity }
 
           rescue Exception => e
-            logger.error e.message
-            logger.error e.backtrace.join("\n")
-
-
             @change_password.errors.add(:base, "Unable to change password, please try again.")
             format.html { render action: "new" }
             format.json { render json: @change_password.errors, status: :unprocessable_entity }

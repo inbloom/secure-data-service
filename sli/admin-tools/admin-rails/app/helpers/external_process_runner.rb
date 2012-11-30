@@ -45,9 +45,7 @@ module ExternalProcessRunner
             begin
               # accumulate cmd's output to stdout (called stdin here)
               stdin.each { |line| retVal = retVal + line }
-            rescue Errno::EIO => e 
-              Rails.logger.error e.message
-              Rails.logger.error e.backtrace.join("\n")
+            rescue Errno::EIO
             end
           end
         rescue PTY::ChildExited
