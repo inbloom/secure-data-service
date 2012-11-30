@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,7 +59,7 @@ public class ValidateBuildIT {
 
             Assert.assertEquals(0, ret);
         } finally {
-            FileUtils.deleteDirectory(mvnTargetDir);
+//            FileUtils.deleteDirectory(mvnTargetDir);
 
             ps.println("================== End of verification of the SLC Offline Validation Tool package ==================");
         }
