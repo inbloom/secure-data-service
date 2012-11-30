@@ -189,7 +189,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @SuppressWarnings("rawtypes")
     @GET
-    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getApplications(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -247,7 +247,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @SuppressWarnings("rawtypes")
     @GET
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         Response resp = super.read(uuid, headers, uriInfo);
