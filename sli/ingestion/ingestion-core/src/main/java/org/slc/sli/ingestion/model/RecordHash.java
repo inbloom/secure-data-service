@@ -74,13 +74,22 @@ public class RecordHash {
      * tenantID    t        No              ""
      */
     
-    // Construct from compact, document-oriented database key/value map
+    /*
+     * Construct from compact, document-oriented database key/value map
+     * 
+     * @param map
+     * 		A key/value map whose fields are suitable for a document-oriented database that
+     * 		has a need to keep fields short.
+     * 
+     * @return The constructed object
+     * 
+     */
     public RecordHash(Map<String, Object> map) {
     	this();
     	if ( null == map )
     		return;
     	
-    	this._id = Binary2Hex((byte[]) map.get("_id"));
+    	this._id = Binary2Hex((byte[]) map.get("_id")) + "_id";
     	this.hash = Binary2Hex((byte[]) map.get("h"));
     	this.created = ((Long) map.get("c")).longValue();
     	
@@ -103,7 +112,11 @@ public class RecordHash {
     		this.tenantId = tenantId;
     }
     
-    // Return key/value map, omitting defaults for some fields
+    /*
+     * @return A key/value map, suitable for use in a document-oriented database that
+     *         prefers to have very small field names, omitting defaults for some fields
+     * 
+     */
     public Map<String, Object> toKVMap() {
     	Map<String, Object> m = new HashMap<String, Object>();
     	m.put("_id", Hex2Binary(this._id));
@@ -118,12 +131,27 @@ public class RecordHash {
     	return m;
     }
     
-    // Convert binary bytes to Hex string.  E.g. 20-bytes SHA hash to 40-hex-char string
+    /*
+     * Convert binary bytes to Hex string.  E.g. 20-bytes SHA hash to 40-hex-char string
+     * 
+     * @param bytes
+     * 		Binary bytes to be converted to hex
+     * @return A hex String object
+     * 
+     */
     public static String Binary2Hex(byte[] bytes) {
     	return new String(new Hex().encode(bytes));
     }
     
-    // Convert DiD or hash to 20-byte binary form
+    /*
+     * Convert DiD or hash to 20-byte binary form
+     * 
+     * @param id
+     * 		String of 40 chars of hex, either a SHA hash or an ID suffixed with "_id"
+     * 
+     * @return Binary bytes, or null if cannot be decoded  
+     *        	
+     */
     public static byte[] Hex2Binary(String id) {
     	// Take first 40 hex digits of DiD, lopping off the trailing "_id"
     	try {
