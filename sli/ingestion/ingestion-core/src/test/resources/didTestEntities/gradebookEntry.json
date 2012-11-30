@@ -8,6 +8,20 @@
         {
             "IdentificationCode":"0123456789"
         }
+    },
+    "SectionReference":
+    {
+        "SectionIdentity":
+        {
+            "EducationalOrgReference":
+            {
+                "EducationalOrgIdentity":
+                {
+                    "StateOrganizationId":"this school"
+                }
+            },
+            "UniqueSectionCode":"this section"
+        }
     }
 }
 }
