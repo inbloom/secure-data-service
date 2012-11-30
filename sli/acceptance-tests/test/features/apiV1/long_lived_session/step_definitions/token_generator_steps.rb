@@ -9,6 +9,8 @@ Given /^I used the long lived session token generator script to create a token f
   puts("The path is #{script_loc}")
   out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
   puts("The output of the script was #{out}")
+  ls, ls_status = Open3.capture2("ls #{File.dirname(__FILE__)}/../../../../../../")
+  puts("The contents of sli directory are #{ls}")
   # match = /token is (.*)/.match(out)
   # @sessionId = match[1]
   # puts("The generated token is #{@sessionId}") if $SLI_DEBUG
