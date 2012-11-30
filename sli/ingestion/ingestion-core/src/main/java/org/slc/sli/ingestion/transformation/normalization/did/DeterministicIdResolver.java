@@ -282,8 +282,6 @@ public class DeterministicIdResolver {
             // don't add null or empty keys to the naturalKeys map
             if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
                 naturalKeys.put(fieldName, value == null ? "" : value.toString());
-            } else {
-                //
             }
         }
 
