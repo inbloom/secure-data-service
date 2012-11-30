@@ -7,6 +7,10 @@ gem 'rspec', :group => :test
 gem 'factory_girl', :group => :test
 gem 'simplecov', :require => false, :group => :test
 gem 'equivalent-xml', :group => :test
-gem 'perftools.rb', :group => :test
+
+#
+# Enable perftools.rb during profiling.
+# gem 'perftools.rb', :group => :test
+#
 
 gem 'nokogiri'
