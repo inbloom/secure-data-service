@@ -107,10 +107,7 @@ class LandingZone
     begin
       APP_LDAP_CLIENT.update_user_info(user_info)
     rescue => e
-        Rails.logger.error e.message
-        Rails.logger.error e.backtrace.join("\n")
-
-        Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
+      Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
     end
 
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
@@ -121,8 +118,6 @@ class LandingZone
           ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
         end
       rescue => e
-        Rails.logger.error e.message
-        Rails.logger.error e.backtrace.join("\n")
         Rails.logger.error "Could not send email to #{user_info[:emailAddress]}."
       end
 

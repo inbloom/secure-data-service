@@ -70,18 +70,12 @@ class LandingZoneController < ApplicationController
   end
 
   def handle_validation_error(exception)
-    logger.error exception.message
-    logger.error exception.backtrace.join("\n")
-
     @validation_errors = exception.to_s
     Rails.logger.warn("Caught KeyValidationError: #{@validation_errors}")
     render :action => 'index', :controller => 'landing_zone'
   end
 
   def handle_error(exception)
-    logger.error exception.message
-    logger.error exception.backtrace.join("\n")
-
     Rails.logger.error("Error occured provisioning landing zone for #{uid()}: #{exception}")
     render :status => 500, :text => "An error occurred when provisioning the landing zone"
   end

@@ -27,9 +27,7 @@ class AccountManagementsController < ApplicationController
     begin
       @account_managements=get_all()
       @account_managements=sort(@account_managements)
-    rescue => e
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
+    rescue
     end
 
     respond_to do |format|
@@ -52,8 +50,6 @@ class AccountManagementsController < ApplicationController
       ApprovalEngine.change_user_status(email, commit.downcase)
     rescue Exception => e
       @error_notice = e.message
-      logger.error e.message
-      logger.error e.backtrace.join("\n")      
     end
 
     @account_managements = get_all()

@@ -22,22 +22,6 @@ require 'digest'
 require 'ldapstorage'
 
 module ApprovalEngine
-
-  # Custom Exception and error codes 
-  class ApprovalException < StandardError 
-    attr :error_code 
-    def initialize(error_code, msg)
-      super(msg)
-      @error_code = error_code
-    end 
-  end 
-
-
-  ERR_INVALID_TRANSITION = 1
-  ERR_EMAIL_NOT_VERIFIED = 2
-  ERR_UNKNOWN_TRANSITION = 3 
-  ERR_UNKNOWN_USER = 4 
-
   # define the possible states of the finite state machine (FSM)
   STATE_SUBMITTED     = "submitted"
   STATE_EULA_ACCEPTED = "eula-accepted"
@@ -124,12 +108,12 @@ module ApprovalEngine
     target = FSM[status]
 
     if (!target) || (!target.key?(transition))
-      raise ApprovalException.new(ERR_INVALID_TRANSITION, "Current status '#{user[:status]}' does not allow transition '#{transition}'.")
+      raise "Current status '#{user[:status]}' does not allow transition '#{transition}'."
     end
 
     # make sure that the email is verified if this is transitioning: eula_accepted -> pending
     if (status == STATE_EULA_ACCEPTED) && !email_verified
-      raise ApprovalException.new(ERR_EMAIL_NOT_VERIFIED, "Email must be verified before being able to accept the Eula.")
+      raise "Cannot transition directly from state #{status}"
     end
 
     # set the new user status
@@ -169,7 +153,7 @@ module ApprovalEngine
         # if this is sandbox write the userid as the tennant
         set_sandbox_tenant(user)
       else
-        raise ApprovalException.new(ERR_UNKNOWN_TRANSITION, "Unknown state transition #{status} => #{target[transition]}.")
+        raise "Unknown state transition #{status} => #{target[transition]}."
     end
 
     @@transition_action_config.transition(user) if @@transition_action_config
@@ -189,7 +173,7 @@ module ApprovalEngine
   #
   def ApprovalEngine.verify_email(emailtoken)
     user = @@storage.read_user_emailtoken(emailtoken)
-    raise ApprovalException.new(ERR_UNKNOWN_USER, "Could not find user for email id #{emailtoken}.") if !user
+    raise "Could not find user for email id #{emailtoken}." if !user
 
     # update to pending state
     change_user_status(user[:email], ACTION_VERIFY_EMAIL, true)

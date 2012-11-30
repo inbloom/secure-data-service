@@ -16,8 +16,6 @@ limitations under the License.
 
 =end
 
-require 'approval'
-
 
 class UserAccountValidation
 
@@ -48,14 +46,12 @@ class UserAccountValidation
     begin
       ApplicationHelper.verify_email(emailToken)
       return ACCOUNT_VERIFICATION_COMPLETE
-    rescue ApprovalEngine::ApprovalException => e
+    rescue => e
       Rails.logger.error "VERIFICATION ERROR:   #{e}"
-      Rails.logger.error e.message
-      Rails.logger.error e.backtrace.join("\n")
-
-      if e.error_code == ApprovalEngine::ERR_INVALID_TRANSITION
+      # TODO: DE2202 - have approval engine raise exceptions or check approval state instead of matching msg strings
+      if e.to_s =~ /^Current status '\w+' does not allow transition 'verify_email'\.$/
         return ACCOUNT_PREVIOUSLY_VERIFIED
-      elsif e.error_code == ApprovalEngine::ERR_UNKNOWN_USER
+      elsif e.to_s == "Could not find user for email id #{emailToken}."
         return INVALID_VERIFICATION_CODE
       else
         return UNEXPECTED_VERIFICATION_ERROR
