@@ -13,7 +13,6 @@ GEM
     multi_json (1.3.7)
     mustache (0.99.4)
     nokogiri (1.5.5)
-    perftools.rb (2.0.0)
     psych (1.3.3)
     rake (10.0.2)
     rspec (2.12.0)
@@ -37,7 +36,6 @@ DEPENDENCIES
   factory_girl
   mustache
   nokogiri
-  perftools.rb
   psych (= 1.3.3)
   rake
   rspec
