@@ -7,7 +7,7 @@ Feature: RC Integration Cleanup - Purge Tenant
     Given I have a connection to Mongo
     And I am running in Sandbox mode
 
-    Scenario: SEA purge tenant data
+    Scenario: Developer purge tenant data
       When I drop a control file to purge tenant data as "<DEVELOPER_SB_EMAIL>" with password "<DEVELOPER_SB_EMAIL_PASS>" to "<SERVER>"
       Then my tenant database should be cleared
       And the landing zone should contain a file with the message "All records processed successfully."
