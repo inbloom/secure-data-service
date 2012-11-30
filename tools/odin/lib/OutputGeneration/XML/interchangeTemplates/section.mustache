@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
-{{#sections}}
+{{#entity}}
   <Section>
     <UniqueSectionCode>{{unique_section_code}}</UniqueSectionCode>
     <SequenceOfCourse>{{sequence}}</SequenceOfCourse>
@@ -27,8 +27,8 @@ limitations under the License.
         {{#session}}
         <SessionReference>
           <SessionIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
                 <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
@@ -39,9 +39,9 @@ limitations under the License.
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CourseOfferingIdentity>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
     </CourseOfferingReference>
     {{/course_offering}}
     <SchoolReference>
@@ -69,4 +69,4 @@ limitations under the License.
     </ProgramReference>
     {{/program}}
   </Section>
-{{/sections}}
+{{#entity}}

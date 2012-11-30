@@ -48,11 +48,8 @@ class Odin
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-    configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
+    scenarioYAML, prng = getScenario(scenario)
 
-    scenarioYAML = load_scenario(scenario, configYAML)
-
-    prng = Random.new(configYAML['seed'])
     Dir.mkdir('../generated') if !Dir.exists?('../generated')
 
     time = Time.now
@@ -71,7 +68,7 @@ class Odin
     # |   100000   |       277 sec      |   460 Mb    |  -43 sec  | +428 Mb  |
     #
     
-    run_work_orders scenarioYAML, batchSize
+    WorkOrderProcessor.run edOrgs, batchSize
 
     finalTime = Time.now - time
     @log.info "Total generation time: #{finalTime} secs"
@@ -107,3 +104,7 @@ class Odin
   end
 end
 
+def getScenario(scenario_name)
+  configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
+  [load_scenario(scenario_name, configYAML), Random.new(configYAML['seed'])]
+end

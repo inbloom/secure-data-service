@@ -32,7 +32,9 @@ import org.slc.sli.domain.Entity;
  */
 
 @Component
-public class Translator {
+public final class Translator {
+
+    private Translator() { }
 
     private static final Logger LOG = LoggerFactory.getLogger(Translator.class);
 

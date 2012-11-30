@@ -90,7 +90,6 @@ public class BasicService implements EntityService {
 
     private Repository<Entity> repo;
     private static final boolean ENABLE_CONTEXT_RESOLVING = false;
-    public static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>();
 
     @Autowired
     @Qualifier("validationRepo")
@@ -1023,11 +1022,7 @@ public class BasicService implements EntityService {
                 .getPrincipal();
 
         if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
-            if (VALIDATOR_ENTITIES.contains(defn.getType())) {
-                useResolvers = false;
-            } else {
-                useResolvers = ENABLE_CONTEXT_RESOLVING;
-            }
+            useResolvers = ENABLE_CONTEXT_RESOLVING;
         }
 
         return useResolvers;

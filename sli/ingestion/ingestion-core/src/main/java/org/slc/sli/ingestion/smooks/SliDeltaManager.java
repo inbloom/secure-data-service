@@ -35,6 +35,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  */
 public final class SliDeltaManager {
 
+    private SliDeltaManager() { }
 
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO) {
 

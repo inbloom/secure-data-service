@@ -17,20 +17,33 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity.rb'
-
+require 'json'
 class StudentParentAssociation < BaseEntity
+  
+  ## Should this be in BaseEntity?
+  class << self; attr_accessor :demographics end
+  @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")
+
+  def self.demographics; @@demographics end
+
+  attr_accessor :studentId, :parentId, :relation, :primaryContactStatus, :livesWith, :emergencyContactStatus, :contactPriority, :contactRestrictions
 
   def initialize(studentId, parentId, rand)
     @studentId = studentId
     @parentId = parentId
     @rand = rand
+    buildAssociation
   end
 
-  def studentId
-    "#{@studentId}"
-  end
+  def buildAssociation
+    @relation = choose(@@demographics['relationType'])
+    @primaryContactStatus = bit_choose
+    @livesWith = bit_choose
 
-  def parentId
-    "{@parentId}"
+    @emergencyContactStatus = bit_choose
+    @contactPriority =    @rand.rand(4)
+
+    restrictions = [nil, 'No pickup', 'Custody on Mondays, Wednesdays, Fridays only' ]
+    @contactRestrictions = choose ( restrictions )
   end
 end

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -34,6 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.config.BasicDefinitionStore;
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
@@ -55,6 +59,8 @@ import org.slc.sli.domain.Repository;
 public class UriMutator {
 
     public static final int NUM_SEGMENTS_IN_TWO_PART_REQUEST = 3;
+    public static final int NUM_SEGMENTS_IN_ONE_PART_REQUEST = 2;
+
     @Resource
     private EdOrgHelper edOrgHelper;
 
@@ -68,6 +74,15 @@ public class UriMutator {
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+    @Autowired
+    private BasicDefinitionStore definitionStore;
+
+    private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
+            Pair.of(ParameterConstants.STUDENT_UNIQUE_STATE_ID, ResourceNames.STUDENTS),
+            Pair.of(ParameterConstants.STAFF_UNIQUE_STATE_ID, ResourceNames.STAFF),
+            Pair.of(ParameterConstants.PARENT_UNIQUE_STATE_ID, ResourceNames.PARENTS),
+            Pair.of(ParameterConstants.STATE_ORGANIZATION_ID, ResourceNames.EDUCATION_ORGANIZATIONS)
+    );
     /**
      * Acts as a filter to determine if the requested resource, given knowledge of the user
      * requesting it, should be rewritten. Returning null indicates that the URI should NOT be
@@ -81,52 +96,34 @@ public class UriMutator {
      *         to be rewritten.
      */
     public MutatedContainer mutate(List<PathSegment> segments, String queryParameters, Entity user) {
+
+        if (queryParameters == null) {
+            queryParameters = "";
+        }
+        
+        InBoundHeaders mutatedHeaders = null;
+
+        Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
+        for (Pair<String, String> parameterResourcePair : PARAMETER_RESOURCE_PAIRS) {
+            String parameter = parameterResourcePair.getLeft();
+            String resource = parameterResourcePair.getRight();
+            if (parameters.containsKey(parameter)) {
+                EntityDefinition definition = definitionStore.lookupByResourceName(resource);
+                if( definition != null) {
+                    NeutralQuery query = new NeutralQuery(new NeutralCriteria(parameter, NeutralCriteria.OPERATOR_EQUAL,
+                            parameters.get(parameter)));
+                    Entity e = repo.findOne(definition.getType(), query);
+                    if (e != null) {
+                        String newPath = String.format("/%s/%s", resource, e.getEntityId());
+                        info("Rewriting URI to {} based on natural keys", newPath);
+                        return new MutatedContainer(newPath, null);
+                    }
+                }
+            }
+        }
+
         String mutatedPath = null;
         String mutatedParameters = queryParameters;
-        InBoundHeaders mutatedHeaders = null;
-        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
-        String type = "";
-        String field = "";
-        String value = "";
-        String resourceName = "";
-        for (String query : queries) {
-            if (query.matches("(studentUniqueStateId)=.+")) {
-                field = "studentUniqueStateId";
-                type = EntityNames.STUDENT;
-                resourceName = "students";
-
-            } else if (query.matches("(staffUniqueStateId)=.+")) {
-                field = "staffUniqueStateId";
-                type = EntityNames.STAFF;
-                resourceName = "staff";
-
-            } else if (query.matches("(parentUniqueStateId)=.+")) {
-                field = "parentUniqueStateId";
-                type = EntityNames.PARENT;
-                resourceName = "parents";
-
-            } else if (query.matches("(stateOrganizationId)=.+")) {
-                field = "stateOrganizationId";
-                type = EntityNames.EDUCATION_ORGANIZATION;
-                resourceName = "educationOrganizations";
-
-            }
-            if (type.length() != 0) {
-                // Stop iterating after the first.
-                value = query.substring(query.indexOf('=') + 1);
-                break;
-            }
-
-        }
-        if (type.length() != 0) {
-            NeutralQuery query = new NeutralQuery(new NeutralCriteria(field, NeutralCriteria.OPERATOR_EQUAL, value));
-            Entity e = repo.findOne(type, query);
-            if (e != null) {
-                String newPath = String.format("/%s/%s", resourceName, e.getEntityId());
-                info("Rewriting URI to {} based on natural keys", newPath);
-                return new MutatedContainer(newPath, null);
-            }
-        }
 
         if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
@@ -161,20 +158,15 @@ public class UriMutator {
 
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
         boolean skipMutation = false;
-
-        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
-
+        if (segments.size() == NUM_SEGMENTS_IN_ONE_PART_REQUEST) {
             String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
                 if (!query
                         .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|optionalFields|views|includeCustom|selector)=.+")) {
-                    int baseResourceIndex = 1;
-                    if (segments.size() >= 2
-                            && publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
+                    final int baseResourceIndex = 1;
+                    if (publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
                         skipMutation = true;
                         break;
-                    } else {
-                        debug("Search request /{}?{}", segments.get(baseResourceIndex).getPath(), queryParameters);
                     }
                 }
             }

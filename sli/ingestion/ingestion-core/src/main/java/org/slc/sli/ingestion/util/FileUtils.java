@@ -30,7 +30,9 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class FileUtils {
+public final class FileUtils {
+
+    private FileUtils() { }
 
     private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
 
@@ -48,8 +50,9 @@ public class FileUtils {
         }
         File subDir = new File(parentDirAbsPath + subDirName);
         if (!subDir.exists()) {
-            if (!subDir.mkdir())
+            if (!subDir.mkdir()) {
                 LOG.error("Failed to mkdir sub dir: " + subDirName+ " under "+ parentDir.getPath());
+            }
         }
         return subDir;
     }
@@ -62,8 +65,9 @@ public class FileUtils {
      * @return boolean value whether the renaming was successful or not.
      */
     public static boolean renameFile(File source, File dest) {
-        if (dest.exists() && !dest.delete())
+        if (dest.exists() && !dest.delete()) {
             LOG.error("Failed to delete: " + dest.getPath());
+        }
         return source.renameTo(dest);
     }
 
