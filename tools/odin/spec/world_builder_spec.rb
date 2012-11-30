@@ -28,8 +28,8 @@ describe "WorldBuilder" do
         configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10students", configYAML)
         rand = Random.new(configYAML['seed'])
-        builder = WorldBuilder.new
-        builder.build(rand, scenarioYAML)
+        builder = WorldBuilder.new(rand, scenarioYAML)
+        builder.build
       end
 
       # before each test: refresh the file handle for the education organization interchange
@@ -79,8 +79,8 @@ describe "WorldBuilder" do
         configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10001students", configYAML)
         rand = Random.new(configYAML['seed'])
-        builder = WorldBuilder.new
-        builder.build(rand, scenarioYAML)
+        builder = WorldBuilder.new(rand, scenarioYAML)
+        builder.build
       end
 
       # before each test: refresh the file handle for the education organization interchange
