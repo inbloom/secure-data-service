@@ -183,11 +183,3 @@ And the IT Administrator role is the only admin role
 And I wait for 5 seconds
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"
-
-	
-@wip
-Scenario: Name validation for role and group names
-#This requirement is questionable?  Redone to just make sure input is sanitized?
-Given Something 
-When something
-Then something

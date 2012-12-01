@@ -26,8 +26,8 @@ require_relative '../lib/OutputGeneration/XML/enrollmentGenerator.rb'
 describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
-      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, 2001, [{:school => 64, 'year' => 2001},
-                                                                       {:school => 64, 'year' => 2002}])}
+      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, 2001, {'id' => 64, 'sessions' => [{'year' => 2001}, 
+                                                                                                  {'year' => 2002}]})}
 
       it "will generate the right number of entities for the student generator" do
         studentParent = double
@@ -37,21 +37,44 @@ describe "WorkOrderProcessor" do
 
       it "will generate the right number of entities for the enrollment generator" do
         enrollment = double
-        enrollment.should_receive(:<<).with(an_instance_of(StudentSchoolAssociation)).once
+        enrollment.should_receive(:<<).with(an_instance_of(StudentSchoolAssociation)).twice
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
       end
 
       it "will generate a StudentSchoolAssociation with the correct information" do
         enrollment = double
+        ssas = []
         enrollment.stub(:<<) do |ssa|
+          ssas << ssa
           ssa.studentId.should eq(42)
-          ssa.schoolStateOrgId.should eq(64)
-          ssa.startYear.should eq(2001)
-          ssa.startGrade.should eq("Kindergarten")
+          ssa.schoolStateOrgId.should eq('elem-0000000064')
         end
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
+        ssas[0].startYear.should eq(2001) and ssas[0].startGrade.should eq("Kindergarten")
+        ssas[1].startYear.should eq(2002) and ssas[1].startGrade.should eq("First grade")
       end
 
+    end
+    context 'With a work order that spans multiple schools' do
+      let(:work_order) {StudentWorkOrder.new(42, :FIFTH_GRADE, 2001, {'id' => 64, 'sessions' => [{'year' => 2001},
+                                                                                                 {'year' => 2002},
+                                                                                                 {'year' => 2003},
+                                                                                                 {'year' => 2004},
+                                                                                                 {'year' => 2005}],
+                                                                      'feeds_to' => [65, 66]})}
+      it "will get enrollments for each school" do
+        enrollment = double
+        ssas = []
+        enrollment.stub(:<<) do |ssa|
+          ssas << ssa
+        end
+        WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
+        ssas[0].startYear.should eq(2001) and ssas[0].schoolStateOrgId.should eq('elem-0000000064')
+        ssas[1].startYear.should eq(2002) and ssas[1].schoolStateOrgId.should eq('midl-0000000065')
+        ssas[2].startYear.should eq(2003) and ssas[2].schoolStateOrgId.should eq('midl-0000000065')
+        ssas[3].startYear.should eq(2004) and ssas[3].schoolStateOrgId.should eq('midl-0000000065')
+        ssas[4].startYear.should eq(2005) and ssas[4].schoolStateOrgId.should eq('high-0000000066')
+      end
     end
   end
 end
@@ -71,7 +94,7 @@ describe "gen_work_orders" do
 
     it "will put the students in the right schools" do
       work_orders.each_with_index{|work_order, index|
-        work_order.sessions[0][:school].should eq(index/5)
+        work_order.edOrg['id'].should eq(index/5)
       }
     end
 
