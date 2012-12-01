@@ -129,9 +129,6 @@ class GradeLevelType
 
   # overload the addition operator to move between the set of ordered grades
   def self.increment(grade, num_grades)
-    if grade == :TWELFTH_GRADE
-      return grade
-    end
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil

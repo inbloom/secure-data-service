@@ -76,6 +76,32 @@ describe "WorkOrderProcessor" do
         ssas[4].startYear.should eq(2005) and ssas[4].schoolStateOrgId.should eq('high-0000000066')
       end
     end
+    context "with a work order than includes students gradutating" do
+      let(:eleventh_grader) {StudentWorkOrder.new(42, :ELEVENTH_GRADE, 2001, {'id' => 64, 'sessions' => [{'year' => 2001},
+                                                                                                    {'year' => 2002},
+                                                                                                    {'year' => 2003},
+                                                                                                    {'year' => 2004}]})}
+      let(:twelfth_grader) {StudentWorkOrder.new(42, :TWELFTH_GRADE, 2001, {'id' => 64, 'sessions' => [{'year' => 2001},
+                                                                                                       {'year' => 2002},
+                                                                                                       {'year' => 2003},
+                                                                                                       {'year' => 2004}]})}
+      it "will only generate student school associations until the student has graduated" do
+        enrollment = double
+        ssas = []
+        enrollment.stub(:<<) do |ssa|
+          ssas << ssa
+        end
+        WorkOrderProcessor.new({:enrollment => enrollment}).build(eleventh_grader)
+        ssas.should have(2).items
+        ssas[0].startYear.should eq(2001)
+        ssas[1].startYear.should eq(2002)
+        ssas = []
+        WorkOrderProcessor.new({:enrollment => enrollment}).build(twelfth_grader)
+        ssas.should have(1).items
+        ssas[0].startYear.should eq(2001)
+
+      end
+    end
   end
 end
 
