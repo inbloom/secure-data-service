@@ -19,7 +19,6 @@ package org.slc.sli.ingestion.model.da;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
@@ -413,7 +412,7 @@ public class BatchJobMongoDATest {
     public void testUpsertRecordHash() {
         // Capture mongoTemplate.save()!
         class DBAnswer implements Answer<Object> {
-            RecordHash savedRecordHash;
+            RecordHash savedRecordHash = null;
 
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -423,7 +422,10 @@ public class BatchJobMongoDATest {
                     savedRecordHash = (RecordHash) args[0];
                     return null;
                 } else if (method.equals("findOne")) {
-                    return savedRecordHash;
+                    if (savedRecordHash == null) {
+                        return null;
+                    }
+                    return new BasicDBObject(savedRecordHash.toKVMap());
                 } else if (method.equals("insert")) {
                 	savedRecordHash = new RecordHash((Map<String, Object>) args[0]);
                 	return null;
@@ -442,8 +444,8 @@ public class BatchJobMongoDATest {
         doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
 
         when(mockMongoTemplate.getCollection(eq(RECORD_HASH_COLLECTION))).thenReturn(mockedCollection);
-        doAnswer(dbAnswer).when(mockedCollection.insert(any(BasicDBObject.class)));
-        doAnswer(dbAnswer).when(mockedCollection.update(any(DBObject.class), any(BasicDBObject.class)));
+        when(mockedCollection.insert(any(BasicDBObject.class))).thenAnswer(dbAnswer);
+        when(mockedCollection.update(any(DBObject.class), any(BasicDBObject.class))).thenAnswer(dbAnswer);
 
         // insert a record not in the db
         String testTenantId = "TestTenant";
@@ -457,11 +459,14 @@ public class BatchJobMongoDATest {
         long savedTimestamp =  dbAnswer.savedRecordHash.updated;
         String savedId        =  dbAnswer.savedRecordHash._id;
         String savedHash      =  dbAnswer.savedRecordHash.hash;
+
         //introduce delay between calls so that recordHash timestamp changes.
         try{Thread.sleep(5); } catch (Exception e){e.printStackTrace();}
+
         // second call to findRecordHash should return non-null since Record is already in db.
         rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNotNull(rh);
+
         mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "aaacba9876543210fedcba9876543210fedcba98");
         long updatedTimestamp = dbAnswer.savedRecordHash.updated;
         String updatedId        = dbAnswer.savedRecordHash._id;
