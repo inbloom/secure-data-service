@@ -18,6 +18,7 @@ limitations under the License.
 
 require "mustache"
 
+require_relative "./EntityWriter"
 require_relative "./interchangeGenerator.rb"
 
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
@@ -25,100 +26,26 @@ Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load
 # event-based master schedule interchange generator
 class MasterScheduleGenerator < InterchangeGenerator
 
-  # course offering writer
-  class CourseOfferingWriter < Mustache
-    def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/course_offering.mustache"
-      @batch_size    = batch_size
-      @entities      = []
-    end
-    def course_offerings
-      @entities
-    end
-    def write(handle, entity)
-      @entities << entity
-      if @entities.size >= @batch_size
-        handle.write render
-        @entities = []
-      end
-    end
-    def flush(handle)
-      handle.write render
-    end
-  end
-
-  # section writer
-  class SectionWriter < Mustache
-    def initialize(batch_size)
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/section.mustache"
-      @batch_size    = batch_size
-      @entities      = []
-    end
-    def sections
-      @entities
-    end
-    def write(handle, entity)
-      @entities << entity
-      if @entities.size >= @batch_size
-        handle.write render
-        @entities = []
-      end
-    end
-    def flush(handle)
-      handle.write render
-    end
-  end
-
   # initialization will define the header and footer for the master schedule interchange
   # writes header to master schedule interchange
   # leaves file handle open for event-based writing of ed-fi entities
-  def initialize(batch_size)
-    @header, @footer = build_header_footer( "MasterSchedule" )
-    @handle = File.new("generated/InterchangeMasterSchedule.xml", 'w')
-    @handle.write(@header)
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
-    @course_offering_writer = CourseOfferingWriter.new(batch_size)
-    @section_writer         = SectionWriter.new(batch_size)
+    @header, @footer = build_header_footer( "MasterSchedule" )
+
+    @writers[CourseOffering] = EntityWriter.new("course_offering.mustache")
+    @writers[Section] = EntityWriter.new("section.mustache")
   end
 
   # creates and writes course offering to interchange
   def create_course_offering(id, title, ed_org_id, session, course)
-    @course_offering_writer.write(@handle, CourseOffering.new(id, title, ed_org_id, session, course))
+    self << CourseOffering.new(id, title, ed_org_id, session, course)
   end
 
   # creates and writes section to interchange
-  def create_section(id, sequence, environment, medium, population, school_id, course_offering, session)
-    @section_writer.write(@handle, Section.new(id, sequence, environment, medium, population, school_id, course_offering, session))
-  end
-
-  # writes footer and closes education organization calendar interchange file handle
-  def close
-    @course_offering_writer.flush(@handle)
-    @section_writer.flush(@handle)
-    @handle.write(@footer)
-    @handle.close()
-  end
-
-  # shalka - i will be deleting this as soon as i can
-  def write(prng, yamlHash)
-    File.open("generated/InterchangeMasterSchedule.xml", 'w') do |f|
-      f.write(@header)
-      #This needs to map to courses
-
-      if !yamlHash['numCourseOffering'].nil?
-        for id in 1..yamlHash['numCourseOffering'] do
-          f.write CourseOffering.new(id.to_s, prng).render
-        end
-      end
-
-      if !yamlHash['numBellSchedule'].nil?
-        for id in 1..yamlHash['numBellSchedule'] do
-          f.write BellSchedule.new(id.to_s, prng).render
-        end
-      end
-
-      f.write(@footer)
-    end
+  def create_section(id, year, term, interval, ed_org_id, grading_periods)
+    self << Section.new(id, year, term, interval, ed_org_id, grading_periods)
   end
 
 end

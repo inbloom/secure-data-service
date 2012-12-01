@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'simplecov'
+require 'yaml'
 
 SimpleCov.start do
   add_filter '/spec/'
@@ -55,4 +56,8 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+end
+
+def get_spec_scenario
+  { 'BATCH_SIZE' => 1 }
 end

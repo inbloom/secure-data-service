@@ -2,6 +2,13 @@
 "recordType":"staffCohortAssociation",
 "attributes":
 {
+	"StaffReference":
+	{
+		"StaffIdentity":
+		{
+			"StaffUniqueStateId":"jjackson"
+		}
+	},
 	"CohortReference":
 	{
 		"CohortIdentity":

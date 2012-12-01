@@ -65,7 +65,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                           |              count|
      | assessment                               |                  0|
      | attendance                               |                  0|
-     | calendarDate                             |                594|
+     | calendarDate                             |                579|
      | cohort                                   |                  0|
      | competencyLevelDescriptor                |                  0|
      | course                                   |                 34|
@@ -73,12 +73,12 @@ Then I should see following map of entry counts in the corresponding collections
      | courseSectionAssociation                 |                  0|
      | disciplineAction                         |                  0|
      | disciplineIncident                       |                  0|
-     | educationOrganization                    |                  6|
+     | educationOrganization                    |                  5|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
      | grade                                    |                  0|
      | gradebookEntry                           |                  0|
-     | gradingPeriod                            |                  6|
+     | gradingPeriod                            |                  3|
      | graduationPlan                           |                  0|
      | learningObjective                        |                  0|
      | learningStandard                         |                  0|
@@ -89,7 +89,7 @@ Then I should see following map of entry counts in the corresponding collections
      | section                                  |                  0|
      | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
-     | session                                  |                  6|
+     | session                                  |                  3|
      | sessionCourseAssociation                 |                  0|
      | staff                                    |                  0|
      | staffCohortAssociation                   |                  0|
@@ -110,8 +110,49 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                  0|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 1355 records." in the resulting batch job file
+    And I should see "Processed 766 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
-
+Scenario: Verify entities in education organization calendar were ingested correctly: Populated Database
+    And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
+     | session                     | 1                   | body.sessionName                         | 2001-2002 Year Round session: locl-0000000004 | string               |
+     | session                     | 1                   | body.sessionName                         | 2002-2003 Year Round session: locl-0000000004 | string               |
+     | session                     | 1                   | body.sessionName                         | 2003-2004 Year Round session: locl-0000000004 | string               |
+     | session                     | 1                   | body.schoolYear                          | 2001-2002                                     | string               |
+     | session                     | 1                   | body.schoolYear                          | 2002-2003                                     | string               |
+     | session                     | 1                   | body.schoolYear                          | 2003-2004                                     | string               |
+     | session                     | 3                   | body.term                                | Year Round                                    | string               |
+     | session                     | 1                   | body.beginDate                           | 2001-09-07                                    | string               |
+     | session                     | 1                   | body.beginDate                           | 2002-09-09                                    | string               |
+     | session                     | 1                   | body.beginDate                           | 2003-09-05                                    | string               |
+     | session                     | 1                   | body.endDate                             | 2002-06-04                                    | string               |
+     | session                     | 1                   | body.endDate                             | 2003-06-04                                    | string               |
+     | session                     | 1                   | body.endDate                             | 2004-06-01                                    | string               |
+     | session                     | 3                   | body.totalInstructionalDays              | 180                                           | integer              |
+     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.gradingPeriod | End of Year                                   | string               |
+     | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2001-2002                                     | string               |
+     | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2002-2003                                     | string               |
+     | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2003-2004                                     | string               |
+     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | locl-0000000004                               | string               |
+     | gradingPeriod               | 1                   | body.beginDate                           | 2001-09-07                                    | string               |
+     | gradingPeriod               | 1                   | body.beginDate                           | 2002-09-09                                    | string               |
+     | gradingPeriod               | 1                   | body.beginDate                           | 2003-09-05                                    | string               |
+     | gradingPeriod               | 1                   | body.endDate                             | 2002-06-04                                    | string               |
+     | gradingPeriod               | 1                   | body.endDate                             | 2003-06-04                                    | string               |
+     | gradingPeriod               | 1                   | body.endDate                             | 2004-06-01                                    | string               |
+     | gradingPeriod               | 3                   | body.totalInstructionalDays              | 180                                           | integer              |
+     | calendarDate                | 0                   | body.date                                | 2001-09-06                                    | string               |
+     | calendarDate                | 1                   | body.date                                | 2001-09-07                                    | string               |
+     | calendarDate                | 1                   | body.date                                | 2002-06-04                                    | string               |
+     | calendarDate                | 0                   | body.date                                | 2002-06-05                                    | string               |
+     | calendarDate                | 0                   | body.date                                | 2002-09-08                                    | string               |
+     | calendarDate                | 1                   | body.date                                | 2002-09-09                                    | string               |
+     | calendarDate                | 1                   | body.date                                | 2003-06-04                                    | string               |
+     | calendarDate                | 0                   | body.date                                | 2003-06-05                                    | string               |
+     | calendarDate                | 0                   | body.date                                | 2003-09-04                                    | string               |
+     | calendarDate                | 1                   | body.date                                | 2003-09-05                                    | string               |
+     | calendarDate                | 1                   | body.date                                | 2004-06-01                                    | string               |
+     | calendarDate                | 0                   | body.date                                | 2004-06-02                                    | string               |
+ 

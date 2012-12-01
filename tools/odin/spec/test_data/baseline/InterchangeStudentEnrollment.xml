@@ -1,394 +1,424 @@
 <?xml version="1.0"?>
 <InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>1</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>1</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>1</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>2</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>2</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>2</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>3</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>3</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>3</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>4</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>4</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>4</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>5</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>5</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>5</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>6</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>6</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>6</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>7</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>7</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>7</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>8</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>8</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>8</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>9</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>9</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>9</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>10</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>10</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
-    <StudentSchoolAssociation>
-      	<StudentReference>
-           <StudentIdentity>
-             <StudentUniqueStateId>10</StudentUniqueStateId>
-           </StudentIdentity>
-         </StudentReference>      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>school0</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <EntryDate>2011-09-01</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>1</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>1</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>1</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>2</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>2</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>2</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>3</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>3</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>3</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>4</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>4</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>4</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>5</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>5</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>5</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>6</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>6</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>6</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>elem-0000000001</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>7</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>7</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>7</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>8</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>8</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>8</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>9</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>9</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>9</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>10</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>10</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+    	<StudentReference>
+         <StudentIdentity>
+           <StudentUniqueStateId>10</StudentUniqueStateId>
+         </StudentIdentity>
+       </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
 </InterchangeStudentEnrollment>

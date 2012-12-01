@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require 'set'
+
 require_relative '../OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative '../OutputGeneration/XML/enrollmentGenerator'
 require_relative '../Shared/EntityClasses/student.rb'
@@ -32,16 +34,16 @@ class WorkOrderProcessor
     work_order.build(@interchanges)
   end
 
-  def self.run(yamlHash, batch_size)
-    numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
+  def self.run(world,  scenarioYAML)
     File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-      studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
+      studentParent = StudentParentInterchangeGenerator.new(scenarioYAML, studentParentFile)
+      studentParent.start
       File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-        enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
+        enrollment = EnrollmentGenerator.new(scenarioYAML, enrollmentFile)
+        enrollment.start
         interchanges = {:studentParent => studentParent, :enrollment => enrollment}
         processor = WorkOrderProcessor.new(interchanges)
-        for id in 1..yamlHash['studentCount'] do
-          work_order = make_work_order(id, yamlHash, numSchools)
+        for work_order in gen_work_orders(world) do
           processor.build(work_order)
         end
         enrollment.finalize
@@ -51,108 +53,82 @@ class WorkOrderProcessor
   end
 
   def self.gen_work_orders(world)
+    next_student = 0
     Enumerator.new do |y|
-      student_id = 0
       world.each{|_, edOrgs|
         edOrgs.each{|edOrg|
-          unless edOrg['students'].nil? 
-            (0..edOrg['students']-1).each{|_|
-              y.yield StudentWorkOrder.new(student_id, edOrg)
-              student_id += 1
-            }
+          students = edOrg['students']
+          unless students.nil?
+            next_student = StudentWorkOrder.gen_work_orders(students, edOrg, next_student, y)
           end
         }
       }
     end
   end
 
-  #TODO this is a mocked out work order, make one more intelligent and relating to the world
-  def self.make_work_order(id, yamlHash, numSchools)
-    StudentWorkOrder.new(id, {'id' => id % numSchools, 
-                              'sessions' => (1..yamlHash['numYears']).map{|i| {:school => i % numSchools, :sections => []}}})
-  end
 end
 
 class StudentWorkOrder
-  attr_accessor :id, :sessions, :birth_day_after
+  attr_accessor :id, :edOrg, :birth_day_after, :initial_grade, :initial_year
 
-  def initialize(id, school)
+  def self.gen_work_orders(students, edOrg, start_with_id, yielder)
+    student_id = start_with_id
+    years = students.keys.sort
+    initial_year = years.first
+    initial_grade_breakdown = students[initial_year]
+    initial_grade_breakdown.each{|grade, num_students|
+      (1..num_students).each{|_|
+        student_id += 1
+        yielder.yield StudentWorkOrder.new(student_id, grade, initial_year, edOrg)
+      }
+    }
+    student_id
+ end
+
+  def initialize(id, initial_grade, initial_year, edOrg)
     @id = id
-    @sessions = school['sessions'].map{|session| make_session(school, session)}
+    @edOrg = edOrg
     @rand = Random.new(@id)
-    @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
+    @birth_day_after = Date.new(initial_year - find_age(initial_grade),9,1)
+    @initial_grade = initial_grade
+    @initial_year = initial_year
   end
 
   def build(interchanges)
     @student_interchange = interchanges[:studentParent]
     @enrollment_interchange = interchanges[:enrollment]
-    s = Student.new(@id, @birth_day_after)
-    @student_interchange << s unless @student_interchange.nil?
+    student = Student.new(@id, @birth_day_after)
+    @student_interchange << student unless @student_interchange.nil?
+    schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
+    curr_type = GradeLevelType.school_type(@initial_grade)
     unless @enrollment_interchange.nil?
-      @sessions.each{ |session|
-        gen_enrollment session
+      @edOrg['sessions'].each{ |session|
+        year = session['year']
+        grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
+        unless grade.nil?
+          if GradeLevelType.school_type(grade) != curr_type
+            curr_type = GradeLevelType.school_type(grade)
+            schools = schools.drop(1)
+          end
+          gen_enrollment(schools[0], year, grade)
+        end
       }
     end
-  end
-
-  def gen_enrollment(session)
-    school_id = session[:school]
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id)
-    @enrollment_interchange << schoolAssoc
   end
 
   private
 
-  def make_session(school, session)
-    {:school => school['id'], :sections => [], :sessionInfo => session}
+  def gen_enrollment(school_id, start_year, start_grade)
+    schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
+    @enrollment_interchange << schoolAssoc
   end
 
-end
-
-def run_work_orders(yamlHash, batch_size)
-  numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
-  File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-    studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
-    File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-      enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
-      interchanges = {:studentParent => studentParent, :enrollment => enrollment}
-      for id in 1..yamlHash['studentCount'] do
-        work_order = make_work_order(id, yamlHash, numSchools)
-        WorkOrderProcessor.new(work_order, interchanges).build
-      end
-      enrollment.finalize
-    end
-    studentParent.finalize
+  def self.make_session(school, session)
+    {:school => school, :sessionInfo => session}
   end
-end
 
-def gen_work_orders(world)
-  Enumerator.new do |y|
-    student_id = 0
-    world.each{|_, edOrgs|
-      edOrgs.each{|edOrg|
-        unless edOrg['students'].nil? 
-          (0..edOrg['students']-1).each{|_|
-            y.yield gen_work_order(student_id, edOrg)
-            student_id += 1
-          }
-        end
-      }
-    }
+  def find_age(grade)
+    5 + GradeLevelType.get_ordered_grades.index(grade)
   end
-end
 
-def gen_work_order(id, school)
-  {:id => id, :sessions => school['sessions'].map{|session| make_session(school, session)},
-   :birth_day_after => Date.new(2000,9,1)} #TODO fix this once I figure out what age they should be
-end
-
-def make_session(school, session)
-  {:school => school['id'], :sections => [], :sessionInfo => session}
-end
-
-#TODO this is a mocked out work order, make one more intelligent and relating to the world
-def make_work_order(id, yamlHash, numSchools)
-  {:id => id, :sessions => (1..yamlHash['numYears']).map{|i| {:school => i % numSchools, :sections => []}},
-              :birth_day_after => Date.new(2000, 9, 1)}
 end

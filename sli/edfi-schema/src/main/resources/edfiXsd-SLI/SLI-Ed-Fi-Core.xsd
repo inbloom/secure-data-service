@@ -1520,7 +1520,7 @@
 			<xs:element name="GradingPeriod" type="GradingPeriodType">
 				<xs:annotation>
 					<xs:appinfo>
-						<sli:keyFieldName>gradingPeriodIdentity</sli:keyFieldName>
+						<sli:keyFieldName>gradingPeriod</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

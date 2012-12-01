@@ -17,30 +17,22 @@ limitations under the License.
 =end
 require 'mustache'
 
+require_relative "./EntityWriter"
 require_relative "./interchangeGenerator"
 require_relative "../../Shared/EntityClasses/studentSchoolAssociation"
-require_relative '../../Shared/util'
-class StudentEnrollment < Mustache
-  attr_accessor :studentSchools
-  def initialize(entities)
-    @studentSchools = entities
-  end
+require_relative "../../Shared/util"
 
-  def self.template_path
-    "#{File.dirname(__FILE__)}/interchangeTemplates"
-  end
-
-end
+Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
 class EnrollmentGenerator < InterchangeGenerator
-  def initialize(interchange, batchSize)
-    super(interchange, batchSize)
+
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
     @header, @footer = build_header_footer( "StudentEnrollment" )
-    @generators = Hash.new
-    @generators[ StudentSchoolAssociation ] = StudentEnrollment
 
-    start()
+    @writers[StudentSchoolAssociation] = EntityWriter.new("student_school_association.mustache")
+    @writers[StudentSectionAssociation] = EntityWriter.new("student_section_association.mustache")
   end
 
 end
