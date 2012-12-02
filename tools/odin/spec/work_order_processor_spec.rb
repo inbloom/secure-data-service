@@ -26,8 +26,9 @@ require_relative '../lib/OutputGeneration/XML/enrollmentGenerator.rb'
 describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
-      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, 2001, {'id' => 64, 'sessions' => [{'year' => 2001}, 
-                                                                                                  {'year' => 2002}]})}
+      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, 2001, 
+                                             {'id' => 64, 'sessions' => [{'year' => 2001, 'sections' => [1, 2]}, 
+                                                                         {'year' => 2002, 'sections' => [3, 4]}]})}
 
       it "will generate the right number of entities for the student generator" do
         studentParent = double
@@ -38,20 +39,40 @@ describe "WorkOrderProcessor" do
       it "will generate the right number of entities for the enrollment generator" do
         enrollment = double
         enrollment.should_receive(:<<).with(an_instance_of(StudentSchoolAssociation)).twice
+        enrollment.should_receive(:<<).with(an_instance_of(StudentSectionAssociation)).exactly(4).times
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
       end
 
-      it "will generate a StudentSchoolAssociation with the correct information" do
+      it "will generate StudentSchoolAssociations with the correct information" do
         enrollment = double
-        ssas = []
-        enrollment.stub(:<<) do |ssa|
-          ssas << ssa
-          ssa.studentId.should eq(42)
-          ssa.schoolStateOrgId.should eq('elem-0000000064')
+        school_associations = []
+        enrollment.stub(:<<) do |entity|
+          if entity.class == StudentSchoolAssociation
+            school_associations << entity
+            entity.studentId.should eq 42
+            entity.schoolStateOrgId.should eq 'elem-0000000064'
+          end
         end
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
-        ssas[0].startYear.should eq(2001) and ssas[0].startGrade.should eq("Kindergarten")
-        ssas[1].startYear.should eq(2002) and ssas[1].startGrade.should eq("First grade")
+        school_associations[0].startYear.should eq(2001) and school_associations[0].startGrade.should eq("Kindergarten")
+        school_associations[1].startYear.should eq(2002) and school_associations[1].startGrade.should eq("First grade")
+      end
+
+      it "will generate StudentSectionAssociations with the correct information" do
+        enrollment = double
+        section_associations = {2001 => [], 2002 => []}
+        enrollment.stub(:<<) do |entity|
+          if entity.class == StudentSectionAssociation
+            section_associations[entity.year] << entity
+            entity.studentId.should eq 42
+            entity.edOrgId.should eq 'elem-0000000064'
+          end
+        end
+        WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
+        section_associations[2001][0].sectionId.should eq 1
+        section_associations[2001][1].sectionId.should eq 2
+        section_associations[2002][0].sectionId.should eq 3
+        section_associations[2002][1].sectionId.should eq 4
       end
 
     end
