@@ -58,7 +58,7 @@ class StudentWorkOrder
             curr_type = GradeLevelType.school_type(grade)
             schools = schools.drop(1)
           end
-          gen_enrollment(schools[0], year, grade)
+          gen_enrollment(schools[0], year, grade, session)
         end
       }
     end
@@ -66,9 +66,16 @@ class StudentWorkOrder
 
   private
 
-  def gen_enrollment(school_id, start_year, start_grade)
+  def gen_enrollment(school_id, start_year, start_grade, session)
     schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
     @enrollment_interchange << schoolAssoc
+    sections = session['sections']
+    unless sections.nil?
+      sections.each{|section|
+        sectionAssoc = StudentSectionAssociation.new(@id, section, school_id, start_year, start_grade)
+        @enrollment_interchange << sectionAssoc
+      }
+    end
   end
 
   def self.make_session(school, session)
