@@ -149,7 +149,7 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
  And a batch job for file "Hyrule.zip" is completed in database
  And I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 112                 | tenantId                    | Midgar                  | string               |
+     | recordHash               | 112                 | t                           | Midgar                  | string               |
 
 And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And I post "Reingest-Hyrule.zip" file as the payload of the ingestion job for "Hyrule-NYC"
@@ -158,5 +158,5 @@ And a batch job for file "Reingest-Hyrule.zip" is completed in database
 
 And I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 112                   | tenantId                  | Midgar                  | string               |
-     | recordHash               | 112                   | tenantId                  | Hyrule                  | string               |
+     | recordHash               | 112                   | t                         | Midgar                  | string               |
+     | recordHash               | 112                   | t                         | Hyrule                  | string               |

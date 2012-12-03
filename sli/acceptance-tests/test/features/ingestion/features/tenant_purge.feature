@@ -71,5 +71,5 @@ And I should not see an error log file created
    And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "10" authorized edorgs
    And I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 0                   | tenantId                    | Hyrule                  | string               |
+     | recordHash               | 0                   | t                           | Hyrule                  | string               |
  And I should not see an error log file created

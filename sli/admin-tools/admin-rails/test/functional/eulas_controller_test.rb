@@ -18,7 +18,7 @@ limitations under the License.
 
 
 require 'test_helper'
-require 'mocha'
+
 
 class EulasControllerTest < ActionController::TestCase
   setup do

@@ -99,11 +99,19 @@ class StudentWorkOrder
     @enrollment_interchange = interchanges[:enrollment]
     student = Student.new(@id, @birth_day_after)
     @student_interchange << student unless @student_interchange.nil?
+    schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
+    curr_type = GradeLevelType.school_type(@initial_grade)
     unless @enrollment_interchange.nil?
       @edOrg['sessions'].each{ |session|
         year = session['year']
         grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
-        gen_enrollment(@edOrg['id'], year, grade) unless grade.nil?
+        unless grade.nil?
+          if GradeLevelType.school_type(grade) != curr_type
+            curr_type = GradeLevelType.school_type(grade)
+            schools = schools.drop(1)
+          end
+          gen_enrollment(schools[0], year, grade)
+        end
       }
     end
   end

@@ -18,7 +18,7 @@ limitations under the License.
 
 
 require 'test_helper'
-require 'mocha'
+
 
 class ApplicationHelperTest < ActionView::TestCase
   USER_ACCOUNT = {
