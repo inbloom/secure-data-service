@@ -93,6 +93,7 @@ default:
         sli.search.url : http://localhost:9200
         sli.search.username: user
         sli.search.password: searchme
+        sli.search.embedded: true
 
         # Key substitutions
         sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
