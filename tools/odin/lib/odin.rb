@@ -15,6 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+# Enable tailcall optimizations to reduce overall stack size.
+RubyVM::InstructionSequence.compile_option = {
+    :tailcall_optimization => true,
+    :trace_instruction => true
+}
 
 require 'digest/md5'
 require 'digest/sha1'
@@ -25,7 +30,7 @@ require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
-require_relative 'OutputGeneration/XML/studentGenerator'
+require_relative 'OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
@@ -43,47 +48,38 @@ class Odin
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-    configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
+    scenarioYAML, prng = getScenario(scenario)
 
-    if ( scenario.nil? )
-      scenario = configYAML['scenario']
-    end
-
-    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), '/../scenarios', scenario ))
-
-    prng = Random.new(configYAML['seed'])
     Dir.mkdir('../generated') if !Dir.exists?('../generated')
 
     time = Time.now
     
     # Create a snapshot of the world
-    edOrgs = WorldBuilder.new.build(prng, scenarioYAML)
-    @log.info "edOrgs: #{edOrgs}"
-    # Batch size:  should be able ot optimize write time vs memory utilization.
-    batchSize = 10000
-    #
-    # | Batch Size | Time / 1M Students | Peak Memory |  d(time)  |  d(mem)  |
-    # |      1     |       320 sec      |    32 Mb    |     -     |     -    |
-    # |    10000   |       288 sec      |   148 Mb    |  -32 sec  | +116 Mb  |
-    # |    25000   |       281 sec      |   246 Mb    |  -39 sec  | +214 Mb  |
-    # |   100000   |       277 sec      |   460 Mb    |  -43 sec  | +428 Mb  |
-    #
-    
-    run_work_orders scenarioYAML, batchSize
+    edOrgs = WorldBuilder.new(prng, scenarioYAML).build
+    display_world_summary(edOrgs)
+
+    WorkOrderProcessor.run edOrgs, scenarioYAML
 
     finalTime = Time.now - time
     @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
+    genDataZip
+  end
+
+  # displays brief summary of the world just created
+  def display_world_summary(world) 
+    @log.info "Summary of World:"
+    @log.info " - state education agencies: #{world["seas"].size}"
+    @log.info " - local education agencies: #{world["leas"].size}"
+    @log.info " - elementary schools:       #{world["elementary"].size}"
+    @log.info " - middle     schools:       #{world["middle"].size}"
+    @log.info " - high       schools:       #{world["high"].size}"
   end
 
   def validate()
     valid = true
-    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
-
-      valid = valid && validate_file(f)
-
-    }
+    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f| valid = valid && validate_file(f) }
     return valid
   end
 
@@ -98,3 +94,7 @@ class Odin
   end
 end
 
+def getScenario(scenario_name)
+  configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
+  [load_scenario(scenario_name, configYAML), Random.new(configYAML['seed'])]
+end

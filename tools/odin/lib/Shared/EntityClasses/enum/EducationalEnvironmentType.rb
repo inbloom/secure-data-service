@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative "Enum.rb"
+
 # Enumerates the types of educational environments. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="EducationalEnvironmentType">
 #   <xs:annotation>
@@ -51,4 +53,9 @@ class EducationalEnvironmentType
   EducationalEnvironmentType.define :SELF_CONTAINED_SPECIAL_EDUCATION, "Self-contained (Special Education) "
   EducationalEnvironmentType.define :SELF_STUDY, "Self-study"
   EducationalEnvironmentType.define :SHOP, "Shop"
+
+  # returns the ed-fi compliant string representation for an educational environment type
+  def self.to_string(type)
+    const_get(key)
+  end
 end

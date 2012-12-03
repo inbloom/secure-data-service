@@ -1,27 +1,41 @@
 {
-"recordType":"courseOffering",
-"attributes":
-{
-	"SchoolReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"testSchoolId"
-		}
-	},
-	"SessionReference":
-	{
-	   "SessionIdentity":
-	   {
-	       "EducationalOrgReference":
-	       {
-	           "EducationalOrgIdentity":
-                {
-                    "StateOrganizationId":"testSchoolId"
-                }
-	       },
-	       "SessionName":"theSessionName"
-	   }
-	}
-}
+    "recordType":"courseOffering",
+    "attributes":
+    {
+        "SchoolReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"testSchoolId"
+            }
+        },
+        "SessionReference":
+        {
+           "SessionIdentity":
+           {
+               "EducationalOrgReference":
+               {
+                   "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "SessionName":"theSessionName"
+           }
+        },
+        "CourseReference":
+        {
+            "CourseIdentity":
+            {
+                "EducationalOrgReference":
+               {
+                   "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "UniqueCourseId":"testCourseId"
+           }
+        }
+    }
 }

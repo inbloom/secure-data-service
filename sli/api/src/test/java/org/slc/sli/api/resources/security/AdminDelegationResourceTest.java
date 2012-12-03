@@ -90,14 +90,6 @@ public class AdminDelegationResourceTest {
     }
 
     @Test
-    public void testSetLocalDelegationBadRole() throws Exception {
-
-        securityContextInjector.setEducatorContext();
-        Assert.assertEquals(resource.setLocalDelegation(null).getStatus(), Response.Status.FORBIDDEN.getStatusCode());
-
-    }
-
-    @Test
     public void testSetLocalDelegation() throws Exception {
 
         securityContextInjector.setLeaAdminContext();

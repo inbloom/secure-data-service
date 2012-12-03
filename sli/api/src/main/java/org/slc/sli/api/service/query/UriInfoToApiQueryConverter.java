@@ -43,7 +43,7 @@ public class UriInfoToApiQueryConverter {
     //in order to reduce extremely long API calls, we will limit the number of entities any one call can return
     private static final int HARD_ENTITY_COUNT_LIMIT = 1000;
 
-    private SelectionConverter selectionConverter = new Selector2MapOfMaps();
+    //private SelectionConverter selectionConverter = new Selector2MapOfMaps();
 
     /**
      * Keywords that the API handles through specific bindings in a NeutralQuery.
@@ -165,34 +165,30 @@ public class UriInfoToApiQueryConverter {
      */
     public ApiQuery convert(ApiQuery apiQuery, String queryString) {
         if (apiQuery != null && queryString != null) {
-
-            if (queryString != null) {
-
-                try {
-                    for (String criteriaString : queryString.split("&")) {
-                        String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
-                        NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
-                        NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
-                        if (nci == null) {
-                            if (!neutralCriteria.getKey().equals("full-entities")
-                                    && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
-                                    && (!ParameterConstants.VIEWS.equals(neutralCriteria.getKey()))
-                                    && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
-                                    && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))
-                                    && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) {
-                                apiQuery.addCriteria(neutralCriteria);
-                            }
-                        } else {
-                            nci.convert(apiQuery, neutralCriteria.getValue());
+            try {
+                for (String criteriaString : queryString.split("&")) {
+                    String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
+                    NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
+                    NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
+                    if (nci == null) {
+                        if (!neutralCriteria.getKey().equals("full-entities")
+                                && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
+                                && (!ParameterConstants.VIEWS.equals(neutralCriteria.getKey()))
+                                && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
+                                && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))
+                                && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) {
+                            apiQuery.addCriteria(neutralCriteria);
                         }
+                    } else {
+                        nci.convert(apiQuery, neutralCriteria.getValue());
                     }
-                } catch (RuntimeException re) {
-                    error("error parsing query String {} {}", re.getMessage(), queryString);
-                    throw (QueryParseException) new QueryParseException(re.getMessage(), queryString).initCause(re); 
-                } catch (UnsupportedEncodingException e) {
-                    error("Unable to decode query string as UTF-8: {}", queryString);
-                    throw (QueryParseException) new QueryParseException(e.getMessage(), queryString).initCause(e);
                 }
+            } catch (RuntimeException re) {
+                error("error parsing query String {} {}", re.getMessage(), queryString);
+                throw (QueryParseException) new QueryParseException(re.getMessage(), queryString).initCause(re); 
+            } catch (UnsupportedEncodingException e) {
+                error("Unable to decode query string as UTF-8: {}", queryString);
+                throw (QueryParseException) new QueryParseException(e.getMessage(), queryString).initCause(e);
             }
 
             int limit = apiQuery.getLimit();

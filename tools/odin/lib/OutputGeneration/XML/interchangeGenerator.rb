@@ -16,17 +16,21 @@ limitations under the License.
 
 =end
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
-
 class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(interchange, batchSize=10000)
-    @stime = Time.now
-    @entityCount = 0
+  def initialize(yaml, interchange)
     @interchange = interchange
+    @batch_size = yaml['BATCH_SIZE']
+    if @batch_size.nil?
+      @batch_size = 10000
+    end
+    @stime = Time.now
     @entities = []
-    @batchSize = batchSize
+    @writers = Hash.new
+    @header = ""
+    @footer = ""
   end
 
   def start()
@@ -35,28 +39,25 @@ class InterchangeGenerator
 
   def <<(entity)
     @entities << entity
-    if @entities.size >= @batchSize
-      batchRender
+    if @entities.size >= @batch_size
+      renderBatch
       @entities = []
     end
   end
 
-  def batchRender
-    report(@entities)
-    generator = @generator.new @entities
-    @interchange << generator.render()
-  end
+  def renderBatch
+    split_entities = @entities.group_by( &:class )
 
-  def report(entities)
-    @entityCount = @entityCount + entities.length
-    if @entityCount % 100000 == 0
-      puts "\t#@entityCount entities created."
+    split_entities.each do |k, v|
+      @interchange << (@writers[k].write(v))
     end
   end
 
   def finalize()
-    batchRender
+    renderBatch
+
     @interchange << @footer
+    @interchange.flush()
     @interchange.close()
 
     elapsed = Time.now - @stime

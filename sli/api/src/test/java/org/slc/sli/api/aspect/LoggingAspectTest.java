@@ -76,8 +76,9 @@ public class LoggingAspectTest {
         Exception x = new Exception("bogus");
         for (Class<? extends LoggerCarrier> cl : logs) {
             if (!cl.isInterface() && !cl.isEnum() && !Modifier.isAbstract(cl.getModifiers())) {
+                LoggerCarrier instance;
                 try {
-                    LoggerCarrier instance = cl.newInstance();
+                    instance = cl.newInstance();
                     instance.audit(se);
                     instance.debug(msg);
                     instance.debug(msg, param);
@@ -86,7 +87,10 @@ public class LoggingAspectTest {
                     instance.warn(msg);
                     instance.warn(msg, param);
                     instance.error(msg, x);
-                } catch (Exception e) {
+                    instance.error(msg, new Object[] {});
+                } catch (InstantiationException e) {
+                    info("Error padding coverage for {}", cl.getName());
+                } catch (IllegalAccessException e) {
                     info("Error padding coverage for {}", cl.getName());
                 }
             }

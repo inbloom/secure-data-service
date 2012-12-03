@@ -49,17 +49,26 @@ class DataUtility
 
   # create elementary school's state organization id
   def self.get_elementary_school_id(id)
-  	"elem-" + pad_id_with_zeroes(id, 10)
+    "elem-" + pad_id_with_zeroes(id, 10)
   end
 
   # create middle school's state organization id
   def self.get_middle_school_id(id)
-  	"midl-" + pad_id_with_zeroes(id, 10)
+    "midl-" + pad_id_with_zeroes(id, 10)
   end
 
   # create high school's state organization id
   def self.get_high_school_id(id)
-  	"high-" + pad_id_with_zeroes(id, 10)
+    "high-" + pad_id_with_zeroes(id, 10)
+  end
+
+  # create the id for the school based on the given type
+  def self.get_school_id(id, type)
+    case type
+    when :elementary then get_elementary_school_id id
+    when :middle then get_middle_school_id id
+    when :high then get_high_school_id id
+    end
   end
 
   # create course's unique id
@@ -96,6 +105,6 @@ class DataUtility
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
 
   def self.pad_id_with_zeroes(id, num_zeroes)
-  	id.to_s.rjust(num_zeroes, '0')
+    id.to_s.rjust(num_zeroes, '0')
   end
 end

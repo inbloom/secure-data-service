@@ -1,0 +1,12 @@
+{{#entity}}
+<StudentSchoolAssociation>
+   {{> Partials/_student_reference}}
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{schoolStateOrgId}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>{{startYear}}-09-01</EntryDate>
+    <EntryGradeLevel>{{startGrade}}</EntryGradeLevel>
+  </StudentSchoolAssociation>
+{{/entity}}

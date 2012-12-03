@@ -19,8 +19,7 @@ limitations under the License.
 
 # Be sure to restart your server when you modify this file.
 
-SLIAdmin::Application.config.session_store :cookie_store, :key => 'ADMIN_SESSION_ID', :httponly => true, :secure => (Rails.env != 'development' && Rails.env != 'development_sb')
-
+SLIAdmin::Application.config.session_store :encrypted_cookie_store, :key => 'ADMIN_SESSION_ID', :httponly => true, :secure => (Rails.env != 'development' && Rails.env != 'development_sb')
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")

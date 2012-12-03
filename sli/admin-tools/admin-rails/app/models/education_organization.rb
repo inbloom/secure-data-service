@@ -22,6 +22,7 @@ class EducationOrganization < SessionResource
 
   self.collection_name = "educationOrganizations"
   schema do
+    string "id"
     boolean "is_allowed"
     string  "organizationCategories"
   end

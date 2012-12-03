@@ -24,6 +24,9 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -81,6 +84,12 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
     public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
+
+    @Resource
+    private Set<String> tenantIndexes;
+
+    @Resource
+    private Set<String> shardCollections;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -196,10 +205,12 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+        //MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+        MongoCommander.ensureIndexes(tenantIndexes, dbName, batchJobDAO.getMongoTemplate());
 
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+        //MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+        MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate());
 
         tenantDA.setTenantReadyFlag(tenantId);
     }
@@ -248,8 +259,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     private ControlFileDescriptor createControlFileDescriptor(NewBatchJob newBatchJob, ControlFile controlFile) {
         File sourceFile = new File(newBatchJob.getSourceId());
         LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
-        ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
-        return controlFileDescriptor;
+        return new ControlFileDescriptor(controlFile, resolvedLandingZone);
     }
 
     /**
@@ -315,13 +325,13 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      * Throws an IngestionException if a tenantId could not be resolved.
      */
     private String setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
-        lzPath = new File(lzPath).getAbsolutePath();
+        String absLzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
-        String tenantId = tenantDA.getTenantId(lzPath);
+        String tenantId = tenantDA.getTenantId(absLzPath);
         if (tenantId != null) {
             cf.getConfigProperties().put("tenantId", tenantId);
         } else {
-            throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
+            throw new IngestionException("Could not find tenantId for landing zone: " + absLzPath);
         }
         return tenantId;
     }
@@ -361,5 +371,21 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public Set<String> getTenantIndexes() {
+        return tenantIndexes;
+    }
+
+    public void setTenantIndexes(Set<String> tenantIndexes) {
+        this.tenantIndexes = tenantIndexes;
+    }
+
+    public Set<String> getShardCollections() {
+        return shardCollections;
+    }
+
+    public void setShardCollections(Set<String> shardCollections) {
+        this.shardCollections = shardCollections;
     }
 }

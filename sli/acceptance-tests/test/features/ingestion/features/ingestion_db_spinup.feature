@@ -24,9 +24,9 @@ When zip file is scp to ingestion landing zone
   And a batch job for file "tenant.zip" is completed in database
 Then I should see following map of indexes in the corresponding collections:
      | collectionName                             | index                       |
-     | section                                    | body.schoolId_1             |
-     | student                                    | body.studentUniqueStateId_1 |
-     | teacherSchoolAssociation                   | body.schoolId_1             |
+     | section                                    | body.schoolId               |
+     | student                                    | body.studentUniqueStateId   |
+     | teacherSchoolAssociation                   | body.schoolId               |
     And the database is sharded for the following collections
      | collectionName	                      |
      | attendance                             |

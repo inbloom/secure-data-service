@@ -20,12 +20,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
+
+import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
  * Data access object for batch job data.
@@ -100,9 +104,14 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
-    void upsertRecordHash(String tenantId, String recordId);
+    void insertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException;
+    
+    void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException;
 
     void removeRecordHashByTenant(String tenantId);
 
     public RecordHash findRecordHash(String tenantId, String recordId);
+
+    public MongoTemplate getMongoTemplate();
+
 }

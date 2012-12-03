@@ -55,7 +55,7 @@ class SchoolEducationOrganization < BaseEntity
   end
 
   def parentId
-    DataUtility.get_local_education_agency_id(@parentId)
+    DataUtility.get_local_education_agency_id(@parent_id)
   end
 
   def grades

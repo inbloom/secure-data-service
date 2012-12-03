@@ -163,9 +163,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
 
     public Iterable<NeutralRecord> getCollectionIterableFromDb(String collectionName) {
-        WorkNote workNote = getWorkNote();
+        WorkNote jobWorkNote = getWorkNote();
 
-        Query query = buildCreationTimeQuery(workNote);
+        Query query = buildCreationTimeQuery(jobWorkNote);
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 collectionName, query);

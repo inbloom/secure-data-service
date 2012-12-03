@@ -18,6 +18,7 @@ limitations under the License.
 
 require "mustache"
 
+require_relative "./EntityWriter"
 require_relative "interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"
 
@@ -26,82 +27,32 @@ Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
 # event-based education organization interchange generator
 class EducationOrgCalendarGenerator < InterchangeGenerator
   
-  # session writer
-  class SessionWriter < Mustache
-    def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/session.mustache"
-      @entity = nil
-    end
-    def session
-      @entity
-    end
-    def write(entity)
-      @entity = entity
-      render
-    end
-  end
-
-  # grading period writer
-  class GradingPeriodWriter < Mustache
-    def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/grading_period.mustache"
-      @entity = nil
-    end
-    def grading_period
-      @entity
-    end
-    def write(entity)
-      @entity = entity
-      render
-    end
-  end
-
-  # calendar date writer
-  class CalendarDateWriter < Mustache
-    def initialize
-      @template_file = "#{File.dirname(__FILE__)}/interchangeTemplates/Partials/calendar_date.mustache"
-      @entity = nil
-    end
-    def calendar_date
-      @entity
-    end
-    def write(entity)
-      @entity = entity
-      render
-    end
-  end
-
   # initialization will define the header and footer for the education organization calendar interchange
   # writes header to education organization calendar interchange
   # leaves file handle open for event-based writing of ed-fi entities
-  def initialize
-    @header, @footer = build_header_footer( "EducationOrgCalendar" )
-    @handle = File.new("generated/InterchangeEducationOrgCalendar.xml", 'w')
-    @handle.write(@header)
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
-    @session_writer        = SessionWriter.new
-    @grading_period_writer = GradingPeriodWriter.new
-    @calendar_date_writer  = CalendarDateWriter.new
+    @header, @footer = build_header_footer( "EducationOrgCalendar" )
+
+    @writers[Session] = EntityWriter.new("session.mustache")
+    @writers[GradingPeriod] = EntityWriter.new("grading_period.mustache")
+    @writers[CalendarDate] = EntityWriter.new("calendar_date.mustache")
   end
 
   # creates and writes session to interchange
   def create_session(name, year, term, interval, ed_org_id, grading_periods)
-  	@handle.write @session_writer.write(Session.new(name, year, term, interval, ed_org_id, grading_periods))
+  	self << Session.new(name, year, term, interval, ed_org_id, grading_periods)
   end
 
   # creates and writes grading period to interchange
   def create_grading_period(type, year, interval, ed_org_id, calendar_dates)
-    @handle.write @grading_period_writer.write(GradingPeriod.new(type, year, interval, ed_org_id, calendar_dates))
+    self << GradingPeriod.new(type, year, interval, ed_org_id, calendar_dates)
   end
 
   # creates and writes calendar date to interchange
   def create_calendar_date(date, event)
-    @handle.write @calendar_date_writer.write(CalendarDate.new(date, event))
+    self << CalendarDate.new(date, event)
   end
 
-  # writes footer and closes education organization calendar interchange file handle
-  def close
-    @handle.write(@footer)
-    @handle.close()
-  end
 end

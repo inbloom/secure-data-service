@@ -40,6 +40,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
 import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -92,16 +93,9 @@ public class OnboardingResource {
      * @QueryParam stateOrganizationId -- the unique identifier for this ed org
      */
     @POST
+    @RightsAllowed({Right.INGEST_DATA})
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
         String orgId = reqBody.get(STATE_EDORG_ID);
-
-        if (!SecurityUtil.hasRight(Right.INGEST_DATA)) {
-            EntityBody body = new EntityBody();
-            body.put("response", "You are not authorized to provision a landing zone.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
-
         Response r = createEdOrg(orgId);
         return r;
     }

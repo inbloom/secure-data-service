@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd ">
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <StateEducationAgency>
-    <StateOrganizationId>stte-0000000006</StateOrganizationId>
+    <StateOrganizationId>stte-0000000005</StateOrganizationId>
     <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
@@ -30,7 +30,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000001</UniqueCourseId>
@@ -51,7 +51,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000002</UniqueCourseId>
@@ -72,7 +72,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000003</UniqueCourseId>
@@ -93,7 +93,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000004</UniqueCourseId>
@@ -114,7 +114,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000005</UniqueCourseId>
@@ -135,7 +135,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000006</UniqueCourseId>
@@ -156,7 +156,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000007</UniqueCourseId>
@@ -177,7 +177,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000008</UniqueCourseId>
@@ -198,7 +198,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000009</UniqueCourseId>
@@ -219,7 +219,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000010</UniqueCourseId>
@@ -240,7 +240,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000011</UniqueCourseId>
@@ -261,7 +261,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000012</UniqueCourseId>
@@ -282,7 +282,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000013</UniqueCourseId>
@@ -303,7 +303,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000014</UniqueCourseId>
@@ -324,7 +324,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000015</UniqueCourseId>
@@ -345,7 +345,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000016</UniqueCourseId>
@@ -366,7 +366,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000017</UniqueCourseId>
@@ -387,7 +387,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000018</UniqueCourseId>
@@ -408,7 +408,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000019</UniqueCourseId>
@@ -429,7 +429,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000020</UniqueCourseId>
@@ -450,7 +450,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000021</UniqueCourseId>
@@ -471,7 +471,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000022</UniqueCourseId>
@@ -492,7 +492,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000023</UniqueCourseId>
@@ -513,7 +513,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000024</UniqueCourseId>
@@ -534,7 +534,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000025</UniqueCourseId>
@@ -555,7 +555,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000026</UniqueCourseId>
@@ -576,7 +576,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000027</UniqueCourseId>
@@ -597,7 +597,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000028</UniqueCourseId>
@@ -618,7 +618,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000029</UniqueCourseId>
@@ -639,7 +639,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000030</UniqueCourseId>
@@ -660,7 +660,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000031</UniqueCourseId>
@@ -681,7 +681,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000032</UniqueCourseId>
@@ -702,7 +702,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000033</UniqueCourseId>
@@ -723,7 +723,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000034</UniqueCourseId>
@@ -743,26 +743,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <LEACategory>Independent</LEACategory>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <LocalEducationAgency>
-    <StateOrganizationId>locl-0000000005</StateOrganizationId>
-    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-    <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000006</StateOrganizationId>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
       </EducationalOrgIdentity>
     </StateEducationAgencyReference>
   </LocalEducationAgency>
@@ -798,7 +779,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolCategories>
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
@@ -831,7 +812,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolCategories>
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
@@ -865,7 +846,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolCategories>
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>

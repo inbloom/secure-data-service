@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -145,7 +146,9 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             setExchangeHeaders(exchange, newJob, errorReport);
 
             setExchangeBody(exchange, batchJobId);
-            cf.getFile().delete();
+            if (!cf.getFile().delete()) {
+                LOG.debug("Failed to delete: " + cf.getFile().getPath());
+            }
 
 
         } catch (Exception exception) {
@@ -213,8 +216,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private HashMap<String, String> aggregateBatchJobProperties(ControlFile cf) {
-        HashMap<String, String> batchProperties = new HashMap<String, String>();
+    private Map<String, String> aggregateBatchJobProperties(ControlFile cf) {
+        Map<String, String> batchProperties = new HashMap<String, String>();
         Enumeration<Object> keys = cf.getConfigProperties().keys();
         Enumeration<Object> elements = cf.getConfigProperties().elements();
 

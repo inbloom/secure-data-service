@@ -1,0 +1,50 @@
+# Base set of configuration parameters required to run ODIN
+studentCount: 1
+beginYear: 2001
+numYears: 3
+
+# Example of other configuration
+# (11/21/2012 shalka: i'm going to be removing these very soon)
+numSEA: 1
+numLEA: 1
+studentsPerSchool: 10
+numPrograms: 4
+numCourses: 2
+numCourseOffering: 2
+numBellSchedule: 2
+
+# Minimum and Maximum grade breakdown percentages
+MINIMUM_GRADE_PERCENTAGE: 6.5
+MAXIMUM_GRADE_PERCENTAGE: 8.5
+
+# Average number of students per school type:
+# -> resouce: http://nces.ed.gov/pubs2002/overview/table5.asp
+AVERAGE_ELEMENTARY_SCHOOL_NUM_STUDENTS: 500
+AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS: 750
+AVERAGE_HIGH_SCHOOL_NUM_STUDENTS: 1000
+AVERAGE_NUM_STUDENTS_THRESHOLD: 0.50
+
+# Average number of schools per school district
+# -> resource: http://nces.ed.gov/pubs2009/2009320.pdf (Table 1, page 7)
+AVERAGE_NUM_SCHOOLS_PER_DISTRICT: 5
+AVERAGE_SCHOOLS_THRESHOLD: 0.60
+
+# Course Catalog (currently published at State Education Agency level)
+SIXTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+SEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+EIGHTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+NINTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+TENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+ELEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+
+# Minimum and Maximum number of students per section for each school type
+MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION: 20
+MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION: 22
+MINIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION: 23
+MAXIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION: 26
+MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION: 27
+MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION: 30
+
+# Set the number of records we cache before writing them to disk.
+BATCH_SIZE: 10000

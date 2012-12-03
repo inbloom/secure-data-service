@@ -315,7 +315,7 @@ public class DataForASchool {
         SchoolGenerator sg = new SchoolGenerator(StateAbbreviationType.NY);
 
         for (String schoolId : schools) {
-            School school = sg.getSchool(schoolId);
+            SLCSchool school = sg.getSchool(schoolId);
             list.add(school);
         }
 
@@ -328,7 +328,7 @@ public class DataForASchool {
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
 
         InterchangeMasterSchedule interchangeMasterSchedule = new InterchangeMasterSchedule();
-        List<ComplexObjectType> list = interchangeMasterSchedule.getCourseOfferingOrSectionOrBellSchedule();
+        List<Object> list = interchangeMasterSchedule.getCourseOfferingOrSectionOrBellSchedule();
 
         // sections
         for (SectionInternal si : sections) {
@@ -448,7 +448,7 @@ public class DataForASchool {
         // studentParentAssociation
         StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
         for (String studentParentId : studentParentAssociations) {
-            StudentParentAssociation spa = spag.generate(studentParentId, delimiter);
+            SLCStudentParentAssociation spa = spag.generate(studentParentId, delimiter);
             list.add(spa);
         }
 
@@ -561,7 +561,7 @@ public class DataForASchool {
 
         InterchangeStudentCohort interchangeStudentCohort = new InterchangeStudentCohort();
 
-        List<Object> list = interchangeStudentCohort.getCohortOrStudentCohortAssociationOrStaffCohortAssociation();
+        List<ComplexObjectType> list = interchangeStudentCohort.getCohortOrStudentCohortAssociationOrStaffCohortAssociation();
 
         // Cohort
         // StudentCohortAssociation
@@ -577,27 +577,27 @@ public class DataForASchool {
 
         InterchangeStudentDiscipline interchangeStudentDiscipline = new InterchangeStudentDiscipline();
 
-        List<Object> list = interchangeStudentDiscipline
+        List<ComplexObjectType> list = interchangeStudentDiscipline
                 .getDisciplineIncidentOrStudentDisciplineIncidentAssociationOrDisciplineAction();
 
         // DisciplineIncident
         DisciplineGenerator dg = new DisciplineGenerator();
         for (String disciplineId : disciplineIncidents) {
-            DisciplineIncident disciplineIncident = dg.generate(disciplineId, delimiter);
+            SLCDisciplineIncident disciplineIncident = dg.generate(disciplineId, delimiter);
             list.add(disciplineIncident);
         }
 
         // StudentDisciplineIncidentAssociation
         StudentDisciplineAssociationGenerator sdag = new StudentDisciplineAssociationGenerator();
         for (String stringId : studentDisciplineIncidentAssociations) {
-        	StudentDisciplineIncidentAssociation discAssociate = sdag.generate(stringId, delimiter);
+        	SLCStudentDisciplineIncidentAssociation discAssociate = sdag.generate(stringId, delimiter);
         	list.add(discAssociate);
         }
 
         // DisciplineAction - Assuming action in all cases (even StudentParticipationCodeType.VICTIM.  Sorry!)
         DisciplineActionGenerator sdactg = new DisciplineActionGenerator();
         for (String stringId : disciplineActions) {
-        	DisciplineAction discAction = sdactg.generate(stringId, delimiter);
+        	SLCDisciplineAction discAction = sdactg.generate(stringId, delimiter);
         	list.add(discAction);
         }
 
@@ -627,7 +627,7 @@ public class DataForASchool {
 
         InterchangeStudentAttendance InterchangeStudentAttendance = new InterchangeStudentAttendance();
 
-        List<AttendanceEvent> list = InterchangeStudentAttendance.getAttendanceEvent();
+        List<SLCAttendanceEvent> list = InterchangeStudentAttendance.getAttendanceEvent();
 
         // AttendanceEvent
 

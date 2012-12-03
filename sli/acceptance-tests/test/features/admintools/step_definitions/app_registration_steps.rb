@@ -38,6 +38,11 @@ When /^I hit the Application Registration Tool URL$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 end
 
+Then /^I can navigate to app registration page with that user$/ do
+  step "I hit the Application Registration Tool URL"
+  step "I submit the credentials \"#{@user_info[:email]}\" \"test1234\" for the \"Simple\" login page"
+end
+
 Then /^I am redirected to the Application Approval Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Approve Applications") != nil}
 end
@@ -73,6 +78,7 @@ Then /^application "([^"]*)" is pending approval$/ do |app|
   trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
   assert(trs.length > 0, "#{app} is pending")
 end
+
 
 Then /^the pending apps are on top$/ do
   appsTable = @driver.find_element(:id, "applications")
@@ -301,7 +307,7 @@ Then /^I the field named "([^"]*)" still says "([^"]*)"$/ do |arg1, arg2|
   assertWithWait("#{arg1} should be #{arg2}") {value == arg2}
 end
 
-Then /^I have clicked on the button 'Deny' for the application named "([^"]*)"$/ do |arg1|
+Then /^I have clicked on the button 'Delete' for the application named "([^"]*)"$/ do |arg1|
   list = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']")
   assert(list)
   @id = list.attribute('id')
@@ -318,7 +324,9 @@ When /^I click 'Yes'$/ do
 end
 
 Then /^the application named "([^"]*)" is removed from the SLI$/ do |arg1|
-    assertWithWait("Shouldn't see a NewApp") {!@driver.find_element(:xpath, "//tr[2]").attribute('id') != @id}
+    assertWithWait("Shouldn't see a NewApp") do 
+      @driver.find_elements(:xpath, "//tr/td[text()=#{arg1}]")
+    end
 end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
@@ -333,6 +341,10 @@ Then /^I see the list of my registered applications only$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tbody/tr")
   assert(trs.length > 0, "Should see at least one of my apps")
+end
+
+Then /^I see the list of registered applications as well$/ do
+    step "I see the list of my registered applications only"
 end
 
 Then /^the application is registered$/ do
@@ -387,8 +399,20 @@ When /^I click on the In Progress button$/ do
   step 'I clicked on the button Edit for the application "NewApp"'
   db.remove()
 end
+
 Then /^I can see the ed\-orgs I want to approve for my application$/ do
   assert(@driver.find_element(:css, 'div.edorgs input[type="checkbox"]') != nil, "We should see the edorgs available for this app")
+end
+
+And /^I can update the version to "100"$/ do 
+  @driver.find_element(:name, 'app[version]').send_keys "100"
+end 
+
+And /^I can delete "(.*?)"$/ do |app_name|
+    step "I have clicked on the button 'Deny' for the application named \"#{app_name}\""
+    step "I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'"
+    step "I click 'Yes'"
+    step "the application named \"#{app_name}\" is removed from the SLI"
 end
 
 private

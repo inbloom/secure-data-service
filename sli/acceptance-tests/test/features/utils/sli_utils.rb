@@ -34,7 +34,7 @@ include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
-$SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
+$SESSION_MAP = {
                 "jdoe_IL" => "c88ab6d7-117d-46aa-a207-2a58d1f72796",
                 "tbear_IL" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
                 "john_doe_IL" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
@@ -46,10 +46,6 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "rbraverman_IL" => "2cf7a5d4-78a1-ca42-8b74-b5f95131ac21",
                 "manthony_IL" => "2cfda5e4-74a1-7a4b-8274-a5f5c134ac61",
                 "mario.sanchez_NY" => "8cfba5a4-39a1-ca39-8413-b5697131ac85",
-                "educator_SLI" => "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
-                "leader_SLI" => "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",
-                "administrator_SLI" => "4cf7a5d4-37a1-ca33-8b13-b5f95131ac85",
-                "aggregator_SLI" => "4cf7a5d4-37a1-ca44-8b13-b5f95131ac85",
                 "baduser_SLI" => "4cf7a5d4-37a1-ca55-8b13-b5f95131ac85",
                 "nouser_SLI" => "4cf7a5d4-37a1-ca66-8b13-b5f95131ac85",
                 "teacher_IL" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
@@ -323,18 +319,26 @@ After do |scenario|
       conn = Mongo::Connection.new("jenkins.slidev.org")
       db = conn.db("test_job_failures")
       failures = db.collection("failure")
-      title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.title : scenario.title
+      title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.name.split("\n")[0] : scenario.feature.name.split("\n")[0]
+      scenarioName = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.name : scenario.name
+      host = Socket.gethostname.include?("cislave")? Socket.gethostname : "local"
+      
+      filepath = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.file : scenario.feature.file
+      component = filepath.match(/test[\\\/]features[\\\/]([^\\\/]+)[\\\/]/)[1]
+      
       failureHash = {
        "timestamp" => Time.now.to_f,
        "feature" => title,
-       "scenario" => scenario.name,
-       "hostname" => Socket.gethostname
+       "scenario" => scenarioName,
+       "component" => component,
+       "hostname" => host
       }
       failures.insert(failureHash)
       db.get_last_error()
-      conn.close
     rescue
       # If couldn't report failure, swallow the exception and continue
+    ensure
+      conn.close if conn != nil
     end
     Cucumber.wants_to_quit = true if !ENV['FAILSLOW']
   end

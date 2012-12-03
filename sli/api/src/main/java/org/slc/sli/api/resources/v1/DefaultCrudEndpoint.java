@@ -74,10 +74,10 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 @Scope("request")
 @Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
-        MediaType.APPLICATION_XML + ";charset=utf-8", MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON,
-        MediaType.APPLICATION_XML })
+    MediaType.APPLICATION_XML + ";charset=utf-8", MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON,
+    MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
-        MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
+    MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 @Deprecated
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Shared query parameters that are used by all endpoints */
@@ -463,21 +463,21 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 switch (idLength) {
 
                 // specific id requested
-                    case 1:
-                        return addPagingHeaders(
-                                Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))), 1, uriInfo)
-                                .build();
+                case 1:
+                    return addPagingHeaders(
+                            Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))), 1, uriInfo)
+                            .build();
 
-                        // general listing requested
-                    case 0:
-                        long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), apiQuery);
-                        return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
-                                pagingHeaderTotalCount, uriInfo).build();
+                    // general listing requested
+                case 0:
+                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), apiQuery);
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
+                            pagingHeaderTotalCount, uriInfo).build();
 
-                        // multiple id's requested
-                    default:
-                        return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
-                                idLength, uriInfo).build();
+                    // multiple id's requested
+                default:
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
+                            idLength, uriInfo).build();
                 }
             }
         });
@@ -639,7 +639,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
 
     protected void addAdditionalCritera(NeutralQuery query) {
-    	//no-op
+        //no-op
     }
 
     protected boolean shouldReadAll() {
@@ -727,7 +727,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         if (entity.isRestrictedForLogging()) {
             if (securityEventBuilder != null) {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
-                        uriInfo, "restricted entity \"" + entity.getResourceName() + "\" is accessed.");
+                        uriInfo.getRequestUri(), "restricted entity \"" + entity.getResourceName() + "\" is accessed.");
                 audit(event);
             } else {
                 warn("Cannot create security event, when restricted entity \"" + entity.getResourceName()
@@ -773,7 +773,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
         List<String> optionalFields = getOptionalFields(info);
         List<EntityBody> appendedEntities = entities;
-        
+
         if (optionalFields != null) {
             for (String type : optionalFields) {
                 for (String appenderType : type.split(",")) {
@@ -817,12 +817,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             while (st.hasMoreTokens()) {
                 token = st.nextToken();
                 switch (index) {
-                    case 0:
-                        appender = token;
-                        break;
-                    case 1:
-                        params = token;
-                        break;
+                case 0:
+                    appender = token;
+                    break;
+                case 1:
+                    params = token;
+                    break;
                 }
                 ++index;
             }

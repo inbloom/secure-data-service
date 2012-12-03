@@ -35,20 +35,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
@@ -64,6 +53,14 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Unit tests for the resource representing a tenant
@@ -76,8 +73,6 @@ import org.slc.sli.domain.Repository;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class TenantResourceTest {
-
-    private static final Logger LOG = LoggerFactory.getLogger(TenantResourceTest.class);
 
     @Autowired
     private TenantResourceImpl tenantResource; // class under test
@@ -374,7 +369,7 @@ public class TenantResourceTest {
         try {
             response = tenantResource.createLandingZone(entity, false);
         } catch (TenantResourceCreationException e) {
-            LOG.error(e.getMessage());
+            error(e.getMessage());
         }
         assertNotNull(response);
         assertTrue(response instanceof String);
@@ -397,32 +392,6 @@ public class TenantResourceTest {
         Map<String, Object> preload = (Map<String, Object>) landingZone.get("preload");
         assertEquals(Arrays.asList("small"), preload.get("files"));
         assertEquals("ready", preload.get("status"));
-    }
-
-    @Test
-    public void testPreloadNoAuthorization() throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-        // test no right will get forbidden response
-        injector.setLeaAdminContext();
-        tenantResource.setSandboxEnabled(true);
-        String id = createLandingZone(new EntityBody(createTestEntity()));
-        when(secUtil.getTenantId()).thenReturn(TENANT_1);
-        Response r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
-        // test production environment will get forbidden response
-        injector.setDeveloperContext();
-        tenantResource.setSandboxEnabled(false);
-        r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
-        // test tenant mismatch will get forbidden response
-        injector.setDeveloperContext();
-        tenantResource.setSandboxEnabled(true);
-        when(secUtil.getTenantId()).thenReturn(TENANT_2);
-        r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
     }
 
     @Test

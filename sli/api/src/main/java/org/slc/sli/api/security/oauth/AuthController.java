@@ -280,7 +280,7 @@ public class AuthController {
             idpType = 4;
         }
 
-        // {messageId,encodedSAML}
+        // pair contains {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn, idpType);
 
         sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, realmEnt.getEntityId(),
@@ -323,16 +323,4 @@ public class AuthController {
         return isExpired;
     }
 
-    @SuppressWarnings("unused")
-    private Pair<String, String> extractClientCredentials(String authz) {
-        Matcher m = BASIC_AUTH.matcher(authz);
-
-        if (authz != null && m.find()) {
-            String decoded = Base64.base64Decode(m.group(1));
-            String[] values = decoded.split(":");
-            return Pair.of(values[0], values[1]);
-        } else {
-            throw new IllegalArgumentException("Client auth must be provided");
-        }
-    }
 }

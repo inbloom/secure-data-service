@@ -244,6 +244,16 @@ task :ingestionUniqueSectionCodeTest do
   runTests("test/features/ingestion/features/ingestion_uniqueSectionCode.feature")
 end
 
+desc "Revert Data Test"
+task :ingestionRevertDataTest do
+  runTests("test/features/ingestion/features/ingestion_revert.feature")
+end
+
+desc "Odin Data Set Ingestion Tests"
+task :ingestionOdinDataSet do
+  runTests("test/features/ingestion/features/ingestion_OdinDataSet.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

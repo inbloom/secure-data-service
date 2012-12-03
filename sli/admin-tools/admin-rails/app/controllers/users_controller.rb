@@ -130,6 +130,9 @@ class UsersController < ApplicationController
         reset_password_link = "#{APP_CONFIG['email_replace_uri']}/reset_password"
         ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],params[:user][:primary_role],reset_password_link).deliver
       rescue =>e
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+
         logger.error "Could not send email to #{@user.email}."
         @email_error_message = "Failed to send notification email to #{@user.email}"
       end
@@ -260,8 +263,8 @@ class UsersController < ApplicationController
     check = Check.get ""
     groups = []
     groups << params[:user][:primary_role]
-    groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
-    groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
+    groups << params[:user][:optional_role_1] if params[:user][:optional_role_1] && params[:user][:optional_role_1] != "0" && !groups.include?(params[:user][:optional_role_1])
+    groups << params[:user][:optional_role_2] if params[:user][:optional_role_2] && params[:user][:optional_role_2] != "0" && !groups.include?(params[:user][:optional_role_2])
     @user.fullName = params[:user][:fullName]
     @user.fullName = nil if @user.fullName == ""
     @user.email = params[:user][:email]
@@ -297,17 +300,15 @@ class UsersController < ApplicationController
 
     if is_sea_admin?
       if @login_user_edorg_name !=nil
-        current_edorgs = EducationOrganization.find(:all, :params => {"stateOrganizationId" => @login_user_edorg_name})
+        current_edorgs = EducationOrganization.get("", {"stateOrganizationId" => @login_user_edorg_name})
       end
-      while current_edorgs !=nil && current_edorgs.length>0
+      if current_edorgs !=nil && current_edorgs.length>0
         child_edorgs=[]
-        current_edorgs.each do |edorg|
-          edorgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => edorg.id } )
-          if edorgs!=nil && edorgs.length>0
-            edorgs.each do |temp_edorg|
-              if temp_edorg.organizationCategories.index("State Education Agency") != nil || temp_edorg.organizationCategories.index("Local Education Agency")!=nil
-                child_edorgs.push temp_edorg
-              end
+        edorgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => current_edorgs["id"]} )
+        if edorgs!=nil && edorgs.length>0
+          edorgs.each do |temp_edorg|
+            if temp_edorg.organizationCategories.index("State Education Agency") != nil || temp_edorg.organizationCategories.index("Local Education Agency")!=nil
+              child_edorgs.push temp_edorg
             end
           end
         end

@@ -225,7 +225,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String id = xmlEvent.asStartElement().getAttributeByName(ID_ATTR).getValue();
-                String content = getXmlContentForId(id, xmlEvent, eventReader, errorReport);
+                String content = getXmlContentForId(xmlEvent, eventReader, errorReport);
                 bucketCache.addToBucket(namespace, id, new TransformableXmlString(content, false));
             }
 
@@ -237,7 +237,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         browse(xml, collectRefContent, errorReport);
     }
 
-    private String getXmlContentForId(String key, XMLEvent xmlEvent, XMLEventReader eventReader,
+    private String getXmlContentForId(XMLEvent xmlEvent, XMLEventReader eventReader,
             final ErrorReport errorReport) {
 
         String xmlSnippetString = null;
@@ -263,8 +263,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 @Override
                 public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
-                    if (xmlEvent.isStartElement()) {
-                        StartElement start = xmlEvent.asStartElement();
+                    XMLEvent theXmlEvent = xmlEvent;
+                    if (theXmlEvent.isStartElement()) {
+                        StartElement start = theXmlEvent.asStartElement();
                         pushParent(start);
 
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
@@ -284,18 +285,18 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
 
-                                xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
+                                theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
 
                                 errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG5",
                                         ref.getValue()), IdRefResolutionHandler.class);
                             }
                         }
-                    } else if (xmlEvent.isEndElement()) {
+                    } else if (theXmlEvent.isEndElement()) {
                         popParent();
                     }
 
-                    wr.add(xmlEvent);
+                    wr.add(theXmlEvent);
                 }
 
                 @Override
@@ -382,10 +383,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 @Override
                 public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
+                    XMLEvent theXmlEvent = xmlEvent;
                     String contentToAdd = null;
 
-                    if (xmlEvent.isStartElement()) {
-                        StartElement start = xmlEvent.asStartElement();
+                    if (theXmlEvent.isStartElement()) {
+                        StartElement start = theXmlEvent.asStartElement();
                         parents.push(start);
 
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
@@ -432,23 +434,23 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
                                         contentToAdd == null ? "false" : "true"));
 
-                                xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
+                                theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
                             }
                         }
-                    } else if (xmlEvent.isEndElement()) {
+                    } else if (theXmlEvent.isEndElement()) {
                         parents.pop();
                     }
 
-                    wr.add(xmlEvent);
+                    wr.add(theXmlEvent);
 
-                    if (xmlEvent.isStartDocument()) {
+                    if (theXmlEvent.isStartDocument()) {
                         XMLEvent newLine = EVENT_FACTORY.createCharacters(NEW_LINE);
                         wr.add(newLine);
                     }
 
                     if (contentToAdd != null) {
-                        addContent(contentToAdd, wr, errorReport);
+                        addContent(contentToAdd, wr);
                     }
                 }
 
@@ -540,13 +542,14 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
     }
 
-    private void addContent(String contentToAdd, final XMLEventWriter xmlEventWriter, ErrorReport errorReport) {
+    private void addContent(String contentToAdd, final XMLEventWriter xmlEventWriter) {
         XmlEventVisitor addToXml = new XmlEventVisitor() {
 
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
-                if (xmlEvent.isStartElement()) {
-                    StartElement start = xmlEvent.asStartElement();
+                XMLEvent theXmlEvent = xmlEvent;
+                if (theXmlEvent.isStartElement()) {
+                    StartElement start = theXmlEvent.asStartElement();
 
                     @SuppressWarnings("unchecked")
                     Iterator<Attribute> attrs = start.getAttributes();
@@ -561,11 +564,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         }
                     }
 
-                    xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
+                    theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                             start.getNamespaces());
                 }
 
-                xmlEventWriter.add(xmlEvent);
+                xmlEventWriter.add(theXmlEvent);
             }
 
             @Override
@@ -595,7 +598,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             try {
                 writer.close();
             } catch (XMLStreamException e) {
-                writer = null;
+//                writer = null;  // This is bad in Java, so it's commented out!
+                ;  // Do nothing.
             }
         }
         IOUtils.closeQuietly(out);
@@ -650,6 +654,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @SuppressWarnings("serial")
     private static final class TransformableXmlString implements Serializable {
+        private static final long serialVersionUID = 1L;
         private final String string;
         private final boolean isTransformed;
 

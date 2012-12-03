@@ -19,17 +19,17 @@ package org.slc.sli.test.generators;
 
 import org.slc.sli.test.edfi.entities.AssessmentPerformanceLevel;
 import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
-import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
-import org.slc.sli.test.edfi.entities.ObjectiveAssessmentIdentityType;
-import org.slc.sli.test.edfi.entities.ObjectiveAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessment;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessmentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCObjectiveAssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.meta.ObjectiveAssessmentMeta;
 
 public class ObjectiveAssessmentGenerator {
 
-    public static ObjectiveAssessment generateLowFi(final ObjectiveAssessmentMeta objAssessMeta) {
+    public static SLCObjectiveAssessment generateLowFi(final ObjectiveAssessmentMeta objAssessMeta) {
 
-        ObjectiveAssessment objectiveAssessment = new ObjectiveAssessment();
+        SLCObjectiveAssessment objectiveAssessment = new SLCObjectiveAssessment();
         objectiveAssessment.setId(objAssessMeta.id);
         objectiveAssessment.setIdentificationCode(objAssessMeta.id);
         objectiveAssessment.setMaxRawScore(100);
@@ -74,18 +74,18 @@ public class ObjectiveAssessmentGenerator {
         return objectiveAssessment;
     }
 
-    public static ObjectiveAssessmentReferenceType getObjectiveAssessmentReferenceType(final String assessmentCode) {
-        ObjectiveAssessmentReferenceType objectiveAssessmentRef = new ObjectiveAssessmentReferenceType();
-        ObjectiveAssessmentIdentityType identity = new ObjectiveAssessmentIdentityType();
+    public static SLCObjectiveAssessmentReferenceType getObjectiveAssessmentReferenceType(final String assessmentCode) {
+        SLCObjectiveAssessmentReferenceType objectiveAssessmentRef = new SLCObjectiveAssessmentReferenceType();
+        SLCObjectiveAssessmentIdentityType identity = new SLCObjectiveAssessmentIdentityType();
         objectiveAssessmentRef.setObjectiveAssessmentIdentity(identity);
         identity.setObjectiveAssessmentIdentificationCode(assessmentCode);
         return objectiveAssessmentRef;
     }
 
-    public static ObjectiveAssessmentReferenceType getObjectiveAssessmentReferenceType(
-            final ObjectiveAssessment objectiveAssessment) {
-        ObjectiveAssessmentReferenceType objectiveAssessmentRef = new ObjectiveAssessmentReferenceType();
-        ObjectiveAssessmentIdentityType identity = new ObjectiveAssessmentIdentityType();
+    public static SLCObjectiveAssessmentReferenceType getObjectiveAssessmentReferenceType(
+            final SLCObjectiveAssessment objectiveAssessment) {
+        SLCObjectiveAssessmentReferenceType objectiveAssessmentRef = new SLCObjectiveAssessmentReferenceType();
+        SLCObjectiveAssessmentIdentityType identity = new SLCObjectiveAssessmentIdentityType();
         objectiveAssessmentRef.setObjectiveAssessmentIdentity(identity);
         identity.setObjectiveAssessmentIdentificationCode(objectiveAssessment.getIdentificationCode());
         return objectiveAssessmentRef;

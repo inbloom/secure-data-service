@@ -23,17 +23,23 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -45,8 +51,18 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherSchoolAssociationEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StaffAssociation.xsd\">"
             + "<TeacherSchoolAssociation>"
@@ -79,13 +95,13 @@ public class TeacherSchoolAssociationEntityTest {
         String targetSelector = "InterchangeStaffAssociation/TeacherSchoolAssociation";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                xmlTestData, recordLevelDeltaEnabledEntityNames);
+                xmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidTeacherSchoolAssociationNeutralRecord(neutralRecord);
     }
 
     @SuppressWarnings("unchecked")
-	private void checkValidTeacherSchoolAssociationNeutralRecord(NeutralRecord neutralRecord) {
+    private void checkValidTeacherSchoolAssociationNeutralRecord(NeutralRecord neutralRecord) {
 
         Assert.assertEquals("RecordType not teacherSchoolAssociation", "teacherSchoolAssociation",
                 neutralRecord.getRecordType());
@@ -96,10 +112,8 @@ public class TeacherSchoolAssociationEntityTest {
         Map<String, Object> staffIdentity =  (Map<String, Object>) teacherRef.get("StaffIdentity");
         Assert.assertEquals("333333332", staffIdentity.get("StaffUniqueStateId"));
 
-        @SuppressWarnings("unchecked")
         Map<String, Object> schoolRef = (Map<String, Object>) neutralRecord.getAttributes().get("SchoolReference");
         assertNotNull(schoolRef);
-        @SuppressWarnings("unchecked")
         Map<String, Object> schoolEdOrgId = (Map<String, Object>) schoolRef.get("EducationalOrgIdentity");
         assertNotNull(schoolEdOrgId);
         assertEquals("123456111", schoolEdOrgId.get("StateOrganizationId"));
