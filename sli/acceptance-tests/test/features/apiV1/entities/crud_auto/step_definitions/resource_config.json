@@ -60,8 +60,20 @@
       ]
     },
     "UPDATE": {
-      "field": "schoolYearAttendance.schoolYear",
-      "value": "2012-1013"
+      "field": "schoolYearAttendance",
+      "value": [{
+          "schoolYear": "2011-2012",
+          "attendanceEvent": [
+            {
+              "date": "2011-09-16",
+              "event": "Tardy"
+            },
+          {
+              "date": "2011-09-17",
+              "event": "Tardy"
+            }
+          ]
+        }]
     },
     "naturalKey": {
       "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735b",
@@ -759,7 +771,7 @@
       "value": "2012-04-04"
     },
     "naturalKey": {
-       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
       "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
       "beginDate": "2012-02-29"
     }
@@ -867,7 +879,7 @@
   },
   "teacherSectionAssociation": {
     "POST": {
-      "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
+      "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
       "sectionId": "392d1835-f372-4690-b221-7065db1aed33",
       "classroomPosition": "Teacher of Record"
     },
@@ -876,7 +888,7 @@
       "value": "Assistant Teacher"
     },
     "naturalKey": {
-     "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+     "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
      "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
     }
   }

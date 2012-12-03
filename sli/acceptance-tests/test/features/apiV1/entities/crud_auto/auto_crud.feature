@@ -136,64 +136,58 @@ Background: Nothing yet
         Then I navigate to DELETE with invalid id for each resource available
 
 
-
-
-
-
-
-        Scenario: Get All Entities as State Staff
-        Given my contextual access is defined by table:
-        |Context                | Ids                                |
-        |schools                |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
-        |educationOrganizations |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
-        |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
-        Given the expected rewrite results are defined by table:
-        | Entity Type                              | Entity Resource URI                      | Count | Rewrite URI|
-        | assessment                              | assessments                              | 17    |/assessments|
-        | attendance                              | attendances                              | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
-        | cohort                                  | cohorts                                  | 2     |/staff/@ids/staffCohortAssociations/cohorts|
-        | course                                  | courses                                  | 0     |/schools/@ids/courses|
-        | disciplineAction                        | disciplineActions                        | 2     |/staff/@ids/disciplineActions|
-        | disciplineIncident                      | disciplineIncidents                      | 0     |/staff/@ids/disciplineIncidents|
-        | educationOrganization                   | educationOrganizations                   | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
-        | gradebookEntry                          | gradebookEntries                         | 0     |/schools/@ids/sections/gradebookEntries|
-        | learningObjective                       | learningObjectives                       | 5     |/learningObjectives|
-        | learningStandard                        | learningStandards                        | 15    |/learningStandards|
-        | parent                                  | parents                                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
-        | program                                 | programs                                 | 2     |/staff/@ids/staffProgramAssociations/programs|
-        | studentProgramAssociation               | studentProgramAssociations               | 10    |/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations|
-        | courseTranscript                        | courseTranscripts                        | 0     |/schools/@ids/studentSchoolAssociations/students/courseTranscripts|
-        | staffEducationOrganizationAssociation   | staffEducationOrgAssignmentAssociations  | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations|
-        | studentCohortAssociation                | studentCohortAssociations                | 6     |/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations|
-        | teacherSectionAssociation               | teacherSectionAssociations               | 0     |/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations|
-        | studentSchoolAssociation                | studentSchoolAssociations                | 0     |/schools/@ids/studentSchoolAssociations|
-        | teacherSchoolAssociation                | teacherSchoolAssociations                | 0     |/schools/@ids/teacherSchoolAssociations|
-        | studentSectionAssociation               | studentSectionAssociations               | 0     |/schools/@ids/sections/studentSectionAssociations|
-        | staffCohortAssociation                  | staffCohortAssociations                  | 2     |/staff/@ids/staffCohortAssociations|
-        | studentAssessment                       | studentAssessments                       | 0     |/schools/@ids/studentSchoolAssociations/students/studentAssessments|
-        | competencyLevelDescripto                | competencyLevelDescriptor                | 0     |/competencyLevelDescriptor|
-        | staffProgramAssociation                 | staffProgramAssociations                 | 3     |/staff/@ids/staffProgramAssociations|
-        | studentDisciplineIncidentAssociation    | studentDisciplineIncidentAssociations    | 0     |/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations|
-        | studentParentAssociation                | studentParentAssociations                | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations|
-        | courseOffering                          | courseOfferings                          | 0     |/schools/@ids/courseOfferings|
-        | graduationPlan                          | graduationPlans                          | 5     |/graduationPlans|
-        | school                                  | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
-        | section                                 | sections                                 | 0     |/schools/@ids/sections|
-        | session                                 | sessions                                 | 0     |/educationOrganizations/@ids/sessions|
-        | staff                                   | staff                                    | 4     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
-        | student                                 | students                                 | 0     |/schools/@ids/studentSchoolAssociations/students|
-        | studentAcademicRecord                   | studentAcademicRecords                   | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
-        | studentGradebookEntry                   | studentGradebookEntries                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|
-        | teacher                                 | teachers                                 | 0     |/schools/@ids/teacherSchoolAssociations/teachers|
-        | grade                                   | grades                                   | 0     |/schools/@ids/sections/studentSectionAssociations/grades|
-        | studentCompetencie                      | studentCompetencies                      | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
-        | gradingPeriod                           | gradingPeriods                           | 0     |/schools/@ids/sessions/gradingPeriods|
-        | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
-        | studentCompetencyObjective              | studentCompetencyObjectives              | 0     |/educationOrganizations/@ids/studentCompetencyObjectives    |    
-        Then the staff queries and rewrite rules work
-
-
-
+    Scenario: Get All Entities as State Staff
+    Given my contextual access is defined by table:
+    |Context                | Ids                                |
+    |schools                |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |educationOrganizations |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
+    Given the expected staff rewrite results are defined by table:
+    | Entity Resource URI                      | Count | Rewrite URI|
+    | assessments                              | 17    |/assessments|
+    | attendances                              | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
+    | cohorts                                  | 2     |/staff/@ids/staffCohortAssociations/cohorts|
+    | courses                                  | 0     |/schools/@ids/courses|
+    | disciplineActions                        | 2     |/staff/@ids/disciplineActions|
+    | disciplineIncidents                      | 0     |/staff/@ids/disciplineIncidents|
+    | educationOrganizations                   | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
+    | gradebookEntries                         | 0     |/schools/@ids/sections/gradebookEntries|
+    | learningObjectives                       | 5     |/learningObjectives|
+    # TODO TODO TODO TODO TODO TODO
+    # learnginStandards should be 14, but a prior CRUD test fails to delete one or something, so set to 15 for now
+    | learningStandards                        | 14    |/learningStandards|
+    | parents                                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
+    | programs                                 | 2     |/staff/@ids/staffProgramAssociations/programs|
+    | studentProgramAssociations               | 10    |/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations|
+    | courseTranscripts                        | 0     |/schools/@ids/studentSchoolAssociations/students/courseTranscripts|
+    | staffEducationOrgAssignmentAssociations  | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations|
+    | studentCohortAssociations                | 6     |/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations|
+    | teacherSectionAssociations               | 0     |/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations|
+    | studentSchoolAssociations                | 0     |/schools/@ids/studentSchoolAssociations|
+    | teacherSchoolAssociations                | 0     |/schools/@ids/teacherSchoolAssociations|
+    | studentSectionAssociations               | 0     |/schools/@ids/sections/studentSectionAssociations|
+    | staffCohortAssociations                  | 2     |/staff/@ids/staffCohortAssociations|
+    | studentAssessments                       | 0     |/schools/@ids/studentSchoolAssociations/students/studentAssessments|
+    | competencyLevelDescriptor                | 0     |/competencyLevelDescriptor|
+    | staffProgramAssociations                 | 3     |/staff/@ids/staffProgramAssociations|
+    | studentDisciplineIncidentAssociations    | 0     |/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations|
+    | studentParentAssociations                | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations|
+    | courseOfferings                          | 0     |/schools/@ids/courseOfferings|
+    | graduationPlans                          | 5     |/graduationPlans|
+    | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
+    | sections                                 | 0     |/schools/@ids/sections|
+    | sessions                                 | 0     |/educationOrganizations/@ids/sessions|
+    | staff                                    | 4     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+    | students                                 | 0     |/schools/@ids/studentSchoolAssociations/students|
+    | studentAcademicRecords                   | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
+    | studentGradebookEntries                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|
+    | teachers                                 | 0     |/schools/@ids/teacherSchoolAssociations/teachers|
+    | grades                                   | 0     |/schools/@ids/sections/studentSectionAssociations/grades|
+    | studentCompetencies                      | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
+    | gradingPeriods                           | 0     |/schools/@ids/sessions/gradingPeriods|
+    | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
+    | studentCompetencyObjectives              | 0     |/educationOrganizations/@ids/studentCompetencyObjectives    |    
+    Then the staff queries and rewrite rules work
 
 #
 #    Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
@@ -268,10 +262,10 @@ Background: Nothing yet
 #| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
 #| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
 #
-#    Scenario Outline: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
-#    Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
-#      And format "application/vnd.slc+json"
-#       Given entity URI <Entity Resource URI>
+    Scenario: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
+    Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
+      And format "application/vnd.slc+json"
+      Then I perform CRUD for each resource available
 #        # Create
 #       Given a valid entity json document for a <Entity Type>
 #        When I navigate to POST "/<ENTITY URI>"

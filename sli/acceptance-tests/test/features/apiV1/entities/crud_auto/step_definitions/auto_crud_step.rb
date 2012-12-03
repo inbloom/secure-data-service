@@ -62,8 +62,8 @@ When /^I navigate to PUT with invalid id for each resource available$/ do
       Given a valid entity json document for a \"#{resource_type}\"
     }
     # split the steps calls so that @updates will have been populated
+    @fields[@updates['field']] = @updates['value']
     steps %Q{
-      When I set the "#{@updates['field']}" to "#{@updates['value']}"
       When I navigate to PUT \"#{uri}\"
       Then I should receive a return code of 404
 
@@ -109,13 +109,21 @@ Then /^I perform CRUD for each resource available$/ do
     begin
       #post is not allowed for associations
         post_resource resource
-        get_resource resource
-        steps %Q{
-          When I set the "#{@updates['field']}" to "#{@updates['value']}"
+        begin
+          get_resource resource
+        rescue =>e
+          $stderr.puts "#{resource} ==> #{e}"
+        end
+        begin
+    @fields[@updates['field']] = @updates['value']
+          steps %Q{
           When I navigate to PUT \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 204
-        }
-        update_natural_key resource
+          }
+          update_natural_key resource
+        rescue =>e
+          $stderr.puts "#{resource} ==> #{e}"
+        end
         delete_resource resource
         puts  "|#{get_resource_type(resource)}|"
     rescue =>e
@@ -181,8 +189,8 @@ end
 def update_natural_key resource
   if @naturalKey.nil? == false
     @naturalKey.each do |nKey,nVal|
+      @fields[nKey] = nVal
       steps %Q{
-          When I set the "#{nKey}" to "#{nVal}"
           When I navigate to PUT \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 409 
       }
