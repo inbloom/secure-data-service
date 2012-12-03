@@ -26,9 +26,9 @@ require_relative '../lib/OutputGeneration/XML/enrollmentGenerator.rb'
 describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
-      let(:work_order) {StudentWorkOrder.new(42, :KINDERGARTEN, 2001, 
-                                             {'id' => 64, 'sessions' => [{'year' => 2001, 'sections' => [1, 2]}, 
-                                                                         {'year' => 2002, 'sections' => [3, 4]}]})}
+      let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001, 
+                                             :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001}, {'year' => 2002}]},
+                                             :sections => {2001 => [{'id' => 1}, {'id' => 2}], 2002 => [{'id' => 3}, {'id' => 4}]})}
 
       it "will generate the right number of entities for the student generator" do
         studentParent = double
@@ -77,12 +77,13 @@ describe "WorkOrderProcessor" do
 
     end
     context 'With a work order that spans multiple schools' do
-      let(:work_order) {StudentWorkOrder.new(42, :FIFTH_GRADE, 2001, {'id' => 64, 'sessions' => [{'year' => 2001},
-                                                                                                 {'year' => 2002},
-                                                                                                 {'year' => 2003},
-                                                                                                 {'year' => 2004},
-                                                                                                 {'year' => 2005}],
-                                                                      'feeds_to' => [65, 66]})}
+      let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :FIFTH_GRADE, :initial_year => 2001, 
+                                             :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001},
+                                                                                   {'year' => 2002},
+                                                                                   {'year' => 2003},
+                                                                                   {'year' => 2004},
+                                                                                   {'year' => 2005}],
+                                                        'feeds_to' => [65, 66]})}
       it "will get enrollments for each school" do
         enrollment = double
         ssas = []
@@ -98,14 +99,16 @@ describe "WorkOrderProcessor" do
       end
     end
     context "with a work order than includes students gradutating" do
-      let(:eleventh_grader) {StudentWorkOrder.new(42, :ELEVENTH_GRADE, 2001, {'id' => 64, 'sessions' => [{'year' => 2001},
-                                                                                                    {'year' => 2002},
-                                                                                                    {'year' => 2003},
-                                                                                                    {'year' => 2004}]})}
-      let(:twelfth_grader) {StudentWorkOrder.new(42, :TWELFTH_GRADE, 2001, {'id' => 64, 'sessions' => [{'year' => 2001},
-                                                                                                       {'year' => 2002},
-                                                                                                       {'year' => 2003},
-                                                                                                       {'year' => 2004}]})}
+      let(:eleventh_grader) {StudentWorkOrder.new(42, :initial_grade => :ELEVENTH_GRADE, :initial_year => 2001, 
+                                                  :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001},
+                                                                                        {'year' => 2002},
+                                                                                        {'year' => 2003},
+                                                                                        {'year' => 2004}]})}
+      let(:twelfth_grader) {StudentWorkOrder.new(42, :initial_grade => :TWELFTH_GRADE, :initial_year => 2001, 
+                                                 :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001},
+                                                                                       {'year' => 2002},
+                                                                                       {'year' => 2003},
+                                                                                       {'year' => 2004}]})}
       it "will only generate student school associations until the student has graduated" do
         enrollment = double
         ssas = []

@@ -27,19 +27,20 @@ class StudentWorkOrder
     initial_grade_breakdown.each{|grade, num_students|
       (1..num_students).each{|_|
         student_id += 1
-        yielder.yield StudentWorkOrder.new(student_id, grade, initial_year, edOrg)
+        yielder.yield StudentWorkOrder.new(student_id, initial_grade: grade, initial_year: initial_year, edOrg: edOrg)
       }
     }
     student_id
  end
 
-  def initialize(id, initial_grade, initial_year, edOrg)
+  def initialize(id, opts = {})
     @id = id
-    @edOrg = edOrg
+    @edOrg = opts[:edOrg]
     @rand = Random.new(@id)
-    @birth_day_after = Date.new(initial_year - find_age(initial_grade),9,1)
-    @initial_grade = initial_grade
-    @initial_year = initial_year
+    @initial_grade = (opts[:initial_grade] or :KINDERGARTEN)
+    @initial_year = (opts[:initial_year] or 2011)
+    @sections = (opts[:sections] or {})
+    @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
   end
 
   def build(interchanges)
@@ -58,7 +59,7 @@ class StudentWorkOrder
             curr_type = GradeLevelType.school_type(grade)
             schools = schools.drop(1)
           end
-          gen_enrollment(schools[0], year, grade, session)
+          gen_enrollment(schools[0], year, grade, session, @sections[year])
         end
       }
     end
@@ -66,10 +67,9 @@ class StudentWorkOrder
 
   private
 
-  def gen_enrollment(school_id, start_year, start_grade, session)
+  def gen_enrollment(school_id, start_year, start_grade, session, sections)
     schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
     @enrollment_interchange << schoolAssoc
-    sections = session['sections']
     unless sections.nil?
       sections.each{|section|
         sectionAssoc = StudentSectionAssociation.new(@id, section, school_id, start_year, start_grade)

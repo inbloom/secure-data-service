@@ -24,7 +24,7 @@ class StudentSectionAssociation < BaseEntity
 
   def initialize(studentId, sectionId, edOrgId, year, grade)
     @studentId = studentId
-    @sectionId = sectionId
+    @sectionId = sectionId['id']
     @edOrgId = DataUtility.get_school_id(edOrgId, GradeLevelType.school_type(grade))
     @year = year
   end
