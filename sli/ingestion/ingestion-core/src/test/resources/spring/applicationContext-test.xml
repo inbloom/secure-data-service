@@ -52,6 +52,7 @@
     <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     <context:exclude-filter type="regex" expression=".*AesCipher" />
     <context:exclude-filter type="regex" expression=".*MemcachedCacheProvider" />
+    <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
   </context:component-scan>
 
 

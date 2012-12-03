@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.ldap;
+package org.slc.sli.common.ldap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
