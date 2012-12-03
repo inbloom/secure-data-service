@@ -148,6 +148,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Override
     @POST
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         // Tenants can not be created using this class. They will be created via OnboardingResource
@@ -402,7 +403,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @SuppressWarnings("deprecation")
     @POST
     @Path("{" + UUID + "}" + "/preload")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({Right.INGEST_DATA})
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
@@ -442,6 +443,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
      */
     @GET
     @Path("{" + UUID + "}" + "/preload/jobstatus")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getPreloadJob() {
         return Response.status(Status.NOT_IMPLEMENTED).build();
     }

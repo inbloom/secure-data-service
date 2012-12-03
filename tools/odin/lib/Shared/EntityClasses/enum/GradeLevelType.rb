@@ -122,7 +122,7 @@ class GradeLevelType
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil
-      return ordered.fetch(current - num_grades)
+      return ordered[(current - num_grades)]
     end    
     return grade
   end
@@ -135,8 +135,15 @@ class GradeLevelType
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil
-      return ordered.fetch(current + num_grades)
+      return ordered[(current + num_grades)]
     end
     return grade
+  end
+
+  # return what type of school offers this grade
+  def self.school_type(grade)
+    (elementary.include?(grade) and :elementary) or
+    (middle.include?(grade) and :middle) or
+    (high.include?(grade) and :high)
   end
 end

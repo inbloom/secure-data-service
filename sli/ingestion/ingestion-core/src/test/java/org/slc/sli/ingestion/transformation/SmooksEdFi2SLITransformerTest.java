@@ -287,7 +287,7 @@ public class SmooksEdFi2SLITransformerTest {
 
         //mock the Did Resolver
         DeterministicIdResolver mockDidResolver = Mockito.mock(DeterministicIdResolver.class);
-        transformer.setDidResolver(mockDidResolver);
+        transformer.setDIdResolver(mockDidResolver);
 
         //Query assessmentQuery = new Query();
         //assessmentQuery.addCriteria(Criteria.where("body.assessmentTitle").is(ASSESSMENT_TITLE));

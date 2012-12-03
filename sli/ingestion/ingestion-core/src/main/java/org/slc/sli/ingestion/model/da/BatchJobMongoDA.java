@@ -39,6 +39,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -471,24 +472,74 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.sliMongo = sliMongo;
     }
 
+    /*
+     * @param tenantId
+     * 		The tenant Id
+     * @param recordId
+     * 		A 40-char hex string suffixed with "_id" identifying the object hashed
+     * @param newHashValues
+     * 		The (initial) value of the record hash, a 40-character hex string
+     */
     @Override
-    public void upsertRecordHash(String tenantId, String recordId) {
-
-        // record was not found
+    public void insertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException {
+    
+    	// record was not found
         RecordHash rh = new RecordHash();
-        rh.set_id(recordId);
-        rh.setTenantId(tenantId);
-        rh.setTimestamp("" + System.currentTimeMillis());
-        this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-   }
-
+        rh._id = recordId;
+        rh.hash = newHashValues;
+        rh.tenantId = tenantId;
+        rh.created = System.currentTimeMillis();
+        rh.updated = rh.created;
+        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).insert(new BasicDBObject(rh.toKVMap()));
+    }
+    
+    /*
+     * @param tenantId
+     * 		The tenant Id
+     * @param rh
+     * 		The RecordHash object to be updated in the database
+     * @param newHashValues
+     * 		The (updated) value of the record hash, a 40-character hex string
+     */
     @Override
-    public RecordHash findRecordHash(String tenantId, String recordId) {
-        Query query = new Query().limit(1);
-        query.addCriteria(Criteria.where("_id").is(recordId));
-        return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
+    public void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException {
+        rh.hash = newHashValues;
+        rh.updated = System.currentTimeMillis();
+        rh.version += 1;
+        // Detect tenant collision - should never occur since tenantId is in the hash
+        if ( ! rh.tenantId.equals(tenantId) )
+        	throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.tenantId + "', input data has '" + tenantId + "' for entity ID '" + rh._id + "'");
+        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh._id).getQueryObject(), new BasicDBObject(rh.toKVMap()));
     }
 
+    /*
+     * @param tenantId
+     * 		The tenant Id
+     * @param recordId
+     * 		A 40-char hex string suffixed with "_id" identifying the object hashed
+     * 
+     */
+    public RecordHash findRecordHash(String tenantId, String recordId) {
+        Map<String, Object> map = (Map <String, Object>) this.batchJobHashCacheMongoTemplate.findOne(recordHashQuery(recordId), Map.class, RECORD_HASH);
+        if (null == map)
+        	return null;
+        return new RecordHash(map);
+    }
+
+    /*
+     * Get SpringData Query object that locates a recordHash item by its recordId
+     * 
+     * @param recordId
+     * 		A 40-char hex string suffixed with "_id" identifying the object hashed
+     * @return
+     * 		The SpringDadta Query object that looks the record up in the recordHash collection. 
+     */
+    public Query recordHashQuery(String recordId) {
+    	Query query = new Query().limit(1);
+        query.addCriteria(Criteria.where("_id").is(RecordHash.Hex2Binary(recordId)));
+        return query;
+    }
+    
     @Override
     public void removeRecordHashByTenant(String tenantId) {
         Query searchTenantId = new Query();

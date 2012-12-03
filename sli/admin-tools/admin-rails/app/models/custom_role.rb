@@ -25,7 +25,9 @@ class CustomRole < SessionResource
   def realm_name
     begin
       Realm.find(self.realmId).name
-    rescue
+    rescue => e
+        logger.error e.message
+        logger.error e.backtrace.join("\n")     
     end
   end
 

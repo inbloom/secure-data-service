@@ -22,18 +22,23 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -46,8 +51,18 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class CohortEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     /**
      * Test that Ed-Fi program is correctly mapped to a NeutralRecord.
@@ -72,7 +87,7 @@ public class CohortEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
+                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidNeutralRecord(neutralRecord);
     }
@@ -121,9 +136,9 @@ public class CohortEntityTest {
         @SuppressWarnings("unchecked")
         Map<String, Object> edOrgReference = (Map<String, Object>) attributes.get("EducationOrgReference");
         assertNotNull("Exepected non-null education organization reference", edOrgReference);
-        Map<String, Object> edOrgIdentity = (Map<String, Object>)edOrgReference.get("EducationalOrgIdentity");
+        Map<String, Object> edOrgIdentity = (Map<String, Object>) edOrgReference.get("EducationalOrgIdentity");
         assertNotNull("Exepected non-null education organization identigy", edOrgIdentity);
-        String stateOrgIds = (String)edOrgIdentity.get("StateOrganizationId");
+        String stateOrgIds = (String) edOrgIdentity.get("StateOrganizationId");
         assertEquals("Expected difference state org id", "IL", stateOrgIds);
 
     }

@@ -34,12 +34,12 @@ class WorkOrderProcessor
     work_order.build(@interchanges)
   end
 
-  def self.run(world, batch_size)
+  def self.run(world,  scenarioYAML)
     File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-      studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
+      studentParent = StudentParentInterchangeGenerator.new(scenarioYAML, studentParentFile)
       studentParent.start
       File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-        enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
+        enrollment = EnrollmentGenerator.new(scenarioYAML, enrollmentFile)
         enrollment.start
         interchanges = {:studentParent => studentParent, :enrollment => enrollment}
         processor = WorkOrderProcessor.new(interchanges)
@@ -53,64 +53,82 @@ class WorkOrderProcessor
   end
 
   def self.gen_work_orders(world)
+    next_student = 0
     Enumerator.new do |y|
-      student_id = 0
       world.each{|_, edOrgs|
         edOrgs.each{|edOrg|
           students = edOrg['students']
           unless students.nil?
-            years = students.keys.sort
-            initial_grade_breakdown = students[years.first]
-            initial_grade_breakdown.each{|grade, num_students|
-              sessions = edOrg['sessions'].map{|session| make_session(edOrg['id'], session)}
-              (1..num_students).each{|_|
-              student_id += 1
-                y.yield StudentWorkOrder.new(student_id, grade, sessions)
-              }
-            }
+            next_student = StudentWorkOrder.gen_work_orders(students, edOrg, next_student, y)
           end
         }
       }
     end
   end
 
-  private
-
-  def self.make_session(school, session)
-    {:school => school, :sessionInfo => session}
-  end
-
 end
 
 class StudentWorkOrder
-  attr_accessor :id, :sessions, :birth_day_after
+  attr_accessor :id, :edOrg, :birth_day_after, :initial_grade, :initial_year
 
-  def initialize(id, initial_grade, sessions)
+  def self.gen_work_orders(students, edOrg, start_with_id, yielder)
+    student_id = start_with_id
+    years = students.keys.sort
+    initial_year = years.first
+    initial_grade_breakdown = students[initial_year]
+    initial_grade_breakdown.each{|grade, num_students|
+      (1..num_students).each{|_|
+        student_id += 1
+        yielder.yield StudentWorkOrder.new(student_id, grade, initial_year, edOrg)
+      }
+    }
+    student_id
+ end
+
+  def initialize(id, initial_grade, initial_year, edOrg)
     @id = id
-    @sessions = sessions
+    @edOrg = edOrg
     @rand = Random.new(@id)
-    @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
+    @birth_day_after = Date.new(initial_year - find_age(initial_grade),9,1)
     @initial_grade = initial_grade
+    @initial_year = initial_year
   end
 
   def build(interchanges)
     @student_interchange = interchanges[:studentParent]
     @enrollment_interchange = interchanges[:enrollment]
-    s = Student.new(@id, @birth_day_after)
-    @student_interchange << s unless @student_interchange.nil?
+    student = Student.new(@id, @birth_day_after)
+    @student_interchange << student unless @student_interchange.nil?
+    schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
+    curr_type = GradeLevelType.school_type(@initial_grade)
     unless @enrollment_interchange.nil?
-      schools = Set.new(@sessions.map{|s| s[:school]})
-      schools.each{ |school|
-        gen_enrollment school
+      @edOrg['sessions'].each{ |session|
+        year = session['year']
+        grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
+        unless grade.nil?
+          if GradeLevelType.school_type(grade) != curr_type
+            curr_type = GradeLevelType.school_type(grade)
+            schools = schools.drop(1)
+          end
+          gen_enrollment(schools[0], year, grade)
+        end
       }
     end
   end
 
   private
 
-  def gen_enrollment(school_id)
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id)
+  def gen_enrollment(school_id, start_year, start_grade)
+    schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
     @enrollment_interchange << schoolAssoc
+  end
+
+  def self.make_session(school, session)
+    {:school => school, :sessionInfo => session}
+  end
+
+  def find_age(grade)
+    5 + GradeLevelType.get_ordered_grades.index(grade)
   end
 
 end

@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 
-require 'active_support/secure_random'
+require 'securerandom'
 require 'digest'
 require 'ldapstorage'
 require 'time'
@@ -123,6 +123,9 @@ class ForgotPasswordsController < ApplicationController
           format.html { redirect_to "/forgotPassword/notify", notice: 'Password reset instructions have been emailed to you. Please follow the instructions in the email.' }
           format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
         rescue Exception => e
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
+
           @forgot_password.errors.add(:base, "Unable to reset your password. Please contact the SLC.")
           format.html { render action: "reset" }
           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
