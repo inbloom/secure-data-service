@@ -47,7 +47,11 @@ end
 
 desc "Run DataBrowser RC Test"
 task :rcDataBrowserTests do
-  runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_databrowser.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
+  end
 end
 
 desc "Run RC SAMT Tests"

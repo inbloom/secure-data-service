@@ -218,7 +218,8 @@ And I am redirected to the dashboard home page
 When I navigate to the databrowser page
 Then I do not see any login pages
 Then I am redirected to the databrowser home page
-And I click on the logout link
+And I exit out of the iframe
+And I click on log out
 Then I should see a message that I was logged out
 And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page

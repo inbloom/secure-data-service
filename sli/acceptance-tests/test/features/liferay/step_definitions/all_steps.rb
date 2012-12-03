@@ -36,6 +36,7 @@ Then /^I should not see Admin link$/ do
   assert(adminLink.length == 0, "Admin link was found")
 end
 
+#This logout step is for clicking the logout link from the portal header
 Then /^I click on log out$/ do
   menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
   menu = menuList.find_element(:id,"menulink")
