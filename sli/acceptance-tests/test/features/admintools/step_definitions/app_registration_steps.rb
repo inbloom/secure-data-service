@@ -240,16 +240,18 @@ end
 Then /^the client ID and shared secret fields are Pending$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
-  puts client_id
+  puts "Client ID: " + client_id
   assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
 end
 
 Then /^the client ID and shared secret fields are present$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
+  shared_secret = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[2]').text  
   puts "client_id: " + client_id
+  puts "Shared Secret ID: " + shared_secret  
   assert(client_id != '', "Expected non empty client Id, got #{client_id}")
-  assert(client_id != 'Pending', "Expected non 'Pending' client Id, got #{client_id}")
+  assert(shared_secret == 'Pending', "Expected non 'Pending' shared secret id, got #{shared_secret}")
 end
 
 Then /^the Registration Status field is Pending$/ do
