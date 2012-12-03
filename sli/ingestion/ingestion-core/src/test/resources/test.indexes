@@ -1,6 +1,5 @@
 #comments
 
-
-adminDelegation,false,body.localEdOrgId:1,body.appApprovalEnabled:1
-applicationAuthorization,false,body.appIds: 1
-assessmentItem,false,creationTime
+assessment,false,creationTime:1
+assessmentFamily,false,creationTime:1
+assessmentItem,false,creationTime:1
