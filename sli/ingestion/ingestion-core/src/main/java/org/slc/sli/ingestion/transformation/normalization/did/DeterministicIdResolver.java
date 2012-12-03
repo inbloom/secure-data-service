@@ -108,7 +108,7 @@ public class DeterministicIdResolver {
     }
 
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource,
-            String tenantId) throws IdResolutionException {
+                                                   String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
