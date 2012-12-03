@@ -168,7 +168,7 @@ public class NestedMapUtil {
                     map.put(field, tmp);
                 }
                 if (tmp instanceof Map) {
-                    return insertRecursively(fieldChain, value, tmp, count);
+                    return insertRecursively(fieldChain, value, tmp, count + 1);
                 }
             }
         }
@@ -224,7 +224,7 @@ public class NestedMapUtil {
                 tmp = map.get(key);
                 if (tmp != null) {
                     nodeNames.add(key);
-                    toFlatMapRecursively(nodeNames, tmp, flatMap, ++count);
+                    toFlatMapRecursively(nodeNames, tmp, flatMap, count + 1);
                     nodeNames.remove(lastElemIndex);
                 }
             }

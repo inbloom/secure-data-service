@@ -58,4 +58,33 @@ public class NestedUtilMapTest {
         Assert.assertEquals(1111, NestedMapUtil.get(new DotPath("test.levl1.array.$.id"), testMap));
     }
     
+    @SuppressWarnings("unchecked")
+    @Test()
+    public void testRecursionOk() {
+        Map<String, Object> testMap = new HashMap<String, Object>();
+        // 10 deep and 13 wide is ok
+        NestedMapUtil.put(new DotPath("l0.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);        
+        NestedMapUtil.put(new DotPath("l00.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l01.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l02.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l03.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l04.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l05.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l06.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l07.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l08.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l09.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l10.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l11.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        
+        Map<String, Object> testMap9 = (Map<String, Object>) NestedMapUtil.get(new DotPath("l0.l1.l2.l3.l4.l5.l6.l7.l8.l9"), testMap);
+        Assert.assertEquals(1, NestedMapUtil.get(new DotPath("l10"), testMap9));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRecursionTooDeep() {
+        Map<String, Object> testMap = new HashMap<String, Object>();
+        // 11 deep is too much
+        NestedMapUtil.put(new DotPath("l0.ll1.ll2.ll3.ll4.ll5.ll6.ll7.ll8.ll9.ll10.ll11"), 1, testMap);
+    }
 }

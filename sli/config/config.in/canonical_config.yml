@@ -93,8 +93,6 @@ default:
         sli.search.url : http://localhost:9200
         sli.search.username: user
         sli.search.password: searchme
-        sli.search.embedded: true
-        sli.search.service.timeout: 3000
 
         # Key substitutions
         sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
@@ -409,11 +407,9 @@ default:
         # search indexer
         sli.search.indexer.log.path: logs
         sli.search.indexer.log.level: INFO
-        sli.search.indexer.dir.data: data/
         sli.search.indexer.dir.inbox: data/inbox
         sli.search.indexer.dir.extract: data/tmp
         sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
-        sli.search.indexer.config: index-config.json
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
         sli.search.indexer.broker.uri : vm:(localhost:(stomp://localhost:61613,tcp://localhost:61616)?persistent=false&tempUsage=1073741824)?marshal=false&waitForStart=1

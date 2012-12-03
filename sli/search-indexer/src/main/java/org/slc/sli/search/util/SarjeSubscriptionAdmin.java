@@ -1,7 +1,6 @@
 package org.slc.sli.search.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +17,11 @@ import org.slc.sli.search.config.IndexConfigStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -34,8 +32,8 @@ import com.mongodb.DBObject;
  */
 public class SarjeSubscriptionAdmin {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static final String SEARCH_EVENT_ID = "oplog:search";
-    private static final String SEARCH_EVENT_ID_FIELD = "eventId";
+    public static final String SEARCH_EVENT_ID = "oplog:search";
+    public static final String SEARCH_EVENT_ID_FIELD = "eventId";
 
     // dedicated search queue
     private String searchQueue;
@@ -50,7 +48,7 @@ public class SarjeSubscriptionAdmin {
     private Topic subscriptionBroadcastTopic;
 
     private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private MongoTemplate mongoTemplate;
+    private MongoOperations mongoTemplate;
 
     public void init() {
         if (jmsTemplate == null) {
@@ -63,7 +61,7 @@ public class SarjeSubscriptionAdmin {
      * Generate search subscription from the config file
      * @return Subscription doc
      */
-    private Subscription getSearchSubscription() {
+    public Subscription getSearchSubscription() {
         List<SubscriptionTrigger> st = new ArrayList<SubscriptionTrigger>();
         for (IndexConfig config : indexConfigStore.getConfigs()) {
             st.add(new SubscriptionTrigger(config.getCollectionName()));
@@ -72,25 +70,18 @@ public class SarjeSubscriptionAdmin {
     }
 
     /**
-     * Get all subscriptions
+     * Get all subscriptions by event id
      * @return
      */
     @SuppressWarnings("unchecked")
-    private Map<String, Map<String, Object>> getAllSubscriptions() {
-        List<String> fields = Collections.emptyList();
+    public Map<String, Map<String, Object>> getAllSubscriptions() {
         // we cannot use findAll because document structure can deviate from
         // search job definition and result in extra fields we can't ignore.
         Map<String, Map<String, Object>> subscriptions = new HashMap<String, Map<String, Object>>();
 
         DBCursor cursor = null;
         try {
-            BasicDBObject keys = new BasicDBObject();
-            for (String field : fields) {
-                keys.put(field, 1);
-            }
-
-            DBCollection collection = mongoTemplate.getCollection(this.dbJobsCollection);
-            cursor = collection.find(new BasicDBObject(), keys);
+            cursor = getJobsCursor();
             DBObject obj;
             while (cursor.hasNext()) {
                 obj = cursor.next();
@@ -102,6 +93,11 @@ public class SarjeSubscriptionAdmin {
             }
         }
         return subscriptions;
+    }
+    
+    public DBCursor getJobsCursor() {
+        DBCollection collection = mongoTemplate.getCollection(this.dbJobsCollection);
+        return collection.find();
     }
 
     /**
@@ -158,7 +154,7 @@ public class SarjeSubscriptionAdmin {
         this.jmsTemplate = jmsTemplate;
     }
 
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+    public void setMongoTemplate(MongoOperations mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
@@ -168,13 +164,13 @@ public class SarjeSubscriptionAdmin {
      */
     @SuppressWarnings("unused")
     @Document
-    private static class Subscription {
+    public static class Subscription {
         @Id
-        public String _id;
-        public String eventId;
-        public String queue;
-        public boolean publishOplog;
-        public List<SubscriptionTrigger> triggers;
+        private String _id;
+        private String eventId;
+        private String queue;
+        private boolean publishOplog;
+        private List<SubscriptionTrigger> triggers;
 
         public Subscription() {}
 
@@ -198,7 +194,7 @@ public class SarjeSubscriptionAdmin {
             }
             Subscription other = (Subscription) obj;
             if (!eventId.equals(other.eventId) || publishOplog != other.publishOplog ||
-                (queue == null && other.queue != null || !queue.equals(other.queue))) {
+                (queue == null && other.queue != null || queue != null && !queue.equals(other.queue))) {
                 return false;
             }
             return triggers != null && triggers.containsAll(other.triggers) && triggers.size() == other.triggers.size();
@@ -207,11 +203,10 @@ public class SarjeSubscriptionAdmin {
     }
 
     @Document
-    private static class SubscriptionTrigger {
-        public static final String REG_PREFIX = "^(?!is\\.)^[^.]+[.]";
-        public String ns;
+    public static class SubscriptionTrigger {
+        private static final String REG_PREFIX = "^(?!is\\.)^[^.]+[.]";
+        private String ns;
 
-        @SuppressWarnings("unused")
         public SubscriptionTrigger(){}
 
         public SubscriptionTrigger(String ns) {
