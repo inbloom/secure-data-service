@@ -70,7 +70,19 @@ public class ValidateBuildIT {
     }
 
     private static int executeMvnBuild(File dir) throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("mvn", "clean", "package");
+        // Unfortunately, commands are executed differently on Windows, so...
+        String osName = System.getProperty("os.name");
+        String[] mvnCommand = new String[3];
+        if (osName.contains("Windows")) {
+            mvnCommand[0] = "cmd.exe";
+            mvnCommand[1] = "/C";
+            mvnCommand[2] = "mvn clean package";
+        } else {
+            mvnCommand[0] = "";
+            mvnCommand[1] = "";
+            mvnCommand[2] = "mvn clean package";
+        }
+        ProcessBuilder pb = new ProcessBuilder(mvnCommand);
         pb.redirectErrorStream(true);
         pb.directory(dir);
 
