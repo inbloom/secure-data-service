@@ -139,14 +139,9 @@ function isJavaReady {
       if [ -n ${DEFAULT_MIN_MEMORY:=""} ]; then
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Xms${DEFAULT_MIN_MEMORY}"
       fi
-      SEARCH_INDEXER_LOG_ENV=`grep sli.search.indexer.env ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
-      if [ ${SEARCH_INDEXER_LOG_ENV:=""} == "local" ]; then
-         SEARCH_INDEXER_LOG="/dev/null"
-      else
-         SEARCH_INDEXER_LOG_PATH=`grep sli.search.indexer.log.path ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
-         if [ -n ${SEARCH_INDEXER_LOG_PATH:=""} ]; then
-            SEARCH_INDEXER_LOG="${SEARCH_INDEXER_LOG_PATH}/${SEARCH_INDEXER_LOG}"
-         fi
+      SEARCH_INDEXER_LOG_PATH=`grep sli.search.indexer.log.path ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
+      if [ -n ${SEARCH_INDEXER_LOG_PATH:=""} ]; then
+         SEARCH_INDEXER_LOG="${SEARCH_INDEXER_LOG_PATH}/${SEARCH_INDEXER_LOG}"
       fi
       return 1
    fi
