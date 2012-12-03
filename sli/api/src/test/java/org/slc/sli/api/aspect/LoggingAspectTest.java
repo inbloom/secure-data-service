@@ -17,19 +17,22 @@
 
 package org.slc.sli.api.aspect;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.Set;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.reflections.Reflections;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.aspect.LoggerCarrier;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.StopWatch;
-
 /**
  * Tests that logging can be done via inter-type declared methods
  * 
@@ -39,46 +42,46 @@ import org.springframework.util.StopWatch;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LoggingAspectTest {
-    
+
     @Test
     public void testDebug() {
         debug("Debug msg");
         debug("Debug msg {} {} {}", "param1", 13, true);
     }
-    
+
     @Test
     public void testInfo() {
         info("Info msg");
         info("Info msg {} {} {}", "param1", 13, true);
     }
-    
+
     @Test
     public void testWarn() {
         warn("Warn msg");
         warn("Warn msg {} {} {}", "param1", 13, true);
     }
-    
+
     @Test
     public void testError() {
         error("Error msg", new Exception("I am an error msg.  FEAR ME."));
     }
-    
+
     @Test
     public void padCoverageNumbers() {
         StopWatch sw = new StopWatch();
         sw.start();
         Reflections reflections = new Reflections("org.slc.sli");
         Set<Class<? extends LoggerCarrier>> logs = reflections.getSubTypesOf(LoggerCarrier.class);
-        
+
         SecurityEvent se = new SecurityEvent();
         String msg = "padding {}";
         int param = 42;
         Exception x = new Exception("bogus");
+
         for (Class<? extends LoggerCarrier> cl : logs) {
             if (!cl.isInterface() && !cl.isEnum() && !Modifier.isAbstract(cl.getModifiers())) {
-                LoggerCarrier instance;
-                try {
-                    instance = cl.newInstance();
+                LoggerCarrier instance = getInstance(cl);
+                if (instance != null && !Modifier.isAbstract( cl.getModifiers())) {
                     instance.audit(se);
                     instance.debug(msg);
                     instance.debug(msg, param);
@@ -88,40 +91,105 @@ public class LoggingAspectTest {
                     instance.warn(msg, param);
                     instance.error(msg, x);
                     instance.error(msg, new Object[] {});
-                } catch (InstantiationException e) {
-                    info("Error padding coverage for {}", cl.getName());
-                } catch (IllegalAccessException e) {
-                    info("Error padding coverage for {}", cl.getName());
                 }
+
             }
         }
         sw.stop();
-        
+
         info("Finished in {} ms", sw.getTotalTimeMillis());
     }
-    
+
+    private LoggerCarrier getInstance(Class<? extends LoggerCarrier> clazz) {
+        try {
+            //will work for 0-length constructors
+            return clazz.newInstance();
+        } catch (Exception e) {
+            //try alternative constructors
+            return invokeAlternativeConstructors(clazz);
+        }
+    }
+
+    /**
+     * Look for non-0-length constructors for the given class and invoke those
+     * if possible to create an instance.
+     * 
+     * @param cl
+     * @return
+     */
+    private LoggerCarrier invokeAlternativeConstructors(Class<? extends LoggerCarrier> cl) {
+
+        for (int i = 0; i < cl.getConstructors().length; i++) {
+            Constructor<?> c = cl.getConstructors()[i];
+            c.setAccessible(true);
+            Object[] parms = new Object[c.getParameterTypes().length];
+            for (int j = 0; j < parms.length; j++) {
+                parms[j] = createParm(c.getParameterTypes()[j]);
+            }
+            try {
+                LoggerCarrier toReturn = (LoggerCarrier) c.newInstance(parms);
+                return toReturn;
+            } catch (Exception e) {
+                error("Couldn't invoke constructor", e);
+            }
+        }       
+
+        return null;
+    }
+
+    /**
+     * Try to generate an object of the given class, or return null if not possible.
+     * 
+     * @param cls
+     * @return
+     */
+    private Object createParm(Class cls) {
+        if (cls == EntityDefinitionStore.class) {
+            return  new EntityDefinitionStore() {
+
+                @Override
+                public EntityDefinition lookupByResourceName(String resourceName) {
+                    return null;
+                }
+
+                @Override
+                public EntityDefinition lookupByEntityType(String entityType) {
+                    return null;
+                }
+
+                @Override
+                public Collection<EntityDefinition> getLinked(EntityDefinition defn) {
+                    return null;
+                }
+            };
+        } else if (cls.getName().equals("long")) {
+            return 0l;
+        }
+        return null;
+    }
+
     @Ignore
     @Test
     public void benchCompare() {
         StopWatch aop = new StopWatch();
         StopWatch plain = new StopWatch();
         StopWatch plainNoField = new StopWatch();
-        
+
         int numIters = 500000;
         for (int i = 0; i < numIters; i++) {
             plain.start();
             debug("DEBUG MSG< OMGFG PLAIN {}/{}/{}{}", new Object[] { true, Math.random(), "hello world", i });
             plain.stop();
-            
+
             plainNoField.start();
             debug("DEBUG MSG< OMGFG PLAIN {}/{}/{}{}", new Object[] { true, Math.random(), "hello world", i });
             plainNoField.stop();
-            
+
             aop.start();
             debug("DEBUG MSG< OMGFG AOP {}/{}/{}{}", true, Math.random(), "hello world", i);
             aop.stop();
         }
-        
+
         info("Plain: {} AVG: {}", plain.getTotalTimeMillis(), plain.getTotalTimeMillis() / (float) numIters);
         info("Plain No Field: {} AVG: {}", plainNoField.getTotalTimeMillis(), plainNoField.getTotalTimeMillis()
                 / (float) numIters);

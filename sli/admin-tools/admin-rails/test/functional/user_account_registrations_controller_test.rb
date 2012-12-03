@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 require 'test_helper'
-
+require "mocha"
 
 class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
