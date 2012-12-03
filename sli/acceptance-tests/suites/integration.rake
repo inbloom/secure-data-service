@@ -38,7 +38,11 @@ end
 
 desc "Run Dashboard RC Test"
 task :rcDashboardTests do
-  runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_dashboard.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
+  end
 end
 
 desc "Run DataBrowser RC Test"
