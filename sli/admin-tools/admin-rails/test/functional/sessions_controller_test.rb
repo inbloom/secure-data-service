@@ -19,7 +19,7 @@ limitations under the License.
 
 require 'test_helper'
 require 'net/http'
-require 'mocha'
+
 
 
 class SessionsControllerTest < ActionController::TestCase
