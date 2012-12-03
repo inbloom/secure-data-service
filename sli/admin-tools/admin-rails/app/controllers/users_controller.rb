@@ -263,8 +263,8 @@ class UsersController < ApplicationController
     check = Check.get ""
     groups = []
     groups << params[:user][:primary_role]
-    groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
-    groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
+    groups << params[:user][:optional_role_1] if params[:user][:optional_role_1] && params[:user][:optional_role_1] != "0" && !groups.include?(params[:user][:optional_role_1])
+    groups << params[:user][:optional_role_2] if params[:user][:optional_role_2] && params[:user][:optional_role_2] != "0" && !groups.include?(params[:user][:optional_role_2])
     @user.fullName = params[:user][:fullName]
     @user.fullName = nil if @user.fullName == ""
     @user.email = params[:user][:email]

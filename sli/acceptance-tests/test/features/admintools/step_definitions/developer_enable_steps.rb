@@ -41,7 +41,7 @@ When /^I select the "(.*?)"$/ do |arg1|
 end
 
 Then /^I see all of the pages of Districts$/ do
-  assert(@driver.find_elements(:css, 'div#smartpager ul li').count > 1, "Shoudld be more than one page of districts")
+  assertWithWait("Should be more than one page of districts") {@driver.find_elements(:css, 'div#smartpager ul li').count > 1}
 end
 
 When /^I enable the first page of Districts$/ do

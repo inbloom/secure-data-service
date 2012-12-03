@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 
-require 'active_support/secure_random'
+require 'securerandom'
 require 'digest'
 require 'ldapstorage'
 require 'time'
