@@ -52,7 +52,6 @@ public class CsvCombine {
             mongo = new Mongo();
             db = mongo.getDB("StagingDB");
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
