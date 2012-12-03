@@ -29,7 +29,7 @@ limitations under the License.
 ###############################################################################
 
 Given /^I have a connection to Mongo$/ do
-  host = (RUN_ON_RC) ? "rcingest01.#{RC_SERVER}" : PropLoader.getProps['ingestion_db']
+  host = PropLoader.getProps['ingestion_db']
   @conn = Mongo::Connection.new(host)
 end
 
