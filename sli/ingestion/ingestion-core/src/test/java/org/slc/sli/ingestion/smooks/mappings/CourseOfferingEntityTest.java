@@ -23,16 +23,23 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for CourseOffering entity.
@@ -44,8 +51,18 @@ import org.xml.sax.SAXException;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class CourseOfferingEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     /**
      * Test that Ed-Fi entity is correctly mapped to a NeutralRecord.
@@ -70,7 +87,7 @@ public class CourseOfferingEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
+                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidNeutralRecord(neutralRecord);
     }

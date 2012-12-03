@@ -16,23 +16,27 @@
 
 package org.slc.sli.ingestion.smooks.mappings;
 
+import static org.mockito.Matchers.any;
+
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.validation.EntityValidator;
 
 /**
  *
@@ -43,15 +47,18 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherSectionAssociationEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
-
-    @InjectMocks
-    @Autowired
-    private EntityValidator validator;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
 
     @Mock
-    private Repository<Entity> mockRepository;
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
@@ -115,8 +122,10 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
+        Mockito.when(mockDIdStrategy.generateId(any(NaturalKeyDescriptor.class))).thenReturn("mockId");
+
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                xmlTestData, recordLevelDeltaEnabledEntityNames);
+                xmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidTeacherSectionAssociationNeutralRecord(neutralRecord);
     }

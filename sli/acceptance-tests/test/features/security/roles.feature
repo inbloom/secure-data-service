@@ -18,7 +18,6 @@ Then I get the JSON response displayed
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "linda.kim"      | "linda.kim1234"      | "Educator"         |
-#| "aggregator"    | "aggregator1234"    | "Aggregate Viewer" |  We need data and associated getters and setters for aggregate data before we can run this specific test
 | "jstevenson" | "jstevenson1234" | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
 
@@ -64,8 +63,8 @@ Examples:
 
 Scenario: Unauthorized SLI Default Role trying to view Student object
 
-Given  I am valid SEA/LEA end user "aggregator" with password "aggregator1234" 
-And I am authenticated on "SLI"
+Given  I am valid SEA/LEA end user "jvasquez" with password "jvasquez1234" 
+And I am authenticated on "IL"
 And the role attribute equals "Aggregate Viewer"
 And "Aggregate Viewer" is not allowed to view Student data
 When I make an API call to view a Student's data
@@ -79,12 +78,3 @@ And the role attribute equals "Leader"
 And "Leader" is allowed to view restricted Student fields
 When I make an API call to view a Student's data
 Then the Student restricted fields are visible in the response
-@wip 
-Scenario: Unauthorized SLI Default Role trying to view Student restricted field
-
-Given  I am valid SEA/LEA end user "educator" with password "educator1234"
-And I am authenticated on "SLI"
-And the role attribute equals "Educator"
-And "Educator" is not allowed to view restricted Student fields
-When I make an API call to view a Student's data
-Then the Student restricted fields are not visible in the response
