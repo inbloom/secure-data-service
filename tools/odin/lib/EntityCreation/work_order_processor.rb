@@ -23,8 +23,9 @@ require_relative 'student_work_order'
 # class for processing student work orders
 class WorkOrderProcessor
   
-  def initialize(writer)
+  def initialize(writer, scenario)
     @data_writer = writer
+    @scenario = scenario
   end
 
   # builds the specified work order by calling its native 'build' method
@@ -35,8 +36,8 @@ class WorkOrderProcessor
   # uses the input writer and a snapshot of the 'world' to generate student work orders
   # -> data writer is used to initialize work order processor (for output of generated entities)
   # -> world       is used to generate student work orders to be processed
-  def self.run(world,  writer)
-    processor = WorkOrderProcessor.new(writer)
+  def self.run(world,  writer, scenario)
+    processor = WorkOrderProcessor.new(writer, scenario)
     for work_order in generate_work_orders(world) do
       processor.build(work_order)
     end

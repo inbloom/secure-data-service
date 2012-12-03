@@ -76,7 +76,7 @@ class Odin
     #puts "edOrgs: #{edOrgs}"
     # end POC
 
-    WorkOrderProcessor.run edOrgs, writer
+    WorkOrderProcessor.run edOrgs, writer, scenarioYAML
 
     # clean up writer
     # -> xml  data writer: writes any entities that are still queued and closes file handles
