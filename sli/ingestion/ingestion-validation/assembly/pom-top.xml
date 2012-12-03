@@ -1,73 +1,77 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
-
-
-      <version>1.0-SNAPSHOT</version>
-
-    <properties>
-		<commons.lang.version>3.0.1</commons.lang.version>
-		<commons.io.version>2.1</commons.io.version>
-		<commons.codec.version>1.6</commons.codec.version>
-		<slf4j.version>1.6.4</slf4j.version>
-		<spring.version>3.0.6.RELEASE</spring.version>
-        <commons.beanutils.version>1.8.3</commons.beanutils.version>
-		<maven.jar.version>2.3.2</maven.jar.version>
-		<junit.version>4.9</junit.version>
-		<mockito.version>1.8.5</mockito.version>
-		<logback.version>1.0.1</logback.version>
-    </properties>
-
-   <groupId>org.slc.sli.ingestion</groupId>
-   <artifactId>ingestion</artifactId>
-   <packaging>pom</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <version>1.0-SNAPSHOT</version>
+  <groupId>org.slc.sli.ingestion</groupId>
+  <artifactId>ingestion</artifactId>
+  <packaging>pom</packaging>
 
   <name>Ingestion Offline Validation Tool</name>
 
-   <modules>
-      <module>ingestion-base</module>
-      <module>ingestion-validation</module>
-   </modules>
+  <properties>
+    <slc.open.source>true</slc.open.source>
+    <java.version>1.6</java.version>
+    <maven.compiler.version>2.3.2</maven.compiler.version>
+    <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <commons.lang.version>3.0.1</commons.lang.version>
+    <commons.io.version>2.1</commons.io.version>
+    <commons.codec.version>1.6</commons.codec.version>
+    <slf4j.version>1.6.4</slf4j.version>
+    <spring.version>3.0.7.RELEASE</spring.version>
+    <commons.beanutils.version>1.8.3</commons.beanutils.version>
+    <maven.jar.version>2.3.2</maven.jar.version>
+    <junit.version>4.9</junit.version>
+    <mockito.version>1.8.5</mockito.version>
+    <logback.version>1.0.1</logback.version>
+  </properties>
 
-   <dependencyManagement>
+  <modules>
+    <module>ingestion-base</module>
+    <module>ingestion-validation</module>
+  </modules>
 
-      <dependencies>
-         <dependency>
-            <groupId>org.slc.sli.ingestion</groupId>
-            <artifactId>ingestion-base</artifactId>
-            <version>${project.version}</version>
-         </dependency>
+  <dependencyManagement>
 
-      </dependencies>
+    <dependencies>
 
-   </dependencyManagement>
-
-   <dependencies>
       <dependency>
-         <groupId>org.apache.xbean</groupId>
-         <artifactId>xbean-spring</artifactId>
-         <version>3.10</version>
-
+        <groupId>org.slc.sli.ingestion</groupId>
+        <artifactId>ingestion-base</artifactId>
+        <version>${project.version}</version>
       </dependency>
 
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>${junit.version}</version>
-		<scope>test</scope>
-	</dependency>
+    </dependencies>
 
-	<dependency>
-		<groupId>org.mockito</groupId>
-		<artifactId>mockito-all</artifactId>
-		<version>${mockito.version}</version>
-		<scope>test</scope>
-	</dependency>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.xbean</groupId>
+      <artifactId>xbean-spring</artifactId>
+      <version>3.10</version>
+
+    </dependency>
 
     <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjrt</artifactId>
-        <version>1.6.11</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.6.11</version>
     </dependency>
 
     <dependency>
@@ -77,8 +81,27 @@
       <scope>test</scope>
     </dependency>
 
+  </dependencies>
 
+  <build>
 
-   </dependencies>
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven.compiler.version}</version>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <encoding>${project.build.sourceEncoding}</encoding>
+          </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+  </build>
 
 </project>

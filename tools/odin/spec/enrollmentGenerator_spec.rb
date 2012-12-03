@@ -21,14 +21,23 @@ require_relative '../lib/OutputGeneration/XML/enrollmentGenerator'
 describe 'EnrollmentGenerator' do
   let(:interchange) {StringIO.new('', 'w')}
   let(:generator) {EnrollmentGenerator.new(get_spec_scenario(), interchange)}
-  let(:ssa) {StudentSchoolAssociation.new(42, 64, 2004, :FIRST_GRADE)}
+  let(:school_assoc) {StudentSchoolAssociation.new(42, 64, 2004, :FIRST_GRADE)}
+  let(:section_assoc) {StudentSectionAssociation.new(42, {'id' => 128}, 64, 2004, :FIRST_GRADE)}
   describe '<<' do
     it 'will write a studentSchoolAssociation to edfi' do
-      generator << ssa
+      generator << school_assoc
       interchange.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
       interchange.string.match('<StateOrganizationId>elem-0000000064</StateOrganizationId>').should_not be_nil
       interchange.string.match('<EntryDate>2004-09-01</EntryDate>').should_not be_nil
       interchange.string.match('<EntryGradeLevel>First grade</EntryGradeLevel>').should_not be_nil
+    end
+
+    it 'will write a studentSectionAssociation to edfi' do
+      generator << section_assoc
+      interchange.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
+      interchange.string.match('<StateOrganizationId>elem-0000000064</StateOrganizationId>').should_not be_nil
+      interchange.string.match('<BeginDate>2004-09-01</BeginDate>').should_not be_nil
+      interchange.string.match('<UniqueSectionCode>128</UniqueSectionCode>').should_not be_nil
     end
   end
 end

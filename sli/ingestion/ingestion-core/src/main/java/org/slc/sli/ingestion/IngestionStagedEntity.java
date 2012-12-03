@@ -115,8 +115,9 @@ public class IngestionStagedEntity implements Serializable {
         }
         IngestionStagedEntity other = (IngestionStagedEntity) obj;
         if (collectionNameAsStaged == null) {
-            if (other.collectionNameAsStaged != null)
+            if (other.collectionNameAsStaged != null) {
                 return false;
+            }
         } else if (!collectionNameAsStaged.equals(other.collectionNameAsStaged)) {
             return false;
         }
