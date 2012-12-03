@@ -113,3 +113,12 @@ Then /^I will delete the realm for this tenant from the collection$/ do
   sli_db['realm'].remove("body.tenantId" => @tenant_name)
   assert(sli_db['realm'].find("body.tenantId" => @tenant_name).count == 0, "Realm document not deleted.")
 end
+
+Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
+  app_names = apps.split(",")
+  sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
+  app_names.each do |name|
+    sli_db['application'].remove("body.name" => name)
+    assert(sli_db['application'].find("body.name" => name).count == 0, "The application '#{name}' is not deleted.")
+  end
+end
