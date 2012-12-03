@@ -160,7 +160,7 @@ desc "Run RC E2E Tests in Production mode"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
-  Rake::Task["rcCleanUpTests"].execute if tenant_exists
+  Rake::Task["rcTenantCleanUp"].execute if tenant_exists
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -170,7 +170,7 @@ task :rcTests do
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
-  Rake::Task["rcTenantCleanUp"].execute
+  Rake::Task["rcCleanUpTests"].execute
 
   displayFailureReport()
   if $SUCCESS
@@ -184,7 +184,7 @@ desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
-  Rake::Task["rcSandboxCleanUpTests"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
+  Rake::Task["rcSandboxTenantCleanUp"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["rcSandboxAppApprovalTests"].execute
@@ -192,7 +192,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
   Rake::Task["rcSandboxPurgeTests"].execute
-  Rake::Task["rcSandboxTenantCleanUp"].execute
+  Rake::Task["rcSandboxCleanUpTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
