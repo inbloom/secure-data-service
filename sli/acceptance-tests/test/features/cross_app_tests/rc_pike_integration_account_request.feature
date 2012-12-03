@@ -1,4 +1,4 @@
-@RUN_ON_RC
+@rc
 Feature: User requests for a developer account in production or sandbox environments  
 # currently works for production only. Not tested in sandbox.
 

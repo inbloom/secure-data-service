@@ -58,12 +58,11 @@ end
 
 desc "Run RC Account Registration Tests"
 task :rcAccountRequestTests do
-  runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
-end
-
-desc "Run RC Account Registration Tests on Pike/Picard"
-task :rcPikeAccountRequestTests do
-  runTests("test/features/cross_app_tests/rc_pike_integration_account_request.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_account_request.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
+  end
 end
 
 desc "Run RC Cleanup"
@@ -170,11 +169,7 @@ task :rcTests do
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
   Rake::Task["rcLeaSamtTests"].execute
-  if @RUN_ON_RC
-  Rake::Task["rcPikeAccountRequestTests"].execute    
-  else
   Rake::Task["rcAccountRequestTests"].execute
-  end
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
