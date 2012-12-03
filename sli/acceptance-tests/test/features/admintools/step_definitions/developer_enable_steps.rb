@@ -13,7 +13,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
+the large list of edorgs is loaded
 =end
 
 
@@ -30,8 +30,8 @@ Given /^the large list of edorgs is loaded$/ do
   status = system("mongoimport --drop -c educationOrganization -d #{convertTenantIdToDbName('Midgar')} --file #{file}")
   assert(status, "#{$?}")
   # Re-index edorg collection after drop
-  index_js_loc = "#{File.dirname(__FILE__)}/../../../../../config/indexes/tenantDB_indexes.js"
-  status = system("mongo #{convertTenantIdToDbName('Midgar')} #{index_js_loc} --quiet")
+  index_rb_loc = "#{File.dirname(__FILE__)}/../../../../../config/scripts/indexTenantDb.rb"
+  status = system("ruby #{index_rb_loc} localhost #{convertTenantIdToDbName('Midgar')}")
   assert(status, "#{$?}")
 end
 
@@ -41,7 +41,7 @@ When /^I select the "(.*?)"$/ do |arg1|
 end
 
 Then /^I see all of the pages of Districts$/ do
-  assert(@driver.find_elements(:css, 'div#smartpager ul li').count > 1, "Shoudld be more than one page of districts")
+  assertWithWait("Should be more than one page of districts") {@driver.find_elements(:css, 'div#smartpager ul li').count > 1}
 end
 
 When /^I enable the first page of Districts$/ do
@@ -79,8 +79,8 @@ Given /^I have replaced the edorg data$/ do
   status = system("mongoimport --drop -c educationOrganization -d #{convertTenantIdToDbName('Midgar')} --file #{file}")
   assert(status, "#{$?}")
   # Re-index edorg collection after drop
-  index_js_loc = "#{File.dirname(__FILE__)}/../../../../../config/indexes/tenantDB_indexes.js"
-  status = system("mongo #{convertTenantIdToDbName('Midgar')} #{index_js_loc} --quiet")
+  index_rb_loc = "#{File.dirname(__FILE__)}/../../../../../config/scripts/indexTenantDb.rb"
+  status = system("ruby #{index_rb_loc} localhost #{convertTenantIdToDbName('Midgar')}")
   assert(status, "#{$?}")
 end
 

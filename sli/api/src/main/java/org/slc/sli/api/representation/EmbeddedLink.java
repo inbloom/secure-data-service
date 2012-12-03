@@ -82,31 +82,13 @@ public class EmbeddedLink {
         }
         
         EmbeddedLink other = (EmbeddedLink) obj;
-        if (href == null && other.href != null) {
-            return false;
-        } else if (href != null && other.href == null) {
-            return false;
-        } else if (!href.equals(other.href)) {
-            return false;
-        }
-        
-        if (rel == null && other.rel != null) {
-            return false;
-        } else if (rel != null && other.rel == null) {
-            return false;
-        } else if (!rel.equals(other.rel)) {
-            return false;
-        }
-        
-        if (type == null && other.type != null) {
-            return false;
-        } else if (type != null && other.type == null) {
-            return false;
-        } else if (!type.equals(other.type)) {
-            return false;
-        } 
-        
-        return true;
+        return strEqual(href, other.href) &&
+               strEqual(rel, other.rel) &&
+               strEqual(type, other.type);
+    }
+
+    private boolean strEqual(String s1, String s2) {
+        return (s1 == null ? s2 == null : s1.equals(s2));
     }
 
     @Override

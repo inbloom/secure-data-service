@@ -57,7 +57,6 @@ public class TenantPopulator implements ResourceLoaderAware {
 
     private static final String HOSTNAME_PLACEHOLDER = "<hostname>";
     private static final String PARENT_LZ_PATH_PLACEHOLDER = "<lzpath>";
-    public static final String INDEXING_SCRIPT = "tenantDB_indexes.js";
 
     /**
      * Add a specified tenantRecord to the tenant collection.

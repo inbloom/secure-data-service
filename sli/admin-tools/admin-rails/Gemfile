@@ -20,7 +20,7 @@ gem 'json'
 gem 'rest-client'
 
 gem 'twitter-bootstrap-rails'
-
+gem 'less-rails'
 gem 'ruby-recaptcha'
 
 group :deployment, :integration do
@@ -34,7 +34,6 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'less-rails'
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'

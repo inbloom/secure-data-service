@@ -59,7 +59,7 @@ public class TeacherSessionResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
 
         // Get the sections and get the sessions that they reference.
-        List<String> sectionIds = new ArrayList<String>();
+        List<String> sectionIds;
         if (!securityCache.contains(EntityNames.SECTION)) {
             sectionIds = sectionResolver.findAccessible(principal);
         } else {
