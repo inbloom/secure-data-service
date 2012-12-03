@@ -15,7 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
+
 class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
