@@ -251,7 +251,7 @@ Then /^the client ID and shared secret fields are present$/ do
   puts "client_id: " + client_id
   puts "Shared Secret ID: " + shared_secret  
   assert(client_id != '', "Expected non empty client Id, got #{client_id}")
-  assert(shared_secret == '', "Expected non empty shared secret Id, got #{shared_secret}")
+  assert(shared_secret != '', "Expected non empty shared secret Id, got #{shared_secret}")
 end
 
 Then /^the Registration Status field is Pending$/ do
