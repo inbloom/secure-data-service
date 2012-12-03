@@ -18,7 +18,6 @@ limitations under the License.
 
 
 require 'test_helper'
-require 'mocha'
 
 class UserAccountRegistrationTest < ActiveSupport::TestCase
 
