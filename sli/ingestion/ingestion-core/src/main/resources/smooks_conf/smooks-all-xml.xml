@@ -3542,19 +3542,25 @@
         <jb:value property="beginDate" data="BeginDate" />
         <jb:value property="endDate" data="EndDate" />
         <jb:value property="totalInstructionalDays" data="TotalInstructionalDays" decoder="Integer" />
-        <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceTypeArray" property="CalendarDateReference"/>
+        <jb:wiring property="CalendarDateReference" beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceTypeArray" />
   </jb:bean>
 
   <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
     <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType"/>
   </jb:bean>
   <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
-    <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType" property="CalendarDateIdentity"/>
+    <jb:wiring property="CalendarDateIdentity" beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType" />
   </jb:bean>
-  <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference/CalendarDateIdentity">
+   <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference/CalendarDateIdentity">
     <jb:value data="GradingPeriod/CalendarDateReference/CalendarDateIdentity/Date" property="Date"/>
+    <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType_SLC-EducationalOrgReferenceType" property="EducationOrgReference"/>
   </jb:bean>
-
+  <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference/CalendarDateIdentity/EducationOrgReference">
+    <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference/CalendarDateIdentity/EducationOrgReference/EducationalOrgIdentity">
+    <jb:value data="GradingPeriod/CalendarDateReference/CalendarDateIdentity/EducationOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
+  </jb:bean>
   <jb:bean beanId="gradingPeriod_edOrgRef" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrganizationReference">
         <jb:wiring property="EducationalOrgIdentity" beanIdRef="gradingPeriod_edOrgRef_edOrgIdentity" />
   </jb:bean>
@@ -3576,6 +3582,15 @@
              createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
         <jb:value property="date" data="Date" />
         <jb:value property="calendarEvent" data="CalendarEvent" />
+		<jb:wiring beanIdRef="SLC-CalendarDate_Attributes_SLC-EducationalOrgReferenceType" property="EducationOrgReference"/>  
+  </jb:bean>
+
+  <!-- calendarDate supporting objects: EducationOrgReference -->
+  <jb:bean beanId="SLC-CalendarDate_Attributes_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/CalendarDate/EducationOrgReference">
+    <jb:wiring beanIdRef="SLC-CalendarDate_Attributes_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CalendarDate_Attributes_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/CalendarDate/EducationOrgReference/EducationalOrgIdentity">
+    <jb:value data="CalendarDate/EducationOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
   </jb:bean>
   <!-- End calendarDate mapping -->
 

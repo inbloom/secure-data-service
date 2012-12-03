@@ -23,6 +23,7 @@
              createOnElement="attributes">
         <jb:value property="date" data="attributes date" />
         <jb:value property="calendarEvent" data="attributes calendarEvent" />
+        <jb:value property="educationOrganizationId" data="attributes EducationOrgReference"/>
     </jb:bean>
 
 </smooks-resource-list>
