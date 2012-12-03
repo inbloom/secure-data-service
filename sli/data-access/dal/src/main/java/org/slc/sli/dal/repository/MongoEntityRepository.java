@@ -178,7 +178,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
         boolean result = false;
-        Entity entity = new MongoEntity(type, null, newValues, null);
+        Entity entity = new MongoEntity(type, id, newValues, null);
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
         if (subDocs.isSubDoc(collectionName)) {
