@@ -115,21 +115,21 @@ class GradeLevelType
   end
 
   # overload the subtraction operator to move between the set of ordered grades
-  def self.decrement(grade, num_grades, cap = true)
-    increment(grade, -num_grades, cap)
+  def self.decrement(grade, num_grades)
+    increment(grade, -num_grades)
   end
 
   # overload the addition operator to move between the set of ordered grades
-  def self.increment(grade, num_grades, cap = true)
+  def self.increment(grade, num_grades)
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil
       new_grade = current + num_grades
       case
       when new_grade < 0
-        cap ? :KINDERGARTEN : nil
+        nil
       when new_grade > 12
-        cap ? :TWELFTH_GRADE : nil
+        nil
       else ordered[new_grade]
       end
     else grade

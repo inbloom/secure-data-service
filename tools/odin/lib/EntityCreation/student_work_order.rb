@@ -52,7 +52,7 @@ class StudentWorkOrder
     unless @enrollment_interchange.nil?
       @edOrg['sessions'].each{ |session|
         year = session['year']
-        grade = GradeLevelType.increment(@initial_grade, year - @initial_year, false)
+        grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
         unless grade.nil?
           if GradeLevelType.school_type(grade) != curr_type
             curr_type = GradeLevelType.school_type(grade)

@@ -154,28 +154,18 @@ describe "GradeLevelType" do
       ninth.should be :NINTH_GRADE
     end
 
-    it "will return 12th grade when adding any number to 12th grade" do
+    it "will return nil when adding any number to 12th grade" do
       twelfth    = :TWELFTH_GRADE
       thirteenth = GradeLevelType.increment(twelfth, 1)
-      thirteenth.should be :TWELFTH_GRADE
-      GradeLevelType.increment(:ELEVENTH_GRADE, 2).should be :TWELFTH_GRADE
+      thirteenth.should be nil
+      GradeLevelType.increment(:ELEVENTH_GRADE, 2).should be nil
     end
 
-    it "will return Kindergarten when subtracting any number from Kindergarten" do
+    it "will return nil when subtracting any number from Kindergarten" do
       kindergarten = :KINDERGARTEN
       preschool    = GradeLevelType.decrement(:KINDERGARTEN, 1)
-      preschool.should be :KINDERGARTEN
-      GradeLevelType.decrement(:FIRST_GRADE, 2).should be :KINDERGARTEN
-    end
-
-    it "will return nil when adding beyond 12th grade and cap is false" do
-      GradeLevelType.increment(:TWELFTH_GRADE, 1, false).should be nil
-      GradeLevelType.increment(:ELEVENTH_GRADE, 2, false).should be nil
-    end
-
-    it "will return nil when subtracting beyond kindergarten and cap is false" do
-      GradeLevelType.decrement(:KINDERGARTEN, 1, false).should be nil
-      GradeLevelType.decrement(:FIRST_GRADE, 2, false).should be nil
+      preschool.should be nil
+      GradeLevelType.decrement(:FIRST_GRADE, 2).should be nil
     end
   end
 
