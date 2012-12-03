@@ -95,7 +95,11 @@ end
 
 Then /^I will drop the whole database$/ do
   @conn.drop_database(@tenant_db_name)
-  assert(!@conn.database_names.include?(@tenant_db_name), "Tenant DB not dropped.")
+  tenant_dropped = false
+  if (!@conn.database_names.include?(@tenant_db_name) || @conn.db(@tenant_db_name).collection_names.empty?)
+    tenant_dropped = true
+  end
+  assert(tenant_dropped, "Tenant DB not dropped.")
 end
 
 Then /^I will drop the tenant document from the collection$/ do
