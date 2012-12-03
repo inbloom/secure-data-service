@@ -55,10 +55,5 @@ class SessionResource < ActiveResource::Base
       logger.debug {"custom_method_collection_url: #{something}"}
       something
     end
-
-  end
-
-  def to_json(options={})
-    self.attributes.to_json(options)
   end
 end

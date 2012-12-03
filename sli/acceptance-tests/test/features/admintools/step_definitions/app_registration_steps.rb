@@ -307,7 +307,7 @@ Then /^I the field named "([^"]*)" still says "([^"]*)"$/ do |arg1, arg2|
   assertWithWait("#{arg1} should be #{arg2}") {value == arg2}
 end
 
-Then /^I have clicked on the button 'Delete' for the application named "([^"]*)"$/ do |arg1|
+Then /^I have clicked on the button 'Deny' for the application named "([^"]*)"$/ do |arg1|
   list = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']")
   assert(list)
   @id = list.attribute('id')
@@ -324,9 +324,7 @@ When /^I click 'Yes'$/ do
 end
 
 Then /^the application named "([^"]*)" is removed from the SLI$/ do |arg1|
-    assertWithWait("Shouldn't see a NewApp") do 
-      @driver.find_elements(:xpath, "//tr/td[text()=#{arg1}]")
-    end
+    assertWithWait("Shouldn't see a NewApp") {!@driver.find_element(:xpath, "//tr[2]").attribute('id') != @id}
 end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
