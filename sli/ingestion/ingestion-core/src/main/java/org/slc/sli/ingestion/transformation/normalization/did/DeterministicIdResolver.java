@@ -255,7 +255,7 @@ public class DeterministicIdResolver {
                 Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
 
                 if (nestedRef == null) {
-                    if (keyFieldDef.isOptional()) {
+                    if (keyFieldDef.isOptional() == false) {
                         throw new IdResolutionException("No value found for required reference",
                                 keyFieldDef.getValueSource(), "");
                     } else {
