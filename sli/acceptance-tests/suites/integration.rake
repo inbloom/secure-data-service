@@ -160,6 +160,7 @@ desc "Run RC E2E Tests in Production mode"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
+  Rake::Task["rcCleanUpTests"].execute if tenant_exists
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -169,7 +170,6 @@ task :rcTests do
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
-  Rake::Task["rcCleanUpTests"].execute if tenant_exists
   Rake::Task["rcTenantCleanUp"].execute
 
   displayFailureReport()
@@ -184,6 +184,7 @@ desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
+  Rake::Task["rcSandboxCleanUpTests"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["rcSandboxAppApprovalTests"].execute
@@ -191,7 +192,6 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
   Rake::Task["rcSandboxPurgeTests"].execute
-  Rake::Task["rcSandboxCleanUpTests"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
   Rake::Task["rcSandboxTenantCleanUp"].execute
   displayFailureReport()
   if $SUCCESS
@@ -214,7 +214,7 @@ end
 private
 
 def tenant_exists(tenant_name = PropLoader.getProps['tenant'])
-  host = (RUN_ON_RC) ? "rcingest01.#{RC_SERVER}" : PropLoader.getProps['ingestion_db']
+  host = PropLoader.getProps['ingestion_db']
   conn = Mongo::Connection.new(host)
   sli_db = conn.db(PropLoader.getProps['sli_database_name'])
   (sli_db['tenant'].find("body.tenantId" => tenant_name).count == 0) ? false : true
