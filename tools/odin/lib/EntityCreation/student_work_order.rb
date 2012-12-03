@@ -71,7 +71,11 @@ class StudentWorkOrder
     schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
     @enrollment_interchange << schoolAssoc
     unless sections.nil?
-      sections.each{|section|
+      sections_per_student = 5
+      section_cycle = sections.cycle
+      @rand.rand(sections.count).times{ section_cycle.next }
+      sections_per_student.times{
+        section = section_cycle.next
         sectionAssoc = StudentSectionAssociation.new(@id, section, school_id, start_year, start_grade)
         @enrollment_interchange << sectionAssoc
       }

@@ -28,7 +28,8 @@ describe "WorkOrderProcessor" do
     context 'With a simple work order' do
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001, 
                                              :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001}, {'year' => 2002}]},
-                                             :sections => {2001 => [{'id' => 1}, {'id' => 2}], 2002 => [{'id' => 3}, {'id' => 4}]})}
+                                             :sections => {2001 => (1..10).map{|i| {'id' => i}},
+                                                           2002 => (11..20).map{|i| {'id' => i}}})}
 
       it "will generate the right number of entities for the student generator" do
         studentParent = double
@@ -39,7 +40,7 @@ describe "WorkOrderProcessor" do
       it "will generate the right number of entities for the enrollment generator" do
         enrollment = double
         enrollment.should_receive(:<<).with(an_instance_of(StudentSchoolAssociation)).twice
-        enrollment.should_receive(:<<).with(an_instance_of(StudentSectionAssociation)).exactly(4).times
+        enrollment.should_receive(:<<).with(an_instance_of(StudentSectionAssociation)).exactly(10).times
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
       end
 
@@ -69,10 +70,10 @@ describe "WorkOrderProcessor" do
           end
         end
         WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
-        section_associations[2001][0].sectionId.should eq 1
-        section_associations[2001][1].sectionId.should eq 2
-        section_associations[2002][0].sectionId.should eq 3
-        section_associations[2002][1].sectionId.should eq 4
+        section_associations[2001].count.should eq 5
+        section_associations[2001].each{|ssa| ssa.sectionId.should be <= 10}
+        section_associations[2002].count.should eq 5
+        section_associations[2002].each{|ssa| ssa.sectionId.should be > 10}
       end
 
     end
