@@ -195,6 +195,13 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         } else {
             LOG.debug("Did not match @no-id-ref tag in control file.");
         }
+
+        if (newJob.getProperty(AttributeType.STRICT.getName()) != null) {
+            LOG.debug("Matched @strict tag from control file parsing.");
+            exchange.getIn().setHeader(AttributeType.STRICT.name(), true);
+        } else {
+            LOG.debug("Did not match @strict tag in control file.");
+        }
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
