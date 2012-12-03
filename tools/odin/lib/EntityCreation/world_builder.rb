@@ -314,7 +314,7 @@ class WorldBuilder
     @edOrgs["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
-      end
+  end
 
   # updates the populated edOrgs arrays for leas (local education agencies) by determining how many districts are to be
   # contained in a given state. current implementation assumes:
