@@ -41,7 +41,7 @@ Scenario: As an app developer I request a production account and  I want to veri
   When I click the link to verify my email address
   Then I should be notified that my email is verified
 
-Scenario: As an SLC Operator I want to approve the app developer account
+Scenario: As an SLC Operator I want to check that the developer account is auto approved
   And I navigate to the Portal home page
   When I see the realm selector I authenticate to "Shared Learning Collaborative"      
   Then I am redirected to "Simple" login page
@@ -54,10 +54,4 @@ Scenario: As an SLC Operator I want to approve the app developer account
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"
-  #And his account status is "pending"
-  #When I approve his account
-  #Then I am asked "Do you really want to approve this user account?"
-  #When I click on Ok
-  #Then I should see "Account was successfully updated"
   And his account status is "approved"
-  And he should receive an email telling him his account is approved
