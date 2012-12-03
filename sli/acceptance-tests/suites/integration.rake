@@ -33,16 +33,16 @@ end
 
 desc "Run App Approval RC Test"
 task :rcAppApprovalTests do
-  runTests("test/features/cross_app_tests/rc_integration_app_approval.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_app_approval.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_app_approval.feature")
+  end
 end
 
 desc "Run Dashboard RC Test"
 task :rcDashboardTests do
-  if RUN_ON_RC
-    runTests("test/features/cross_app_tests/rc_pike_integration_dashboard.feature")
-  else
-    runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
-  end
+  runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
 end
 
 desc "Run DataBrowser RC Test"
