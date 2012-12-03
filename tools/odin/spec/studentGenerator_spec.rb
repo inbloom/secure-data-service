@@ -25,21 +25,23 @@ FactoryGirl.find_definitions
 describe 'StudentGenerator' do
   let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudentParent.xml" ) }
   let(:interchange) { File.open( path, 'w')}
-  let(:generator) {StudentParentInterchangeGenerator.new(interchange, 1)}
+  let(:generator) {StudentParentInterchangeGenerator.new(get_spec_scenario(), interchange)}
   let(:student) {FactoryGirl.build(:student)}
   let(:parent) {FactoryGirl.build(:parent)}
   let(:spa) {FactoryGirl.build( :studentParentAssociation)}
   describe '<<' do
     it 'will write a student to edfi' do
 
- 
+      generator.start()
       generator << student
       generator << parent
       generator << spa
 
-      valid = true
+      generator.finalize()
 
-      #validate_file( path )
+     
+
+      valid = validate_file( path )
 
       valid.should be true
 

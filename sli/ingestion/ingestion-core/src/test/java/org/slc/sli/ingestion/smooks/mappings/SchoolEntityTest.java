@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -38,9 +39,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
@@ -54,8 +57,8 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SchoolEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
 
     @InjectMocks
     @Autowired
@@ -63,6 +66,11 @@ public class SchoolEntityTest {
 
     @Mock
     private Repository<Entity> mockRepository;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
 
     String edfiSchoolXml = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<School>"
@@ -144,7 +152,7 @@ public class SchoolEntityTest {
         String targetSelector = "InterchangeEducationOrganization/School";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                edfiSchoolXml, recordLevelDeltaEnabledEntityNames);
+                edfiSchoolXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         // mock repository will simulate "finding" the referenced educationOrganization
         Mockito.when(mockRepository.exists("educationOrganization", "LEA123")).thenReturn(true);
@@ -160,7 +168,7 @@ public class SchoolEntityTest {
         String targetSelector = "InterchangeEducationOrganization/School";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiSchoolXml, recordLevelDeltaEnabledEntityNames);
+                targetSelector, edfiSchoolXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidSchoolNeutralRecord(neutralRecord, true);
     }

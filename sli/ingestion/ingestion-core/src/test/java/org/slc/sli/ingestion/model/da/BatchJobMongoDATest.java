@@ -19,7 +19,6 @@ package org.slc.sli.ingestion.model.da;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
@@ -70,6 +69,11 @@ import org.slc.sli.ingestion.util.BatchJobUtils2;
  *
  * @author bsuzuki
  *
+ * TODO Missing unit test coverage as of sprint 6.5 start
+ * (low) findLatestBatchJob
+ * (low) createPersistenceLatch - MongoException
+ * (medium) getStagedEntitiesForJob
+ * (medium) removeAllPersistedStagedEntitiesFromJob
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -81,6 +85,7 @@ public class BatchJobMongoDATest {
     private static final String RESOURCEID = "InterchangeStudentParent.xml";
     private static final int RESULTLIMIT = 3;
     private static final int START_INDEX = 0;
+    private static final String RECORD_HASH_COLLECTION = "recordHash";
 
     @InjectMocks
     @Autowired
@@ -407,45 +412,69 @@ public class BatchJobMongoDATest {
     public void testUpsertRecordHash() {
         // Capture mongoTemplate.save()!
         class DBAnswer implements Answer<Object> {
-            RecordHash savedRecordHash;
+            RecordHash savedRecordHash = null;
 
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 String method = invocation.getMethod().getName();
+                Object[] args = invocation.getArguments();
                 if (method.equals("save")) {
-                    Object[] args = invocation.getArguments();
                     savedRecordHash = (RecordHash) args[0];
                     return null;
                 } else if (method.equals("findOne")) {
-                    return savedRecordHash;
-                } else {
+                    if (savedRecordHash == null) {
+                        return null;
+                    }
+                    return new BasicDBObject(savedRecordHash.toKVMap());
+                } else if (method.equals("insert")) {
+                	savedRecordHash = new RecordHash((Map<String, Object>) args[0]);
+                	return null;
+                } else if (method.equals("update")) {
+                	savedRecordHash = new RecordHash((Map<String, Object>) args[1]);
+                	return null;
+                }
+                else {
                     return null;
                 }
             }
         }
+
         DBAnswer dbAnswer = new DBAnswer();
-        doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
+        // doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
+        doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
 
-        // First call to upsertRecordHash.
-        mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
-        String savedTimestamp = dbAnswer.savedRecordHash.getTimestamp();
-        String savedId = dbAnswer.savedRecordHash.get_id();
+        when(mockMongoTemplate.getCollection(eq(RECORD_HASH_COLLECTION))).thenReturn(mockedCollection);
+        when(mockedCollection.insert(any(BasicDBObject.class))).thenAnswer(dbAnswer);
+        when(mockedCollection.update(any(DBObject.class), any(BasicDBObject.class))).thenAnswer(dbAnswer);
 
-        // Add delay between 2 calls to findAndUpsertRecordHash() so that recordHash timestamp changes.
-        try {
-            Thread.sleep(5);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // insert a record not in the db
+        String testTenantId = "TestTenant";
+        String testRecordHashId = "0123456789abcdef0123456789abcdef01234567_id";
 
-        // Second call to upsertRecordHash.
-        mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
-        String updatedTimestamp = dbAnswer.savedRecordHash.getTimestamp();
-        String updatedId = dbAnswer.savedRecordHash.get_id();
+        // Record should not be in the db
+        RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
+        Assert.assertNull(rh);
+
+        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
+        long savedTimestamp =  dbAnswer.savedRecordHash.updated;
+        String savedId        =  dbAnswer.savedRecordHash._id;
+        String savedHash      =  dbAnswer.savedRecordHash.hash;
+
+        //introduce delay between calls so that recordHash timestamp changes.
+        try{Thread.sleep(5); } catch (Exception e){e.printStackTrace();}
+
+        // second call to findRecordHash should return non-null since Record is already in db.
+        rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
+        Assert.assertNotNull(rh);
+
+        mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "aaacba9876543210fedcba9876543210fedcba98");
+        long updatedTimestamp = dbAnswer.savedRecordHash.updated;
+        String updatedId        = dbAnswer.savedRecordHash._id;
+        String updatedHash      = dbAnswer.savedRecordHash.hash;
         Assert.assertTrue(savedId.equals(updatedId));
 
-        // The timestamp on the recordHash should have changed after the second call.
-        Assert.assertTrue(Long.parseLong(savedTimestamp) < Long.parseLong(updatedTimestamp));
+        // The timestamp on the recordHash should have changed after the second call, and the create time should be the same
+        Assert.assertTrue(savedTimestamp < updatedTimestamp);
     }
 
 }
