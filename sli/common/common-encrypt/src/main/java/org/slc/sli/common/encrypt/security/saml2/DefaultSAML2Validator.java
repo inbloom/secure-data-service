@@ -78,7 +78,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
 
     private DOMValidateContext valContext;
 
-    private static final String REGEX = "^https?://@domain(:\\d+)?/.+";
+    private static final String REGEX = "^https?://@domain(:\\d+)?/?.*";
     /**
      * Pulls the <Signature> tag from the SAML assertion document.
      *
