@@ -18,6 +18,7 @@
 package org.slc.sli.dashboard.manager;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -384,15 +385,15 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
 
             // Parse JSON
             Gson gson = new Gson();
-            List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
+            List<Map> maps = gson.fromJson(jsonBuffer.toString(), ArrayList.class);
 
             for (Map<String, Object> map : maps) {
                 entityList.add(new GenericEntity(map));
             }
 
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             LOG.error(e.getMessage());
-        } catch (NullPointerException e) {
+        } catch (IOException e) {
             LOG.error(e.getMessage());
         } finally {
             try {

@@ -134,9 +134,9 @@ public class SDKAPIClient implements APIClient {
 			Map<String, String> params) {
 		return this
 				.readEntity(
-						token,
-						"/" + type + "/" + id + "?"
-								+ this.buildQueryString(params), id);
+                        token,
+                        "/" + type + "/" + id + "?"
+                                + this.buildQueryString(params), id);
 	}
 
 	/**
@@ -351,8 +351,8 @@ public class SDKAPIClient implements APIClient {
 		// get schools
 		List<GenericEntity> schools = this
 				.readEntityList(
-						token,
-						 ids, null, SDKConstants.SCHOOLS_ENTITY);
+                        token,
+                        ids, null, SDKConstants.SCHOOLS_ENTITY);
 
 		return schools;
 	}
@@ -607,7 +607,7 @@ public class SDKAPIClient implements APIClient {
 		// ":(.,studentSectionAssociations)");
 
 		List<GenericEntity> studentSectionAssociations = getStudentSectionAssociations(
-				token, studentId, params);
+                token, studentId, params);
 
 		List<GenericEntity> sections = this.readEntityList(
 				token,
@@ -822,10 +822,10 @@ public class SDKAPIClient implements APIClient {
 	public List<GenericEntity> getTranscriptsForStudent(String token,
 			String studentId, Map<String, String> params) {
 		return this.readEntityList(
-				token,
-				SDKConstants.STUDENTS_ENTITY + studentId
-						+ SDKConstants.COURSE_TRANSCRIPTS + "?"
-						+ this.buildQueryString(params), studentId);
+                token,
+                SDKConstants.STUDENTS_ENTITY + studentId
+                        + SDKConstants.COURSE_TRANSCRIPTS + "?"
+                        + this.buildQueryString(params), studentId);
 	}
 
 	/**
@@ -852,8 +852,8 @@ public class SDKAPIClient implements APIClient {
 	public List<GenericEntity> getStaff(String token, List<String> ids,
 			Map<String, String> params) {
 		return this.readEntityList(token, SDKConstants.STAFF_ENTITY
-				+ buildListString(ids) + "?" + this.buildQueryString(params),
-				ids);
+                + buildListString(ids) + "?" + this.buildQueryString(params),
+                ids);
 	}
 
 	/**
@@ -1170,9 +1170,9 @@ public class SDKAPIClient implements APIClient {
 		params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
 
 		return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY
-				+ sectionId + SDKConstants.STUDENT_SECTION_ASSOC
-				+ SDKConstants.STUDENTS + "?" + this.buildQueryString(params),
-				sectionId);
+                + sectionId + SDKConstants.STUDENT_SECTION_ASSOC
+                + SDKConstants.STUDENTS + "?" + this.buildQueryString(params),
+                sectionId);
 	}
 
 	/**
@@ -2103,18 +2103,22 @@ public class SDKAPIClient implements APIClient {
 	 * @return
 	 */
 	private String buildQueryString(Map<String, String> params) {
+        Map<String, String> internalParams = null;
 		StringBuilder query = new StringBuilder();
 		String separator = "";
 
 		// Setup defaults including paging disabled
 		if (params == null) {
-			params = new HashMap<String, String>();
-		}
-		if (!params.containsKey(Constants.LIMIT)) {
-			params.put(Constants.LIMIT, String.valueOf(Constants.MAX_RESULTS));
+			internalParams = new HashMap<String, String>();
+		} else {
+            internalParams = new HashMap<String, String>(params);
+        }
+
+		if (!internalParams.containsKey(Constants.LIMIT)) {
+            internalParams.put(Constants.LIMIT, String.valueOf(Constants.MAX_RESULTS));
 		}
 
-		for (Map.Entry<String, String> e : params.entrySet()) {
+		for (Map.Entry<String, String> e : internalParams.entrySet()) {
 			query.append(separator);
 			separator = "&";
 

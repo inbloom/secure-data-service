@@ -101,17 +101,19 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      *            reading from properties file panel.config.custom.dir
      */
     public void setUserConfigLocation(String configLocation) {
-        if (!configLocation.startsWith("/")) {
-            URL url = Config.class.getClassLoader().getResource(configLocation);
+        String localConfigLocation = configLocation;
+
+        if (!localConfigLocation.startsWith("/")) {
+            URL url = Config.class.getClassLoader().getResource(localConfigLocation);
             if (url == null) {
-                File f = new File(Config.class.getClassLoader().getResource("").getPath() + configLocation);
+                File f = new File(Config.class.getClassLoader().getResource("").getPath() + localConfigLocation);
                 f.mkdir();
-                configLocation = f.getAbsolutePath();
+                localConfigLocation = f.getAbsolutePath();
             } else {
-                configLocation = url.getPath();
+                localConfigLocation = url.getPath();
             }
         }
-        this.userConfigLocation = configLocation;
+        this.userConfigLocation = localConfigLocation;
     }
 
     /**

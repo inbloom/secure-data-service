@@ -523,6 +523,11 @@ public class PopulationManagerImpl extends ApiClientManager implements
 	@SuppressWarnings({ "unchecked" })
 	private void addFinalGrades(GenericEntity student, String sectionId) {
 		try {
+
+            if (student == null) {
+                return;
+            }
+
 			Map<String, Object> transcripts = (Map<String, Object>) student
 					.get(Constants.ATTR_TRANSCRIPT);
 			if (transcripts == null) {
@@ -572,11 +577,6 @@ public class PopulationManagerImpl extends ApiClientManager implements
 					curSessionEndDate);
 
 		} catch (ClassCastException ex) {
-			LOG.error("Error occured processing Final Grades", ex);
-			Map<String, Object> grade = new LinkedHashMap<String, Object>();
-			student.put(Constants.ATTR_SCORE_RESULTS,
-					grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-		} catch (NullPointerException ex) {
 			LOG.error("Error occured processing Final Grades", ex);
 			Map<String, Object> grade = new LinkedHashMap<String, Object>();
 			student.put(Constants.ATTR_SCORE_RESULTS,
@@ -718,6 +718,10 @@ public class PopulationManagerImpl extends ApiClientManager implements
 	private void addCurrentSessionGrades(GenericEntity student, String sectionId) {
 		final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+        if (student == null) {
+            return;
+        }
+
 		// Sort the grades
 		SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(
 				new Comparator<GenericEntity>() {
@@ -804,8 +808,6 @@ public class PopulationManagerImpl extends ApiClientManager implements
 			}
 
 		} catch (ClassCastException ex) {
-			LOG.error("Error occured processing Gradebook Entries", ex);
-		} catch (NullPointerException ex) {
 			LOG.error("Error occured processing Gradebook Entries", ex);
 		}
 	}

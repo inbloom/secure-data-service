@@ -370,11 +370,11 @@ public class EntityManager extends ApiClientManager {
 		}
 
 		GenericEntity teacher = null;
-		if (teacherId != null && teacherId != "empty") {
+		if (teacherId != null && !teacherId.equals("empty")) {
 			teacher = cache.get(teacherId);
 		}
 		
-		if (teacherId != null && teacherId != "empty" && teacher == null) {
+		if (teacherId != null && !teacherId.equals("empty") && teacher == null) {
 			teacher = getApiClient().getTeacher(token, teacherId);
 			cacheThis(cache, teacherId, teacher);
 		}
@@ -495,7 +495,7 @@ public class EntityManager extends ApiClientManager {
 				teacherIdCache.put(section.getString(Constants.ATTR_ID), teacherId);
 			}
 			
-			if (teacherId != null && teacherId != "empty") {
+			if (teacherId != null && !teacherId.equals("empty")) {
 				teacherIds.add(teacherId);
 			}
 			courseOfferingIds.add(section.get("courseOfferingId").toString());

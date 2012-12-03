@@ -25,6 +25,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -806,13 +807,13 @@ public class SDKAPIClientTest {
 
             // Parse JSON
             Gson gson = new Gson();
-            List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
+            List<Map> maps = gson.fromJson(jsonBuffer.toString(), ArrayList.class);
             for (Map<String, Object> map : maps) {
                 entityList.add(new GenericEntity(map));
             }
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             LOG.error(e.getMessage());
-        } catch (NullPointerException e) {
+        } catch (IOException e) {
             LOG.error(e.getMessage());
         } catch (Exception e) {
             LOG.error(e.getMessage());
