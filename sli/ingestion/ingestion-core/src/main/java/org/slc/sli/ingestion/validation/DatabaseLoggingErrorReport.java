@@ -35,9 +35,9 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     private static final long serialVersionUID = 2190485796418439710L;
 
     private final String batchJobId;
-    private transient final BatchJobStageType stage;
+    private final BatchJobStageType stage;
     private final String resourceId;
-    private final BatchJobDAO batchJobDAO;
+    private transient final BatchJobDAO batchJobDAO;
 
     private volatile boolean hasErrors;
 

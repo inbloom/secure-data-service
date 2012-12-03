@@ -49,8 +49,7 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
     @SuppressWarnings("unchecked")
     public NeutralRecord convert(DBObject dbObj) {
 
-        String uuid = (String) dbObj.get("_id");
-        String id = uuid.toString();
+        String id = (String) dbObj.get("_id");
 
         String type = null;
         Map<?, ?> map = dbObj.toMap();
