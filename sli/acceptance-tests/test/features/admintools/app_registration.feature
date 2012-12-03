@@ -154,7 +154,7 @@ When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
-And I have clicked on the button 'Delete' for the application named "NewApp"
+And I have clicked on the button 'Deny' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
 When I click 'Yes'
 Then the application named "NewApp" is removed from the SLI

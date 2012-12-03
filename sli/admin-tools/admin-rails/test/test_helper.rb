@@ -138,5 +138,3 @@ class MockResponse
         "server"=>["Jetty(6.1.10)"]}
   end
 end
-
-require 'mocha'
