@@ -107,3 +107,9 @@ Then /^I will drop the tenant document from the collection$/ do
   sli_db['tenant'].remove("body.tenantId" => @tenant_name)
   assert(sli_db['tenant'].find("body.tenantId" => @tenant_name).count == 0, "Tenant document not dropped.")
 end
+
+Then /^I will delete the realm for this tenant from the collection$/ do
+  sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
+  sli_db['realm'].remove("body.tenantId" => @tenant_name)
+  assert(sli_db['realm'].find("body.tenantId" => @tenant_name).count == 0, "Realm document not deleted.")
+end
