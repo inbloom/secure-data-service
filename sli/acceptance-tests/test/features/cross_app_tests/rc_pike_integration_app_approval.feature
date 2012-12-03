@@ -66,8 +66,6 @@ And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are present
-And the Registration Status field is Approved
-#And a notification email is sent to "slcoperator-email@slidev.org"
 And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
@@ -87,8 +85,6 @@ And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
-And the Registration Status field is Approved
-#And a notification email is sent to "slcoperator-email@slidev.org"
 And I exit out of the iframe
 And I click on log out
 
