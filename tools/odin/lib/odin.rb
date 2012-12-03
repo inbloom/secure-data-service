@@ -50,7 +50,7 @@ class Odin
 
     scenarioYAML, prng = getScenario(scenario)
 
-    Dir.mkdir('../generated') if !Dir.exists?('../generated')
+    Dir.mkdir('../generated') unless Dir.exists?('../generated')
 
     time = Time.now
     
