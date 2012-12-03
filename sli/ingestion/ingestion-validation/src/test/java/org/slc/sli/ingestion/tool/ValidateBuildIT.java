@@ -27,11 +27,13 @@ import java.util.zip.ZipFile;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 
 /**
  * @author tke
  *
  */
+@Ignore
 public class ValidateBuildIT extends TestCase{
 
     static final String TARGET = "target/";

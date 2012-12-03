@@ -55,6 +55,27 @@ describe "WorkOrderProcessor" do
       end
 
     end
+    context 'With a work order that spans multiple schools' do
+      let(:work_order) {StudentWorkOrder.new(42, :FIFTH_GRADE, 2001, {'id' => 64, 'sessions' => [{'year' => 2001},
+                                                                                                 {'year' => 2002},
+                                                                                                 {'year' => 2003},
+                                                                                                 {'year' => 2004},
+                                                                                                 {'year' => 2005}],
+                                                                      'feeds_to' => [65, 66]})}
+      it "will get enrollments for each school" do
+        enrollment = double
+        ssas = []
+        enrollment.stub(:<<) do |ssa|
+          ssas << ssa
+        end
+        WorkOrderProcessor.new({:enrollment => enrollment}).build(work_order)
+        ssas[0].startYear.should eq(2001) and ssas[0].schoolStateOrgId.should eq('elem-0000000064')
+        ssas[1].startYear.should eq(2002) and ssas[1].schoolStateOrgId.should eq('midl-0000000065')
+        ssas[2].startYear.should eq(2003) and ssas[2].schoolStateOrgId.should eq('midl-0000000065')
+        ssas[3].startYear.should eq(2004) and ssas[3].schoolStateOrgId.should eq('midl-0000000065')
+        ssas[4].startYear.should eq(2005) and ssas[4].schoolStateOrgId.should eq('high-0000000066')
+      end
+    end
   end
 end
 

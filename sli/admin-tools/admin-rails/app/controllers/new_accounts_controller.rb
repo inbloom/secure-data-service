@@ -16,13 +16,6 @@ limitations under the License.
 
 =end
 
-
-require 'active_support/secure_random'
-require 'digest'
-require 'ldapstorage'
-require 'time'
-require 'date'
-
 class NewAccountsController < ForgotPasswordsController
 
   skip_filter :handle_oauth
