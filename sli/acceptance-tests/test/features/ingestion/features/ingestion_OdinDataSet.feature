@@ -104,13 +104,13 @@ Then I should see following map of entry counts in the corresponding collections
      | studentDisciplineIncidentAssociation     |                  0|
      | studentParentAssociation                 |                  0|
      | studentProgramAssociation                |                  0|
-     | studentSchoolAssociation                 |                 10|
+     | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                  0|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                  0|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 746 records." in the resulting batch job file
+    And I should see "Processed 766 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -169,7 +169,6 @@ Scenario: Verify entities in education organization calendar were ingested corre
      | student                     | 10                  | schools.entryDate                        | 2001-09-01                                    | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Sixth grade                                   | string               |
      | student                     | 6                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
-     | student                     | 1                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |
-     | student                     | 10                  | schools.edOrgs                           | []                                            | array                |
-     
+     | student                     | 1                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
+     | student                     | 10                  | schools.edOrgs                           | 42aaf7313c83453e0977f82dee426e6a51dd99a4_id   | string               |     
  
