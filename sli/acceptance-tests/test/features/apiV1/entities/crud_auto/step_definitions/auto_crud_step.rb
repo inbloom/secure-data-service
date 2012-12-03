@@ -197,11 +197,11 @@ Given /^my contextual access is defined by table:$/ do |table|
   end
 end
 
-Given /^the expected staff rewrite results are defined by table:$/ do |table|
+Given /^the expected rewrite results are defined by table:$/ do |table|
   # table is a Cucumber::Ast::Table
-  @state_staff_expected_results={}
+  @rewrite_expected_results={}
   table.hashes.each do |hash|
-    @state_staff_expected_results[hash["Entity Resource URI"]]=hash
+    @rewrite_expected_results[hash["Entity Resource URI"]]=hash
   end
 end
 
@@ -227,15 +227,16 @@ Given /^the staff queries and rewrite rules work$/ do
 
     puts "Evaluating: #{resource}"
 
-    row_data = @state_staff_expected_results[resource]
+    row_data = @rewrite_expected_results[resource]
     assert(!row_data.nil?, "No entry in expected staff rewrite results table for resource uri: #{resource}")
 
+    entity_type = row_data["Entity Type"]
     
     step "entity URI \"#{resource}\""
     step "parameter \"limit\" is \"0\""
     step "I navigate to GET \"/v1#{resource_as_uri}\""
     step "I should receive a return code of 200"  
-    step "each entity's \"entityType\" should be \"#{resource_type}\""
+    step "each entity's \"entityType\" should be \"#{entity_type}\""
   
     entity_count = row_data["Count"]
     step "I should receive a collection of \"#{entity_count}\" entities"
