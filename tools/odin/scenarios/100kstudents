@@ -1,0 +1,4 @@
+# Overrides for base_scenario properties
+studentCount: 100000
+numLEA: 4
+studentsPerSchool: 1800
