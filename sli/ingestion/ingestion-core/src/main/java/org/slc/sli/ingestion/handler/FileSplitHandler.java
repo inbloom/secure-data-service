@@ -86,6 +86,8 @@ public class FileSplitHandler {
                 }
                 event = reader.nextEvent();
             }
+        } catch (XMLStreamException e) {
+            throw e;
         } finally {
             if (parent != null && writer != null) {
                 writer.add(eventFactory.createEndElement(parent.asStartElement().getName(), null));
