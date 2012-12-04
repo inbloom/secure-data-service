@@ -103,6 +103,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = @entityData[arg1]["POST"]
   @updates = @entityData[arg1]["UPDATE"]
   @naturalKey = @entityData[arg1]["naturalKey"]
+  @context = @entityData[arg1]["context"]
+  @teacherAccess = @entityData[arg1]["teacherAccess"]
 end
 Then /^I perform CRUD for each resource available$/ do
   resources.each do |resource|
@@ -145,6 +147,9 @@ end
 def get_resource_paths resources, base = ""
   paths = []
   resources.each do |resource|
+    if resource['path'].include?'home' then
+      next
+    end
     paths << base + resource['path']
     if resource.has_key? 'subResources'
       #do nothing for now
@@ -192,6 +197,10 @@ def get_resource_type resource
 end
 def update_natural_key resource
   if @naturalKey.nil? == false
+    resource_type = get_resource_type resource
+    steps %Q{
+          Given a valid entity json document for a \"#{resource_type}\"
+    }   
     @naturalKey.each do |nKey,nVal|
       @fields[nKey] = nVal
       steps %Q{
@@ -211,9 +220,9 @@ end
 
 Given /^the expected rewrite results are defined by table:$/ do |table|
   # table is a Cucumber::Ast::Table
-  @rewrite_expected_results={}
+  @state_staff_expected_results={}
   table.hashes.each do |hash|
-    @rewrite_expected_results[hash["Entity Resource URI"]]=hash
+    @state_staff_expected_results[hash["Entity Resource URI"]]=hash
   end
 end
 
@@ -239,16 +248,15 @@ Given /^the staff queries and rewrite rules work$/ do
 
     puts "Evaluating: #{resource}"
 
-    row_data = @rewrite_expected_results[resource]
+    row_data = @state_staff_expected_results[resource]
     assert(!row_data.nil?, "No entry in expected staff rewrite results table for resource uri: #{resource}")
 
-    entity_type = row_data["Entity Type"]
     
     step "entity URI \"#{resource}\""
     step "parameter \"limit\" is \"0\""
     step "I navigate to GET \"/v1#{resource_as_uri}\""
     step "I should receive a return code of 200"  
-    step "each entity's \"entityType\" should be \"#{entity_type}\""
+    step "each entity's \"entityType\" should be \"#{resource_type}\""
   
     entity_count = row_data["Count"]
     step "I should receive a collection of \"#{entity_count}\" entities"
@@ -287,6 +295,75 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
     end
   end
 end
+Then /^I perform POST for each resource available in the order defined by table:$/ do |table|
+  resource_list = resources
+  @context_hash = Hash.new
+  table.hashes.each do |hash|
+    resource = "/"+ hash["Entity Resource"]
+    puts resource
+#    assert(resource_list.delete(resource).nil? == false ,"Invalid entity")
+    if resource_list.delete(resource).nil?
+      $stderr.puts "RESOURCE NOT FOUND : #{resource}"
+    end
+    resource_type = get_resource_type resource
+    steps %Q{
+          Given a valid entity json document for a \"#{resource_type}\"
+    }
+    if !@context.nil?
+      @context.each do |key,val|
+        if val.include? "teacherId"
+          @fields[key] = "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"
+        else
+          puts "#{resource} == #{key} == #{val}"
+          @fields[key] = @context_hash[val]["id"]
+        end
+      end
+    end
+    if !@teacherAccess.nil?
+      @fields = @fields.merge(@teacherAccess)
+    end
+    puts @fields
+    begin
+    steps %Q{
+          When I navigate to POST \"/v1#{resource}\"
+          Then I should receive a return code of 201
+          And I should receive an ID for the newly created entity
+    }
+    new_entity = {}
+    new_entity["BODY"] = @fields
+    new_entity["id"] = @newId
+    @context_hash[hash["Entity Resource"]] = new_entity
+    rescue=>e
+      $stderr.puts "#{resource} ==> #{e}"
+    end
+  end
+end
+Then /^I perform PUT,GET,Natural Key Update and DELETE for each resource available$/ do 
+  resources.each do |resource|
+    begin
+      if @context_hash.has_key? resource[1..-1] == false
+        next
+      end
+      resource_type = get_resource_type resource
+      steps %Q{
+          Given a valid entity json document for a \"#{resource_type}\"
+      }
+      @newId = @context_hash[resource[1..-1]]["id"]
+      @fields = @context_hash[resource[1..-1]]["BODY"]
+      puts "#{resource[1..-1]} ==> #{@newId}"
 
-
+        get_resource resource
+        @fields[@updates['field']] = @updates['value']
+        steps %Q{
+          When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+          Then I should receive a return code of 204
+        }
+        update_natural_key resource
+      delete_resource resource
+      puts  "|#{get_resource_type(resource)}|"
+    rescue =>e
+      $stderr.puts "#{resource} => #{e}"
+    end
+  end
+end
 

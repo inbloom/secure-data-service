@@ -78,6 +78,10 @@
     "naturalKey": {
       "studentId": "15d462a2-c7b8-4435-8f88-33331a297880",
       "schoolId": "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
+    },
+    "context" : {
+      "studentId" : "students",
+      "schoolId" : "schools"
     }
   },
   "studentAcademicRecord": {
@@ -93,6 +97,10 @@
     "naturalKey": {
       "studentId": "b8e346c8-025e-44ba-9ae1-f2fa4e832b08",
       "sessionId": "e100045b-25b3-41d6-9f1c-cd86db18eb68"
+    },
+    "context" : {
+      "studentId" : "students",
+      "sessionId" : "sessions"
     }
   },
   "student": {
@@ -136,6 +144,9 @@
     "naturalKey": {
       "cohortIdentifier": "ACC-TEST-COH-1",
       "educationOrgId": "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+    },
+    "context" : {
+      "educationOrgId" : "schools"
     }
   },
   "course": {
@@ -299,6 +310,9 @@
       "gradebookEntryType": "Assignment",
       "dateAssigned": "2012-02-07",
       "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234"
+    },
+    "context" : {
+      "sectionId" : "sections"
     }
   },
   "learningObjective": {
@@ -385,7 +399,11 @@
     "naturalKey": {
       "uniqueSectionCode": "EnglishA11",
       "schoolId": "92d6d5a0-852c-45f4-907a-912752831772"
-    }
+    },
+    "context": {
+      "schoolId" : "schools",
+      "sessionId" : "sessions"
+  }
   },
   "session": {
     "POST": {
@@ -407,6 +425,9 @@
     "naturalKey": {
       "sessionName": "Summer 2012",
       "schoolId": "92d6d5a0-852c-45f4-907a-912752831772"
+    },
+    "context": {
+      "schoolId" : "schools"
     }
   },
   "staff": {
@@ -447,7 +468,13 @@
     "naturalKey": {
       "gradebookEntryId": "20121204-56b6-4d17-847b-9ff3b7228ce4",
       "studentSectionAssociationId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id5f81e741-0f26-4afb-add6-d97e7d01b9a8_id"
+    },
+    "context" : {
+      "sectionId" : "sections",
+      "studentId" : "students",
+      "studentSectionAssociationId" : "studentSectionAssociations"
     }
+
   },
   "assessment": {
     "POST": {
@@ -687,6 +714,11 @@
       "courseAttemptResult": "Fail",
       "courseId": "c8a446ea-1138-4ae9-8655-fc8ef6a9ae47",
       "studentAcademicRecordId": "56afc8d4-6c91-48f9-8a51-de527c1131b7"
+    },
+    "context" : {
+      "studentId" : "students",
+      "courseId" : "courses",
+      "studentAcademicRecordId" : "studentAcademicRecords"
     }
   },
   "staffCohortAssociation": {
@@ -705,6 +737,10 @@
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
       "beginDate": "2010-01-16"
+    },
+    "context" : {
+      "staffId" : "teacherId",
+      "cohortId" : "cohorts"
     }
   },
   "staffEducationOrganizationAssociation": {
@@ -723,6 +759,10 @@
       "educationOrganizationReference": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "staffClassification": "Other",
       "beginDate": "2011-01-14"
+    },
+    "context" :{
+      "staffReference": "staff",
+      "educationOrganizationReference" : "educationOrganizations"
     }
   },
   "staffProgramAssociation": {
@@ -740,6 +780,13 @@
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-01-01"
+    },
+    "context" : {
+      "staffId" : "teacherId",
+      "programId" : "programs"
+    },
+    "teacherAccess": {
+      "studentRecordAccess": "false"
     }
   },
   "studentAssessment": {
@@ -775,7 +822,12 @@
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
       "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
       "beginDate": "2012-02-29"
+    },
+    "context" : {
+      "studentId" : "students",
+      "cohortId" : "cohorts"
     }
+
   },
   "studentDisciplineIncidentAssociation": {
     "POST": {
@@ -824,6 +876,11 @@
       "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-02-12",
       "educationOrganizationId": "92d6d5a0-852c-45f4-907a-912752831772"
+    },
+    "context" : {
+      "studentId" : "students",
+      "programId" : "programs",
+      "educationOrganizationId" : "schools"
     }
   },
   "studentSchoolAssociation": {
@@ -841,6 +898,10 @@
       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
       "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
       "entryDate": "2011-09-02"
+    },
+    "context" : {
+      "studentId" : "students",
+      "schoolId" : "schools"
     }
   },
   "studentSectionAssociation": {
@@ -860,6 +921,10 @@
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
       "sectionId": "392d1835-f372-4690-b221-7065db1aed33",
       "beginDate": "2011-12-02"
+    },
+    "context" : {
+      "studentId" : "students",
+      "sectionId" : "sections"
     }
   },
   "teacherSchoolAssociation": {
@@ -876,6 +941,9 @@
       "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "programAssignment": "Special Education"
+    },
+    "context" : {
+      "schoolId" : "schools"
     }
   },
   "teacherSectionAssociation": {
@@ -891,6 +959,9 @@
     "naturalKey": {
      "teacherId": "edce823c-ee28-4840-ae3d-74d9e9976dc5",
      "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
+    },
+    "context" : {
+      "sectionId": "sections"
     }
   }
 }

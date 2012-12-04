@@ -74,83 +74,56 @@ Background: Nothing yet
     | studentCompetencyObjective              | studentCompetencyObjectives              | 0     |/educationOrganizations/@ids/studentCompetencyObjectives    |    
     Then the staff queries and rewrite rules work
 
-#
-#    Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
-#    Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
-#      And format "application/vnd.slc+json"
-#       Given entity URI <Entity Resource URI>
-#        # Create
-#       Given a valid entity json document for a <Entity Type>
-#        When I navigate to POST "/<ENTITY URI>"
-#        Then I should receive a return code of 201
-#         And I should receive a new entity URI
-#        # Read
-#        When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 200
-#         And the response should contain the appropriate fields and values
-#         And "entityType" should be <Entity Type>
-#         And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        # Update
-#        When I set the <Update Field> to <Updated Value>
-#         And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 204
-#         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#         And <Update Field> should be <Updated Value>
-#        # Delete
-#        When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 204
-#         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#         And I should receive a return code of 404
-#
-#Examples:
-#| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-#| "disciplineAction"             | "disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
-#| "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
-#| "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
-#| "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
-#| "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
-#| "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
-#| "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
-#| "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-#| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
-#| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
-#
-#    Scenario Outline: CRUD operations on an entity as an IT Admin Teacher can't update natural keys
-#    Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
-#      And format "application/vnd.slc+json"
-#       Given entity URI <Entity Resource URI>
-#        # Create
-#       Given a valid entity json document for a <Entity Type>
-#        When I navigate to POST "/<ENTITY URI>"
-#        Then I should receive a return code of 201
-#         And I should receive a new entity URI
-#        # Read
-#        When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 200
-#         And the response should contain the appropriate fields and values
-#         And "entityType" should be <Entity Type>
-#         And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        # Update
-#        When I set the <Update Field> to <Updated Value>
-#         And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 409
-#        # Delete
-#        When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#        Then I should receive a return code of 204
-#         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#         And I should receive a return code of 404
-#
-#Examples:
-#| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-#| "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-#| "attendance"                   | "attendances"             | "studentId"              | "2fab099f-47d5-4099-addf-69120db3b53b"       |
-#| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
-#| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+ @Teacher_crud
     Scenario: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
       And format "application/vnd.slc+json"
-      Then I perform CRUD for each resource available
+      Then I perform POST for each resource available in the order defined by table:
+      | Entity Resource                         |
+      | educationOrganizations                  |
+      | schools                                 |
+      | staff                                   |
+      | staffEducationOrgAssignmentAssociations |
+      | sessions                                |
+      | sections                                |
+      | students                                |
+      | programs                                |
+      | teachers                                |
+      | assessments                              |
+      | attendances                              |
+      | cohorts                                  |
+      | courses                                  |
+      | disciplineActions                        |
+      | disciplineIncidents                      |
+      | gradebookEntries                          |
+      | learningObjectives                       |
+      | learningStandards                        |
+      | parents                                  |
+      | studentProgramAssociations               |
+      | studentCohortAssociations                |
+      | teacherSectionAssociations               |
+      | studentSchoolAssociations                |
+      | teacherSchoolAssociations                |
+      | studentSectionAssociations               |
+      | staffCohortAssociations                  |
+      | studentAssessments                       |
+      | competencyLevelDescriptor               |
+      | staffProgramAssociations                 |
+      | studentDisciplineIncidentAssociations    |
+      | studentParentAssociations                |
+      | courseOfferings                          |
+      | graduationPlans                          |
+      | studentAcademicRecords                   |
+      | studentGradebookEntries                   |
+      | courseTranscripts                        |
+      | grades                                   |
+      | studentCompetencies                       |
+      | gradingPeriods                           |
+      | reportCards                              |
+      | studentCompetencyObjectives              |
 
+
+      And I perform PUT,GET,Natural Key Update and DELETE for each resource available
 
 
     Scenario: Get All Entities as School Teacher
