@@ -721,7 +721,7 @@ class WorldBuilder
 
         # create calendar date(s) using interval
         # create grading period(s) using interval, school year, and state organization id
-        calendar_dates  = create_calendar_dates(interval)        
+        calendar_dates  = create_calendar_dates(interval, ed_org_id)        
         grading_periods = create_grading_periods(interval, year, ed_org_id)
 
         # create and write session
@@ -738,7 +738,7 @@ class WorldBuilder
 
         # write calendar date(s)
         calendar_dates.each do |calendar_date|
-          @data_writer.create_calendar_date(calendar_date["date"], calendar_date["event"])
+          @data_writer.create_calendar_date(calendar_date["date"], calendar_date["event"], calendar_date["ed_org_id"])
         end
       end
     end
@@ -786,17 +786,17 @@ class WorldBuilder
   # - end date
   # - holidays
   # - num of instructional days (not used)
-  def create_calendar_dates(interval)
+  def create_calendar_dates(interval, ed_org_id)
     calendar_dates = []
     begin_date     = interval.get_begin_date
     end_date       = interval.get_end_date
     holidays       = interval.get_holidays
     (begin_date..end_date).step(1) do |date|
       if holidays.include?(date)
-        calendar_dates << {"date" => date, "event" => :HOLIDAY}
+        calendar_dates << {"date" => date, "event" => :HOLIDAY, "ed_org_id" => ed_org_id}
       else
         if date.wday != 0 and date.wday != 6
-          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY}
+          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id}
         end
       end
     end

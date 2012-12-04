@@ -16,8 +16,6 @@ limitations under the License.
 
 =end
 
-require "mustache"
-
 require_relative "./EntityWriter"
 require_relative "interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"

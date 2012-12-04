@@ -90,9 +90,9 @@ class DataWriter
   end
 
   # create calendar date and store in memory
-  def create_calendar_date(date, event)
+  def create_calendar_date(date, event, ed_org_id)
     initialize_entity(:calendar_date)
-    @entities[:calendar_date] << CalendarDate.new(date, event)
+    @entities[:calendar_date] << CalendarDate.new(date, event, ed_org_id)
     increment_count(:calendar_date)
   end
 
