@@ -17,6 +17,7 @@
 
 package org.slc.sli.dashboard.manager.component.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -198,8 +199,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             depth++;
             Config newConfig;
             Collection<Config.Item> expandedItems;
+            Config.Item item;
+            
             // get items, go through all of them and update config as need according to conditions and template substitutions
-            for (Config.Item item : getUpdatedDynamicHeaderTemplate(config, entity)) {
+            for (Config.Item configItem : getUpdatedDynamicHeaderTemplate(config, entity)) {
+                
+                item = configItem;
                 if (checkCondition(config, item, entity)) {
                     newConfig = populateModelRecursively(model, item.getId(), entityKey, item, config, entity, depth, lazyOverride);
                     if (newConfig != null) {
@@ -235,8 +240,10 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             Pattern p = Pattern.compile(SUBSTITUTE_TOKEN_PATTERN);
             Matcher matcher;
             String name, value;
+            Config.Item item;
             Collection<Config.Item> newItems = new ArrayList<Config.Item>();
-            for (Config.Item item : config.getItems()) {
+            for (Config.Item configItem : config.getItems()) {
+                item = configItem;
                 name = item.getName();
                 if (name != null) {
                     matcher = p.matcher(name);
@@ -382,13 +389,24 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         if (config == null) {
             return null;
         }
+        
         InvokableSet set = this.getInvokableSet(config.getEntityRef());
         if (set == null) {
             throw new DashboardException("No entity mapping references found for " + config.getEntityRef() + ". Fix!!!");
         }
+        
         try {
             return (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
+            logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
+                    + ", config " + componentId, e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
+                    + ", config " + componentId, e);
+        } catch (IllegalAccessException e) {
+            logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
+                    + ", config " + componentId, e);
+        } catch (InvocationTargetException e) {
             logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
                     + ", config " + componentId, e);
         }
