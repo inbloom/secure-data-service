@@ -11,6 +11,8 @@
     default-autowire="byName">
 
         <context:component-scan base-package="org.slc">
+        <context:exclude-filter type="regex"
+            expression=".*LdapServiceImpl" />
         </context:component-scan>
   <bean id="validationStrategyList" class="java.util.ArrayList">
     <constructor-arg>

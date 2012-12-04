@@ -3,6 +3,12 @@ studentCount: 1
 beginYear: 2001
 numYears: 3
 
+# Select the output of the ODIN tool
+# currently supported values: 'xml'
+# not yet implemented values: 'api' [will require hostname variable as well]
+DATA_OUTPUT: xml
+DIRECTORY: generated/
+
 # Example of other configuration
 # (11/21/2012 shalka: i'm going to be removing these very soon)
 numSEA: 1
