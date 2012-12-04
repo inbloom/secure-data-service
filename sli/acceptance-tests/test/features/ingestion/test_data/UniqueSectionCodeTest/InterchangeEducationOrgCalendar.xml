@@ -3,6 +3,11 @@
     <CalendarDate>
         <Date>2010-10-04</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <GradingPeriod>
         <GradingPeriod>First Six Weeks</GradingPeriod>
@@ -18,6 +23,11 @@
         <CalendarDateReference>
             <CalendarDateIdentity>
                 <Date>2010-10-04</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
             </CalendarDateIdentity>
         </CalendarDateReference>
     </GradingPeriod>
