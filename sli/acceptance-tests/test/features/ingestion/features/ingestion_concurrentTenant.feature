@@ -53,7 +53,7 @@ When zip files are scped to the ingestion landing zone
         | collectionName              | count |
         | assessment                  | 19    |
         | attendance                  | 75    |
-        | calendarDate                | 556   |
+        | calendarDate                | 1112  |
         | cohort                      | 3     |
         | competencyLevelDescriptor   | 6     |
         | course                      | 103   |
