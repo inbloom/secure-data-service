@@ -1,6 +1,6 @@
 {
-"recordType":"studentProgramAssociation",
-"attributes":
+    "recordType":"studentProgramAssociation",
+    "attributes":
     {
         "StudentReference":
         {
@@ -14,6 +14,13 @@
             "EducationalOrgIdentity":
             {
                 "StateOrganizationId":"testSchoolId"
+            }
+        },
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"testProgramId"
             }
         }
     }

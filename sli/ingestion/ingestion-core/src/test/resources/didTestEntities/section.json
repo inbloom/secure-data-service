@@ -1,55 +1,62 @@
 {
-"recordType":"section",
-"attributes":
-{
-	"SchoolReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"testSchoolId"
-		}
-	},
-    "SessionReference":
+    "recordType":"section",
+    "attributes":
     {
-       "SessionIdentity":
-       {
-           "EducationalOrgReference":
+        "SchoolReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"testSchoolId"
+            }
+        },
+        "SessionReference":
+        {
+           "SessionIdentity":
            {
-               "EducationalOrgIdentity":
+               "EducationalOrgReference":
+               {
+                   "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "SessionName":"theSessionName"
+           }
+        },
+        "CourseOfferingReference":
+        {
+            "CourseOfferingIdentity":
+            {
+                "LocalCourseCode":"local course code",
+                "SessionReference":
                 {
-                    "StateOrganizationId":"testSchoolId"
+                    "SessionIdentity":
+                    {
+                        "EducationalOrgReference":
+                        {
+                            "EducationalOrgIdentity":
+                            {
+                                "StateOrganizationId":"state organization id 1"
+                            }
+                        },
+                        "SessionName":"session name"
+                    }
+                },
+                "EducationalOrgReference":
+                {
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"state organization id 2"
+                    }
                 }
-           },
-           "SessionName":"theSessionName"
-       }
-    },
-    "CourseOfferingReference":
-	{
-		"CourseOfferingIdentity":
-		{
-			"LocalCourseCode":"local course code",
-			"SessionReference":
-			{
-				"SessionIdentity":
-				{
-					"EducationalOrgReference":
-					{
-						"EducationalOrgIdentity":
-						{
-							"StateOrganizationId":"state organization id 1"
-						}
-					},
-					"SessionName":"session name"
-				}
-			},
-			"EducationalOrgReference":
-			{
-				"EducationalOrgIdentity":
-				{
-					"StateOrganizationId":"state organization id 2"
-				}
-			}
-		}		
-	}
-}
+            }
+        },
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"testProgramId"
+            }
+        }
+    }
 }

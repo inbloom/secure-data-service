@@ -1,0 +1,13 @@
+{
+    "recordType":"gradingPeriod",
+    "attributes":
+    {
+        "EducationOrganizationReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"testEdOrgId"
+            }
+        }
+    }
+}
