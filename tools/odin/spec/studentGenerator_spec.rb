@@ -20,7 +20,6 @@ require_relative '../lib/OutputGeneration/XML/studentParentInterchangeGenerator'
 require_relative '../lib/OutputGeneration/XML/validator'
 require 'factory_girl'
 
-FactoryGirl.find_definitions
 
 describe 'StudentGenerator' do
   let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudentParent.xml" ) }

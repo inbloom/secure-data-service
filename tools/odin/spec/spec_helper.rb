@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'simplecov'
+require 'factory_girl'
 
 SimpleCov.start do
   add_filter '/spec/'
@@ -56,3 +57,6 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 end
+
+
+FactoryGirl.find_definitions
