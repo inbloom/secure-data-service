@@ -505,7 +505,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         rh.updated = System.currentTimeMillis();
         rh.version += 1;
         // Detect tenant collision - should never occur since tenantId is in the hash
-        if ( ! rh.tenantId.equals(tenantId) ) {
+        if (!rh.tenantId.equals(tenantId)) {
             throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.tenantId + "', input data has '" + tenantId + "' for entity ID '" + rh._id + "'");
         }
         this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh._id).getQueryObject(), new BasicDBObject(rh.toKVMap()));

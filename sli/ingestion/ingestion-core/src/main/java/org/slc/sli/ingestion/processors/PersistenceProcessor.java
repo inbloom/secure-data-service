@@ -40,7 +40,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -87,7 +86,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
-    
+
     private EdFi2SLITransformer transformer;
 
     private Map<String, Set<String>> entityPersistTypeMap;
@@ -113,8 +112,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     // represents the configuration of a self-referencing entity schema
     static class SelfRefEntityConfig {
         private String idPath;              // path to the id field
-        // Exactly one of the following fields can be non-null: 
-        private String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
+        // Exactly one of the following fields can be non-null:
+        private String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field,
         private String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
         SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
@@ -602,31 +601,34 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
-        
-    	if (!recordLvlHashNeutralRecordTypes.contains(nr.getRecordType()))
-        	return;
-        
+
+        if (!recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
+            return;
+        }
+
         Object rhHashObj = nr.getMetaDataByName("rhHash");
         Object rhIdObj = nr.getMetaDataByName("rhId");
         Object rhTenantIdObj = nr.getMetaDataByName("rhTenantId");
-        
+
         // Make sure complete metadata is present
-        if ( null == rhHashObj || null == rhIdObj || null == rhTenantIdObj )
-        	return;
-        
-        String newHashValues = rhHashObj.toString();
-        if (newHashValues == null)
+        if (null == rhHashObj || null == rhIdObj || null == rhTenantIdObj) {
             return;
-                        
+        }
+        String newHashValues = rhHashObj.toString();
+        if (newHashValues == null) {
+            return;
+        }
+
         String recordId = rhIdObj.toString();
         String tenantId = rhTenantIdObj.toString();
 
         // Consider DE2002, removing a query per record vs. tracking version
         RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
-        if (rh == null)
+        if (rh == null) {
             batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
-        else
+        } else {
             batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+        }
     }
-     
+
 }
