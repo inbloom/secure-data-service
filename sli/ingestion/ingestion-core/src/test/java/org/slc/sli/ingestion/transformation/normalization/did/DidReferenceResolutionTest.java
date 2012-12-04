@@ -424,76 +424,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void resolveStaffDidInStaffEducationOrganizationAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-            Entity entity = loadEntity("didTestEntities/staffEducationOrganizationAssociation.json");
-            ErrorReport errorReport = new TestErrorReport();
-            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            naturalKeys.put("staffUniqueStateId", "jjackson");
-            checkId(entity, "StaffReference", naturalKeys, "staff");
-    }
-
-    @Test
-    public void resolveStaffDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-            Entity entity = loadEntity("didTestEntities/disciplineAction.json");
-            ErrorReport errorReport = new TestErrorReport();
-            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            naturalKeys.put("staffUniqueStateId", "jjackson");
-            checkId(entity, "StaffReference", naturalKeys, "staff");
-    }
-
-    @Test
-    public void resolveStaffDidInDisciplineIncidentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-            Entity entity = loadEntity("didTestEntities/disciplineIncident.json");
-            ErrorReport errorReport = new TestErrorReport();
-            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            naturalKeys.put("staffUniqueStateId", "jjackson");
-            checkId(entity, "StaffReference", naturalKeys, "staff");
-    }
-
-    @Test
-    public void resolveStaffDidInStaffCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-            Entity entity = loadEntity("didTestEntities/staffCohortAssociation.json");
-            ErrorReport errorReport = new TestErrorReport();
-            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            naturalKeys.put("staffUniqueStateId", "jjackson");
-            checkId(entity, "StaffReference", naturalKeys, "staff");
-    }
-
-    @Test
-    public void resolveStaffDidInStaffProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-            Entity entity = loadEntity("didTestEntities/staffProgramAssociation.json");
-            ErrorReport errorReport = new TestErrorReport();
-            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            naturalKeys.put("staffUniqueStateId", "jjackson");
-            checkId(entity, "StaffReference", naturalKeys, "staff");
-    }
-
-    @Test
-    public void resolveStaffDidInTeacherSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-            Entity entity = loadEntity("didTestEntities/teacherSchoolAssociation.json");
-            ErrorReport errorReport = new TestErrorReport();
-            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            naturalKeys.put("staffUniqueStateId", "jjackson");
-            checkId(entity, "TeacherReference", naturalKeys, "staff");
-    }
-
-    @Test
-    public void resolveStaffDidInTeacherSectionAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-            Entity entity = loadEntity("didTestEntities/teacherSectionAssociation.json");
-            ErrorReport errorReport = new TestErrorReport();
-            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            naturalKeys.put("staffUniqueStateId", "jjackson");
-            checkId(entity, "TeacherReference", naturalKeys, "staff");
-    }
-
-    @Test
     public void resolvesCohortDidInStaffCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/staffCohortAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -770,16 +700,6 @@ public class DidReferenceResolutionTest {
 
         checkId(entity, "studentAssessmentItems.[0].assessmentItem.learningStandards", naturalKeys, "learningStandard");
     }
-
-    //resolves learning standard in assessmentItem
-    //body.assessmentItem.learningStandards <- assessment
-
-    //body.studentAssessmentItems.assessmentItem.learningStandards <- studentAssessmentAssociation
-
-    //resolves learningStandard in objective assessment
-
-
-   //
 
     @Test
     public void resolvesStudentSectionAssociationDidInGradeCorrectly() throws JsonParseException, JsonMappingException, IOException {
@@ -1085,7 +1005,6 @@ public class DidReferenceResolutionTest {
         checkId(entity, "studentId", naturalKeys, "student");
     }
 
-    @Ignore
     @Test
     public void resolvesStudentCompetencyRefDidInReportCardCorrectlyUsingLearningObjectiveReference() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/reportCard.json");
@@ -1119,13 +1038,13 @@ public class DidReferenceResolutionTest {
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("objectiveId.learningObjectiveId", learningObjectiveId);
+        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", "");
         naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
         naturalKeys.put("competencyLevel.codeValue", "code");
 
         checkId(entity, "StudentCompetencyReference", naturalKeys, "studentCompetency");
     }
 
-    @Ignore
     @Test
     public void resolvesStudentCompetencyRefDidInReportCardCorrectlyUsingStudentCompetencyObjectiveReference() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/reportCard2.json");
@@ -1157,6 +1076,7 @@ public class DidReferenceResolutionTest {
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("objectiveId.studentCompetencyObjectiveId", studentCompetencyObjectiveId);
+        naturalKeys.put("objectiveId.learningObjectiveId", "");
         naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
         naturalKeys.put("competencyLevel.codeValue", "code");
 
@@ -1311,8 +1231,6 @@ public class DidReferenceResolutionTest {
             throws JsonParseException, JsonMappingException, IOException {
         String expectedDid =  generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
 
-        System.out.println("expectedDid:\n" + expectedDid);
-
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = null;
 
@@ -1327,10 +1245,8 @@ public class DidReferenceResolutionTest {
         if (resolvedRef instanceof List) {
             List<Object> refs = (List<Object>) resolvedRef;
             Assert.assertEquals(1, refs.size());
-            System.out.println("resolvedDid:\n" + refs.get(0));
             Assert.assertEquals(expectedDid, refs.get(0));
         } else {
-            System.out.println("resolvedDid:\n" + resolvedRef);
             Assert.assertEquals(expectedDid, resolvedRef);
         }
 
