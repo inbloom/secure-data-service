@@ -106,6 +106,10 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 end
 Then /^I perform CRUD for each resource available$/ do
   resources.each do |resource|
+    if resource == "/home"
+      next
+    end
+
     begin
       #post is not allowed for associations
         post_resource resource

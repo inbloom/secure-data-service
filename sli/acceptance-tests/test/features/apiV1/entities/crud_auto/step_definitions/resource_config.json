@@ -76,22 +76,23 @@
         }]
     },
     "naturalKey": {
-      "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735b",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fm"
+      "studentId": "15d462a2-c7b8-4435-8f88-33331a297880",
+      "schoolId": "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
     }
   },
   "studentAcademicRecord": {
     "POST": {
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
-      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072",
+      "cumulativeGradePointsEarned" : 15
     },
     "UPDATE": {
-      "field": "sessionId",
-      "value": "cb1fb2d3-a906-446a-bdfd-06ad23823265"
+      "field": "cumulativeGradePointsEarned",
+      "value": 16
     },
     "naturalKey": {
-      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae5",
-      "sessionId": "abcff7ae-1f01-46bc-8cc7-cf409819bbce"
+      "studentId": "b8e346c8-025e-44ba-9ae1-f2fa4e832b08",
+      "sessionId": "e100045b-25b3-41d6-9f1c-cd86db18eb68"
     }
   },
   "student": {
@@ -444,8 +445,8 @@
       "value": "Finished the quiz in 5 hours"
     },
     "naturalKey": {
-      "gradebookEntryId": "7f05ef51-c974-4071-b91b-f644f9b087cf",
-      "studentSectionAssociationId": "bac890d6-b580-4d9d-a0d4-8bce4e8d351a"
+      "gradebookEntryId": "20121204-56b6-4d17-847b-9ff3b7228ce4",
+      "studentSectionAssociationId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id5f81e741-0f26-4afb-add6-d97e7d01b9a8_id"
     }
   },
   "assessment": {
