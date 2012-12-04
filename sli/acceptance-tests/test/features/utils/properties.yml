@@ -16,7 +16,7 @@ ingestion_batchjob_database_name: "ingestion_batch_job"
 lz_server_url: "sulu-lz.slidev.org"
 lz_sftp_port: "443"
 ingestion_server_url: "devpantheon.slidev.org"
-ingestion_username: "testdevsb.wgen@gmail.com"
+ingestion_username: "testdevsb2.wgen@gmail.com"
 ingestion_password: "liferaywgen1234"
 ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "remote"
@@ -93,20 +93,20 @@ developer_email_imap_registration_user_email: testdev.wgen@gmail.com
 developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: testdev.wgen1234
 
 #Developer creds (sandbox) - For CI environments
-developer_sb_email_imap_registration_user: testdevsb.wgen@gmail.com
-developer_sb_email_imap_registration_user_email: testdevsb.wgen@gmail.com
+developer_sb_email_imap_registration_user: testdevsb2.wgen@gmail.com
+developer_sb_email_imap_registration_user_email: testdevsb2.wgen@gmail.com
 developer_sb_email_imap_registration_pass: liferaywgen1234
 
 #Developer 2 creds (sandbox) - For CI environments
-developer2_sb_email_imap_registration_user: testdevsb2.wgen@gmail.com
-developer2_sb_email_imap_registration_user_email: testdevsb2.wgen@gmail.com
+developer2_sb_email_imap_registration_user: testdevsb.wgen@gmail.com
+developer2_sb_email_imap_registration_user_email: testdevsb.wgen@gmail.com
 developer2_sb_email_imap_registration_pass: liferaywgen1234
 
 #Landing zone
 landingzone: sulu-lz.slidev.org
 landingzone_port: 443
 
-sandbox_tenant: testdevsb.wgen@gmail.com
+sandbox_tenant: testdevsb2.wgen@gmail.com
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 
