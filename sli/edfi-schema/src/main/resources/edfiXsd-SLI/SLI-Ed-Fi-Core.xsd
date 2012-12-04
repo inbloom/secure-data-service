@@ -26,7 +26,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-Assessment">
 		<xs:annotation>
-			<xs:documentation>Assessment record with key-fields: AssessmentTitle, AcademicSubject, GradeLevelAssessed and Version. Changed types of ObjectiveAssessmentReference, SectionReference and AssessmentItemReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Assessment record with key fields: AssessmentTitle, AcademicSubject, GradeLevelAssessed and Version. Changed types of ObjectiveAssessmentReference, SectionReference and AssessmentItemReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>assessment</sli:recordType>
 			</xs:appinfo>
@@ -58,7 +58,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItem">
 		<xs:annotation>
-			<xs:documentation>AssessmentItem record with key-fields: AssessmentReference. Changed types of AssessmentReference and LearningStandardReference to SLC reference types.</xs:documentation>
+			<xs:documentation>AssessmentItem record with key field: AssessmentReference. Changed types of AssessmentReference and LearningStandardReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>assessmentItem</sli:recordType>
 			</xs:appinfo>
@@ -79,7 +79,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-AttendanceEvent">
 		<xs:annotation>
-			<xs:documentation>AttendanceEvent record with key-fields: StudentReference and SchoolReference. Made SchoolReference required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
+			<xs:documentation>AttendanceEvent record with key fields: StudentReference and SchoolReference. Made SchoolReference required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>attendance</sli:recordType>
 			</xs:appinfo>
@@ -130,7 +130,7 @@
 
     <xs:complexType name="SLC-CalendarDate">
         <xs:annotation>
-            <xs:documentation>Added EducationOrgReference.</xs:documentation>
+            <xs:documentation>CalendarDate record with key fields: Date and EducationOrgReference. Added EducationOrgReference.</xs:documentation>
             <xs:appinfo>
                 <sli:recordType>calendarDate</sli:recordType>
             </xs:appinfo>
@@ -150,7 +150,7 @@
 
 	<xs:complexType name="SLC-Cohort">
 		<xs:annotation>
-			<xs:documentation>Cohort record with key-fields: CohortIdentifier, CohortDescription and EducationOrgReference. Changed types of EducationOrgReference and ProgramReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Cohort record with key fields: CohortIdentifier, CohortDescription and EducationOrgReference. Changed types of EducationOrgReference and ProgramReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>cohort</sli:recordType>
 			</xs:appinfo>
@@ -171,7 +171,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-Course">
 		<xs:annotation>
-			<xs:documentation>Course record with key-fields: UniqueCourseId and EducationOrganizationReference. Changed types of EducationOrganizationReference, LearningStandardReference and LearningObjectiveReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Course record with key fields: UniqueCourseId and EducationOrganizationReference. Changed types of EducationOrganizationReference, LearningStandardReference and LearningObjectiveReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>course</sli:recordType>
 			</xs:appinfo>
@@ -212,7 +212,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-CourseOffering">
 		<xs:annotation>
-			<xs:documentation>CourseOffering record with key-fields: LocalCourseCode, SchoolReference and SessionReference.  Changed types of SchoolReference, SessionReference and CourseReference to SLC reference types.</xs:documentation>
+			<xs:documentation>CourseOffering record with key fields: LocalCourseCode, SchoolReference and SessionReference.  Changed types of SchoolReference, SessionReference and CourseReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>courseOffering</sli:recordType>
 			</xs:appinfo>
@@ -231,7 +231,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-CourseTranscript">
 		<xs:annotation>
-			<xs:documentation>CourseTranscript record with key-fields: CourseAttemptResult, CourseReference and StudentAcademicRecordReference. Changed types of CourseReference and StudentAcademicRecordReference to SLC reference types.</xs:documentation>
+			<xs:documentation>CourseTranscript record with key fields: CourseAttemptResult, CourseReference and StudentAcademicRecordReference. Changed types of CourseReference and StudentAcademicRecordReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>courseTranscript</sli:recordType>
 			</xs:appinfo>
@@ -263,7 +263,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-DisciplineAction">
 		<xs:annotation>
-			<xs:documentation>DisciplineAction record with key-fields: DisciplineActionIdentifier, StudentReference, StaffReference and ResponsibilitySchoolReference. Changed types of StudentReference, DisciplineIncidentReference, StaffReference, ResponsibilitySchoolReference and AssignmentSchoolReference to SLC reference types.</xs:documentation>
+			<xs:documentation>DisciplineAction record with key fields: DisciplineActionIdentifier, StudentReference, StaffReference and ResponsibilitySchoolReference. Changed types of StudentReference, DisciplineIncidentReference, StaffReference, ResponsibilitySchoolReference and AssignmentSchoolReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>disciplineAction</sli:recordType>
 			</xs:appinfo>
@@ -288,7 +288,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-DisciplineIncident">
 		<xs:annotation>
-			<xs:documentation>DisciplineIncident record with key-fields: IncidentIdentifier and SchoolReference. Changed types of SchoolReference and StaffReference to SLC reference types.</xs:documentation>
+			<xs:documentation>DisciplineIncident record with key fields: IncidentIdentifier and SchoolReference. Changed types of SchoolReference and StaffReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>disciplineIncident</sli:recordType>
 			</xs:appinfo>
@@ -315,7 +315,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-EducationOrganization" abstract="true">
 		<xs:annotation>
-			<xs:documentation>EducationOrganization record with key-fields: StateOrganizationId. Changed types of ProgramReference and EducationOrganizationPeerReference to SLC reference types.</xs:documentation>
+			<xs:documentation>EducationOrganization record with key field: StateOrganizationId. Changed types of ProgramReference and EducationOrganizationPeerReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>educationOrganization</sli:recordType>
 			</xs:appinfo>
@@ -356,7 +356,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-Grade">
 		<xs:annotation>
-			<xs:documentation>Grade record with key-fields: StudentSectionAssociationReference and GradingPeriodReference. Changed types of StudentSectionAssociationReference and GradingPeriodReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Grade record with key fields: StudentSectionAssociationReference and GradingPeriodReference. Changed types of StudentSectionAssociationReference and GradingPeriodReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>grade</sli:recordType>
 			</xs:appinfo>
@@ -383,7 +383,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-GradebookEntry">
 		<xs:annotation>
-			<xs:documentation>GradebookEntry record with key-fields: GradebookEntryType, DateAssigned, SectionReference and GradingPeriodReference. Changed types of LearningStandardReference, LearningObjectiveReference, SectionReference and GradingPeriodReference to SLC reference types.</xs:documentation>
+			<xs:documentation>GradebookEntry record with key fields: GradebookEntryType, DateAssigned, SectionReference and GradingPeriodReference. Changed types of LearningStandardReference, LearningObjectiveReference, SectionReference and GradingPeriodReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>gradebookEntry</sli:recordType>
 			</xs:appinfo>
@@ -404,7 +404,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-GradingPeriod">
 		<xs:annotation>
-			<xs:documentation>GradingPeriod record with key-fields: GradingPeriod, BeginDate and EducationOrganizationReference. Added GradingPeriod, SchoolYear and EducationOrganizationReference. Changed type of CalendarDateReference to SLC reference type.</xs:documentation>
+			<xs:documentation>GradingPeriod record with key fields: GradingPeriod, BeginDate and EducationOrganizationReference. Added GradingPeriod, SchoolYear and EducationOrganizationReference. Changed type of CalendarDateReference to SLC reference type.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>gradingPeriod</sli:recordType>
 			</xs:appinfo>
@@ -431,7 +431,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-GraduationPlan">
 		<xs:annotation>
-			<xs:documentation>GraduationPlan record with key-fields: GraduationPlanType and EducationOrganizationReference. Changed type of EducationOrganizationReference to SLC reference types.</xs:documentation>
+			<xs:documentation>GraduationPlan record with key fields: GraduationPlanType and EducationOrganizationReference. Changed type of EducationOrganizationReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>graduationPlan</sli:recordType>
 			</xs:appinfo>
@@ -455,7 +455,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-LearningObjective">
 		<xs:annotation>
-			<xs:documentation>Learning objective record with key-fields: Objective, AcademicSubject and ObjectiveGradeLevel. LocalChanged type of LearningStandardReference and LearningObjectiveReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Learning objective record with key fields: Objective, AcademicSubject and ObjectiveGradeLevel. LocalChanged type of LearningStandardReference and LearningObjectiveReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>learningObjective</sli:recordType>
 			</xs:appinfo>
@@ -476,7 +476,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-LocalEducationAgency">
 		<xs:annotation>
-			<xs:documentation>LocalEducationAgency record with key-fields: StateOrganizationId. Changed type of LocalEducationAgencyReference, EducationServiceCenterReference and StateEducationAgencyReference to SLC reference types.</xs:documentation>
+			<xs:documentation>LocalEducationAgency record with key field: StateOrganizationId. Changed type of LocalEducationAgencyReference, EducationServiceCenterReference and StateEducationAgencyReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>localEducationAgency</sli:recordType>
 			</xs:appinfo>
@@ -495,7 +495,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-ObjectiveAssessment">
 		<xs:annotation>
-			<xs:documentation>ObjectiveAssessment record with key-fields: IdentificationCode. Changed type of LearningObjectiveReference, LearningStandardReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
+			<xs:documentation>ObjectiveAssessment record with key field: IdentificationCode. Changed type of LearningObjectiveReference, LearningStandardReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>objectiveAssessment</sli:recordType>
 			</xs:appinfo>
@@ -518,7 +518,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-Program">
 		<xs:annotation>
-			<xs:documentation>Program record with key-fields: ProgramId. Made ProgramId a required field.</xs:documentation>
+			<xs:documentation>Program record with key field: ProgramId. Made ProgramId a required field.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>program</sli:recordType>
 			</xs:appinfo>
@@ -536,7 +536,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-ReportCard">
 		<xs:annotation>
-			<xs:documentation>ReportCard record with key-fields: StudentReference and GradingPeriodReference. Changed type of StudentCompetencyReference, StudentReference and GradingPeriodReference to SLC reference types.</xs:documentation>
+			<xs:documentation>ReportCard record with key fields: StudentReference and GradingPeriodReference. Changed type of StudentCompetencyReference, StudentReference and GradingPeriodReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>reportCard</sli:recordType>
 			</xs:appinfo>
@@ -577,7 +577,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-School">
 		<xs:annotation>
-			<xs:documentation>School record with key-fields: StateOrganizationId. Changed type of LocalEducationAgencyReference to SLC reference type.</xs:documentation>
+			<xs:documentation>School record with key field: StateOrganizationId. Changed type of LocalEducationAgencyReference to SLC reference type.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>school</sli:recordType>
 			</xs:appinfo>
@@ -601,7 +601,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-Section">
 		<xs:annotation>
-			<xs:documentation>Section record with key-fields: UniqueSectionCode and SchoolReference. Changed types of CourseOfferingReference, SchoolReference, SessionReference and ProgramReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Section record with key fields: UniqueSectionCode and SchoolReference. Changed types of CourseOfferingReference, SchoolReference, SessionReference and ProgramReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>section</sli:recordType>
 			</xs:appinfo>
@@ -634,7 +634,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-Session">
 		<xs:annotation>
-			<xs:documentation>Session record with key-fields: SessionName and EducationOrganizationReference. Changed types of EducationOrganizationReference, GradingPeriodReference, CalendarDateReference and AcademicWeekReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Session record with key fields: SessionName and EducationOrganizationReference. Changed types of EducationOrganizationReference, GradingPeriodReference, CalendarDateReference and AcademicWeekReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>session</sli:recordType>
 			</xs:appinfo>
@@ -658,7 +658,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StateEducationAgency">
 		<xs:annotation>
-			<xs:documentation>StateEducationAgency with key-fields: StateOrganizationId.</xs:documentation>
+			<xs:documentation>StateEducationAgency with key field: StateOrganizationId.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>stateEducationAgency</sli:recordType>
 			</xs:appinfo>
@@ -669,7 +669,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAcademicRecord">
 		<xs:annotation>
-			<xs:documentation>StudentAcademicRecord record with key-fields: StudentReference and SessionReference. Changed types of StudentReference, SessionReference, ReportCardReference and DiplomaReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentAcademicRecord record with key fields: StudentReference and SessionReference. Changed types of StudentReference, SessionReference, ReportCardReference and DiplomaReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAcademicRecord</sli:recordType>
 			</xs:appinfo>
@@ -700,7 +700,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAssessment">
 		<xs:annotation>
-			<xs:documentation>StudentAssessment record with key-fields: AdministrationDate, StudentReference and AssessmentReference. Changed types of StudentReference and AssessmentReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentAssessment record with key fields: AdministrationDate, StudentReference and AssessmentReference. Changed types of StudentReference and AssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAssessment</sli:recordType>
 			</xs:appinfo>
@@ -728,7 +728,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAssessmentItem">
 		<xs:annotation>
-			<xs:documentation>StudentAssessmentItem record with key-fields: StudentAssessmentReference. Changed types of StudentAssessmentReference, StudentObjectiveAssessmentReference and AssessmentItemReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentAssessmentItem record with key field: StudentAssessmentReference. Changed types of StudentAssessmentReference, StudentObjectiveAssessmentReference and AssessmentItemReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAssessmentItem</sli:recordType>
 			</xs:appinfo>
@@ -749,7 +749,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentCompetency">
 		<xs:annotation>
-			<xs:documentation>StudentCompetency record with key-fields: LearningObjectiveReference, StudentCompetencyObjectiveReference, CompetencyLevel and StudentSectionAssociationReference. Made StudentSectionAssociationReference required. Changed types of LearningObjectiveReference, StudentCompetencyObjectiveReference and StudentSectionAssociationReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentCompetency record with key fields: LearningObjectiveReference, StudentCompetencyObjectiveReference, CompetencyLevel and StudentSectionAssociationReference. Made StudentSectionAssociationReference required. Changed types of LearningObjectiveReference, StudentCompetencyObjectiveReference and StudentSectionAssociationReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentCompetency</sli:recordType>
 			</xs:appinfo>
@@ -770,7 +770,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentCompetencyObjective">
 		<xs:annotation>
-			<xs:documentation>StudentCompetencyObjective record with key-fields: StudentCompetencyObjectiveId. Made StudentCompetencyObjectiveId required. Changed type of EducationOrganizationReference to SLC reference type.</xs:documentation>
+			<xs:documentation>StudentCompetencyObjective record with key fields: StudentCompetencyObjectiveId. Made StudentCompetencyObjectiveId required. Changed type of EducationOrganizationReference to SLC reference type.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentCompetencyObjective</sli:recordType>
 			</xs:appinfo>
@@ -789,7 +789,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentGradebookEntry">
 		<xs:annotation>
-			<xs:documentation>StudentGradebookEntry record with key-fields: GradebookEntryReference and StudentSectionAssociationReference. Changed types of StudentSectionAssociationReference and GradebookEntryReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentGradebookEntry record with key fields: GradebookEntryReference and StudentSectionAssociationReference. Changed types of StudentSectionAssociationReference and GradebookEntryReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentGradebookEntry</sli:recordType>
 			</xs:appinfo>
@@ -816,7 +816,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentObjectiveAssessment">
 		<xs:annotation>
-			<xs:documentation>StudentObjectiveAssessment record with key-fields: StudentAssessmentReference. Changed types of StudentAssessmentReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentObjectiveAssessment record with key fields: StudentAssessmentReference. Changed types of StudentAssessmentReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentObjectiveAssessment</sli:recordType>
 			</xs:appinfo>
@@ -837,7 +837,7 @@
 	</xs:annotation>
 	<xs:complexType name="SLC-StaffCohortAssociation">
 		<xs:annotation>
-			<xs:documentation>StaffCohortAssociation record  with key-fields: StaffReference, CohortReference and BeginDate. Limited StaffReference and CohortReference to a single instance. Changed types of StaffReference and CohortReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StaffCohortAssociation record  with key fields: StaffReference, CohortReference and BeginDate. Limited StaffReference and CohortReference to a single instance. Changed types of StaffReference and CohortReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>staffCohortAssociation</sli:recordType>
 			</xs:appinfo>
@@ -856,7 +856,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StaffEducationOrgAssignmentAssociation">
 		<xs:annotation>
-			<xs:documentation>StaffEducationOrganizationAssociation with key-fields: StaffReference, EducationOrganizationReference, StaffClassification and BeginDate. Changed types of StaffReference and EducationOrganizationReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StaffEducationOrganizationAssociation with key fields: StaffReference, EducationOrganizationReference, StaffClassification and BeginDate. Changed types of StaffReference and EducationOrganizationReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>staffEducationOrganizationAssociation</sli:recordType>
 			</xs:appinfo>
@@ -872,7 +872,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StaffProgramAssociation">
 		<xs:annotation>
-			<xs:documentation>StaffProgramAssociation record with key-fields: StaffReference, ProgramReference and BeginDate. Limited StaffReference and ProgramReference to a single instance. Changed types of StaffReference and ProgramReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StaffProgramAssociation record with key fields: StaffReference, ProgramReference and BeginDate. Limited StaffReference and ProgramReference to a single instance. Changed types of StaffReference and ProgramReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>staffProgramAssociation</sli:recordType>
 			</xs:appinfo>
@@ -887,7 +887,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentCohortAssociation">
 		<xs:annotation>
-			<xs:documentation>StudentCohortAssociation record with key-fields: StudentReference, CohortReference and BeginDate. Changed types of StudentReference and CohortReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StudentCohortAssociation record with key fields: StudentReference, CohortReference and BeginDate. Changed types of StudentReference and CohortReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentCohortAssociation</sli:recordType>
 			</xs:appinfo>
@@ -905,7 +905,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentDisciplineIncidentAssociation">
 		<xs:annotation>
-			<xs:documentation>StudentDisciplineIncidentAssociation record with key-fields: StudentReference and DisciplineIncidentReference. Changed types of StudentReference and DisciplineIncidentReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StudentDisciplineIncidentAssociation record with key fields: StudentReference and DisciplineIncidentReference. Changed types of StudentReference and DisciplineIncidentReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentDisciplineIncidentAssociation</sli:recordType>
 			</xs:appinfo>
@@ -924,7 +924,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentParentAssociation">
 		<xs:annotation>
-			<xs:documentation>StudentParentAssociation record with key-fields: StudentReference and ParentReference. Changed types of StudentReference and ParentReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StudentParentAssociation record with key fields: StudentReference and ParentReference. Changed types of StudentReference and ParentReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentParentAssociation</sli:recordType>
 			</xs:appinfo>
@@ -946,7 +946,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentProgramAssociation">
 		<xs:annotation>
-			<xs:documentation>StudentProgramAssociation record with key-fields: StudentReference, ProgramReference, BeginDate and EducationOrganizationReference. Changed types of StudentReference, ProgramReference and EducationOrganizationReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StudentProgramAssociation record with key fields: StudentReference, ProgramReference, BeginDate and EducationOrganizationReference. Changed types of StudentReference, ProgramReference and EducationOrganizationReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentProgramAssociation</sli:recordType>
 			</xs:appinfo>
@@ -967,7 +967,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentSchoolAssociation">
 		<xs:annotation>
-			<xs:documentation>StudentSchoolAssociation record with key-fields: StudentReference, SchoolReference and EntryDate. Changed types of StudentReference, SchoolReference and GraduationPlanReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StudentSchoolAssociation record with key fields: StudentReference, SchoolReference and EntryDate. Changed types of StudentReference, SchoolReference and GraduationPlanReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentSchoolAssociation</sli:recordType>
 			</xs:appinfo>
@@ -994,7 +994,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentSectionAssociation">
 		<xs:annotation>
-			<xs:documentation>StudentSectionAssociation record with key-fields: StudentReference, SectionReference and BeginDate. Made BeginDate a required field. Changed types of StudentReference and SectionReference to SLC reference types. </xs:documentation>
+			<xs:documentation>StudentSectionAssociation record with key fields: StudentReference, SectionReference and BeginDate. Made BeginDate a required field. Changed types of StudentReference and SectionReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentSectionAssociation</sli:recordType>
 			</xs:appinfo>
@@ -1010,7 +1010,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-TeacherSchoolAssociation">
 		<xs:annotation>
-			<xs:documentation>TeacherSchoolAssociation record with key-fields: TeacherReference, SchoolReference and ProgramAssignment. Limited SchoolReference to a single instance. Changed types of TeacherReference and SchoolReference to SLC reference types.</xs:documentation>
+			<xs:documentation>TeacherSchoolAssociation record with key fields: TeacherReference, SchoolReference and ProgramAssignment. Limited SchoolReference to a single instance. Changed types of TeacherReference and SchoolReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>teacherSchoolAssociation</sli:recordType>
 			</xs:appinfo>
@@ -1029,7 +1029,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-TeacherSectionAssociation">
 		<xs:annotation>
-			<xs:documentation>TeacherSectionAssociation record with key-fields: TeacherReference and SectionReference. Changed types of TeacherReference and SectionReference to SLC reference types.</xs:documentation>
+			<xs:documentation>TeacherSectionAssociation record with key fields: TeacherReference and SectionReference. Changed types of TeacherReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>teacherSectionAssociation</sli:recordType>
 			</xs:appinfo>
@@ -1178,7 +1178,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-CalendarDateIdentityType">
 		<xs:annotation>
-			<xs:documentation>Changed to contain only Date.</xs:documentation>
+			<xs:documentation>Changed to contain only Date and an embedded EducationOrgReference.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Date" type="xs:date">
