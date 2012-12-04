@@ -22,7 +22,9 @@ then
   });'
 fi
 
-echo "[MONGO] indexing database: sli"; mongo sli ../indexes/sli_indexes.js --quiet
+bundle install --deployment
+
+echo "[MONGO] indexing database: sli"; mongo sli ../indexes/sli_indexes.js --quiet 
 echo "[MONGO] indexing database: ingestion_batch_job"; mongo ingestion_batch_job ../indexes/ingestion_batch_job_indexes.js --quiet
 echo "[MONGO] indexing database: midgar"; bundle exec ruby ./indexTenantDb.rb localhost 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a
 echo "[MONGO] indexing tenant-specific database"; bundle exec ruby ./indexTenantDb.rb localhost d36f43474916ad310100c9711f21b65bd8231cc6

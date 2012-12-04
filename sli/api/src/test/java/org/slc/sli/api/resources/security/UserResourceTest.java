@@ -29,7 +29,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -506,12 +505,11 @@ public class UserResourceTest {
         assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_WITH_OTHERS), "tenant"));
         assertNull(resource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_ONLY), "tenant"));
         assertNull(resource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_WITH_OTHERS), "tenant"));
-        try {
-            assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY), null));
-            Assert.fail("expected exception");
-        } catch (RuntimeException e) {
-            Assert.assertTrue("sweet", true);
-        }
+    }
+
+    @Test (expected = RuntimeException.class)
+    public void testValidateAdminBadRights() {
+        assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY), null));
     }
 
     @Test
