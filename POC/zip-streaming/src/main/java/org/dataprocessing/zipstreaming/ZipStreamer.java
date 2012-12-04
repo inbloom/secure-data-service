@@ -95,7 +95,7 @@ public class ZipStreamer<T> implements Callable<Boolean>  {
 
     
     public void processInputData(String currentFileName, long amount) {
-        System.out.println("Streaming data from file = " + currentFileName + " " + amount);
+        System.out.println(this.id + ": Streaming data from file = " + currentFileName + " " + amount);
     }
     
     
