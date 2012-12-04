@@ -31,21 +31,21 @@
             }
         },
         "StudentCompetencyObjectiveReference":
-		{
-			"StudentCompetencyObjectiveIdentity":
-			{
-				"StudentCompetencyObjectiveId":"student competency objective id"
-			}
-		},
-		"LearningObjectiveReference" :
-		{
-			"LearningObjectiveIdentity" :
-			{
-				"ObjectiveGradeLevel" : "Twelfth grade",
-				"Objective" : "Writing: Informational Text",
-				"AcademicSubject" : "ELA"
-			}
-		}
+        {
+            "StudentCompetencyObjectiveIdentity":
+            {
+                "StudentCompetencyObjectiveId":"student competency objective id"
+            }
+        },
+        "LearningObjectiveReference" :
+        {
+            "LearningObjectiveIdentity" :
+            {
+                "ObjectiveGradeLevel" : "Twelfth grade",
+                "Objective" : "Writing: Informational Text",
+                "AcademicSubject" : "ELA"
+            }
+        }
     }
 }
 

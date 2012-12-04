@@ -1,12 +1,12 @@
 {
-    "recordType":"teacherSectionAssociation",
+    "recordType":"studentSectionAssociation",
     "attributes":
     {
-        "TeacherReference":
+        "StudentReference":
         {
-            "StaffIdentity":
+            "StudentIdentity":
             {
-                "StaffUniqueStateId":"jjackson"
+                "StudentUniqueStateId":"100000000"
             }
         },
         "SectionReference":

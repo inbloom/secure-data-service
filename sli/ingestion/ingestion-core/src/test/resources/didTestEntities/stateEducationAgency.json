@@ -1,0 +1,13 @@
+{
+    "recordType":"stateEducationAgency",
+    "attributes":
+    {
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"testProgramId"
+            }
+        }
+    }
+}
