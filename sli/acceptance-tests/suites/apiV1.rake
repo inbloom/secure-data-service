@@ -51,6 +51,8 @@ desc "Run API querying tests"
 task :apiV1QueryingTests => [:realmInit] do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/querying/querying.feature")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
@@ -156,6 +158,8 @@ end
 desc "Run Sorting and Paging Tests"
 task :v1SortingAndPagingTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/sorting_paging")
 end
 

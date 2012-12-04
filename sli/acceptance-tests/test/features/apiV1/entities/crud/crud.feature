@@ -241,6 +241,7 @@ Examples:
 | "gradingPeriod"         | "gradingPeriods"          |  200 | 0     |/schools/@ids/sessions/gradingPeriods|
 | "reportCard"            | "reportCards"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
 | "studentCompetencyObjective" | "studentCompetencyObjectives" | 200  | 1     |/search/studentCompetencyObjectives    |
+|  "competencyLevelDescriptor" | "competencyLevelDescriptor"   | 200  | 2     |/search/competencyLevelDescriptor      |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"

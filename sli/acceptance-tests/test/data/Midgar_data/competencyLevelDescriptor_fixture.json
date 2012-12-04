@@ -1,0 +1,2 @@
+{ "_id" : "df9165f2-65fe-de27-a82c-bfc5f4b75789", "type" : "competencyLevelDescriptor", "body" : { "codeValue" : "A", "description" : "Description for competency level A", "performanceBaseConversion" : "Advanced" } }
+{ "_id" : "df916ff2-65fe-de24-a82c-bfc5f4b75789", "type" : "competencyLevelDescriptor", "body" : { "codeValue" : "B", "description" : "Description for competency level B", "performanceBaseConversion" : "Basic" } }
