@@ -22,8 +22,8 @@ require_relative "./interchangeGenerator"
 require_relative "../../Shared/EntityClasses/student"
 require_relative '../../Shared/util'
 class StudentParentInterchangeGenerator < InterchangeGenerator
-  def initialize(interchange, batchSize)
-    super(interchange, batchSize)
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
     @header, @footer = build_header_footer( "StudentParent" )
     @writers[ Student ] = EntityWriter.new("students.mustache")

@@ -54,10 +54,17 @@ public class Encryptor {
         
         if (keyfile.exists()) {
         	// load keystore
-            FileInputStream fis = new FileInputStream(getKeyLocation());
-            keystore = KeyStore.getInstance(KEYSTORE_TYPE);
-            keystore.load(fis, this.getKeyStorePass().toCharArray());
-            fis.close();
+        	FileInputStream fis = null;
+            try {
+				fis = new FileInputStream(getKeyLocation());
+				keystore = KeyStore.getInstance(KEYSTORE_TYPE);
+				keystore.load(fis, this.getKeyStorePass().toCharArray());
+				fis.close();
+			} finally {
+				if (fis != null) {
+					fis.close();
+				}
+			}
         } else {
             throw new FileNotFoundException("Please specify a valid keystore file.");
         }
@@ -70,7 +77,7 @@ public class Encryptor {
         // create a cipher object and use the generated key to initialize it
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encrypted = cipher.doFinal(value.getBytes());
+        byte[] encrypted = cipher.doFinal(value.getBytes("UTF8"));
 
         return byteArrayToHexString(encrypted);
     }
@@ -83,7 +90,7 @@ public class Encryptor {
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-        return new String(decrypted);
+        return new String(decrypted, "UTF8");
     }
 
     private static String byteArrayToHexString(byte[] b) {

@@ -35,6 +35,7 @@
   <import resource="processor-context.xml" />
   <import resource="classpath:/spring/base-applicationContext.xml" />
   <import resource="idRefResolution-context.xml" />
+  <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
 
   <!-- Include resources from DAL -->
@@ -71,6 +72,7 @@
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
+    <property name="recordLvlHashNeutralRecordTypes" ref="recordLvlHashNeutralRecordTypes" />
   </bean>
 
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />

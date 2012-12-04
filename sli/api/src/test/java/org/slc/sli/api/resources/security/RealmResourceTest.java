@@ -43,6 +43,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -109,7 +110,7 @@ public class RealmResourceTest {
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        UriInfo uriInfo = null;
+        UriInfo uriInfo = ResourceTestUtil.buildMockUriInfo("");
         Response res = resource.updateRealm("1234", mapping, uriInfo);
         Assert.assertEquals(204, res.getStatus());
     }

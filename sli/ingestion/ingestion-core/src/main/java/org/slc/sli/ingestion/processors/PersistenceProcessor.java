@@ -40,6 +40,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -52,6 +53,7 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
@@ -85,7 +87,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
-
+    
     private EdFi2SLITransformer transformer;
 
     private Map<String, Set<String>> entityPersistTypeMap;
@@ -100,6 +102,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    private Set<String> recordLvlHashNeutralRecordTypes;
 
     private MessageSource messageSource;
 
@@ -573,6 +577,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
+    public void setRecordLvlHashNeutralRecordTypes(Set<String> recordLvlHashNeutralRecordTypes) {
+        this.recordLvlHashNeutralRecordTypes = recordLvlHashNeutralRecordTypes;
+    }
+
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
         Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
         Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
@@ -593,11 +601,32 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-    private void upsertRecordHash(NeutralRecord nr) {
-        if (nr.getMetaDataByName("rhId") != null) {
-            batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(), nr.getMetaDataByName("rhId")
-                    .toString());
-        }
-    }
+    private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
+        
+    	if (!recordLvlHashNeutralRecordTypes.contains(nr.getRecordType()))
+        	return;
+        
+        Object rhHashObj = nr.getMetaDataByName("rhHash");
+        Object rhIdObj = nr.getMetaDataByName("rhId");
+        Object rhTenantIdObj = nr.getMetaDataByName("rhTenantId");
+        
+        // Make sure complete metadata is present
+        if ( null == rhHashObj || null == rhIdObj || null == rhTenantIdObj )
+        	return;
+        
+        String newHashValues = rhHashObj.toString();
+        if (newHashValues == null)
+            return;
+                        
+        String recordId = rhIdObj.toString();
+        String tenantId = rhTenantIdObj.toString();
 
+        // Consider DE2002, removing a query per record vs. tracking version
+        RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+        if (rh == null)
+            batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
+        else
+            batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+    }
+     
 }
