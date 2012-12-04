@@ -134,13 +134,30 @@ class DataWriter
   end
 
   # create student section association and store in memory
-  def create_student_section_association
+  def create_student_section_association(student, section, ed_org_id, year, grade)
     initialize_entity(:student_section_association)
-    #@entities[:student_section_association] << StudentSchoolAssociation.new(id, school_id, start_year, start_grade)
+    @entities[:student_section_association] << StudentSectionAssociation.new(student, section, ed_org_id, year, grade)
     increment_count(:student_section_association)
   end
 
   # ---------   student enrollment interchange entities   --------
+  # ----------   staff association interchange entities   --------
+
+  # create staff and store in memory
+  def create_staff(id, year_of)
+    initialize_entity(:staff)
+    @entities[:staff] << Staff.new(id, year_of)
+    increment_count(:staff)
+  end
+
+  # create staff education organization assignment assocition and store in memory
+  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date)
+    initialize_entity(:staff_ed_org_assignment_association)
+    @entities[:staff_ed_org_assignment_association] << StaffEducationOrgAssignmentAssociation.new(staff, ed_org, classification, title, begin_date)
+    increment_count(:staff_ed_org_assignment_association)
+  end
+
+  # ----------   staff association interchange entities   --------
 
   # if the specified entity (which should be a symbol used to identify the ed-fi entity) does not
   # currently have an entry in the @entities hash, then initialize an entry in both the @entities

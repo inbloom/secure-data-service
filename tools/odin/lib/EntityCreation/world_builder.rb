@@ -21,6 +21,7 @@ require 'logger'
 
 require_relative "../Shared/EntityClasses/enum/GradeLevelType.rb"
 require_relative "../Shared/EntityClasses/enum/GradingPeriodType.rb"
+require_relative "../Shared/EntityClasses/enum/StaffClassificationType.rb"
 require_relative "../Shared/data_utility.rb"
 require_relative "../Shared/date_interval.rb"
 require_relative "../Shared/date_utility.rb"
@@ -42,6 +43,7 @@ class WorldBuilder
     @log.level = Logger::INFO
     @prng = prng
     @scenarioYAML = yaml
+    @num_staff_members = 0
 
     @edOrgs = Hash.new
     @edOrgs["seas"]       = []
@@ -211,7 +213,7 @@ class WorldBuilder
       edOrg["parent"]    = nil
       #edOrg["programs"]  = []
       edOrg["sessions"]  = []
-      edOrg["staff"]     = create_staff_for_school()
+      edOrg["staff"]     = create_staff_for_school
       edOrg["offerings"] = Hash.new
       edOrg["students"]  = Hash.new
       begin_year         = @scenarioYAML["beginYear"]
@@ -286,7 +288,7 @@ class WorldBuilder
       edOrg["parent"]   = nil
       #edOrg["programs"] = []
       edOrg["sessions"] = []
-      edOrg["staff"]    = create_staff_for_local_education_agency()
+      edOrg["staff"]    = create_staff_for_local_education_agency
       @edOrgs["leas"]   << edOrg
       school_counter    += num_schools_in_this_district
     end
@@ -310,7 +312,7 @@ class WorldBuilder
   # contained in a given state. current implementation assumes:
   # - single tier for local education agencies
   # - all local education agencies are contained within a single state
-  # 
+  # ,
   # future implementation should create more 'layers' within the local education agency 'tier'
   # future implementation should look at yaml for average number of districts in a state and create multiple 
   #  state education agencies, as needed
@@ -319,7 +321,7 @@ class WorldBuilder
     edOrg             = Hash.new
     edOrg["id"]       = state_id
     edOrg["courses"]  = create_courses()
-    edOrg["staff"]    = create_staff_for_state_education_agency()
+    edOrg["staff"]    = create_staff_for_state_education_agency
     #edOrg["programs"] = []
     @edOrgs["seas"]  << edOrg
     
@@ -329,20 +331,33 @@ class WorldBuilder
   end
 
   # creates staff members at the state education agency level
-  def create_staff_for_state_education_agency()
-    members = []
-    members
+  # -> initializes roles to be used at the state education agency level and calls generic create_staff method
+  def create_staff_for_state_education_agency
+    roles = [:COUNSELOR, :INSTRUCTIONAL_COORDINATOR, :SPECIALIST_CONSULTANT, :STUDENT_SUPPORT_SERVICES_STAFF]
+    create_staff_for_education_organization(@num_staff_members, roles)
   end
 
   # creates staff members at the local education agency level
-  def create_staff_for_local_education_agency()
-    members = []
-    members
+  # -> initializes roles to be used at the local education agency level and calls generic create_staff method
+  def create_staff_for_local_education_agency
+    roles = [:ASSISTANT_SUPERINTENDENT, :LEA_ADMINISTRATIVE_SUPPORT_STAFF, :LEA_ADMINISTRATOR, :LEA_SPECIALIST, :LEA_SYSTEM_ADMINISTRATOR, :SUPERINTENDENT]
+    create_staff_for_education_organization(@num_staff_members, roles)
   end  
 
   # creates staff members at the school level
-  def create_staff_for_school()
+  # -> initializes roles to be used at the school level and calls generic create_staff method
+  def create_staff_for_school
+    roles = [:ASSISTANT_PRINCIPAL, :ATHLETIC_TRAINER, :HIGH_SCHOOL_COUNSELOR, :INSTRUCTIONAL_AIDE, :LIBRARIAN, :PRINCIPAL, :SCHOOL_ADMINISTRATOR, :SCHOOL_NURSE, :SUBSTITUTE_TEACHER]
+    create_staff_for_education_organization(@num_staff_members, roles)
+  end
+
+  # creates staff members based on the specified roles
+  def create_staff_for_education_organization(staff_unique_state_id, roles)
     members = []
+    for index in (0..(roles.size - 1)) do
+      staff_unique_state_id += 1
+      members << {"id" => staff_unique_state_id, "role" => roles[index]}
+    end
     members
   end
 
@@ -680,6 +695,7 @@ class WorldBuilder
     write_education_organization_interchange
     write_education_org_calendar_interchange
     write_master_schedule_interchange
+    write_staff_association_interchange
   end
 
   # writes ed-fi xml interchange: education organization entities:
@@ -750,6 +766,49 @@ class WorldBuilder
     write_course_offerings("elementary")
     write_course_offerings("middle")
     write_course_offerings("high")
+  end
+
+  # writes ed-fi xml interchange: staff association entities:
+  # - Staff
+  # - [not implemented yet] StaffEducationOrgAssignmentAssociation
+  def write_staff_association_interchange
+    write_staff_at_ed_org("seas")
+    write_staff_at_ed_org("leas")
+    write_staff_at_ed_org("elementary")
+    write_staff_at_ed_org("middle")
+    write_staff_at_ed_org("high")
+  end
+
+  def write_staff_at_ed_org(type)
+    @edOrgs[type].each do |ed_org|
+      #if type == "seas"
+      #  ed_org_id = DataUtility.get_state_education_agency_id(ed_org["id"])
+      #elsif type == "leas"
+      #  ed_org_id = DataUtility.get_local_education_agency_id(ed_org["id"])
+      #elsif type == "elementary"
+      #  ed_org_id = DataUtility.get_elementary_school_id(ed_org["id"])
+      #elsif type == "middle"
+      #  ed_org_id = DataUtility.get_middle_school_id(ed_org["id"])
+      #elsif type == "high"
+      #  ed_org_id = DataUtility.get_high_school_id(ed_org["id"])
+      #end
+
+      if !ed_org["staff"].nil? and ed_org["staff"].size > 0
+        ed_org["staff"].each do |member|
+          # need to divine year_of
+          @data_writer.create_staff(member["id"], 1975)
+
+          # need better way to figure out title --> 45 character limit
+          #title = StaffClassificationType.to_string(member["role"])
+          #title = title[0,44] if title.size > 45
+
+          # need to get begin date for current year
+          #if !ed_org["sessions"].nil? and ed_org["sessions"].size > 0
+          #end
+          #@data_writer.create_staff_ed_org_assignment_association(member["id"], ed_org_id, member["role"], title, Date.new())
+        end
+      end
+    end
   end
 
   # writes the course offerings for each 'type' of school ("elementary", "middle", or "high" school)

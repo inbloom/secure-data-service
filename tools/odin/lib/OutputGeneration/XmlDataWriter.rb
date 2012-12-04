@@ -51,12 +51,12 @@ class XmlDataWriter < DataWriter
       Dir.mkdir(@directory)
     end
 
-    # initialize_student_enrollment_writer
     @student_parent_writer         = StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
     @education_organization_writer = EducationOrganizationGenerator.new(@yaml, initialize_interchange(directory, "EducationOrganization"))
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new(@yaml, initialize_interchange(directory, "EducationOrgCalendar"))
     @master_schedule_writer        = MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
     @student_enrollment_writer     = EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
+    @staff_association_writer      = StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     
     # enable entities to be written
     # -> writes header
@@ -66,6 +66,7 @@ class XmlDataWriter < DataWriter
     @education_org_calendar_writer.start
     @master_schedule_writer.start
     @student_enrollment_writer.start
+    @staff_association_writer.start
   end
 
   # initializes interchange of specified 'type' in 'directory'
@@ -81,6 +82,7 @@ class XmlDataWriter < DataWriter
     @education_org_calendar_writer.finalize
     @master_schedule_writer.finalize
     @student_enrollment_writer.finalize
+    @staff_association_writer.finalize
   end
 
   # -------   education organization interchange entities   ------
@@ -176,4 +178,19 @@ class XmlDataWriter < DataWriter
   end
 
   # ---------   student enrollment interchange entities   --------
+  # ----------   staff association interchange entities   --------
+
+  # write staff to staff association interchange
+  def create_staff(id, year_of)
+    @staff_association_writer.create_staff(id, year_of)
+    increment_count(:staff)
+  end
+
+  # write staff education organization assignment association to staff association interchange
+  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date)
+    @staff_association_writer.create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date)
+    increment_count(:staff_ed_org_assignment_association)
+  end
+
+  # ----------   staff association interchange entities   --------
 end

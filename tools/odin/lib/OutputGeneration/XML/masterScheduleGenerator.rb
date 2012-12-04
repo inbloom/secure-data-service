@@ -31,7 +31,6 @@ class MasterScheduleGenerator < InterchangeGenerator
     super(yaml, interchange)
 
     @header, @footer = build_header_footer( "MasterSchedule" )
-
     @writers[CourseOffering] = EntityWriter.new("course_offering.mustache")
     @writers[Section] = EntityWriter.new("section.mustache")
   end

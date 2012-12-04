@@ -17,27 +17,41 @@ limitations under the License.
 =end
 
 require_relative 'spec_helper'
-require_relative '../lib/OutputGeneration/XML/staffAssociationInterchangeGenerator'
+require_relative '../lib/OutputGeneration/XML/staffAssociationGenerator'
 require_relative '../lib/OutputGeneration/XML/validator'
-require 'factory_girl'
 
 describe 'StaffAssociationInterchangeGenerator' do
-  let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStaffAssociation.xml" ) }
-  let(:interchange) { File.open( path, 'w')}
-  let(:generator) {StaffAssociationInterchangeGenerator.new(get_spec_scenario(), interchange)}
-  let(:staff) {FactoryGirl.build(:staff)}
+  before (:all) do
+    @path = File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStaffAssociation.xml" )
+    interchange = File.open(@path, 'w')
+    @generator = StaffAssociationGenerator.new(get_spec_scenario(), interchange)
+    @generator.start
+    @generator.create_staff(1, 1969)
+    @generator.create_staff_ed_org_assignment_association(1, 1, :PRINCIPAL, "Principal", Date.new(2009, 9, 4))
+    @generator.finalize
+    @staff_association = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStaffAssociation.xml", "r") { |file| file.read }
+  end
 
-  describe '<<' do
-    it 'will write a staff to edfi' do
+  describe '--> ed-fi xml interchange creation' do
+    it 'will pass validation' do
+      validate_file( @path ).should be true
+    end
+  end
 
-      generator.start()
-      
-      generator << staff
+  describe '--> request to create staff' do
+    it 'will write a staff member to ed-fi xml interchange' do
+      @staff_association.match('<StaffUniqueStateId>stff-0000000001</StaffUniqueStateId>').should_not be_nil
+      @staff_association.match('<BirthDate>1969-12-02</BirthDate>').should_not be_nil
+    end
+  end
 
-      generator.finalize()
-
-      validate_file( path ).should be true
-
+  describe '--> request to create staff education organization assignment asssociation' do
+    it 'will write a staff education organization assignment asssociation to ed-fi xml interchange' do
+      @staff_association.match('<StaffUniqueStateId>stff-0000000001</StaffUniqueStateId>').should_not be_nil
+      @staff_association.match('<StateOrganizationId>1</StateOrganizationId>').should_not be_nil
+      @staff_association.match('<StaffClassification>Principal</StaffClassification>').should_not be_nil
+      @staff_association.match('<PositionTitle>Principal</PositionTitle>').should_not be_nil
+      @staff_association.match('<BeginDate>2009-09-04</BeginDate>').should_not be_nil
     end
   end
 end

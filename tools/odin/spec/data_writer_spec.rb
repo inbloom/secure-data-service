@@ -25,6 +25,7 @@ require_relative '../lib/Shared/date_interval.rb'
 require_relative '../lib/Shared/date_utility.rb'
 require_relative "../lib/Shared/EntityClasses/enum/GradingPeriodType.rb"
 require_relative "../lib/Shared/EntityClasses/enum/CalendarEventType.rb"
+require_relative "../lib/Shared/EntityClasses/enum/StaffClassificationType.rb"
 
 # specifications for base data writer
 describe "DataWriter" do
@@ -121,6 +122,20 @@ describe "DataWriter" do
       @writer.create_course_offering(1, "title", "3", {}, {})
       @writer.get_entity_count(:course_offering).should_not be_nil
       @writer.get_entity_count(:course_offering).should eq(1)
+    end
+
+    it "will store a staff in-memory when handling call to create one" do
+      @writer.get_entity_count(:staff).should eq(0)
+      @writer.create_staff(1, 1969)
+      @writer.get_entity_count(:staff).should_not be_nil
+      @writer.get_entity_count(:staff).should eq(1)
+    end
+
+    it "will store a staff education organization assignment association in-memory when handling call to create one" do
+      @writer.get_entity_count(:staff_ed_org_assignment_association).should eq(0)
+      @writer.create_staff_ed_org_assignment_association(1, 1, :PRINCIPAL, "title", Date.new(2009, 9, 4))
+      @writer.get_entity_count(:staff_ed_org_assignment_association).should_not be_nil
+      @writer.get_entity_count(:staff_ed_org_assignment_association).should eq(1)
     end
   end
 end

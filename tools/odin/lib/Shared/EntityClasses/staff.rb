@@ -16,17 +16,22 @@ limitations under the License.
 
 =end
 
+require 'date'
 require 'yaml'
 
+require_relative '../data_utility.rb'
 require_relative 'baseEntity'
+
+# creates staff
 class Staff < BaseEntity
 
   attr_accessor :id, :staffIdentificationCode, :identificationSystem, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino, :highestLevelOfEducationCompleted
+  
   def initialize(id, year_of)
-    @id = id
+    @id = DataUtility.get_staff_unique_state_id(id)
     @year_of = year_of
-    @rand = Random.new(@id)
+    @rand = Random.new(id)
     buildStaff
   end
 
@@ -41,7 +46,7 @@ class Staff < BaseEntity
     @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
     @lastName = choose(@@demographics['lastNames'])
     @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
-    @birthDay = @year_of + @rand.rand(365)
+    @birthDay = Date.new(@year_of, 1, 1) + @rand.rand(365)
     @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
     @loginId = email
     @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])
@@ -50,7 +55,5 @@ class Staff < BaseEntity
     @postalCode = @@demographics['postalCode']
     @race = wChoose(@@demographics['raceDistribution'])
     @hispanicLatino = wChoose(@@demographics['hispanicLatinoDist'])
-
   end
-
 end

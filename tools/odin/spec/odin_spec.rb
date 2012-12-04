@@ -88,8 +88,8 @@ describe "Odin" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
       end
       
-      it "will generate a valid control file with 5 interchanges" do     
-        @interchanges.length.should eq(5)
+      it "will generate a valid control file with 6 interchanges" do     
+        @interchanges.length.should eq(6)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -117,7 +117,7 @@ describe "Odin" do
         genDataUnzip(zipDir, "OdinSampleDataSet.zip", "OdinSampleDataSet") 
         # Verify the dumb number of files matches expected values
         # --> always add 2 files to your expected count for . and ..      
-        Dir.entries(File.new "#{zipDir}/OdinSampleDataSet").length.should eq(8)   
+        Dir.entries(File.new "#{zipDir}/OdinSampleDataSet").length.should eq(9)   
         # Re-zip the data to prep for Acceptance Tests
         genDataZip("#{zipDir}/OdinSampleDataSet", "OdinSampleDataSet.zip", "#{zipDir}/OdinSampleDataSet")        
       end

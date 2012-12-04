@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of staff classifications. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="StaffClassificationType">
 #   <xs:annotation>
@@ -83,4 +85,9 @@ class StaffClassificationType
   StaffClassificationType.define :SUBSTITUTE_TEACHER, "Substitute Teacher"
   StaffClassificationType.define :SUPERINTENDENT, "Superintendent"
   StaffClassificationType.define :TEACHER, "Teacher"
+
+  # translates the specified Symbol into the String representation of the staff classification type
+  def self.to_string(key)
+    const_get(key)
+  end
 end
