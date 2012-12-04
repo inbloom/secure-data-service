@@ -648,9 +648,9 @@ def getErrorCount
     Dir.foreach(@landing_zone_path) do |entry|
       if(entry.rindex('error'))
         @error_filename = entry
-     
+        puts entry
         @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
-        
+        puts @resource
         file = File.open(@landing_zone_path+entry, "r")
         file.each_line do |line|
           if(line.rindex('ERROR'))
