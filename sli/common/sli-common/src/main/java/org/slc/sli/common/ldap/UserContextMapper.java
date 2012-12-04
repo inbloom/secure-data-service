@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.ldap;
+package org.slc.sli.common.ldap;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 
@@ -30,6 +32,9 @@ import org.springframework.ldap.core.DirContextAdapter;
  *
  */
 public class UserContextMapper implements ContextMapper {
+    
+    // Logging
+    private static final Logger LOG = LoggerFactory.getLogger(UserContextMapper.class);
 
     private Date ldapStringToDate(String dateString) {
         if (dateString != null) {
@@ -37,7 +42,7 @@ public class UserContextMapper implements ContextMapper {
             try {
                 return test.parse(dateString);
             } catch (ParseException e) {
-                error("failed parsing ldap string to date {}", e);
+                LOG.error("failed parsing ldap string to date {}", e);
             }
         }
         return null;

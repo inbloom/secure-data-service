@@ -18,26 +18,35 @@ limitations under the License.
 require_relative 'spec_helper'
 require_relative '../lib/OutputGeneration/XML/enrollmentGenerator'
 
+# specifications for student enrollment interchange generator
 describe 'EnrollmentGenerator' do
-  let(:interchange) {StringIO.new('', 'w')}
-  let(:generator) {EnrollmentGenerator.new(get_spec_scenario(), interchange)}
-  let(:school_assoc) {StudentSchoolAssociation.new(42, 64, 2004, :FIRST_GRADE)}
-  let(:section_assoc) {StudentSectionAssociation.new(42, {'id' => 128}, 64, 2004, :FIRST_GRADE)}
-  describe '<<' do
-    it 'will write a studentSchoolAssociation to edfi' do
-      generator << school_assoc
-      interchange.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
-      interchange.string.match('<StateOrganizationId>elem-0000000064</StateOrganizationId>').should_not be_nil
-      interchange.string.match('<EntryDate>2004-09-01</EntryDate>').should_not be_nil
-      interchange.string.match('<EntryGradeLevel>First grade</EntryGradeLevel>').should_not be_nil
-    end
 
-    it 'will write a studentSectionAssociation to edfi' do
-      generator << section_assoc
-      interchange.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
-      interchange.string.match('<StateOrganizationId>elem-0000000064</StateOrganizationId>').should_not be_nil
-      interchange.string.match('<BeginDate>2004-09-01</BeginDate>').should_not be_nil
-      interchange.string.match('<UniqueSectionCode>128</UniqueSectionCode>').should_not be_nil
+  before (:all) do
+    path = File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudentEnrollment.xml" )
+    interchange = File.open(path, 'w')
+    @generator = EnrollmentGenerator.new(get_spec_scenario(), interchange)
+    @generator.start
+    @generator.create_student_school_association(42, 64, 2004, :FIRST_GRADE)
+    @generator.create_student_section_association(43, 128, 65, 2005, :SECOND_GRADE)
+    @generator.finalize
+    @student_enrollment = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStudentEnrollment.xml", "r") { |file| file.read }
+  end
+
+  describe '--> creating student school association' do
+    it 'will write a StudentSchoolAssociation to ed-fi xml interchange' do  
+      @student_enrollment.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
+      @student_enrollment.match('<StateOrganizationId>elem-0000000064</StateOrganizationId>').should_not be_nil
+      @student_enrollment.match('<EntryDate>2004-09-01</EntryDate>').should_not be_nil
+      @student_enrollment.match('<EntryGradeLevel>First grade</EntryGradeLevel>').should_not be_nil
+    end
+  end
+
+  describe '--> creating student section association' do
+    it 'will write a StudentSectionAssociation to ed-fi xml interchange' do
+      @student_enrollment.match('<StudentUniqueStateId>43</StudentUniqueStateId>').should_not be_nil
+      @student_enrollment.match('<StateOrganizationId>elem-0000000065</StateOrganizationId>').should_not be_nil
+      @student_enrollment.match('<BeginDate>2005-09-01</BeginDate>').should_not be_nil
+      @student_enrollment.match('<UniqueSectionCode>128</UniqueSectionCode>').should_not be_nil
     end
   end
 end
