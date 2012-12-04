@@ -124,6 +124,7 @@ public class AuthFilter implements Filter {
                     break;
                 case 400:
                 case 500:
+                default:
                     ((HttpServletResponse) response).sendRedirect("500.html");
                     break;
             }
@@ -131,49 +132,63 @@ public class AuthFilter implements Filter {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void init(FilterConfig conf) throws ServletException {
         afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
 
-        InputStream propStream;
-
-        String externalProps = System.getProperty("sli.conf");
-        LOG.info("Loading properties from: {}", externalProps);
-        if (externalProps != null) {
+        InputStream propStream = null;
+        
+        try {
+            String externalProps = System.getProperty("sli.conf");
+            LOG.info("Loading properties from: {}", externalProps);
+            if (externalProps != null) {
+                try {
+                    propStream = new FileInputStream(externalProps);
+                } catch (FileNotFoundException e) {        
+                    throw new RuntimeException("Unable to load properties file: " + externalProps, e);
+                } 
+            } else {
+                String env = System.getProperty("sli.env");
+                if (env == null) {
+                    throw new RuntimeException("sli.env system property is not set!");
+                }
+                propStream = this.getClass().getResourceAsStream("/config/" + env + ".properties");
+                if (propStream == null) {
+                    throw new RuntimeException("no properties file found for sli.env: " + env);
+                }
+            }
+            
+            Properties props = new Properties();
             try {
-                propStream = new FileInputStream(externalProps);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException("Unable to load properties file: " + externalProps);
+                props.load(propStream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } else {
-            String env = System.getProperty("sli.env");
-            if (env == null) {
-                throw new RuntimeException("sli.env system property is not set!");
+            
+            
+            clientId = props.getProperty("sli.sample.clientId");
+            clientSecret = props.getProperty("sli.sample.clientSecret");
+            String apiUrlString = props.getProperty("sli.sample.apiUrl");
+            String callbackUrlString = props.getProperty("sli.sample.callbackUrl");
+            if (clientId == null || clientSecret == null || apiUrlString == null || callbackUrlString == null) {
+                throw new RuntimeException(
+                        "Missing property.  All of the following properties must be available: clientId, clientSecret, apiUrl, callbackUrl");
             }
-            propStream = this.getClass().getResourceAsStream("/config/" + env + ".properties");
-            if (propStream == null) {
-                throw new RuntimeException("no properties file found for sli.env: " + env);
+            try {
+                apiUrl = new URL(apiUrlString);
+                callbackUrl = new URL(callbackUrlString);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
             }
-        }
-        Properties props = new Properties();
-        try {
-            props.load(propStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        clientId = props.getProperty("sli.sample.clientId");
-        clientSecret = props.getProperty("sli.sample.clientSecret");
-        String apiUrlString = props.getProperty("sli.sample.apiUrl");
-        String callbackUrlString = props.getProperty("sli.sample.callbackUrl");
-        if (clientId == null || clientSecret == null || apiUrlString == null || callbackUrlString == null) {
-            throw new RuntimeException(
-                    "Missing property.  All of the following properties must be available: clientId, clientSecret, apiUrl, callbackUrl");
-        }
-        try {
-            apiUrl = new URL(apiUrlString);
-            callbackUrl = new URL(callbackUrlString);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            
+        } finally {
+            if (propStream != null) {
+                try {
+                    propStream.close();
+                } catch (IOException e) {
+                    //swallow exception
+                }
+            }
         }
     }
 
