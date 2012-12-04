@@ -23,6 +23,8 @@ import org.slc.sli.dashboard.client.RESTClient;
 import org.slc.sli.dashboard.manager.PortalWSManager;
 import org.slc.sli.dashboard.util.Constants;
 
+import com.google.gson.JsonSyntaxException;
+
 /**
  * Retrieves header and footer from Portal WS
  *
@@ -45,24 +47,28 @@ public class PortalWSManagerImpl implements PortalWSManager {
     public void setRestClient(RESTClient restClient) {
         this.restClient = restClient;
     }
-
-    @Override
-    @Cacheable(value = Constants.CACHE_PORTAL_DATA, key = "'header' + #isAdmin")
-    public String getHeader(boolean isAdmin) {
+    
+    private String get(String url, boolean isAdmin) {
         try {
-            return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + isAdmin, true);
-        } catch (Exception ex) {
+            return restClient.getJsonRequest(url + "?isAdmin=" + isAdmin, true);
+        } catch (JsonSyntaxException ex) {
+            return StringUtils.EMPTY;
+        } catch (NullPointerException npe) {
+            return StringUtils.EMPTY;
+        } catch (IllegalArgumentException iae) {
             return StringUtils.EMPTY;
         }
     }
 
     @Override
+    @Cacheable(value = Constants.CACHE_PORTAL_DATA, key = "'header' + #isAdmin")
+    public String getHeader(boolean isAdmin) {
+        return this.get(portalHeaderUrl, isAdmin);
+    }
+
+    @Override
     @Cacheable(value = Constants.CACHE_PORTAL_DATA, key = "'footer' + #isAdmin")
     public String getFooter(boolean isAdmin) {
-        try {
-            return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + isAdmin, true);
-        } catch (Exception ex) {
-            return StringUtils.EMPTY;
-        }
+        return this.get(portalFooterUrl, isAdmin);
     }
 }

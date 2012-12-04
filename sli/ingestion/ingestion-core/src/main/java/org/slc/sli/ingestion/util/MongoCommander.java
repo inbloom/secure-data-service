@@ -33,6 +33,7 @@ import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -45,7 +46,9 @@ public final class MongoCommander {
 
     private MongoCommander() { }
 
-    protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
+
+    private static final String ID = "_id";
 
     private static boolean validIndex(String line) {
         if (line.startsWith("#")) {
@@ -55,15 +58,14 @@ public final class MongoCommander {
         if (indexTokens.length < 3) {
             return false;
         }
-
         return true;
     }
 
     public static void ensureIndexes(String indexFile, String db, MongoTemplate mongoTemplate) {
         InputStream indexesStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(indexFile);
 
-        DataInputStream in = new DataInputStream(indexesStream);
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        DataInputStream in = null;
+        BufferedReader br = null;
 
         Set<String> indexes = new TreeSet<String>();
 
@@ -71,6 +73,8 @@ public final class MongoCommander {
 
         //Reading in all the indexes
         try {
+            in = new DataInputStream(indexesStream);
+            br = new BufferedReader(new InputStreamReader(in));
             while ((currentLine = br.readLine()) != null) {
                 //skipping lines starting with #
                 if (validIndex(currentLine)) {
@@ -79,6 +83,9 @@ public final class MongoCommander {
             }
         } catch (IOException e) {
             LOG.error("Failed to create index from {}", indexFile);
+        } finally {
+            IOUtils.closeQuietly(br);
+            IOUtils.closeQuietly(in);
         }
 
         ensureIndexes(indexes, db, mongoTemplate);
@@ -110,7 +117,7 @@ public final class MongoCommander {
 
                 if (indexTokens.length < 3) {
                     throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
-                            + indexTokens);
+                            + indexEntry);
                 }
 
                 String collection = indexTokens[0];
@@ -170,7 +177,7 @@ public final class MongoCommander {
 
             while (iter.hasNext()) {
                 BasicDBObject shard = (BasicDBObject) iter.next();
-                shards.add(shard.getString("_id"));
+                shards.add(shard.getString(ID));
             }
         }
         return shards;
@@ -179,7 +186,7 @@ public final class MongoCommander {
     private static DBObject buildSplitCommand(String collection, String splitString) {
         DBObject splitCmd = new BasicDBObject();
         splitCmd.put("split", collection);
-        splitCmd.put("middle", new BasicDBObject("_id", splitString));
+        splitCmd.put("middle", new BasicDBObject(ID, splitString));
 
         return splitCmd;
     }
@@ -197,33 +204,31 @@ public final class MongoCommander {
             return;
         }
 
-        int charOffset = (int) Math.floor(256 / numShards);
+        int charOffset = 256 / numShards;
 
         List<String> moveStrings = new ArrayList<String>();
         moveStrings.add("00");
 
-        CommandResult a;
         //caculate splits and add to the moves array
         for (int shard = 1; shard <= numShards; shard++) {
             String splitString;
             if (shard == numShards) {
                 splitString = " ";
             } else {
-                splitString = Integer.toHexString(charOffset * shard).toString();
+                splitString = Integer.toHexString(charOffset * shard);
             }
             moveStrings.add(splitString);
-
-            a = dbConn.command(buildSplitCommand(collection, splitString));
+            dbConn.command(buildSplitCommand(collection, splitString));
         }
 
         //explictly move chunks to each shard
         for (int index = 0; index < numShards; index++) {
             DBObject moveCommand = new BasicDBObject();
             moveCommand.put("moveChunk", collection);
-            moveCommand.put("find", new BasicDBObject("_id", moveStrings.get(index)));
+            moveCommand.put("find", new BasicDBObject(ID, moveStrings.get(index)));
             moveCommand.put("to", shards.get(index));
 
-            a = dbConn.command(moveCommand);
+            dbConn.command(moveCommand);
         }
     }
 
@@ -234,7 +239,7 @@ public final class MongoCommander {
      * @param state
      */
     private static void setBalancerState(DB dbConn, boolean state) {
-        DBObject balancer = new BasicDBObject("_id", "balancer");
+        DBObject balancer = new BasicDBObject(ID, "balancer");
         DBObject updateObj = new BasicDBObject();
         String stopped = state ? "false" : "true";
         updateObj.put("$set", new BasicDBObject("stopped", stopped));
@@ -251,7 +256,7 @@ public final class MongoCommander {
         DB dbConn = mongoTemplate.getDb().getSisterDB("admin");
 
         DBObject enableShard = new BasicDBObject("enableSharding", dbName);
-        CommandResult res = dbConn.command(enableShard);
+        dbConn.command(enableShard);
 
         List<String> shards = getShards(dbConn);
 
@@ -265,7 +270,7 @@ public final class MongoCommander {
 
             DBObject shardColl = new BasicDBObject();
             shardColl.put("shardCollection", collection);
-            shardColl.put("key", new BasicDBObject("_id", 1));
+            shardColl.put("key", new BasicDBObject(ID, 1));
             dbConn.command(shardColl);
 
             moveChunks(collection, shards, dbConn);

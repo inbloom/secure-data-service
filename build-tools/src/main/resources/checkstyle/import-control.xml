@@ -76,6 +76,7 @@
       <allow pkg="org.slc.sli.dashboard.security"/>
       <allow pkg="org.slc.sli.dashboard.client"/>
       <allow pkg="org.slc.sli.dashboard.util"/>
+      <allow pkg="org.slc.sli.encryption.tool"/>
     </subpackage>
 
     <subpackage name="util">
