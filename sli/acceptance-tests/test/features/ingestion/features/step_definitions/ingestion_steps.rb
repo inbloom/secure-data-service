@@ -670,7 +670,9 @@ def getWarnCount
     Dir.foreach(@landing_zone_path) do |entry|
     if(entry.rindex('warn'))
       @warn_filename = entry
-      @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]
+      puts entry
+      @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]    
+      puts @resource
       file = File.open(@landing_zone_path+entry, "r")
       file.each_line do |line|
         if(line.rindex('WARN'))
