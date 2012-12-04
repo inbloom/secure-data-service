@@ -1,14 +1,16 @@
 body {
   background-color: #fff;
   color: #333;
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px; }
 
 p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px; }
+
+label, input, button, select, textarea {
+  font-size: 14px;
+}
 
 pre {
   background-color: #eee;
@@ -26,6 +28,8 @@ a {
 div {
   &.field, &.actions {
     margin-bottom: 10px; } }
+
+.btn { font-size: 14px; }
 
 #notice {
   color: green; }

@@ -35,21 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.NoNaturalKeysDefinedException;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.CommandResult;
@@ -57,6 +42,22 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatcher;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Test for sub doc accessor
@@ -88,11 +89,22 @@ public class SubDocAccessorTest {
         WriteResult success = mock(WriteResult.class);
         CommandResult successCR = mock(CommandResult.class);
         CommandResult failCR = mock(CommandResult.class);
+        CommandResult countCR = mock(CommandResult.class);
+        CommandResult countFailCR = mock(CommandResult.class);
         when(success.getLastError()).thenReturn(successCR);
         when(successCR.ok()).thenReturn(true);
         when(successCR.get("value")).thenReturn("updated");
         when(failCR.get("value")).thenReturn(null);
         when(failCR.get("result")).thenReturn(null);
+
+        DBObject r = new BasicDBObject();
+        r.put("count", 1);
+        List<DBObject> l = new ArrayList<DBObject>();
+        l.add(r);
+        when(countCR.get("result")).thenReturn(l);
+
+        when(countFailCR.get("result")).thenReturn(new ArrayList<DBObject>());
+
         when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false), eq(WriteConcern.SAFE))).thenReturn(
                 success);
         when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false), eq(WriteConcern.SAFE))).thenReturn(
@@ -174,15 +186,17 @@ public class SubDocAccessorTest {
                 + "{$match:{ \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
         when(template.executeCommand(nonExistQueryCommand)).thenReturn(failCR);
 
-        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
-                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
-                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
-        when(template.executeCommand(countQueryCommand)).thenReturn(successCR);
+        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}},"
+        		+ "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+        		+ "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}}, "
+        		+ "{$group: { _id: null, count: {$sum: 1}}}]}";
+        when(template.executeCommand(countQueryCommand)).thenReturn(countCR);
 
         String nonExistCountCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
                 "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
-                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}]}";
-        when(template.executeCommand(nonExistCountCommand)).thenReturn(failCR);
+                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}, "
+                + "{$group: { _id: null, count: {$sum: 1}}}]}";
+        when(template.executeCommand(nonExistCountCommand)).thenReturn(countFailCR);
     }
 
     @Test

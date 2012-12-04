@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -454,7 +456,25 @@ public class DidReferenceResolutionTest {
 		checkId(entity, "CohortReference", naturalKeys, "cohort");
 	}
 
+    public void resolvesCalendarDateReferenceWithinGradingPeriodCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    	
+        Entity entity = loadEntity("didTestEntities/gradingPeriod.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+            
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "Illinois");
+		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("date", "2012-01-01");
+		naturalKeys.put("educationOrganizationId", edOrgDID);
+
+		checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
+	}
+    
     @Test
+
 	public void resolvesCohortDidInStudentCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
 

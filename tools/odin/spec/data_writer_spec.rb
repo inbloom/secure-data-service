@@ -111,7 +111,7 @@ describe "DataWriter" do
 
     it "will store a calendar date in-memory when handling call to create one" do
       @writer.get_entity_count(:calendar_date).should eq(0)
-      @writer.create_calendar_date(Date.new(2012, 9, 1), :INSTRUCTIONAL_DAY)
+      @writer.create_calendar_date(Date.new(2012, 9, 1), :INSTRUCTIONAL_DAY, 1)
       @writer.get_entity_count(:calendar_date).should_not be_nil
       @writer.get_entity_count(:calendar_date).should eq(1)
     end
