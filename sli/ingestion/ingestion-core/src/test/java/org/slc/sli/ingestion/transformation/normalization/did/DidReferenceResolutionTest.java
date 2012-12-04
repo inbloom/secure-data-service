@@ -206,8 +206,45 @@ public class DidReferenceResolutionTest {
         disciplineIncidentNaturalKeys.put("schoolId", edOrgId);
         disciplineIncidentNaturalKeys.put("disciplineActionIdentifier", "theIncident");
 
-        checkId(entity, "DisciplineIncidentReference", disciplineIncidentNaturalKeys,
- "disciplineIncident");
+        checkId(entity, "DisciplineIncidentReference", disciplineIncidentNaturalKeys, "disciplineIncident");
+    }
+
+    @Test
+    public void resolvesGradeDidInReportCard() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/reportCard.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+        edOrgNaturalKeys.put("stateOrganizationId", "testEdOrgId");
+        String edOrgDid =  generateExpectedDid(edOrgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+        Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+        studentNaturalKeys.put("studentUniqueStateId", "testStudentId");
+        String studentDid =  generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+
+        Map<String, String> gradingPeriodNaturalKeys = new HashMap<String, String>();
+        gradingPeriodNaturalKeys.put("schoolId", edOrgDid);
+        gradingPeriodNaturalKeys.put("gradingPeriod", "testGradingPeriod");
+        gradingPeriodNaturalKeys.put("beginDate", "01-01-2012");
+        String gradingPeriodDid =  generateExpectedDid(gradingPeriodNaturalKeys, TENANT_ID, "gradingPeriod", null);
+
+        Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+        sectionNaturalKeys.put("schoolId", edOrgDid);
+        sectionNaturalKeys.put("uniqueSectionCode", "testSectionCode");
+        String sectionDid =  generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+
+        Map<String, String> studentSectionAssociationNaturalKeys = new HashMap<String, String>();
+        studentSectionAssociationNaturalKeys.put("studentId", studentDid);
+        studentSectionAssociationNaturalKeys.put("sectionId", sectionDid);
+        studentSectionAssociationNaturalKeys.put("beginDate", "02-02-2012");
+        String studentSectionAssociationDid =  generateExpectedDid(studentSectionAssociationNaturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
+
+        Map<String, String> gradeNaturalKeys = new HashMap<String, String>();
+        gradeNaturalKeys.put("studentSectionAssociationId", studentSectionAssociationDid);
+        gradeNaturalKeys.put("gradingPeriodId", gradingPeriodDid);
+
+        checkId(entity, "GradeReference", gradeNaturalKeys, "grade");
     }
 
     @Test
@@ -514,6 +551,50 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
+    public void resolvesLearningObjectiveDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    	Entity entity = loadEntity("didTestEntities/studentCompetency.json");
+    	ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("objective", "Writing: Informational Text");
+        naturalKeys.put("academicSubject", "ELA");
+        naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
+
+        checkId(entity, "LearningObjectiveReference", naturalKeys, "learningObjective");
+    }
+
+    @Test
+    public void resolvesLearningObjectiveDidsInAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    	Entity entity = loadEntity("didTestEntities/assessment.json");
+    	ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("objective", "Writing: Informational Text");
+        naturalKeys.put("academicSubject", "ELA");
+        naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
+
+        checkId(entity, "objectiveAssessment.[0].learningObjectives", naturalKeys, "learningObjective");
+        checkId(entity, "objectiveAssessment.[0].objectiveAssessments.[0].learningObjectives", naturalKeys, "learningObjective");
+    }
+
+    @Test
+    public void resolvesLearningObjectiveDidsInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    	Entity entity = loadEntity("didTestEntities/studentAssessment.json");
+    	ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("objective", "Writing: Informational Text");
+        naturalKeys.put("academicSubject", "ELA");
+        naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
+
+        checkId(entity, "studentObjectiveAssessments.[0].objectiveAssessment.learningObjectives", naturalKeys, "learningObjective");
+        checkId(entity, "studentObjectiveAssessments.[0].objectiveAssessment.objectiveAssessments.[0].learningObjectives", naturalKeys, "learningObjective");
+    }
+
+    @Test
     public void resolvesLearningStandardDidInLearningObjectiveCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/learningObjective.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -525,6 +606,42 @@ public class DidReferenceResolutionTest {
 
         checkId(entity, "LearningStandardReference", naturalKeys, "learningStandard");
     }
+
+    @Test
+    public void resolvesLearningStandardDidInAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/assessment.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("learningStandardId.identificationCode", "0123456789");
+
+        checkId(entity, "assessmentItem.[0].learningStandards", naturalKeys, "learningStandard");
+    }
+
+    @Test
+    public void resolvesLearningStandardDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentAssessment.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("learningStandardId.identificationCode", "0123456789");
+
+        checkId(entity, "studentAssessmentItems.[0].assessmentItem.learningStandards", naturalKeys, "learningStandard");
+    }
+
+    //resolves learning standard in assessmentItem
+    //body.assessmentItem.learningStandards <- assessment
+
+    //body.studentAssessmentItems.assessmentItem.learningStandards <- studentAssessmentAssociation
+
+    //resolves learningStandard in objective assessment
+
+
+   //
 
     @Test
     public void resolvesStudentSectionAssociationDidInGradeCorrectly() throws JsonParseException, JsonMappingException, IOException {
@@ -856,6 +973,9 @@ public class DidReferenceResolutionTest {
     private void checkId(Entity entity, String referenceField, Map<String, String> naturalKeys, String collectionName)
             throws JsonParseException, JsonMappingException, IOException {
         String expectedDid =  generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
+
+        System.out.println("expectedDid:\n" + expectedDid);
+
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = null;
 
@@ -870,8 +990,10 @@ public class DidReferenceResolutionTest {
         if (resolvedRef instanceof List) {
             List<Object> refs = (List<Object>) resolvedRef;
             Assert.assertEquals(1, refs.size());
+            System.out.println("resolvedDid:\n" + refs.get(0));
             Assert.assertEquals(expectedDid, refs.get(0));
         } else {
+            System.out.println("resolvedDid:\n" + resolvedRef);
             Assert.assertEquals(expectedDid, resolvedRef);
         }
 
