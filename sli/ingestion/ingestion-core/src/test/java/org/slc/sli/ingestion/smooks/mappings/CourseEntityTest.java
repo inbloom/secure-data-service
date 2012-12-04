@@ -23,15 +23,21 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -44,8 +50,18 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class CourseEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void edfiXmlCourseTest() throws IOException, SAXException {
@@ -94,11 +110,12 @@ public class CourseEntityTest {
                 + "            <StateOrganizationId>ID1</StateOrganizationId>"
                 + "        </EducationalOrgIdentity>"
                 + "    </EducationOrganizationReference>"
+                + "    <UniqueCourseId>000001</UniqueCourseId>"
                 + "</Course>"
                 + "</InterchangeEducationOrganization>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiCourseXml, recordLevelDeltaEnabledEntityNames);
+                targetSelector, edfiCourseXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidCourseNeutralRecord(neutralRecord);
     }
@@ -165,7 +182,7 @@ public class CourseEntityTest {
         assertNotNull("Could not find EducationOrganizationReference in Course", EducationOrganizationReference);
         Map<String, Object> EducationalOrgIdentity  = (Map<String, Object>)EducationOrganizationReference.get("EducationalOrgIdentity");
         assertNotNull("Could not find EducationOrganizationReference.EducationalOrgIdentity in Course", EducationOrganizationReference);
-        assertEquals("EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId is not 'ID1' in Course", "ID1", (String)EducationalOrgIdentity.get("StateOrganizationId"));
+        assertEquals("EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId is not 'ID1' in Course", "ID1", EducationalOrgIdentity.get("StateOrganizationId"));
     }
 
 }

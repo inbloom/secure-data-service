@@ -108,7 +108,7 @@ public class DeterministicIdResolver {
     }
 
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource,
-            String tenantId) throws IdResolutionException {
+                                                   String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -255,7 +255,7 @@ public class DeterministicIdResolver {
                 Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
 
                 if (nestedRef == null) {
-                    if (keyFieldDef.isOptional() == false) {
+                    if (!keyFieldDef.isOptional()) {
                         throw new IdResolutionException("No value found for required reference",
                                 keyFieldDef.getValueSource(), "");
                     } else {

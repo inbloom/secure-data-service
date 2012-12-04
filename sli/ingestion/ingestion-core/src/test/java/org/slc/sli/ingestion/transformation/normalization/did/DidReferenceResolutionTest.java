@@ -1219,6 +1219,19 @@ public class DidReferenceResolutionTest {
         checkId(entity, "ParentReference", naturalKeys, "parent");
     }
 
+	@Test
+    public void resolvesParentDidInStudentParentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/studentParentAssociation.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("parentUniqueStateId", "testParentId");
+
+        checkId(entity, "ParentReference", naturalKeys, "parent");
+    }
+
     // generate the expected deterministic ids to validate against
     private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
         NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, parentId);

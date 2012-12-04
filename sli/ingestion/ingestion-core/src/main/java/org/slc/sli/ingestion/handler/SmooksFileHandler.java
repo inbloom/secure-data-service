@@ -21,6 +21,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
@@ -78,6 +80,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
+    @SuppressWarnings("unchecked")
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
@@ -90,8 +93,15 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             smooks.filterSource(new StreamSource(inputStream));
 
             try {
-                Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
-                f.setAccessible(true);
+                final Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
+                AccessController.doPrivileged(
+                    new PrivilegedAction<Object>() {
+                        public Object run() {
+                            f.setAccessible(true);
+                            return null;
+                        }
+                    }
+                );
                 VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
                 ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
                 SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0)

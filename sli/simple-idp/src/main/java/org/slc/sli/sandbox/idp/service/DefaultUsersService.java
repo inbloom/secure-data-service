@@ -100,8 +100,8 @@ public class DefaultUsersService {
      * @return
      */
     public DefaultUser getUser(String dataset, String userId) {
-        for(DefaultUser user : getUsers(dataset)){
-            if(user.getUserId().equals(userId)){
+        for (DefaultUser user : getUsers(dataset)) {
+            if (user.getUserId().equals(userId)) {
                 return user;
             }
         }
@@ -129,24 +129,35 @@ public class DefaultUsersService {
         }
         return users;
     }
+    
     private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream(file)));
-        String line = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(file)));
+            String line = null;
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            
+            return stringBuilder.toString();
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
         }
-        
-        return stringBuilder.toString();
     }
     
+    /**
+     * Provided DataSets 
+     *
+     */
     public static class Dataset {
-        String key;
-        String displayName;
+        private String key;
+        private String displayName;
         
-        public Dataset(String key, String displayName){
+        public Dataset(String key, String displayName) {
             this.key = key;
             this.displayName = displayName;
         }
@@ -166,7 +177,7 @@ public class DefaultUsersService {
      * 
      */
     public static class DefaultUser {
-        String userId, name, role, association;
+        private String userId, name, role, association;
         
         public DefaultUser(String userId, String name, String role, String association) {
             this.userId = userId;
