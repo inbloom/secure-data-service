@@ -2,19 +2,19 @@
 "recordType":"disciplineIncident",
 "attributes":
 {
-	"StaffReference":
-	{
-		"StaffIdentity":
-		{
-			"StaffUniqueStateId":"jjackson"
-		}
-	},
-	"SchoolReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"testSchoolId"
-		}
-	}
+    "StaffReference":
+    {
+        "StaffIdentity":
+        {
+            "StaffUniqueStateId":"jjackson"
+        }
+    },
+    "SchoolReference":
+    {
+        "EducationalOrgIdentity":
+        {
+            "StateOrganizationId":"testSchoolId"
+        }
+    }
 }
 }
