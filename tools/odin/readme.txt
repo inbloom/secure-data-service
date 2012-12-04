@@ -1,13 +1,21 @@
 By the hammer of odin!
 
-To prepare your environment
-> bundle install
+Run these commands:
+$ rvm get head && rvm reload
+$ rvm -v
 
-To generate data for a scenario:
-> bundle exec ruby driver.rb <scenario name>
+If the version of rvm is 1.11.X or greater, you do NOT need 
+to prepend 'bundle exec' before the following commands. Bundler integrated with rvm:
+https://rvm.io/integration/bundler/
+
+Prepare your environment (same as 'bundle install')
+$ bundle
+
+Generate data for a scenario:
+$ bundle exec ruby driver.rb <scenario name>
 
 Output is created in:
-  generated
+  generated/
 
-To run the unit tests
+Run unit tests
 > bundle exec rake

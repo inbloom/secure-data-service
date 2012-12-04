@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.ldap;
+package org.slc.sli.common.ldap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -36,6 +36,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.common.ldap.Group;
+import org.slc.sli.common.ldap.GroupContextMapper;
+import org.slc.sli.common.ldap.LdapService;
+import org.slc.sli.common.ldap.User;
+import org.slc.sli.common.ldap.UserContextMapper;
+import org.slc.sli.common.ldap.User.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.ldap.core.DistinguishedName;
@@ -43,13 +49,11 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.api.ldap.User.Status;
-
 /**
  * Unit tests
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LdapServiceImplTest {
 
     @Autowired
