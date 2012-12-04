@@ -78,7 +78,6 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
             
             // convert TreeMap entries into Link instances.
             if (key.equals(Entity.LINKS_KEY)) {
-                rval = new LinkedList<Link>();
                 
                 String refName = (String) r2.get(Link.LINK_RESOURCE_KEY);
                 String hrefString = (String) r2.get(Link.LINK_HREF_KEY);

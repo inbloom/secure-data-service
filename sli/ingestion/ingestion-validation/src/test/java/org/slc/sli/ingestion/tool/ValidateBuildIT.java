@@ -17,87 +17,111 @@
 package org.slc.sli.ingestion.tool;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
-import junit.framework.TestCase;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
 
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Test;
+
+import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 
 /**
  * @author tke
  *
  */
-@Ignore
-public class ValidateBuildIT extends TestCase{
+public class ValidateBuildIT {
 
-    static final String TARGET = "target/";
+    static final String MAVEN_TARGET_DIR = "target";
+    static final String TARGET_DIR = "OfflineValidationTool";
     static final String SRC_FILE = "OfflineValidationTool-src.zip";
 
-    public void test() throws Exception{
-        File srcZip = new File(TARGET + SRC_FILE);
-        Assert.assertTrue(srcZip.exists());
+    @Test
+    public void testMvnBuild() throws Exception {
+        File srcZip = new File(MAVEN_TARGET_DIR, SRC_FILE);
+        Assert.assertTrue(srcZip.exists() && srcZip.isFile());
 
-        ZipFile zip = new ZipFile(srcZip);
+        File mvnTargetDir = new File(MAVEN_TARGET_DIR);
 
-        File target = new File(TARGET);
-        unzipFileIntoDirectory(zip, target);
+        Assert.assertTrue("Maven Target directory is not found", mvnTargetDir.isDirectory());
 
-        File dir = new File(TARGET + "OfflineValidationTool");
+        File targetDir = new File(MAVEN_TARGET_DIR, TARGET_DIR);
 
-        Process p = Runtime.getRuntime().exec("mvn clean package", null, dir);
+        PrintStream ps = System.out;
 
-        int ret = p.waitFor();
+        try {
+            ps.println();
+            ps.println("================== Verifying the SLC Offline Validation Tool package ==================");
+            ps.println();
 
-        Assert.assertTrue(ret == 0);
+            ZipFileUtil.extract(srcZip, mvnTargetDir, true);
+
+            int ret = executeMvnBuild(targetDir);
+
+            Assert.assertEquals(0, ret);
+        } finally {
+            ps.println();
+            ps.println("================== End of verification of the SLC Offline Validation Tool package ==================");
+            ps.println();
+        }
     }
 
-    public static void unzipFileIntoDirectory(ZipFile zipFile, File homeParentDir) {
-        Enumeration files = zipFile.entries();
-        File f = null;
-        FileOutputStream fos = null;
-
-        while (files.hasMoreElements()) {
-          try {
-            ZipEntry entry = (ZipEntry) files.nextElement();
-            InputStream eis = zipFile.getInputStream(entry);
-            byte[] buffer = new byte[1024];
-            int bytesRead = 0;
-
-            f = new File(homeParentDir.getAbsolutePath() + File.separator + entry.getName());
-
-            if (entry.isDirectory()) {
-              f.mkdirs();
-              continue;
-            } else {
-              f.getParentFile().mkdirs();
-              f.createNewFile();
-            }
-
-            fos = new FileOutputStream(f);
-
-            while ((bytesRead = eis.read(buffer)) != -1) {
-              fos.write(buffer, 0, bytesRead);
-            }
-          } catch (IOException e) {
-            e.printStackTrace();
-            continue;
-          } finally {
-            if (fos != null) {
-              try {
-                fos.close();
-              } catch (IOException e) {
-                // ignore
-              }
-            }
-          }
+    private static int executeMvnBuild(File dir) throws InterruptedException, IOException {
+        String osName = System.getProperty("os.name").toLowerCase();
+        ArrayList<String> args = new ArrayList<String>();
+        if (osName.contains("windows")) {
+            args.add("cmd.exe");
+            args.add("/C");
         }
-      }
 
+        args.add("mvn");
+        args.add("clean");
+        args.add("package");
 
+        ProcessBuilder pb = new ProcessBuilder(args);
+        pb.redirectErrorStream(true);
+        pb.directory(dir);
+
+        Process p = pb.start();
+        StreamRelay sg = new StreamRelay(p.getInputStream(), System.out);
+
+        sg.start();
+
+        return p.waitFor();
+    }
+
+    /**
+     * Relays the InputStream into the OutputStream.
+     *
+     * @author okrook
+     *
+     */
+    static class StreamRelay extends Thread {
+        private static final int BUF_SIZE = 1024;
+
+        private InputStream in;
+        private OutputStream out;
+
+        public StreamRelay(InputStream in, OutputStream out) {
+            this.in = in;
+            this.out = out;
+        }
+
+        @Override
+        public void run() {
+            final byte[] buffer = new byte[BUF_SIZE];
+
+            try {
+                int bytes = 0;
+
+                while ((bytes = in.read(buffer, 0, BUF_SIZE)) != -1) {
+                    out.write(buffer, 0, bytes);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

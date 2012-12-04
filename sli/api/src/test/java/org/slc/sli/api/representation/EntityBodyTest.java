@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EmbeddedLink;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -89,5 +90,32 @@ public class EntityBodyTest {
         underlyingMap.put("key4", map1);
 
         return underlyingMap;
+    }
+    
+    @Test
+    public void embeddedLinkTest() {
+        EmbeddedLink link1 = new EmbeddedLink("one", "two", "three");
+        EmbeddedLink link2 = new EmbeddedLink("one", "two", "three");
+        assertEquals(link1, link2);
+        assertEquals(link1.hashCode(), link2.hashCode());
+        assertEquals(link1.toString(), link2.toString());
+    }
+    
+    @Test
+    public void embeddedLinkTest2() {
+        EmbeddedLink link1 = new EmbeddedLink("one", "two", "three");
+        EmbeddedLink link2 = new EmbeddedLink("one", "two", null);
+        assertFalse(link1.equals(link2));
+        assertFalse(link2.equals(link1));
+        assertFalse(link1.hashCode() == link2.hashCode());
+        assertFalse(link1.toString() == link2.toString());
+    }
+    
+    @Test
+    public void embeddedLinkTest3() {
+        EmbeddedLink link1 = new EmbeddedLink("one", "two", "three");
+        Object o = new Object();
+        assertFalse(link1.equals(o));
+        assertFalse(link1.equals(null));
     }
 }

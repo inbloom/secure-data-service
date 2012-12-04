@@ -248,7 +248,7 @@ public class TenantResourceTest {
         }
     }
 
-    @Test
+    @Test (expected = EntityNotFoundException.class)
     public void testDelete() {
         // create one entity
         String id = createLandingZone(new EntityBody(createTestEntity()));
@@ -257,15 +257,7 @@ public class TenantResourceTest {
         Response response = tenantResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        try {
-            @SuppressWarnings("unused")
-            Response getResponse = tenantResource.read(id, httpHeaders, uriInfo);
-            fail("should have thrown EntityNotFoundException");
-        } catch (EntityNotFoundException e) {
-            return;
-        } catch (Exception e) {
-            fail("threw wrong exception: " + e);
-        }
+        Response getResponse = tenantResource.read(id, httpHeaders, uriInfo);
     }
 
     @Test
