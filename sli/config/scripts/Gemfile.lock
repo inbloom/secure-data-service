@@ -1,14 +1,22 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    json (1.7.3)
-    mime-types (1.19)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
+    activesupport (3.2.9)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
+    bson (1.8.0)
+      activesupport
+    bson_ext (1.8.0)
+      bson (~> 1.8.0)
+    i18n (0.6.1)
+    mongo (1.8.0)
+      bson (~> 1.8.0)
+    multi_json (1.4.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  json
-  rest-client
+  bson
+  bson_ext
+  mongo
