@@ -6,50 +6,40 @@
 
 if [ $# -ne 1 ];
 then
-  echo "Usage: scripts/slirp_getlogs RUN_NAME (run from the config/ directory)"
+  echo "Usage: scripts/slirp_verify_ingestion FILE (run from the config/ directory)"
   exit 1
 fi
 
-NAME=$1
+FILE=$1
 
 echo "******************************************************************************"
-echo "**  Getting SLIRP logs to $NAME at `date`"
+echo "**  Verifying SLIRP ingestion with $FILE at `date`"
 echo "******************************************************************************"
 
-PRIMARIES="slirpmongo03.slidev.org slirpmongo05.slidev.org slirpmongo09.slidev.org slirpmongo11.slidev.org"
-ISDB="slirpmongo99.slidev.org"
+#
+# Get the script
+#
+unzip -o -q -d /tmp $FILE jsExpected.js
 
 #
-# Create dir
+# Run it
 #
-echo "Create directory..."
-mkdir $NAME
+MISMATCHES=`mongo d36f43474916ad310100c9711f21b65bd8231cc6 /tmp/jsExpected.js | grep Mismatch`
+if [ -z "$MISMATCHES" ] ; then
+  echo "All entity numbers are correct."
+else
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo "ENTITY MISMATCHES !!!!!!!!!!!!!!"
+  echo "$MISMATCHES"
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+fi
 
-#
-# Get start/stop time TO SCREEN
-#
-echo "Job Start/Stop..."
-mongo --quiet $ISDB/ingestion_batch_job --eval 'db.newBatchJob.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})'
-mongo --quiet $ISDB/ingestion_batch_job --eval '"Errors: " + db.error.count()'
+exit
 
-#
-# Get start/stop time
-#
-mongo --quiet $ISDB/ingestion_batch_job --eval 'db.newBatchJob.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})' > $NAME/time
-mongo --quiet $ISDB/ingestion_batch_job --eval 'db.error.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})' > $NAME/error
 
-#
-# Get stats
-#
-echo "Stats..."
-mongo --quiet $ISDB/ingestion_batch_job --eval "db.batchJobStage.find().forEach(function(x){printjson(x);})" > $NAME/batchJobStage
 
-#
-# Get slow query logs
-#
-echo "Slow query logs, is..."
-mongo --quiet $ISDB/is --eval "db.system.profile.find().forEach(function(x){printjson(x);})" > $NAME/slow_is.log
-echo "is: `scripts/analyze_slow_query_log.sh $NAME/slow_is.log`" >> $NAME/slow_summary
 echo "Slow query logs, staging..."
 mongo --quiet $ISDB/ingestion_batch_job --eval "db.system.profile.find().forEach(function(x){printjson(x);})" > $NAME/slow_ingestion_batch_job.log
 echo "ingestion_batch_job: `scripts/analyze_slow_query_log.sh $NAME/slow_ingestion_batch_job.log`" >> $NAME/slow_summary

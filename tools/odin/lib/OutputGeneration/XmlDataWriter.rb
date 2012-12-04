@@ -18,9 +18,11 @@ limitations under the License.
 
 require 'logger'
 
+require_relative "XML/studentParentGenerator.rb"
 require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
 require_relative "XML/masterScheduleGenerator.rb"
+require_relative "XML/enrollmentGenerator.rb"
 require_relative "DataWriter.rb"
 
 # ed-fi xml interchange writer class
@@ -49,16 +51,21 @@ class XmlDataWriter < DataWriter
       Dir.mkdir(@directory)
     end
 
-    # initialize_student_parent_writer
     # initialize_student_enrollment_writer
+    @student_parent_writer         = StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
     @education_organization_writer = EducationOrganizationGenerator.new(@yaml, initialize_interchange(directory, "EducationOrganization"))
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new(@yaml, initialize_interchange(directory, "EducationOrgCalendar"))
     @master_schedule_writer        = MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
+    @student_enrollment_writer     = EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
     
-    # enable entities to be written (writes header)
+    # enable entities to be written
+    # -> writes header
+    # -> starts reporting
+    @student_parent_writer.start
     @education_organization_writer.start
     @education_org_calendar_writer.start
     @master_schedule_writer.start
+    @student_enrollment_writer.start
   end
 
   # initializes interchange of specified 'type' in 'directory'
@@ -69,9 +76,11 @@ class XmlDataWriter < DataWriter
   # flush all queued entities from event-based interchange generators, then
   # close file handles
   def finalize
+    @student_parent_writer.finalize
     @education_organization_writer.finalize
     @education_org_calendar_writer.finalize
     @master_schedule_writer.finalize
+    @student_enrollment_writer.finalize
   end
 
   # -------   education organization interchange entities   ------
@@ -145,27 +154,24 @@ class XmlDataWriter < DataWriter
   # ----------   master schedule interchange entities   ----------
   # -----------   student parent interchange entities   ----------
 
-  # create student and store in memory
+  # write student to student parent interchange
   def create_student(id, birthday_after)
-    #initialize_entity(:student)
-    #@entities[:student] << Student.new(id, birthday_after)
+    @student_parent_writer.create_student(id, birthday_after)
     increment_count(:student)
   end
 
   # -----------   student parent interchange entities   ----------
   # ---------   student enrollment interchange entities   --------
 
-  # create student school association and store in memory
+  # write student school association to student enrollment interchange
   def create_student_school_association(id, school_id, start_year, start_grade)
-    #initialize_entity(:student_school_association)
-    #@entities[:student_school_association] << StudentSchoolAssociation.new(id, school_id, start_year, start_grade)
+    @student_enrollment_writer.create_student_school_association(id, school_id, start_year, start_grade)
     increment_count(:student_school_association)
   end
 
-  # create student section association and store in memory
-  def create_student_section_association
-    #initialize_entity(:student_section_association)
-    #@entities[:student_section_association] << StudentSchoolAssociation.new(id, school_id, start_year, start_grade)
+  # write student section association to student enrollment interchange
+  def create_student_section_association(id, section, school_id, start_year, start_grade)
+    @student_enrollment_writer.create_student_section_association(id, section, school_id, start_year, start_grade)
     increment_count(:student_section_association)
   end
 
