@@ -1184,7 +1184,6 @@
   <jb:bean beanId="studentAssItemParentIds" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessmentItem">
     <jb:wiring property="studentAssessmentReference" beanIdRef="studentAssessmentItem_studentAssessmentReference" />
     <jb:value property="studentResultRef" data="StudentAssessmentItem/StudentAssessmentReference/@ref" />
-    <jb:value property="studentObjectiveAssessmentRef" data="StudentAssessmentItem/StudentObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
     <jb:value property="assessmentItemIdentificatonCode" data="StudentAssessmentItem/AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
   </jb:bean>
 
