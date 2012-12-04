@@ -195,4 +195,87 @@ Scenario Outline: Confirm that entities that block queries dont block 2+ part UR
 #      | "linda.kim"    | "linda.kim1234"  | "/v1/competencyLevelDescriptor/3a7b0473fd3fdeb24254c08d1250087a2144c642_id" |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6"               |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningStandards/dd9165f2-653e-6e27-a82c-bec5f48757b8"                |
+      
+Scenario Outline: Filter by collections routed to Elastic Search
+  Given I am logged in using <username> <password> to realm "IL"
+    And format "application/json"
+    When I navigate to GET "/v1/assessments"
+    Then I should receive a return code of 200
+    Then I should receive a collection with 17 elements
+   When I navigate to GET "/v1/assessments?academicSubject=Mathematics"
+    Then I should receive a return code of 200
+    Then I should receive a collection with 8 elements
+    Then each entity's "academicSubject" should be "Mathematics" 
+When I navigate to GET "/v1/assessments?academicSubject!=Mathematics"
+ Then I should receive a return code of 200
+  Then I should receive a collection with 9 elements
+Then each entity's "academicSubject" should not be "Mathematics" 
+When I navigate to GET "/v1/assessments?academicSubject=~Mat"
+ Then I should receive a return code of 200
+  Then I should receive a collection with 8 elements
+Then each entity's "academicSubject" should be "Mathematics" 
+When I navigate to GET "/v1/assessments?minRawScore%3C20"
+ Then I should receive a return code of 200
+  Then I should receive a collection with 3 elements
+When I navigate to GET "/v1/assessments?includeFields=minRawScore&minRawScore=13"
+ Then each entity's response body I should see the following fields only:
+      | id                  |
+      | minRawScore         |
+      | links               |
+      | entityType          |
+ Then I should receive a collection with 3 elements
+When I navigate to GET "/v1/learningObjectives"
+ Then I should receive a return code of 200
+  Then I should receive a collection with 5 elements
+ #When I navigate to GET "/v1/learningObjectives?academicSubject=Mathematics"
+ #Then I should receive a return code of 200
+ #Then I should receive a collection with 3 elements
+ #Then each entity's "academicSubject" should be "Mathematics" 
+When I navigate to GET "/v1/learningObjectives?includeFields=objectiveGradeLevel,learningStandards"
+ Then each entity's response body I should see the following fields only:
+      | id                  |
+      | objectiveGradeLevel |
+      | learningStandards   |
+      | links               |
+      | entityType          | 
+ #When I navigate to GET "/v1/learningStandards?subjectArea=Mathematics"
+ #Then I should receive a return code of 200
+ #Then I should receive a collection with 11 elements
+ #Then each entity's "subjectArea" should be "Mathematics" 
+When I navigate to GET "/v1/learningStandards?includeFields=subjectArea,gradeLevel,description"
+ Then each entity's response body I should see the following fields only:
+      | id                  |
+      | subjectArea         |
+      | gradeLevel          |
+      | description         |
+      | links               |
+      | entityType          |
+ When I navigate to GET "/v1/studentCompetencyObjectives?objectiveGradeLevel=Kindergarten"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 1 elements
+ Then each entity's "objectiveGradeLevel" should be "Kindergarten" 
+ When I navigate to GET "/v1/studentCompetencyObjectives?includeFields=objectiveGradeLevel"
+ Then each entity's response body I should see the following fields only:
+      | id                  |
+      | objectiveGradeLevel |
+      | links               |
+      | entityType          |
+# When I navigate to GET "/v1/competencyLevelDescriptor?codeValuel=A"
+# Then I should receive a return code of 200
+# Then I should receive a collection with 1 elements
+# Then each entity's "codeValue" should be "B" 
+# When I navigate to GET "/v1/competencyLevelDescriptor?codeValue=A"
+# Then I should receive a return code of 200
+# Then I should receive a collection with 1 elements
+# Then each entity's "codeValue" should be "A" 
+ When I navigate to GET "/v1/competencyLevelDescriptor?includeFields=description"
+  Then each entity's response body I should see the following fields only:
+      | id                  |
+      | description         |
+      | links               |
+      | entityType          |
+    Examples:
+      | username           | password              |
+      | "rrogers"          | "rrogers1234"         |
+      | "linda.kim"        | "linda.kim1234"       |
     
