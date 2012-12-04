@@ -1,22 +1,22 @@
-dashboard_server_address: "https://pike-dashboard.slidev.org"
+dashboard_server_address: "https://sulu-dashboard.slidev.org"
 dashboard_app_prefix: "/dashboard"
 dashboard_landing_page: "/"
-dashboard_api_server_uri: "https://pike-api.slidev.org"
-realm_page_url: "https://pike-api.slidev.org/api/oauth/authorize"
+dashboard_api_server_uri: "https://sulu-api.slidev.org"
+realm_page_url: "https://sulu-api.slidev.org/api/oauth/authorize"
 browser: "firefox"
 
-admintools_server_url: "https://pike-admin.slidev.org"
-api_server_url: "https://pike-api.slidev.org"
-databrowser_server_url: "https://pike-databrowser.slidev.org"
+admintools_server_url: "https://sulu-admin.slidev.org"
+api_server_url: "https://sulu-api.slidev.org"
+databrowser_server_url: "https://sulu-databrowser.slidev.org"
 
 ingestion_db: "localhost"
 ingestion_database_name: "sli"
 ingestion_batchjob_db: "localhost"
 ingestion_batchjob_database_name: "ingestion_batch_job"
-lz_server_url: "pike-lz.slidev.org"
+lz_server_url: "sulu-lz.slidev.org"
 lz_sftp_port: "443"
 ingestion_server_url: "devpantheon.slidev.org"
-ingestion_username: "testuser0.wgen@gmail.com"
+ingestion_username: "testdevsb.wgen@gmail.com"
 ingestion_password: "liferaywgen1234"
 ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "remote"
@@ -50,8 +50,8 @@ ldap_base: "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org"
 ldap_admin_user: cn=Admin,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
 
-user_registration_app_production_url: "https://pike-admin.slidev.org"
-user_registration_app_sandbox_url: "https://pike-admin.slidev.org"
+user_registration_app_production_url: "https://sulu-admin.slidev.org"
+user_registration_app_sandbox_url: "https://sulu-admin.slidev.org"
 user_registration_app_host_url: "slcedu.org"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
@@ -88,19 +88,30 @@ secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 secondary_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
 
 #Developer creds
-developer_email_imap_registration_user: testdev.wgen@gmail.com
+developer_email_imap_registration_user: RCTest Developer
 developer_email_imap_registration_user_email: testdev.wgen@gmail.com
-developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
+developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: testdev.wgen1234
+
+#Developer creds (sandbox) - For CI environments
+developer_sb_email_imap_registration_user: testdevsb.wgen@gmail.com
+developer_sb_email_imap_registration_user_email: testdevsb.wgen@gmail.com
+developer_sb_email_imap_registration_pass: liferaywgen1234
+
+#Developer 2 creds (sandbox) - For CI environments
+developer2_sb_email_imap_registration_user: testdevsb2.wgen@gmail.com
+developer2_sb_email_imap_registration_user_email: testdevsb2.wgen@gmail.com
+developer2_sb_email_imap_registration_pass: liferaywgen1234
 
 #Landing zone
-landingzone: pike-lz.slidev.org
+landingzone: sulu-lz.slidev.org
 landingzone_port: 443
 
+sandbox_tenant: testdevsb.wgen@gmail.com
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
-ci_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=IL-Daybreak
+ci_idp_redirect_url: https://sulu-sidp.slidev.org/sliidp?realm=IL-Daybreak
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com
@@ -124,6 +135,5 @@ ci_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=IL-Daybreak
 
 ################# /e2e test properties #################################
 
-portal_server_address: "https://pike-portal.slidev.org"
+portal_server_address: "https://sulu-portal.slidev.org"
 portal_app_suffix: "/portal"
-
