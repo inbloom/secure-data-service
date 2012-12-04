@@ -211,7 +211,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             params.put(Constants.ATTR_STUDENT_ID, studentId);
             
             List<GenericEntity> academicRecords = entityManager.getAcademicRecords(token, studentId, params);
-            result.addAll(academicRecords);
+            if (academicRecords != null) {
+                result.addAll(academicRecords);
+            }
         }
         
         for (GenericEntity entity : result) {

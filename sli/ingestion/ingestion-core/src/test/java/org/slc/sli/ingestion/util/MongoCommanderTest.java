@@ -15,21 +15,24 @@
 */
 package org.slc.sli.ingestion.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -48,6 +51,7 @@ public class MongoCommanderTest {
     private DBCollection assessmentCollection = Mockito.mock(DBCollection.class);
     private DBCollection assessmentFamilyCollection = Mockito.mock(DBCollection.class);
     private DBCollection assessmentItem = Mockito.mock(DBCollection.class);
+    private DBCollection settings = Mockito.mock(DBCollection.class);
 
     private final String dbName = "commanderTest";
 
@@ -56,6 +60,8 @@ public class MongoCommanderTest {
     private Map<String, Integer> collectionOrder = new HashMap<String, Integer>();
 
     private Map<String, DBCollection> collectionIns = new HashMap<String, DBCollection>();
+
+    private CommandResult res = Mockito.mock(CommandResult.class);
 
 
     @Before
@@ -77,6 +83,8 @@ public class MongoCommanderTest {
         Mockito.when(db.getCollection("assessment")).thenReturn(assessmentCollection);
         Mockito.when(db.getCollection("assessmentFamily")).thenReturn(assessmentFamilyCollection);
         Mockito.when(db.getCollection("assessmentItem")).thenReturn(assessmentItem);
+        Mockito.when(db.getSisterDB(Matchers.anyString())).thenReturn(db);
+        Mockito.when(db.getCollection("settings")).thenReturn(settings);
 
         Mockito.when(assessmentCollection.getFullName()).thenReturn(dbName + ".assessment");
         Mockito.when(assessmentFamilyCollection.getFullName()).thenReturn(dbName + ".assessmentFamily");
@@ -115,9 +123,29 @@ public class MongoCommanderTest {
         }
     }
 
-    @Ignore
+    @Test
     public void testPreSplit() {
-        MongoCommander.preSplit(shardCollections, "commanderTest3", mockedMongoTemplate);
+        List<DBObject> shards = new ArrayList<DBObject>();
+        shards.add(new BasicDBObject("_id", "shard0"));
+        shards.add(new BasicDBObject("_id", "shard1"));
+        BasicDBList listShards = new BasicDBList();
+        listShards.add(new BasicDBObject("shards", shards));
+
+        List<String> lShards = new ArrayList<String>();
+        lShards.add("shard0");
+        lShards.add("lShard1");
+
+        Mockito.when(db.command((DBObject) Matchers.any())).thenReturn(res);
+        Mockito.when(res.get("shards")).thenReturn(listShards);
+        MongoCommander.preSplit(shardCollections, dbName, mockedMongoTemplate);
+
+        Mockito.verify(db, Mockito.times(1)).command(new BasicDBObject("enableSharding", dbName));
+        Mockito.verify(db, Mockito.times(1)).command(new BasicDBObject("listShards", 1));
+        //Verify total number of mongo command calls
+        Mockito.verify(db, Mockito.times(17)).command(Matchers.any(DBObject.class));
+
+        //For setBalancerState
+        Mockito.verify(settings, Mockito.times(1)).update(Matchers.any(DBObject.class), Matchers.any(DBObject.class), Matchers.eq(true), Matchers.eq(false));
     }
 
 }

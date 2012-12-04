@@ -47,10 +47,10 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApiNeutralSchemaValidator.class);
     
-    private static final DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy = new DeterministicUUIDGeneratorStrategy();
+    private static final DeterministicUUIDGeneratorStrategy DETERMINISTIC_UUID_GENERATOR = new DeterministicUUIDGeneratorStrategy();
 
-    private static boolean INSERT_OR_UPDATE = true;
-    private static boolean PATCH = false;
+    private static final boolean INSERT_OR_UPDATE = true;
+    private static final boolean PATCH = false;
     
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
@@ -131,7 +131,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
         existingEntityNaturalKeyDescriptor.setEntityType(entity.getType());
         existingEntityNaturalKeyDescriptor.setTenantId(TenantContext.getTenantId());
         
-        return ApiNeutralSchemaValidator.deterministicUUIDGeneratorStrategy.generateId(existingEntityNaturalKeyDescriptor);
+        return DETERMINISTIC_UUID_GENERATOR.generateId(existingEntityNaturalKeyDescriptor);
     }
     
     /**

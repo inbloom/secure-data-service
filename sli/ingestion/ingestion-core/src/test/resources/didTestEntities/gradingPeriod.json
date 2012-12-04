@@ -1,13 +1,29 @@
 {
-    "recordType":"gradingPeriod",
-    "attributes":
-    {
+	"recordType":"gradingPeriod",
+	"attributes": 
+	{
         "EducationOrganizationReference":
         {
             "EducationalOrgIdentity":
             {
                 "StateOrganizationId":"testEdOrgId"
             }
-        }
-    }
+        },
+		"CalendarDateReference" : 
+		[
+			{
+				"CalendarDateIdentity" : 
+				{
+					"Date" : "2012-01-01",
+					"EducationOrgReference" : 
+					{
+						"EducationalOrgIdentity" : 
+						{
+							"StateOrganizationId" : "Illinois"
+						}
+					}
+				}
+			}
+		]
+	}
 }
