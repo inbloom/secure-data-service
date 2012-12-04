@@ -299,7 +299,14 @@ Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg
 end
 
 Given /^a landing zone$/ do
-  if RUN_ON_RC
+  if RUN_ON_RC && (@mode="SANDBOX")
+    steps %Q{
+        Given I am using local data store
+        And I am using default landing zone
+        And I am using the tenant "<SANDBOX_TENANT>"
+        And I use the landingzone user name "<DEVELOPER_SB_EMAIL>" and password "<DEVELOPER_SB_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
+    }
+  elsif RUN_ON_RC
     steps %Q{
         Given I am using local data store
         And I am using default landing zone
