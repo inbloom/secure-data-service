@@ -65,9 +65,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Autowired
-    private MongoTemplate neutralRecordMongoTemplate;
-
     private Map<String, List<HashMap<String, Object>>> sliIndexCache;
     private Map<String, List<HashMap<String, Object>>> batchJobIndexCache;
 

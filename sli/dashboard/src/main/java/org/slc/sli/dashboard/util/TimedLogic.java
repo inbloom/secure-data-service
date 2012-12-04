@@ -17,6 +17,7 @@
 
 package org.slc.sli.dashboard.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,7 +64,10 @@ public class TimedLogic {
                     Date d2 = dateFormat.parse((String) o2.get(Constants.ATTR_ADMIN_DATE));
                     return d2.compareTo(d1);
 
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
+                    logger.error("Date compare error");
+                    return 0;
+                } catch (ParseException e) {
                     logger.error("Date compare error");
                     return 0;
                 }
@@ -149,7 +153,7 @@ public class TimedLogic {
                     } else {
                         return Integer.parseInt(score2) - Integer.parseInt(score1);
                     }
-                } catch (Exception e) {
+                } catch (ClassCastException e) {
                     return 0;
                 }
             }

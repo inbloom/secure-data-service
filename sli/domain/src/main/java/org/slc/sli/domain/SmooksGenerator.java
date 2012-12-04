@@ -131,8 +131,8 @@ public class SmooksGenerator {
      */
     public static void main(String[] args) throws ParserConfigurationException, TransformerException {
         SmooksGenerator smooksGen = new SmooksGenerator();
-        smooksGen.createSmooks("SLC-Cohort", "Cohort", "cohort",
-                "InterchangeStudentCohort");
+        smooksGen.createSmooks("SLC-CalendarDate", "CalendarDate", "calendarDate",
+                "InterchangeEducationOrgCalendar");
     }
 
     public SmooksGenerator() {
@@ -296,7 +296,6 @@ public class SmooksGenerator {
 
     private void cacheComplexTypeData() {
         for (Entry<String, XmlSchemaComplexType> complexTypeEntry : complexTypes.entrySet()) {
-            String name = complexTypeEntry.getKey();
             ComplexTypeData complexData = new ComplexTypeData();
 
             // add the top level elements and attributes

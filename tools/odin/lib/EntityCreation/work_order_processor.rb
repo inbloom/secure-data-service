@@ -18,53 +18,40 @@ limitations under the License.
 
 require 'set'
 
-require_relative '../OutputGeneration/XML/studentParentInterchangeGenerator'
-require_relative '../OutputGeneration/XML/enrollmentGenerator'
-require_relative '../Shared/EntityClasses/student.rb'
-require_relative '../Shared/EntityClasses/studentSchoolAssociation.rb'
-require_relative '../Shared/EntityClasses/studentSectionAssociation.rb'
 require_relative 'student_work_order'
 
+# class for processing student work orders
 class WorkOrderProcessor
-
-  def initialize(interchanges)
-    @interchanges = interchanges
+  
+  def initialize(writer)
+    @data_writer = writer
   end
 
+  # builds the specified work order by calling its native 'build' method
   def build(work_order)
-    work_order.build(@interchanges)
+    work_order.build(@data_writer)
   end
 
-  def self.run(world,  scenarioYAML)
-    File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-      studentParent = StudentParentInterchangeGenerator.new(scenarioYAML, studentParentFile)
-      studentParent.start
-      File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-        enrollment = EnrollmentGenerator.new(scenarioYAML, enrollmentFile)
-        enrollment.start
-        interchanges = {:studentParent => studentParent, :enrollment => enrollment}
-        processor = WorkOrderProcessor.new(interchanges)
-        for work_order in gen_work_orders(world) do
-          processor.build(work_order)
-        end
-        enrollment.finalize
-      end
-      studentParent.finalize
+  # uses the input writer and a snapshot of the 'world' to generate student work orders
+  # -> data writer is used to initialize work order processor (for output of generated entities)
+  # -> world       is used to generate student work orders to be processed
+  def self.run(world,  writer)
+    processor = WorkOrderProcessor.new(writer)
+    for work_order in generate_work_orders(world) do
+      processor.build(work_order)
     end
   end
 
-  def self.gen_work_orders(world)
+  # uses the snapshot of the 'world' to generate student work orders
+  def self.generate_work_orders(world)
     next_student = 0
     Enumerator.new do |y|
       world.each{|_, edOrgs|
         edOrgs.each{|edOrg|
-          students = edOrg['students']
-          unless students.nil?
-            next_student = StudentWorkOrder.gen_work_orders(students, edOrg, next_student, y)
-          end
+          students     = edOrg['students']
+          next_student = StudentWorkOrder.generate_work_orders(students, edOrg, next_student, y) unless students.nil?
         }
       }
     end
   end
-
 end

@@ -251,7 +251,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
                 if (bin != null) {
                     bin.close();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 System.err.println(e);
             }
         }
@@ -406,7 +406,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
                 if (reader != null) {
                     reader.close();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 log.error(e.getMessage());
             }
         }

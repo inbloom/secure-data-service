@@ -30,7 +30,7 @@ Scenario: An admin creates a production account with a valid email, initial noti
 Given the prod testing user "peacefrog@slidev.org" does not already exists in LDAP
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
@@ -41,7 +41,7 @@ And I can update the "Tenant" field to "IL1212"
 And I can update the "EdOrg" field to "IL-DAYBREAK"
 
 When I click button "Save"
-#Then I am redirected to "Admin Account Management" page
+#Then I am redirected to "Manage Administrator Accounts" page
 Then a "Success" message is displayed 
 And a verify email notification is sent to user
 
