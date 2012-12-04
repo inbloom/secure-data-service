@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require_relative '../lib/EntityCreation/world_builder.rb'
+require_relative '../lib/OutputGeneration/XmlDataWriter.rb'
 require_relative '../lib/Shared/util.rb'
 
 # specifications for the world builder
@@ -25,11 +26,13 @@ describe "WorldBuilder" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
-        configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+        configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10students", configYAML)
-        rand = Random.new(configYAML['seed'])
-        builder = WorldBuilder.new
-        builder.build(rand, scenarioYAML)
+        rand         = Random.new(configYAML['seed'])
+        writer       = XmlDataWriter.new(scenarioYAML)
+        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
+        builder.build
+        writer.finalize
       end
 
       # before each test: refresh the file handle for the education organization interchange
@@ -76,11 +79,13 @@ describe "WorldBuilder" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
-        configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+        configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10001students", configYAML)
-        rand = Random.new(configYAML['seed'])
-        builder = WorldBuilder.new
-        builder.build(rand, scenarioYAML)
+        rand         = Random.new(configYAML['seed'])
+        writer       = XmlDataWriter.new(scenarioYAML)
+        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
+        builder.build
+        writer.finalize
       end
 
       # before each test: refresh the file handle for the education organization interchange
@@ -122,6 +127,30 @@ describe "WorldBuilder" do
       end
       it "master schedule interchange will contain the correct number of course offerings" do
         @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(172)
+      end
+    end
+  end
+  describe "choose_feeders" do
+    context "with 8 elementary schools, 4 middle schools, and 2 high schools" do
+      let(:elementary) {(1..8).map{|i| {'id' => i}}}
+      let(:middle) {(9..12).map{|i| {'id' => i}}}
+      let(:high) {(13..14).map{|i| {'id' => i}}}
+      before(:all) do
+        WorldBuilder.choose_feeders(elementary, middle, high)
+      end
+      it "will give middle schools a single feeder high school" do
+        middle.each{|i|
+          i['feeds_to'].should  have(1).items
+          i['feeds_to'][0].should satisfy {|i| 13 <= i and i <= 14}
+        }
+      end
+      it "will give elementary schools a feeder middle school and high school" do
+        puts elementary
+        elementary.each{|i|
+          i['feeds_to'].should  have(2).items
+          i['feeds_to'][0].should satisfy {|i| 9 <= i and i <= 12}
+          i['feeds_to'][1].should satisfy {|i| 13 <= i and i <= 14}
+        }
       end
     end
   end

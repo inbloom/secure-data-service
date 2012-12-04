@@ -30,9 +30,8 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   # initialization will define the header and footer for the education organization calendar interchange
   # writes header to education organization calendar interchange
   # leaves file handle open for event-based writing of ed-fi entities
-  def initialize
-    @interchange = File.new("generated/InterchangeEducationOrgCalendar.xml", 'w')
-    super(@interchange)
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
     @header, @footer = build_header_footer( "EducationOrgCalendar" )
 

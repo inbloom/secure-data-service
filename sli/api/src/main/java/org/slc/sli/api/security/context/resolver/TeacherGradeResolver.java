@@ -55,7 +55,7 @@ public class TeacherGradeResolver implements EntityContextResolver {
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> sectionIds = new ArrayList<String>();
+        List<String> sectionIds;
         if (!securityCache.contains(EntityNames.STUDENT_SECTION_ASSOCIATION)) {
             sectionIds = studentSectionResolver.findAccessible(principal);
         } else {

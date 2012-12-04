@@ -35,7 +35,6 @@ import org.slc.sli.dashboard.entity.util.ParentsSorter;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.ExecutionTimeLogger;
-import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity
@@ -137,7 +136,6 @@ public class EntityManager extends ApiClientManager {
      *            - the student id
      * @return student - the student entity
      */
-    @LogExecutionTime
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
         GenericEntity student = getStudent(token, studentId);
         if (student == null) {
@@ -172,8 +170,10 @@ public class EntityManager extends ApiClientManager {
             ParentsSorter.sort(parents);
         }
         
-        for (GenericEntity parentsContact : parents) {
-            ContactSorter.sort(parentsContact);
+        if (parents != null) {
+            for (GenericEntity parentsContact : parents) {
+                ContactSorter.sort(parentsContact);
+            }
         }
         
         student.put(Constants.ATTR_PARENTS, parents);
@@ -329,7 +329,7 @@ public class EntityManager extends ApiClientManager {
         GenericEntity section = cache.get(sectionId);
         if (section == null) {
             section = getApiClient().getSection(token, sectionId);
-            cacheThis(cache, sectionId, section);
+            cache.put(sectionId, section);
         }
         
         if (section == null) {
@@ -351,11 +351,11 @@ public class EntityManager extends ApiClientManager {
         GenericEntity teacher = null;
         if (teacherId != null && !teacherId.equals("empty")) {
             teacher = cache.get(teacherId);
-        }
-        
-        if (teacherId != null && !teacherId.equals("empty") && teacher == null) {
-            teacher = getApiClient().getTeacher(token, teacherId);
-            cacheThis(cache, teacherId, teacher);
+            
+            if (teacher == null) {
+                teacher = getApiClient().getTeacher(token, teacherId);
+                cache.put(teacherId, teacher);
+            }
         }
         
         if (teacher != null) {
@@ -383,7 +383,7 @@ public class EntityManager extends ApiClientManager {
         GenericEntity courseOffering = cache.get(courseOfferingId);
         if (courseOffering == null) {
             courseOffering = getCourseOffering(token, courseOfferingId);
-            cacheThis(cache, courseOfferingId, courseOffering);
+            cache.put(courseOfferingId, courseOffering);
         }
         
         if (courseOffering != null) {
@@ -394,7 +394,7 @@ public class EntityManager extends ApiClientManager {
                     course = cache.get(courseId);
                 } else {
                     course = getApiClient().getCourse(token, courseId);
-                    cacheThis(cache, courseId, course);
+                    cache.put(courseId, course);
                 }
                 
                 if (course != null) {
@@ -437,15 +437,18 @@ public class EntityManager extends ApiClientManager {
         // Navigate links to retrieve course and subject.
         List<String> sectionIds = new ArrayList<String>();
         
-        // collect section ids
-        for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
-            sectionIds.add(studentSectionAssociation.getString(Constants.ATTR_SECTION_ID));
-        }
+        List<GenericEntity> entities;
         
-        List<GenericEntity> entities = getApiClient().readEntityList(token, sectionIds, null,
-                SDKConstants.SECTIONS_ENTITY);
-        for (GenericEntity entity : entities) {
-            cache.put(entity.getId(), entity);
+        if (studentSectionAssociations != null) {
+            // collect section ids
+            for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
+                sectionIds.add(studentSectionAssociation.getString(Constants.ATTR_SECTION_ID));
+            }
+            
+            entities = getApiClient().readEntityList(token, sectionIds, null, SDKConstants.SECTIONS_ENTITY);
+            for (GenericEntity entity : entities) {
+                cache.put(entity.getId(), entity);
+            }
         }
         
         List<String> teacherIds = new ArrayList<String>(sectionIds.size());
@@ -636,30 +639,11 @@ public class EntityManager extends ApiClientManager {
             toReturn.add(toAdd);
         }
         
-        
         GenericEntity ge = new GenericEntity();
         ge.put(Constants.COURSES_AND_GRADES, toReturn);
-        
-        log.info(String.format("first: %s, repeat: %s", first, repeat));
         
         log.info("ending grades and courses");
         
         return ge;
     }
-    
-    private static int first = 0;
-    private static int repeat = 0;
-    
-    private void cacheThis(Map<String, GenericEntity> cache, String key, GenericEntity value) {
-        if (value == null) {
-            return;
-        }
-        if (cache.containsKey(value)) {
-            first++;
-        } else {
-            cache.put(key, value);
-            repeat++;
-        }
-    }
-    
 }

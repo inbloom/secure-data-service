@@ -30,4 +30,14 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<filter>
+		<filter-name>headers</filter-name>
+		<filter-class>org.slc.sli.sandbox.idp.controller.NoCacheHeadersInjector</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>headers</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 </web-app>

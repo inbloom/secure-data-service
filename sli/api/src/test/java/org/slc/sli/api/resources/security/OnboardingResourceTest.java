@@ -163,16 +163,6 @@ public class OnboardingResourceTest {
         assertEquals(Status.CREATED, Status.fromStatusCode(res.getStatus()));
     }
 
-    @Test
-    public void testNotAuthorized() {
-        injector.setEducatorContext();
-        Map<String, String> requestBody = new HashMap<String, String>();
-        requestBody.put(OnboardingResource.STATE_EDORG_ID, "TestOrg-NotAuthorized");
-        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
-        Response res = resource.provision(requestBody, null);
-        assertTrue(Status.fromStatusCode(res.getStatus()) == Status.FORBIDDEN);
-
-    }
 
 
 }

@@ -14,128 +14,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <PostalCode>00000</PostalCode>
     </Address>
   </StateEducationAgency>
-  <LocalEducationAgency>
-    <StateOrganizationId>locl-0000000004</StateOrganizationId>
-    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-    <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000005</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <School>
-    <StateOrganizationId>elem-0000000001</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>elem-0000000001</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <Address AddressType="Physical">
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
-    <GradesOffered>
-        <GradeLevel>Kindergarten</GradeLevel>
-        <GradeLevel>First grade</GradeLevel>
-        <GradeLevel>Second grade</GradeLevel>
-        <GradeLevel>Third grade</GradeLevel>
-        <GradeLevel>Fourth grade</GradeLevel>
-        <GradeLevel>Fifth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>Elementary School</SchoolCategory>
-    </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
-    <StateOrganizationId>midl-0000000002</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>midl-0000000002</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <Address AddressType="Physical">
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
-    <GradesOffered>
-        <GradeLevel>Sixth grade</GradeLevel>
-        <GradeLevel>Seventh grade</GradeLevel>
-        <GradeLevel>Eighth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>Middle School</SchoolCategory>
-    </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
-    <StateOrganizationId>high-0000000003</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>high-0000000003</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <Address AddressType="Physical">
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
-    <GradesOffered>
-        <GradeLevel>Ninth grade</GradeLevel>
-        <GradeLevel>Tenth grade</GradeLevel>
-        <GradeLevel>Eleventh grade</GradeLevel>
-        <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
   <Course>
     <CourseTitle>Kindergarten</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -850,4 +728,126 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000034</UniqueCourseId>
   </Course>
+  <LocalEducationAgency>
+    <StateOrganizationId>locl-0000000004</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>stte-0000000005</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  <School>
+    <StateOrganizationId>elem-0000000001</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>elem-0000000001</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <GradeLevel>First grade</GradeLevel>
+        <GradeLevel>Second grade</GradeLevel>
+        <GradeLevel>Third grade</GradeLevel>
+        <GradeLevel>Fourth grade</GradeLevel>
+        <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+  <School>
+    <StateOrganizationId>midl-0000000002</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>midl-0000000002</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+        <GradeLevel>Sixth grade</GradeLevel>
+        <GradeLevel>Seventh grade</GradeLevel>
+        <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Middle School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+  <School>
+    <StateOrganizationId>high-0000000003</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>high-0000000003</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+        <GradeLevel>Ninth grade</GradeLevel>
+        <GradeLevel>Tenth grade</GradeLevel>
+        <GradeLevel>Eleventh grade</GradeLevel>
+        <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
 </InterchangeEducationOrganization>

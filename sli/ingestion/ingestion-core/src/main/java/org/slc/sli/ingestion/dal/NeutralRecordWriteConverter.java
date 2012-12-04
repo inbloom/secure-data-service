@@ -75,7 +75,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         } else {
             uid = neutralRecord.getRecordId();
         }
-
+        
         Map<String, Object> localParentIds = neutralRecord.getLocalParentIds();
         if (localParentIds != null) {
             // The old ingestion id resolver code used fields with "." in the name. This will cause the

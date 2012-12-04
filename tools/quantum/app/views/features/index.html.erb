@@ -1,0 +1,20 @@
+<h3>Failed Test Leaderboard</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Feature Name</th>
+			<th>Component</th>
+			<th># Failures</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @features.each { |feature| %>
+		<tr>
+			<td><%=feature[:name]%></td>
+			<td><%=feature[:component]%></td>
+			<td><%=feature[:count]%></td>
+		</tr>
+	<% } %>
+	</tbody>
+</table>

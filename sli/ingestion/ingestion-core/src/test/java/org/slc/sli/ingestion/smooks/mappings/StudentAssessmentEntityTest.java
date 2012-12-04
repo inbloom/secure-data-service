@@ -24,17 +24,23 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -47,8 +53,18 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentAssessmentEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
+
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void mapEdfiXmlStudentAssessmentToNeutralRecordTest() throws IOException, SAXException {
@@ -67,7 +83,7 @@ public class StudentAssessmentEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiStudentAssessmentXml, recordLevelDeltaEnabledEntityNames);
+                        targetSelector, edfiStudentAssessmentXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidStudentAssessmentNeutralRecord(neutralRecord);
     }

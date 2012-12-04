@@ -727,7 +727,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         if (entity.isRestrictedForLogging()) {
             if (securityEventBuilder != null) {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
-                        uriInfo, "restricted entity \"" + entity.getResourceName() + "\" is accessed.");
+                        uriInfo.getRequestUri(), "restricted entity \"" + entity.getResourceName() + "\" is accessed.");
                 audit(event);
             } else {
                 warn("Cannot create security event, when restricted entity \"" + entity.getResourceName()
