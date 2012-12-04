@@ -23,6 +23,7 @@
       <module>ingestion-core</module>
       <module>ingestion-service</module>
       <module>ingestion-validation</module>
+      <module>ingestion-idrefresolver</module>
    </modules>
 
    <dependencyManagement>
