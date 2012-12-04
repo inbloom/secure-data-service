@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -102,12 +101,11 @@ public class ElasticSearchQueryConverter {
                     return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
                 }
                 String value = (String)criteria.getValue();
-                // query_string won't work for numerics
-                // should be selected from mapping
-                if (NumberUtils.isNumber(value)) {
-                	return terms.getQuery(criteria);
-                }
-				return QueryBuilders.queryString(value).analyzer("keyword").field(criteria.getKey());
+                BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
+                shouldQuery.should(terms.getQuery(criteria));
+                shouldQuery.should(QueryBuilders.matchPhraseQuery(criteria.getKey(), value));
+                shouldQuery.minimumNumberShouldMatch(1);
+                return shouldQuery;
             }
         };
         operationMap.put(NeutralCriteria.CRITERIA_IN, terms);
