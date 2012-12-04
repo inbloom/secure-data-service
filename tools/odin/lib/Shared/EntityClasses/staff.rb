@@ -16,23 +16,26 @@ limitations under the License.
 
 =end
 
-
+require 'yaml'
 
 require_relative 'baseEntity'
-class Parent < BaseEntity
+class Staff < BaseEntity
 
-  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
-                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
-                :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood
+  attr_accessor :id, :staffIdentificationCode, :identificationSystem, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
+                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino, :highestLevelOfEducationCompleted
   def initialize(id, year_of)
     @id = id
     @year_of = year_of
     @rand = Random.new(@id)
-    buildParent
+    buildStaff
   end
 
-  def buildParent
+  def buildStaff
     @sex = choose(@@demographics['sex'])
+    @staffIdentificationCode = @rand.rand(10000).to_s
+    @identificationSystem = choose(@@demographics['identificationSystem'])
+    @highestLevelOfEducationCompleted = choose(@@demographics['highestLevelOfEducationCompleted'])
+ 
     @prefix = sex == "Male?" ? "Mr" : "Ms"
     @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
     @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
@@ -47,10 +50,7 @@ class Parent < BaseEntity
     @postalCode = @@demographics['postalCode']
     @race = wChoose(@@demographics['raceDistribution'])
     @hispanicLatino = wChoose(@@demographics['hispanicLatinoDist'])
-    @economicDisadvantaged = wChoose(@@demographics['economicDisadvantaged'])
-    @limitedEnglish = wChoose(@@demographics['limitedEnglish'])
-    @disability = wChoose(@@demographics['disability'])
-    @schoolFood = wChoose(@@demographics['schoolFood'])
+
   end
 
 end

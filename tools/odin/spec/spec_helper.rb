@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'simplecov'
+require 'factory_girl'
 require 'yaml'
 
 SimpleCov.start do
@@ -57,6 +58,10 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 end
+
+
+
+FactoryGirl.find_definitions
 
 def get_spec_scenario
   { 'BATCH_SIZE' => 1 }

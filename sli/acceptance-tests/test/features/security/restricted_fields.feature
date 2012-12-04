@@ -35,3 +35,25 @@ Scenario: Rick Rogers querying on the restricted fields - incorrect values
   Given parameter "schoolFoodServicesEligibility" is "Reduced price"
   When I make an API call to get "<'MARVIN MILLER'>"
   Then I should receive a return code of 404
+
+Scenario: User with READ_RESTRICTED and not WRITE_RESTRICTED querying on the restricted fields
+  Given I am logged in using "rrogerslimitedwrite" "rrogerslimitedwrite1234" to realm "IL"
+  And parameter "economicDisadvantaged" is "true"
+  And parameter "schoolFoodServicesEligibility" is "Free"
+  When I make an API call to get "<'MARVIN MILLER'>"
+  Then I should receive a return code of 200
+  And I should see that "entityType" is "student" in the JSON response
+  And I should see that "economicDisadvantaged" is "true" in the JSON response
+  And I should see that "schoolFoodServicesEligibility" is "Free" in the JSON response
+
+Scenario: User with READ_RESTRICTED and not WRITE_RESTRICTED updating a restricted field
+  Given I am logged in using "rrogerslimitedwrite" "rrogerslimitedwrite1234" to realm "IL"
+  And parameter "economicDisadvantaged" is "true"
+  And parameter "schoolFoodServicesEligibility" is "Free"
+  When I make an API call to get "<'MARVIN MILLER'>"
+  Then I should receive a return code of 200
+  When I create request data out of the response
+  And I set parameter "economicDisadvantaged" to "false" 
+  And I make an API call to update the student "<'MARVIN MILLER'>"
+  Then I should receive a return code of 403
+
