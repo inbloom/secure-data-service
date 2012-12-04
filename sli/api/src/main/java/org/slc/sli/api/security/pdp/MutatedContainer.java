@@ -26,6 +26,7 @@ public class MutatedContainer {
     private String path;
     private String queryParameters;
     private InBoundHeaders headers;
+    boolean usePrincipleId;
 
     public MutatedContainer(String path, String queryParameters, InBoundHeaders headers) {
         this.path = path;
@@ -37,6 +38,12 @@ public class MutatedContainer {
         this.path = path;
         this.queryParameters = queryParameters;
         this.headers = null;
+    }
+
+    public MutatedContainer(String mutatedPathFormat, String mutatedParameter, boolean usePrincipleId) {
+        this.path = mutatedPathFormat;
+        this.queryParameters = mutatedParameter;
+        this.usePrincipleId = usePrincipleId;
     }
 
     public String getPath() {
@@ -56,6 +63,14 @@ public class MutatedContainer {
     }
     public void setHeaders(InBoundHeaders headers) {
         this.headers = headers;
+    }
+
+    public boolean isUsePrincipleId() {
+        return usePrincipleId;
+    }
+
+    public void setUsePrincipleId(boolean usePrincipleId) {
+        this.usePrincipleId = usePrincipleId;
     }
 
     @Override
