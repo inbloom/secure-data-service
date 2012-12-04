@@ -27,11 +27,6 @@ SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
 SEARCH_INDEXER_LOG="search-indexer.log"
 
 
-#Color
-BRed='\e[1;31m'
-BGreen='\e[1;32m'
-Color_off='\e[0m'
-
 function readOption {
    if [ ${1:0:2} == "-D" ]; then
       PROPERTY=`echo ${1:2} |cut -d'=' -f1`
@@ -68,6 +63,9 @@ function readOption {
          elif [ ${1} == "debug" ]; then
             RUN_START=1
             SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
+         elif [ ${1} == "restart" ]; then
+            RUN_STOP=1
+            RUN_START=1
          else
             SEARCH_INDEXER_COMMAND_OPTIONS="${SEARCH_INDEXER_COMMAND_OPTIONS} $1"
          fi
@@ -85,9 +83,9 @@ function isJavaReady {
       if [ ${CHECK_SLI_CONF} == 0 ]; then
          CHECK_SLI_CONF=${DEFAULT_CHECK_SLI_CONF}
       fi
-      echo -e "${BGreen}Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]${Color_off}"
+      echo "Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
       if [ ! -f ${CHECK_SLI_CONF} ]; then
-         echo -e "${BRed}File does not exit '${CHECK_SLI_CONF}'${Color_off}"
+         echo "File does not exit '${CHECK_SLI_CONF}'"
          return 0
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF}"
@@ -100,32 +98,32 @@ function isJavaReady {
       if [ ${CHECK_SLI_CONF} == 0 ]; then
          CHECK_SLI_CONF=${DEFAULT_CHECK_SLI_CONF}
       fi
-      echo -e "${BGreen}Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]${Color_off}"
+      echo "Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
       if [ ${CHECK_KEYSTORE} == 0 ]; then
          CHECK_KEYSTORE=${DEFAULT_CHECK_KEYSTORE}
       fi
-      echo -e "${BGreen}Reading default keyStore [${DEFAULT_CHECK_KEYSTORE}]${Color_off}"
+      echo "Reading default keyStore [${DEFAULT_CHECK_KEYSTORE}]"
       for FILE_LOCATION in "${CHECK_SLI_CONF}" "${CHECK_KEYSTORE}"
       do
          if [ ! -f ${FILE_LOCATION} ]; then
-            echo -e "${BRed}File does not exit: '${FILE_LOCATION}'${Color_off}"
+            echo "File does not exit: '${FILE_LOCATION}'"
             return 0
          fi
       done
       if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
          if [ ! -f ${DEFAULT_SEARCH_INDEXER_JAR} ];then
-            echo -e "${BRed}Please specify search_indexer.tar.gz${Color_off}"
+            echo "Please specify search_indexer.tar.gz"
             return 0;
          fi
       else
          if [ ! -f ${CHECK_SEARCH_INDEXER_TAR} ]; then
-            echo -e "${BRed}File [${CHECK_SEARCH_INDEXER_TAR}] does not exist${Color_off}"
+            echo "File [${CHECK_SEARCH_INDEXER_TAR}] does not exist"
             return 0
          fi
       fi
       INDEXER_LOCK=`dirname ${DEFAULT_SEARCH_INDEXER_JAR}`/data/indexer.lock
       if [ -f ${INDEXER_LOCK} ]; then
-         echo -e "${BRed}Lock file still exist [${INDEXER_LOCK}]${Color_off}"
+         echo "Lock file still exist [${INDEXER_LOCK}]"
          return 0
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF} -D${SLI_ENCRYPTION_KEYSTORE}=${CHECK_KEYSTORE}"
@@ -173,37 +171,42 @@ function show_help {
 function run {
    if [ ${RUN_HELP} == 1 ]; then
       show_help
-   elif [ ${RUN_STOP} == 1 ]; then
-      if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
-         echo -e "${BGreen}Stopping.... accessing port ${REMOTE_COMMAND_PORT}${Color_off}"
-         exec 3<>/dev/tcp/127.0.0.1/"${REMOTE_COMMAND_PORT}"
-		 echo "stop" >&3
-		 
-		 read -r msg_in <&3
-		 echo "$msg_in"
-      else
-         echo -e "${BRed}Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}${Color_off}"
+   else
+      if [ ${RUN_STOP} == 1 ]; then
+         if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
+            echo "Stopping.... accessing port ${REMOTE_COMMAND_PORT}"
+            echo stop | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
+            if [ ${RUN_START} == 1 ]; then
+               echo "Restarting..."
+               sleep 10
+            fi
+         else
+            echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
+         fi
       fi
-   elif [ ${RUN_EXTRACT} == 1 ]; then
-      if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
-
-         echo -e "${BGreen}Extracting.... accessing port ${REMOTE_COMMAND_PORT}${Color_off}"
-         exec 3<>/dev/tcp/127.0.0.1/"${REMOTE_COMMAND_PORT}"
-		 echo "extract sync" >&3
-		 
-		 read -r msg_in <&3
-		 echo "$msg_in"
-      else
-         echo -e "${BRed}Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}${Color_off}"
+      if [ ${RUN_START} == 1 ]; then
+         prepareJava
+         SEARCH_INDEXER_LOG_DIR=`dirname ${SEARCH_INDEXER_LOG}`
+         if [ -n ${SEARCH_INDEXER_LOG_DIR:=""} ]; then
+            if [ ! -d ${SEARCH_INDEXER_LOG_DIR} ]; then
+               mkdir -p ${SEARCH_INDEXER_LOG_DIR}
+            fi
+         fi
+         if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
+            echo java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS}
+            nohup java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS} >> ${SEARCH_INDEXER_LOG} 2>&1 &
+         else
+            echo java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}
+            nohup java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS} >> ${SEARCH_INDEXER_LOG} 2>&1 &
+         fi
       fi
-   elif [ ${RUN_START} == 1 ]; then
-      prepareJava
-      if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
-         echo java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS}
-         nohup java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS} >> ${SEARCH_INDEXER_LOG} 2>&1 &
-      else
-         echo java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}
-         nohup java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS} >> ${SEARCH_INDEXER_LOG} 2>&1 &
+      if [ ${RUN_EXTRACT} == 1 ]; then
+         if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
+            echo "Extracting.... accessing port ${REMOTE_COMMAND_PORT}"
+            echo extract sync | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
+         else
+            echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
+         fi
       fi
    fi
 }
