@@ -38,7 +38,7 @@ class Parent < BaseEntity
     @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
     @lastName = choose(@@demographics['lastNames'])
     @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
-    @birthDay = @year_of + @rand.rand(365)
+    @birthDay = (@year_of + @rand.rand(365)).to_s
     @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
     @loginId = email
     @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])

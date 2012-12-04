@@ -15,13 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-require 'mustache'
 
 require_relative "./EntityWriter"
 require_relative "./interchangeGenerator"
-require_relative "../../Shared/EntityClasses/student"
-require_relative '../../Shared/util'
-class StudentParentInterchangeGenerator < InterchangeGenerator
+require_relative "../../Shared/util"
+
+Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
+
+# event-based student parent interchange generator 
+class StudentParentGenerator < InterchangeGenerator
+
+  # initialization will define the header and footer for the student parent interchange
+  # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
 
@@ -29,6 +34,11 @@ class StudentParentInterchangeGenerator < InterchangeGenerator
     @writers[ Student ] = EntityWriter.new("students.mustache")
     @writers[ Parent ] = EntityWriter.new("parent.mustache")
     @writers[ StudentParentAssociation ] = EntityWriter.new("student_parent_association.mustache")
+  end
+
+  # creates and writes student to interchange
+  def create_student(id, birthday_after)
+    self << Student.new(id, birthday_after)
   end
 
 end
