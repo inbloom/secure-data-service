@@ -31,6 +31,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public final class MongoCommander {
 
     protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
 
-    private static boolean validIndex (String line) {
+    private static boolean validIndex(String line) {
         if (line.startsWith("#")) {
             return false;
         }
@@ -70,9 +71,9 @@ public final class MongoCommander {
 
         //Reading in all the indexes
         try {
-            while((currentLine = br.readLine()) != null) {
+            while ((currentLine = br.readLine()) != null) {
                 //skipping lines starting with #
-                if(validIndex(currentLine)) {
+                if (validIndex(currentLine)) {
                     indexes.add(currentLine);
                 }
             }
@@ -95,7 +96,7 @@ public final class MongoCommander {
             LOG.info("Ensuring {} indexes for {} db", indexes.size(), db);
             DB dbConn = mongoTemplate.getDb();
 
-            if(!dbConn.getName().equals(db)) {
+            if (!dbConn.getName().equals(db)) {
                 dbConn = dbConn.getSisterDB(db);
             }
 
@@ -126,7 +127,7 @@ public final class MongoCommander {
                     if (index.length == 2) {
                         //remove all the non visible characters from order string
                         order = Integer.parseInt(index[1].replaceAll("\\s", ""));
-                    } else if(index.length != 1) {
+                    } else if (index.length != 1) {
                         throw new IllegalStateException("Unexpected index order: "
                                 + indexTokens[i]);
                     }
@@ -139,9 +140,9 @@ public final class MongoCommander {
                 options.put("unique", unique);
                 options.put("ns", dbConn.getCollection(collection).getFullName());
 
-                try{
+                try {
                     dbConn.getCollection(collection).createIndex(keys, options);
-                } catch(Exception e) {
+                } catch (MongoException e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }
             }
@@ -161,13 +162,13 @@ public final class MongoCommander {
         DBObject listShardsCmd = new BasicDBObject("listShards", 1);
         CommandResult res = dbConn.command(listShardsCmd);
 
-        BasicDBList listShards = (BasicDBList)res.get("shards");
+        BasicDBList listShards = (BasicDBList) res.get("shards");
 
         //Only get shards for sharding mongo
-        if(listShards != null) {
+        if (listShards != null) {
             ListIterator<Object> iter = listShards.listIterator();
 
-            while(iter.hasNext()) {
+            while (iter.hasNext()) {
                 BasicDBObject shard = (BasicDBObject) iter.next();
                 shards.add(shard.getString("_id"));
             }
@@ -192,31 +193,31 @@ public final class MongoCommander {
     private static void moveChunks(String collection, List<String> shards, DB dbConn) {
         int numShards = shards.size();
 
-        if(numShards == 0) {
+        if (numShards == 0) {
             return;
         }
 
-        int charOffset = (int)Math.floor(256 / numShards);
+        int charOffset = (int) Math.floor(256 / numShards);
 
         List<String> moveStrings = new ArrayList<String>();
         moveStrings.add("00");
 
         CommandResult a;
         //caculate splits and add to the moves array
-        for(int shard = 1; shard <= numShards; shard++) {
+        for (int shard = 1; shard <= numShards; shard++) {
             String splitString;
-            if(shard == numShards) {
+            if (shard == numShards) {
                 splitString = " ";
             } else {
                 splitString = Integer.toHexString(charOffset * shard).toString();
             }
             moveStrings.add(splitString);
 
-            a = dbConn.command(buildSplitCommand( collection, splitString));
+            a = dbConn.command(buildSplitCommand(collection, splitString));
         }
 
         //explictly move chunks to each shard
-        for(int index = 0 ; index < numShards; index++) {
+        for (int index = 0; index < numShards; index++) {
             DBObject moveCommand = new BasicDBObject();
             moveCommand.put("moveChunk", collection);
             moveCommand.put("find", new BasicDBObject("_id", moveStrings.get(index)));
@@ -256,10 +257,10 @@ public final class MongoCommander {
 
         //Don't do anything if it is non-sharded
         if (shards.size() == 0) {
-            return ;
+            return;
         }
 
-        for(String coll : shardCollections) {
+        for (String coll : shardCollections) {
             String collection = dbName + "." + coll;
 
             DBObject shardColl = new BasicDBObject();
@@ -271,7 +272,7 @@ public final class MongoCommander {
 
             //explicitly add endpoint at beginning of range
             String startSplitString = " ";
-            dbConn.command(buildSplitCommand( collection, startSplitString));
+            dbConn.command(buildSplitCommand(collection, startSplitString));
 
             //explicitly add an end split at 'year + 1 + "a" '
             //since 'year + "z" ' potentially cuts off some records
