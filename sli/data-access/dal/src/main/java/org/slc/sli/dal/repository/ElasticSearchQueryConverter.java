@@ -81,7 +81,6 @@ public class ElasticSearchQueryConverter {
                 }
                 Object[] terms = getTermTokens(criteria.getValue());
                 if (terms.length > IN_LIMIT) {
-
                     BoolQueryBuilder bigQuery = QueryBuilders.boolQuery();
                     int length = terms.length, from = 0, to = Math.min(IN_LIMIT, length);
                     while (from <= length) {
@@ -94,8 +93,21 @@ public class ElasticSearchQueryConverter {
                 }
             }
         };
+        Operator match = new Operator() {
+            @Override
+            public FilterBuilder getFilter(NeutralCriteria criteria) {
+                return null;
+            }
+            @Override
+            public QueryBuilder getQuery(NeutralCriteria criteria) {
+                if (Q.equals(criteria.getKey())) {
+                    return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
+                }
+                return QueryBuilders.matchPhraseQuery(criteria.getKey(), criteria.getValue());
+            }
+        };
         operationMap.put(NeutralCriteria.CRITERIA_IN, terms);
-        operationMap.put(NeutralCriteria.OPERATOR_EQUAL, terms);
+        operationMap.put(NeutralCriteria.OPERATOR_EQUAL, match);
         operationMap.put("!=", new Operator() {
             @Override
             public FilterBuilder getFilter(NeutralCriteria criteria) {
@@ -103,7 +115,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                return QueryBuilders.boolQuery().mustNot(QueryBuilders.termsQuery(criteria.getKey(), getTermTokens(criteria.getValue())));
+                return QueryBuilders.boolQuery().mustNot(QueryBuilders.matchPhraseQuery(criteria.getKey(), criteria.getValue()));
             }
         });
         operationMap.put(NeutralCriteria.CRITERIA_LT, new Operator() {
