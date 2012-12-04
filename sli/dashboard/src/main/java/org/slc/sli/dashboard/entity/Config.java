@@ -148,7 +148,7 @@ public class Config implements Cloneable, Serializable {
             Item item;
             try {
                 item = (Item) this.clone();
-                item.items = ArrayUtils.clone( items );
+                item.items = ArrayUtils.clone(items);
             } catch (CloneNotSupportedException e) {
                 throw new DashboardException("Unable to clone items", e);
             }
@@ -344,7 +344,7 @@ public class Config implements Cloneable, Serializable {
         this.type = type;
         this.condition = condition;
         this.data = data;
-        this.items = ArrayUtils.clone( items );
+        this.items = ArrayUtils.clone(items);
         this.root = root;
         this.params = params;
     }

@@ -143,8 +143,8 @@ public class ConfigController extends GenericLayoutController {
     public String saveConfig(@RequestBody @Valid ConfigMap configMap) {
         try {
             putCustomConfig(configMap);
-        } catch (RuntimeException re) {
-            logger.error("Error saving config", re);
+        } catch (NullPointerException npe) {
+            logger.error("Error saving config", npe);
             return "Permission Denied";
         }
         return "Success";
@@ -194,8 +194,8 @@ public class ConfigController extends GenericLayoutController {
         try {
             String token = SecurityUtil.getToken();
             configManager.putCustomConfig(token, userEdOrgManager.getUserEdOrg(token), config);
-        } catch (RuntimeException re) {
-            logger.error("Error saving config", re);
+        } catch (NullPointerException npe) {
+            logger.error("Error saving config", npe);
             return "Permission Denied";
         }
         return "Success";
