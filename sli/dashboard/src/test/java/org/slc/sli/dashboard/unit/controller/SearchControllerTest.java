@@ -50,11 +50,6 @@ public class SearchControllerTest extends ControllerTestBase  {
 
     @Test
     public void testHandle() throws Exception {
-        // test good search
-        try {
-            Assert.assertNotNull(searchController.handle(new StudentSearch("M", "S", ""), request));
-        } catch (Exception e) {
-            Assert.fail("Should pass but getting " + e.getMessage());
-        }
+        Assert.assertNotNull(searchController.handle(new StudentSearch("M", "S", ""), request));
     }
 }

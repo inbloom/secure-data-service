@@ -57,7 +57,12 @@ public class ResourceEndPoint {
 
     @PostConstruct
     public void load() throws IOException {
-        loadNameSpace(getClass().getResourceAsStream("/wadl/v1_resources.json"));
+        InputStream is = getClass().getResourceAsStream("/wadl/v1_resources.json");
+        try {
+            loadNameSpace(is);
+        } finally {
+            is.close();
+        }
     }
 
     protected ApiNameSpace loadNameSpace(InputStream fileStream) throws IOException {

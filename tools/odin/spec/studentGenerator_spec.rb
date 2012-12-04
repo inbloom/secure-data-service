@@ -15,35 +15,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-require_relative 'spec_helper'
-require_relative '../lib/OutputGeneration/XML/studentParentInterchangeGenerator'
-require_relative '../lib/OutputGeneration/XML/validator'
+
 require 'factory_girl'
 
+require_relative 'spec_helper'
+require_relative '../lib/OutputGeneration/XML/studentParentGenerator'
+require_relative '../lib/OutputGeneration/XML/validator'
 
-describe 'StudentGenerator' do
+describe 'StudentParentGenerator' do
   let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudentParent.xml" ) }
   let(:interchange) { File.open( path, 'w')}
-  let(:generator) {StudentParentInterchangeGenerator.new(get_spec_scenario(), interchange)}
+  let(:generator) {StudentParentGenerator.new(get_spec_scenario(), interchange)}
   let(:student) {FactoryGirl.build(:student)}
   let(:parent) {FactoryGirl.build(:parent)}
   let(:spa) {FactoryGirl.build( :studentParentAssociation)}
+  
   describe '<<' do
     it 'will write a student to edfi' do
-
       generator.start()
       generator << student
       generator << parent
       generator << spa
-
       generator.finalize()
-
-     
-
       valid = validate_file( path )
-
       valid.should be true
-
     end
   end
 end
