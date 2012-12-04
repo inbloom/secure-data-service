@@ -131,8 +131,8 @@ class XmlDataWriter < DataWriter
   end
 
   # write calendar date to education organization calendar interchange
-  def create_calendar_date(date, event)
-    @education_org_calendar_writer.create_calendar_date(date, event)
+  def create_calendar_date(date, event, ed_org_id)
+    @education_org_calendar_writer.create_calendar_date(date, event, ed_org_id)
     increment_count(:calendar_date)
   end
 
