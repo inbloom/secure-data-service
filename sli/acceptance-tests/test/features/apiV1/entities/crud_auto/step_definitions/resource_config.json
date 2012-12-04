@@ -347,7 +347,7 @@
     },
     "naturalKey": {
       "learningStandardId": {
-        "identificationCode": "apiTestLearningStandard"
+        "identificationCode": "apiTestLearningStandard2"
       }
     }
   },
@@ -602,10 +602,10 @@
     },
     "naturalKey": {
       "objectiveId": {
-        "learningObjectiveId": "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
+        "learningObjectiveId": "df9165f2-65be-de27-a8ec-bec5f4b7577b"
       },
       "competencyLevel": {
-        "description": "really hard competency"
+        "description": "another really hard competency"
       },
       "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
     }
@@ -667,8 +667,8 @@
   },
   "competencyLevelDescriptor": {
     "POST": {
-      "description": "Herman tends to throw tantrums",
-      "codeValue": "Temper Tantrum 1",
+      "description": "Jake throws tantrums",
+      "codeValue": "Temper Tantrum 10",
       "performanceBaseConversion": "Basic"
     },
     "UPDATE": {
@@ -768,17 +768,17 @@
   "staffProgramAssociation": {
     "POST": {
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "programId": "cb292c7d-3503-414a-92a2-dc76a1585d79",
+      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-01-01",
-      "endDate": "2012-12-31"
+      "endDate": "2013-12-31"
     },
     "UPDATE": {
       "field": "endDate",
       "value": "2012-11-30"
     },
     "naturalKey": {
-      "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+      "staffId": "42424242-4242-4242-4242-424242424242",
+      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-01-01"
     },
     "context" : {
