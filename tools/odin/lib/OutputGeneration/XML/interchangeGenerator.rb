@@ -16,13 +16,20 @@ limitations under the License.
 
 =end
 
+require 'logger'
+
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
+# base class for ed-fi xml interchange generators
 class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
   def initialize(yaml, interchange)
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
+
     @interchange = interchange
     @batch_size = yaml['BATCH_SIZE']
     if @batch_size.nil?
@@ -33,21 +40,22 @@ class InterchangeGenerator
     @writers = Hash.new
     @header = ""
     @footer = ""
+    @log.info "initialized interchange generator using file handle: #{@interchange.path}"
   end
 
-  def start()
+  def start
     @interchange << @header
   end
 
   def <<(entity)
     @entities << entity
     if @entities.size >= @batch_size
-      renderBatch
+      render_batch
       @entities = []
     end
   end
 
-  def renderBatch
+  def render_batch
     split_entities = @entities.group_by( &:class )
 
     split_entities.each do |k, v|
@@ -55,15 +63,12 @@ class InterchangeGenerator
     end
   end
 
-  def finalize()
-    renderBatch
-
+  def finalize
+    render_batch
     @interchange << @footer
-    @interchange.flush()
     @interchange.close()
-
     elapsed = Time.now - @stime
-    puts "\t#@entityCount written in #{elapsed} seconds."
+    @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
   end
 
 end
