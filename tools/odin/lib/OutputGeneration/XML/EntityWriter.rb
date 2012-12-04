@@ -15,9 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 require 'mustache'
+
 require_relative './TemplateCache'
 
+# class for writing ed-fi entities
+# -> sub-class of mustache class (enumerates 'render' method for templating)
 class EntityWriter < Mustache
 
   def initialize(template_name)

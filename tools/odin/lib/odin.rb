@@ -29,8 +29,10 @@ require 'thwait'
 require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
+require_relative 'EntityCreation/work_order_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
-require_relative 'OutputGeneration/XML/studentParentInterchangeGenerator'
+require_relative 'OutputGeneration/DataWriter.rb'
+require_relative 'OutputGeneration/XmlDataWriter.rb'
 require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
@@ -49,18 +51,37 @@ class Odin
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
     scenarioYAML, prng = getScenario(scenario)
+    output             = scenarioYAML['DATA_OUTPUT']
 
-    Dir.mkdir('../generated') unless Dir.exists?('../generated')
+    if output == "xml"
+      @log.info "XML output specified --> Generating ed-fi xml interchanges."
+      writer = XmlDataWriter.new(scenarioYAML)
+    elsif output == "api"
+      @log.info "API output specified --> All data will be POSTed via API using host: <need hostname>"
+      # will need to create oauth token for POSTing data via API
+      # initialize api data writer
+    else
+      @log.info "No DATA_OUTPUT specified in scenario configuration --> Using in-memory store."
+      writer = DataWriter.new
+    end
 
-    time = Time.now
+    start = Time.now
     
-    # Create a snapshot of the world
-    edOrgs = WorldBuilder.new(prng, scenarioYAML).build
+    # create a snapshot of the world
+    edOrgs = WorldBuilder.new(prng, scenarioYAML, writer).build
     display_world_summary(edOrgs)
+
+    # begin POC
+    #WorkOrderBuilder.new(prng, scenarioYAML).generate_student_work_orders(edOrgs)
+    #puts "edOrgs: #{edOrgs}"
+    # end POC
 
     WorkOrderProcessor.run edOrgs, scenarioYAML
 
-    finalTime = Time.now - time
+    # write out any records that are still queued and close file handles
+    writer.finalize
+
+    finalTime = Time.now - start
     @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile

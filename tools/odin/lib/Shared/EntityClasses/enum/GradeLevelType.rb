@@ -115,7 +115,7 @@ class GradeLevelType
   end
 
   # overload the subtraction operator to move between the set of ordered grades
-  def self.decrement(grade, num_grades)
+  def self.decrement(grade, num_grades = 1)
     if grade == :KINDERGARTEN
       return grade
     end
@@ -128,7 +128,7 @@ class GradeLevelType
   end
 
   # overload the addition operator to move between the set of ordered grades
-  def self.increment(grade, num_grades)
+  def self.increment(grade, num_grades = 1)
     if grade == :TWELFTH_GRADE
       return grade
     end
