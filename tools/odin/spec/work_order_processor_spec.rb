@@ -144,7 +144,7 @@ describe "generate_work_orders" do
                   'middle' => [{'id' => 2, 'students' => {2011 => {:SEVENTH_GRADE => 5}, 2012 => {:EIGTH_GRADE => 5}}, 'sessions' => [{}]}],
                   'high' => [{'id' => 3, 'students' => {2011 => {:NINTH_GRADE => 5}, 2012 => {:TENTH_GRADE => 5}}, 'sessions' => [{}]}]}}
     
-    let(:work_orders) { WorkOrderProcessor.generate_work_orders world }
+    let(:work_orders) { WorkOrderProcessor.generate_work_orders world, {}}
 
     it "will create a work order for each student" do
       work_orders.count.should eq(20)
@@ -174,7 +174,7 @@ describe "generate_work_orders" do
 
     it "will lazily create work orders in finite time" do
       Timeout::timeout(5){
-        WorkOrderProcessor.generate_work_orders(world).take(100).length.should eq(100)
+        WorkOrderProcessor.generate_work_orders(world, {}).take(100).length.should eq(100)
       }
     end
   end
