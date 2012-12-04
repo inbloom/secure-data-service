@@ -372,6 +372,26 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
+    public void resolvesEdOrgRefDidInDisciplineIncidentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/disciplineIncident.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("stateOrganizationId", "testSchoolId");
+        checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
+    }
+
+    @Test
+    public void resolvesEdOrgRefDidInGradingPeriodCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/gradingPeriod.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("stateOrganizationId", "testEdOrgId");
+        checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
+    }
+
+    @Test
     public void resolvesEdOrgRefDidInGraduationPlanCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/graduationPlan.json");
         ErrorReport errorReport = new TestErrorReport();
