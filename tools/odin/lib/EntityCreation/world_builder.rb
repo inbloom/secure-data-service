@@ -202,11 +202,9 @@ class WorldBuilder
     student_counter            = 0
     while student_counter < total_num_students
       current_students = random_on_interval(min, max).round
-      school_counter  += 1
-      if current_students > (total_num_students - student_counter)        
-        current_students = (total_num_students - student_counter)
-      end
-      student_counter += current_students
+      school_counter   += 1
+      current_students = (total_num_students - student_counter) if current_students > (total_num_students - student_counter)
+      student_counter  += current_students
       
       edOrg              = Hash.new
       edOrg["id"]        = school_counter
@@ -253,9 +251,7 @@ class WorldBuilder
     while num_students > 0
       grades.each do |grade|
         current_students = random_on_interval(min, max)
-        if num_students < current_students
-          current_students = num_students
-        end
+        current_students = num_students if num_students < current_students
         students_per_grade[grade] += current_students
         num_students              -= current_students
       end
@@ -355,14 +351,14 @@ class WorldBuilder
     @log.info "Creating world from initial number of schools: #{num_schools}"
     # NOT CURRENTLY SUPPORTED
     # update structure with time information
-    add_time_information_to_edOrgs()
+    add_time_information_to_edOrgs
   end
 
   # creates sessions for each local education agency
   # -> uses 'beginYear' and 'numYears' properties specified in yaml configuration file (defaults to current year and 1, respectively, if not specified)
   # -> iterates from begin year to (begin year + num years), creating Sessions, Grading Periods, and Calendar Dates
   # -> each Session stores a date interval (contains start date, end date, number of instructional days, and holidays for that interval)
-  def add_time_information_to_edOrgs()
+  def add_time_information_to_edOrgs
     begin_year   = @scenarioYAML["beginYear"]
     num_years    = @scenarioYAML["numYears"]
     
@@ -507,11 +503,7 @@ class WorldBuilder
   def shuffle_students_forward
     grades          = GradeLevelType.get_ordered_grades.reverse
     kindergarteners = @breakdown[:TWELFTH_GRADE]
-    grades.each do |grade|
-      if grade != :TWELFTH_GRADE
-        @breakdown[GradeLevelType.increment(grade, 1)] = @breakdown[grade]
-      end
-    end
+    grades.each     { |grade| @breakdown[GradeLevelType.increment(grade, 1)] = @breakdown[grade] unless grade == :TWELFTH_GRADE }
     @breakdown[:KINDERGARTEN] = kindergarteners
   end
 
