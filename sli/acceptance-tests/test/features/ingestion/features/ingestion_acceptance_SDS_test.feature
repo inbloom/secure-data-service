@@ -546,7 +546,24 @@ Scenario: Verify references were resolved correctly
 	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.disciplineIncidentId					 | disciplineIncident						  |
 	| studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    				 | disciplineIncident						  |
 	#educationOrganization
-	| graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
+	| attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id 											 | body.schoolId                        		 | educationOrganization 					  |
+	| cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id 											 | body.educationOrgId                      	 | educationOrganization 					  |
+    | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id 											 | body.schoolId  								 | educationOrganization                      |
+  	| courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.schoolId                        		 | educationOrganization 					  |
+  	| disciplineAction                     | 9c4d62d9af758b3b7124836ffc75afd98a858c6b_id 											 | body.assignmentSchoolId              		 | educationOrganization 					  |
+    | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id 											 | body.responsibilitySchoolId          		 | educationOrganization 					  |
+    | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id 											 | body.schoolId                        		 | educationOrganization 					  |
+    | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                                        	 | body.parentEducationAgencyReference         	 | educationOrganization 					  |
+	| educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id 											 | body.parentEducationAgencyReference      	 | educationOrganization 					  |
+   	| gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id 											 | body.gradingPeriodIdentity.schoolId      	 | educationOrganization 					  |
+   	| graduationPlan                       | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
+    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id 											 | body.schoolId                            	 | educationOrganization 					  |
+    | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id 											 | body.schoolId                        		 | educationOrganization 					  |
+	| staffEducationOrganizationAssociation| 5a000d037de00063995e84fdc3d0f91d9afb4b65_id 											 | body.educationOrganizationReference  		 | educationOrganization 					  |
+    | studentCompetencyObjective           | 85aa230afd51cfbe761c883bc7694ebb0ba2f867_id 											 | body.educationOrganizationId         		 | educationOrganization 					  |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id  | body.educationOrganizationId 				 | educationOrganization 					  |
+	| studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id 											 | body.schoolId             					 | educationOrganization  					  |
+    | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id 											 | body.schoolId                       			 | educationOrganization 					  |
 	#grade
 	| reportCard							| 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id											 | body.grades									 | grade									  |
 	#gradebookEntry
