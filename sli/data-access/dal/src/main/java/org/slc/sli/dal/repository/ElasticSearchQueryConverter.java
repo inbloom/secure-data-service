@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -69,16 +70,13 @@ public class ElasticSearchQueryConverter {
                 return QueryBuilders.rangeQuery(criteria.getKey()).gte(criteria.getValue());
             }
         });
-        Operator terms = new Operator() {
+        final Operator terms = new Operator() {
             @Override
             public FilterBuilder getFilter(NeutralCriteria criteria) {
                 return FilterBuilders.termsFilter(criteria.getKey(), getTermTokens(criteria.getValue()));
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                if (Q.equals(criteria.getKey())) {
-                    return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
-                }
                 Object[] terms = getTermTokens(criteria.getValue());
                 if (terms.length > IN_LIMIT) {
                     BoolQueryBuilder bigQuery = QueryBuilders.boolQuery();
@@ -93,7 +91,7 @@ public class ElasticSearchQueryConverter {
                 }
             }
         };
-        Operator match = new Operator() {
+        final Operator query = new Operator() {
             @Override
             public FilterBuilder getFilter(NeutralCriteria criteria) {
                 return null;
@@ -103,11 +101,17 @@ public class ElasticSearchQueryConverter {
                 if (Q.equals(criteria.getKey())) {
                     return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
                 }
-                return QueryBuilders.matchPhraseQuery(criteria.getKey(), criteria.getValue());
+                String value = (String)criteria.getValue();
+                // query_string won't work for numerics
+                // should be selected from mapping
+                if (NumberUtils.isNumber(value)) {
+                	return terms.getQuery(criteria);
+                }
+				return QueryBuilders.queryString(value).analyzer("keyword").field(criteria.getKey());
             }
         };
         operationMap.put(NeutralCriteria.CRITERIA_IN, terms);
-        operationMap.put(NeutralCriteria.OPERATOR_EQUAL, match);
+        operationMap.put(NeutralCriteria.OPERATOR_EQUAL, query);
         operationMap.put("!=", new Operator() {
             @Override
             public FilterBuilder getFilter(NeutralCriteria criteria) {
@@ -115,7 +119,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                return QueryBuilders.boolQuery().mustNot(QueryBuilders.matchPhraseQuery(criteria.getKey(), criteria.getValue()));
+                return QueryBuilders.boolQuery().mustNot(query.getQuery(criteria));
             }
         });
         operationMap.put(NeutralCriteria.CRITERIA_LT, new Operator() {
