@@ -49,7 +49,7 @@ public class MongoCommanderTest {
     private DBCollection assessmentFamilyCollection = Mockito.mock(DBCollection.class);
     private DBCollection assessmentItem = Mockito.mock(DBCollection.class);
 
-    final private String dbName = "commanderTest";
+    private final String dbName = "commanderTest";
 
     private Set<String> shardCollections = new TreeSet<String>();
 
@@ -59,7 +59,7 @@ public class MongoCommanderTest {
 
 
     @Before
-    public void setup(){
+    public void setup() {
         shardCollections.add("assessment");
         shardCollections.add("assessmentFamily");
         shardCollections.add("assessmentItem");
