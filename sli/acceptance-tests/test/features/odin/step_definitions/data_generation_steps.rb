@@ -1,5 +1,4 @@
-#require 'mongo'
-#require 'json'
+require 'mongo'
 require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
 
@@ -15,10 +14,6 @@ end
 # STEPS: BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
 ############################################################
 Before do
-  #@conn = Mongo::Connection.new("127.0.0.1", 27017)
-  #assert(@conn != nil)
-  #@db = @conn.db("sli")
-  #assert(@db != nil)
   @at_working_path = Dir.pwd
   @odin_working_path = "#{File.dirname(__FILE__)}" + "/../../../../../../tools/odin/"
 end
@@ -52,8 +47,6 @@ end
 
 When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
   @zip_path = @gen_path + new_dir
-  #FileUtils.cp("#{@gen_path}*.xml", @zip_path)
-  #FileUtils.cp("#{@gen_path}*.ctl", @zip_path)
   Dir["#{@gen_path}*.xml"].each {|f| FileUtils.cp(f, @zip_path)}
   Dir["#{@gen_path}*.ctl"].each {|f| FileUtils.cp(f, @zip_path)}
 end
@@ -67,18 +60,6 @@ end
 
 Then /^I should see (.*?) has been generated$/ do |filename|
   raise "#{filename} does not exist" if !File.exist?("#{@gen_path}#{filename}")
-end
-
-Then /^for the student with ID <Id>, I see a highest ever score of <Score> for the <Assessment> assessment:$/ do |data|
-  runShellCommand("cd #{@odin_working_path}")
-end
-
-Then /^I see the expected number of <Collection> records with aggregates for <Assessment> is <Count>:$/ do |data|
-
-end
-
-Then /^East Daybreak Junior High has cut point <Cut> count <Count> for assessment <Assessment>:$/ do |data|
-
 end
 
 
