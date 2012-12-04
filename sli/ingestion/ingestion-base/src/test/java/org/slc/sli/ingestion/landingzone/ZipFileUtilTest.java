@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.BufferedInputStream;
@@ -30,6 +29,7 @@ import junit.framework.Assert;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,82 +51,76 @@ public class ZipFileUtilTest {
     private static final String ZIP_FILE_NAME = "DemoData.zip";
 
     @BeforeClass
-    public static void setup() {
+    public static void createZipFileDir() throws IOException, URISyntaxException {
         try {
-            FileUtils.forceMkdir(ZIP_FILE_DIR);
-            File ResourceZipFile = new File(Thread.currentThread().getContextClassLoader().getResource(ZIP_FILE_NAME).toURI());
-            FileUtils.copyFileToDirectory(ResourceZipFile, ZIP_FILE_DIR);
+            FileUtils.forceDelete(ZIP_FILE_DIR);
         } catch (IOException e) {
-            Assert.fail("Creation of zip file directory " + ZIP_FILE_DIR + " failed");
-        } catch (URISyntaxException e) {
-            Assert.fail("Access to resource zip file " + ZIP_FILE_NAME + " failed");
+            Assert.assertTrue(true);  // Do nothing.
         }
+
+        FileUtils.forceMkdir(ZIP_FILE_DIR);
+        File ResourceZipFile = new File(Thread.currentThread().getContextClassLoader().getResource(ZIP_FILE_NAME)
+                .toURI());
+        FileUtils.copyFileToDirectory(ResourceZipFile, ZIP_FILE_DIR);
     }
 
     @Test
-    public void testExtract() {
+    public void testExtract() throws IOException {
         // Verify file is zipped to correct extract target directory.
         File zipFile = new File(ZIP_FILE_DIR.getPath() + "/" + ZIP_FILE_NAME);
-        try {
-            File targetDir = ZipFileUtil.extract(zipFile);
-            Assert.assertTrue("Zip extraction directory " + targetDir.getPath() + " does not exist", targetDir.isDirectory());
-            ZipArchiveInputStream zipFileStrm = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
-            ArchiveEntry entry;
-            ArrayList<String> zipFileSet = new ArrayList<String>();
-            while ((entry = zipFileStrm.getNextEntry()) != null) {
-                zipFileSet.add(entry.getName());
-            }
-            String[] extractedFiles = targetDir.list();
-            ArrayList<String> extractedFileSet = new ArrayList<String>();
-            Collections.addAll(extractedFileSet, extractedFiles);
-            Collections.sort(zipFileSet);
-            Collections.sort(extractedFileSet);
-            Assert.assertTrue("Zipped files do not match extracted files in target directory " + targetDir.getPath(), extractedFileSet.equals(zipFileSet));
-        } catch (IOException e) {
-            Assert.fail("Extract of zip file " + zipFile.getPath() + " failed");
+        File targetDir = ZipFileUtil.extract(zipFile);
+        Assert.assertTrue("Zip extraction directory " + targetDir.getPath() + " does not exist",
+                targetDir.isDirectory());
+        ZipArchiveInputStream zipFileStrm = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(
+                zipFile)));
+        ArchiveEntry entry;
+        ArrayList<String> zipFileSet = new ArrayList<String>();
+        while ((entry = zipFileStrm.getNextEntry()) != null) {
+            zipFileSet.add(entry.getName());
         }
+        IOUtils.closeQuietly(zipFileStrm);
+        String[] extractedFiles = targetDir.list();
+        ArrayList<String> extractedFileSet = new ArrayList<String>();
+        Collections.addAll(extractedFileSet, extractedFiles);
+        Collections.sort(zipFileSet);
+        Collections.sort(extractedFileSet);
+        Assert.assertEquals("Zipped files do not match extracted files in target directory " + targetDir.getPath(),
+                extractedFileSet, zipFileSet);
     }
 
     @Test
-    public void testFindCtlFile() {
+    public void testFindCtlFile() throws IOException {
+        // Create a target directory containing extracted zip files (including control file).
         File zipFile = new File(ZIP_FILE_DIR.getPath() + "/" + ZIP_FILE_NAME);
-        try {
-            // Create a target directory containing extracted zip files (including control file).
-            File targetDir = new File(ZIP_FILE_DIR.getPath() + "/" + "FindCtlFileTest");
-            if (!targetDir.mkdir()) {
-                Assert.fail("Creation of target directory " + targetDir.getPath() + " failed");
-            }
-            ZipFileUtil.extract(zipFile, targetDir, true);
-
-            // Verify control file is correctly identified in target directory.
-            String ctlFilePath = new File(targetDir + "/MainControlFile.ctl").getPath();
-            File ctlFile = ZipFileUtil.findCtlFile(targetDir);
-            Assert.assertNotNull(ctlFilePath + " not found", ctlFile);
-            Assert.assertEquals("Found control file " + ctlFile.getPath() + " does not match expected file " + ctlFilePath, ctlFilePath, ctlFile.getPath());
-        } catch (IOException e) {
-            Assert.fail("Extract of zip file " + zipFile.getPath() + " failed");
+        File targetDir = new File(ZIP_FILE_DIR.getPath() + "/" + "FindCtlFileTest");
+        if (!targetDir.mkdir()) {
+            Assert.fail("Creation of target directory " + targetDir.getPath() + " failed");
         }
+
+        // Verify control file is correctly identified in target directory.
+        ZipFileUtil.extract(zipFile, targetDir, true);
+        String ctlFilePath = new File(targetDir + "/MainControlFile.ctl").getPath();
+        File ctlFile = ZipFileUtil.findCtlFile(targetDir);
+        Assert.assertNotNull(ctlFilePath + " not found", ctlFile);
+        Assert.assertEquals("Found control file " + ctlFile.getPath() + " does not match expected file " + ctlFilePath,
+                ctlFilePath, ctlFile.getPath());
     }
 
     @Test
-    public void testNotFindCtlFile() {
+    public void testNotFindCtlFile() throws IOException {
+        // Create a target directory containing no control files.
         File targetDir = new File(ZIP_FILE_DIR.getPath() + "/" + "NotFindCtlFileTest");
-        try {
-            // Create a target directory containing no control files.
-            if (!targetDir.mkdir()) {
-                Assert.fail("Creation of target directory " + targetDir.getPath() + " failed");
-            }
-
-            // Verify control file file is not found in target directory.
-            File ctlFile = ZipFileUtil.findCtlFile(targetDir);
-            Assert.assertNull("Control file exists in " + targetDir.getPath(), ctlFile);
-        } catch (IOException e) {
-            Assert.fail("Test for no control file in " + targetDir.getPath() + " failed");
+        if (!targetDir.mkdir()) {
+            Assert.fail("Creation of target directory " + targetDir.getPath() + " failed");
         }
+
+        // Verify control file file is not found in target directory.
+        File ctlFile = ZipFileUtil.findCtlFile(targetDir);
+        Assert.assertNull("Control file exists in " + targetDir.getPath(), ctlFile);
     }
 
     @AfterClass
-    public static void takedown() {
+    public static void deleteZipFileDir() {
         try {
             FileUtils.forceDelete(ZIP_FILE_DIR);
         } catch (IOException e) {
