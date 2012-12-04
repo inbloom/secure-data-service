@@ -5,11 +5,13 @@
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <GradingPeriod>
-        <GradingPeriodIdentity>
-            <GradingPeriod>First Six Weeks</GradingPeriod>
-            <SchoolYear>2010-2011</SchoolYear>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        </GradingPeriodIdentity>
+        <GradingPeriod>First Six Weeks</GradingPeriod>
+        <SchoolYear>2010-2011</SchoolYear>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
         <BeginDate>2010-08-22</BeginDate>
         <EndDate>2010-12-16</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>

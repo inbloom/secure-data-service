@@ -588,7 +588,7 @@
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="UniqueSectionCode" type="UniqueSectionCode"/>
+					<xs:element name="UniqueSectionCode" type="SLC-UniqueSectionCode"/>
 					<xs:element name="SequenceOfCourse">
 						<xs:simpleType>
 							<xs:restriction base="xs:int">
@@ -1802,7 +1802,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="UniqueSectionCode" type="UniqueSectionCode">
+			<xs:element name="UniqueSectionCode" type="SLC-UniqueSectionCode">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>uniqueSectionCode</sli:keyFieldName>
@@ -2135,6 +2135,15 @@
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
 			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-UniqueSectionCode">
+		<xs:annotation>
+			<xs:documentation>A unique identifier for the section, that is defined by the classroom, the subjects taught, and the instructors that are assigned.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="64"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
