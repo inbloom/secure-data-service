@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require_relative '../lib/EntityCreation/world_builder.rb'
+require_relative '../lib/OutputGeneration/XmlDataWriter.rb'
 require_relative '../lib/Shared/util.rb'
 
 # specifications for the world builder
@@ -25,11 +26,13 @@ describe "WorldBuilder" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
-        configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+        configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10students", configYAML)
-        rand = Random.new(configYAML['seed'])
-        builder = WorldBuilder.new(rand, scenarioYAML)
+        rand         = Random.new(configYAML['seed'])
+        writer       = XmlDataWriter.new(scenarioYAML)
+        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
         builder.build
+        writer.finalize
       end
 
       # before each test: refresh the file handle for the education organization interchange
@@ -76,11 +79,13 @@ describe "WorldBuilder" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
-        configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+        configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10001students", configYAML)
-        rand = Random.new(configYAML['seed'])
-        builder = WorldBuilder.new(rand, scenarioYAML)
+        rand         = Random.new(configYAML['seed'])
+        writer       = XmlDataWriter.new(scenarioYAML)
+        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
         builder.build
+        writer.finalize
       end
 
       # before each test: refresh the file handle for the education organization interchange
