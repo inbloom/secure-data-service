@@ -64,6 +64,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = PropLoader.getProps['landingzone_port']
  elsif human_readable_text == "TENANT"
   value = PropLoader.getProps['tenant']
+   elsif human_readable_text == "SANDBOX_TENANT"
+  value = PropLoader.getProps['sandbox_tenant']
  elsif human_readable_text == "CI_IDP_Redirect_URL"
    value = PropLoader.getProps["ci_idp_redirect_url"]
  elsif human_readable_text == "MATT SOLLARS UNIQUE ID"
