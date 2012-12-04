@@ -48,9 +48,6 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
  *
  */
 public final class SliDeltaManager {
-
-    private SliDeltaManager() { }
-
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
 

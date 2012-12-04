@@ -25,6 +25,7 @@ import javax.ws.rs.core.PathSegment;
 import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.spi.container.ContainerRequest;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -69,16 +70,16 @@ public class EndpointMutator {
 
         if (usingV1Api(segments)) {
             request.getProperties().put(REQUESTED_PATH, request.getPath());
-            MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
-            String newPath = mutated.getPath();
-            String newParameters = mutated.getQueryParameters();
+            Pair<String, String> mutated = uriMutator.mutate(segments, parameters, user.getEntity());
+            String newPath = mutated.getLeft();
+            String newParameters = mutated.getRight();
 
-            if (mutated.getHeaders() != null) {
+/*            if (mutated.getHeaders() != null) {
                 InBoundHeaders headers = new InBoundHeaders();
                 headers.putAll(request.getRequestHeaders());
                 headers.putAll(mutated.getHeaders());
                 request.setHeaders(headers);
-            }
+            }*/
 
             if (newPath != null) {
                 if (newParameters != null && !newParameters.isEmpty()) {
