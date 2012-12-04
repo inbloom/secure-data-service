@@ -96,12 +96,12 @@ public class UriMutator {
      *         to be rewritten.
      */
     public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
-
-        if (queryParameters == null) {
-            queryParameters = "";
+        String mutatedParameters = queryParameters;
+        if (mutatedParameters == null) {
+            mutatedParameters = "";
         }
 
-        Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
+        Map<String, String> parameters = MutatorUtil.getParameterMap(mutatedParameters);
         for (Pair<String, String> parameterResourcePair : PARAMETER_RESOURCE_PAIRS) {
             String parameter = parameterResourcePair.getLeft();
             String resource = parameterResourcePair.getRight();
@@ -121,23 +121,23 @@ public class UriMutator {
         }
 
         String mutatedPath = null;
-        String mutatedParameters = queryParameters;
+        mutatedParameters = queryParameters;
 
         if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
-            if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
+            if (!shouldSkipMutationToEnableSearch(segments, mutatedParameters)) {
                 Pair<String, String> mutated;
                 if (segments.size() == 1) {
                     // api/v1
-                    mutated = mutateBaseUri(ResourceNames.HOME, queryParameters, user);
+                    mutated = mutateBaseUri(ResourceNames.HOME, mutatedParameters, user);
                 } else {
-                    mutated = mutateBaseUri(segments.get(1).getPath(), queryParameters, user);
+                    mutated = mutateBaseUri(segments.get(1).getPath(), mutatedParameters, user);
                 }
                 mutatedPath = mutated.getLeft();
                 mutatedParameters = mutated.getRight();
             }
         } else {
-            Pair<String, String> mutated = mutateUriAsNecessary(segments, queryParameters, user);
+            Pair<String, String> mutated = mutateUriAsNecessary(segments, mutatedParameters, user);
             mutatedPath = mutated.getLeft();
             mutatedParameters = mutated.getRight();
         }
