@@ -65,7 +65,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                           |              count|
      | assessment                               |                  0|
      | attendance                               |                  0|
-     | calendarDate                             |                579|
+     | calendarDate                             |                580|
      | cohort                                   |                  0|
      | competencyLevelDescriptor                |                  0|
      | course                                   |                 34|
@@ -86,7 +86,7 @@ Then I should see following map of entry counts in the corresponding collections
      | program                                  |                  0|
      | reportCard                               |                  0|
      | schoolSessionAssociation                 |                  0|
-     | section                                  |                  0|
+     | section                                  |                 30|
      | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  3|
