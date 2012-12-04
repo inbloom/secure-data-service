@@ -54,7 +54,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.resources.generic.DefaultResource;
+import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -86,6 +89,10 @@ public class ApplicationResourceTest {
 
     @Autowired
     private ApplicationResource resource;
+
+    @Autowired
+    @Qualifier("unversionedResource")
+    private UnversionedResource unversionedResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -267,7 +274,7 @@ public class ApplicationResourceTest {
         toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
         String uuid = parseIdFromLocation(created);
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
-        created = resource.put(uuid, toGet, uriInfo);
+        created = unversionedResource.put(uuid, toGet, uriInfo);
         assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
@@ -310,7 +317,7 @@ public class ApplicationResourceTest {
         toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, "3333-3333-3333");
         String uuid = parseIdFromLocation(created);
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
-        created = resource.put(uuid, toGet, uriInfo);
+        created = unversionedResource.put(uuid, toGet, uriInfo);
         assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setAdminContextWithElevatedRights();
@@ -333,7 +340,7 @@ public class ApplicationResourceTest {
         toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
         String uuid = parseIdFromLocation(created);
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
-        created = resource.put(uuid, toGet, uriInfo);
+        created = unversionedResource.put(uuid, toGet, uriInfo);
         assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setAdminContextWithElevatedRights();
@@ -395,7 +402,7 @@ public class ApplicationResourceTest {
         EntityBody app = getNewApp();
         app.put(ApplicationResource.AUTHORIZED_ED_ORGS, "12341234");
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
-        Response updated = resource.put(uuid, app, uriInfo);
+        Response updated = unversionedResource.put(uuid, app, uriInfo);
         assertEquals(STATUS_NO_CONTENT, updated.getStatus());
     }
 

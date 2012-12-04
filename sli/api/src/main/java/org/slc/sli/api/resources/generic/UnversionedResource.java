@@ -17,11 +17,16 @@
 package org.slc.sli.api.resources.generic;
 
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jstokes
  */
+@Component("unversionedResource")
+@Scope("request")
 public class UnversionedResource extends DefaultResource {
+
     public UnversionedResource() {
         super.setOnePartTemplate(ResourceTemplate.UNVERSIONED_ONE_PART);
         super.setTwoPartTemplate(ResourceTemplate.UNVERSIONED_TWO_PART);
