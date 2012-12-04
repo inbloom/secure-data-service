@@ -17,7 +17,6 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -178,13 +177,5 @@ public final class SliDeltaManager {
 
             throw new NaturalKeyValidationException(message);
         }
-    }
-
-    private static String byteArray2Hex(final byte[] hash) {
-        Formatter formatter = new Formatter();
-        for (byte b : hash) {
-            formatter.format("%02x", b);
-        }
-        return formatter.toString();
     }
 }
