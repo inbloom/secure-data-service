@@ -100,8 +100,8 @@ public class DefaultUsersService {
      * @return
      */
     public DefaultUser getUser(String dataset, String userId) {
-        for(DefaultUser user : getUsers(dataset)){
-            if(user.getUserId().equals(userId)){
+        for (DefaultUser user : getUsers(dataset)) {
+            if (user.getUserId().equals(userId)) {
                 return user;
             }
         }
@@ -129,12 +129,11 @@ public class DefaultUsersService {
         }
         return users;
     }
+    
     private String readFile(String file) throws IOException {
-        InputStreamReader isr = null;
+        BufferedReader reader = null;
         try {
-            isr = new InputStreamReader(Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream(file));
-            BufferedReader reader = new BufferedReader(isr);
+            reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(file)));
             String line = null;
             StringBuilder stringBuilder = new StringBuilder();
             
@@ -144,8 +143,8 @@ public class DefaultUsersService {
             
             return stringBuilder.toString();
         } finally {
-            if (isr != null) {
-                isr.close(); 
+            if (reader != null) {
+                reader.close();
             }
         }
     }
@@ -155,8 +154,8 @@ public class DefaultUsersService {
      *
      */
     public static class Dataset {
-        String key;
-        String displayName;
+        private String key;
+        private String displayName;
         
         public Dataset(String key, String displayName) {
             this.key = key;
@@ -178,7 +177,7 @@ public class DefaultUsersService {
      * 
      */
     public static class DefaultUser {
-        String userId, name, role, association;
+        private String userId, name, role, association;
         
         public DefaultUser(String userId, String name, String role, String association) {
             this.userId = userId;

@@ -16,19 +16,14 @@ limitations under the License.
 
 =end
 
-require 'yaml'
+
+
 require_relative 'baseEntity'
-
 class Parent < BaseEntity
-  
-  class << self; attr_accessor :demographics end
-  @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")   
-  def self.demographics; @@demographics end
-  
-  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix, 
-                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
-                :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood          
 
+  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
+                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
+                :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood
   def initialize(id, year_of)
     @id = id
     @year_of = year_of
@@ -57,6 +52,5 @@ class Parent < BaseEntity
     @disability = wChoose(@@demographics['disability'])
     @schoolFood = wChoose(@@demographics['schoolFood'])
   end
-  
- 
+
 end

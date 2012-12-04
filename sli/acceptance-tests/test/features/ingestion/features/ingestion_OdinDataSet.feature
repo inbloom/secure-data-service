@@ -104,7 +104,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentDisciplineIncidentAssociation     |                  0|
      | studentParentAssociation                 |                  0|
      | studentProgramAssociation                |                  0|
-     | studentSchoolAssociation                 |                 10|
+     | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                  0|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
@@ -135,7 +135,7 @@ Scenario: Verify entities in education organization calendar were ingested corre
      | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2001-2002                                     | string               |
      | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2002-2003                                     | string               |
      | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2003-2004                                     | string               |
-     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | locl-0000000004                               | string               |
+     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | 42aaf7313c83453e0977f82dee426e6a51dd99a4_id   | string               |
      | gradingPeriod               | 1                   | body.beginDate                           | 2001-09-07                                    | string               |
      | gradingPeriod               | 1                   | body.beginDate                           | 2002-09-09                                    | string               |
      | gradingPeriod               | 1                   | body.beginDate                           | 2003-09-05                                    | string               |
@@ -155,4 +155,20 @@ Scenario: Verify entities in education organization calendar were ingested corre
      | calendarDate                | 1                   | body.date                                | 2003-09-05                                    | string               |
      | calendarDate                | 1                   | body.date                                | 2004-06-01                                    | string               |
      | calendarDate                | 0                   | body.date                                | 2004-06-02                                    | string               |
+     | student                     | 10                  | type                                     | student                                       | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 1                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 2                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 3                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 4                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 5                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 6                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 7                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 8                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 9                                             | string               |
+     | student                     | 1                   | body.studentUniqueStateId                | 10                                            | string               |
+     | student                     | 10                  | schools.entryDate                        | 2001-09-01                                    | string               |
+     | student                     | 3                   | schools.entryGradeLevel                  | Sixth grade                                   | string               |
+     | student                     | 6                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
+     | student                     | 1                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
+     | student                     | 10                  | schools.edOrgs                           | 42aaf7313c83453e0977f82dee426e6a51dd99a4_id   | string               |     
  

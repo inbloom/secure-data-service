@@ -32,6 +32,10 @@ public class BatchJobUtils2
             throw new RuntimeException(e);
         }
     }
+    
+    private BatchJobUtils2() {
+        
+    }
 
     public static String getHostAddress() {
         return localhost.getHostAddress();

@@ -15,13 +15,16 @@
  */
 package org.slc.sli.ingestion.util;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -43,44 +46,41 @@ public final class MongoCommander {
 
     protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
 
-    /**
-     * Executes mongo command
-     *
-     * @param db
-     *            the database name in mongo
-     * @param script
-     *            the name of the java script to be executed
-     * @param jsContent
-     *            javascript content to be evaluated before script execution
-     * @return
-     */
-    public static void exec(String db, String script, String jsContent) {
-        try {
-            URL scriptFile = Thread.currentThread().getContextClassLoader().getResource(script);
-            if (scriptFile != null) {
-                String path = (new File(scriptFile.getFile())).getPath();
-                String[] args = { "mongo", db, "--eval", jsContent, path };
+    private static boolean validIndex (String line) {
+        if (line.startsWith("#")) {
+            return false;
+        }
+        String[] indexTokens = line.split(",");
+        if (indexTokens.length < 3) {
+            return false;
+        }
 
-                LOG.info("Running process with args: {} {} {} {} {}", args);
-                ProcessBuilder pb = new ProcessBuilder(args);
-                Process pr = pb.start();
-                try {
-                    pr.waitFor();
-                } catch (InterruptedException e) {
-                    LOG.error(e.getMessage());
+        return true;
+    }
+
+    public static void ensureIndexes(String indexFile, String db, MongoTemplate mongoTemplate) {
+        InputStream indexesStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(indexFile);
+
+        DataInputStream in = new DataInputStream(indexesStream);
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+        Set<String> indexes = new TreeSet<String>();
+
+        String currentLine;
+
+        //Reading in all the indexes
+        try {
+            while((currentLine = br.readLine()) != null) {
+                //skipping lines starting with #
+                if(validIndex(currentLine)) {
+                    indexes.add(currentLine);
                 }
-                if (pr.exitValue() != 0) {
-                    LOG.error("Failed to execute the script " + script + " during tenant onboarding");
-                    throw new RuntimeException("Failed to execute the script " + script + " during tenant onboarding");
-                }
-            } else {
-                LOG.error("Failed to locate the script " + script + " during tenant onboarding");
-                throw new RuntimeException("Failed to locate the script " + script + " during tenant onboarding");
             }
         } catch (IOException e) {
-            LOG.error(e.getMessage());
-            throw new RuntimeException(e);
+            LOG.error("Failed to create index from {}", indexFile);
         }
+
+        ensureIndexes(indexes, db, mongoTemplate);
     }
 
     /**
@@ -117,12 +117,30 @@ public final class MongoCommander {
                 DBObject keys = new BasicDBObject();
 
                 for (int i = 2; i < indexTokens.length; i++) {
-                    keys.put(indexTokens[i], 1);
+                    String [] index = indexTokens[i].split(":");
+
+                    //default order of the index
+                    int order = 1;
+
+                    //If the key specifies order
+                    if (index.length == 2) {
+                        //remove all the non visible characters from order string
+                        order = Integer.parseInt(index[1].replaceAll("\\s", ""));
+                    } else if(index.length != 1) {
+                        throw new IllegalStateException("Unexpected index order: "
+                                + indexTokens[i]);
+                    }
+
+                    keys.put(index[0], order);
                 }
 
+                DBObject options = new BasicDBObject();
+                options.put("name", "idx_" + indexOrder);
+                options.put("unique", unique);
+                options.put("ns", dbConn.getCollection(collection).getFullName());
+
                 try{
-                    dbConn.getCollection(collection).resetIndexCache();
-                    dbConn.getCollection(collection).ensureIndex(keys, "idx_" + indexOrder, unique);
+                    dbConn.getCollection(collection).createIndex(keys, options);
                 } catch(Exception e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }

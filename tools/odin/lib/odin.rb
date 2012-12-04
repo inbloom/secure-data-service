@@ -17,8 +17,8 @@ limitations under the License.
 =end
 # Enable tailcall optimizations to reduce overall stack size.
 RubyVM::InstructionSequence.compile_option = {
-    :tailcall_optimization => true,
-    :trace_instruction => true
+  :tailcall_optimization => true,
+  :trace_instruction => true
 }
 
 require 'digest/md5'
@@ -37,7 +37,6 @@ require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
 require_relative 'Shared/EntityClasses/student'
-
 # offline data integration nexus --> ODIN
 class Odin
   def initialize
@@ -47,6 +46,8 @@ class Odin
   end
 
   def generate( scenario )
+
+    clean
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
@@ -89,7 +90,7 @@ class Odin
   end
 
   # displays brief summary of the world just created
-  def display_world_summary(world) 
+  def display_world_summary(world)
     @log.info "Summary of World:"
     @log.info " - state education agencies: #{world["seas"].size}"
     @log.info " - local education agencies: #{world["leas"].size}"
@@ -104,13 +105,19 @@ class Odin
     return valid
   end
 
+  ## Cleans the generated directory
+  def clean()
+    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f| File::delete f }
+
+  end
+
   # Generates a MD5 hash of the generated xml files.
   def md5()
     hashes = []
     Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
       hashes.push( Digest::MD5.hexdigest( f ))
     }
-    
+
     return Digest::MD5.hexdigest( hashes.to_s )
   end
 end
