@@ -26,8 +26,8 @@ Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load
 
 class EnrollmentGenerator < InterchangeGenerator
 
-  def initialize(interchange, batchSize)
-    super(interchange, batchSize)
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
 
     @header, @footer = build_header_footer( "StudentEnrollment" )
 
@@ -35,4 +35,13 @@ class EnrollmentGenerator < InterchangeGenerator
     @writers[StudentSectionAssociation] = EntityWriter.new("student_section_association.mustache")
   end
 
+  # writes student school association to student enrollment interchange
+  def create_student_school_association(student_id, school_id, year, grade)
+    self.<< StudentSchoolAssociation.new(student_id, school_id, year, grade)
+  end
+
+  # writes student section association to student enrollment interchange
+  def create_student_section_association(student_id, section_code, school_id, year, grade)
+    self.<< StudentSectionAssociation.new(student_id, {'id' => section_code}, school_id, year, grade)
+  end
 end

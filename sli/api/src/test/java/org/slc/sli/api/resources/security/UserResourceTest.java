@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -40,13 +41,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.ldap.LdapService;
-import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.resources.security.UserResource.RightToGroupMapper;
 import org.slc.sli.api.resources.security.UserResource.RoleToGroupMapper;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.ldap.LdapService;
+import org.slc.sli.common.ldap.User;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.security.core.GrantedAuthority;
@@ -99,7 +100,7 @@ public class UserResourceTest {
                 new HashSet<String>(Arrays.asList(EDORG1, EDORG2)));
         Mockito.when(secUtil.getTenantId()).thenReturn(TENANT); // need a tenant without
                                                                 // CRUD_SLC_OPERATOR.
-        Mockito.when(securityEventBuilder.createSecurityEvent(Mockito.anyString(), (UriInfo) Mockito.anyObject(), Mockito.anyString())).thenReturn(new SecurityEvent());
+        Mockito.when(securityEventBuilder.createSecurityEvent(Mockito.anyString(), (URI) Mockito.anyObject(), Mockito.anyString())).thenReturn(new SecurityEvent());
     }
 
     @Test

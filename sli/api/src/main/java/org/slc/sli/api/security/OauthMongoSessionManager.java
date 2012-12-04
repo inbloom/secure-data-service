@@ -122,7 +122,6 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             sessionEntity = repo.create(SESSION_COLLECTION, new HashMap<String, Object>());
             sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
             sessionEntity.getBody().put("hardLogout", System.currentTimeMillis() + this.hardLogout);
-            sessionEntity.getBody().put("tenantId", tenantId);
             sessionEntity.getBody().put("requestedRealmId", realmId);
             sessionEntity.getBody().put("appSession", new ArrayList<Map<String, Object>>());
         }

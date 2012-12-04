@@ -21,3 +21,6 @@ api/data
 api/src/main/resources/is_shards.js
 api/src/main/resources/sli-shard-presplit.js
 api/src/main/resources/sli_shards.js
+
+config/scripts/vendor/*
+config/scripts/.bundle/*

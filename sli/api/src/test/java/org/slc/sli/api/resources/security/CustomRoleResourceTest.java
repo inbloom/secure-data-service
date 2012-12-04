@@ -83,7 +83,7 @@ public class CustomRoleResourceTest {
     public void setUp() throws Exception {
         injector.setRealmAdminContext();
         MockitoAnnotations.initMocks(this);
-        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo("");
         Mockito.when(realmHelper.getAssociatedRealmId()).thenReturn(REALM_ID);
     }
 
@@ -232,7 +232,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.create(body)).thenReturn("new-role-id");
         
         
-        Response res = resource.createCustomRole(body, null);
+        Response res = resource.createCustomRole(body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_ROLE, res.getEntity());
     }
@@ -245,7 +245,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.create(body)).thenReturn("new-role-id");
         
         
-        Response res = resource.createCustomRole(body, null);
+        Response res = resource.createCustomRole(body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_RIGHT, res.getEntity());
     }
@@ -258,7 +258,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.create(body)).thenReturn("new-role-id");
         
         
-        Response res = resource.createCustomRole(body, null);
+        Response res = resource.createCustomRole(body, uriInfo);
         Assert.assertEquals(403, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_REALM, res.getEntity());
     }
@@ -271,7 +271,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.create(body)).thenReturn("new-role-id");
         
         
-        Response res = resource.createCustomRole(body, null);
+        Response res = resource.createCustomRole(body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS, res.getEntity());
     }
@@ -286,7 +286,7 @@ public class CustomRoleResourceTest {
         Mockito.when(repo.findOne(CustomRoleResource.RESOURCE_NAME, existingCustomRoleQuery)).thenReturn(mockEntity);
         mockGetRealmId();
 
-        Response res = resource.createCustomRole(getValidRoleDoc(), null);
+        Response res = resource.createCustomRole(getValidRoleDoc(), uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_MULTIPLE_DOCS, res.getEntity());
 

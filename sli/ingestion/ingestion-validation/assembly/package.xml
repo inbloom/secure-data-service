@@ -26,51 +26,58 @@
     <fileSet>
       <directory>${project.parent.basedir}/ingestion-validation/</directory>
       <outputDirectory>/OfflineValidationTool/ingestion-validation</outputDirectory>
-      <includes>
-        <include>assembly/zip.xml</include>
-        <include>src/**</include>
-      </includes>
+      <excludes>
+        <exclude>**/target/**</exclude>
+        <exclude>**/.*</exclude>
+        <exclude>**/.*/**</exclude>
+        <exclude>**/*IT.java</exclude>
+        <exclude>**/assembly/package.xml</exclude>
+        <exclude>**/assembly/pom-top.xml</exclude>
+      </excludes>
     </fileSet>
     <fileSet>
       <directory>${project.parent.basedir}/ingestion-base/</directory>
       <outputDirectory>/OfflineValidationTool/ingestion-base</outputDirectory>
-      <includes>
-        <include>src/**</include>
-      </includes>
+      <excludes>
+        <exclude>**/target/**</exclude>
+        <exclude>**/.*</exclude>
+        <exclude>**/.*/**</exclude>
+      </excludes>
     </fileSet>
     <fileSet>
-      <directory>${project.parent.parent.basedir}/edfi-schema/src/main/resources/</directory>
-      <outputDirectory>/OfflineValidationTool/edfi-schema/src/main/resources</outputDirectory>
-      <includes>
-        <include>edfiXsd/Ed-Fi-Core.xsd</include>
-        <include>edfiXsd-SLI/*</include>
-      </includes>
+      <directory>${project.parent.parent.basedir}/edfi-schema/</directory>
+      <outputDirectory>/OfflineValidationTool/edfi-schema/</outputDirectory>
+      <excludes>
+        <exclude>**/target/**</exclude>
+        <exclude>**/.*</exclude>
+        <exclude>**/.*/**</exclude>
+      </excludes>
     </fileSet>
-    
+
   </fileSets>
-  
+
   <files>
-  <file>
+<!--   <file>
     <source>${project.parent.basedir}/ingestion-validation/assembly/pom-ingestion-validation.xml</source>
     <outputDirectory>/OfflineValidationTool/ingestion-validation</outputDirectory>
     <destName>pom.xml</destName>
   </file>
-  <file>
+ -->  <file>
     <source>${project.parent.basedir}/ingestion-validation/assembly/pom-top.xml</source>
     <outputDirectory>/OfflineValidationTool/</outputDirectory>
     <destName>pom.xml</destName>
   </file>
-  <file>
+<!--   <file>
     <source>${project.parent.basedir}/ingestion-base/pom.xml</source>
     <outputDirectory>/OfflineValidationTool/ingestion-base</outputDirectory>
     <destName>pom.xml</destName>
   </file>
-  
-    <file>
+ -->
+<!--     <file>
     <source>${project.parent.parent.basedir}/edfi-schema/pom.xml</source>
     <outputDirectory>/OfflineValidationTool/edfi-schema</outputDirectory>
     <destName>pom.xml</destName>
   </file>
-  
+ -->
   </files>
 </assembly>

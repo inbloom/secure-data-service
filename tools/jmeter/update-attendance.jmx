@@ -110,7 +110,7 @@
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
-vars.put(&quot;schoolID&quot;, resp[0].id);
+vars.put(&quot;schoolID&quot;, resp.id);
 </stringProp>
           </BSFPostProcessor>
           <hashTree/>

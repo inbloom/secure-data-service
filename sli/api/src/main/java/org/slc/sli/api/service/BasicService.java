@@ -981,7 +981,7 @@ public class BasicService implements EntityService {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
                 } else {
                     String fieldPath = prefix + fieldName;
-                    Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                    Right neededRight = provider.getRequiredWriteLevel(defn.getType(), fieldPath);
                     debug("Field {} requires {}", fieldPath, neededRight);
 
                     if (neededRight == Right.WRITE_RESTRICTED) {
