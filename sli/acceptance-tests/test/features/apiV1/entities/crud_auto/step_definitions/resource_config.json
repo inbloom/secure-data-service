@@ -2,17 +2,12 @@
   "gradingPeriod": {
     "POST": {
       "gradingPeriodIdentity": {
-        "educationalOrgIdentity": [
-          {
-            "stateOrganizationId": "Daybreak Elementary School"
-          }
-        ],
-        "stateOrganizationId": "Daybreak Elementary School",
+        "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
         "gradingPeriod": "First Six Weeks",
         "schoolYear": "2011-2012"
       },
       "beginDate": "2012-07-01",
-      "endDate": "2012-07-31",
+      "endDate": "2013-07-31",
       "totalInstructionalDays": 20
     },
     "UPDATE": {
@@ -189,6 +184,9 @@
     "naturalKey": {
       "uniqueCourseId": "Chinese-2-10",
       "schoolId": "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+    },
+    "context": {
+      "schoolId" : "schools"
     }
   },
   "courseOffering": {
@@ -207,6 +205,11 @@
       "localCourseCode": "LCCGR102",
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+    },
+    "context" : {
+      "schoolId" : "schools",
+      "sessionId" : "sessions",
+      "courseId" : "courses"
     }
   },
   "disciplineAction": {
@@ -269,6 +272,9 @@
     "naturalKey": {
       "incidentIdentifier": "Incident ID YYY",
       "schoolId": "92d6d5a0-852c-45f4-907a-912752831772"
+    },
+    "context" : {
+      "schoolId" : "schools"
     }
   },
   "educationOrganization": {
@@ -402,7 +408,8 @@
     },
     "context": {
       "schoolId" : "schools",
-      "sessionId" : "sessions"
+      "sessionId" : "sessions",
+      "courseOfferingId":"courseOfferings"
   }
   },
   "session": {
@@ -411,7 +418,7 @@
       "schoolYear": "2011-2012",
       "term": "Spring Semester",
       "beginDate": "2012-01-01",
-      "endDate": "2012-06-31",
+      "endDate": "2013-06-31",
       "totalInstructionalDays": 80,
       "gradingPeriodReference": [
         "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
@@ -583,6 +590,9 @@
     "naturalKey": {
          "studentSectionAssociationId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
       "gradingPeriodId": "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
+    },
+    "context":{
+      "studebtSectionAssociationId":"studentSectionAssociations"
     }
   },
   "studentCompetency": {
@@ -608,7 +618,11 @@
         "description": "another really hard competency"
       },
       "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+    },
+    "context":{
+      "studebtSectionAssociationId":"studentSectionAssociations"
     }
+
   },
   "reportCard": {
     "POST": {
@@ -692,6 +706,9 @@
     },
     "naturalKey": {
       "studentCompetencyObjectiveId": "SCO-K-11"
+    },
+    "context": {
+      "educationOrganizationId": "schools"
     }
   },
   "courseTranscript": {
@@ -726,12 +743,12 @@
       "staffId": "04f708bc-928b-420d-a440-f1592a5d1073",
       "cohortId": "b408635d-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2010-01-15",
-      "endDate": "2012-03-29",
+      "endDate": "2013-03-29",
       "studentRecordAccess": true
     },
     "UPDATE": {
       "field": "endDate",
-      "value": "2012-03-30"
+      "value": "2013-03-30"
     },
     "naturalKey": {
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
@@ -748,11 +765,12 @@
       "staffReference": "04f708bc-928b-420d-a440-f1592a5d1073",
       "educationOrganizationReference": "92d6d5a0-852c-45f4-907a-912752831772",
       "staffClassification": "Counselor",
-      "beginDate": "2011-01-13"
+      "beginDate": "2011-01-13",
+      "endDate": "2013-12-12"
     },
     "UPDATE": {
       "field": "endDate",
-      "value": "2011-02-12"
+      "value": "2014-02-12"
     },
     "naturalKey": {
       "staffReference": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
@@ -761,8 +779,8 @@
       "beginDate": "2011-01-14"
     },
     "context" :{
-      "staffReference": "staff",
-      "educationOrganizationReference" : "educationOrganizations"
+      "staffReference": "teacherId",
+      "educationOrganizationReference" : "schools"
     }
   },
   "staffProgramAssociation": {
@@ -774,7 +792,7 @@
     },
     "UPDATE": {
       "field": "endDate",
-      "value": "2012-11-30"
+      "value": "2013-11-30"
     },
     "naturalKey": {
       "staffId": "42424242-4242-4242-4242-424242424242",
@@ -786,7 +804,7 @@
       "programId" : "programs"
     },
     "teacherAccess": {
-      "studentRecordAccess": "false"
+      "studentRecordAccess": true
     }
   },
   "studentAssessment": {
@@ -812,11 +830,11 @@
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
       "cohortId": "b408d88e-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-02-29",
-      "endDate": "2012-03-29"
+      "endDate": "2013-03-29"
     },
     "UPDATE": {
       "field": "endDate",
-      "value": "2012-04-04"
+      "value": "2013-04-04"
     },
     "naturalKey": {
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
@@ -841,7 +859,12 @@
     },
     "naturalKey": {
        "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378"
+    },
+    "context" : {
+      "studentId":"students",
+      "disciplineIncidentId":"disciplineIncidents"
     }
+
   },
   "studentParentAssociation": {
     "POST": {
@@ -856,6 +879,10 @@
     "naturalKey": {
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
       "parentId": "9b8f7237-ce8e-4dff-98cf-66535880987b"
+    },
+    "context" : {
+      "studentId":"students",
+      "parentId" : "parents"
     }
   },
   "studentProgramAssociation": {
@@ -863,13 +890,13 @@
       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
       "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-01-12",
-      "endDate": "2012-05-01",
+      "endDate": "2013-05-01",
       "reasonExited": "Refused services",
       "educationOrganizationId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
     },
     "UPDATE": {
       "field": "endDate",
-      "value": "2012-07-01"
+      "value": "2013-07-01"
     },
     "naturalKey": {
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
@@ -910,7 +937,7 @@
       "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234",
       "repeatIdentifier": "Repeated, counted in grade point average",
       "beginDate": "2011-12-01",
-      "endDate": "2012-01-01",
+      "endDate": "2013-01-01",
       "homeroomIndicator": true
     },
     "UPDATE": {

@@ -300,7 +300,6 @@ Then /^I perform POST for each resource available in the order defined by table:
   @context_hash = Hash.new
   table.hashes.each do |hash|
     resource = "/"+ hash["Entity Resource"]
-    puts resource
 #    assert(resource_list.delete(resource).nil? == false ,"Invalid entity")
     if resource_list.delete(resource).nil?
       $stderr.puts "RESOURCE NOT FOUND : #{resource}"
@@ -314,7 +313,6 @@ Then /^I perform POST for each resource available in the order defined by table:
         if val.include? "teacherId"
           @fields[key] = "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"
         else
-          puts "#{resource} == #{key} == #{val}"
           @fields[key] = @context_hash[val]["id"]
         end
       end
@@ -338,7 +336,7 @@ Then /^I perform POST for each resource available in the order defined by table:
     end
   end
 end
-Then /^I perform PUT,GET,Natural Key Update and DELETE for each resource available$/ do 
+Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do 
   resources.each do |resource|
     begin
       if @context_hash.has_key? resource[1..-1] == false
@@ -350,17 +348,34 @@ Then /^I perform PUT,GET,Natural Key Update and DELETE for each resource availab
       }
       @newId = @context_hash[resource[1..-1]]["id"]
       @fields = @context_hash[resource[1..-1]]["BODY"]
-      puts "#{resource[1..-1]} ==> #{@newId}"
-
-        get_resource resource
-        @fields[@updates['field']] = @updates['value']
-        steps %Q{
+      puts "#{resource}/#{@newId}"
+      get_resource resource
+      @fields[@updates['field']] = @updates['value']
+      steps %Q{
           When I navigate to PUT \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 204
-        }
-        update_natural_key resource
+      }
+      update_natural_key resource
+    rescue =>e
+      $stderr.puts "#{resource} => #{e}"
+    end
+  end
+end
+Then /^I perform DELETE for each resource availabel in the order defined by table:$/ do |table|
+ $stderr. puts "START DELETE************************************************"
+ table.hashes.each do |hash|
+    resource = "/"+ hash["Entity Resource"]
+    begin
+      if @context_hash.has_key? resource[1..-1] == false
+        next
+      end
+      resource_type = get_resource_type resource
+      steps %Q{
+          Given a valid entity json document for a \"#{resource_type}\"
+      }
+      @newId = @context_hash[resource[1..-1]]["id"]
+      @fields = @context_hash[resource[1..-1]]["BODY"]
       delete_resource resource
-      puts  "|#{get_resource_type(resource)}|"
     rescue =>e
       $stderr.puts "#{resource} => #{e}"
     end

@@ -85,14 +85,15 @@ Background: Nothing yet
       | staff                                   |
       | staffEducationOrgAssignmentAssociations |
       | sessions                                |
-      | sections                                |
       | students                                |
+      | courses                                  |
+      | courseOfferings                          |
+      | sections                                |
       | programs                                |
       | teachers                                |
       | assessments                              |
       | attendances                              |
       | cohorts                                  |
-      | courses                                  |
       | disciplineActions                        |
       | disciplineIncidents                      |
       | gradebookEntries                          |
@@ -111,7 +112,6 @@ Background: Nothing yet
       | staffProgramAssociations                 |
       | studentDisciplineIncidentAssociations    |
       | studentParentAssociations                |
-      | courseOfferings                          |
       | graduationPlans                          |
       | studentAcademicRecords                   |
       | studentGradebookEntries                   |
@@ -123,8 +123,50 @@ Background: Nothing yet
       | studentCompetencyObjectives              |
 
 
-      And I perform PUT,GET,Natural Key Update and DELETE for each resource available
-
+      And I perform PUT,GET and Natural Key Update for each resource available
+      And I perform DELETE for each resource availabel in the order defined by table:
+        | Entity Resource                         |
+        | studentCompetencyObjectives              |
+        | reportCards                              |
+        | gradingPeriods                           |
+        | studentCompetencies                       |
+        | grades                                   |
+        | courseTranscripts                        |
+        | studentGradebookEntries                   |
+        | studentAcademicRecords                   |
+        | graduationPlans                          |
+        | studentParentAssociations                |
+        | studentDisciplineIncidentAssociations    |
+        | staffProgramAssociations                 |
+        | competencyLevelDescriptor               |
+        | studentAssessments                       |
+        | staffCohortAssociations                  |
+        | studentSectionAssociations               |
+        | teacherSchoolAssociations                |
+        | studentSchoolAssociations                |
+        | teacherSectionAssociations               |
+        | studentCohortAssociations                |
+        | studentProgramAssociations               |
+        | parents                                  |
+        | learningStandards                        |
+        | learningObjectives                       |
+        | gradebookEntries                          |
+        | disciplineIncidents                      |
+        | disciplineActions                        |
+        | cohorts                                  |
+        | attendances                              |
+        | assessments                              |
+        | teachers                                |
+        | programs                                |
+        | sections                                |
+        | courseOfferings                          |
+        | courses                                  |
+        | students                                |
+        | sessions                                |
+        | staffEducationOrgAssignmentAssociations |
+        | staff                                   |
+        | schools                                 |
+        | educationOrganizations                 |
 
     Scenario: Get All Entities as School Teacher
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
