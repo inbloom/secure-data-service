@@ -29,7 +29,6 @@ require 'thwait'
 require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
-require_relative 'EntityCreation/work_order_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
 require_relative 'OutputGeneration/DataWriter.rb'
 require_relative 'OutputGeneration/XmlDataWriter.rb'

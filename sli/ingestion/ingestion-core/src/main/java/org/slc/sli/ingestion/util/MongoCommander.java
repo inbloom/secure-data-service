@@ -218,6 +218,7 @@ public final class MongoCommander {
                 splitString = Integer.toHexString(charOffset * shard);
             }
             moveStrings.add(splitString);
+            dbConn.command(buildSplitCommand(collection, splitString));
         }
 
         //explictly move chunks to each shard
@@ -226,6 +227,8 @@ public final class MongoCommander {
             moveCommand.put("moveChunk", collection);
             moveCommand.put("find", new BasicDBObject(ID, moveStrings.get(index)));
             moveCommand.put("to", shards.get(index));
+
+            dbConn.command(moveCommand);
         }
     }
 

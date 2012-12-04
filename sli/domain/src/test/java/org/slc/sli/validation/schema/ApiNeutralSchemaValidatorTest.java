@@ -24,6 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Any;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -60,10 +61,12 @@ public class ApiNeutralSchemaValidatorTest {
         // setup
         Entity mockEntity = Mockito.mock(Entity.class);
         NaturalKeyValidationException e = new NaturalKeyValidationException(null, null);
+        
+        String mockEntityType = "MockEntityType";
+        
+        when(mockEntity.getType()).thenReturn(mockEntityType);
 
-        when(mockEntity.getType()).thenReturn("SomeEntityType");
-
-        when(mockSchemaRepository.getSchema("SomeEntityType")).thenReturn(null);
+        when(mockSchemaRepository.getSchema(mockEntityType)).thenReturn(null);
 
         when(mockNaturalKeyExtractor.getNaturalKeyFields(mockEntity)).thenThrow(e);
 
