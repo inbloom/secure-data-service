@@ -61,7 +61,6 @@ end
 Then /^I should see that there are no teachers$/ do 
   table = @driver.find_element(:id, "simple-table")
   rows = table.find_elements(:xpath, ".//tr")
-  
   message = ""
   rows.each do |row|
     tds = row.find_elements(:xpath, ".//td")

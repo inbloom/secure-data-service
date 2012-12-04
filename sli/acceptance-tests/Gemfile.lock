@@ -102,6 +102,10 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
+    simplecov (0.6.4)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.5.3)
+    simplecov-html (0.5.3)
     spreadsheet (0.6.9)
       ruby-ole (>= 1.0)
     statsample (1.2.0)
@@ -147,6 +151,7 @@ DEPENDENCIES
   rspec
   rumbster
   selenium-webdriver
+  simplecov
   statsample
   stomp
   uuidtools

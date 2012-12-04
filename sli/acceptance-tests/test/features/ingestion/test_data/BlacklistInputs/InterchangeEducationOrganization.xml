@@ -35,7 +35,7 @@
   </LocalEducationAgency>
 
   <Course>
-    <CourseTitle>Club/Team onload</CourseTitle>
+    <CourseTitle>Club/Team .fromCharCode</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Club/Team</ID>
@@ -54,7 +54,7 @@
 			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
-    <UniqueCourseId>Club/Team-onload-1</UniqueCourseId>
+    <UniqueCourseId>Club/Team-.fromCharCode-1</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>CourseWithRelaxedBlacklist</CourseTitle>

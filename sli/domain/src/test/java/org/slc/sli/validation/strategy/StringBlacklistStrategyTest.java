@@ -43,21 +43,21 @@ public class StringBlacklistStrategyTest {
 
     @Autowired
     private AbstractBlacklistStrategy stringBlacklistStrategy;
-    
+
     @Autowired
     private AbstractBlacklistStrategy relaxedStringBlacklistStrategy;
 
     @Test
-    public void testBlacklisting() {
+    public void testRelaxedBlacklisting() {
         List<String> badStringList = createBadRelaxedStringList();
         runTestLoop(badStringList, relaxedStringBlacklistStrategy, false);
 
         List<String> goodStringList = createGoodStringList();
         runTestLoop(goodStringList, relaxedStringBlacklistStrategy, true);
     }
-    
+
     @Test
-    public void testRelaxedBlacklisting() {
+    public void testBlacklisting() {
         List<String> badStringList = createBadStringList();
         runTestLoop(badStringList, stringBlacklistStrategy, false);
 
@@ -68,7 +68,7 @@ public class StringBlacklistStrategyTest {
     private void runTestLoop(List<String> inputList, AbstractBlacklistStrategy strategy, boolean shouldPass) {
         for (String s : inputList) {
             String input = PREFIX + s + SUFFIX;
-            boolean isValid = strategy.isValid("CharacterBlacklistStrategyTest", input);
+            boolean isValid = strategy.isValid("StringBlacklistStrategyTest", input);
             if (shouldPass) {
                 assertTrue("Valid string did not pass validation: " + s, isValid);
             } else {
@@ -82,9 +82,11 @@ public class StringBlacklistStrategyTest {
         stringList.add("script");
         stringList.add("img");
         stringList.add("src");
+        stringList.add("FSCommand =");
+        stringList.add("FSCommand=");
         return stringList;
     }
-    
+
     private List<String> createBadRelaxedStringList() {
         List<String> stringList = new ArrayList<String>();
         stringList.add("<script");
@@ -99,6 +101,7 @@ public class StringBlacklistStrategyTest {
         stringList.add("list");
         stringList.add("of");
         stringList.add("strings");
+        stringList.add("FSCommand");
         return stringList;
     }
 

@@ -51,6 +51,7 @@ Then /^I see all of the applications that are registered to SLI$/ do
 end
 
 Then /^application "([^"]*)" does not have an edit link$/ do |app|
+# TODO: canidate for lowering timeout temporarly to improve performance
   appsTable = @driver.find_element(:id, "applications")
   edit = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/a[text()='Edit']")
   assert(edit.length == 0, "Should not see an edit link")
@@ -68,6 +69,7 @@ Then /^I see all the applications pending registration$/ do
   assert(trs.length == 1, "Should see a pending application")
 end
 
+# for slcoperator
 Then /^application "([^"]*)" is pending approval$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
@@ -98,18 +100,27 @@ Then /^the pending apps are on top$/ do
   end
 end
 
-
+# For slcoperator
 When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Approve']")[0]
-  assert(y_button != nil, "Found Y button")
+  y_button  = appsTable.find_element(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")
+  assert(y_button != nil, "Did not find the approve button")
   y_button.click
 end
 
+# For developer
+When /^I click on 'In Progress' next to application "([^"]*)"$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='In Progress']")
+  assert(y_button != nil, "Did not find the 'In Progress' button")
+  y_button.click
+end
+
+# For slcoperator
 When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Deny']")[0]
-  assert(y_button != nil, "Found X button")
+  y_button  = appsTable.find_element(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Deny']")
+  assert(y_button != nil, "Did not find the deny button")
   y_button.click
 end
 
@@ -117,10 +128,12 @@ Then /^I get a dialog asking if I want to continue$/ do
   @driver.switch_to.alert
 end
 
+# For slcoperator
 Then /^application "([^"]*)" is registered$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='APPROVED']")
-  assert(trs.length > 0, "No more pending applications")
+  assertWithWait("Could not find app #{app} in approved state") {
+    appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='APPROVED']").length > 0
+  }
 end
 
 Then /^application "([^"]*)" is not registered$/ do |app|
@@ -128,6 +141,7 @@ Then /^application "([^"]*)" is not registered$/ do |app|
 end
 
 Then /^application "([^"]*)" is removed from the list$/ do |app|
+# TODO: canidate for lowering timeout temporarly to improve performance
   assertWithWait("Shouldn't see a NewApp") {
 	@driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
   }
@@ -233,7 +247,7 @@ end
 Then /^the client ID and shared secret fields are present$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
-  puts client_id
+  puts "client_id: " + client_id
   assert(client_id != '', "Expected non empty client Id, got #{client_id}")
   assert(client_id != 'Pending', "Expected non 'Pending' client Id, got #{client_id}")
 end
@@ -318,7 +332,7 @@ When /^I click 'Yes'$/ do
 end
 
 Then /^the application named "([^"]*)" is removed from the SLI$/ do |arg1|
-    assertWithWait("Shouldn't see a NewApp") {!@driver.find_element(:xpath, "//tr[2]").attribute('id') != @id}
+  assertWithWait("Shouldn't see the app #{arg1}") {@driver.find_elements(:xpath, "//tr/td[text()='#{arg1}']").size == 0}
 end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do

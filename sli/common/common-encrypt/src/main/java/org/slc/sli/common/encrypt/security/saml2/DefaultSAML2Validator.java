@@ -58,7 +58,6 @@ import javax.xml.crypto.dsig.keyinfo.X509Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -78,7 +77,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
 
     private DOMValidateContext valContext;
 
-    private static final String REGEX = "^https?://@domain(:\\d+)?/.+";
+    private static final String REGEX = "^https?://@domain(:\\d+)?.*";
     /**
      * Pulls the <Signature> tag from the SAML assertion document.
      *
@@ -212,7 +211,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
         String subject = getSubjectFromCertificate(certificate);
         boolean verdict=false;
 		if (subject != null) {
-			String regexp = REGEX.replace("@domain", subject.replace(".","\\.")).replaceAll("\\*", ".+");
+			String regexp = REGEX.replace("@domain", subject.replace(".","\\.").replace("*", "[\\w-]+"));
 			verdict = issuer.matches(regexp);
 		}
 		
