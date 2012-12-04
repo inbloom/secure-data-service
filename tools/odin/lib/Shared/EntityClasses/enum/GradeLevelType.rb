@@ -116,28 +116,24 @@ class GradeLevelType
 
   # overload the subtraction operator to move between the set of ordered grades
   def self.decrement(grade, num_grades)
-    if grade == :KINDERGARTEN
-      return grade
-    end
-    ordered = GradeLevelType.get_ordered_grades
-    current = ordered.index(grade)
-    if current != nil
-      return ordered.fetch(current - num_grades)
-    end    
-    return grade
+    increment(grade, -num_grades)
   end
 
   # overload the addition operator to move between the set of ordered grades
   def self.increment(grade, num_grades)
-    if grade == :TWELFTH_GRADE
-      return grade
-    end
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil
-      return ordered.fetch(current + num_grades)
+      new_grade = current + num_grades
+      case
+      when new_grade < 0
+        nil
+      when new_grade > 12
+        nil
+      else ordered[new_grade]
+      end
+    else grade
     end
-    return grade
   end
 
   # return what type of school offers this grade

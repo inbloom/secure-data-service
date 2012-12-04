@@ -18,7 +18,6 @@ limitations under the License.
 
 
 require 'test_helper'
-require "mocha"
 require 'approval'
 
 class UserAccountValidationTest < ActiveSupport::TestCase

@@ -43,7 +43,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  * Container format to store any type of Ingestion data generically.
  *
  */
-public class NeutralRecord {
+public class NeutralRecord implements Cloneable {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -154,6 +154,7 @@ public class NeutralRecord {
         this.recordId = recordId;
     }
 
+        
     /**
      * @param localId
      *            the localId to set
@@ -454,4 +455,24 @@ public class NeutralRecord {
         }
     }
 
+    /*
+     * Clone, e.g. for the DiD calculation needs
+     * 
+     *  @return The cloned object, taking care to handle composite members such as maps.
+     * 
+     */
+    @Override
+    public Object clone() {
+    	NeutralRecord result = null;
+    	try {
+    		result = (NeutralRecord) super.clone();
+    		result.localParentIds = (HashMap<String, Object>) ((HashMap<String, Object>) this.localParentIds).clone();
+    		result.attributes = (HashMap<String, Object>) ((HashMap<String, Object>) this.attributes).clone();
+    		result.metaData = (HashMap<String, Object>) ((HashMap<String, Object>) this.metaData).clone();
+    	}
+    	catch ( CloneNotSupportedException e ) {
+    		result = null;
+    	}
+  		return result;
+    }
 }

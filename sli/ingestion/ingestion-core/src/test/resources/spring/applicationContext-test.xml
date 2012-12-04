@@ -40,8 +40,8 @@
   <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
   <import resource="idRefResolution-context.xml" />
+  <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
-
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
     /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->
@@ -133,14 +133,6 @@
     <property name="neutralRecordAccess" ref="dummyNeutralRecordAccess" />
   </bean>
 
-
-    <mongo:db-factory id="testMongoFactory" dbname="commanderTest" host="${sli.mongodb.host}"
-    port="${sli.mongodb.port}" />
-
-  <bean id="testMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
-    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="testMongoFactory" />
-  </bean>
-  
   <util:set id="testIndexes" set-class="java.util.TreeSet">
     <!-- (collection,unique,indexKeys ...) -->
     <!-- creationTime indexes for all collections -->
