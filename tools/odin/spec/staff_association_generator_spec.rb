@@ -40,14 +40,14 @@ require 'factory_girl'
 describe 'StaffAssociationInterchangeGenerator' do
   let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStaffAssociation.xml" ) }
   let(:interchange) { File.open( path, 'w')}
-  let(:generator) {StaffAssociationInterchangeGenerator.new(interchange, 1)}
+  let(:generator) {StaffAssociationInterchangeGenerator.new(get_spec_scenario(), interchange)}
   let(:staff) {FactoryGirl.build(:staff)}
 
   describe '<<' do
     it 'will write a staff to edfi' do
 
       generator.start()
-      puts staff.to_yaml
+      
       generator << staff
 
       generator.finalize()
