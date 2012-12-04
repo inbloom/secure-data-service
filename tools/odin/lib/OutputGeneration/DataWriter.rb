@@ -18,7 +18,7 @@ limitations under the License.
 
 require 'logger'
 
-Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
+Dir["#{File.dirname(__FILE__)}/../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
 # base class for data writers to inherit
 # -> keeps all entities written in memory
@@ -66,7 +66,7 @@ class DataWriter
   end
 
   # create program and store in memory
-  def create_program(rand, id)
+  def create_program(prng, id)
     initialize_entity(:program)
     @entities[:program] << Program.new(id.to_s, prng)
     increment_count(:program)
@@ -181,6 +181,12 @@ class DataWriter
   # get counts for all entities --> return counts hash
   def get_counts_for_all_entities
     @counts
+  end
+
+  # clear entity and count hash
+  def finalize
+    @entities.clear
+    @counts.clear
   end
 
 end
