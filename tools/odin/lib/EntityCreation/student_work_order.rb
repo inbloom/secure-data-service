@@ -18,8 +18,9 @@ limitations under the License.
 
 # student work order factory creates student work orders
 class StudentWorkOrderFactory
-  def initialize(world, section_factory)
+  def initialize(world, scenario, section_factory)
     @world = world
+    @scenario = scenario
     @section_factory = section_factory
     @next_id = 0
   end
@@ -33,7 +34,7 @@ class StudentWorkOrderFactory
       initial_grade_breakdown.each{|grade, num_students|
         (1..num_students).each{|_|
           student_id = @next_id += 1
-          yielder.yield StudentWorkOrder.new(student_id, initial_grade: grade, 
+          yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade,
                                              initial_year: initial_year, edOrg: edOrg,
                                              section_factory: @section_factory)
         }
@@ -55,6 +56,7 @@ class StudentWorkOrder
     @initial_year = (opts[:initial_year] or 2011)
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
     @section_factory = opts[:section_factory]
+    @scenario = opts[:scenario]
   end
 
   def build(writer)
