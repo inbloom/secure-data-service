@@ -49,4 +49,10 @@ FactoryGirl.define do
     initialize_with { new(52, 42, rand) }
     primaryContactStatus true
   end
+  
+   factory :assessment do
+  
+    initialize_with { new(52, Date.new(2012, 11, 2)) }
+    assessmentTitle "SAT"
+  end
 end
