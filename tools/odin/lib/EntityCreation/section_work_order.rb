@@ -42,7 +42,7 @@ class SectionWorkOrderFactory
   end
 
   def sections(id, ed_org_type, year, grade)
-    ed_org = @world[ed_org_type].select{|s| s['id'] = id}[0]
+    ed_org = @world[ed_org_type].find{|s| s['id'] = id}
     sections_from_edorg(ed_org, ed_org_type, year, grade)
   end
 
