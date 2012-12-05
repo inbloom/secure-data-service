@@ -103,7 +103,7 @@
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="ErrorMappingConverter" />
     <property name="writeConcern">
-      <util:constant static-field="com.mongodb.WriteConcern.NORMAL"></util:constant>
+      <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
     </property>
   </bean>
 

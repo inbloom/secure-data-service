@@ -19,13 +19,23 @@ package org.slc.sli.modeling.xmigen;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.DataType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.Model;
+import org.slc.sli.modeling.uml.Multiplicity;
+import org.slc.sli.modeling.uml.NamespaceOwnedElement;
+import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.UmlPackage;
+//import org.slc.sli.modeling.uml.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

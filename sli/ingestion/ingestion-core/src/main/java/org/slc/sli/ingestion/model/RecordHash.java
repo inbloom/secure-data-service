@@ -42,17 +42,17 @@ public class RecordHash {
 
 	// These are the fields persisted in the MongoDB recordHash collection
 
-    public String _id;			// Deterministic ID = function(natural key) = a (mostly) stable ID
-    public String hash;			// Record hash = SHA-1(neutral record attributes + tenant ID)
-    public long created;		// Unix time stamp of creation, never updated.
-    public long updated;		// Unix time stamp of update, absent for first version
-    public int version;	        // Number of times updated after create (== zero-origin version number), absent for first version
+    private String id;			// Deterministic ID = function(natural key) = a (mostly) stable ID
+    private String hash;			// Record hash = SHA-1(neutral record attributes + tenant ID)
+    private long created;		// Unix time stamp of creation, never updated.
+    private long updated;		// Unix time stamp of update, absent for first version
+    private int version;	        // Number of times updated after create (== zero-origin version number), absent for first version
 
     @Indexed
-    public String tenantId;		// Tenant ID, for purge purposes, will be un-needed when record hash store is moved to tenant Db
+    private String tenantId;		// Tenant ID, for purge purposes, will be un-needed when record hash store is moved to tenant Db
 
     public RecordHash() {
-        this._id = "";
+        this.id = "";
         this.hash = "";
         this.created = 0;
         this.updated = 0;
@@ -66,7 +66,7 @@ public class RecordHash {
      *
      * Member      Map key  Always in Map?  Default if absent
      * ---------   -------  --------------  -----------------
-     * _id         _id      Yes
+     * id         id      Yes
      * hash        h        Yes
      * created     c        Yes
      * updated     u        No              <created>
@@ -90,29 +90,29 @@ public class RecordHash {
             return;
         }
 
-    	this._id = Binary2Hex((byte[]) map.get("_id")) + "_id";
-    	this.hash = Binary2Hex((byte[]) map.get("h"));
-    	this.created = ((Long) map.get("c")).longValue();
+    	id = binary2Hex((byte[]) map.get("_id")) + "_id";
+    	hash = binary2Hex((byte[]) map.get("h"));
+    	created = ((Long) map.get("c")).longValue();
 
-    	Long updated = (Long) map.get("u");
-    	if ( null == updated ) {
-            this.updated = this.created;
+    	Long mapUpdated = (Long) map.get("u");
+    	if ( null == mapUpdated ) {
+            updated = created;
         } else {
-            this.updated = updated.longValue();
+            updated = mapUpdated.longValue();
         }
 
-    	Integer version = (Integer) map.get("v");
-    	if ( null == version ) {
-            this.version = 0;
+    	Integer mapVersion = (Integer) map.get("v");
+    	if ( null == mapVersion ) {
+            version = 0;
         } else {
-            this.version = version.shortValue();
+            version = mapVersion.shortValue();
         }
 
-    	String tenantId = (String) map.get("t");
-    	if ( null == tenantId ) {
-            this.tenantId = "";
+    	String mapTenantId = (String) map.get("t");
+    	if ( null == mapTenantId ) {
+            tenantId = "";
         } else {
-            this.tenantId = tenantId;
+            tenantId = mapTenantId;
         }
     }
 
@@ -123,17 +123,17 @@ public class RecordHash {
      */
     public Map<String, Object> toKVMap() {
     	Map<String, Object> m = new HashMap<String, Object>();
-    	m.put("_id", Hex2Binary(this._id));
-    	m.put("h", Hex2Binary(this.hash));
-    	m.put("c", new Long(this.created));
-    	if ( this.updated != this.created ) {
-            m.put("u", new Long(this.updated));
+    	m.put("_id", hex2Binary(id));
+    	m.put("h", hex2Binary(hash));
+    	m.put("c", Long.valueOf(created));
+    	if ( updated != created ) {
+            m.put("u", Long.valueOf(updated));
         }
-    	if ( this.version != 0 ) {
-            m.put("v", new Integer(this.version));
+    	if ( version != 0 ) {
+            m.put("v", Integer.valueOf(version));
         }
-    	if ( null != this.tenantId && this.tenantId.length() > 0 ) {
-            m.put("t", this.tenantId);
+    	if ( null != tenantId && tenantId.length() > 0 ) {
+            m.put("t", tenantId);
         }
     	return m;
     }
@@ -146,7 +146,7 @@ public class RecordHash {
      * @return A hex String object
      *
      */
-    public static String Binary2Hex(byte[] bytes) {
+    public static String binary2Hex(byte[] bytes) {
     	return new String(new Hex().encode(bytes));
     }
 
@@ -159,15 +159,61 @@ public class RecordHash {
      * @return Binary bytes, or null if cannot be decoded
      *
      */
-    public static byte[] Hex2Binary(String id) {
+    public static byte[] hex2Binary(String hexId) {
     	// Take first 40 hex digits of DiD, lopping off the trailing "_id"
     	try {
-    		return new Hex().decode(id.substring(0, 40).getBytes());
+    		return new Hex().decode(hexId.substring(0, 40).getBytes());
     	}
     	catch( DecoderException e ) {
-    		LOG.warn("Cannot convert hex hash or ID to binary: '" + id + "'");
+    		LOG.warn("Cannot convert hex hash or ID to binary: '" + hexId + "'");
     		LOG.warn(e.getMessage());
-    		return null;
     	}
+    	return null;
     }
+    
+    /* Getters and setters
+     * 
+     */
+    public String getId() {
+    	return id;
+    }
+    public void setId(String newId) {
+    	id = newId;
+    }
+    
+    public String getHash() {
+    	return hash;
+    }
+    public void setHash(String newHash) {
+    	hash = newHash;
+    }
+    
+    public long getCreated() {
+    	return created;
+    }
+    public void setCreated(long newCreated) {
+    	created = newCreated;
+    }
+    
+    public long getUpdated() {
+    	return updated;
+    }
+    public void setUpdated(long newUpdated) {
+    	updated = newUpdated;
+    }
+    
+    public int getVersion() {
+    	return version;
+    }
+    public void setVersion(int newVersion) {
+    	version = newVersion;
+    }
+    
+    public String getTenantId() {
+    	return tenantId;
+    }
+    public void setTenantId(String newTenantId) {
+    	tenantId = newTenantId;
+    }
+        
 }

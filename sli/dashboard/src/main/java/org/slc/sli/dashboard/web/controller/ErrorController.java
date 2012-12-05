@@ -84,7 +84,7 @@ public class ErrorController extends GenericLayoutController {
     }
     
     @RequestMapping(value = TEST_EXCEPTION_URL, method = RequestMethod.GET)
-    public ModelAndView handleTest(ModelMap model) throws Exception {
+    public ModelAndView handleTest(ModelMap model) throws IllegalArgumentException {
         throw new IllegalArgumentException("Test Exception");
     }
     

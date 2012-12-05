@@ -19,8 +19,6 @@ package org.slc.sli.ingestion.dal;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -41,8 +39,6 @@ import org.slc.sli.ingestion.util.MongoCommander;
  *
  */
 public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWriter<NeutralRecord>, InitializingBean {
-
-    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordMongoAccess.class);
 
     private NeutralRecordRepository neutralRecordRepository;
 

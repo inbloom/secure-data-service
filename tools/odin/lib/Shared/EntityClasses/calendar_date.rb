@@ -21,11 +21,12 @@ require_relative "enum/CalendarEventType.rb"
 # creates calendar date
 class CalendarDate < BaseEntity
 
-  attr_accessor :date;
+  attr_accessor :date, :ed_org_id;
 
-  def initialize(date, event)
-  	@date  = date
-    @event = event
+  def initialize(date, event, ed_org_id)
+  	@date      = date
+    @event     = event
+    @ed_org_id = ed_org_id
   end
 
   def event

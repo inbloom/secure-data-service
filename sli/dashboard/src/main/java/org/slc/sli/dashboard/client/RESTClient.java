@@ -40,7 +40,7 @@ public class RESTClient {
 
     private String securityUrl;
 
-    private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RESTClient.class);
     
     private RestTemplate template;
     private RestTemplate templateWTimeout;
@@ -54,10 +54,10 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-        logger.info("Session check URL = {}", Constants.SESSION_CHECK_PREFIX);
+        LOGGER.info("Session check URL = {}", Constants.SESSION_CHECK_PREFIX);
         // String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
         String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token);
-        logger.info("jsonText = {}", jsonText);
+        LOGGER.info("jsonText = {}", jsonText);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
     }
@@ -92,19 +92,19 @@ public class RESTClient {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization", "Bearer " + token);
             HttpEntity entity = new HttpEntity(headers);
-            logger.debug("Accessing API at: {}", url);
+            LOGGER.debug("Accessing API at: {}", url);
             HttpEntity<String> response = null;
             try {
                 response = exchange(template, url.toString(), HttpMethod.GET, entity, String.class);
             } catch (HttpClientErrorException e) {
-                logger.debug("Catch HttpClientException: {}",  e.getStatusCode());
+                LOGGER.debug("Catch HttpClientException: {}", e.getStatusCode());
             }
             if (response == null) {
                 return null;
             }
             return response.getBody();
         }
-        logger.debug("Token is null in call to RESTClient for path {}", path);
+        LOGGER.debug("Token is null in call to RESTClient for path {}", path);
 
         return null;
     }
@@ -137,11 +137,11 @@ public class RESTClient {
             headers.add("Authorization", "Bearer " + token);
             headers.add("Content-Type", "application/json");
             HttpEntity requestEntity = new HttpEntity(entity, headers);
-            logger.debug("Updating API at: {}", url);
+            LOGGER.debug("Updating API at: {}", url);
             try {
                 template.put(url.toString(), requestEntity);
             } catch (HttpClientErrorException e) {
-                logger.debug("Catch HttpClientException: {}", e.getStatusCode());
+                LOGGER.debug("Catch HttpClientException: {}", e.getStatusCode());
             }
         }
     }
@@ -168,7 +168,7 @@ public class RESTClient {
         try {
         response = exchange(templateToUse, path, HttpMethod.GET, new HttpEntity(headers), String.class);
         } catch (HttpClientErrorException e) {
-            logger.debug("Catch HttpClientException: {}",  e.getStatusCode());
+            LOGGER.debug("Catch HttpClientException: {}", e.getStatusCode());
         }
         
         if (response == null) {

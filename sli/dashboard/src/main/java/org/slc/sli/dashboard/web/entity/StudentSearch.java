@@ -41,6 +41,7 @@ public class StudentSearch implements PagedEntity {
     private int pageSize = PagedEntity.DEFAULT_PAGE_SIZE;
 
     public StudentSearch() {
+        //Default constructor
     }
 
     public StudentSearch(String firstName, String lastName, String schoolId) {
