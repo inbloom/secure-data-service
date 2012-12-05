@@ -42,8 +42,8 @@ class MasterScheduleGenerator < InterchangeGenerator
   end
 
   # creates and writes section to interchange
-  def create_section(id, year, term, interval, ed_org_id, grading_periods)
-    self << Section.new(id, year, term, interval, ed_org_id, grading_periods)
+  def create_section(id, school_id, offering)
+    self << Section.new(id, school_id, offering)
   end
 
 end

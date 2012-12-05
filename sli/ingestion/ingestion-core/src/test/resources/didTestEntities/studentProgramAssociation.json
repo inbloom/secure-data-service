@@ -1,13 +1,27 @@
 {
-"recordType":"studentProgramAssociation",
-"attributes":
-{
-	"EducationOrganizationReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"testSchoolId"
-		}
-	}
-}
+    "recordType":"studentProgramAssociation",
+    "attributes":
+    {
+        "StudentReference":
+        {
+            "StudentIdentity":
+            {
+                "StudentUniqueStateId":"100000000"
+            }
+        },
+        "EducationOrganizationReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"testSchoolId"
+            }
+        },
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"testProgramId"
+            }
+        }
+    }
 }
