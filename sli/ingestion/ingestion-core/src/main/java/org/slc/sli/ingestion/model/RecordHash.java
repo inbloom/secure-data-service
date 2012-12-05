@@ -199,7 +199,7 @@ public class RecordHash {
     	return updated;
     }
     public void setUpdated(long newUpdated) {
-    	created = newUpdated;
+    	updated = newUpdated;
     }
     
     public int getVersion() {
