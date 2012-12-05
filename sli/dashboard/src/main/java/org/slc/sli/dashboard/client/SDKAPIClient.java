@@ -192,7 +192,18 @@ public class SDKAPIClient implements APIClient {
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
         GenericEntity ge = readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA);
-        return JsonConverter.fromJson((String) ge.get("config"), ConfigMap.class);
+        
+        if (ge == null) {
+            return null;
+        }
+        
+        Object config = ge.get("config");
+        
+        if (config == null) {
+            return null;
+        }
+        
+        return JsonConverter.fromJson((String) config, ConfigMap.class);
     }
     
     /**
@@ -1944,15 +1955,17 @@ public class SDKAPIClient implements APIClient {
         StringBuilder query = new StringBuilder();
         String separator = "";
         
+        Map<String, String> localParams = params;
+        
         // Setup defaults including paging disabled
-        if (params == null) {
-            params = new HashMap<String, String>();
+        if (localParams == null) {
+            localParams = new HashMap<String, String>();
         }
-        if (!params.containsKey(Constants.LIMIT)) {
-            params.put(Constants.LIMIT, String.valueOf(Constants.MAX_RESULTS));
+        if (!localParams.containsKey(Constants.LIMIT)) {
+            localParams.put(Constants.LIMIT, String.valueOf(Constants.MAX_RESULTS));
         }
         
-        for (Map.Entry<String, String> e : params.entrySet()) {
+        for (Map.Entry<String, String> e : localParams.entrySet()) {
             query.append(separator);
             separator = "&";
             

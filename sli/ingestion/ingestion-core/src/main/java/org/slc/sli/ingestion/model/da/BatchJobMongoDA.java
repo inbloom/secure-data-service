@@ -483,11 +483,11 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
         // record was not found
         RecordHash rh = new RecordHash();
-        rh._id = recordId;
-        rh.hash = newHashValues;
-        rh.tenantId = tenantId;
-        rh.created = System.currentTimeMillis();
-        rh.updated = rh.created;
+        rh.setId(recordId);
+        rh.setHash(newHashValues);
+        rh.setTenantId(tenantId);
+        rh.setCreated(System.currentTimeMillis());
+        rh.setUpdated(rh.getCreated());
         this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).insert(new BasicDBObject(rh.toKVMap()));
     }
 
@@ -501,14 +501,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
      */
     @Override
     public void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException {
-        rh.hash = newHashValues;
-        rh.updated = System.currentTimeMillis();
-        rh.version += 1;
+        rh.setHash(newHashValues);
+        rh.setUpdated(System.currentTimeMillis());
+        rh.setVersion(rh.getVersion() + 1);
         // Detect tenant collision - should never occur since tenantId is in the hash
-        if (!rh.tenantId.equals(tenantId)) {
-            throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.tenantId + "', input data has '" + tenantId + "' for entity ID '" + rh._id + "'");
-        }
-        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh._id).getQueryObject(), new BasicDBObject(rh.toKVMap()));
+        if ( ! rh.getTenantId().equals(tenantId) )
+        	throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.getTenantId() + "', input data has '" + tenantId + "' for entity ID '" + rh.getId() + "'");
+        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh.getId()).getQueryObject(), new BasicDBObject(rh.toKVMap()));
     }
 
     /*
@@ -536,8 +535,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
      *         The SpringDadta Query object that looks the record up in the recordHash collection.
      */
     public Query recordHashQuery(String recordId) {
-        Query query = new Query().limit(1);
-        query.addCriteria(Criteria.where("_id").is(RecordHash.Hex2Binary(recordId)));
+    	Query query = new Query().limit(1);
+        query.addCriteria(Criteria.where("_id").is(RecordHash.hex2Binary(recordId)));
         return query;
     }
 

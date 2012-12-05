@@ -31,6 +31,7 @@ describe "WorkOrderProcessor" do
                                              :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001}, {'year' => 2002}]},
                                              :sections => {2001 => (1..10).map{|i| {'id' => i}},
                                                            2002 => (11..20).map{|i| {'id' => i}}})}
+      let(:scenario) {{}}
 
       it "will generate the right number of entities for the student and subsequent enrollment" do
         data_writer = double
@@ -38,7 +39,7 @@ describe "WorkOrderProcessor" do
         data_writer.should_receive(:create_student_school_association).with(42, 64, 2001, :KINDERGARTEN).once
         data_writer.should_receive(:create_student_school_association).with(42, 64, 2002, :FIRST_GRADE).once
         data_writer.should_receive(:create_student_section_association).exactly(10).times
-        WorkOrderProcessor.new(data_writer).build(work_order)
+        WorkOrderProcessor.new(data_writer, scenario).build(work_order)
       end
 
       it "will generate StudentSchoolAssociations with the correct information" do
@@ -51,7 +52,7 @@ describe "WorkOrderProcessor" do
           school.should eq 64
         end
         data_writer.should_receive(:create_student_section_association).exactly(10).times
-        WorkOrderProcessor.new(data_writer).build(work_order)
+        WorkOrderProcessor.new(data_writer, scenario).build(work_order)
         school_associations[0].startYear.should eq(2001) and school_associations[0].startGrade.should eq("Kindergarten")
         school_associations[1].startYear.should eq(2002) and school_associations[1].startGrade.should eq("First grade")
       end
@@ -67,7 +68,7 @@ describe "WorkOrderProcessor" do
           student.should eq 42
           school.should eq 64
         end
-        WorkOrderProcessor.new(data_writer).build(work_order)
+        WorkOrderProcessor.new(data_writer, scenario).build(work_order)
         section_associations[2001].count.should eq 5
         section_associations[2001].each{|ssa| ssa.sectionId.should be <= 10}
         section_associations[2002].count.should eq 5
@@ -84,6 +85,7 @@ describe "WorkOrderProcessor" do
                                                                                    {'year' => 2004},
                                                                                    {'year' => 2005}],
                                                         'feeds_to' => [65, 66]})}
+      let(:scenario) {{}}
       it "will get enrollments for each school" do
         data_writer = double
         data_writer.should_receive(:create_student).with(42, Date.new(1991, 9, 1)).once
@@ -91,7 +93,7 @@ describe "WorkOrderProcessor" do
         data_writer.stub(:create_student_school_association) do |student, school, year, grade|
           ssas << StudentSchoolAssociation.new(student, school, year, grade)
         end
-        WorkOrderProcessor.new(data_writer).build(work_order)
+        WorkOrderProcessor.new(data_writer, scenario).build(work_order)
         ssas[0].startYear.should eq(2001) and ssas[0].schoolStateOrgId.should eq('elem-0000000064')
         ssas[1].startYear.should eq(2002) and ssas[1].schoolStateOrgId.should eq('midl-0000000065')
         ssas[2].startYear.should eq(2003) and ssas[2].schoolStateOrgId.should eq('midl-0000000065')
@@ -111,6 +113,7 @@ describe "WorkOrderProcessor" do
                                                                                        {'year' => 2002},
                                                                                        {'year' => 2003},
                                                                                        {'year' => 2004}]})}
+      let(:scenario) {{}}
       it "will only generate student school associations until the student has graduated" do
         data_writer = double
         data_writer.should_receive(:create_student).with(42, Date.new(1985, 9, 1)).once
@@ -118,13 +121,13 @@ describe "WorkOrderProcessor" do
         data_writer.stub(:create_student_school_association) do |student, school, year, grade|
           ssas << StudentSchoolAssociation.new(student, school, year, grade)
         end
-        WorkOrderProcessor.new(data_writer).build(eleventh_grader)
+        WorkOrderProcessor.new(data_writer, scenario).build(eleventh_grader)
         ssas.should have(2).items
         ssas[0].startYear.should eq(2001)
         ssas[1].startYear.should eq(2002)
         ssas = []
         data_writer.should_receive(:create_student).with(42, Date.new(1984, 9, 1)).once
-        WorkOrderProcessor.new(data_writer).build(twelfth_grader)
+        WorkOrderProcessor.new(data_writer, scenario).build(twelfth_grader)
         ssas.should have(1).items
         ssas[0].startYear.should eq(2001)
       end
@@ -141,7 +144,7 @@ describe "generate_work_orders" do
                   'middle' => [{'id' => 2, 'students' => {2011 => {:SEVENTH_GRADE => 5}, 2012 => {:EIGTH_GRADE => 5}}, 'sessions' => [{}]}],
                   'high' => [{'id' => 3, 'students' => {2011 => {:NINTH_GRADE => 5}, 2012 => {:TENTH_GRADE => 5}}, 'sessions' => [{}]}]}}
     
-    let(:work_orders) { WorkOrderProcessor.generate_work_orders world }
+    let(:work_orders) { WorkOrderProcessor.generate_work_orders world, {}}
 
     it "will create a work order for each student" do
       work_orders.count.should eq(20)
@@ -171,7 +174,7 @@ describe "generate_work_orders" do
 
     it "will lazily create work orders in finite time" do
       Timeout::timeout(5){
-        WorkOrderProcessor.generate_work_orders(world).take(100).length.should eq(100)
+        WorkOrderProcessor.generate_work_orders(world, {}).take(100).length.should eq(100)
       }
     end
   end

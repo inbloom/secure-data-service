@@ -18,6 +18,7 @@
 package org.slc.sli.dashboard.manager;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +49,7 @@ import org.slc.sli.dashboard.util.Constants;
  */
 public class MockAPIClient extends SDKAPIClient implements APIClient {
 
-    private static Logger log = LoggerFactory.getLogger(MockAPIClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MockAPIClient.class);
 
     private ClassLoader classLoader;
 
@@ -103,6 +105,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
      */
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
+        //No Op
     }
 
     @Override
@@ -242,18 +245,9 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
             return temp;
 
         } catch (IOException e) {
-            System.err.println(e);
             return null;
-
         } finally {
-
-            try {
-                if (bin != null) {
-                    bin.close();
-                }
-            } catch (IOException e) {
-                System.err.println(e);
-            }
+            IOUtils.closeQuietly(bin);
         }
     }
 
@@ -391,23 +385,23 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
 
             // Parse JSON
             Gson gson = new Gson();
-            List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
+            List<Map> maps = gson.fromJson(jsonBuffer.toString(), ArrayList.class);
 
             for (Map<String, Object> map : maps) {
                 entityList.add(new GenericEntity(map));
             }
 
+        } catch (FileNotFoundException e) {
+            LOG.error(e.getMessage());
         } catch (IOException e) {
-            log.error(e.getMessage());
-        } catch (NullPointerException e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
             } catch (IOException e) {
-                log.error(e.getMessage());
+                LOG.error(e.getMessage());
             }
         }
 

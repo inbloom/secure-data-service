@@ -148,8 +148,8 @@ class XmlDataWriter < DataWriter
   end
 
   # write section to master schedule interchange
-  def create_section(id, year, term, interval, ed_org_id, grading_periods)
-    @master_schedule_writer.create_section(id, year, term, interval, ed_org_id, grading_periods)
+  def create_section(id, school_id, offering)
+    @master_schedule_writer.create_section(id, school_id, offering)
     increment_count(:section)
   end
 
