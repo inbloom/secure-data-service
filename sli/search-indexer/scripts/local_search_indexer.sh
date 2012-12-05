@@ -5,6 +5,7 @@ DEFAULT_CHECK_KEYSTORE="../data-access/dal/keyStore/ciKeyStore.jks"
 DEFAULT_SEARCH_INDEXER_JAR="target/search-indexer-1.0-SNAPSHOT.jar"
 DEFAULT_MAX_MEMORY="1024m"
 DEFAULT_MIN_MEMORY="1024m"
+DEFAULT_REMOTE_COMMAND_PORT=10024
 
 SEARCH_INDEXER_OPT=""
 SEARCH_INDEXER_COMMAND_OPTIONS=""
@@ -171,6 +172,9 @@ function run {
    if [ ${RUN_HELP} == 1 ]; then
       show_help
    else
+      if [ ${REMOTE_COMMAND_PORT:=0} == 0 ]; then
+         REMOTE_COMMAND_PORT=${DEFAULT_REMOTE_COMMAND_PORT}
+      fi
       if [ ${RUN_STOP} == 1 ]; then
          if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
             echo "Stopping.... accessing port ${REMOTE_COMMAND_PORT}"
