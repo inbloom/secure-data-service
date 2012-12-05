@@ -24,19 +24,20 @@ require_relative '../lib/Shared/demographics.rb'
 require_relative '../lib/Shared/EntityClasses/enum/GradeLevelType.rb'
 require_relative '../lib/Shared/EntityClasses/studentSchoolAssociation.rb'
 require_relative '../lib/Shared/EntityClasses/studentSectionAssociation.rb'
+require_relative '../lib/Shared/date_interval.rb'
+require_relative '../lib/OutputGeneration/XmlDataWriter'
 
 describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
       let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
       let(:assessment_factory) {double('assessment factory', :assessments => (1..5).map{|i| "assessment#{i}"})}
+      let(:scenario) {{'ASSESSMENTS_TAKEN' => {grade_wide: 3}}}
+      let(:ed_org) {{'id' => 64, 'sessions' => [{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)}, 
+                                                {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)}]}}
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001, 
-                                             :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001}, {'year' => 2002}]},
-                                             :sections => {2001 => (1..10).map{|i| {'id' => i}},
-                                                           2002 => (11..20).map{|i| {'id' => i}}},
-                                             :section_factory => section_factory,
-                                             :assessment_factory => assessment_factory)}
-      let(:scenario) {{}}
+                                             :edOrg => ed_org, :section_factory => section_factory,
+                                             :assessment_factory => assessment_factory, :scenario => scenario)}
 
       it "will generate the right number of entities for the student and subsequent enrollment" do
         data_writer = double
@@ -44,7 +45,7 @@ describe "WorkOrderProcessor" do
         data_writer.should_receive(:create_student_school_association).with(42, 64, 2001, :KINDERGARTEN).once
         data_writer.should_receive(:create_student_school_association).with(42, 64, 2002, :FIRST_GRADE).once
         data_writer.should_receive(:create_student_section_association).exactly(4).times
-        data_writer.should_receive(:create_student_assessment).exactly(5).times
+        data_writer.should_receive(:create_student_assessment).exactly(30).times
         WorkOrderProcessor.new(data_writer, scenario).build(work_order)
       end
 
@@ -65,12 +66,9 @@ describe "WorkOrderProcessor" do
       end
 
       it "will generate StudentSectionAssociations with the correct information" do
-        data_writer = double
-        data_writer.should_receive(:create_student).with(42, Date.new(1996, 9, 1)).once
-        data_writer.should_receive(:create_student_school_association).with(42, 64, 2001, :KINDERGARTEN).once
-        data_writer.should_receive(:create_student_school_association).with(42, 64, 2002, :FIRST_GRADE).once
+        data_writer = XmlDataWriter.new scenario
         section_associations = {2001 => [], 2002 => []}
-        data_writer.stub(:create_student_section_association) do |student, section, course, school, year, grade|
+        data_writer.stub!(:create_student_section_association) do |student, section, course, school, year, grade|
           section_associations[year] << StudentSectionAssociation.new(student, section, course, school, year, grade)
           student.should eq 42
           school.should eq 64
@@ -84,14 +82,16 @@ describe "WorkOrderProcessor" do
         section_associations[2002][1].sectionId.should match(/sctn\-00002/)
       end
 
-      it "will generate StudentAssessmentAssociations with the correct related assessment" do
-        data_writer = double()
-        student_assessment_ids = []
-        data_writer.stub(:create_student_assessment) do |sa|
-          student_assessments << sa.assessmentId
+      it "will generate StudentAssessments with the correct related assessment" do
+        data_writer = XmlDataWriter.new scenario
+        student_assessments = []
+        data_writer.stub!(:create_student_assessment) do |sa|
+          student_assessments << sa
         end
+        WorkOrderProcessor.new(data_writer, scenario).build(work_order)
+        sas_by_id = student_assessments.group_by{|sa| sa.assessment_id}
         assessment_factory.assessments.each{|i|
-          student_assessments.should include i
+          sas_by_id[i].should have(6).items
         }
       end
     end
