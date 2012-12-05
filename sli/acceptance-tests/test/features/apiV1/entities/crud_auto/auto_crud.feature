@@ -84,6 +84,7 @@ Background: Nothing yet
       | schools                                 |
       | staff                                   |
       | staffEducationOrgAssignmentAssociations |
+      | gradingPeriods                           |
       | sessions                                |
       | students                                |
       | courses                                  |
@@ -118,7 +119,6 @@ Background: Nothing yet
       | courseTranscripts                        |
       | grades                                   |
       | studentCompetencies                       |
-      | gradingPeriods                           |
       | reportCards                              |
       | studentCompetencyObjectives              |
 
@@ -128,44 +128,44 @@ Background: Nothing yet
         | Entity Resource                         |
         | studentCompetencyObjectives              |
         | reportCards                              |
-        | gradingPeriods                           |
         | studentCompetencies                       |
         | grades                                   |
+        | gradingPeriods                           |
         | courseTranscripts                        |
         | studentGradebookEntries                   |
         | studentAcademicRecords                   |
         | graduationPlans                          |
-        | studentParentAssociations                |
-        | studentDisciplineIncidentAssociations    |
-        | staffProgramAssociations                 |
+        | parents                                  |
+        #  | studentParentAssociations                |
         | competencyLevelDescriptor               |
         | studentAssessments                       |
-        | staffCohortAssociations                  |
-        | studentSectionAssociations               |
-        | teacherSchoolAssociations                |
-        | studentSchoolAssociations                |
-        | teacherSectionAssociations               |
-        | studentCohortAssociations                |
-        | studentProgramAssociations               |
-        | parents                                  |
         | learningStandards                        |
         | learningObjectives                       |
         | gradebookEntries                          |
-        | disciplineIncidents                      |
         | disciplineActions                        |
+        | disciplineIncidents                      |
+        # | studentDisciplineIncidentAssociations    |
         | cohorts                                  |
+        # | staffCohortAssociations                  |
         | attendances                              |
         | assessments                              |
         | teachers                                |
         | programs                                |
-        | sections                                |
-        | courseOfferings                          |
-        | courses                                  |
+        # | staffProgramAssociations                 |
+        # | teacherSectionAssociations               |
+        | studentSchoolAssociations                |
         | students                                |
-        | sessions                                |
+        | courses                                  |
+        # | courseOfferings                          |
+        # | studentCohortAssociations                |
+        # | studentProgramAssociations               |
+        # | studentSectionAssociations               |
+        # | sessions                                |
         | staffEducationOrgAssignmentAssociations |
         | staff                                   |
+        | teacherSchoolAssociations                |
         | schools                                 |
+        # | sections                                |
         | educationOrganizations                 |
 
     Scenario: Get All Entities as School Teacher

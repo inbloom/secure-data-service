@@ -11,8 +11,8 @@
       "totalInstructionalDays": 20
     },
     "UPDATE": {
-      "field": "gradebookEntryType",
-      "value": "Homework"
+      "field": "endDate",
+      "value": "2013-07-30"
     },
     "naturalKey": {
       "gradingPeriodIdentity": {
@@ -85,8 +85,8 @@
       "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
     },
     "UPDATE": {
-      "field": "sessionId",
-      "value": "cb1fb2d3-a906-446a-bdfd-06ad23823265"
+      "field": "cumulativeGradePointsEarned",
+      "value": "2.2"
     },
     "naturalKey": {
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae5",
@@ -591,7 +591,8 @@
       "gradingPeriodId": "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
     },
     "context":{
-      "studebtSectionAssociationId":"studentSectionAssociations"
+      "studentSectionAssociationId":"studentSectionAssociations",
+      "gradingPeriodId" : "gradingPeriods"
     }
   },
   "studentCompetency": {
@@ -619,7 +620,7 @@
       "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
     },
     "context":{
-      "studebtSectionAssociationId":"studentSectionAssociations"
+      "studentSectionAssociationId":"studentSectionAssociations"
     }
 
   },
@@ -646,6 +647,10 @@
     "naturalKey": {
       "studentId": "00209530-6e1f-4273-a5a7-eb686c79fcd9",
       "gradingPeriodId": "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
+    },
+    "context" : {
+      "studentId" : "students",
+      "gradingPeriodId" : "gradingPeriods"
     }
   },
   "graduationPlan": {

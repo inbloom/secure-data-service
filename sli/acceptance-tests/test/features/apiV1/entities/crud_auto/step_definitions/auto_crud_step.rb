@@ -293,6 +293,7 @@ end
 Then /^I perform POST for each resource available in the order defined by table:$/ do |table|
   resource_list = resources
   @context_hash = Hash.new
+  @context_table = table.clone
   table.hashes.each do |hash|
     resource = "/"+ hash["Entity Resource"]
 #    assert(resource_list.delete(resource).nil? == false ,"Invalid entity")
@@ -315,7 +316,11 @@ Then /^I perform POST for each resource available in the order defined by table:
     if !@teacherAccess.nil?
       @fields = @fields.merge(@teacherAccess)
     end
-    puts @fields
+    if resource.include? "gradingPeriod"
+      @fields["gradingPeriodIdentity"]["schoolId"]=@context_hash["schools"]["id"]
+    elsif resource.include? "session"
+      @fields["gradingPeriodReference"].push(@context_hash["gradingPeriods"]["id"])
+    end
     begin
     steps %Q{
           When I navigate to POST \"/v1#{resource}\"
@@ -326,6 +331,26 @@ Then /^I perform POST for each resource available in the order defined by table:
     new_entity["BODY"] = @fields
     new_entity["id"] = @newId
     @context_hash[hash["Entity Resource"]] = new_entity
+
+    if resource.include? "/teachers"
+     steps %Q{
+          Given a valid entity json document for a \"teacherSchoolAssociation\"
+    }
+      @fields["schoolId"] = @context_hash["schools"]["id"]
+      @fields["teacherId"] = @newId
+     steps %Q{
+          When I navigate to POST \"/v1/teacherSchoolAssociations\"
+    }
+    elsif resource.include? "/staff"
+     steps %Q{
+          Given a valid entity json document for a \"staffEducationOrganizationAssociation\"
+    }
+      @fields["educationOrganizationReference"] = @context_hash["schools"]["id"]
+      @fields["staffReference"] = @newId
+     steps %Q{
+          When I navigate to POST \"/v1/staffEducationOrgAssignmentAssociations\"
+    }
+    end
     rescue=>e
       $stderr.puts "#{resource} ==> #{e}"
     end
@@ -343,7 +368,6 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
       }
       @newId = @context_hash[resource[1..-1]]["id"]
       @fields = @context_hash[resource[1..-1]]["BODY"]
-      puts "#{resource}/#{@newId}"
       get_resource resource
       @fields[@updates['field']] = @updates['value']
       steps %Q{
@@ -351,7 +375,7 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
           Then I should receive a return code of 204
       }
       @fields = @context_hash[resource[1..-1]]["BODY"]
-      update_natural_key resource
+#      update_natural_key resource
     rescue =>e
       $stderr.puts "#{resource} => #{e}"
     end
@@ -362,18 +386,12 @@ Then /^I perform DELETE for each resource availabel in the order defined by tabl
  table.hashes.each do |hash|
     resource = "/"+ hash["Entity Resource"]
     begin
-      if @context_hash.has_key? resource[1..-1] == false
-        next
-      end
-      resource_type = get_resource_type resource
-      steps %Q{
-          Given a valid entity json document for a \"#{resource_type}\"
-      }
-      @newId = @context_hash[resource[1..-1]]["id"]
+     resource_type = get_resource_type resource
+     @newId = @context_hash[resource[1..-1]]["id"]
       @fields = @context_hash[resource[1..-1]]["BODY"]
       delete_resource resource
     rescue =>e
-      $stderr.puts "#{resource} => #{e}"
+      $stderr.puts "#{resource}/#{@newId} => #{e}"
     end
   end
 end
