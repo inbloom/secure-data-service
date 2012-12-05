@@ -108,10 +108,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 end
 Then /^I perform CRUD for each resource available$/ do
   resources.each do |resource|
-    if resource == "/home"
-      next
-    end
-
     begin
       #post is not allowed for associations
         post_resource resource
@@ -121,10 +117,11 @@ Then /^I perform CRUD for each resource available$/ do
           $stderr.puts "#{resource} ==> #{e}"
         end
         begin
-    @fields[@updates['field']] = @updates['value']
+          @fields[@updates['field']] = @updates['value']
           steps %Q{
           When I navigate to PUT \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 204
+          Given a valid entity json document for a \"#{resource_type}\"
           }
           update_natural_key resource
         rescue =>e
@@ -198,9 +195,7 @@ end
 def update_natural_key resource
   if @naturalKey.nil? == false
     resource_type = get_resource_type resource
-    steps %Q{
-          Given a valid entity json document for a \"#{resource_type}\"
-    }   
+       
     @naturalKey.each do |nKey,nVal|
       @fields[nKey] = nVal
       steps %Q{
@@ -218,7 +213,7 @@ Given /^my contextual access is defined by table:$/ do |table|
   end
 end
 
-Given /^the expected rewrite results are defined by table:$/ do |table|
+Given /^the expected staff rewrite results are defined by table:$/ do |table|
   # table is a Cucumber::Ast::Table
   @state_staff_expected_results={}
   table.hashes.each do |hash|
@@ -355,6 +350,7 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
           When I navigate to PUT \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 204
       }
+      @fields = @context_hash[resource[1..-1]]["BODY"]
       update_natural_key resource
     rescue =>e
       $stderr.puts "#{resource} => #{e}"
