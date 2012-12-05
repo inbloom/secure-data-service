@@ -248,7 +248,7 @@ public class TenantResourceTest {
         }
     }
 
-    @Test
+    @Test (expected = EntityNotFoundException.class)
     public void testDelete() {
         // create one entity
         String id = createLandingZone(new EntityBody(createTestEntity()));
@@ -257,15 +257,7 @@ public class TenantResourceTest {
         Response response = tenantResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        try {
-            @SuppressWarnings("unused")
-            Response getResponse = tenantResource.read(id, httpHeaders, uriInfo);
-            fail("should have thrown EntityNotFoundException");
-        } catch (EntityNotFoundException e) {
-            return;
-        } catch (Exception e) {
-            fail("threw wrong exception: " + e);
-        }
+        Response getResponse = tenantResource.read(id, httpHeaders, uriInfo);
     }
 
     @Test
@@ -392,32 +384,6 @@ public class TenantResourceTest {
         Map<String, Object> preload = (Map<String, Object>) landingZone.get("preload");
         assertEquals(Arrays.asList("small"), preload.get("files"));
         assertEquals("ready", preload.get("status"));
-    }
-
-    @Test
-    public void testPreloadNoAuthorization() throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-        // test no right will get forbidden response
-        injector.setLeaAdminContext();
-        tenantResource.setSandboxEnabled(true);
-        String id = createLandingZone(new EntityBody(createTestEntity()));
-        when(secUtil.getTenantId()).thenReturn(TENANT_1);
-        Response r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
-        // test production environment will get forbidden response
-        injector.setDeveloperContext();
-        tenantResource.setSandboxEnabled(false);
-        r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
-        // test tenant mismatch will get forbidden response
-        injector.setDeveloperContext();
-        tenantResource.setSandboxEnabled(true);
-        when(secUtil.getTenantId()).thenReturn(TENANT_2);
-        r = tenantResource.preload(id, "small", uriInfo);
-        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-
     }
 
     @Test

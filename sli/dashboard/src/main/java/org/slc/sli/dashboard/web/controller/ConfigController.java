@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -143,8 +144,8 @@ public class ConfigController extends GenericLayoutController {
     public String saveConfig(@RequestBody @Valid ConfigMap configMap) {
         try {
             putCustomConfig(configMap);
-        } catch (RuntimeException re) {
-            LOGGER.error("Error saving config", re);
+        } catch (JsonSyntaxException jse) {
+            LOGGER.error("Error saving config", jse);
             return "Permission Denied";
         }
         return "Success";
@@ -194,8 +195,8 @@ public class ConfigController extends GenericLayoutController {
         try {
             String token = SecurityUtil.getToken();
             configManager.putCustomConfig(token, userEdOrgManager.getUserEdOrg(token), config);
-        } catch (RuntimeException re) {
-            LOGGER.error("Error saving config", re);
+        } catch (JsonSyntaxException jse) {
+            LOGGER.error("Error saving config", jse);
             return "Permission Denied";
         }
         return "Success";

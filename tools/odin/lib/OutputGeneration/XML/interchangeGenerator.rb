@@ -15,39 +15,47 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
+require 'logger'
+
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
+
+# base class for ed-fi xml interchange generators
 class InterchangeGenerator
-  @@totalEntityCount = 0
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(interchange, batchSize=10000)
-    @stime = Time.now
-    @entityCount = 0
+  def initialize(yaml, interchange)
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
+
     @interchange = interchange
+    @batch_size = yaml['BATCH_SIZE']
+    if @batch_size.nil?
+      @batch_size = 10000
+    end
+    @stime = Time.now
     @entities = []
-    @batchSize = batchSize
     @writers = Hash.new
     @header = ""
     @footer = ""
+    @log.info "initialized interchange generator using file handle: #{@interchange.path}"
   end
 
-  def start()
+  def start
     @interchange << @header
   end
 
   def <<(entity)
     @entities << entity
-    if @entities.size >= @batchSize
-      renderBatch
+    if @entities.size >= @batch_size
+      render_batch
       @entities = []
     end
   end
 
-  def renderBatch
-    report(@entities)
-
-    #filter_entities
+  def render_batch
     split_entities = @entities.group_by( &:class )
 
     split_entities.each do |k, v|
@@ -55,23 +63,12 @@ class InterchangeGenerator
     end
   end
 
-  def report(entities)
-    @entityCount += entities.length
-    @@totalEntityCount += entities.length
-    if @@totalEntityCount % 100000 == 0
-      puts "\t#@@totalEntityCount entities created."
-    end
-  end
-
-  def finalize()
-    renderBatch
-
+  def finalize
+    render_batch
     @interchange << @footer
-    @interchange.flush()
     @interchange.close()
-
     elapsed = Time.now - @stime
-    puts "\t#@entityCount written in #{elapsed} seconds."
+    @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
   end
 
 end

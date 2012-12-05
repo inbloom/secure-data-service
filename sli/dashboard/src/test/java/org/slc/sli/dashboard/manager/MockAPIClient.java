@@ -400,7 +400,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
                 if (reader != null) {
                     reader.close();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 LOG.error(e.getMessage());
             }
         }

@@ -19,6 +19,7 @@ package org.slc.sli.dashboard.security;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -177,12 +178,12 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             LOG.error(LOG_MESSAGE_AUTH_EXCEPTION, new Object[] { ex.getMessage() });
             response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
             return;
-        } catch (Exception ex) {
+        } /* catch (Exception ex) {
             session.invalidate();
             LOG.error(LOG_MESSAGE_AUTH_EXCEPTION, new Object[] { ex.getMessage() });
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
             return;
-        }
+        }*/
     }
 
     private boolean isAjaxRequest(HttpServletRequest request) {
@@ -213,7 +214,9 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                         try {
                             String s = URLDecoder.decode(c.getValue(), "UTF-8");
                             decryptedCookie = propDecryptor.decrypt(s);
-                        } catch (Exception e) {
+                        } catch (GeneralSecurityException e) {
+                            LOG.error(e.getMessage());
+                        } catch (IOException e) {
                             LOG.error(e.getMessage());
                         }
                         JsonObject json = restClient.sessionCheck(decryptedCookie);
@@ -258,7 +261,9 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 headerString = headerString + (";Secure");
             }
 
-        } catch (Exception e) {
+        } catch (GeneralSecurityException e) {
+            LOG.error(e.getMessage());
+        } catch (IOException e) {
             LOG.error(e.getMessage());
         }
 

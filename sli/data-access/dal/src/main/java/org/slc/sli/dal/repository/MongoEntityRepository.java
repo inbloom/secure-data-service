@@ -64,18 +64,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Autowired(required = false)
     @Qualifier("entityEncryption")
-    EntityEncryption encrypt;
+    private EntityEncryption encrypt;
 
     @Autowired
     @Qualifier("deterministicUUIDGeneratorStrategy")
-    UUIDGeneratorStrategy uuidGeneratorStrategy;
+    private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     @Autowired
-    INaturalKeyExtractor naturalKeyExtractor;
+    private INaturalKeyExtractor naturalKeyExtractor;
 
     @Autowired
     @Qualifier("entityKeyEncoder")
-    EntityKeyEncoder keyEncoder;
+    private EntityKeyEncoder keyEncoder;
 
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
@@ -85,7 +85,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private Denormalizer denormalizer;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
@@ -145,7 +145,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     private boolean isValidDbName(String tenantId) {
-        return tenantId != null && !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
+        return tenantId != null && !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(' ') == -1;
     }
 
 
@@ -178,7 +178,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
         boolean result = false;
-        Entity entity = new MongoEntity(type, null, newValues, null);
+        Entity entity = new MongoEntity(type, id, newValues, null);
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
         if (subDocs.isSubDoc(collectionName)) {
@@ -232,8 +232,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (metaData == null) {
             metaData = new HashMap<String, Object>();
         }
-
-        String tenantId = TenantContext.getTenantId();
 
         if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
@@ -358,8 +356,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // set up update query
         Map<String, Object> entityBody = entity.getBody();
         Map<String, Object> entityMetaData = entity.getMetaData();
-        Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
-        return update;
+        return (new Update().set("body", entityBody).set("metaData", entityMetaData));
     }
 
     @Override

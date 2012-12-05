@@ -50,7 +50,7 @@ public final class XmiMapping implements Comparable<XmiMapping> {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof XmiMapping && compareTo((XmiMapping)o) == 0;
+        return o instanceof XmiMapping && compareTo((XmiMapping) o) == 0;
     }
 
     @Override

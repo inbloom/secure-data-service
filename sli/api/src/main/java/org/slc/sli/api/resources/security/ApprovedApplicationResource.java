@@ -33,6 +33,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.util.SecurityUtil;
@@ -81,6 +82,7 @@ public class ApprovedApplicationResource {
     private DelegationUtil delegationUtil;
 
     @GET
+    @RightsAllowed(any=true)
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
         List<String> allowedApps = getAllowedAppIds();
         List<EntityBody> results = new ArrayList<EntityBody>();

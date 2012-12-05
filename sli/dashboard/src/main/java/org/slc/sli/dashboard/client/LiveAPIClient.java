@@ -17,6 +17,7 @@
 
 package org.slc.sli.dashboard.client;
 
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -470,18 +472,19 @@ public class LiveAPIClient {
         return section;
     }
 
-    //@Override
+    /**
+     * 
+     * @param token
+     * @param id
+     * @return
+     */
     public GenericEntity getSession(String token, String id) {
-        GenericEntity session = null;
         try {
-            session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token);
-            // DE260 - Logging of possibly sensitive data
-            // LOGGER.debug("Session: {}", session);
-        } catch (Exception e) {
+            return this.createEntityFromAPI(getApiUrl() + SESSION_URL + id, token);
+        } catch (JsonSyntaxException e) {
             LOGGER.warn("Error occured while getting session", e);
-            session = new GenericEntity();
+            return new GenericEntity();
         }
-        return session;
     }
 
     /**
@@ -682,7 +685,7 @@ public class LiveAPIClient {
         String url = getApiUrl() + SESSION_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
         try {
             return createEntitiesFromAPI(url, token);
-        } catch (Exception e) {
+        } catch (JsonSyntaxException e) {
             LOGGER.error(e.toString());
             return new ArrayList<GenericEntity>();
         }
@@ -693,7 +696,7 @@ public class LiveAPIClient {
         String url = getApiUrl() + SESSION_URL + "?schoolYear=" + schoolYear;
         try {
             return createEntitiesFromAPI(url, token);
-        } catch (Exception e) {
+        } catch (JsonSyntaxException e) {
             LOGGER.error(e.toString());
             return new ArrayList<GenericEntity>();
         }
@@ -793,7 +796,7 @@ public class LiveAPIClient {
             if (ge != null) {
                 return ge;
             }
-        } catch (Exception e) {
+        } catch (JsonSyntaxException e) {
             LOGGER.error("Couldn't retrieve attendance for:" + studentId, e);
         }
         return Collections.emptyList();
@@ -1017,13 +1020,13 @@ public class LiveAPIClient {
         List<GenericEntity> studentSchoolAssociations = createEntitiesFromAPI(url, token);
 
         for (GenericEntity studentSchoolAssociation : studentSchoolAssociations) {
-            studentSchoolAssociation = GenericEntityEnhancer.enhanceStudentSchoolAssociation(studentSchoolAssociation);
-            String schoolUrl = extractLinksFromEntity(studentSchoolAssociation, SCHOOL_LINK).get(0);
+            GenericEntity enhancedStudentSchoolAssociation = GenericEntityEnhancer.enhanceStudentSchoolAssociation(studentSchoolAssociation);
+            String schoolUrl = extractLinksFromEntity(enhancedStudentSchoolAssociation, SCHOOL_LINK).get(0);
 
             // Retrieve the school for the corresponding student school
             // association
             GenericEntity school = createEntityFromAPI(schoolUrl, token);
-            studentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
+            enhancedStudentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
         }
 
         return studentSchoolAssociations;

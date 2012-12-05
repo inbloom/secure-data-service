@@ -17,7 +17,9 @@
 package org.slc.sli.dashboard.manager.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ import org.slc.sli.dashboard.util.CacheableConfig;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.JsonConverter;
+
+import com.google.gson.JsonSyntaxException;
 
 /**
  *
@@ -82,9 +86,9 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      *            reading from properties file panel.config.driver.dir
      */
     public void setDriverConfigLocation(String configLocation) {
-        URL url = Config.class.getClassLoader().getResource(configLocation);
+        URL url = Thread.currentThread().getContextClassLoader().getResource(configLocation);
         if (url == null) {
-            File f = new File(Config.class.getClassLoader().getResource("") + "/" + configLocation);
+            File f = new File(Thread.currentThread().getContextClassLoader().getResource("") + "/" + configLocation);
             f.mkdir();
             this.driverConfigLocation = f.getAbsolutePath();
         } else {
@@ -104,9 +108,9 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         String localConfigLocation = configLocation;
 
         if (!localConfigLocation.startsWith("/")) {
-            URL url = Config.class.getClassLoader().getResource(localConfigLocation);
+            URL url = Thread.currentThread().getContextClassLoader().getResource(localConfigLocation);
             if (url == null) {
-                File f = new File(Config.class.getClassLoader().getResource("").getPath() + localConfigLocation);
+                File f = new File(Thread.currentThread().getContextClassLoader().getResource("").getPath() + localConfigLocation);
                 f.mkdir();
                 localConfigLocation = f.getAbsolutePath();
             } else {
@@ -174,13 +178,16 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 return driverConfig.overWrite(customConfig);
             }
             return driverConfig;
-        } catch (Exception ex) {
+        } catch (FileNotFoundException ex) {
+            LOGGER.error("Unable to read config for " + componentId, ex);
+            throw new DashboardException("Unable to read config for " + componentId, ex);
+        } catch (JsonSyntaxException ex) {
             LOGGER.error("Unable to read config for " + componentId, ex);
             throw new DashboardException("Unable to read config for " + componentId, ex);
         }
     }
 
-    private Config loadConfig(File f) throws Exception {
+    private Config loadConfig(File f) throws FileNotFoundException {
         if (f.exists()) {
             FileReader fr = new FileReader(f);
             try {
@@ -272,7 +279,10 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         for (File f : driverConfigFiles) {
             try {
                 config = loadConfig(f);
-            } catch (Exception e) {
+            } catch (FileNotFoundException e) {
+                LOGGER.error("Unable to read config " + f.getName() + ". Skipping file", e);
+                continue;
+            } catch (JsonSyntaxException e) {
                 LOGGER.error("Unable to read config " + f.getName() + ". Skipping file", e);
                 continue;
             }
@@ -293,7 +303,19 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                         matchAll = false;
                         break;
                     }
-                } catch (Exception e) {
+                } catch (SecurityException e) {
+                    matchAll = false;
+                    LOGGER.error("Error calling config method: " + methodName);
+                } catch (NoSuchMethodException e) {
+                    matchAll = false;
+                    LOGGER.error("Error calling config method: " + methodName);
+                } catch (IllegalArgumentException e) {
+                    matchAll = false;
+                    LOGGER.error("Error calling config method: " + methodName);
+                } catch (IllegalAccessException e) {
+                    matchAll = false;
+                    LOGGER.error("Error calling config method: " + methodName);
+                } catch (InvocationTargetException e) {
                     matchAll = false;
                     LOGGER.error("Error calling config method: " + methodName);
                 }
@@ -326,7 +348,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
         try {
             return getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
-        } catch (Exception e) {
+        } catch (JsonSyntaxException e) {
             // it's a valid scenario when there is no district specific config. Default will be used
             // in this case.
             LOGGER.debug("No district specific config is available, the default config will be used");
@@ -443,12 +465,15 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
         // read edOrg custom config recursively
         APIClient apiClient = getApiClient();
-        while (edOrgKey != null) {
+        
+        EdOrgKey loopEdOrgKey = edOrgKey;
+        
+        while (loopEdOrgKey != null) {
             // customConfigByType will be added to a returning object
             Collection<Config> customConfigByType = new LinkedList<Config>();
 
             // get current edOrg custom config
-            ConfigMap customConfigMap = getCustomConfig(token, edOrgKey);
+            ConfigMap customConfigMap = getCustomConfig(token, loopEdOrgKey);
             if (customConfigMap != null) {
                 Map<String, Config> configByMap = customConfigMap.getConfig();
                 if (configByMap != null) {
@@ -470,7 +495,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             }
 
             // find current EdOrg entity
-            GenericEntity edOrg = apiClient.getEducationalOrganization(token, edOrgKey.getSliId());
+            GenericEntity edOrg = apiClient.getEducationalOrganization(token, loopEdOrgKey.getSliId());
             List<String> organizationCategories = (List<String>) edOrg.get(Constants.ATTR_ORG_CATEGORIES);
             if (organizationCategories != null && !organizationCategories.isEmpty()) {
                 for (String educationAgency : organizationCategories) {
@@ -482,12 +507,12 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             }
 
             // find parent EdOrg
-            edOrgKey = null;
+            loopEdOrgKey = null;
             edOrg = apiClient.getParentEducationalOrganization(token, edOrg);
             if (edOrg != null) {
                 String id = edOrg.getId();
                 if (id != null && !id.isEmpty()) {
-                    edOrgKey = new EdOrgKey(id);
+                    loopEdOrgKey = new EdOrgKey(id);
                 }
             }
         }

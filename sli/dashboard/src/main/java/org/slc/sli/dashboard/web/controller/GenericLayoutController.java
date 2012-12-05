@@ -144,11 +144,6 @@ public abstract class GenericLayoutController {
     }
 
     public boolean isAdmin() {
-        try {
-            return SecurityUtil.isAdmin();
-        } catch (Exception ex) {
-            return false;
-        }
-
+        return SecurityUtil.isAdmin();
     }
 }

@@ -92,14 +92,10 @@ then
     done
 
     # set up indices, shard keys etc. 
-    mongo admin  --port $mongos_port --eval "var tenant='sli'"     $SLI_HOME/config/shards/sli-shard-presplit.js
+    # staging db and tenant dbs will be indexed and presplit by ingestion. Not necessary here.
     mongo sli    --port $mongos_port                               $SLI_HOME/config/indexes/sli_indexes.js
-    mongo is     --port $mongos_port                               $SLI_HOME/config/indexes/is_indexes.js
     mongo ingestion_batch_job  --port $mongos_port                 $SLI_HOME/config/indexes/ingestion_batch_job_indexes.js
-    mongo admin  --port $mongos_port  --eval "var tenant='Midgar'" $SLI_HOME/config/shards/sli-shard-presplit.js
-    mongo Midgar --port $mongos_port                               $SLI_HOME/config/indexes/tenantDB_indexes.js
-    mongo admin  --port $mongos_port  --eval "var tenant='Hyrule'" $SLI_HOME/config/shards/sli-shard-presplit.js
-    mongo Hyrule --port $mongos_port                               $SLI_HOME/config/indexes/tenantDB_indexes.js
+
 fi
 
 echo "mongos is running on port $mongos_port"

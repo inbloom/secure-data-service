@@ -43,6 +43,7 @@ import javax.ws.rs.MessageProcessingException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -815,14 +816,16 @@ public class SDKAPIClientTest {
             LOG.error(e.getMessage());
         } catch (IOException e) {
             LOG.error(e.getMessage());
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
+            LOG.error(e.getMessage());
+        } catch (JsonSyntaxException e) {
             LOG.error(e.getMessage());
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 LOG.error(e.getMessage());
             }
         }

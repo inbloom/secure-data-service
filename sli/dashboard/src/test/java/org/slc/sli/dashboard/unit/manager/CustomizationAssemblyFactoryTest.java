@@ -359,9 +359,14 @@ public class CustomizationAssemblyFactoryTest {
     /**
      * Test not to allow infinite recursion
      */
-    @Test(expected = DashboardException.class)
+    @Test
     public void testConfigTooDeep() {
-        customizationAssemblyFactory.getModelAndViewConfig("deep", simpleMaleStudentEntity.get("id"));
+        try {
+            customizationAssemblyFactory.getModelAndViewConfig("deep", simpleMaleStudentEntity.get("id"));
+            Assert.fail("Should not allow deep config structures");
+        } catch (DashboardException de) {
+            Assert.assertEquals("The items hierarchy is too deep - only allow 5 elements", de.getMessage());
+        }
     }
     
     /**

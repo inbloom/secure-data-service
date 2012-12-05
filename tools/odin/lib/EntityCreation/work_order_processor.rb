@@ -16,97 +16,42 @@ limitations under the License.
 
 =end
 
-require_relative '../OutputGeneration/XML/studentParentInterchangeGenerator'
-require_relative '../OutputGeneration/XML/enrollmentGenerator'
-require_relative '../Shared/EntityClasses/student.rb'
-require_relative '../Shared/EntityClasses/studentSchoolAssociation.rb'
-require_relative '../Shared/EntityClasses/studentSectionAssociation.rb'
+require 'set'
 
+require_relative 'student_work_order'
+
+# class for processing student work orders
 class WorkOrderProcessor
-
-  def initialize(interchanges)
-    @interchanges = interchanges
+  
+  def initialize(writer)
+    @data_writer = writer
   end
 
+  # builds the specified work order by calling its native 'build' method
   def build(work_order)
-    work_order.build(@interchanges)
+    work_order.build(@data_writer)
   end
 
-  def self.run(world, batch_size)
-    File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-      studentParent = StudentParentInterchangeGenerator.new(studentParentFile, batch_size)
-      studentParent.start
-      File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-        enrollment = EnrollmentGenerator.new(enrollmentFile, batch_size)
-        enrollment.start
-        interchanges = {:studentParent => studentParent, :enrollment => enrollment}
-        processor = WorkOrderProcessor.new(interchanges)
-        for work_order in gen_work_orders(world) do
-          processor.build(work_order)
-        end
-        enrollment.finalize
-      end
-      studentParent.finalize
+  # uses the input writer and a snapshot of the 'world' to generate student work orders
+  # -> data writer is used to initialize work order processor (for output of generated entities)
+  # -> world       is used to generate student work orders to be processed
+  def self.run(world,  writer)
+    processor = WorkOrderProcessor.new(writer)
+    for work_order in generate_work_orders(world) do
+      processor.build(work_order)
     end
   end
 
-  def self.gen_work_orders(world)
+  # uses the snapshot of the 'world' to generate student work orders
+  def self.generate_work_orders(world)
+    next_student = 0
     Enumerator.new do |y|
-      student_id = 0
       world.each{|_, edOrgs|
         edOrgs.each{|edOrg|
-          students = edOrg['students']
-          unless students.nil?
-            years = students.keys.sort
-            initial_grade_breakdown = students[years.first]
-            initial_grade_breakdown.each{|grade, num_students|
-              (1..num_students).each{|_|
-              student_id += 1
-                y.yield StudentWorkOrder.new(student_id, edOrg, years, grade)
-            }
-            }
-          end
+          students     = edOrg['students']
+          next_student = StudentWorkOrder.generate_work_orders(students, edOrg, next_student, y) unless students.nil?
         }
       }
     end
   end
-
-end
-
-class StudentWorkOrder
-  attr_accessor :id, :sessions, :birth_day_after
-
-  def initialize(id, school, years = [], initial_grade = :KINDERGARTEN)
-    @id = id
-    @sessions = school['sessions'].map{|session| make_session(school, session)}
-    @rand = Random.new(@id)
-    @birth_day_after = Date.new(2000,9,1) #TODO fix this once I figure out what age they should be
-    @years = years
-    @initial_grade = initial_grade
-  end
-
-  def build(interchanges)
-    @student_interchange = interchanges[:studentParent]
-    @enrollment_interchange = interchanges[:enrollment]
-    s = Student.new(@id, @birth_day_after)
-    @student_interchange << s unless @student_interchange.nil?
-    unless @enrollment_interchange.nil?
-      @sessions.each{ |session|
-        gen_enrollment session
-      }
-    end
-  end
-
-  def gen_enrollment(session)
-    school_id = session[:school]
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id)
-    @enrollment_interchange << schoolAssoc
-  end
-
-  private
-
-  def make_session(school, session)
-    {:school => school['id'], :sections => [], :sessionInfo => session}
-  end
-
 end
