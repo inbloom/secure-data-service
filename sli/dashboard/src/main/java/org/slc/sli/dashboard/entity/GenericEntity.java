@@ -115,12 +115,6 @@ public class GenericEntity extends LinkedHashMap<String, Object> implements Enti
         put(key, list);
     }
     
-    @Override
-    public Object get(Object key) {
-        // TODO Just here for debugging remove
-        return super.get(key);
-    }
-    
     // Entity Interface for SDK Integration
     @Override
     public String getEntityType() {

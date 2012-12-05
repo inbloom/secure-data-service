@@ -17,33 +17,20 @@ limitations under the License.
 =end
 
 require_relative "./EntityWriter"
-require_relative "./interchangeGenerator.rb"
+require_relative "./interchangeGenerator"
 require_relative "../../Shared/util"
 
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
-# event-based master schedule interchange generator
-class MasterScheduleGenerator < InterchangeGenerator
+# event-based staff association interchange generator 
+class AssessmentMetadataGenerator < InterchangeGenerator
 
-  # initialization will define the header and footer for the master schedule interchange
+  # initialization will define the header and footer for the staff association interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
 
-    @header, @footer = build_header_footer( "MasterSchedule" )
-
-    @writers[CourseOffering] = EntityWriter.new("course_offering.mustache")
-    @writers[Section] = EntityWriter.new("section.mustache")
+    @header, @footer = build_header_footer( "AssessmentMetadata" )    
+    @writers[ Assessment ] = EntityWriter.new("assessment.mustache")
   end
-
-  # creates and writes course offering to interchange
-  def create_course_offering(id, title, ed_org_id, session, course)
-    self << CourseOffering.new(id, title, ed_org_id, session, course)
-  end
-
-  # creates and writes section to interchange
-  def create_section(id, school_id, offering)
-    self << Section.new(id, school_id, offering)
-  end
-
 end

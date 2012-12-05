@@ -29,8 +29,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
     <SchoolYear>2002-2003</SchoolYear>
     <Term>Year Round</Term>
-    <BeginDate>2002-09-09</BeginDate>
-    <EndDate>2003-06-04</EndDate>
+    <BeginDate>2002-09-10</BeginDate>
+    <EndDate>2003-06-05</EndDate>
     <TotalInstructionalDays>180</TotalInstructionalDays>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
@@ -45,7 +45,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <GradingPeriod>End of Year</GradingPeriod>
-        <BeginDate>2002-09-09</BeginDate>
+        <BeginDate>2002-09-10</BeginDate>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -53,8 +53,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
     <SchoolYear>2003-2004</SchoolYear>
     <Term>Year Round</Term>
-    <BeginDate>2003-09-05</BeginDate>
-    <EndDate>2004-06-01</EndDate>
+    <BeginDate>2003-08-27</BeginDate>
+    <EndDate>2004-05-24</EndDate>
     <TotalInstructionalDays>180</TotalInstructionalDays>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
@@ -69,7 +69,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <GradingPeriod>End of Year</GradingPeriod>
-        <BeginDate>2003-09-05</BeginDate>
+        <BeginDate>2003-08-27</BeginDate>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -2023,19 +2023,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <BeginDate>2002-09-09</BeginDate>
-    <EndDate>2003-06-04</EndDate>
+    <BeginDate>2002-09-10</BeginDate>
+    <EndDate>2003-06-05</EndDate>
     <TotalInstructionalDays>180</TotalInstructionalDays>
-    <CalendarDateReference>
-      <CalendarDateIdentity>
-        <Date>2002-09-09</Date>
-        <EducationOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationOrgReference>
-      </CalendarDateIdentity>
-    </CalendarDateReference>
     <CalendarDateReference>
       <CalendarDateIdentity>
         <Date>2002-09-10</Date>
@@ -3956,6 +3946,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationOrgReference>
       </CalendarDateIdentity>
     </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-06-05</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
   </GradingPeriod>
   <GradingPeriod>
     <GradingPeriod>End of Year</GradingPeriod>
@@ -3965,9 +3965,79 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <BeginDate>2003-09-05</BeginDate>
-    <EndDate>2004-06-01</EndDate>
+    <BeginDate>2003-08-27</BeginDate>
+    <EndDate>2004-05-24</EndDate>
     <TotalInstructionalDays>180</TotalInstructionalDays>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-08-27</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-08-28</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-08-29</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-09-01</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-09-02</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-09-03</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2003-09-04</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
     <CalendarDateReference>
       <CalendarDateIdentity>
         <Date>2003-09-05</Date>
@@ -5838,66 +5908,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationOrgReference>
       </CalendarDateIdentity>
     </CalendarDateReference>
-    <CalendarDateReference>
-      <CalendarDateIdentity>
-        <Date>2004-05-25</Date>
-        <EducationOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationOrgReference>
-      </CalendarDateIdentity>
-    </CalendarDateReference>
-    <CalendarDateReference>
-      <CalendarDateIdentity>
-        <Date>2004-05-26</Date>
-        <EducationOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationOrgReference>
-      </CalendarDateIdentity>
-    </CalendarDateReference>
-    <CalendarDateReference>
-      <CalendarDateIdentity>
-        <Date>2004-05-27</Date>
-        <EducationOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationOrgReference>
-      </CalendarDateIdentity>
-    </CalendarDateReference>
-    <CalendarDateReference>
-      <CalendarDateIdentity>
-        <Date>2004-05-28</Date>
-        <EducationOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationOrgReference>
-      </CalendarDateIdentity>
-    </CalendarDateReference>
-    <CalendarDateReference>
-      <CalendarDateIdentity>
-        <Date>2004-05-31</Date>
-        <EducationOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationOrgReference>
-      </CalendarDateIdentity>
-    </CalendarDateReference>
-    <CalendarDateReference>
-      <CalendarDateIdentity>
-        <Date>2004-06-01</Date>
-        <EducationOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>locl-0000000004</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationOrgReference>
-      </CalendarDateIdentity>
-    </CalendarDateReference>
   </GradingPeriod>
   <CalendarDate>
     <Date>2001-09-07</Date>
@@ -7125,7 +7135,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-18</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7134,7 +7144,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-19</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7143,7 +7153,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-20</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7152,7 +7162,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-21</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7161,7 +7171,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-22</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7170,7 +7180,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-25</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7179,7 +7189,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-26</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7188,7 +7198,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-27</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7197,7 +7207,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-28</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7206,7 +7216,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-03-29</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -7629,15 +7639,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2002-06-04</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
-    <EducationOrgReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000004</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrgReference>
-  </CalendarDate>
-  <CalendarDate>
-    <Date>2002-09-09</Date>
     <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
@@ -9374,6 +9375,78 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </EducationOrgReference>
   </CalendarDate>
   <CalendarDate>
+    <Date>2003-06-05</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2003-08-27</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2003-08-28</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2003-08-29</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2003-09-01</Date>
+    <CalendarEvent>Holiday</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2003-09-02</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2003-09-03</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2003-09-04</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>locl-0000000004</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
     <Date>2003-09-05</Date>
     <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
@@ -10599,7 +10672,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-15</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10608,7 +10681,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-16</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10617,7 +10690,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-17</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10626,7 +10699,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-18</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10635,7 +10708,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-19</Date>
-    <CalendarEvent>Holiday</CalendarEvent>
+    <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10644,7 +10717,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-22</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10653,7 +10726,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-23</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10662,7 +10735,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-24</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10671,7 +10744,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-25</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -10680,7 +10753,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-03-26</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>locl-0000000004</StateOrganizationId>
@@ -11049,60 +11122,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </CalendarDate>
   <CalendarDate>
     <Date>2004-05-24</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
-    <EducationOrgReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000004</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrgReference>
-  </CalendarDate>
-  <CalendarDate>
-    <Date>2004-05-25</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
-    <EducationOrgReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000004</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrgReference>
-  </CalendarDate>
-  <CalendarDate>
-    <Date>2004-05-26</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
-    <EducationOrgReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000004</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrgReference>
-  </CalendarDate>
-  <CalendarDate>
-    <Date>2004-05-27</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
-    <EducationOrgReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000004</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrgReference>
-  </CalendarDate>
-  <CalendarDate>
-    <Date>2004-05-28</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
-    <EducationOrgReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000004</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrgReference>
-  </CalendarDate>
-  <CalendarDate>
-    <Date>2004-05-31</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
-    <EducationOrgReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000004</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrgReference>
-  </CalendarDate>
-  <CalendarDate>
-    <Date>2004-06-01</Date>
     <CalendarEvent>Instructional day</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>

@@ -25,6 +25,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -79,7 +80,7 @@ import org.slc.sli.dashboard.entity.GenericEntity;
 @ContextConfiguration(locations = { "/application-context-test.xml" })
 public class SDKAPIClientTest {
 
-    private static Logger log = LoggerFactory.getLogger(SDKAPIClientTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SDKAPIClientTest.class);
 
     private static final String CUSTOM_CONFIG_JSON = "{config:{" + "\"component_1\": " + "{"
             + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", " + "\"type\" : \"LAYOUT\", "
@@ -378,6 +379,7 @@ public class SDKAPIClientTest {
 
             @Override
             public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+                //No Op
             }
 
             @Override
@@ -642,7 +644,7 @@ public class SDKAPIClientTest {
         public SdkClientReadAnswer(String json) {
             this.json = json;
             Gson gson = new GsonBuilder().create();
-            this.configMap = gson.fromJson(getJson(), ConfigMap.class);
+            this.configMap = gson.fromJson(this.json, ConfigMap.class);
         }
 
         @Override
@@ -806,23 +808,25 @@ public class SDKAPIClientTest {
 
             // Parse JSON
             Gson gson = new Gson();
-            List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
+            List<Map> maps = gson.fromJson(jsonBuffer.toString(), ArrayList.class);
             for (Map<String, Object> map : maps) {
                 entityList.add(new GenericEntity(map));
             }
+        } catch (FileNotFoundException e) {
+            LOG.error(e.getMessage());
         } catch (IOException e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         } catch (NullPointerException e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         } catch (JsonSyntaxException e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
             } catch (IOException e) {
-                log.error(e.getMessage());
+                LOG.error(e.getMessage());
             }
         }
         return entityList;

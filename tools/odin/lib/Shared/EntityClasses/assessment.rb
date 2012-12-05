@@ -16,18 +16,23 @@ limitations under the License.
 
 =end
 
-require_relative 'baseEntity.rb'
+require 'yaml'
 
-class StudentSectionAssociation < BaseEntity
+require_relative 'baseEntity'
+class Assessment < BaseEntity
 
-  attr_accessor :studentId, :sectionId, :edOrgId, :year
-
-  def initialize(studentId, sectionId, offering_id, edOrgId, year, grade)
-    @studentId = studentId
-    @sectionId = DataUtility.get_unique_section_id(sectionId, offering_id)
-    @edOrgId = DataUtility.get_school_id(edOrgId, GradeLevelType.school_type(grade))
-    @year = year
+  attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of
+  def initialize(id, year_of)
+    @id = id
+    @year_of = year_of
+    @rand = Random.new(@id)
+    build
   end
 
-  
+  def build
+
+    @assessmentTitle = @rand.rand(10000).to_s
+    @assessmentIdentificationCode = { :code => @rand.rand(10000).to_s, :assessmentIdentificationSystemType => 'State' }
+  end
+
 end
