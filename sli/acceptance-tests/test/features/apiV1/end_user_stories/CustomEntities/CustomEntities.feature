@@ -295,7 +295,7 @@ Scenario:  As an IT Admin, I want to add a large custom entitiy to a core entity
     Then I should receive the same large random file in key "custom_app_data" in the result
 
 
-Scenario:  As an IT Admin, I want to add a truncated (thus faulty) large custom entitiy to a core entity belonging to my application and not get a 5xx server error. 
+Scenario:  As an IT Admin, I want to add a truncated (thus faulty) large custom entitiy to a core entity belonging to my application and get a 400 server error. 
     Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
     And the clientID is "demoClient"
     And I am authenticated on "IL"
@@ -304,5 +304,5 @@ Scenario:  As an IT Admin, I want to add a truncated (thus faulty) large custom 
     And a valid entity json object for a "educationOrganizations"
     And I add a large random file with key "custom_app_data" to the object
     When I navigate to a truncated, faulty POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-    Then I should not receive a return code of 5xx
+    Then I should receive a return code of 400
 

@@ -137,7 +137,3 @@ When /^I navigate to a truncated, faulty POST "([^"]*)"$/ do |post_uri|
   restHttpPost(post_uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
-
-Then /^I should not receive a return code of 5xx$/ do 
-  assert(@res.code < 500, "Return code was expected to be < 500 but was "+@res.code.to_s)
-end
