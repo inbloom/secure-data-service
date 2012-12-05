@@ -148,8 +148,8 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 1                   | body.studentUniqueStateId                | 10                                            | string               |
      | student                     | 10                  | schools.entryDate                        | 2001-09-01                                    | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Sixth grade                                   | string               |
-     | student                     | 6                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
-     | student                     | 1                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
+     | student                     | 1                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
+     | student                     | 3                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
      | student                     | 10                  | schools.edOrgs                           | 42aaf7313c83453e0977f82dee426e6a51dd99a4_id   | string               |   
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
