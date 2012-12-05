@@ -111,7 +111,7 @@ public final class SliDeltaManager {
             n.addMetaData("rhHash", recordHashValues);
             n.addMetaData("rhTenantId", tenantId);
 
-            isPrevIngested = (record != null && record.hash.equals(recordHashValues));
+            isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
 
         } catch (NoNaturalKeysDefinedException e) {
             // If we can't determine the natural keys, don't include it in recordHash processing
