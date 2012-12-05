@@ -16,6 +16,7 @@
 
 package org.slc.sli.dashboard.client;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
@@ -34,6 +35,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.ws.rs.MessageProcessingException;
+
 import org.apache.commons.lang.StringUtils;
 import org.scribe.exceptions.OAuthException;
 import org.slf4j.Logger;
@@ -44,11 +47,11 @@ import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.SLIClientFactory;
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
+import org.slc.sli.dashboard.util.CacheableUserData;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.ExecutionTimeLogger;
 import org.slc.sli.dashboard.util.JsonConverter;
@@ -63,39 +66,40 @@ import org.slc.sli.dashboard.util.SecurityUtil;
  * 
  */
 public class SDKAPIClient implements APIClient {
-
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
-
+    
     private SLIClientFactory clientFactory;
-
+    
     private String gracePeriod;
-
+    
     /**
-     * Wrapper for value for the custom store - value is expected json object vs primitive
+     * Wrapper for value for the custom store - value is expected json object vs
+     * primitive
      * 
      */
     public static class CustomEntityWrapper {
         String value;
-
+        
         public CustomEntityWrapper(String value) {
             this.value = value;
         }
     }
-
+    
     /*
      * *****************************************************
      * API Client Interface Methods
      * *****************************************************
      */
-
+    
     public SLIClientFactory getClientFactory() {
         return clientFactory;
     }
-
+    
     public void setClientFactory(SLIClientFactory clientFactory) {
         this.clientFactory = clientFactory;
     }
-
+    
     /**
      * Set the SLI configured grace period for historical access
      * 
@@ -104,7 +108,7 @@ public class SDKAPIClient implements APIClient {
     public void setGracePeriod(String gracePeriod) {
         this.gracePeriod = gracePeriod;
     }
-
+    
     /**
      * Get the SLI configured grace period for historical access
      * 
@@ -114,10 +118,10 @@ public class SDKAPIClient implements APIClient {
     public String getGracePeriod() {
         return this.gracePeriod;
     }
-
+    
     /**
-     * Get a resource entity of a specified type which is identified by id and enriched using
-     * optional parameters
+     * Get a resource entity of a specified type which is identified by id and
+     * enriched using optional parameters
      * 
      * @param token
      * @param type
@@ -129,10 +133,10 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getEntity(String token, String type, String id, Map<String, String> params) {
         return this.readEntity(token, "/" + type + "/" + id + "?" + this.buildQueryString(params), id);
     }
-
+    
     /**
-     * Get a list of resource entities of a specified type which are identified by a list of ids and
-     * enriched using optional parameters
+     * Get a list of resource entities of a specified type which are identified
+     * by a list of ids and enriched using optional parameters
      * 
      * @param token
      * @param type
@@ -144,7 +148,7 @@ public class SDKAPIClient implements APIClient {
     public List<GenericEntity> getEntities(String token, String type, String ids, Map<String, String> params) {
         return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
     }
-
+    
     /**
      * Get user's home entity
      * 
@@ -155,7 +159,7 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getHome(String token) {
         return this.readEntity(token, SDKConstants.HOME_ENTITY);
     }
-
+    
     /**
      * Get the user's unique identifier
      * 
@@ -164,9 +168,9 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public String getId(String token) {
-
+        
         GenericEntity homeEntity = this.getHome(token);
-
+        
         if (homeEntity != null) {
             for (Link linkMap : homeEntity.getLinks()) {
                 if (linkMap.getLinkName().equals(Constants.ATTR_SELF)) {
@@ -174,10 +178,10 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Get EdOrg custom data
      * 
@@ -188,9 +192,20 @@ public class SDKAPIClient implements APIClient {
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
         GenericEntity ge = readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA);
-        return JsonConverter.fromJson((String) ge.get("config"), ConfigMap.class);
+        
+        if (ge == null) {
+            return null;
+        }
+        
+        Object config = ge.get("config");
+        
+        if (config == null) {
+            return null;
+        }
+        
+        return JsonConverter.fromJson((String) config, ConfigMap.class);
     }
-
+    
     /**
      * Store EdOrg custom data
      * 
@@ -204,7 +219,7 @@ public class SDKAPIClient implements APIClient {
         configMapEntity.put("config", JsonConverter.toJson(configMap));
         this.createEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA, configMapEntity);
     }
-
+    
     /**
      * Get a list of educational organizations using a list of ids
      * 
@@ -218,7 +233,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.EDORGS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
     /**
      * Get education organizations for staff member identified by id
      * 
@@ -231,7 +246,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token, SDKConstants.STAFF_ENTITY + staffId
                 + SDKConstants.STAFF_EDORG_ASSIGNMENT_ASSOC + SDKConstants.EDORGS, staffId);
     }
-
+    
     /**
      * Get an educational organization identified by id
      * 
@@ -243,10 +258,10 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getEducationalOrganization(String token, String id) {
         return this.readEntity(token, SDKConstants.EDORGS_ENTITY + id, id);
     }
-
+    
     /**
-     * Get education organizations for staff member identified by id and matching organization
-     * category or first if not specified
+     * Get education organizations for staff member identified by id and
+     * matching organization category or first if not specified
      * 
      * @param token
      * @param staffId
@@ -275,7 +290,7 @@ public class SDKAPIClient implements APIClient {
         }
         return staffEdOrg;
     }
-
+    
     /**
      * Get parent educational organizations for the supplied edOrgs
      * 
@@ -289,7 +304,7 @@ public class SDKAPIClient implements APIClient {
         List<String> ids = this.extractAttributesFromEntities(educationalOrganizations, Constants.ATTR_PARENT_EDORG);
         return this.getEducationalOrganizations(token, ids, null);
     }
-
+    
     /**
      * Get parent educational organization for the supplied edOrg
      * 
@@ -309,7 +324,7 @@ public class SDKAPIClient implements APIClient {
         }
         return parentEducationOrganization;
     }
-
+    
     /**
      * Get a list of all schools depending upon user role
      * 
@@ -319,19 +334,19 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getSchools(String token, List<String> ids) {
-
+        
         // get schools
-        List<GenericEntity> schools = this.readEntityList(token,
-                SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
-
+        List<GenericEntity> schools = this.readEntityList(token, ids, null, SDKConstants.SCHOOLS_ENTITY);
+        
         return schools;
     }
-
+    
     /**
      * Attempt to get a list of the users's schools
      * 
-     * Note: This is a naieve method, it assumes you're a teacher, and if that fails
-     * it takes the route of going through pretending you're generic staff.
+     * Note: This is a naieve method, it assumes you're a teacher, and if that
+     * fails it takes the route of going through pretending you're generic
+     * staff.
      * 
      * This adds 1 extra API call.
      * 
@@ -341,13 +356,14 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getMySchools(String token) {
-
+        
         List<GenericEntity> schools = new ArrayList<GenericEntity>();
         // get schools
         schools = this.readEntityList(token, SDKConstants.TEACHERS_ENTITY + getId(token)
                 + SDKConstants.TEACHER_SCHOOL_ASSOC + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
         if (schools == null || schools.size() == 0) {
-            // Ok there are 5 potential edOrg levels so we need to get the edOrg for this staff then
+            // Ok there are 5 potential edOrg levels so we need to get the edOrg
+            // for this staff then
             // dig down to the individual schools.
             Set<GenericEntity> schoolSet = new HashSet<GenericEntity>();
             List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
@@ -355,12 +371,12 @@ public class SDKAPIClient implements APIClient {
             edOrgs.addAll(this.readEntityList(token,
                     SDKConstants.STAFF_ENTITY + getId(token) + SDKConstants.STAFF_EDORG_ASSIGNMENT_ASSOC
                             + SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(null)));
-
+            
             for (int i = 0; i < edOrgs.size(); ++i) {
                 GenericEntity edOrg = edOrgs.get(i);
                 Map<String, String> query = new HashMap<String, String>();
                 query.put("parentEducationAgencyReference", (String) edOrg.get("id"));
-
+                
                 List<String> categories = edOrg.getList("organizationCategories");
                 if (categories.contains("School")) {
                     schoolSet.add(edOrg);
@@ -374,10 +390,10 @@ public class SDKAPIClient implements APIClient {
             }
             schools.addAll(schoolSet);
         }
-
+        
         return schools;
     }
-
+    
     /**
      * Get a list of schools using a list of ids
      * 
@@ -391,7 +407,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.SCHOOLS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
     /**
      * Get a school identified by id
      * 
@@ -403,7 +419,7 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getSchool(String token, String id) {
         return this.readEntity(token, SDKConstants.SCHOOLS_ENTITY + id, id);
     }
-
+    
     /**
      * Get a list of all sessions
      * 
@@ -424,7 +440,7 @@ public class SDKAPIClient implements APIClient {
         }
         return this.readEntityList(token, url);
     }
-
+    
     /**
      * Get a list of sessions using a list of ids
      * 
@@ -438,7 +454,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.SESSIONS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
     /**
      * Get a list of sessions for the specified school year
      * 
@@ -452,7 +468,7 @@ public class SDKAPIClient implements APIClient {
         params.put("schoolYear", schoolYear);
         return this.readEntityList(token, SDKConstants.SESSIONS_ENTITY + "?" + this.buildQueryString(params));
     }
-
+    
     /**
      * Get a session identified by id
      * 
@@ -464,7 +480,7 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getSession(String token, String id) {
         return this.readEntity(token, SDKConstants.SESSIONS_ENTITY + id, id);
     }
-
+    
     /**
      * Get a list of all sections
      * 
@@ -476,7 +492,7 @@ public class SDKAPIClient implements APIClient {
     public List<GenericEntity> getSections(String token, Map<String, String> params) {
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params));
     }
-
+    
     /**
      * Get a list of sections using a list of ids
      * 
@@ -490,7 +506,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.SECTIONS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
     /**
      * Get all sections for a non-Educator
      * 
@@ -501,16 +517,16 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getSectionsForNonEducator(String token, Map<String, String> params) {
         List<GenericEntity> sections = this.getSections(token, params);
-
+        
         // Enrich sections with session details
         enrichSectionsWithSessionDetails(token, null, sections);
-
+        
         // Enable filtering
         sections = filterCurrentSections(sections, true);
-
+        
         return sections;
     }
-
+    
     /**
      * Get all sections for a Teacher
      * 
@@ -524,13 +540,14 @@ public class SDKAPIClient implements APIClient {
         List<GenericEntity> sections = this.readEntityList(token,
                 SDKConstants.TEACHERS_ENTITY + teacherId + SDKConstants.TEACHER_SECTION_ASSOC
                         + SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params), teacherId);
-
-        // Disable filtering, so just adding section codes to sections with no name
+        
+        // Disable filtering, so just adding section codes to sections with no
+        // name
         sections = filterCurrentSections(sections, false);
-
+        
         return sections;
     }
-
+    
     /**
      * Get a list of sections for the given student id
      * 
@@ -542,48 +559,50 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getSectionsForStudent(final String token, final String studentId,
             Map<String, String> params) {
-        //params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentSectionAssociations)");
-
+        // params.put(Constants.ATTR_SELECTOR_FIELD,
+        // ":(.,studentSectionAssociations)");
+        
         List<GenericEntity> studentSectionAssociations = getStudentSectionAssociations(token, studentId, params);
-
+        
         List<GenericEntity> sections = this.readEntityList(token,
                 SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
                         + SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params), studentId);
-
+        
         sections = mergeLists(sections, studentSectionAssociations, "id", "sectionId", "studentSectionAssociations");
-
-        // Disable filtering, so just adding section codes to sections with no name
+        
+        // Disable filtering, so just adding section codes to sections with no
+        // name
         sections = filterCurrentSections(sections, false);
-
+        
         return sections;
     }
-
+    
     private List<GenericEntity> getStudentSectionAssociations(final String token, final String studentId,
-                                                              Map<String, String> params) {
-        List<GenericEntity> studentSectionAssociations = this.readEntityList(token,
-                SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC, studentId);
-
+            Map<String, String> params) {
+        List<GenericEntity> studentSectionAssociations = this.readEntityList(token, SDKConstants.STUDENTS_ENTITY
+                + studentId + SDKConstants.STUDENT_SECTION_ASSOC, studentId);
+        
         return studentSectionAssociations;
     }
-
-    private List<GenericEntity> mergeLists(List<GenericEntity> entities, List<GenericEntity> associations,
-                                           String key, String associationKey, String attributeName) {
+    
+    private List<GenericEntity> mergeLists(List<GenericEntity> entities, List<GenericEntity> associations, String key,
+            String associationKey, String attributeName) {
         List<GenericEntity> results = new ArrayList<GenericEntity>();
-
+        
         for (GenericEntity entity : entities) {
             String id = (String) entity.get(key);
             List<GenericEntity> subList = getSubList(associations, associationKey, id);
-
+            
             entity.put(attributeName, subList);
             results.add(entity);
         }
-
+        
         return results;
     }
-
+    
     private List<GenericEntity> getSubList(List<GenericEntity> entities, String key, String value) {
         List<GenericEntity> results = new ArrayList<GenericEntity>();
-
+        
         for (GenericEntity entity : entities) {
             if (entity.containsKey(key)) {
                 if (entity.get(key).equals(value)) {
@@ -591,10 +610,10 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         return results;
     }
-
+    
     /**
      * Get a section identified by id
      * 
@@ -603,12 +622,13 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @Override
+    @CacheableUserData
     public GenericEntity getSection(String token, String id) {
         GenericEntity section = this.readEntity(token, SDKConstants.SECTIONS_ENTITY + id);
         ensureSectionName(section);
         return section;
     }
-
+    
     /**
      * Get student home room information
      * 
@@ -619,17 +639,17 @@ public class SDKAPIClient implements APIClient {
     @Override
     public GenericEntity getSectionHomeForStudent(String token, String studentId) {
         GenericEntity homeRoomEntity = null;
-
+        
         List<GenericEntity> studentSections = this.getSectionsForStudent(token, studentId,
                 new HashMap<String, String>());
-
+        
         // If only one section association exists for the student, return the
         // section as home room
         if (studentSections.size() == 1) {
             homeRoomEntity = studentSections.get(0);
             return homeRoomEntity;
         }
-
+        
         // If multiple section associations exist for the student, return the
         // section with homeroomIndicator set to true
         for (GenericEntity studentSection : studentSections) {
@@ -646,10 +666,10 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         return homeRoomEntity;
     }
-
+    
     /**
      * Get a list of courses using a list of ids
      * 
@@ -663,7 +683,11 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.COURSES_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
+    public List<GenericEntity> getCourses(String token, List<String> ids) {
+        return this.readEntityList(token, ids, null, SDKConstants.COURSES_ENTITY);
+    }
+    
     /**
      * Get a list of courses for the given student id
      * 
@@ -679,26 +703,26 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
                 + SDKConstants.STUDENTS + "?" + this.buildQueryString(params), studentId);
     }
-
+    
     // @Override
     @Override
     public List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId) {
-
+        
         // get sections
         List<GenericEntity> sections = null;
         if (SecurityUtil.isNotEducator()) {
-
+            
             sections = this.readEntityList(token, SDKConstants.SCHOOLS_ENTITY + schoolId + SDKConstants.SECTIONS + "?"
                     + Constants.LIMIT + "=" + Constants.MAX_RESULTS);
-
+            
             enrichSectionsWithSessionDetails(token, schoolId, sections);
-
+            
             sections = filterCurrentSections(sections, true);
-
+            
         } else {
             String teacherId = getId(token);
             sections = getSectionsForTeacher(teacherId, token, null);
-
+            
             // filter by school id
             if (schoolId != null) {
                 List<GenericEntity> filteredSections = new ArrayList<GenericEntity>();
@@ -711,16 +735,16 @@ public class SDKAPIClient implements APIClient {
                 sections = filteredSections;
             }
         }
-
+        
         // get courses
         List<GenericEntity> courses = new ArrayList<GenericEntity>();
         if (sections != null && !sections.isEmpty()) {
             courses = getCourseSectionMappings(sections, schoolId, token);
         }
-
+        
         return courses;
     }
-
+    
     /**
      * Get a list of transcripts for the given student id
      * 
@@ -734,7 +758,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.COURSE_TRANSCRIPTS
                 + "?" + this.buildQueryString(params), studentId);
     }
-
+    
     /**
      * Get a course identified by id
      * 
@@ -746,7 +770,7 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getCourse(String token, String id) {
         return this.readEntity(token, SDKConstants.COURSES_ENTITY + id, id);
     }
-
+    
     /**
      * Get a list of staff members using a list of ids
      * 
@@ -760,7 +784,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.STAFF_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
     /**
      * Get staff member information identified by id
      * 
@@ -772,10 +796,10 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getStaff(String token, String id) {
         return this.readEntity(token, SDKConstants.STAFF_ENTITY + id, id);
     }
-
+    
     /**
-     * Get staff member information identified by id along with specified education organization of
-     * category
+     * Get staff member information identified by id along with specified
+     * education organization of category
      * 
      * @param token
      * @param id
@@ -793,7 +817,7 @@ public class SDKAPIClient implements APIClient {
         }
         return staffEntity;
     }
-
+    
     /**
      * Get a list of teachers specified by a list of ids
      * 
@@ -804,10 +828,9 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getTeachers(String token, List<String> ids, Map<String, String> params) {
-        return this.readEntityList(token,
-                SDKConstants.TEACHERS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
+        return this.readEntityList(token, ids, params, SDKConstants.TEACHERS_ENTITY);
     }
-
+    
     /**
      * Get a teacher identified by id
      * 
@@ -816,16 +839,17 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @Override
+    @CacheableUserData
     public GenericEntity getTeacher(String token, String id) {
         // get Teacher information
-        return this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id);
+        return this.readEntity(token, "/" + Constants.ATTR_TEACHERS + "/" + id, id);
     }
-
+    
     @Override
     public GenericEntity getTeacherWithSections(String token, String id) {
         GenericEntity teacher = getTeacher(token, id);
-        List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
-                + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS, id);
+        List<GenericEntity> sections = this.readEntityList(token, "/" + Constants.ATTR_TEACHERS + "/" + id + "/"
+                + Constants.ATTR_TEACHER_SECTION_ASSOCIATIONS + "/" + Constants.ATTR_SECTIONS, id);
         if (sections != null && !sections.isEmpty()) {
             GenericEntityComparator sectionComparator = new GenericEntityComparator("uniqueSectionCode", String.class);
             Collections.sort(sections, sectionComparator);
@@ -833,7 +857,7 @@ public class SDKAPIClient implements APIClient {
         }
         return teacher;
     }
-
+    
     /**
      * Get the teacher for a specified section
      * 
@@ -844,6 +868,24 @@ public class SDKAPIClient implements APIClient {
     @Override
     public GenericEntity getTeacherForSection(String token, String sectionId) {
         GenericEntity teacher = null;
+        
+        String teacherId = getTeacherIdForSection(token, sectionId);
+        if (teacherId == null) {
+            return null;
+        }
+        
+        return this.getTeacher(token, teacherId);
+    }
+    
+    /**
+     * Get the teacher for a specified section
+     * 
+     * @param token
+     * @param sectionId
+     * @return
+     */
+    @Override
+    public String getTeacherIdForSection(String token, String sectionId) {
         List<GenericEntity> teacherSectionAssociations = this.readEntityList(token, SDKConstants.SECTIONS_ENTITY
                 + sectionId + SDKConstants.TEACHER_SECTION_ASSOC + "?" + this.buildQueryString(null), sectionId);
         if (teacherSectionAssociations != null) {
@@ -851,18 +893,51 @@ public class SDKAPIClient implements APIClient {
                 if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(
                         Constants.TEACHER_OF_RECORD)) {
                     String teacherId = teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
-                    try {
-                        teacher = this.getTeacher(token, teacherId);
-                    } catch (Exception e) {
-                        LOGGER.error(e.getMessage());
-                    }
-                    return teacher;
+                    
+                    //if (teacherId == null) {
+                        // LOGGER.debug(arg0)
+                    //}
+                    
+                    return teacherId;
+                    
                 }
             }
         }
-        return teacher;
+        return null;
     }
-
+    
+    @Override
+    public void getTeacherIdForSections(String token, List<String> sectionIds, Map<String, String> teacherIdCache) {
+        
+        List<GenericEntity> result = new ArrayList<GenericEntity>(sectionIds.size());
+        for (int i = 0; i <= sectionIds.size() / Constants.MAX_IDS_PER_API_CALL; i++) {
+            List<String> subList = sectionIds.subList(i * Constants.MAX_IDS_PER_API_CALL,
+                    Math.min((i + 1) * Constants.MAX_IDS_PER_API_CALL, sectionIds.size()));
+            List<GenericEntity> entityList = this.readEntityList(token,
+                    SDKConstants.SECTIONS_ENTITY + buildListString(subList) + SDKConstants.TEACHER_SECTION_ASSOC + "?"
+                            + this.buildQueryString(null), subList);
+            result.addAll(entityList);
+        }
+        
+        for (String sectionId : sectionIds) {
+            teacherIdCache.put(sectionId, "empty");
+        }
+        
+        if (result.size() > 0) {
+            for (GenericEntity teacherSectionAssociation : result) {
+                String teacherId = null;
+                if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(
+                        Constants.TEACHER_OF_RECORD)) {
+                    teacherId = teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+                }
+                
+                String sectionId = teacherSectionAssociation.getString(Constants.ATTR_SECTION_ID);
+                
+                teacherIdCache.put(sectionId, teacherId);
+            }
+        }
+    }
+    
     /**
      * Get a list of teachers for a specific school
      * 
@@ -872,12 +947,12 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getTeachersForSchool(String token, String schoolId) {
-        List<GenericEntity> teachers = this.readEntityList(token, PathConstants.SCHOOLS + "/" + schoolId + "/"
-                + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/" + PathConstants.TEACHERS, schoolId);
-
+        List<GenericEntity> teachers = this.readEntityList(token, Constants.ATTR_SCHOOLS + "/" + schoolId + "/"
+                + Constants.ATTR_TEACHER_SCHOOL_ASSOCIATIONS + "/" + Constants.ATTR_TEACHERS, schoolId);
+        
         return teachers;
     }
-
+    
     /**
      * Get a list of parents for the given student id
      * 
@@ -888,28 +963,31 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
-        //params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentParentAssociations)");
-
+        // params.put(Constants.ATTR_SELECTOR_FIELD,
+        // ":(.,studentParentAssociations)");
+        
         List<GenericEntity> studentParentAssociations = getStudentParentAssociations(token, studentId, params);
-
-        List<GenericEntity> parents = this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
-                + SDKConstants.PARENTS + "?" + this.buildQueryString(params), studentId);
-
+        
+        List<GenericEntity> parents = this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId
+                + SDKConstants.STUDENT_PARENT_ASSOC + SDKConstants.PARENTS + "?" + this.buildQueryString(params),
+                studentId);
+        
         parents = mergeLists(parents, studentParentAssociations, "id", "parentId", "studentParentAssociations");
-
+        
         return parents;
     }
-
+    
     private List<GenericEntity> getStudentParentAssociations(final String token, final String studentId,
-                                                              Map<String, String> params) {
-        List<GenericEntity> studentParentAssociations = this.readEntityList(token,
-                SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC, studentId);
-
+            Map<String, String> params) {
+        List<GenericEntity> studentParentAssociations = this.readEntityList(token, SDKConstants.STUDENTS_ENTITY
+                + studentId + SDKConstants.STUDENT_PARENT_ASSOC, studentId);
+        
         return studentParentAssociations;
     }
-
+    
     /**
-     * Get a list of students assigned to the specified school for a given params
+     * Get a list of students assigned to the specified school for a given
+     * params
      * 
      * @param token
      * @param ids
@@ -920,10 +998,10 @@ public class SDKAPIClient implements APIClient {
     public List<GenericEntity> getStudentsForSchool(String token, String schoolId, Map<String, String> params) {
         addGradeLevelParam(params);
         return this.readEntityList(token,
-                "/" + PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/"
-                        + PathConstants.STUDENTS + "?" + this.buildQueryString(params));
+                "/" + Constants.ATTR_SCHOOLS + "/" + schoolId + "/" + Constants.ATTR_STUDENT_SCHOOL_ASSOCIATIONS + "/"
+                        + Constants.ATTR_STUDENTS + "?" + this.buildQueryString(params));
     }
-
+    
     /**
      * Get a list of all students
      * 
@@ -937,7 +1015,7 @@ public class SDKAPIClient implements APIClient {
         addGradeLevelParam(params);
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + "?" + this.buildQueryString(params));
     }
-
+    
     /**
      * Get a list of students specified by a list of ids
      * 
@@ -952,7 +1030,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.STUDENTS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
     private void addGradeLevelParam(Map<String, String> params) {
         String optionalParams;
         if (params.containsKey(SDKConstants.PARAM_OPTIONAL_FIELDS)) {
@@ -962,7 +1040,7 @@ public class SDKAPIClient implements APIClient {
         }
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
     }
-
+    
     /**
      * Get a list of students assigned to the specified section
      * 
@@ -976,11 +1054,11 @@ public class SDKAPIClient implements APIClient {
         String optionalParams = Constants.ATTR_ASSESSMENTS + "," + Constants.ATTR_STUDENT_ATTENDANCES_1 + ","
                 + Constants.ATTR_TRANSCRIPT + "," + Constants.ATTR_GRADEBOOK + "," + Constants.ATTR_GRADE_LEVEL;
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
-
+        
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + sectionId + SDKConstants.STUDENT_SECTION_ASSOC
                 + SDKConstants.STUDENTS + "?" + this.buildQueryString(params), sectionId);
     }
-
+    
     /**
      * Get a list of students using name search
      * 
@@ -1007,9 +1085,10 @@ public class SDKAPIClient implements APIClient {
         }
         return students;
     }
-
+    
     /**
-     * Get a list of students in the specified section along with gradebook entries
+     * Get a list of students in the specified section along with gradebook
+     * entries
      * 
      * @param token
      * @param sectionId
@@ -1021,11 +1100,11 @@ public class SDKAPIClient implements APIClient {
         String optionalParams = Constants.ATTR_GRADEBOOK;
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
         addGradeLevelParam(params);
-
+        
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + sectionId + SDKConstants.STUDENT_SECTION_ASSOC
                 + SDKConstants.STUDENTS + "?" + this.buildQueryString(params), sectionId);
     }
-
+    
     /**
      * Get a student identified by id
      * 
@@ -1034,14 +1113,15 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @Override
+    @CacheableUserData
     public GenericEntity getStudent(String token, String id) {
         Map<String, String> params = new HashMap<String, String>();
         String optionalParams = Constants.ATTR_GRADE_LEVEL;
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
-
+        
         return this.readEntity(token, SDKConstants.STUDENTS_ENTITY + id + "?" + this.buildQueryString(params), id);
     }
-
+    
     /**
      * Get a student identified by id including specified optional information
      * 
@@ -1056,10 +1136,10 @@ public class SDKAPIClient implements APIClient {
         String optionalParams = this.buildListString(optionalFields);
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
         addGradeLevelParam(params);
-
+        
         return this.readEntity(token, SDKConstants.STUDENTS_ENTITY + id + "?" + this.buildQueryString(params), id);
     }
-
+    
     /**
      * Get a list of school enrollments for the given student id
      * 
@@ -1074,18 +1154,39 @@ public class SDKAPIClient implements APIClient {
         params.put(SDKConstants.PARAM_SORT_ORDER, SDKConstants.PARAM_SORT_ORDER_DESCENDING);
         List<GenericEntity> studentSchoolAssociations = this.readEntityList(token, SDKConstants.STUDENTS_ENTITY
                 + studentId + SDKConstants.STUDENT_SCHOOL_ASSOC + "?" + this.buildQueryString(params), studentId);
+        
+        List<String> schoolIds = new ArrayList<String>(studentSchoolAssociations.size());
         for (GenericEntity studentSchoolAssociation : studentSchoolAssociations) {
-            studentSchoolAssociation = GenericEntityEnhancer.enhanceStudentSchoolAssociation(studentSchoolAssociation);
-            String schoolId = (String) studentSchoolAssociation.get(Constants.ATTR_SCHOOL_ID);
-
-            // Retrieve the school for the corresponding student school association
-            GenericEntity school = this.getSchool(token, schoolId);
-            studentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
+            GenericEntity enhancedStudentSchoolAssociation = GenericEntityEnhancer.enhanceStudentSchoolAssociation(studentSchoolAssociation);
+            String schoolId = (String) enhancedStudentSchoolAssociation.get(Constants.ATTR_SCHOOL_ID);
+            
+            schoolIds.add(schoolId);
         }
-
+        
+        List<GenericEntity> schools = getSchools(token, schoolIds);
+        
+        Map<String, GenericEntity> cache = new HashMap<String, GenericEntity>();
+        for (GenericEntity school : schools) {
+            cache.put(school.getId(), school);
+        }
+        
+        for (GenericEntity studentSchoolAssociation : studentSchoolAssociations) {
+            GenericEntity enhancedStudentSchoolAssociation = GenericEntityEnhancer.enhanceStudentSchoolAssociation(studentSchoolAssociation);
+            String schoolId = (String) enhancedStudentSchoolAssociation.get(Constants.ATTR_SCHOOL_ID);
+            
+            // Retrieve the school for the corresponding student school
+            // association
+            GenericEntity school = cache.get(schoolId);
+            if (school == null) {
+                LOGGER.warn("reading school from API, but should be reading from cache.");
+                school = getSchool(token, schoolId);
+            }
+            enhancedStudentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
+        }
+        
         return studentSchoolAssociations;
     }
-
+    
     /**
      * Get a list of attendances for the given student id
      * 
@@ -1099,7 +1200,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.ATTENDANCES_ENTITY
                 + "?" + this.buildQueryString(params), studentId);
     }
-
+    
     /**
      * Get a list of academic records for the given student id
      * 
@@ -1113,10 +1214,11 @@ public class SDKAPIClient implements APIClient {
         if (params != null) {
             params.put(SDKConstants.PARAM_STUDENT_ID, studentId);
         }
-        return this.readEntityList(token, SDKConstants.ACADEMIC_RECORDS_ENTITY + "?" + this.buildQueryString(params),
-                studentId);
+        List<GenericEntity> entityList = this.readEntityList(token,
+                SDKConstants.ACADEMIC_RECORDS_ENTITY + "?" + this.buildQueryString(params), studentId);
+        return entityList;
     }
-
+    
     /**
      * Get a list of assessments using a list of ids
      * 
@@ -1130,7 +1232,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token,
                 SDKConstants.ASSESSMENTS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
-
+    
     /**
      * Get a list of assessments for the given student id
      * 
@@ -1144,7 +1246,7 @@ public class SDKAPIClient implements APIClient {
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_ASSESSMENTS
                 + "?" + this.buildQueryString(null), studentId);
     }
-
+    
     /**
      * Get an assessment identified by id
      * 
@@ -1156,13 +1258,13 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getAssessment(String token, String id) {
         return this.readEntity(token, SDKConstants.ASSESSMENTS_ENTITY + id, id);
     }
-
+    
     /*
      * *****************************************************
      * Core API SDK Methods
      * *****************************************************
      */
-
+    
     /**
      * Read a custom entity using the SDK
      * 
@@ -1181,12 +1283,20 @@ public class SDKAPIClient implements APIClient {
             }
         } catch (SLIClientException e) {
             return null;
-        } catch (Exception e) {
+        } catch (MessageProcessingException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (OAuthException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (IOException e) {
             LOGGER.error("Exception occurred during API read", e);
         }
         return entity;
     }
-
+    
     /**
      * Read a resource entity using the SDK
      * 
@@ -1204,12 +1314,24 @@ public class SDKAPIClient implements APIClient {
                 Entity theEntity = entityList.get(0);
                 entity = new GenericEntity(theEntity);
             }
-        } catch (Exception e) {
+        } catch (MessageProcessingException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (OAuthException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (IOException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (SLIClientException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (ArrayIndexOutOfBoundsException e) {
             LOGGER.error("Exception occurred during API read", e);
         }
         return entity;
     }
-
+    
     /**
      * Read a resource entity using the SDK
      * 
@@ -1217,7 +1339,7 @@ public class SDKAPIClient implements APIClient {
      * @param url
      * @return
      */
-    @ExecutionTimeLogger.LogExecutionTime
+    // @ExecutionTimeLogger.LogExecutionTime
     protected GenericEntity readEntity(String token, String url, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
@@ -1225,7 +1347,7 @@ public class SDKAPIClient implements APIClient {
             return readEntity(token, url);
         }
     }
-
+    
     /**
      * Read a list of resource entities using the SDK
      * 
@@ -1235,6 +1357,7 @@ public class SDKAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     @Override
+    @CacheableUserData
     public List<GenericEntity> readEntityList(String token, String url) {
         List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
         try {
@@ -1246,15 +1369,48 @@ public class SDKAPIClient implements APIClient {
             }
         } catch (SLIClientException e) {
             return Collections.EMPTY_LIST;
-        } catch (Exception e) {
+        } catch (MessageProcessingException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (OAuthException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred during API read", e);
+        } catch (IOException e) {
             LOGGER.error("Exception occurred during API read", e);
         }
         return genericEntities;
     }
-
+    
+    /**
+     * Get a list of generic entities using a list of ids, the calls to the API are done in batches
+     * of MAX_IDS_PER_API_CALL entities at a time.
+     * 
+     * @param token
+     * @param ids
+     * @param params
+     * @return
+     */
+    @Override
+    public List<GenericEntity> readEntityList(String token, List<String> ids, Map<String, String> params, String type) {
+        List<GenericEntity> result = new ArrayList<GenericEntity>(ids.size());
+        for (int i = 0; i <= ids.size() / Constants.MAX_IDS_PER_API_CALL; i++) {
+            List<String> subList = ids.subList(i * Constants.MAX_IDS_PER_API_CALL,
+                    Math.min((i + 1) * Constants.MAX_IDS_PER_API_CALL, ids.size()));
+            List<GenericEntity> entityList = this.readEntityList(token,
+                    type + buildListString(subList) + "?" + this.buildQueryString(params), subList);
+            result.addAll(entityList);
+        }
+        
+        return result;
+    }
+    
     private List<Map<String, String>> mappifyLinks(List<Link> realLinks) {
-        // somewhere some code is dying because the links in the SDK are being returned as Link
-        // objects and not maps. I don't feel like digging through acres of code to find it, so I'm
+        // somewhere some code is dying because the links in the SDK are being
+        // returned as Link
+        // objects and not maps. I don't feel like digging through acres of code
+        // to find it, so I'm
         // putting in this hack
         List<Map<String, String>> mapLinks = new ArrayList<Map<String, String>>();
         if (realLinks != null) {
@@ -1267,7 +1423,7 @@ public class SDKAPIClient implements APIClient {
         }
         return mapLinks;
     }
-
+    
     /**
      * Read a list of resource entities using the SDK. This method checks id for
      * null or size == 0 and returns Collections.emptyList iff true.
@@ -1277,7 +1433,6 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
-    @ExecutionTimeLogger.LogExecutionTime
     protected List<GenericEntity> readEntityList(String token, String url, List id) {
         if (id == null || id.size() == 0) {
             return Collections.emptyList();
@@ -1285,7 +1440,7 @@ public class SDKAPIClient implements APIClient {
             return readEntityList(token, url);
         }
     }
-
+    
     /**
      * Read a list of resource entities using the SDK. This method checks id for
      * null or length == 0 and returns defaultList iff true.
@@ -1295,7 +1450,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
-    @ExecutionTimeLogger.LogExecutionTime
+    // @ExecutionTimeLogger.LogExecutionTime
     protected List<GenericEntity> readEntityList(String token, String url, String id) {
         if (id == null || id.length() <= 0) {
             return Collections.emptyList();
@@ -1303,7 +1458,7 @@ public class SDKAPIClient implements APIClient {
             return readEntityList(token, url);
         }
     }
-
+    
     /**
      * Create a resource entity using the SDK
      * 
@@ -1316,11 +1471,19 @@ public class SDKAPIClient implements APIClient {
     protected void createEntity(String token, String url, GenericEntity entity) {
         try {
             getClient(token).create(entity, url);
-        } catch (Exception e) {
+        } catch (OAuthException e) {
+            LOGGER.error("Exception occurred during API create", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred during API create", e);
+        } catch (IOException e) {
+            LOGGER.error("Exception occurred during API create", e);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred during API create", e);
+        } catch (SLIClientException e) {
             LOGGER.error("Exception occurred during API create", e);
         }
     }
-
+    
     /**
      * Update a resource entity using the SDK
      * 
@@ -1333,11 +1496,21 @@ public class SDKAPIClient implements APIClient {
     protected void updateEntity(String token, String url, GenericEntity entity) {
         try {
             getClient(token).update(entity);
-        } catch (Exception e) {
+        } catch (MessageProcessingException e) {
+            LOGGER.error("Exception occurred during API update", e);
+        } catch (OAuthException e) {
+            LOGGER.error("Exception occurred during API update", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred during API update", e);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred during API update", e);
+        } catch (IOException e) {
+            LOGGER.error("Exception occurred during API update", e);
+        } catch (SLIClientException e) {
             LOGGER.error("Exception occurred during API update", e);
         }
     }
-
+    
     /**
      * Delete a resource entity using the SDK
      * 
@@ -1350,17 +1523,22 @@ public class SDKAPIClient implements APIClient {
     protected void deleteEntity(String token, Entity entity) {
         try {
             getClient(token).delete(entity);
-        } catch (Exception e) {
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred during API delete", e);
+        } catch (OAuthException e) {
+            LOGGER.error("Exception occurred during API delete", e);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred during API delete", e);
+        } catch (SLIClientException e) {
             LOGGER.error("Exception occurred during API delete", e);
         }
     }
-
+    
     /*
      * *****************************************************
-     * API Helper Methods
-     * *****************************************************
+     * API Helper Methods *****************************************************
      */
-
+    
     /**
      * Given a link in the API response, extract the entity's unique id
      * 
@@ -1373,9 +1551,10 @@ public class SDKAPIClient implements APIClient {
         id = path.substring(index + 1);
         return id;
     }
-
+    
     /**
-     * Extract the specified attribute's value from each entity in the given entity list
+     * Extract the specified attribute's value from each entity in the given
+     * entity list
      * 
      * @param entities
      * @param attributeName
@@ -1383,7 +1562,7 @@ public class SDKAPIClient implements APIClient {
      */
     private List<String> extractAttributesFromEntities(List<GenericEntity> entities, String attributeName) {
         List<String> attributeList = new ArrayList<String>();
-
+        
         if (entities != null) {
             for (GenericEntity entity : entities) {
                 String attributeValue = (String) entity.get(attributeName);
@@ -1392,10 +1571,10 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         return attributeList;
     }
-
+    
     /**
      * Extract the link with the given relationship from an entity
      * 
@@ -1405,7 +1584,7 @@ public class SDKAPIClient implements APIClient {
      */
     private List<String> extractLinksFromEntity(GenericEntity entity, String rel) {
         List<String> linkList = new ArrayList<String>();
-
+        
         if (entity != null && entity.containsKey(Constants.ATTR_LINKS)) {
             for (Map link : (List<Map>) (entity.get(Constants.ATTR_LINKS))) {
                 if (link.get(Constants.ATTR_REL).toString().contains(rel)) {
@@ -1414,27 +1593,28 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         return linkList;
     }
-
+    
     /**
-     * Enrich section entities with session details to be leveraged during filtering
+     * Enrich section entities with session details to be leveraged during
+     * filtering
      * 
      * @param token
      * @param sections
      */
     private void enrichSectionsWithSessionDetails(String token, String schoolId, List<GenericEntity> sections) {
-
+        
         List<GenericEntity> sessions = this.getSessions(token, schoolId, null);
         if ((sessions != null) && (sections != null)) {
-
+            
             // Setup sessions lookup map
             Map<String, GenericEntity> sessionMap = new HashMap<String, GenericEntity>();
             for (GenericEntity session : sessions) {
                 sessionMap.put(session.getId(), session);
             }
-
+            
             // Enrich each section with session entity
             for (GenericEntity section : sections) {
                 String sessionIdAttribute = (String) section.get(Constants.ATTR_SESSION_ID);
@@ -1445,9 +1625,10 @@ public class SDKAPIClient implements APIClient {
             }
         }
     }
-
+    
     /**
-     * Process sections to ensure section name and filter historical data if specified
+     * Process sections to ensure section name and filter historical data if
+     * specified
      * 
      * @param sections
      * @param filterHistoricalData
@@ -1455,17 +1636,17 @@ public class SDKAPIClient implements APIClient {
      */
     private List<GenericEntity> filterCurrentSections(List<GenericEntity> sections, boolean filterHistoricalData) {
         List<GenericEntity> filteredSections = sections;
-
+        
         if (filterHistoricalData) {
             filteredSections = new ArrayList<GenericEntity>();
         }
-
+        
         if (sections != null && sections.size() > 0) {
-
+            
             // Setup grace period date
             Calendar gracePeriodCalendar = Calendar.getInstance();
             gracePeriodCalendar.setTimeInMillis(System.currentTimeMillis());
-
+            
             try {
                 if (gracePeriod != null && !gracePeriod.equals("")) {
                     int daysToSubtract = Integer.parseInt(gracePeriod) * -1;
@@ -1474,16 +1655,16 @@ public class SDKAPIClient implements APIClient {
             } catch (NumberFormatException exception) {
                 LOGGER.warn("Invalid grace period: {}", exception.getMessage());
             }
-
+            
             for (GenericEntity section : sections) {
-
+                
                 // Ensure section name
                 ensureSectionName(section);
-
+                
                 // Filter historical sections/sessions if necessary
                 if (filterHistoricalData) {
                     Map<String, Object> session = (Map<String, Object>) section.get(Constants.ATTR_SESSION);
-
+                    
                     // Verify section has been enriched with session details
                     if (session != null) {
                         try {
@@ -1493,13 +1674,14 @@ public class SDKAPIClient implements APIClient {
                             Date sessionEndDate = formatter.parse(endDateAttribute);
                             Calendar sessionEndCalendar = Calendar.getInstance();
                             sessionEndCalendar.setTimeInMillis(sessionEndDate.getTime());
-
-                            // Add filtered section if grace period adjusted date is before
+                            
+                            // Add filtered section if grace period adjusted
+                            // date is before
                             // or equal to session end date
                             if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
                                 filteredSections.add(section);
                             }
-
+                            
                         } catch (IllegalArgumentException exception) {
                             LOGGER.warn("Invalid session date formatter configuration: {}", exception.getMessage());
                         } catch (ParseException exception) {
@@ -1509,10 +1691,10 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         return filteredSections;
     }
-
+    
     /**
      * Match schools and sections. Also retrieve course info.
      * 
@@ -1522,22 +1704,23 @@ public class SDKAPIClient implements APIClient {
      */
     private List<GenericEntity> matchSchoolsAndSections(List<GenericEntity> schools, List<GenericEntity> sections,
             String token) {
-
+        
         // collect associated course first.
         HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
         HashMap<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
         getCourseSectionsMappings(sections, token, courseMap, sectionIDToCourseIDMap);
-
+        
         // now collect associated schools.
         HashMap<String, GenericEntity> schoolMap = new HashMap<String, GenericEntity>();
         HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
         getSchoolSectionsMappings(sections, token, schools, schoolMap, sectionIDToSchoolIDMap);
-
+        
         // Now associate course and school.
-        // There is no direct course-school association in ed-fi. For any section associated to
+        // There is no direct course-school association in ed-fi. For any
+        // section associated to
         // a school, its course will also be associated.
         HashMap<String, HashSet<String>> schoolIDToCourseIDMap = new HashMap<String, HashSet<String>>();
-
+        
         if (sections != null) {
             for (int i = 0; i < sections.size(); i++) {
                 GenericEntity section = sections.get(i);
@@ -1552,7 +1735,7 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         // now create the generic entity
         for (String schoolId : schoolIDToCourseIDMap.keySet()) {
             GenericEntity s = schoolMap.get(schoolId);
@@ -1561,10 +1744,10 @@ public class SDKAPIClient implements APIClient {
                 s.appendToList(Constants.ATTR_COURSES, c);
             }
         }
-
+        
         return new ArrayList<GenericEntity>(schoolMap.values());
     }
-
+    
     /**
      * Get the associations between courses and sections
      */
@@ -1572,15 +1755,15 @@ public class SDKAPIClient implements APIClient {
     public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String schoolId, String token) {
         Map<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
         Map<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
-
+        
         // this temporary sectionLookup will be used for cross reference between
         // courseId and
         // section.
         Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
-
+        
         // iterate each section
         if (sections != null) {
-
+            
             Map<String, String> courseOfferingToCourseIDMap = new HashMap<String, String>();
             String url = "";
             if (schoolId != null) {
@@ -1597,7 +1780,7 @@ public class SDKAPIClient implements APIClient {
                     courseOfferingToCourseIDMap.put(courseOfferingId, courseId);
                 }
             }
-
+            
             for (GenericEntity section : sections) {
                 // Get course using courseId reference in section
                 String courseOfferingId = (String) section.get(Constants.ATTR_COURSE_OFFERING_ID);
@@ -1608,11 +1791,11 @@ public class SDKAPIClient implements APIClient {
                 }
                 sectionLookup.get(courseId).add(section);
             }
-
+            
             // get course Entity
             List<GenericEntity> courses = readEntityList(token,
                     url + SDKConstants.COURSES_ENTITY + "?" + this.buildQueryString(null));
-
+            
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {
                 // Add course to courseMap
@@ -1630,28 +1813,28 @@ public class SDKAPIClient implements APIClient {
                     }
                 }
             }
-
+            
         }
-
+        
         List<GenericEntity> courses = new ArrayList<GenericEntity>(courseMap.values());
         Collections.sort(courses, new GenericEntityComparator(Constants.ATTR_COURSE_TITLE, String.class));
         return courses;
     }
-
+    
     /**
      * Get the associations between courses and sections
      */
     private void getCourseSectionsMappings(List<GenericEntity> sections, String token,
             Map<String, GenericEntity> courseMap, Map<String, String> sectionIDToCourseIDMap) {
-
+        
         // this variable is used to prevent sending duplicate courseId to API
         Set<String> courseIdTracker = new HashSet<String>();
-
+        
         // this temporary sectionLookup will be used for cross reference between
         // courseId and
         // section.
         Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
-
+        
         List<String> courseIds = new ArrayList<String>();
         // iterate each section
         if (sections != null) {
@@ -1671,21 +1854,21 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         // get Entities by given courseIds
         if (courseIds.size() > 0) {
-
+            
             // get course Entities
             List<GenericEntity> courses = getCourses(token, courseIds, null);
             Collections.sort(courses, new Comparator<GenericEntity>() {
-
+                
                 @Override
                 public int compare(GenericEntity o1, GenericEntity o2) {
                     return o1.getString("coursesName").compareTo(o2.getString("coursesName"));
                 }
-
+                
             });
-
+            
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {
                 // Add course to courseMap
@@ -1703,23 +1886,23 @@ public class SDKAPIClient implements APIClient {
             }
         }
     }
-
+    
     /**
      * Get the associations between schools and sections
      */
     private void getSchoolSectionsMappings(List<GenericEntity> sections, String token, List<GenericEntity> schools,
             Map<String, GenericEntity> schoolMap, Map<String, String> sectionIDToSchoolIDMap) {
-
+        
         // temporary cross reference between schoolId and sections
         Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
-
+        
         // iterate each section
         if (sections != null) {
             for (GenericEntity section : sections) {
                 String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
                 // search school which doesn't exist already
                 if (!schoolMap.containsKey(schoolId)) {
-
+                    
                     if (!sectionLookup.containsKey(schoolId)) {
                         sectionLookup.put(schoolId, new HashSet<GenericEntity>());
                     }
@@ -1727,9 +1910,9 @@ public class SDKAPIClient implements APIClient {
                 }
             }
         }
-
+        
         if (schools != null) {
-
+            
             // update schoolMap with schoolId. "id" for this entity
             for (GenericEntity school : schools) {
                 String schoolId = school.getId();
@@ -1745,13 +1928,13 @@ public class SDKAPIClient implements APIClient {
             }
         }
     }
-
+    
     private void ensureSectionName(GenericEntity section) {
         if ((section != null) && (section.get(Constants.ATTR_SECTION_NAME) == null)) {
             section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
         }
     }
-
+    
     /**
      * Builds a comma-separated string from the given string item list
      * 
@@ -1761,7 +1944,7 @@ public class SDKAPIClient implements APIClient {
     private String buildListString(List<String> items) {
         return (items == null) ? "" : StringUtils.join(items, ",");
     }
-
+    
     /**
      * Builds a query string from the given parameter map
      * 
@@ -1771,29 +1954,30 @@ public class SDKAPIClient implements APIClient {
     private String buildQueryString(Map<String, String> params) {
         StringBuilder query = new StringBuilder();
         String separator = "";
-
+        
+        Map<String, String> localParams = params;
+        
         // Setup defaults including paging disabled
-        if (params == null) {
-            params = new HashMap<String, String>();
+        if (localParams == null) {
+            localParams = new HashMap<String, String>();
         }
-        if (!params.containsKey(Constants.LIMIT)) {
-            params.put(Constants.LIMIT, String.valueOf(Constants.MAX_RESULTS));
+        if (!localParams.containsKey(Constants.LIMIT)) {
+            localParams.put(Constants.LIMIT, String.valueOf(Constants.MAX_RESULTS));
         }
-
-        for (Map.Entry<String, String> e : params.entrySet()) {
+        
+        for (Map.Entry<String, String> e : localParams.entrySet()) {
             query.append(separator);
             separator = "&";
-
+            
             query.append(e.getKey());
             query.append("=");
             query.append(e.getValue());
         }
-
+        
         return query.toString();
     }
-
+    
     public SLIClient getClient(String sessionToken) throws OAuthException, MalformedURLException, URISyntaxException {
         return clientFactory.getClientWithSessionToken(sessionToken);
     }
-
 }

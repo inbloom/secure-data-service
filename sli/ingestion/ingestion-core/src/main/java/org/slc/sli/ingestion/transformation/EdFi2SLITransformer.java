@@ -21,13 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -48,6 +41,13 @@ import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 
 /**
  * EdFi to SLI data transformation
@@ -65,7 +65,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected static final String ID = "_id";
 
-    private DeterministicIdResolver didResolver;
+    private DeterministicIdResolver dIdResolver;
 
     private EntityConfigFactory entityConfigurations;
 
@@ -133,7 +133,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
-        didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
+        dIdResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 }
 
     /**
@@ -307,12 +307,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);
 
-    public DeterministicIdResolver getDidResolver() {
-        return didResolver;
-    }
-
-    public void setDidResolver(DeterministicIdResolver didResolver) {
-        this.didResolver = didResolver;
+    public void setDIdResolver(DeterministicIdResolver dIdResolver) {
+        this.dIdResolver = dIdResolver;
     }
 
     public EntityConfigFactory getEntityConfigurations() {

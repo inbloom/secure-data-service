@@ -46,7 +46,7 @@ class UserAccountRegistrationsController < ApplicationController
       redirect_to(:controller => "waitlist_users", :action => "new")
     else
       @user_account_registration = UserAccountRegistration.new(params[:user_account_registration])
-      Rails.logger.debug "User Account Registration = #{@user_account_registration}"
+      logger.debug "User Account Registration = #{@user_account_registration}"
       captcha_valid = validate_recap(params, @user_account_registration.errors)
       @user_account_registration.errors.clear
 
@@ -66,10 +66,16 @@ class UserAccountRegistrationsController < ApplicationController
           render500 = false
           session[:guuid] = @user_account_registration.email
         rescue InvalidPasswordException => e
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
+
           APP_CONFIG['password_policy'].each { |msg| @user_account_registration.errors.add(:password, msg) }
           redirectPage = false
           render500 = false
         rescue Exception => e
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
+
           logger.info { e.message }
           render500=true
         end
@@ -97,12 +103,15 @@ class UserAccountRegistrationsController < ApplicationController
     if max_user
       begin
         user_count = ApprovalEngine.get_sandbox_admin_count
-        Rails.logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
+        logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
         user_count >= max_user
       rescue Exception => e
-        Rails.logger.fatal "An exception occured when retrieving existing user counts."
-        Rails.logger.fatal "Exception:  #{e}"
-        Rails.logger.fatal "Backtrace:  #{e.backtrace.join("\n")}"
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+
+        logger.fatal "An exception occured when retrieving existing user counts."
+        logger.fatal "Exception:  #{e}"
+        logger.fatal "Backtrace:  #{e.backtrace.join("\n")}"
         return true
       end
     else

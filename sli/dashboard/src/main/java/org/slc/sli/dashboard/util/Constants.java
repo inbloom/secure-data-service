@@ -20,19 +20,19 @@ package org.slc.sli.dashboard.util;
  * This class is for constants that are used in multiple places throughout the
  * application.
  * Constants used only in one class should be kept in that class.
- *
+ * 
  * @author dwu
- *
+ * 
  */
 public final class Constants {
     // API related URLs
     public static final String API_PREFIX = "api/rest";
-
+    
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
-
+    
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
-
+    
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
     public static final String VIEW_TYPE_STUDENT_PROFILE_PAGE = "studentProfilePage";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";
@@ -46,7 +46,7 @@ public final class Constants {
     public static final String CONFIG_ASSESSMENT_FILTER = "assessmentFilter";
     public static final String OVERALL_CONTAINER_PAGE = "overall_container";
     public static final String PAGE_TO_INCLUDE = "page_to_include";
-
+    
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
@@ -61,10 +61,10 @@ public final class Constants {
     public static final String MM_KEY_ATTENDANCE = "attendances";
     public static final String MM_KEY_HISTORICAL = "historicaldata";
     public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
-    public static final String MM_KEY_LOGGER = "logger";
+    public static final String MM_KEY_LOGGER = "LOGGER";
     public static final String MM_COMPONENT_ID = "componentId";
     public static final String MM_ENTITY_ID = "entityId";
-
+    
     // entity attributes
     public static final String ATTR_ROOT = "root";
     public static final String ATTR_AUTHENTICATED = "authenticated";
@@ -76,6 +76,10 @@ public final class Constants {
     public static final String ATTR_SCHOOLS = "schools";
     public static final String ATTR_SECTION = "section";
     public static final String ATTR_SECTIONS = "sections";
+    public static final String ATTR_STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
+    public static final String ATTR_TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
+    public static final String ATTR_TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
+    public static final String ATTR_COURSE_OFFERINGS = "courseOfferings";
     public static final String ATTR_COURSE = "course";
     public static final String ATTR_SECTION_NAME = "sectionName";
     public static final String ATTR_LINK = "link";
@@ -196,19 +200,19 @@ public final class Constants {
     public static final String ATTR_START_DATE = "startDate";
     public static final String ATTR_BEGIN_DATE = "beginDate";
     public static final String ATTR_END_DATE = "endDate";
-
+    
     public static final String ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
-
+    
     public static final String ATTR_CREDENTIALS_LIST_ATTRIBUTE = "credentials";
     public static final String ATTR_CREDENTIAL_FIELD_ATTRIBUTE = "credentialField";
     public static final String ATTR_CREDENTIAL_CODE_ATTRIBUTE = "codeValue";
-
+    
     public static final String ATTR_CUMULATIVE_GPA = "cumulativeGradePointAverage";
     public static final String ATTR_STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String ATTR_SESSION_BEGIN_DATE = "beginDate";
     public static final String ATTR_SESSION_END_DATE = "endDate";
     public static final String ATTR_DATE_FORMAT = "yyyy-mm-dd";
-
+    
     public static final String ATTR_GRADE_EARNED = "gradeEarned";
     public static final String ATTR_SEARCH_STRING = "searchString";
     public static final String ATTR_NUM_RESULTS = "numResults";
@@ -224,20 +228,20 @@ public final class Constants {
     public static final String ATTR_RELATION = "relation";
     public static final String ATTR_CONTACT_PRIORITY = "contactPriority";
     public static final String ATTR_PRIMARY_CONTACT_STATUS = "primaryContactStatus";
-
+    
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
-
+    
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
     public static final String MIDDLE_SCHOOL_VIEW = "Middle School ELA View";
-
+    
     public static final String ATTR_NAME_WITH_LINK = "name_w_link";
-
+    
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";
-
+    
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Limited";
-
+    
     // AddressType Constants
     public static final String TYPE_ADDRESS_HOME = "Home";
     public static final String TYPE_ADDRESS_PHYSICAL = "Physical";
@@ -246,7 +250,7 @@ public final class Constants {
     public static final String TYPE_ADDRESS_OTHER = "Other";
     public static final String TYPE_ADDRESS_TEMPORARY = "Temporary";
     public static final String TYPE_ADDRESS_WORK = "Work";
-
+    
     // TelephoneType Constants
     public static final String TYPE_TELEPHONE_HOME = "Home";
     public static final String TYPE_TELEPHONE_WORK = "Work";
@@ -256,44 +260,46 @@ public final class Constants {
     public static final String TYPE_TELEPHONE_FAX = "Fax";
     public static final String TYPE_TELEPHONE_OTHER = "Other";
     public static final String TYPE_TELEPHONE_UNLISTED = "Unlisted";
-
+    
     // EmailType Constants
     public static final String TYPE_EMAIL_HOME_PERSONAL = "Home/Personal";
     public static final String TYPE_EMAIL_WORK = "Work";
     public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
     public static final String TYPE_EMAIL_OTHER = "Other";
-
+    
     public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
     public static final String CONTEXT_PREVIOUS_PATH = "CONTEXT_PREVIOUS_PATH";
-
+    
     // extra elements added by API
     public static final String METADATA = "metaData";
     public static final String EXTERNAL_ID = "externalId";
-
+    
     // Grades for Sections Constants
     public static final String SECTION_LETTER_GRADE = "letterGrade";
     public static final String SECTION_COURSE = "courseTitle";
-
+    
     // Roles
     public static final String ROLE_IT_ADMINISTRATOR = "IT Administrator";
     public static final String ROLE_EDUCATOR = "Educator";
     public static final String ROLE_LEADER = "Leader";
-
+    
     // Ed-org types
     public static final String ATTR_ED_ORG = "edOrg";
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String LOCAL_EDUCATION_AGENCY = "Local Education Agency";
-
+    
     public static final int MAX_RESULTS = 0;
+    // TODO: add comment
+    public static final int MAX_IDS_PER_API_CALL = 10;
     public static final String LIMIT = "limit";
     public static final String ATTR_PARENTS = "parents";
-
+    
     public static final String CACHE_USER_PANEL_DATA = "user.panel.data";
     public static final String CACHE_PORTAL_DATA = "portal.data";
     public static final String CACHE_USER_CONFIG = "user.panel.config";
     public static final String CACHE_USER_WIDGET_CONFIG = "user.config.widget";
     public static final String CACHE_USER_PANEL_CONFIG = "user.panel.config";
-
+    
     // Attendance Histroy
     public static final String ATTENDANCE_HISTORY_TERM = "term";
     public static final String ATTENDANCE_HISTORY_SCHOOL = "schoolName";
@@ -307,38 +313,36 @@ public final class Constants {
     public static final String ATTENDANCE_HISTORY_TARDY = "tardyCount";
     public static final String ATTENDANCE_EARLY_DEPARTURE = "earlyDepartureCount";
     public static final String ATTR_ATTENDANCE_LIST = "attendanceList";
-
-
-	public static final String ATTR_GET_FEEDER_SCHOOLS = "getFeederSchools";
-	public static final String GRADE_TYPE = "gradeType";
-
-
+    
+    public static final String ATTR_GET_FEEDER_SCHOOLS = "getFeederSchools";
+    public static final String GRADE_TYPE = "gradeType";
+    
     public static final String COURSES_AND_GRADES = "coursesAndGrades";
-
+    
     public static final String GET_STUDENT_SECTION_ASSOCIATIONS = "getStudentSectionAssociations";
     public static final String GET_GRADES = "getGrades";
-
-	public static final String ATTR_GET_FEEDER_EDORGS = "getFeederEducationOrganizations";
-	
-	public static final String ATTR_SCHOOL_LIST = "schoolList";
-	public static final String ATTR_DISTRICT_LIST = "districtList";
-
+    
+    public static final String ATTR_GET_FEEDER_EDORGS = "getFeederEducationOrganizations";
+    
+    public static final String ATTR_SCHOOL_LIST = "schoolList";
+    public static final String ATTR_DISTRICT_LIST = "districtList";
+    
     /**
      * Contains the possible values for FRE participation
      */
     public static enum FREParticipation {
         FREE("Free"), REDUCED_PRICE("Reduced Price");
-
+        
         private final String value;
-
+        
         FREParticipation(String value) {
             this.value = value;
         }
-
+        
         public String getValue() {
             return value;
         }
-
+        
     }
-
+    
 }

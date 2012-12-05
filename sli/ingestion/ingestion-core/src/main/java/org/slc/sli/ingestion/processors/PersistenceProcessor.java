@@ -52,6 +52,7 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
@@ -101,6 +102,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    private Set<String> recordLvlHashNeutralRecordTypes;
+
     private MessageSource messageSource;
 
     // Paths for id field and ref fields for self-referencing entities (for DE1950)
@@ -109,8 +112,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     // represents the configuration of a self-referencing entity schema
     static class SelfRefEntityConfig {
         private String idPath;              // path to the id field
-        // Exactly one of the following fields can be non-null: 
-        private String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
+        // Exactly one of the following fields can be non-null:
+        private String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field,
         private String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
         SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
@@ -573,6 +576,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
+    public void setRecordLvlHashNeutralRecordTypes(Set<String> recordLvlHashNeutralRecordTypes) {
+        this.recordLvlHashNeutralRecordTypes = recordLvlHashNeutralRecordTypes;
+    }
+
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
         Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
         Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
@@ -593,10 +600,34 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-    private void upsertRecordHash(NeutralRecord nr) {
-        if (nr.getMetaDataByName("rhId") != null) {
-            batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(), nr.getMetaDataByName("rhId")
-                    .toString());
+    private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
+
+        if (!recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
+            return;
+        }
+
+        Object rhHashObj = nr.getMetaDataByName("rhHash");
+        Object rhIdObj = nr.getMetaDataByName("rhId");
+        Object rhTenantIdObj = nr.getMetaDataByName("rhTenantId");
+
+        // Make sure complete metadata is present
+        if (null == rhHashObj || null == rhIdObj || null == rhTenantIdObj) {
+            return;
+        }
+        String newHashValues = rhHashObj.toString();
+        if (newHashValues == null) {
+            return;
+        }
+
+        String recordId = rhIdObj.toString();
+        String tenantId = rhTenantIdObj.toString();
+
+        // Consider DE2002, removing a query per record vs. tracking version
+        RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+        if (rh == null) {
+            batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
+        } else {
+            batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
         }
     }
 

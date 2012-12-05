@@ -31,7 +31,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.junit.Before;
@@ -315,39 +314,5 @@ public class SecurityEventResourceTest {
         }
 
     }
-
-    @Test
-    public void testDeveloperGetSecurityEvents() {
-        injector.setDeveloperContext();
-
-        Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
-
-        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
-            fail("Developer shoudd be forbidden from accessing SecurityEvent. " + response);
-        }
-    }
-
-    @Test
-    public void testRealmAdminGetSecurityEvents() {
-        injector.setRealmAdminContext();
-
-        Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
-
-        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
-            fail("Realm Admin shoudd be forbidden from accessing SecurityEvent. " + response);
-        }
-    }
-
-    @Test
-    public void testEducatorGetSecurityEvents() {
-        injector.setEducatorContext();
-
-        Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
-
-        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
-            fail("Educator shoudd be forbidden from accessing SecurityEvent. " + response);
-        }
-    }
-
 
 }

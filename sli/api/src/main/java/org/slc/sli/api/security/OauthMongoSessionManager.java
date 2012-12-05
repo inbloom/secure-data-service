@@ -31,18 +31,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -56,6 +44,17 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * Manages SLI User/app sessions
@@ -122,7 +121,6 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             sessionEntity = repo.create(SESSION_COLLECTION, new HashMap<String, Object>());
             sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
             sessionEntity.getBody().put("hardLogout", System.currentTimeMillis() + this.hardLogout);
-            sessionEntity.getBody().put("tenantId", tenantId);
             sessionEntity.getBody().put("requestedRealmId", realmId);
             sessionEntity.getBody().put("appSession", new ArrayList<Map<String, Object>>());
         }
@@ -183,6 +181,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity session = repo.findOne(SESSION_COLLECTION, nq);
 
         if (session == null) {
+            error("Session with code %s does not exist.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
                     "Session with code %s does not exist.", code));
         }
@@ -200,6 +199,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         }
 
         if (curAppSession == null) {
+            error("OAuth session not found with code %s.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
                     "OAuth session not found with code %s.", code));
         }
@@ -207,18 +207,21 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         // verify other attributes of the appSession
         String clientId = (String) curAppSession.get("clientId");
         if (!clientCredentials.getLeft().equals(clientId)) {
+            error("Client %s is invalid for app session %s.", clientCredentials.getLeft(), code);
             throw new OAuthAccessException(OAuthError.INVALID_CLIENT, String.format(
                     "Client %s is invalid for app session %s.", clientCredentials.getLeft(), code));
         }
 
         String verified = (String) curAppSession.get("verified");
         if (Boolean.valueOf(verified)) {
+            error("App session %s has already been verified.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
                     "App session %s has already been verified.", code));
         }
 
         Long expiration = (Long) ((Map<String, Object>) curAppSession.get("code")).get("expiration");
         if (expiration < System.currentTimeMillis()) {
+            error("App session %s has expired.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format("App session %s has expired.", code));
         }
 

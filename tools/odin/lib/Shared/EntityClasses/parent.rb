@@ -16,19 +16,14 @@ limitations under the License.
 
 =end
 
-require 'yaml'
+
+
 require_relative 'baseEntity'
-
 class Parent < BaseEntity
-  
-  class << self; attr_accessor :demographics end
-  @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")   
-  def self.demographics; @@demographics end
-  
-  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix, 
-                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
-                :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood          
 
+  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
+                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
+                :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood
   def initialize(id, year_of)
     @id = id
     @year_of = year_of
@@ -43,7 +38,7 @@ class Parent < BaseEntity
     @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
     @lastName = choose(@@demographics['lastNames'])
     @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
-    @birthDay = @year_of + @rand.rand(365)
+    @birthDay = (@year_of + @rand.rand(365)).to_s
     @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
     @loginId = email
     @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])
@@ -57,6 +52,5 @@ class Parent < BaseEntity
     @disability = wChoose(@@demographics['disability'])
     @schoolFood = wChoose(@@demographics['schoolFood'])
   end
-  
- 
+
 end

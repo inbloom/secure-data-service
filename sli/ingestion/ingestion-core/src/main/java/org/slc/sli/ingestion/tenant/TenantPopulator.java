@@ -57,7 +57,6 @@ public class TenantPopulator implements ResourceLoaderAware {
 
     private static final String HOSTNAME_PLACEHOLDER = "<hostname>";
     private static final String PARENT_LZ_PATH_PLACEHOLDER = "<lzpath>";
-    public static final String INDEXING_SCRIPT = "tenantDB_indexes.js";
 
     /**
      * Add a specified tenantRecord to the tenant collection.
@@ -125,12 +124,15 @@ public class TenantPopulator implements ResourceLoaderAware {
     private void createParentLzDirectory() {
         String lzPath = Matcher.quoteReplacement(parentLandingZoneDir);
         File lzDirectory = new File(lzPath);
-        if (!lzDirectory.mkdir())
+        if (!lzDirectory.mkdir()) {
             log.debug("Failed to mkdir: " + lzDirectory.getPath());
-        if (!lzDirectory.setReadable(true, false))
+        }
+        if (!lzDirectory.setReadable(true, false)) {
             log.debug("Failed to setReadable: " + lzDirectory.getPath());
-        if (!lzDirectory.setWritable(true, false))
+        }
+        if (!lzDirectory.setWritable(true, false)) {
             log.debug("Failed to setWritable: " + lzDirectory.getPath());
+        }
     }
 
     /**
@@ -146,12 +148,15 @@ public class TenantPopulator implements ResourceLoaderAware {
         for (LandingZoneRecord lz : landingZones) {
             String lzPath = lz.getPath();
             File lzDirectory = new File(lzPath);
-            if (!lzDirectory.mkdir())
+            if (!lzDirectory.mkdir()) {
                 log.debug("Failed to mkdir: " + lzDirectory.getPath());
-            if (!lzDirectory.setReadable(true, false))
+            }
+            if (!lzDirectory.setReadable(true, false)) {
                 log.debug("Failed to setReadable: " + lzDirectory.getPath());
-            if (!lzDirectory.setWritable(true, false))
+            }
+            if (!lzDirectory.setWritable(true, false)) {
                 log.debug("Failed to setWritable: " + lzDirectory.getPath());
+            }
         }
     }
 

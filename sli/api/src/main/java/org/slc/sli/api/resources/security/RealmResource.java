@@ -38,20 +38,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -62,6 +56,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -99,8 +98,6 @@ public class RealmResource {
     @Autowired
     private RoleInitializer roleInitializer;
 
-    @Autowired
-    private RealmHelper realmHelper;
 
 
     @PostConstruct
@@ -119,16 +116,12 @@ public class RealmResource {
         this.service = service;
     }
 
-    @SuppressWarnings("unchecked")
     @PUT
     @Path("{realmId}")
     @Consumes("application/json")
+    @RightsAllowed({Right.CRUD_REALM})
     public Response updateRealm(@PathParam("realmId") String realmId, EntityBody updatedRealm,
             @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM)) {
-            return SecurityUtil.forbiddenResponse();
-        }
 
         if (updatedRealm == null) {
             throw new EntityNotFoundException("Entity was null");
@@ -152,7 +145,7 @@ public class RealmResource {
         updatedRealm.put(ED_ORG, SecurityUtil.getEdOrg());
 
         if (service.update(realmId, updatedRealm)) {
-            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
+            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Realm ["
                     + updatedRealm.get(NAME) + "] updated!"));
             return Response.status(Status.NO_CONTENT).build();
         }
@@ -161,25 +154,19 @@ public class RealmResource {
 
     @DELETE
     @Path("{realmId}")
+    @RightsAllowed({Right.CRUD_REALM})
     public Response deleteRealm(@PathParam("realmId") String realmId, @Context final UriInfo uriInfo) {
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM)) {
-            return SecurityUtil.forbiddenResponse();
-        }
         EntityBody deletedRealm = service.get(realmId);
         service.delete(realmId);
         roleInitializer.dropRoles(realmId);
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
+        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Realm ["
                 + deletedRealm.get(NAME) + "] deleted!"));
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @POST
-    @SuppressWarnings("unchecked")
+    @RightsAllowed({Right.CRUD_REALM})
     public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM)) {
-            return SecurityUtil.forbiddenResponse();
-        }
 
         if (!canEditCurrentRealm(newRealm)) {
             EntityBody body = new EntityBody();
@@ -201,7 +188,7 @@ public class RealmResource {
         //Also create custom roles
         roleInitializer.dropAndBuildRoles(id);
 
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
+        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Realm ["
                 + newRealm.get(NAME) + "] created!"));
         String uri = uriToString(uriInfo) + "/" + id;
 
@@ -210,16 +197,15 @@ public class RealmResource {
 
     @GET
     @Path("{realmId}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response readRealm(@PathParam("realmId") String realmId) {
-        SecurityUtil.ensureAuthenticated();
         EntityBody result = service.get(realmId);
         return Response.ok(result).build();
     }
 
     @GET
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getRealms(@QueryParam(REALM) @DefaultValue("") String realm, @Context UriInfo info) {
-        SecurityUtil.ensureAuthenticated();
-        
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         NeutralQuery neutralQuery = new NeutralQuery();

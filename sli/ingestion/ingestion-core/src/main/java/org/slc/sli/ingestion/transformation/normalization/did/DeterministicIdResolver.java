@@ -34,7 +34,6 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.validation.SchemaRepository;
 
 /**
  * Resolver for deterministic id resolution.
@@ -53,9 +52,6 @@ public class DeterministicIdResolver {
 
     @Autowired
     private DidEntityConfigReader didConfigReader;
-
-    @Autowired
-    private SchemaRepository schemaRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
@@ -108,7 +104,7 @@ public class DeterministicIdResolver {
     }
 
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource,
-            String tenantId) throws IdResolutionException {
+                                                   String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -225,18 +221,6 @@ public class DeterministicIdResolver {
         return referenceObject;
     }
 
-    private void setProperty(Object bean, String fieldPath, Object uuid) throws IdResolutionException {
-        try {
-            PropertyUtils.setProperty(bean, fieldPath, uuid);
-        } catch (IllegalAccessException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        } catch (InvocationTargetException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        } catch (NoSuchMethodException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        }
-    }
-
     private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
             ErrorReport errorReport) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
@@ -267,7 +251,7 @@ public class DeterministicIdResolver {
                 Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
 
                 if (nestedRef == null) {
-                    if (keyFieldDef.isOptional() == false) {
+                    if (!keyFieldDef.isOptional()) {
                         throw new IdResolutionException("No value found for required reference",
                                 keyFieldDef.getValueSource(), "");
                     } else {
@@ -294,8 +278,6 @@ public class DeterministicIdResolver {
             // don't add null or empty keys to the naturalKeys map
             if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
                 naturalKeys.put(fieldName, value == null ? "" : value.toString());
-            } else {
-                //
             }
         }
 

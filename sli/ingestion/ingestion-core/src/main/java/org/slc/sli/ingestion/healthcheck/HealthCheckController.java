@@ -16,16 +16,12 @@
 
 package org.slc.sli.ingestion.healthcheck;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.slc.sli.ingestion.IngestionHealthCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import org.slc.sli.ingestion.IngestionHealthCheck;
 
 /**
  * Health Check Controller.
@@ -36,8 +32,6 @@ import org.slc.sli.ingestion.IngestionHealthCheck;
 @Controller
 @RequestMapping("/healthcheck")
 public class HealthCheckController {
-
-    private Map<String, Heart> hearts = new HashMap<String, Heart>();
 
     private Heart heart;
 

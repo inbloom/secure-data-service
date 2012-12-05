@@ -71,14 +71,14 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .makeRole(LEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
-                                        Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SEA_ADMINISTRATOR,
                 RoleBuilder
                         .makeRole(SEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
-                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SANDBOX_SLC_OPERATOR,
                 RoleBuilder
@@ -119,7 +119,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL,
                                         Right.READ_PUBLIC, Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN,
-                                        Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
         
     }
 
@@ -166,12 +166,9 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                             if (roleNames.contains(roleName)) {
                                 List<String> rights = (List<String>) role.get("rights");
                                 Role mainRole = RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build();
-                                Role groupTitleRole = RoleBuilder.makeRole(groupTitle).addGrantedAuthorities(rights).build();
 
                                 mainRole.setAdmin(isAdmin);
-                                groupTitleRole.setAdmin(isAdmin);
                                 roles.add(mainRole);
-                                roles.add(groupTitleRole);
                             }
                         }
                     }

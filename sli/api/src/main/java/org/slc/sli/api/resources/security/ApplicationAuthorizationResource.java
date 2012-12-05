@@ -47,6 +47,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -114,6 +115,7 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
     public Response getAuthorization(@PathParam(UUID) String uuid) {
 
         if (uuid != null) {
@@ -127,12 +129,8 @@ public class ApplicationAuthorizationResource {
     }
 
     @POST
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            return SecurityUtil.forbiddenResponse();
-        }
-
         verifyAccess((String) newAppAuth.get(AUTH_ID), null);
 
         String uuid = service.create(newAppAuth);
@@ -143,11 +141,8 @@ public class ApplicationAuthorizationResource {
 
     @PUT
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            return SecurityUtil.forbiddenResponse();
-        }
 
         EntityBody oldAuth = service.get(uuid);
         String oldTenant = TenantContext.getTenantId();
@@ -176,14 +171,10 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
     public Response getAuthorizations(@Context UriInfo info) {
-        SecurityUtil.ensureAuthenticated();
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         String edOrgId = SecurityUtil.getEdOrgId();
-
-        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            return SecurityUtil.forbiddenResponse();
-        }
 
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
             if (edOrgId != null) {
@@ -328,12 +319,12 @@ public class ApplicationAuthorizationResource {
 
             if (added) {
                 audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
-                        uriInfo, "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId
+                        uriInfo.getRequestUri(), "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId
                                 + "] " + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId + ", "
                                 + nameOfInstitution + "]"));
             } else {
                 audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
-                        uriInfo, "NOT ALLOWED [" + appId + ", " + name + ", " + description + "] by Client ["
+                        uriInfo.getRequestUri(), "NOT ALLOWED [" + appId + ", " + name + ", " + description + "] by Client ["
                                 + clientId + "] " + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId + ", "
                                 + nameOfInstitution + "]"));
             }
