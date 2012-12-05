@@ -124,37 +124,13 @@ Scenario: Verify entities in education organization calendar were ingested corre
      | session                     | 1                   | body.schoolYear                          | 2002-2003                                     | string               |
      | session                     | 1                   | body.schoolYear                          | 2003-2004                                     | string               |
      | session                     | 3                   | body.term                                | Year Round                                    | string               |
-     | session                     | 1                   | body.beginDate                           | 2001-09-07                                    | string               |
-     | session                     | 1                   | body.beginDate                           | 2002-09-09                                    | string               |
-     | session                     | 1                   | body.beginDate                           | 2003-09-05                                    | string               |
-     | session                     | 1                   | body.endDate                             | 2002-06-04                                    | string               |
-     | session                     | 1                   | body.endDate                             | 2003-06-04                                    | string               |
-     | session                     | 1                   | body.endDate                             | 2004-06-01                                    | string               |
      | session                     | 3                   | body.totalInstructionalDays              | 180                                           | integer              |
      | gradingPeriod               | 3                   | body.gradingPeriodIdentity.gradingPeriod | End of Year                                   | string               |
      | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2001-2002                                     | string               |
      | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2002-2003                                     | string               |
      | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2003-2004                                     | string               |
      | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | 42aaf7313c83453e0977f82dee426e6a51dd99a4_id   | string               |
-     | gradingPeriod               | 1                   | body.beginDate                           | 2001-09-07                                    | string               |
-     | gradingPeriod               | 1                   | body.beginDate                           | 2002-09-09                                    | string               |
-     | gradingPeriod               | 1                   | body.beginDate                           | 2003-09-05                                    | string               |
-     | gradingPeriod               | 1                   | body.endDate                             | 2002-06-04                                    | string               |
-     | gradingPeriod               | 1                   | body.endDate                             | 2003-06-04                                    | string               |
-     | gradingPeriod               | 1                   | body.endDate                             | 2004-06-01                                    | string               |
      | gradingPeriod               | 3                   | body.totalInstructionalDays              | 180                                           | integer              |
-     | calendarDate                | 0                   | body.date                                | 2001-09-06                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2001-09-07                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2002-06-04                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2002-06-05                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2002-09-08                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2002-09-09                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2003-06-04                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2003-06-05                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2003-09-04                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2003-09-05                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2004-06-01                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2004-06-02                                    | string               |
 
 Scenario: Verify entities in student were ingested correctly: Populated Database
     And I check to find if record is in collection:
