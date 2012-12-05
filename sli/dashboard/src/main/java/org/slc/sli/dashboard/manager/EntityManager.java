@@ -48,11 +48,7 @@ import org.slc.sli.dashboard.util.ExecutionTimeLogger;
 @Component
 public class EntityManager extends ApiClientManager {
     
-    private static Logger log = LoggerFactory.getLogger(EntityManager.class);
-    
-    public EntityManager() {
-        
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(EntityManager.class);
     
     /**
      * Get the list of school entities identified by the school id list and
@@ -321,15 +317,19 @@ public class EntityManager extends ApiClientManager {
      */
     public GenericEntity getSectionForProfile(String token, String sectionId, Map<String, GenericEntity> cache,
             Map<String, String> teacherIdCache) {
-        if (cache == null || teacherIdCache == null) {
-            cache = new HashMap<String, GenericEntity>();
-            teacherIdCache = new HashMap<String, String>();
+        
+        Map<String, GenericEntity> localCache = cache;
+        Map<String, String> localTeacherIdCache = teacherIdCache;
+        
+        if (localCache == null || localTeacherIdCache == null) {
+            localCache = new HashMap<String, GenericEntity>();
+            localTeacherIdCache = new HashMap<String, String>();
         }
         
-        GenericEntity section = cache.get(sectionId);
+        GenericEntity section = localCache.get(sectionId);
         if (section == null) {
             section = getApiClient().getSection(token, sectionId);
-            cache.put(sectionId, section);
+            localCache.put(sectionId, section);
         }
         
         if (section == null) {
@@ -339,22 +339,22 @@ public class EntityManager extends ApiClientManager {
         // Retrieve teacher of record for the section, and add the teacher's
         // name to the section
         // entity.
-        String teacherId = teacherIdCache.get(sectionId);
+        String teacherId = localTeacherIdCache.get(sectionId);
         if (teacherId == null) {
             teacherId = getApiClient().getTeacherIdForSection(token, sectionId);
             if (teacherId == null) {
                 teacherId = "empty";
             }
-            teacherIdCache.put(sectionId, teacherId);
+            localTeacherIdCache.put(sectionId, teacherId);
         }
         
         GenericEntity teacher = null;
         if (teacherId != null && !teacherId.equals("empty")) {
-            teacher = cache.get(teacherId);
+            teacher = localCache.get(teacherId);
             
             if (teacher == null) {
                 teacher = getApiClient().getTeacher(token, teacherId);
-                cache.put(teacherId, teacher);
+                localCache.put(teacherId, teacher);
             }
         }
         
@@ -371,7 +371,7 @@ public class EntityManager extends ApiClientManager {
         List<String> entitieKeys = new ArrayList<String>(links.size());
         for (Link link : links) {
             String key = link.getResourceURL().toString();
-            GenericEntity entity = cache.get(key);
+            GenericEntity entity = localCache.get(key);
             if (entity == null) {
                 // getApiClient().readEntity(token, key);
                 // cache.put(key, entity);
@@ -380,21 +380,21 @@ public class EntityManager extends ApiClientManager {
         }
         
         String courseOfferingId = section.get("courseOfferingId").toString();
-        GenericEntity courseOffering = cache.get(courseOfferingId);
+        GenericEntity courseOffering = localCache.get(courseOfferingId);
         if (courseOffering == null) {
             courseOffering = getCourseOffering(token, courseOfferingId);
-            cache.put(courseOfferingId, courseOffering);
+            localCache.put(courseOfferingId, courseOffering);
         }
         
         if (courseOffering != null) {
             String courseId = courseOffering.getString(Constants.ATTR_COURSE_ID);
             if (courseId != null) {
                 GenericEntity course;
-                if (cache.containsKey(courseId)) {
-                    course = cache.get(courseId);
+                if (localCache.containsKey(courseId)) {
+                    course = localCache.get(courseId);
                 } else {
                     course = getApiClient().getCourse(token, courseId);
-                    cache.put(courseId, course);
+                    localCache.put(courseId, course);
                 }
                 
                 if (course != null) {
@@ -571,7 +571,7 @@ public class EntityManager extends ApiClientManager {
     @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity getCurrentCoursesAndGrades(String token, String studentId) {
         
-        log.info("starting grades and courses");
+        LOG.info("starting grades and courses");
         List<GenericEntity> toReturn = new LinkedList<GenericEntity>();
         
         Map<String, GenericEntity> cache = new HashMap<String, GenericEntity>();
@@ -642,7 +642,7 @@ public class EntityManager extends ApiClientManager {
         GenericEntity ge = new GenericEntity();
         ge.put(Constants.COURSES_AND_GRADES, toReturn);
         
-        log.info("ending grades and courses");
+        LOG.info("ending grades and courses");
         
         return ge;
     }

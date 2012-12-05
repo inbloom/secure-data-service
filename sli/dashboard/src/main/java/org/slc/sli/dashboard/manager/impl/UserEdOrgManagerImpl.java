@@ -268,14 +268,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     // Insert schools into the list under a "dummy" ed-org
     private static List<GenericEntity> insertSchoolsUnderDummyEdOrg(List<GenericEntity> retVal,
             Collection<GenericEntity> schools) {
-        try {
+        if (retVal != null) {
             GenericEntity obj = new GenericEntity();
             obj.put(Constants.ATTR_NAME, DUMMY_EDORG_NAME);
             obj.put(Constants.ATTR_SCHOOLS, schools);
             retVal.add(obj);
-        } catch (NullPointerException e) {
-            throw new RuntimeException("error creating json object for dummy edOrg");
         }
+
         return retVal;
     }
     
@@ -378,7 +377,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public GenericEntity getStaffInfo(String token) {
         String id = getApiClient().getId(token);
         GenericEntity staffEntity = getApiClient().getStaffWithEducationOrganization(token, id, null);

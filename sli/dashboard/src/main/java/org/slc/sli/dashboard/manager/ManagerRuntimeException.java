@@ -14,35 +14,25 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dashboard.web.entity;
-
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+package org.slc.sli.dashboard.manager;
 
 /**
- * Validatable UUID string to be accepted as a modelattribute, requestparam, or pathvariable
+ * A runtime exception thrown by a dashboard manager class.
  * 
- * @author agrebneva
- * 
+ * @author kmyers
+ *
  */
-public class SafeUUID {
-    @Size(max = 43, message = "Not a valid UUID")
-    @Pattern(regexp = "[A-Za-z0-9-]{50}(?:_id)?")
-    String uuid;
-    
-    public SafeUUID() {
-        //Default constructor
+public class ManagerRuntimeException extends RuntimeException {
+
+    public ManagerRuntimeException(Throwable cause) {
+        super(cause);
     }
-    
-    public SafeUUID(String id) {
-        this.uuid = id;
+
+    public ManagerRuntimeException(String message) {
+        super(message);
     }
-    
-    public String getId() {
-        return uuid;
-    }
-    
-    public void setId(String uuid) {
-        this.uuid = uuid;
+
+    public ManagerRuntimeException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
