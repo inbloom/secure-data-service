@@ -213,7 +213,7 @@ Given /^my contextual access is defined by table:$/ do |table|
   end
 end
 
-Given /^the expected staff rewrite results are defined by table:$/ do |table|
+Given /^the expected rewrite results are defined by table:$/ do |table|
   # table is a Cucumber::Ast::Table
   @state_staff_expected_results={}
   table.hashes.each do |hash|
