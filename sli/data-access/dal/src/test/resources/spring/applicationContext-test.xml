@@ -37,6 +37,8 @@
             expression=".*NeutralSchemaValidator" />
         <context:exclude-filter type="regex"
             expression=".*AggregationLoader" />
+        <context:exclude-filter type="regex"
+            expression=".*LdapServiceImpl" />
     </context:component-scan>
 
 </beans>

@@ -1,25 +1,34 @@
 {
-"recordType":"localEducationAgency",
-"attributes":
-{
-			"LocalEducationAgencyReference":{
-			"EducationalOrgIdentity":
-            		{
-            			"StateOrganizationId":"someLEAOrganizationID"
-            		}
-            	},
-            "EducationServiceCenterReference":{
-            		"EducationalOrgIdentity":
-                    {
-                        "StateOrganizationId":"someEducationServiceCenterID"
-                    }
-                 },
-            "StateEducationAgencyReference":{
-                    "EducationalOrgIdentity":
-                    {
-                        "StateOrganizationId":"someSEAOrganizationID"
-                    }
-                 }
-	}
-}
+    "recordType":"localEducationAgency",
+    "attributes":
+    {
+        "LocalEducationAgencyReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"someLEAOrganizationID"
+            }
+        },
+        "EducationServiceCenterReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"someEducationServiceCenterID"
+            }
+        },
+        "StateEducationAgencyReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"someSEAOrganizationID"
+            }
+        },
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"testProgramId"
+            }
+        }
+    }
 }

@@ -17,8 +17,8 @@ limitations under the License.
 =end
 # Enable tailcall optimizations to reduce overall stack size.
 RubyVM::InstructionSequence.compile_option = {
-    :tailcall_optimization => true,
-    :trace_instruction => true
+  :tailcall_optimization => true,
+  :trace_instruction => true
 }
 
 require 'digest/md5'
@@ -30,12 +30,12 @@ require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
-require_relative 'OutputGeneration/XML/studentParentInterchangeGenerator'
+require_relative 'OutputGeneration/DataWriter.rb'
+require_relative 'OutputGeneration/XmlDataWriter.rb'
 require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
 require_relative 'Shared/EntityClasses/student'
-
 # offline data integration nexus --> ODIN
 class Odin
   def initialize
@@ -46,21 +46,44 @@ class Odin
 
   def generate( scenario )
 
+    clean
+
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
     scenarioYAML, prng = getScenario(scenario)
+    output             = scenarioYAML['DATA_OUTPUT']
 
-    Dir.mkdir('../generated') if !Dir.exists?('../generated')
+    if output == "xml"
+      @log.info "XML output specified --> Generating ed-fi xml interchanges."
+      writer = XmlDataWriter.new(scenarioYAML)
+    elsif output == "api"
+      @log.info "API output specified --> All data will be POSTed via API using host: <need hostname>"
+      # will need to create oauth token for POSTing data via API
+      # initialize api data writer
+    else
+      @log.info "No DATA_OUTPUT specified in scenario configuration --> Using in-memory store."
+      writer = DataWriter.new
+    end
 
-    time = Time.now
+    start = Time.now
     
-    # Create a snapshot of the world
-    edOrgs = WorldBuilder.new(prng, scenarioYAML).build
+    # create a snapshot of the world
+    edOrgs = WorldBuilder.new(prng, scenarioYAML, writer).build
     display_world_summary(edOrgs)
 
-    WorkOrderProcessor.run edOrgs, scenarioYAML
+    # begin POC
+    #WorkOrderBuilder.new(prng, scenarioYAML).generate_student_work_orders(edOrgs)
+    #puts "edOrgs: #{edOrgs}"
+    # end POC
 
-    finalTime = Time.now - time
+    WorkOrderProcessor.run edOrgs, writer, scenarioYAML
+
+    # clean up writer
+    # -> xml  data writer: writes any entities that are still queued and closes file handles
+    # -> base data writer: clears maps of entities and counts
+    writer.finalize
+
+    finalTime = Time.now - start
     @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
@@ -68,7 +91,7 @@ class Odin
   end
 
   # displays brief summary of the world just created
-  def display_world_summary(world) 
+  def display_world_summary(world)
     @log.info "Summary of World:"
     @log.info " - state education agencies: #{world["seas"].size}"
     @log.info " - local education agencies: #{world["leas"].size}"
@@ -83,13 +106,19 @@ class Odin
     return valid
   end
 
+  ## Cleans the generated directory
+  def clean()
+    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f| File::delete f }
+
+  end
+
   # Generates a MD5 hash of the generated xml files.
   def md5()
     hashes = []
     Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
       hashes.push( Digest::MD5.hexdigest( f ))
     }
-    
+
     return Digest::MD5.hexdigest( hashes.to_s )
   end
 end

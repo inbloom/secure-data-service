@@ -19,7 +19,6 @@ package org.slc.sli.dashboard.unit.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -79,18 +78,9 @@ public class ErrorControllerTest {
         
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void testHandleTest() throws Exception {
-        
-        ModelMap model = new ModelMap();
-        
-        try {
-            ModelAndView modelAndView = errorController.handleTest(model);
-            assertTrue("ErrorController handleTest() should generate an exception!", false);
-        } catch (Exception exception) {
-            int dummy = 0;
-        }
-        
+        errorController.handleTest(new ModelMap());
     }
     
 }

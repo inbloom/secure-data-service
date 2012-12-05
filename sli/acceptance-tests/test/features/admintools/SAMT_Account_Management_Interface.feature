@@ -11,19 +11,19 @@ And I already have a SLC Operator account
 Scenario: As a SLC Operator I can cancel adding an account 
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
 When I click "Cancel" link
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 
 
 Scenario: As a SLC Operator I can add an account 
 Given the prod testing user does not already exists in LDAP
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
@@ -36,7 +36,7 @@ And I can update the "Tenant" field to "IL1212"
 And I can update the "EdOrg" field to "IL-DAYBREAK"
 
 When I click button "Save"
-Then I am redirected to "Admin Account Management" page
+Then I am redirected to "Manage Administrator Accounts" page
 And a "Success" message is displayed 
 
 And the new user has "Tenant" updated to "IL1212" 
@@ -48,7 +48,7 @@ And the user now has roles "SEA Administrator" and "Realm Administrator"
 Scenario: As a SLC Operator I can't add tenant to an SLC Operator account
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
@@ -61,7 +61,7 @@ Given I have a valid account as a SEA Administrator
 Given the prod testing user does not already exists in LDAP
 When I navigate to the User Management Page 
 And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 And There is no textbox for "Tenant"
@@ -76,7 +76,7 @@ Then I can select "LEA Administrator" from a choice between "SEA Administrator, 
 And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 
 And the new user has "EdOrg" updated to "IL-DAYBREAK" 
@@ -89,7 +89,7 @@ Given the prod testing user does not already exists in LDAP
 Given there is no users in edorg "IL-NIGHTFALL" 
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
@@ -110,7 +110,7 @@ Then a "there is no LEA Administrator" message is displayed
 
 #Then I can select "LEA Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 #When I click button "Save"
-#Then I am redirected to "Admin Account Management" page 
+#Then I am redirected to "Manage Administrator Accounts" page 
 #And a "Success" message is displayed 
 
 ##should be able to create Realm Administrator now after a LEA is created
@@ -129,7 +129,7 @@ Given the prod testing user does not already exists in LDAP
 Given there is no users in edorg "IL-NIGHTFALL" 
 When I navigate to the User Management Page 
 And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
@@ -146,7 +146,7 @@ And a "there is no LEA Administrator" message is displayed
 
 #Then I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 #When I click button "Save"
-#Then I am redirected to "Admin Account Management" page 
+#Then I am redirected to "Manage Administrator Accounts" page 
 #And a "Success" message is displayed 
 ##should be able to create Ingestion user now after a LEA is created
 #Then I click on "Add User" button
@@ -163,7 +163,7 @@ Given I have a valid account as a LEA Administrator
 Given the prod testing user does not already exists in LDAP
 When I navigate to the User Management Page 
 And I submit the credentials "daybreaknorealmadmin" "daybreaknorealmadmin1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
@@ -175,7 +175,7 @@ And I can also check "Ingestion User" Role
 And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 And the new user has Roles as "Realm Administrator, Ingestion User"
 And the new user has the same "Tenant" field as "DaybreakNoRealmAdmin Test" has
@@ -185,7 +185,7 @@ Scenario Outline: As a SLC Operator I can cancel editing an account
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 
 When I click the "edit" link for "<USER_FULL_NAME>"
 Then I am redirected to "Update a User" page
@@ -194,7 +194,7 @@ And the "Email" field is prefilled with "<USER_EMAIL>"
 And the "EdOrg" field is prefilled
 	
 When I click "Cancel" link
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 
     Examples:
     |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
@@ -205,7 +205,7 @@ Scenario Outline: As a SLC Operator I can edit an account
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 
 When I click the "edit" link for "<USER_FULL_NAME>"
 Then I am redirected to "Update a User" page
@@ -228,7 +228,7 @@ And I can also check "Ingestion User" Role
 
 #And I can change the Role from the dropdown to "LEA Administrator"
 And I click button "Update"
-Then I am redirected to "Admin Account Management" page 
+Then I am redirected to "Manage Administrator Accounts" page 
 And a "Success" message is displayed 
 
 And the user has "Full Name" updated to "<NEW_NAME>" 

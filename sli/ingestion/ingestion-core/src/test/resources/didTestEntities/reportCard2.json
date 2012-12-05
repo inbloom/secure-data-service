@@ -1,0 +1,55 @@
+{
+    "recordType":"reportCard",
+    "attributes":
+    {
+        "StudentReference":
+        {
+            "StudentIdentity":
+            {
+                "StudentUniqueStateId":"100000000"
+            }
+        },
+        "StudentCompetencyReference":
+        {
+            "StudentCompetencyIdentity":
+            {
+                "StudentCompetencyObjectiveReference":
+                {
+                    "StudentCompetencyObjectiveIdentity":
+                    {
+                        "StudentCompetencyObjectiveId":"student competency objective id"
+                    }
+                },
+                "CodeValue": "code",
+                "StudentSectionAssociationReference":
+                {
+                    "StudentSectionAssociationIdentity":
+                    {
+                        "BeginDate":"2011-09-01",
+                        "SectionReference":
+                        {
+                            "SectionIdentity":
+                            {
+                                "EducationalOrgReference":
+                                {
+                                    "EducationalOrgIdentity":
+                                    {
+                                        "StateOrganizationId":"this school"
+                                    }
+                                },
+                                "UniqueSectionCode":"this section"
+                            }
+                        },
+                        "StudentReference":
+                        {
+                            "StudentIdentity":
+                            {
+                                "StudentUniqueStateId":"100000000"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

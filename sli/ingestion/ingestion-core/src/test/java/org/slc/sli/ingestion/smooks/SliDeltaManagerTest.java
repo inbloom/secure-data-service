@@ -164,11 +164,11 @@ public class SliDeltaManagerTest {
 
     private RecordHash createRecordHash(String rHash) {
         RecordHash hash = new RecordHash();
-        hash._id       = RECORD_DID;
-        hash.hash      = rHash;
-        hash.created   = 12345;
-        hash.updated   = 23456;
-        hash.tenantId  = "tenantId";
+        hash.setId(RECORD_DID);
+        hash.setHash(rHash);
+        hash.setCreated(12345);
+        hash.setUpdated(23456);
+        hash.setTenantId("tenantId");
         return hash;
     }
 

@@ -1,2 +1,4 @@
 source 'http://rubygems.org'
-gem ‘mongo’
+gem 'mongo'
+gem 'bson'
+gem 'bson_ext'

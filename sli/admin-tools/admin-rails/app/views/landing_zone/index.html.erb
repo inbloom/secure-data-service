@@ -12,7 +12,7 @@
         <p>To configure the landing zone, select one of the following:</p>
         <p>&nbsp;</p>
 	<%else%>
-		<p>A Landing Zone is a directory on the SLC's server that stores and processes your organization's data.</p><p>After you have created a Landing Zone, you will be able to access it using a SFTP client. We will send you an email with information how to upload your data for ingestion into the SLC. This make take a minute or two to complete. Please click Create to continue. </p>
+		<p>A landing zone is a directory on the SLC's server that stores and processes your organization's data.</p><p>After you have created a landing zone, you will be able to access it using a SFTP client. We will send you an email with information how to upload your data for ingestion into the SLC. Please click Create to continue. </p>
 	<% end %>
 	
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
@@ -75,7 +75,7 @@
           <%#
 			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true" class="btn btn-danger"/>
           %>
-			<input name="commit" type="submit" <% if APP_CONFIG['is_sandbox']%>value="Select"<% else %>value="Create" <%end%> id="provisionButton" class= "btn"/>
+			<input name="commit" type="submit" <% if APP_CONFIG['is_sandbox']%>value="Select"<% else %>value="Create" <%end%> id="provisionButton" class= "btn btn-primary"/>
 			<span id="spinner" class="spinner" style="display:none"><img src="/assets/spinner.gif"></span>
 		</div>
 	</form>

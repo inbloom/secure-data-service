@@ -80,19 +80,13 @@ public class SamlFederationResourceTest {
 
     }
 
-    @Test
+    @Test (expected = AccessDeniedException.class)
     public void consumeBadSAMLDataTest() {
         String postData = "badSAMLData";
 
         Exception exception = null;
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        try {
-            resource.consume(postData, uriInfo);
-        } catch (Exception e) {
-            exception = e;
-        }
-        Assert.assertTrue(exception instanceof AccessDeniedException);
-
+        resource.consume(postData, uriInfo);
     }
 
 }
