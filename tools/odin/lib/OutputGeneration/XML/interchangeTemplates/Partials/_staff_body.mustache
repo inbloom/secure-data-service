@@ -1,6 +1,8 @@
-<StaffUniqueStateId>{{staffId}}</StaffUniqueStateId>
-<StaffIdentificationCode>{{staffIdentificationCode}}</StaffIdentificationCode>
-<Name Verification="{{nameVerification}}">
+<StaffUniqueStateId>{{id}}</StaffUniqueStateId>
+<StaffIdentificationCode IdentificationSystem="{{identificationSystem}}">
+    <ID>{{staffIdentificationCode}}</ID>
+</StaffIdentificationCode>
+<Name{{#nameVerification}} Verification="{{nameVerification}}"{{/nameVerification}}>
     {{#prefix}}
     <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
     {{/prefix}}
@@ -29,9 +31,7 @@
 </OtherName>
 {{/otherName}}
 <Sex>{{sex}}</Sex>
-<BirthData>
-    <BirthDate>{{birthDay}}</BirthDate>
-</BirthData>
+<BirthDate>{{birthDay}}</BirthDate>
 <Address AddressType="Home">
     <StreetNumberName>{{address}}</StreetNumberName>
     <City>{{city}}</City>
@@ -51,18 +51,16 @@
 </Race>
 {{/race}}
 
-{{#highestLevelOfEducationCompleted}}
-<HighestLevelOfEducationCompleted>highestLevelOfEducationCompleted</HighestLevelOfEducationCompleted>
-{{/highestLevelOfEducationCompleted}}
+<HighestLevelOfEducationCompleted>{{highestLevelOfEducationCompleted}}</HighestLevelOfEducationCompleted>
 {{#yearsOfPriorProfessionalExperience}}
-<YearsOfPriorProfessionalExperience>yearsOfPriorProfessionalExperience</YearsOfPriorProfessionalExperience>
+<YearsOfPriorProfessionalExperience>{{yearsOfPriorProfessionalExperience}}</YearsOfPriorProfessionalExperience>
 {{/yearsOfPriorProfessionalExperience}}
 {{#yearsOfPriorTeachingExperience}}
-<YearsOfPriorTeachingExperience>yearsOfPriorTeachingExperience</YearsOfPriorTeachingExperience>
+<YearsOfPriorTeachingExperience>{{yearsOfPriorTeachingExperience}}</YearsOfPriorTeachingExperience>
 {{/yearsOfPriorTeachingExperience}}
 {{#credentials}}
 
-<Credentials>credentials</Credentials>
+<Credentials>{{credentials}}</Credentials>
 {{/credentials}}
 
 {{#loginId}}

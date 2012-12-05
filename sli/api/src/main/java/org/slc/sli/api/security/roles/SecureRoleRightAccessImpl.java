@@ -166,12 +166,9 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                             if (roleNames.contains(roleName)) {
                                 List<String> rights = (List<String>) role.get("rights");
                                 Role mainRole = RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build();
-                                Role groupTitleRole = RoleBuilder.makeRole(groupTitle).addGrantedAuthorities(rights).build();
 
                                 mainRole.setAdmin(isAdmin);
-                                groupTitleRole.setAdmin(isAdmin);
                                 roles.add(mainRole);
-                                roles.add(groupTitleRole);
                             }
                         }
                     }

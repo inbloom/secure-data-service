@@ -2,7 +2,7 @@
 
 require_relative '../../lib/OutputGeneration/XML/studentGenerator.rb'
 
-describe "StudentParentGenerator" do
+describe "StaffAssociationInterchangeGenerator" do
   context "create a new instance of Student" do
     let(:id) {41}
     let(:birthday) {Date.new(2000, 9, 1)}

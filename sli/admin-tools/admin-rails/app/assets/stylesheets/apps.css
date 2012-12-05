@@ -1,3 +1,4 @@
+body .page-header { padding-bottom: 0; border-bottom: 0;}
 label.required { color: #D00;}
 div.field_with_errors input, div.field_with_errors textarea {border-color: red;}
 div.yellow {background-color: rgb(246, 248, 191);}

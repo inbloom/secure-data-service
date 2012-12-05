@@ -5,7 +5,6 @@ Application is authorized using OAuth (there is an client_id and client_secret).
 
 Background: None
 
-
 Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belonging to my application
     #create a new custom entity for demoClient
     Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
@@ -36,7 +35,6 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
     And I am authenticated on "IL"
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Reading Results</DisplayName>" in the result
-
 
 Scenario: As an IT Admin, I want to update custom entity associated with any core entity belonging to my application
 
@@ -102,7 +100,6 @@ Scenario:  As an Educator, I can retrieve correct custom entity for correct appl
 	When I navigate to PUT "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 403
 
-
 Scenario Outline: As an educator or leader, I want to read a custom entity associated with any core entity belonging to my application 
 	   Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
        And the clientID is "demoClient"
@@ -139,6 +136,7 @@ Scenario Outline: As an educator or leader, I want to read a custom entity assoc
 | "rbraverman" | "rbraverman1234" | "Educator"         | "demoClient" | "Drives"       | "True"   | 200   |
 #| "msmith" | "msmith1234" | "AggregateViewer"  | "demoClient" | ""             | ""       | 403   |
  	
+
 Scenario Outline: As an user, I want to delete a custom entity associated with any core entity belonging to my application
 	 Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
        And the clientID is "demoClient"
@@ -276,4 +274,35 @@ Scenario Outline: As an user, I want to delete and then read a custom entity ass
 	| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | ""                        | ""        |  403   | DELETE |  403     |
 	| "rrogers" | "rrogers1234" | "ITAdmin"          | "demoClient" | ""                        | ""        |  204   | DELETE |  404     |    
 
+
+Scenario:  As an IT Admin, I want to add a large custom entitiy to a core entity belonging to my application
+    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+   
+    Given format "application/json"
+    And a valid entity json object for a "educationOrganizations"
+    And I add a large random file with key "custom_app_data" to the object
+    When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+    Then I should receive a return code of 201
+    And I should receive a Location header for the custom entity
+
+    #retrieve correct custom entity for correct application
+    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+    When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+    Then I should receive the same large random file in key "custom_app_data" in the result
+
+
+Scenario:  As an IT Admin, I want to add a truncated (thus faulty) large custom entitiy to a core entity belonging to my application and not get a 5xx server error. 
+    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+   
+    Given format "application/json"
+    And a valid entity json object for a "educationOrganizations"
+    And I add a large random file with key "custom_app_data" to the object
+    When I navigate to a truncated, faulty POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+    Then I should not receive a return code of 5xx
 

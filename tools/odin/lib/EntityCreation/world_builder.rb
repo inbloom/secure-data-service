@@ -19,12 +19,8 @@ limitations under the License.
 require 'date'
 require 'logger'
 
-require_relative "../OutputGeneration/XML/educationOrganizationGenerator.rb"
-require_relative "../OutputGeneration/XML/educationOrgCalendarGenerator.rb"
-require_relative "../OutputGeneration/XML/masterScheduleGenerator.rb"
 require_relative "../Shared/EntityClasses/enum/GradeLevelType.rb"
 require_relative "../Shared/EntityClasses/enum/GradingPeriodType.rb"
-require_relative "../Shared/EntityClasses/schoolEducationOrganization.rb"
 require_relative "../Shared/data_utility.rb"
 require_relative "../Shared/date_interval.rb"
 require_relative "../Shared/date_utility.rb"
@@ -36,7 +32,7 @@ require_relative "../Shared/date_utility.rb"
 # (1) create world using number of students + time information (begin year, number of years)
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldBuilder
-  def initialize(prng, yaml)
+  def initialize(prng, yaml, writer)
     small_batch_size  = 500
     medium_batch_size = 5000
     large_batch_size  = 25000
@@ -47,7 +43,6 @@ class WorldBuilder
     @prng = prng
     @scenarioYAML = yaml
 
-    @breakdown = Hash.new
     @edOrgs = Hash.new
     @edOrgs["seas"]       = []
     @edOrgs["leas"]       = []
@@ -55,9 +50,8 @@ class WorldBuilder
     @edOrgs["middle"]     = []
     @edOrgs["high"]       = []
 
-    @breakdown = Hash.new
-
-    initialize_interchanges
+    @breakdown   = {}
+    @data_writer = writer
   end
 
   # Builds the initial snapshot of the world
@@ -77,7 +71,7 @@ class WorldBuilder
       @log.error "studentCount or schoolCount must be set for a world to be created --> Exiting..."
     end
 
-    finalize_interchanges
+    #finalize_interchanges
     return @edOrgs
   end
 
@@ -93,8 +87,8 @@ class WorldBuilder
     # populate education organization structure using breakdown (number of students per grade)
     # update structure with time information (create sessions using begin year and number of years)
     # expand school enrollment information using previously created session information
-    # use time information to create master schedule (course offerings, sections)
-    # finally, write interchanges
+    # use time information to create master schedule (course offerings)
+    # finally, write interchange
     compute_grade_breakdown(num_students)
     create_edOrgs_using_breakdown
     begin_year, num_years = add_time_information_to_edOrgs
@@ -208,11 +202,9 @@ class WorldBuilder
     student_counter            = 0
     while student_counter < total_num_students
       current_students = random_on_interval(min, max).round
-      school_counter  += 1
-      if current_students > (total_num_students - student_counter)        
-        current_students = (total_num_students - student_counter)
-      end
-      student_counter += current_students
+      school_counter   += 1
+      current_students = (total_num_students - student_counter) if current_students > (total_num_students - student_counter)
+      student_counter  += current_students
       
       edOrg              = Hash.new
       edOrg["id"]        = school_counter
@@ -235,37 +227,22 @@ class WorldBuilder
   # -> for larger numbers of students, many waves will be created
   def assemble_students_into_waves(type, num_students)
     if type == "elementary"
-      min = @scenarioYAML["MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.elementary, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.elementary, num_students)
     elsif type == "middle"
-      min = @scenarioYAML["MINIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.middle, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.middle, num_students)
     elsif type == "high"
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.high, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.high, num_students)
     end
   end
 
   # takes the specified grades and uses the total number of students, as well as the minimum and maximum
   # number of students per section, to assemble 'waves' of students by grade
-  def get_students_per_grade(grades, num_students, min, max)
-    students_per_grade = Hash.new
-    grades.each do |grade|
-      students_per_grade[grade] = 0
-    end
-    while num_students > 0
-      grades.each do |grade|
-        current_students = random_on_interval(min, max)
-        if num_students < current_students
-          current_students = num_students
-        end
-        students_per_grade[grade] += current_students
-        num_students              -= current_students
-      end
-    end
+  def self.get_students_per_grade(grades, num_students)
+    num_grades = grades.count
+    students_per_grade = Hash[*grades.zip([num_students/num_grades].cycle).flatten]
+    (0..(num_students % num_grades)-1).each{|i|
+      students_per_grade[grades[i]] += 1
+    }
     students_per_grade
   end
 
@@ -314,7 +291,7 @@ class WorldBuilder
     @edOrgs["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
-      end
+  end
 
   # updates the populated edOrgs arrays for leas (local education agencies) by determining how many districts are to be
   # contained in a given state. current implementation assumes:
@@ -361,14 +338,14 @@ class WorldBuilder
     @log.info "Creating world from initial number of schools: #{num_schools}"
     # NOT CURRENTLY SUPPORTED
     # update structure with time information
-    add_time_information_to_edOrgs()
+    add_time_information_to_edOrgs
   end
 
   # creates sessions for each local education agency
   # -> uses 'beginYear' and 'numYears' properties specified in yaml configuration file (defaults to current year and 1, respectively, if not specified)
   # -> iterates from begin year to (begin year + num years), creating Sessions, Grading Periods, and Calendar Dates
   # -> each Session stores a date interval (contains start date, end date, number of instructional days, and holidays for that interval)
-  def add_time_information_to_edOrgs()
+  def add_time_information_to_edOrgs
     begin_year   = @scenarioYAML["beginYear"]
     num_years    = @scenarioYAML["numYears"]
     
@@ -388,7 +365,6 @@ class WorldBuilder
     end
 
     # loop over years updating infrastructure and population
-    @log.info "iterating between #{begin_year} and #{(begin_year + num_years - 1)} to create session information"
     for year in begin_year..(begin_year+num_years-1) do
       # create session for LEAs
       # -> create grading period(s) for session
@@ -455,19 +431,16 @@ class WorldBuilder
   def assign_incoming_students(type, year)
     if type == "elementary"
       grade = :KINDERGARTEN
-      min   = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max   = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+      students_per_section = @scenarioYAML["AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "middle"
       grade = :SIXTH_GRADE
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+      students_per_section = @scenarioYAML["AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "high"
       grade = :NINTH_GRADE
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-  end
+      students_per_section = @scenarioYAML["AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
+    end
   
-    if @breakdown[grade] > 0 && min >= 0 && max >= min
+    if @breakdown[grade] > 0
       # actually perform split
       students_to_be_split = @breakdown[grade]
       students_so_far      = 0
@@ -475,7 +448,7 @@ class WorldBuilder
 
       while students_to_be_split > 0
         @edOrgs[type].each_index do |index|
-          num_students_assigned_to_this_school = random_on_interval(min, max)
+          num_students_assigned_to_this_school = students_per_section
 
           if students_to_be_split == 0
             num_students_assigned_to_this_school = 0
@@ -514,11 +487,7 @@ class WorldBuilder
   def shuffle_students_forward
     grades          = GradeLevelType.get_ordered_grades.reverse
     kindergarteners = @breakdown[:TWELFTH_GRADE]
-    grades.each do |grade|
-      if grade != :TWELFTH_GRADE
-        @breakdown[GradeLevelType.increment(grade, 1)] = @breakdown[grade]
-      end
-    end
+    grades.each     { |grade| @breakdown[GradeLevelType.increment(grade, 1)] = @breakdown[grade] unless grade == :TWELFTH_GRADE }
     @breakdown[:KINDERGARTEN] = kindergarteners
   end
 
@@ -690,62 +659,34 @@ class WorldBuilder
     courses
   end
 
-  def initialize_interchanges()
-    @education_organization_writer = EducationOrganizationGenerator.new(@scenarioYAML, File.new("generated/InterchangeEducationOrganization.xml", 'w'))
-
-    @education_org_calendar_writer = EducationOrgCalendarGenerator.new(@scenarioYAML, File.new("generated/InterchangeEducationOrgCalendar.xml", 'w'))
-    @master_schedule_writer        = MasterScheduleGenerator.new(@scenarioYAML, File.new("generated/InterchangeMasterSchedule.xml", 'w'))
-
-    @education_organization_writer.start
-    @education_org_calendar_writer.start
-    @master_schedule_writer.start
-  end
-
   # writes ed-fi xml interchanges
   def write_interchanges
-    write_education_organization_interchange()
-    write_education_org_calendar_interchange()
-    write_master_schedule_interchange()
+    write_education_organization_interchange
+    write_education_org_calendar_interchange
+    write_master_schedule_interchange
   end
 
-  # close all file handles used for writing ed-fi xml interchanges
-  def finalize_interchanges
-    @education_organization_writer.finalize
-    @education_org_calendar_writer.finalize
-    @master_schedule_writer.finalize
-  end
-
-  # writes ed-fi xml interchange: education organization
-  # entities:
+  # writes ed-fi xml interchange: education organization entities:
   # - StateEducationAgency
   # - LocalEducationAgency
   # - School [Elementary, Middle, High]
   # - Course
   # - [not yet implemented] Program
-  def write_education_organization_interchange()
+  def write_education_organization_interchange
     # write state education agencies
     @edOrgs["seas"].each do |edOrg|
-      @education_organization_writer.create_state_education_agency(@prng, edOrg["id"])
+      @data_writer.create_state_education_agency(@prng, edOrg["id"])
       write_courses(DataUtility.get_state_education_agency_id(edOrg["id"]), edOrg["courses"])
     end
     # write local education agencies
-    @edOrgs["leas"].each do |edOrg|
-      @education_organization_writer.create_local_education_agency(@prng, edOrg["id"], edOrg["parent"])
-    end
+    @edOrgs["leas"].each       { |edOrg| @data_writer.create_local_education_agency(@prng, edOrg["id"], edOrg["parent"]) }
     # write schools
-    @edOrgs["elementary"].each do |edOrg|
-      @education_organization_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "elementary")
-    end
-    @edOrgs["middle"].each do |edOrg|
-      @education_organization_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "middle")
-    end
-    @edOrgs["high"].each do |edOrg|
-      @education_organization_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "high")
-    end
+    @edOrgs["elementary"].each { |edOrg| @data_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "elementary") }
+    @edOrgs["middle"].each     { |edOrg| @data_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "middle") }
+    @edOrgs["high"].each       { |edOrg| @data_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "high") }
   end
 
-  # writes ed-fi xml interchange: education organization calendar
-  # entities:
+  # writes ed-fi xml interchange: education organization calendar entities:
   # - Session
   # - GradingPeriod
   # - CalendarDate
@@ -759,16 +700,16 @@ class WorldBuilder
       sessions.each do |session|
         interval  = session["interval"]
         year      = session["year"]
+        name      = session["name"]
+        term      = session["term"]
 
         # create calendar date(s) using interval
         # create grading period(s) using interval, school year, and state organization id
-        calendar_dates  = create_calendar_dates(interval)        
+        calendar_dates  = create_calendar_dates(interval, ed_org_id)        
         grading_periods = create_grading_periods(interval, year, ed_org_id)
 
         # create and write session
-        name      = session["name"]
-        term      = session["term"]
-        @education_org_calendar_writer.create_session(name, year, term, interval, ed_org_id, grading_periods)
+        @data_writer.create_session(name, year, term, interval, ed_org_id, grading_periods)
 
         # write grading period(s)
         grading_periods.each do |grading_period|
@@ -776,21 +717,19 @@ class WorldBuilder
           year      = grading_period["year"]
           interval  = grading_period["interval"]
           ed_org_id = grading_period["ed_org_id"]
-          @education_org_calendar_writer.create_grading_period(type, year, interval, ed_org_id, calendar_dates)
+          @data_writer.create_grading_period(type, year, interval, ed_org_id, calendar_dates)
         end
 
         # write calendar date(s)
         calendar_dates.each do |calendar_date|
-          @education_org_calendar_writer.create_calendar_date(calendar_date["date"], calendar_date["event"])
+          @data_writer.create_calendar_date(calendar_date["date"], calendar_date["event"], calendar_date["ed_org_id"])
         end
       end
     end
   end
 
-  # writes ed-fi xml interchange: master schedule
-  # entities:
+  # writes ed-fi xml interchange: master schedule entities:
   # - CourseOffering
-  # - [not done] Section
   def write_master_schedule_interchange
     write_course_offerings("elementary")
     write_course_offerings("middle")
@@ -818,7 +757,7 @@ class WorldBuilder
               title   = GradeLevelType.get(grade) + " " + course["title"]
             end
           
-            @master_schedule_writer.create_course_offering(id, title, ed_org_id, session, course)
+            @data_writer.create_course_offering(id, title, ed_org_id, session, course)
           end
         end
       end
@@ -831,23 +770,17 @@ class WorldBuilder
   # - end date
   # - holidays
   # - num of instructional days (not used)
-  def create_calendar_dates(interval)
+  def create_calendar_dates(interval, ed_org_id)
     calendar_dates = []
     begin_date     = interval.get_begin_date
     end_date       = interval.get_end_date
     holidays       = interval.get_holidays
     (begin_date..end_date).step(1) do |date|
       if holidays.include?(date)
-        calendar_date          = Hash.new
-        calendar_date["date"]  = date
-        calendar_date["event"] = :HOLIDAY
-        calendar_dates << calendar_date
+        calendar_dates << {"date" => date, "event" => :HOLIDAY, "ed_org_id" => ed_org_id}
       else
         if date.wday != 0 and date.wday != 6
-          calendar_date          = Hash.new
-          calendar_date["date"]  = date
-          calendar_date["event"] = :INSTRUCTIONAL_DAY
-          calendar_dates << calendar_date
+          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id}
         end
       end
     end
@@ -858,13 +791,8 @@ class WorldBuilder
   # -> currently, only a single grading period is generated (for whole session)
   # -> future implementations should take an additional variable that specifies breakdown into multiple grading periods
   def create_grading_periods(interval, year, ed_org_id)
-    grading_periods              = []
-    grading_period               = Hash.new
-    grading_period["type"]       = :END_OF_YEAR
-    grading_period["year"]       = year
-    grading_period["interval"]   = interval
-    grading_period["ed_org_id"]  = ed_org_id
-    grading_periods              << grading_period
+    grading_periods = []
+    grading_periods << {"type" => :END_OF_YEAR, "year" => year, "interval" => interval, "ed_org_id" => ed_org_id}
     grading_periods
   end
 
@@ -879,18 +807,12 @@ class WorldBuilder
       current_grade_courses = Array.new
       if !@scenarioYAML[grade.to_s + "_COURSES"].nil?
         @scenarioYAML[grade.to_s + "_COURSES"].each do |course|
-          current_grade_course = Hash.new
           course_counter += 1
-          current_grade_course["id"] = course_counter
-          current_grade_course["title"] = course
-          current_grade_courses << current_grade_course
+          current_grade_courses << {"id" => course_counter, "title" => course}
         end
       else
-        current_grade_course = Hash.new
         course_counter += 1
-        current_grade_course["id"] = course_counter
-        current_grade_course["title"] = GradeLevelType.get(grade)
-        current_grade_courses << current_grade_course
+        current_grade_courses << {"id" => course_counter, "title" => GradeLevelType.get(grade)}
       end
       courses[grade] = current_grade_courses
     end
@@ -908,7 +830,7 @@ class WorldBuilder
         else
           title = grade + " " + course["title"]
         end
-        @education_organization_writer.create_course(@prng, id, title, edOrgId)
+        @data_writer.create_course(@prng, id, title, edOrgId)
       end
     end
   end

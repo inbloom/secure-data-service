@@ -17,6 +17,9 @@
 
 package org.slc.sli.dashboard.security;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 import org.slc.sli.encryption.tool.Encryptor;
 
 /**
@@ -48,11 +51,11 @@ public class PropertiesDecryptor {
         return decryptedClientSecret;
     }
 
-    public String encrypt(String toEncrypt) throws Exception {
+    public String encrypt(String toEncrypt) throws GeneralSecurityException, IOException {
         return encryptor.encrypt(alias, aliasPassword, toEncrypt);
     }
 
-    public String decrypt(String toDecrypt) throws Exception {
+    public String decrypt(String toDecrypt) throws GeneralSecurityException, IOException {
         return encryptor.decrypt(alias, aliasPassword, toDecrypt);
     }
 

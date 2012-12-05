@@ -29,7 +29,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,13 +40,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.ldap.LdapService;
-import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.resources.security.UserResource.RightToGroupMapper;
 import org.slc.sli.api.resources.security.UserResource.RoleToGroupMapper;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.ldap.LdapService;
+import org.slc.sli.common.ldap.User;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.security.core.GrantedAuthority;
@@ -506,12 +505,11 @@ public class UserResourceTest {
         assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_WITH_OTHERS), "tenant"));
         assertNull(resource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_ONLY), "tenant"));
         assertNull(resource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_WITH_OTHERS), "tenant"));
-        try {
-            assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY), null));
-            Assert.fail("expected exception");
-        } catch (RuntimeException e) {
-            Assert.assertTrue("sweet", true);
-        }
+    }
+
+    @Test (expected = RuntimeException.class)
+    public void testValidateAdminBadRights() {
+        assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY), null));
     }
 
     @Test

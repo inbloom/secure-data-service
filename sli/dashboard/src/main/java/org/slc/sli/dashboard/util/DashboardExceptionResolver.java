@@ -40,7 +40,7 @@ import org.slc.sli.dashboard.web.controller.ErrorController.ErrorDescriptor;
  */
 public class DashboardExceptionResolver extends SimpleMappingExceptionResolver {
 
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected static final Logger LOGGER = LoggerFactory.getLogger(DashboardExceptionResolver.class);
 
     protected PortalWSManager portalWSManager;
 
@@ -65,8 +65,8 @@ public class DashboardExceptionResolver extends SimpleMappingExceptionResolver {
 
             // If not Dashboard application exception, then provide developer exception details
             String stackTrace = getStackTrace(ex);
-            logger.error(stackTrace);
-            if (logger.isDebugEnabled()) {
+            LOGGER.error(stackTrace);
+            if (LOGGER.isDebugEnabled()) {
                 ErrorDescriptor error = ErrorDescriptor.EXCEPTION;
                 mv.getModelMap().addAttribute(Constants.ATTR_ERROR_HEADING, error.getHeading());
                 mv.getModelMap().addAttribute(Constants.ATTR_ERROR_CONTENT, ex.getMessage());

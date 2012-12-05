@@ -20,7 +20,7 @@
       </ul>
     </div>
     <%= form_tag(:action => "reset") do %>
-        <%= label_tag(:user_id, "Please enter your user id (this is probably your email address).") %>
+        <%= label_tag(:user_id, "Please enter your email address.") %>
         <%= text_field_tag(:user_id) %><br><br>
           <%# recaptcha section %>
               <% if APP_CONFIG['recaptcha_disable'] == true %>
