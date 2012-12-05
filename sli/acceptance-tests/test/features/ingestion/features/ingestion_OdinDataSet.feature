@@ -86,7 +86,7 @@ Then I should see following map of entry counts in the corresponding collections
      | program                                  |                  0|
      | reportCard                               |                  0|
      | schoolSessionAssociation                 |                  0|
-     | section                                  |                 30|
+     | section                                  |                 75|
      | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  3|

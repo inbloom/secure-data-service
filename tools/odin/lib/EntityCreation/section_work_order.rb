@@ -18,23 +18,22 @@ limitations under the License.
 
 class SectionWorkOrderFactory
 
-  def initialize(world)
+  def initialize(world, scenario)
     @world = world
     @next_id = -1
+    @scenario = scenario
   end
 
-  def gen_sections(ed_org, ed_org_type, yaml, yielder)
-    students_per_section = students_per_section(ed_org_type, yaml)
+  def gen_sections(ed_org, ed_org_type, yielder)
     school_id = DataUtility.get_school_id(ed_org['id'], ed_org_type.to_sym)
     unless ed_org['students'].nil?
       ed_org['students'].each{|year, student_map|
         unless ed_org['offerings'].nil?
-          offering_map = ed_org['offerings'][year].group_by{|a| a['grade']}
           student_map.each{|grade, num|
-            offerings = offering_map[grade].cycle
-            (num.to_f/students_per_section).ceil.times{
-              section_id = @next_id += 1
-              yielder.yield SectionWorkOrder.new(section_id, school_id, offerings.next)
+            sections_from_edorg(ed_org, ed_org_type, year, grade).each{|course, sections|
+              sections.each{|section|
+                yielder.yield SectionWorkOrder.new(section, school_id, course)
+              }
             }
           }
         end
@@ -42,17 +41,32 @@ class SectionWorkOrderFactory
     end
   end
 
+  def sections(id, ed_org_type, year, grade)
+    ed_org = @world[ed_org_type].select{|s| s['id'] = id}[0]
+    sections_from_edorg(ed_org, ed_org_type, year, grade)
+  end
+
+  def sections_from_edorg(ed_org, ed_org_type, year, grade)
+    offerings = ed_org['offerings'][year].select{|c| c['grade'] == grade}
+    section_map = {}
+    offerings.each{|course|
+      find_sections(ed_org, ed_org_type, year, grade, course).each{|section|
+        section_map[course] = find_sections(ed_org, ed_org_type, year, grade, course)
+      }
+    }
+    section_map
+  end
+
   private
 
-  def students_per_section(type, yaml)
-    case type
-    when "elementary"
-      yaml['AVERAGE_ELEMENTARY_STUDENTS_PER_SECTION']
-    when "middle"
-      yaml['AVERAGE_MIDDLE_SCHOOL_STUDENTS_PER_SECTION']
-    when "high"
-      yaml['AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION']
-    end
+  def find_sections(ed_org, ed_org_type, year, grade, course)
+    student_count = ed_org['students'][year][grade]
+    section_count = (student_count.to_f / students_per_section(ed_org_type)).ceil
+    (1..section_count)
+  end
+
+  def students_per_section(type)
+    @scenario['STUDENTS_PER_SECTION'][type]
   end
 
 

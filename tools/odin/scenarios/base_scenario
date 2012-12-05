@@ -34,10 +34,8 @@ TENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 ELEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 
-# Minimum and Maximum number of students per section for each school type
-AVERAGE_ELEMENTARY_STUDENTS_PER_SECTION: 21
-AVERAGE_MIDDLE_SCHOOL_STUDENTS_PER_SECTION: 24
-AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION: 28
+# number of students per section for each school type
+STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
 
 # Set the number of records we cache before writing them to disk.
 BATCH_SIZE: 10000
