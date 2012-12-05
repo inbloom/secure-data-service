@@ -444,15 +444,13 @@ class WorldBuilder
   # uses the specified education organization 'type' to determine which grade to analyze in the @breakdown instance variable,
   # and if incoming students are present, assigns them across education organizations of specified 'type'
   def assign_incoming_students(type, year)
+    students_per_section = @scenarioYAML['STUDENTS_PER_SECTION'][type]
     if type == "elementary"
       grade = :KINDERGARTEN
-      students_per_section = @scenarioYAML["AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "middle"
       grade = :SIXTH_GRADE
-      students_per_section = @scenarioYAML["AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "high"
       grade = :NINTH_GRADE
-      students_per_section = @scenarioYAML["AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     end
   
     if @breakdown[grade] > 0

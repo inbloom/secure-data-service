@@ -25,10 +25,8 @@ AVERAGE_NUM_STUDENTS_THRESHOLD: 0.50
 AVERAGE_NUM_SCHOOLS_PER_DISTRICT: 5
 AVERAGE_SCHOOLS_THRESHOLD: 0.60
 
-# Minimum and Maximum number of students per section for each school type
-AVERAGE_ELEMENTARY_STUDENTS_PER_SECTION: 21
-AVERAGE_MIDDLE_SCHOOL_STUDENTS_PER_SECTION: 24
-AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION: 28
+# Number of students per section for each school type
+STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
 
 # Set the number of records we cache before writing them to disk.
 BATCH_SIZE: 10000

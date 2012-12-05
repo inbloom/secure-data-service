@@ -2960,7 +2960,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <Section>
-    <UniqueSectionCode>sctn-0000000000</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000100001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3002,7 +3002,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000001</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000200001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3044,7 +3044,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000002</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000300001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3086,7 +3086,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000003</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000400001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3128,7 +3128,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000004</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000500001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3170,7 +3170,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000005</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000600001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3212,7 +3212,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001200001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3254,7 +3254,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000007</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001100001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3296,7 +3296,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000008</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001000001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3338,7 +3338,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000009</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000900001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3380,7 +3380,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000010</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000800001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3422,7 +3422,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000011</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001800001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3464,7 +3464,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000012</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001700001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3506,7 +3506,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000013</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001600001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3548,7 +3548,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000014</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001500001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3590,7 +3590,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000015</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0001900001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3632,7 +3632,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000016</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0002000001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000020</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0002100001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000021</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0002200001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000022</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0002300001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3674,7 +3800,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000017</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0002400001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000024</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0002500001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000025</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0002600001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000026</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0002700001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3716,7 +3968,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000018</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0002800001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000028</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0002900001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000029</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003000001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000030</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003900001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3758,7 +4136,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000019</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0004000001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000040</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0004100001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000041</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0004200001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000042</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003500001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3800,7 +4304,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000020</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0003600001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000036</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003700001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000037</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003800001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000038</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003100001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3842,7 +4472,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000021</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0003200001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000032</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003300001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000033</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0003400001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000034</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0005100001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3884,7 +4640,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000022</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0005200001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000052</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0005300001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000053</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0005400001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000054</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0004700001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3926,7 +4808,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000023</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0004800001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000048</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0004900001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000049</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0005000001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000050</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0004300001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3968,7 +4976,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000024</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0004400001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000044</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0004500001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000045</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0004600001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000046</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>midl-0000000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>midl-0000000002</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0005500001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4010,7 +5144,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000025</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0005600001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000056</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0005700001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000057</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0005800001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000058</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0007500001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4052,7 +5312,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000026</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0007600001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000076</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0007700001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000077</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0007800001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000078</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0007100001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4094,7 +5480,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000027</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0007200001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000072</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0007300001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000073</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0007400001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000074</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0009500001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4136,7 +5648,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000028</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0009600001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000096</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0009700001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000097</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0009800001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000098</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0009100001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4178,7 +5816,133 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000029</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0009200001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000092</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0009300001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000093</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0009400001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000094</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0008700001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4186,6 +5950,132 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <CourseOfferingReference>
       <CourseOfferingIdentity>
         <LocalCourseCode>cofr-0000000087</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0008800001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000088</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0008900001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000089</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>locl-0000000004</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>high-0000000003</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>high-0000000003</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>locl-0000000004</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2003-2004 Year Round session: locl-0000000004</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>sctn-0009000001</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>cofr-0000000090</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
           <EducationalOrgReference>
