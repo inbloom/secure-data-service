@@ -91,6 +91,24 @@ Then /^I will drop the whole database$/ do
   assert(tenant_dropped, "Tenant DB not dropped.")
 end
 
+Then /^I clean my tenant's landing zone$/ do
+if RUN_ON_RC
+    steps %Q{
+        Given I am using local data store
+        And I am using default landing zone
+        And I am using the tenant "<SANDBOX_TENANT>"
+        And I use the landingzone user name "<DEVELOPER_SB_EMAIL>" and password "<DEVELOPER_SB_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
+   }
+
+   Net::SFTP.start(@lz_url, @lz_username, {:password => @lz_password, :port => @lz_port_number}) do |sftp|
+        clear_remote_lz(sftp)
+      end
+  end
+
+
+end
+
+
 Then /^I will drop the tenant document from the collection$/ do
   sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
   sli_db['tenant'].remove("body.tenantId" => @tenant_name)
