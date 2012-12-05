@@ -29,11 +29,13 @@ describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
       let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
+      let(:assessment_factory) {double('assessment factory', :assessments => (1..5).map{|i| "assessment#{i}"})}
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001, 
                                              :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001}, {'year' => 2002}]},
                                              :sections => {2001 => (1..10).map{|i| {'id' => i}},
                                                            2002 => (11..20).map{|i| {'id' => i}}},
-                                             :section_factory => section_factory)}
+                                             :section_factory => section_factory,
+                                             :assessment_factory => assessment_factory)}
       let(:scenario) {{}}
 
       it "will generate the right number of entities for the student and subsequent enrollment" do
@@ -42,6 +44,7 @@ describe "WorkOrderProcessor" do
         data_writer.should_receive(:create_student_school_association).with(42, 64, 2001, :KINDERGARTEN).once
         data_writer.should_receive(:create_student_school_association).with(42, 64, 2002, :FIRST_GRADE).once
         data_writer.should_receive(:create_student_section_association).exactly(4).times
+        data_writer.should_receive(:create_student_assessment).exactly(5).times
         WorkOrderProcessor.new(data_writer, scenario).build(work_order)
       end
 
@@ -50,6 +53,7 @@ describe "WorkOrderProcessor" do
         school_associations = []
         data_writer.should_receive(:create_student).with(42, Date.new(1996, 9, 1)).once
         data_writer.stub(:create_student_section_association)
+        data_writer.stub(:create_student_assessment)
         data_writer.stub(:create_student_school_association) do |student, school, year, grade|
           school_associations << StudentSchoolAssociation.new(student, school, year, grade)
           student.should eq 42
@@ -80,6 +84,16 @@ describe "WorkOrderProcessor" do
         section_associations[2002][1].sectionId.should match(/sctn\-00002/)
       end
 
+      it "will generate StudentAssessmentAssociations with the correct related assessment" do
+        data_writer = double()
+        student_assessment_ids = []
+        data_writer.stub(:create_student_assessment) do |sa|
+          student_assessments << sa.assessmentId
+        end
+        assessment_factory.assessments.each{|i|
+          student_assessments.should include i
+        }
+      end
     end
 
     context 'With a work order that spans multiple schools' do
