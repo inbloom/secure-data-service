@@ -30,7 +30,6 @@ class Section < BaseEntity
 
   def initialize(id, school_id, offering, session = offering['session'], program = nil)
     @id = id
-    @rand = Random.new(id)
     # move these to choices.yml eventually and have these be a weighted choice
     @sequence = 1  
     @environment = "Classroom"
@@ -41,7 +40,7 @@ class Section < BaseEntity
                         ed_org_id: offering['ed_org_id'],
                         session: offering['session']}
     @session = offering['session']
-    @unique_section_code = DataUtility.get_unique_section_id(@id)
+    @unique_section_code = DataUtility.get_unique_section_id(@id, offering['id'])
     #@program              = program
     # --> programs are not currently implemented
   end

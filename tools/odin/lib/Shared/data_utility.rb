@@ -99,8 +99,8 @@ class DataUtility
     "cofr-" + pad_id_with_zeroes(id, 10)
   end
 
-  def self.get_unique_section_id(id)
-    "sctn-" + pad_id_with_zeroes(id, 10)
+  def self.get_unique_section_id(id, offering)
+    "sctn-" + pad_id_with_zeroes(offering, 5) + pad_id_with_zeroes(id, 5)
   end
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
 

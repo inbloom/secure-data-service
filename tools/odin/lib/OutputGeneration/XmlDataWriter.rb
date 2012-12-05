@@ -170,8 +170,8 @@ class XmlDataWriter < DataWriter
   end
 
   # write student section association to student enrollment interchange
-  def create_student_section_association(id, section, school_id, start_year, start_grade)
-    @student_enrollment_writer.create_student_section_association(id, section, school_id, start_year, start_grade)
+  def create_student_section_association(id, section, offering_id, school_id, start_year, start_grade)
+    @student_enrollment_writer.create_student_section_association(id, section, offering_id, school_id, start_year, start_grade)
     increment_count(:student_section_association)
   end
 
