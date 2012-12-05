@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.security.pdp;
 
-import com.sun.jersey.core.header.InBoundHeaders;
+import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -25,10 +25,10 @@ public class MutatedContainer {
 
     private String path;
     private String queryParameters;
-    private InBoundHeaders headers;
+    private Map<String, String> headers;
     boolean usePrincipleId;
 
-    public MutatedContainer(String path, String queryParameters, InBoundHeaders headers) {
+    public MutatedContainer(String path, String queryParameters, Map<String, String> headers) {
         this.path = path;
         this.queryParameters = queryParameters;
         this.headers = headers;
@@ -58,10 +58,10 @@ public class MutatedContainer {
     public void setQueryParameters(String queryParameters) {
         this.queryParameters = queryParameters;
     }
-    public InBoundHeaders getHeaders() {
+    public Map<String, String> getHeaders() {
         return headers;
     }
-    public void setHeaders(InBoundHeaders headers) {
+    public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
 

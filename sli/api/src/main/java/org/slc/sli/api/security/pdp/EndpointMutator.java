@@ -76,7 +76,9 @@ public class EndpointMutator {
             if (mutated.getHeaders() != null) {
                 InBoundHeaders headers = new InBoundHeaders();
                 headers.putAll(request.getRequestHeaders());
-                headers.putAll(mutated.getHeaders());
+                for (String key : mutated.getHeaders().keySet()) {
+                    headers.putSingle(key, mutated.getHeaders().get(key));
+                }
                 request.setHeaders(headers);
             }
 

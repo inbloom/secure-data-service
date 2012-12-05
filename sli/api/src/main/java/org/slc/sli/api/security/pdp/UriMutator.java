@@ -29,8 +29,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
-import com.sun.jersey.core.header.InBoundHeaders;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -481,15 +479,15 @@ public class UriMutator {
     private MutatedContainer mutateBaseUriForTeacher(String resource, String mutatedParameters, Entity user) {
 
         String mutatedPath = null;
-        InBoundHeaders mutatedHeaders = null;
+        Map<String, String> mutatedHeaders = null;
         if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                 || ResourceNames.LEARNINGSTANDARDS.equals(resource)
                 || ResourceNames.ASSESSMENTS.equals(resource)
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
             mutatedPath = "/" + ResourceNames.SEARCH + "/" + resource;
-            mutatedHeaders = new InBoundHeaders();
-            mutatedHeaders.putSingle("Content-Type", "application/vnd.slc.search.full+json");
+            mutatedHeaders = new HashMap<String, String>();
+            mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
         } else if (ResourceNames.HOME.equals(resource)) {
             mutatedPath = "/" + resource;
         } else if (ResourceNames.ATTENDANCES.equals(resource)) {
@@ -682,7 +680,7 @@ public class UriMutator {
 
         String mParameters = mutatedParameters;
         String mutatedPath = null;
-        InBoundHeaders mutatedHeaders = null;
+        Map<String, String> mutatedHeaders = null;
 
         if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                 || ResourceNames.LEARNINGSTANDARDS.equals(resource)
@@ -690,8 +688,8 @@ public class UriMutator {
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
             mutatedPath = "/" + ResourceNames.SEARCH + "/" + resource;
-            mutatedHeaders = new InBoundHeaders();
-            mutatedHeaders.putSingle("Content-Type", "application/vnd.slc.search.full+json");
+            mutatedHeaders = new HashMap<String, String>();
+            mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
         } else if (ResourceNames.HOME.equals(resource)) {
             mutatedPath = "/" + resource;
         } else if (ResourceNames.ATTENDANCES.equals(resource)) {

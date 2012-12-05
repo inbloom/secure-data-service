@@ -20,10 +20,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.ws.rs.core.PathSegment;
-
-import com.sun.jersey.core.header.InBoundHeaders;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -96,8 +95,8 @@ public class UriMutatorTest {
 
     @Test
     public void testGetInferredUrisForTeacher() throws Exception {
-        InBoundHeaders mutatedContentType = new InBoundHeaders();
-        mutatedContentType.putSingle("Content-Type", "application/vnd.slc.search.full+json");
+        HashMap<String, String> mutatedContentType = new HashMap<String, String>();
+        mutatedContentType.put("Content-Type", "application/vnd.slc.search.full+json");
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.ASSESSMENTS + " is incorrect.",
                 new MutatedContainer("/search/assessments", "", mutatedContentType),
@@ -146,8 +145,8 @@ public class UriMutatorTest {
 
     @Test
     public void testGetInferredUrisForStaff() throws Exception {
-        InBoundHeaders mutatedContentType = new InBoundHeaders();
-        mutatedContentType.putSingle("Content-Type", "application/vnd.slc.search.full+json");
+        HashMap<String, String> mutatedContentType = new HashMap<String, String>();
+        mutatedContentType.put("Content-Type", "application/vnd.slc.search.full+json");
 
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.ASSESSMENTS + " is incorrect.",
                 new MutatedContainer("/search/assessments", "", mutatedContentType),

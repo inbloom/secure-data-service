@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.security.pdp;
 
-import com.sun.jersey.core.header.InBoundHeaders;
+import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,27 +42,27 @@ public class MutatedContainerTest {
         m2 = new MutatedContainer("a", "c", null);
         Assert.assertFalse(m1.equals(m2));
 
-        m1 = new MutatedContainer("a", "b", new InBoundHeaders());
-        m2 = new MutatedContainer("a", "b", new InBoundHeaders());
+        m1 = new MutatedContainer("a", "b", new HashMap<String, String>());
+        m2 = new MutatedContainer("a", "b", new HashMap<String, String>());
         Assert.assertTrue(m1.equals(m2));
 
-        m1 = new MutatedContainer("a", "b", new InBoundHeaders());
+        m1 = new MutatedContainer("a", "b", new HashMap<String, String>());
         m2 = new MutatedContainer("a", "b", null);
         Assert.assertFalse(m1.equals(m2));
 
-        InBoundHeaders h1 = new InBoundHeaders();
-        h1.putSingle("1", "1");
-        InBoundHeaders h2 = new InBoundHeaders();
-        h2.putSingle("1", "2");
+        HashMap<String, String> h1 = new HashMap<String, String>();
+        h1.put("1", "1");
+        HashMap<String, String> h2 = new HashMap<String, String>();
+        h2.put("1", "2");
 
         m1 = new MutatedContainer("a", "b", h1);
         m2 = new MutatedContainer("a", "b", h2);
         Assert.assertFalse(m1.equals(m2));
 
-        h1 = new InBoundHeaders();
-        h1.putSingle("1", "1");
-        h2 = new InBoundHeaders();
-        h2.putSingle("1", "1");
+        h1 = new HashMap<String, String>();
+        h1.put("1", "1");
+        h2 = new HashMap<String, String>();
+        h2.put("1", "1");
 
         m1 = new MutatedContainer("a", "b", h1);
         m2 = new MutatedContainer("a", "b", h2);
