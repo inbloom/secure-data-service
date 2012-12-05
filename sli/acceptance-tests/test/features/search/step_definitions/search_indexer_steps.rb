@@ -188,6 +188,16 @@ Then /^no search results are returned$/ do
   assert(response == [], "Error: Unauthorized student data is accessible")  
 end
 
+Given /^I import into tenant collection$/ do
+  tenants = ["Midgar", "Hyrule"]
+  dbname = PropLoader.getProps["api_database_name"]
+  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"])[dbname]
+  tenants.each do |tenant|
+    doc = generateTenantDoc(tenant)
+    db['tenant'].insert(doc) if db['tenant'].find_one({"body.tenantId" => tenant}).nil?
+  end
+end
+
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
   assert(sourcePath != nil, "Source path is nil")
@@ -217,7 +227,7 @@ def verifyElementsOnResponse(arrayOfElements, table)
   end
 end
 
-def verifyElasticSearchCount(numEntities = nil)
+def verifyElasticSearchCount(numEntities = -1)
   max = 10
   done = false
   numTries = 0
@@ -233,13 +243,27 @@ def verifyElasticSearchCount(numEntities = nil)
     if (indexCount == nil)
       indexCount = 0
     end
-    if (indexCount.to_i == numEntities.to_i || (numEntities == nil && indexCount.to_i > 0))
+    if (indexCount.to_i == numEntities.to_i || (numEntities == -1 && indexCount.to_i > 0))
       done = true
     else
       numTries+=1
       sleep 1
     end
   end
-  assert(indexCount.to_i == numEntities.to_i || numEntities == nil, "Expected #{numEntities} Actual #{indexCount}")
+  assert(done, "Expected #{numEntities} Actual #{indexCount}")
 end
+
+def generateTenantDoc(tenantName)
+  doc = {
+    "type" => "tenant",
+    "body" => {
+      "tenantId" => tenantName,
+      "dbName" => convertTenantIdToDbName(tenantName)
+      },
+    "metaData" => {
+        "tenantId" => tenantName
+      }
+  }
+end
+
 
