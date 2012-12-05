@@ -53,7 +53,7 @@ Background: Nothing yet
     | studentSectionAssociation               | studentSectionAssociations               | 0     |/schools/@ids/sections/studentSectionAssociations|
     | staffCohortAssociation                  | staffCohortAssociations                  | 2     |/staff/@ids/staffCohortAssociations|
     | studentAssessment                       | studentAssessments                       | 0     |/schools/@ids/studentSchoolAssociations/students/studentAssessments|
-    | competencyLevelDescriptor               | competencyLevelDescriptor                | 1     |/competencyLevelDescriptor|
+    | competencyLevelDescriptor               | competencyLevelDescriptor                | 0     |/competencyLevelDescriptor|
     | staffProgramAssociation                 | staffProgramAssociations                 | 3     |/staff/@ids/staffProgramAssociations|
     | studentDisciplineIncidentAssociation    | studentDisciplineIncidentAssociations    | 0     |/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations|
     | studentParentAssociation                | studentParentAssociations                | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations|
