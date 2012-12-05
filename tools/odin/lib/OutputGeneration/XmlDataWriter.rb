@@ -23,6 +23,7 @@ require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
 require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/enrollmentGenerator.rb"
+require_relative "XML/staffAssociationGenerator.rb"
 require_relative "DataWriter.rb"
 
 # ed-fi xml interchange writer class

@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 # Enable tailcall optimizations to reduce overall stack size.
 RubyVM::InstructionSequence.compile_option = {
   :tailcall_optimization => true,
@@ -28,6 +29,7 @@ require "rexml/document"
 require 'thwait'
 require 'yaml'
 
+require_relative 'EntityCreation/pre_requisite_builder.rb'
 require_relative 'EntityCreation/world_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
 require_relative 'OutputGeneration/DataWriter.rb'
@@ -36,6 +38,7 @@ require_relative 'OutputGeneration/XML/validator'
 require_relative 'Shared/util'
 require_relative 'Shared/demographics'
 require_relative 'Shared/EntityClasses/student'
+
 # offline data integration nexus --> ODIN
 class Odin
   def initialize
@@ -66,15 +69,23 @@ class Odin
     end
 
     start = Time.now
+
+    # load pre-requisites for scenario (specified in yaml)
+    pre_requisites = PreRequisiteBuilder.load_pre_requisites(scenarioYAML)
+    @log.info "Pre-requisites for world building:"
+    pre_requisites.each do |type,edOrgs|
+      @log.info "#{type.inspect}:"
+      edOrgs.each do |organization_id, staff_members|
+        @log.info "education organization: #{organization_id}"
+        staff_members.each do |member|
+          @log.info " -> staff unique state id: #{member[:staff_unique_state_id]} (#{member[:name]}) has role: #{member[:role]}"
+        end
+      end
+    end
     
     # create a snapshot of the world
     edOrgs = WorldBuilder.new(prng, scenarioYAML, writer).build
     display_world_summary(edOrgs)
-
-    # begin POC
-    #WorkOrderBuilder.new(prng, scenarioYAML).generate_student_work_orders(edOrgs)
-    #puts "edOrgs: #{edOrgs}"
-    # end POC
 
     WorkOrderProcessor.run edOrgs, writer, scenarioYAML
 

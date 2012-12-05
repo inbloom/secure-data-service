@@ -27,9 +27,10 @@ class Staff < BaseEntity
 
   attr_accessor :id, :staffIdentificationCode, :identificationSystem, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino, :highestLevelOfEducationCompleted
-  
+
   def initialize(id, year_of)
-    @id = DataUtility.get_staff_unique_state_id(id)
+    @id = DataUtility.get_staff_unique_state_id(id) if id.kind_of? Integer
+    @id = id if id.kind_of? String
     @year_of = year_of
     @rand = Random.new(id)
     buildStaff
