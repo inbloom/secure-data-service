@@ -70,29 +70,30 @@ public class EndpointMutator {
         if (usingV1Api(segments)) {
             request.getProperties().put(REQUESTED_PATH, request.getPath());
             MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
-            String newPath = mutated.getPath();
-            String newParameters = mutated.getQueryParameters();
 
-            if (mutated.getHeaders() != null) {
-                InBoundHeaders headers = new InBoundHeaders();
-                headers.putAll(request.getRequestHeaders());
-                for (String key : mutated.getHeaders().keySet()) {
-                    headers.putSingle(key, mutated.getHeaders().get(key));
+            if (mutated != null && mutated.isModified()) {
+
+                if (mutated.getHeaders() != null) {
+                    InBoundHeaders headers = new InBoundHeaders();
+                    headers.putAll(request.getRequestHeaders());
+                    for (String key : mutated.getHeaders().keySet()) {
+                        headers.putSingle(key, mutated.getHeaders().get(key));
+                    }
+                    request.setHeaders(headers);
                 }
-                request.setHeaders(headers);
-            }
 
-            if (newPath != null) {
-                if (newParameters != null && !newParameters.isEmpty()) {
-                    info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, newPath,
-                            newParameters });
-                    request.setUris(request.getBaseUri(),
-                            request.getBaseUriBuilder().path(PathConstants.V1).path(newPath)
-                                    .replaceQuery(newParameters).build());
-                } else {
-                    info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), newPath });
-                    request.setUris(request.getBaseUri(),
-                            request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
+                if (mutated.getPath() != null) {
+                    if (mutated.getQueryParameters() != null && !mutated.getQueryParameters().isEmpty()) {
+                        info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, mutated.getPath(),
+                                mutated.getQueryParameters() });
+                        request.setUris(request.getBaseUri(),
+                                request.getBaseUriBuilder().path(PathConstants.V1).path(mutated.getPath())
+                                    .replaceQuery(mutated.getQueryParameters()).build());
+                    } else {
+                        info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), mutated.getPath() });
+                        request.setUris(request.getBaseUri(),
+                                request.getBaseUriBuilder().path(PathConstants.V1).path(mutated.getPath()).build());
+                    }
                 }
             }
         }

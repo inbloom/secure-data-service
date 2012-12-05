@@ -23,54 +23,35 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class MutatedContainer {
 
-    private String path;
-    private String queryParameters;
-    private Map<String, String> headers;
-    boolean usePrincipleId;
-
-    public MutatedContainer(String path, String queryParameters, Map<String, String> headers) {
-        this.path = path;
-        this.queryParameters = queryParameters;
-        this.headers = headers;
-    }
-
-    public MutatedContainer(String path, String queryParameters) {
-        this.path = path;
-        this.queryParameters = queryParameters;
-        this.headers = null;
-    }
-
-    public MutatedContainer(String mutatedPathFormat, String mutatedParameter, boolean usePrincipleId) {
-        this.path = mutatedPathFormat;
-        this.queryParameters = mutatedParameter;
-        this.usePrincipleId = usePrincipleId;
-    }
+    private String path = null;
+    private String queryParameters = null;
+    private Map<String, String> headers = null;
+    private boolean isModified = false;
 
     public String getPath() {
         return path;
     }
     public void setPath(String path) {
         this.path = path;
+        isModified = true;
     }
     public String getQueryParameters() {
         return queryParameters;
     }
     public void setQueryParameters(String queryParameters) {
         this.queryParameters = queryParameters;
+        isModified = true;
     }
     public Map<String, String> getHeaders() {
         return headers;
     }
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+        isModified = true;
     }
 
-    public boolean isUsePrincipleId() {
-        return usePrincipleId;
-    }
-
-    public void setUsePrincipleId(boolean usePrincipleId) {
-        this.usePrincipleId = usePrincipleId;
+    public boolean isModified() {
+        return isModified;
     }
 
     @Override
