@@ -90,7 +90,6 @@ function isJavaReady {
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF}"
       REMOTE_COMMAND_PORT=`grep sli.search.indexer.service.port ${CHECK_SLI_CONF}|cut -d '=' -f2`
-      return 1
    fi
 
    ##CHECK FOR START/DEBUG
