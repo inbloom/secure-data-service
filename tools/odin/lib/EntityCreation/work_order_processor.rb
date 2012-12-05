@@ -46,14 +46,13 @@ class WorkOrderProcessor
 
   # uses the snapshot of the 'world' to generate student work orders
   def self.generate_work_orders(world, scenario)
-    next_student = 0
-    SectionWorkOrder.reset
+    student_factory = StudentWorkOrderFactory.new(world)
+    section_factory = SectionWorkOrderFactory.new(world)
     Enumerator.new do |y|
       world.each{|type, edOrgs|
         edOrgs.each{|edOrg|
-          SectionWorkOrder.gen_sections(edOrg, type, scenario, y)
-          students = edOrg['students']
-          next_student = StudentWorkOrder.generate_work_orders(students, edOrg, next_student, y) unless students.nil?
+          section_factory.gen_sections(edOrg, type, scenario, y)
+          student_factory.generate_work_orders(edOrg, y)
         }
       }
     end

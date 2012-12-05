@@ -16,14 +16,14 @@ limitations under the License.
 
 =end
 
-class SectionWorkOrder
-  @@next_id = 0
+class SectionWorkOrderFactory
 
-  def self.reset
-    @@next_id = 0
+  def initialize(world)
+    @world = world
+    @next_id = -1
   end
 
-  def self.gen_sections(ed_org, ed_org_type, yaml, yielder)
+  def gen_sections(ed_org, ed_org_type, yaml, yielder)
     students_per_section = students_per_section(ed_org_type, yaml)
     school_id = DataUtility.get_school_id(ed_org['id'], ed_org_type.to_sym)
     unless ed_org['students'].nil?
@@ -33,14 +33,33 @@ class SectionWorkOrder
           student_map.each{|grade, num|
             offerings = offering_map[grade].cycle
             (num.to_f/students_per_section).ceil.times{
-              yielder.yield SectionWorkOrder.new(@@next_id, school_id, offerings.next)
-              @@next_id += 1
+              section_id = @next_id += 1
+              yielder.yield SectionWorkOrder.new(section_id, school_id, offerings.next)
             }
           }
         end
       }
     end
   end
+
+  private
+
+  def students_per_section(type, yaml)
+    case type
+    when "elementary"
+      yaml['AVERAGE_ELEMENTARY_STUDENTS_PER_SECTION']
+    when "middle"
+      yaml['AVERAGE_MIDDLE_SCHOOL_STUDENTS_PER_SECTION']
+    when "high"
+      yaml['AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION']
+    end
+  end
+
+
+end
+
+
+class SectionWorkOrder
 
   def initialize(id, school_id, offering)
     @id = id
@@ -50,19 +69,6 @@ class SectionWorkOrder
 
   def build(writer)
     writer.create_section(@id, @school_id, @offering)
-  end
-
-  private
-
-  def self.students_per_section(type, yaml)
-    case type
-    when "elementary"
-      yaml['AVERAGE_ELEMENTARY_STUDENTS_PER_SECTION']
-    when "middle"
-      yaml['AVERAGE_MIDDLE_SCHOOL_STUDENTS_PER_SECTION']
-    when "high"
-      yaml['AVERAGE_HIGH_SCHOOL_STUDENTS_PER_SECTION']
-    end
   end
 
 end

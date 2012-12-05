@@ -16,23 +16,33 @@ limitations under the License.
 
 =end
 
+# student work order factory creates student work orders
+class StudentWorkOrderFactory
+  def initialize(world)
+    @world = world
+    @next_id = 0
+  end
+
+  def generate_work_orders(edOrg, yielder)
+    students = edOrg['students']
+    unless students.nil?
+      years = students.keys.sort
+      initial_year = years.first
+      initial_grade_breakdown = students[initial_year]
+      initial_grade_breakdown.each{|grade, num_students|
+        (1..num_students).each{|_|
+          student_id = @next_id += 1
+          yielder.yield StudentWorkOrder.new(student_id, initial_grade: grade, initial_year: initial_year, edOrg: edOrg)
+        }
+      }
+    end
+  end
+
+end
+
 # student work order represents all data to be genreated for a given student
 class StudentWorkOrder
   attr_accessor :id, :edOrg, :birth_day_after, :initial_grade, :initial_year
-
-  def self.generate_work_orders(students, edOrg, start_with_id, yielder)
-    student_id = start_with_id
-    years = students.keys.sort
-    initial_year = years.first
-    initial_grade_breakdown = students[initial_year]
-    initial_grade_breakdown.each{|grade, num_students|
-      (1..num_students).each{|_|
-        student_id += 1
-        yielder.yield StudentWorkOrder.new(student_id, initial_grade: grade, initial_year: initial_year, edOrg: edOrg)
-      }
-    }
-    student_id
-  end
 
   def initialize(id, opts = {})
     @id = id
@@ -74,10 +84,6 @@ class StudentWorkOrder
         writer.create_student_section_association(@id, section, school_id, start_year, start_grade)
       }
     end
-  end
-
-  def self.make_session(school, session)
-    {:school => school, :sessionInfo => session}
   end
 
   def find_age(grade)
