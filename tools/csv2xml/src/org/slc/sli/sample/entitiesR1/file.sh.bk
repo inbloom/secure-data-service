@@ -1,0 +1,21 @@
+#!/bin/sh
+for file in *
+do
+  if [ -f "$file" ]
+  then
+     echo $file
+     sed 's/package org.slc.sli.sample.entitiesR1;/package org.slc.sli.sample.entitiesR1;/g' $file >>$file.bk
+  fi
+done
+#!/bin/sh
+for file in *
+do
+  if [ -f "$file" ]
+  then
+     echo $file
+     sed 's/package org.slc.sli.sample.entitiesR1;/package org.slc.sli.sample.entitiesR1;/g' $file >>$file.bk
+     rm $file
+     mv $file.bk $file
+  fi
+done
+
