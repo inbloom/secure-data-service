@@ -1,3 +1,4 @@
+@RALLY_US4835
 @rc
 Feature:  RC Integration LEA SAMT Tests
 
@@ -6,13 +7,14 @@ Given I have an open web browser
 
 Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and ingestion_user roles.
   When I navigate to the Portal home page
-  When I selected the realm "Shared Learning Collaborative"
+  When I see the realm selector I authenticate to "Shared Learning Collaborative" 
+  #When I selected the realm "Shared Learning Collaborative"
   And I was redirected to the "Simple" IDP Login page
   #When I navigate to the user account management page
   #Then I will be redirected to the realm selector web page
   #When I select the realm "Shared Learning Collaborative"
   #Then I am redirected to "Simple" login page
-  When I submit the credentials "<PRIMARY_EMAIL>" "test1234" for the "Simple" login page
+  When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
   Then I should see Admin link  
   And I click on Admin
@@ -36,9 +38,9 @@ Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and
   When I click button "Save"
   Then I am redirected to the "Admin Account Management" page
   And the "Success" message is displayed
-  And the newly created user has "Tenant" updated to "RCTestTenant"
+  And the newly created user has "Tenant" updated to "<TENANT>"
   And the newly created user has "EdOrg" updated to "IL-DAYBREAK"
   And I switch to the iframe
-  Then I set my password to "test1234"
+  Then I set my password to "<SECONDARY_EMAIL_PASS>"
   
   

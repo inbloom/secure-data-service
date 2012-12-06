@@ -32,15 +32,51 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
    value = PropLoader.getProps['primary_email_imap_registration_user_email']
    @email_username = PropLoader.getProps['primary_email_imap_registration_user']
    @email_password = PropLoader.getProps['primary_email_imap_registration_pass']
+ elsif human_readable_text == "PRIMARY_EMAIL_PASS"
+   value = PropLoader.getProps['primary_email_imap_registration_pass']
  elsif human_readable_text == "SECONDARY_EMAIL"
   value = PropLoader.getProps['secondary_email_imap_registration_user_email']
   @email_username = PropLoader.getProps['secondary_email_imap_registration_user']
   @email_password = PropLoader.getProps['secondary_email_imap_registration_pass']
+ elsif human_readable_text == "SECONDARY_EMAIL_PASS"
+   value = PropLoader.getProps['secondary_email_imap_registration_pass']
  elsif human_readable_text == "DEVELOPER_EMAIL"
   value = PropLoader.getProps['developer_email_imap_registration_user_email']
   @email_username = PropLoader.getProps['developer_email_imap_registration_user']
-  @email_password = PropLoader.getProps['developer_email_imap_registration_pass']   
- end
+  @email_password = PropLoader.getProps['developer_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER_EMAIL_PASS"
+   value = PropLoader.getProps['developer_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER_SB_EMAIL"
+   value = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
+   @email_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
+   @email_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER_SB_EMAIL_PASS"
+   value = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER2_SB_EMAIL"
+   value = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
+   @email_username = PropLoader.getProps['developer2_sb_email_imap_registration_user']
+   @email_password = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
+ elsif human_readable_text == "DEVELOPER2_SB_EMAIL_PASS"
+   value = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
+ elsif human_readable_text == "LANDINGZONE"
+  value = PropLoader.getProps['landingzone']
+ elsif human_readable_text == "LANDINGZONE_PORT"
+  value = PropLoader.getProps['landingzone_port']
+ elsif human_readable_text == "TENANT"
+  value = PropLoader.getProps['tenant']
+ elsif human_readable_text == "CI_IDP_Redirect_URL"
+   value = PropLoader.getProps["ci_idp_redirect_url"]
+ elsif human_readable_text == "MATT SOLLARS UNIQUE ID"
+   value = "800000025"
+ elsif human_readable_text == "CARMEN ORTIZ UNIQUE ID"
+   value = "900000016"
+ elsif human_readable_text == "BRANDON SUZUKI UNIQUE ID"
+   value = "100000022"
+ elsif human_readable_text == "REBECCA BRAVERMAN UNIQUE ID"
+   value = "a"
+ elsif human_readable_text == "AMY KOPEL UNIQUE ID"
+   value = "akopel"
+  end
 
  value
 end
@@ -74,16 +110,19 @@ end
 
 Then /^I delete the user "(.*?)" if exists$/ do |fullname|
   begin
-    link = @driver.find_element(:xpath, "//a[@id='#{fullname}_delete']")
+    links = @driver.find_elements(:xpath, "//a[@id='#{fullname}_delete']")
+    puts "admin account management debug = #{links}\n"
   rescue
   end
-  unless(link.nil?)
-    link.click
-    begin
-      @driver.switch_to.alert.accept
-    rescue
+  unless(links.nil?)
+    links.each do |link|
+      link.click
+      begin
+        @driver.switch_to.alert.accept
+      rescue
+      end
+      sleep(3)
     end
-    sleep(3)
   end
 end
 
@@ -111,6 +150,7 @@ end
 Then /^I set my password to "(.*?)"$/ do |password|
   first_name = @user_full_name.split(" ", 2)[0]
   content = check_email({:content_substring => first_name,
+                         :subject_substring => "Reset Password",
                          :imap_username => @email_username,
                          :imap_password => @email_password}) do
     @driver.get(PropLoader.getProps["admintools_server_url"] + "/forgot_passwords")
@@ -136,7 +176,7 @@ Then /^I set my password to "(.*?)"$/ do |password|
     @driver.find_element(:id, "new_account_password_new_pass").send_keys password
     @driver.find_element(:id, "new_account_password_confirmation").clear
     @driver.find_element(:id, "new_account_password_confirmation").send_keys password
-    if(@mode == "sandbox")
+    if(@mode == "SANDBOX")
       @driver.find_element(:id, "terms_and_conditions").click
     end
     @driver.find_element(:id, "submitForgotPasswordButton").click
@@ -162,7 +202,6 @@ Then /^I am redirected to the "(.*?)" page$/ do |pageTitle|
   begin
     assertText(pageTitle)
   rescue Exception => e
-    puts @driver.page_source
     raise e
   end
 end

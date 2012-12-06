@@ -426,7 +426,11 @@ public class UserResource {
                 && userToDelete.getGroups() == null) {
             result = null;
         } else if (!(secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR) || secUtil
+<<<<<<< HEAD
                 .hasRole(RoleInitializer.SLC_OPERATOR)) && !(tenant.equals(userToDelete.getTenant()))) {
+=======
+                .hasRole(RoleInitializer.SLC_OPERATOR))&&!(tenant.equals(userToDelete.getTenant()))) {
+>>>>>>> Release-1.0.65
             // verify user tenant match up with userToDelete
             return composeForbiddenResponse("You are not authorized to access this resource.");
         } else {
