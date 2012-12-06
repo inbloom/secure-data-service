@@ -69,19 +69,24 @@ public class ContextValidator implements ApplicationContextAware {
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
         validateUserHasContextToRequestedEntities(request, principal);
-        if(request.getMethod() != "GET") {
-            validateEdOrgWrite(request, principal);
+        if (!isValidForEdOrgWrite(request, principal)) {
+            throw new AccessDeniedException("Failed education organization write validation");
         }
     }
 
-    private void validateEdOrgWrite(ContainerRequest request, SLIPrincipal principal) {
-        //TODO replace stub
+    private boolean isValidForEdOrgWrite(ContainerRequest request, SLIPrincipal principal) {
+        boolean isValid = true;
+        if (request.getMethod() != "GET") {
+            // TODO check edOrg hierarchy if requested entity is one of the entity types we need to check
+            isValid = false;
+        }
+        return isValid;
     }
 
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
 
         List<PathSegment> segs = request.getPathSegments();
-        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext();) {
+        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext(); ) {
             if (i.next().getPath().isEmpty()) {
                 i.remove();
             }
@@ -96,17 +101,17 @@ public class ContextValidator implements ApplicationContextAware {
         if (def == null) {
             return;
         }
-        
+
         /*
-         * e.g.
-         * !isTransitive - /v1/staff/<ID>/disciplineActions
-         * isTransitive - /v1/staff/<ID>
-         */
+        * e.g.
+        * !isTransitive - /v1/staff/<ID>/disciplineActions
+        * isTransitive - /v1/staff/<ID>
+        */
         boolean isTransitive = segs.size() < 4;
-        
+
         /**
          * If we are v1/entity/id and the entity is "public" don't validate
-         * 
+         *
          * Unless of course you're posting/putting/deleting, blah blah blah.
          */
         if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
@@ -117,11 +122,11 @@ public class ContextValidator implements ApplicationContextAware {
                     info("Not validating access to public entity and it's custom data");
                     return;
                 }
-                    
+
             }
         }
 
-        
+
         String idsString = segs.get(2).getPath();
         Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
         validateContextToEntities(def, ids, isTransitive);
@@ -161,7 +166,6 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
-     *
      * @param toType
      * @param isTransitive
      * @return
@@ -172,7 +176,7 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, isTransitive)) {
-                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
+                info("Using {} to validate {}", new Object[]{validator.getClass().toString(), toType});
                 found = validator;
                 break;
             }

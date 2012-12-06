@@ -18,6 +18,7 @@
 package org.slc.sli.api.security.context;
 
 import com.sun.jersey.spi.container.ContainerRequest;
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Method;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for ContextResolver
@@ -51,9 +54,14 @@ public class ContextValidatorTest {
     @Test
     public void testDenyWritingOutsideOfEdOrgHierarchy() throws Exception {
 
-        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("validateEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
+        when(containerRequest.getMethod()).thenReturn("UPDATE");
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
         validateEdOrgWrite.setAccessible(true);
-        validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
+
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
+
+        Assert.assertFalse("should fail validation", isValid.booleanValue());
+
     }
 
 }
