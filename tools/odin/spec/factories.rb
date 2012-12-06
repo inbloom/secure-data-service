@@ -53,7 +53,13 @@ FactoryGirl.define do
    factory :assessment do
   
     initialize_with { new(52, Date.new(2012, 11, 2)) }
-    assessmentTitle "SAT"
+    assessmentTitle "SAT II - US History"
+  end
+  
+   factory :assessment_family do
+  
+    initialize_with { new(52, Date.new(2012, 11, 2)) }
+    assessmentFamilyTitle "SAT II"
   end
   
    factory :assessment_item do

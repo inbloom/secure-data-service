@@ -26,14 +26,19 @@ describe 'AssessmentMetadataGenerator' do
   let(:interchange) { File.open( path, 'w')}
   let(:generator) {AssessmentMetadataGenerator.new(get_spec_scenario(), interchange)}
   let(:assessment) {FactoryGirl.build(:assessment)}
+  let(:assessment_family) {FactoryGirl.build(:assessment_family)}
   let(:assessment_item) {FactoryGirl.build(:assessment_item)}
 
   describe '<<' do
-    it 'will write an assessment to edfi' do
+    it 'will write an assessment metadata interchange to edfi' do
 
       generator.start()
 
+puts assessment_family.to_yaml
+      generator << assessment_family
+
       generator << assessment
+      
 
       generator << assessment_item
       generator.finalize()
