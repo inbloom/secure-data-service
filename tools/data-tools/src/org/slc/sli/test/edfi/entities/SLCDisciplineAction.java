@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "responsibilitySchoolReference",
     "assignmentSchoolReference"
 })
-public class SLCDisciplineAction
+@XmlRootElement public class SLCDisciplineAction
     extends ComplexObjectType
 {
 

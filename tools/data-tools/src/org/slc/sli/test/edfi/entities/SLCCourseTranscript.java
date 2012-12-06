@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ import javax.xml.bind.annotation.XmlType;
     "educationOrganizationReference",
     "studentAcademicRecordReference"
 })
-public class SLCCourseTranscript
+@XmlRootElement public class SLCCourseTranscript
     extends ComplexObjectType
 {
 

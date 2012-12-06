@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "homeroomIndicator",
     "repeatIdentifier"
 })
-public class SLCStudentSectionAssociation {
+@XmlRootElement public class SLCStudentSectionAssociation {
 
     @XmlElement(name = "StudentReference", required = true)
     protected SLCStudentReferenceType studentReference;

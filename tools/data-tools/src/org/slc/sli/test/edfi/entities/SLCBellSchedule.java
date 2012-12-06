@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ import javax.xml.bind.annotation.XmlType;
     "meetingTimeReference",
     "calendarDateReference"
 })
-public class SLCBellSchedule
+@XmlRootElement public class SLCBellSchedule
     extends ComplexObjectType
 {
 

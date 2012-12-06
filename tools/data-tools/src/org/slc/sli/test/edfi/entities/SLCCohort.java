@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlType;
     "educationOrgReference",
     "programReference"
 })
-public class SLCCohort
+@XmlRootElement public class SLCCohort
     extends ComplexObjectType
 {
 

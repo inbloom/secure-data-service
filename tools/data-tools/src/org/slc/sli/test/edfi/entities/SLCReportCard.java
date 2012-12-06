@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ import javax.xml.bind.annotation.XmlType;
     "studentReference",
     "gradingPeriodReference"
 })
-public class SLCReportCard
+@XmlRootElement public class SLCReportCard
     extends ComplexObjectType
 {
 

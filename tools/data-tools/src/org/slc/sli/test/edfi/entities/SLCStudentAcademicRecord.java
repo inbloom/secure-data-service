@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlSeeAlso({
     StudentAcademicRecordExtendedType.class
 })
-public class SLCStudentAcademicRecord
+@XmlRootElement public class SLCStudentAcademicRecord
     extends ComplexObjectType
 {
 

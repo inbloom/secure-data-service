@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
     "description",
     "serviceCategory"
 })
-public class ServiceDescriptor
+@XmlRootElement public class ServiceDescriptor
     extends ComplexObjectType
 {
 

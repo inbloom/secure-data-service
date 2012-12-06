@@ -6,7 +6,7 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;
+package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "endDate",
     "feederRelationshipDescription"
 })
-public class FeederSchoolAssociation {
+@XmlRootElement public class FeederSchoolAssociation {
 
     @XmlElement(name = "FeederSchoolReference", required = true)
     protected EducationalOrgReferenceType feederSchoolReference;
