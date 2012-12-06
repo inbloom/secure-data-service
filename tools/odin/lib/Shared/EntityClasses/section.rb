@@ -25,57 +25,23 @@ require_relative "enum/PopulationServedType.rb"
 # creates section
 class Section < BaseEntity
 
-  attr_accessor :school_id
+  attr_accessor :school_id, :id, :unique_section_code, :sequence, :environment, 
+    :medium, :population, :course_offering, :session
 
-  def initialize(id, sequence, environment, medium, population, school_id, course_offering, session, program = nil)
-    @id                                      = id
-    @sequence                                = sequence
-    @environment                             = environment
-    @medium                                  = medium
-    @population                              = population
-    @school_id                               = school_id
-    @course_offering                         = Hash.new
-    @course_offering["code"]                 = course_offering[""] # probably need to use DataUtility.create_course_offering_id()
-    @course_offering["ed_org_id"]            = course_offering[""]
-    @course_offering["session"]              = Hash.new
-    @course_offering["session"]["name"]      = course_offering["session"]["name"]
-    @course_offering["session"]["ed_org_id"] = course_offering["session"]["ed_org_id"]
-    @session                                 = Hash.new
-    @session["name"]                         = session["name"]
-    @session["ed_org_id"]                    = session["ed_org_id"]
+  def initialize(id, school_id, offering, session = offering['session'], program = nil)
+    @id = id
+    # move these to choices.yml eventually and have these be a weighted choice
+    @sequence = 1  
+    @environment = "Classroom"
+    @medium = "Face-to-face instruction"
+    @population = "Regular Students"
+    @school_id = school_id
+    @course_offering = {code: DataUtility.get_course_offering_code(offering["id"]),
+                        ed_org_id: offering['ed_org_id'],
+                        session: offering['session']}
+    @session = offering['session']
+    @unique_section_code = DataUtility.get_unique_section_id(@id, offering['id'])
     #@program              = program
     # --> programs are not currently implemented
-  end
-
-  def unique_section_code
-    DataUtility.get_unique_section_id(@id)
-  end 
-
-  def sequence
-    @sequence
-  end
-
-  def environment
-    EducationalEnvironmentType.to_string(@environment)
-  end
-
-  def medium 
-    MediumOfInstructionType.to_string(@medium)
-  end
-
-  def population
-    PopulationServedType.to_string(@population)
-  end
-
-  def course_offering
-    @course_offering
-  end
-
-  def session
-    @session
-  end
-
-  def program
-    @program
   end
 end

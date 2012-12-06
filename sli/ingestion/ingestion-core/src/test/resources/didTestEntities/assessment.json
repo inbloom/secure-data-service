@@ -15,8 +15,37 @@
 							"AcademicSubject" : "ELA"
 						}
 					}
+				],
+				"objectiveAssessments" :
+				[
+					{	"learningObjectives" :
+						[
+							{
+								"LearningObjectiveIdentity" :
+								{
+									"ObjectiveGradeLevel" : "Twelfth grade",
+									"Objective" : "Writing: Informational Text",
+									"AcademicSubject" : "ELA"
+								}
+							}
+						]
+					}
 				]
 			}
+		],
+		"assessmentItem":
+		[
+			{
+				"learningStandards":
+				[
+    				{
+        				"LearningStandardIdentity":
+        				{
+            				"IdentificationCode":"0123456789"
+        				}
+    				}
+    			]
+			}
 		]
-	}
+	}	
 }

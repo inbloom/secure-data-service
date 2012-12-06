@@ -6874,6 +6874,17 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="educationOrganizationId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>
+                        The education organization in which the calendar date is defined.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name="calendarEvent" type="calendarEventType">
 				<xs:annotation>
 					<xs:documentation>The type of scheduled or unscheduled event for

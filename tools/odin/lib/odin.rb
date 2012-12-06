@@ -29,7 +29,6 @@ require 'thwait'
 require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
-require_relative 'EntityCreation/work_order_builder.rb'
 require_relative 'EntityCreation/work_order_processor.rb'
 require_relative 'OutputGeneration/DataWriter.rb'
 require_relative 'OutputGeneration/XmlDataWriter.rb'
@@ -77,9 +76,11 @@ class Odin
     #puts "edOrgs: #{edOrgs}"
     # end POC
 
-    WorkOrderProcessor.run edOrgs, scenarioYAML
+    WorkOrderProcessor.run edOrgs, writer, scenarioYAML
 
-    # write out any records that are still queued and close file handles
+    # clean up writer
+    # -> xml  data writer: writes any entities that are still queued and closes file handles
+    # -> base data writer: clears maps of entities and counts
     writer.finalize
 
     finalTime = Time.now - start

@@ -27,7 +27,7 @@ describe 'EnrollmentGenerator' do
     @generator = EnrollmentGenerator.new(get_spec_scenario(), interchange)
     @generator.start
     @generator.create_student_school_association(42, 64, 2004, :FIRST_GRADE)
-    @generator.create_student_section_association(43, 128, 65, 2005, :SECOND_GRADE)
+    @generator.create_student_section_association(43, 128, 256, 65, 2005, :SECOND_GRADE)
     @generator.finalize
     @student_enrollment = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStudentEnrollment.xml", "r") { |file| file.read }
   end
@@ -46,7 +46,7 @@ describe 'EnrollmentGenerator' do
       @student_enrollment.match('<StudentUniqueStateId>43</StudentUniqueStateId>').should_not be_nil
       @student_enrollment.match('<StateOrganizationId>elem-0000000065</StateOrganizationId>').should_not be_nil
       @student_enrollment.match('<BeginDate>2005-09-01</BeginDate>').should_not be_nil
-      @student_enrollment.match('<UniqueSectionCode>128</UniqueSectionCode>').should_not be_nil
+      @student_enrollment.match('<UniqueSectionCode>sctn-0025600128</UniqueSectionCode>').should_not be_nil
     end
   end
 end

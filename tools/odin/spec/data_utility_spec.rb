@@ -89,7 +89,7 @@ describe "DataUtility" do
 
     describe "#get_unique_section_id" do
       it "will generate a unique section id with the correct format" do
-        DataUtility.get_unique_section_id(90125555).should match("sctn-0090125555")
+        DataUtility.get_unique_section_id(42, 64).should match("sctn-0006400042")
       end
     end
   end

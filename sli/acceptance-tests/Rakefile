@@ -704,7 +704,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, 
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest] do
+                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest] do
 
   displayFailureReport()
   if $SUCCESS
