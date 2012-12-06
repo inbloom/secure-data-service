@@ -77,6 +77,7 @@ public class ContextValidator implements ApplicationContextAware {
     private boolean isValidForEdOrgWrite(ContainerRequest request, SLIPrincipal principal) {
         boolean isValid = true;
         if (request.getMethod() != "GET") {
+            Collection<String> edOrgs = principal.getSubEdOrgHierarchy(); //TODO initialize the principal hierarchy
             // TODO check edOrg hierarchy if requested entity is one of the entity types we need to check
             isValid = false;
         }
