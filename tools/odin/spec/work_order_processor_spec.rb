@@ -89,9 +89,9 @@ describe "WorkOrderProcessor" do
           student_assessments << sa
         end
         WorkOrderProcessor.new(data_writer, scenario).build(work_order)
-        sas_by_id = student_assessments.group_by{|sa| sa.assessment_id}
+        sas_by_assessment = student_assessments.group_by{|sa| sa.assessment[:assessmentTitle]}
         assessment_factory.assessments.each{|i|
-          sas_by_id[i].should have(6).items
+          sas_by_assessment[i].should have(6).items
         }
       end
     end

@@ -19,10 +19,11 @@ limitations under the License.
 require_relative 'baseEntity.rb'
 
 class StudentAssessment < BaseEntity
-  attr_accessor :student_id, :assessment_id, :date
-  def initialize(student_id, assessment_id, date)
-    @student_id = student_id
-    @assessment_id = assessment_id
+  attr_accessor :studentId, :assessment, :date, :score
+  def initialize(student_id, assessment_title, date)
+    @studentId = student_id
+    @assessment = {assessmentTitle: assessment_title}
     @date = date
+    @score = student_id.hash % 100
   end
 end

@@ -16,6 +16,10 @@ limitations under the License.
 
 =end
 
+require_relative 'interchangeGenerator'
+require_relative 'EntityWriter'
+require_relative "../../Shared/util"
+
 class StudentAssessmentGenerator < InterchangeGenerator
 
   # initialization will define the header and footer for the student assessment interchange
