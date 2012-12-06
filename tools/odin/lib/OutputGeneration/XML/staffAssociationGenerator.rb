@@ -39,13 +39,13 @@ class StaffAssociationGenerator < InterchangeGenerator
   end
 
   # creates and writes staff to interchange
-  def create_staff(id, year_of)
-    self << Staff.new(id, year_of)
+  def create_staff(id, year_of, name = nil)
+    self << Staff.new(id, year_of, name)
   end
 
   # creates and writes staff education organization assignment association to interchange
-  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date)
-    self << StaffEducationOrgAssignmentAssociation.new(staff, ed_org, classification, title, begin_date)
+  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date, end_date = nil)
+    self << StaffEducationOrgAssignmentAssociation.new(staff, ed_org, classification, title, begin_date, end_date)
   end
 
   # creates and writes staff program association to interchange --> not currently implemented

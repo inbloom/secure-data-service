@@ -23,13 +23,19 @@ require_relative 'enum/StaffClassificationType.rb'
 # creates staff education organization assignment association
 class StaffEducationOrgAssignmentAssociation < BaseEntity
 
-  attr_accessor :staff_id, :ed_org_id, :classification, :title, :begin_date
+  attr_accessor :staff_id, :ed_org_id, :classification, :title, :begin_date, :end_date
 
-  def initialize(staff, ed_org_id, classification, title, begin_date)
-    @staff_id       = DataUtility.get_staff_unique_state_id(staff)
+  def initialize(staff, ed_org_id, classification, title, begin_date, end_date = nil)
+    if staff.kind_of? String
+      @staff_id     = staff
+    else
+      @staff_id     = DataUtility.get_staff_unique_state_id(staff)
+    end
+    
     @ed_org_id      = ed_org_id
     @classification = StaffClassificationType.to_string(classification)
     @title          = title
     @begin_date     = begin_date
+    @end_date       = end_date
   end
 end

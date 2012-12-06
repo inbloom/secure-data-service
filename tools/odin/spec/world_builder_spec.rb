@@ -22,7 +22,7 @@ require_relative '../lib/Shared/util.rb'
 
 # specifications for the world builder
 describe "WorldBuilder" do
-  describe "--> with a set of 10 students" do
+  describe "--> with a set of 10 students (3 years)" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
@@ -30,7 +30,8 @@ describe "WorldBuilder" do
         scenarioYAML = load_scenario("10students", configYAML)
         rand         = Random.new(configYAML['seed'])
         writer       = XmlDataWriter.new(scenarioYAML)
-        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
+        pre_requisites = {:seas => {}, :leas => {}, :elementary => {}, :middle => {}, :high => {}}
+        builder      = WorldBuilder.new(rand, scenarioYAML, writer, pre_requisites)
         builder.build
         writer.finalize
       end
@@ -40,6 +41,7 @@ describe "WorldBuilder" do
         @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
         @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
+        @staff_association      = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeStaffAssociation.xml", "r")
   	  end
 
       it "education organization interchange will contain a single state education agency" do
@@ -72,10 +74,21 @@ describe "WorldBuilder" do
       it "master schedule interchange will contain the correct number of course offerings" do
         @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(102)
       end
+      it "staff association interchange will contain the correct number of staff members" do
+        @staff_association.readlines.select{|l| l.match("<Staff>")}.length.should eq(34)
+      end
+      it "staff association interchange will contain the correct number of staff education organization assignment associations" do
+        @staff_association.readlines.select{|l| l.match("<StaffEducationOrgAssignmentAssociation>")}.length.should eq(102)
+      end
+      it "staff association interchange will contain the correct staff members" do
+        # one for the actual staff member entry
+        # three for staff education organization assignment associations (over 3 years)
+        @staff_association.readlines.select{|l| l.match("<StaffUniqueStateId>stff-0000000001")}.length.should eq(4)
+      end
     end
   end
 
-  describe "--> with a set of 10,001 students" do
+  describe "--> with a set of 10,001 students (1 year)" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
@@ -83,7 +96,8 @@ describe "WorldBuilder" do
         scenarioYAML = load_scenario("10001students", configYAML)
         rand         = Random.new(configYAML['seed'])
         writer       = XmlDataWriter.new(scenarioYAML)
-        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
+        pre_requisites = {:seas => {}, :leas => {}, :elementary => {}, :middle => {}, :high => {}}
+        builder      = WorldBuilder.new(rand, scenarioYAML, writer, pre_requisites)
         builder.build
         writer.finalize
       end
@@ -93,6 +107,7 @@ describe "WorldBuilder" do
         @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
         @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
+        @staff_association      = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeStaffAssociation.xml", "r")
   	  end
 
       it "education organization interchange will contain a single state education agency" do
@@ -127,6 +142,17 @@ describe "WorldBuilder" do
       end
       it "master schedule interchange will contain the correct number of course offerings" do
         @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(166)
+      end
+      it "staff association interchange will contain the correct number of staff members" do
+        @staff_association.readlines.select{|l| l.match("<Staff>")}.length.should eq(169)
+      end
+      it "staff association interchange will contain the correct number of staff education organization assignment associations" do
+        @staff_association.readlines.select{|l| l.match("<StaffEducationOrgAssignmentAssociation>")}.length.should eq(169)
+      end
+      it "staff association interchange will contain the correct staff members" do
+        # one for the actual staff member entry
+        # one for staff education organization assignment associations (over 1 year)
+        @staff_association.readlines.select{|l| l.match("<StaffUniqueStateId>stff-0000000001")}.length.should eq(2)
       end
     end
   end

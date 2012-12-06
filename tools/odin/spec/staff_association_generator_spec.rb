@@ -27,6 +27,7 @@ describe 'StaffAssociationInterchangeGenerator' do
     @generator = StaffAssociationGenerator.new(get_spec_scenario(), interchange)
     @generator.start
     @generator.create_staff(1, 1969)
+    @generator.create_staff("cgray", 1973, "Charles Gray")
     @generator.create_staff_ed_org_assignment_association(1, 1, :PRINCIPAL, "Principal", Date.new(2009, 9, 4))
     @generator.finalize
     @staff_association = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStaffAssociation.xml", "r") { |file| file.read }
@@ -38,10 +39,17 @@ describe 'StaffAssociationInterchangeGenerator' do
     end
   end
 
-  describe '--> request to create staff' do
+  describe '--> request to create staff using numeric id' do
     it 'will write a staff member to ed-fi xml interchange' do
       @staff_association.match('<StaffUniqueStateId>stff-0000000001</StaffUniqueStateId>').should_not be_nil
-      @staff_association.match('<BirthDate>1969-12-02</BirthDate>').should_not be_nil
+      @staff_association.match('<BirthDate>1969-05-25</BirthDate>').should_not be_nil
+    end
+  end
+
+  describe '--> request to create staff using string id and name' do
+    it 'will write a staff member to ed-fi xml interchange' do
+      @staff_association.match('<StaffUniqueStateId>cgray</StaffUniqueStateId>').should_not be_nil
+      @staff_association.match('<BirthDate>1973-07-28</BirthDate>').should_not be_nil
     end
   end
 

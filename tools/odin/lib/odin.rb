@@ -72,21 +72,13 @@ class Odin
 
     # load pre-requisites for scenario (specified in yaml)
     pre_requisites = PreRequisiteBuilder.load_pre_requisites(scenarioYAML)
-    @log.info "Pre-requisites for world building:"
-    pre_requisites.each do |type,edOrgs|
-      @log.info "#{type.inspect}:"
-      edOrgs.each do |organization_id, staff_members|
-        @log.info "education organization: #{organization_id}"
-        staff_members.each do |member|
-          @log.info " -> staff unique state id: #{member[:staff_unique_state_id]} (#{member[:name]}) has role: #{member[:role]}"
-        end
-      end
-    end
-    
-    # create a snapshot of the world
-    edOrgs = WorldBuilder.new(prng, scenarioYAML, writer).build
-    display_world_summary(edOrgs)
+    display_pre_requisites_before_world_building(pre_requisites)
 
+    # create a snapshot of the world
+    edOrgs = WorldBuilder.new(prng, scenarioYAML, writer, pre_requisites).build
+    display_world_summary(edOrgs)
+    display_pre_requisites_after_world_building(pre_requisites)
+    
     WorkOrderProcessor.run edOrgs, writer, scenarioYAML
 
     # clean up writer
@@ -109,6 +101,49 @@ class Odin
     @log.info " - elementary schools:       #{world["elementary"].size}"
     @log.info " - middle     schools:       #{world["middle"].size}"
     @log.info " - high       schools:       #{world["high"].size}"
+  end
+
+  # displays all pre-requisites before world building
+  # -> all staff members (at relevant education organizations)
+  # -> all teachers (at relevant education organizations)
+  def display_pre_requisites_before_world_building(pre_requisites)
+    @log.info "Pre-requisites for world building:"
+    pre_requisites.each do |type,edOrgs|
+      @log.info "#{type.inspect}:"
+      edOrgs.each do |organization_id, staff_members|
+        @log.info "education organization: #{organization_id}"
+        staff_members.each do |member|
+          @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) has role: #{member[:role]}"
+        end
+      end
+    end
+  end
+
+  # displays the pre-requisites that were not met during world building
+  def display_pre_requisites_after_world_building(pre_requisites)
+    # used 'displayed_title' variable to only display the 'these still remain' message after world building
+    # if there were entities specified in the 
+    displayed_title = false
+    pre_requisites.each do |type,edOrgs|
+      if !edOrgs.nil? and edOrgs.size > 0
+        if !displayed_title
+          @log.info "After world building, these still remain (not created during world building):"
+          displayed_title = true
+        end
+        @log.info "#{type.inspect}:"
+        edOrgs.each do |organization_id, staff_members|
+          @log.info "education organization: #{organization_id}"
+          staff_members.each do |member|
+            @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) with role: #{member[:role]}"
+          end
+        end
+      end
+    end
+    if displayed_title
+      @log.info "To guarantee that all members of the staff catalog be created, It is recommended that you:"
+      @log.info " -> increase the number of students in the scenario (property: numStudents)"
+      @log.info " -> tune the cardinality of entities (there is not one property to control this)"
+    end
   end
 
   def validate()

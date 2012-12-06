@@ -52,9 +52,9 @@ class DataWriter
   end
 
   # create school and store in memory
-  def create_school(rand, id, parent_id, type)
+  def create_school(id, parent_id, type)
     initialize_entity(:school)
-    @entities[:school] << SchoolEducationOrganization.new(rand, id, parent_id, type)
+    @entities[:school] << SchoolEducationOrganization.new(id, parent_id, type)
     increment_count(:school)
   end
 
@@ -151,9 +151,9 @@ class DataWriter
   end
 
   # create staff education organization assignment assocition and store in memory
-  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date)
+  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date, end_date = nil)
     initialize_entity(:staff_ed_org_assignment_association)
-    @entities[:staff_ed_org_assignment_association] << StaffEducationOrgAssignmentAssociation.new(staff, ed_org, classification, title, begin_date)
+    @entities[:staff_ed_org_assignment_association] << StaffEducationOrgAssignmentAssociation.new(staff, ed_org, classification, title, begin_date, end_date)
     increment_count(:staff_ed_org_assignment_association)
   end
 

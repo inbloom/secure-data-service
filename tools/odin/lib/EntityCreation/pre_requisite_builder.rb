@@ -60,7 +60,7 @@ class PreRequisiteBuilder
               if !association.nil? and association.size > 0
                 if !member["userId"].nil? and member["userId"].size > 0
                   pre_requisites[type][association] = [] if pre_requisites[type][association].nil?
-                  pre_requisites[type][association] << {:staff_unique_state_id => member["userId"], :name => member["name"], :role => edOrg["role"]}
+                  pre_requisites[type][association] << {:staff_id => member["userId"], :name => member["name"], :role => edOrg["role"]}
                 else
                   @log.warn "Failed to add staff member from staff catalog due to nil or empty user id."
                 end

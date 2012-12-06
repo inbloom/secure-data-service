@@ -71,7 +71,7 @@ describe "DataWriter" do
 
     it "will store a school in-memory when handling call to create one" do
       @writer.get_entity_count(:school).should eq(0)
-      @writer.create_school(@random, 3, 2, "elementary")
+      @writer.create_school(3, 2, "elementary")
       @writer.get_entity_count(:school).should_not be_nil
       @writer.get_entity_count(:school).should eq(1)
     end

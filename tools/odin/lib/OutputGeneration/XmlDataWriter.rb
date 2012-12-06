@@ -101,8 +101,8 @@ class XmlDataWriter < DataWriter
   end
 
   # write school to education organization interchange
-  def create_school(rand, id, parent_id, type)
-    @education_organization_writer.create_school(rand, id, parent_id, type)
+  def create_school(id, parent_id, type)
+    @education_organization_writer.create_school(id, parent_id, type)
     increment_count(:school)
   end
 
@@ -182,14 +182,14 @@ class XmlDataWriter < DataWriter
   # ----------   staff association interchange entities   --------
 
   # write staff to staff association interchange
-  def create_staff(id, year_of)
-    @staff_association_writer.create_staff(id, year_of)
+  def create_staff(id, year_of, name = nil)
+    @staff_association_writer.create_staff(id, year_of, name)
     increment_count(:staff)
   end
 
   # write staff education organization assignment association to staff association interchange
-  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date)
-    @staff_association_writer.create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date)
+  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date, end_date = nil)
+    @staff_association_writer.create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date, end_date)
     increment_count(:staff_ed_org_assignment_association)
   end
 

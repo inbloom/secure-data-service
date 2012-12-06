@@ -16,21 +16,20 @@ limitations under the License.
 
 =end
 
-require_relative "../data_utility.rb"
-require_relative "baseEntity.rb"
+require_relative '../data_utility.rb'
+require_relative 'staff.rb'
 
-# creates state education agency
-class SeaEducationOrganization < BaseEntity
-  
-  attr_accessor :state_org_id
+# creates teacher (sub-class of staff)
+class Teacher < Staff
 
-  def initialize(id, rand)
-    if id.kind_of? String
-      @state_org_id = id
-    else
-      @state_org_id = DataUtility.get_state_education_agency_id(id)
-    end
-    @rand = rand
+  attr_accessor :teacher_unique_state_id, :highly_qualified_teacher
+
+  def initialize(id, year_of, name = nil)
+    super(id, year_of, name)
+    @id = DataUtility.get_teacher_unique_state_id(id) if id.kind_of? Integer
+    @id = id if id.kind_of? String
+    @teacher_unique_state_id = @id
+    @highly_qualified_teacher = wChoose(@@demographics['highly_qualified_teacher'])
   end
 
 end
