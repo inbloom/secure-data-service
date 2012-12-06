@@ -155,7 +155,6 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
 
                     for (Map<String, Object> role : roleData) {
                         List<String> names = (List<String>) role.get("names");
-                        String groupTitle = (String) role.get("groupTitle");
                         Boolean isAdmin = Boolean.FALSE;
                         
                         if (role.containsKey("isAdminRole")) {

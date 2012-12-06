@@ -1,0 +1,65 @@
+{{#entity}}
+<Assessment>
+    <AssessmentTitle>{{assessmentTitle}}</AssessmentTitle>
+
+    {{#assessmentIdentificationCode}}
+    <AssessmentIdentificationCode IdentificationSystem="{{assessmentIdentificationSystemType}}">
+        <ID>{{code}}</ID>
+    </AssessmentIdentificationCode>
+    {{/assessmentIdentificationCode}}
+    {{#assessmentCategoryType}}
+    <AssessmentCategory>{{assessmentCategoryType}}</AssessmentCategory>
+    {{/assessmentCategoryType}}
+
+    {{#academicSubject}}
+    <AcademicSubject>{{academicSubject}}</AcademicSubject>
+    {{/academicSubject}}
+    {{#gradeLevelAssessed}}
+    <GradeLevelAssessed>{{gradeLevelAssessed}}</GradeLevelAssessed>
+    {{/gradeLevelAssessed}}
+    {{#lowestGradeLevelAssessed}}
+    <LowestGradeLevelAssessed>{{lowestGradeLevelAssessed}}</LowestGradeLevelAssessed>
+    {{/lowestGradeLevelAssessed}}
+
+    {{#assessmentPerformanceLevel}}
+    <AssessmentPerformanceLevel>{{.}}</AssessmentPerformanceLevel>
+    {{/assessmentPerformanceLevel}}
+    {{#contentStandard}}
+    <ContentStandard>{{contentStandard}}</ContentStandard>
+    {{/contentStandard}}
+    {{#assessmentForm}}
+    <AssessmentForm>{{assessmentForm}}</AssessmentForm>
+    {{/assessmentForm}}
+    {{#version}}
+    <Version>{{version}}</Version>
+    {{/version}}
+    {{#revisionDate}}
+    <RevisionDate>{{revisionDate}}</RevisionDate>
+    {{/revisionDate}}
+
+    {{#maxRawScore}}
+    <MaxRawScore>{{maxRawScore}}</MaxRawScore>
+    {{/maxRawScore}}
+    {{#nomenclature}}
+    <Nomenclature>{{nomenclature}}</Nomenclature>
+    {{/nomenclature}}
+
+    {{#assessmentPeriod}}
+    <AssessmentPeriod>{{assessmentPeriod}}</AssessmentPeriod>
+    {{/assessmentPeriod}}
+
+    {{#assessment_item_reference}}
+    {{> Partials/_assessment_item_reference}}
+    {{/assessment_item_reference}}
+    
+    {{#objective_assessment_reference}}
+    {{> Partials/_objective_assessment_reference}}
+    {{/objective_assessment_reference}}
+
+    {{> Partials/_assessment_family_reference}}
+
+    {{#sectionReference}}
+    {{> Partials/_section_reference}}
+    {{/sectionReference}}
+</Assessment>
+{{/entity}}
