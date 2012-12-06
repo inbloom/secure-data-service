@@ -33,13 +33,14 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
 @db[:application].find({}).each { |app_auth|
   @log.info "starting migration application #{app_auth['_id']} #{app_auth['body']['name']}"
   ed_orgs = app_auth['body']['authorized_ed_orgs']
+  app_tenant_id = app_auth['metaData']['tenantId']
 
   unless ed_orgs.nil?
   	new_ed_orgs = Array.new
   
   	ed_orgs.each do |ed_org_id|  	
   		unless ed_org_id.nil?
-  			ed_org = @db[:educationOrganization].find_one({"_id" => ed_org_id})
+  			ed_org = @db[:educationOrganization].find_one({"_id" => ed_org_id, "metaData.tenantId" => app_tenant_id})
   			
   			unless ed_org.nil?
 				stateOrganizationId = ed_org['body']['stateOrganizationId']
