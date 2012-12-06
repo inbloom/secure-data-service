@@ -24,22 +24,23 @@ require 'socket'
 # Clear Elastic Search Indexer
 # Clear student and section collection from mongo
 After('@clearIndexer') do |scenario|
+  # we might not need to clear indexer, as extract command will clear it
   step 'I DELETE to clear the Indexer'
   
   # Clear Mongo
   # TODO:  This is obsolete
   conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'])
   db   = conn[PropLoader.getProps['ingestion_database_name']]
-  result = "true"
+  result = true
   collections = ["student","section"]
   collections.each do |collection|
     entity_collection = db[collection]
     entity_collection.remove("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]})
-    if entity_collection.find("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]}).count.to_s != "0"
-      result = "false"
+    if entity_collection.find("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]}).count != 0
+      result = false
     end
   end
-  assert(result == "true", "Some collections were not cleared successfully.")
+  assert(result, "Some collections were not cleared successfully.")
 end
 ###################################################################################
 
@@ -55,6 +56,14 @@ Given /^I DELETE to clear the Indexer$/ do
   @format = "application/json;charset=utf-8"
   url = PropLoader.getProps['elastic_search_address'] 
   restHttpDeleteAbs(url)
+  assert(@res != nil, "Response from rest-client POST is nil")
+  puts @res
+end
+
+Given /^I flush the Indexer$/ do
+  @format = "application/json;charset=utf-8"
+  url = PropLoader.getProps['elastic_search_address'] + "/_flush"
+  restHttpPostAbs(url)
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
 end
