@@ -16,16 +16,11 @@
     },
     "naturalKey": {
       "gradingPeriodIdentity": {
-        "educationalOrgIdentity": [
-          {
-            "stateOrganizationId": "Daybreak Elementary School"
-          }
-        ],
-        "stateOrganizationId": "Daybreak Elementary School",
+        "schoolId": "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
         "gradingPeriod": "First Six Weeks",
         "schoolYear": "2011-2012"
       },
-      "beginDate": "2012-07-01"
+      "beginDate": "2012-08-15"
     }
   },
   "userAccount": {
@@ -71,8 +66,8 @@
         }]
     },
     "naturalKey": {
-      "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735b",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fm"
+      "studentId": "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba",
+      "schoolId": "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
     },
     "context" : {
       "studentId" : "students",
@@ -89,7 +84,7 @@
       "value": "2.2"
     },
     "naturalKey": {
-      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae5",
+      "studentId": "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba",
       "sessionId": "abcff7ae-1f01-46bc-8cc7-cf409819bbce"
     },
     "context" : {
@@ -182,7 +177,7 @@
     },
     "naturalKey": {
       "uniqueCourseId": "Chinese-2-10",
-      "schoolId": "41baa245-ceea-4336-a9dd-0ba868526b9b"
+      "schoolId": "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
     },
     "context": {
       "schoolId" : "schools"
@@ -352,7 +347,7 @@
     },
     "naturalKey": {
       "learningStandardId": {
-        "identificationCode": "apiTestLearningStandard"
+        "identificationCode": "apiTestLearningStandard2"
       }
     }
   },
@@ -472,8 +467,8 @@
       "value": "Finished the quiz in 5 hours"
     },
     "naturalKey": {
-      "gradebookEntryId": "7f05ef51-c974-4071-b91b-f644f9b087cf",
-      "studentSectionAssociationId": "bac890d6-b580-4d9d-a0d4-8bce4e8d351a"
+      "gradebookEntryId": "008fd89d-88a2-43aa-8af1-74ac16a29380",
+      "studentSectionAssociationId": "ceffbb26-1327-4313-9cfc-1c3afd38122e_id202b34f5-934c-4f69-b7a6-10d6881414b9_id"
     },
     "context" : {
       "sectionId" : "sections",
@@ -503,9 +498,9 @@
     },
     "naturalKey": {
       "assessmentTitle": "Advanced Placement Test - Subject: Writing",
-      "academicSubject": "Mathematics",
-      "gradeLevelAssessed": "Adult Education",
-      "version": 2
+      "academicSubject": "English",
+      "gradeLevelAssessed": "Third grade",
+      "version": 3
     }
   },
   "parent": {
@@ -598,13 +593,13 @@
   "studentCompetency": {
     "POST": {
       "competencyLevel": {
-        "description": "really hard competency"
+        "codeValue" : "ABC123"
       },
       "objectiveId": {
         "learningObjectiveId": "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
       },
       "diagnosticStatement": "passed with flying colors",
-      "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+      "studentSectionAssociationId": "01340032-1191-402d-d3c5-5f37c0232180"
     },
     "UPDATE": {
       "field": "diagnosticStatement",
@@ -612,12 +607,12 @@
     },
     "naturalKey": {
       "objectiveId": {
-        "learningObjectiveId": "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
+        "learningObjectiveId": "dd9165f2-65fe-6d27-a8ec-bdc5f47757b7"
       },
       "competencyLevel": {
-        "description": "really hard competency"
+        "codeValue": "XYZ456"
       },
-      "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+      "studentSectionAssociationId": "706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id"
     },
     "context":{
       "studentSectionAssociationId":"studentSectionAssociations"
@@ -790,7 +785,7 @@
   "staffProgramAssociation": {
     "POST": {
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "programId": "cb292c7d-3503-414a-92a2-dc76a1585d79",
+      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-01-01",
       "endDate": "2013-12-31"
     },
@@ -799,9 +794,9 @@
       "value": "2013-11-30"
     },
     "naturalKey": {
-      "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
-      "beginDate": "2012-01-01"
+      "staffId": "42424242-4242-4242-4242-424242424242",
+      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
+      "beginDate": "2012-02-02"
     },
     "context" : {
       "staffId" : "teacherId",
@@ -843,7 +838,7 @@
     "naturalKey": {
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
       "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
-      "beginDate": "2012-02-29"
+      "beginDate": "2012-03-12"
     },
     "context" : {
       "studentId" : "students",
@@ -882,7 +877,7 @@
     },
     "naturalKey": {
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "parentId": "9b8f7237-ce8e-4dff-98cf-66535880987b"
+      "parentId": "38ba6ea7-7e73-47db-99e7-d0956f83d7e9"
     },
     "context" : {
       "studentId":"students",
@@ -904,7 +899,7 @@
     },
     "naturalKey": {
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
+      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
       "beginDate": "2012-02-12",
       "educationOrganizationId": "92d6d5a0-852c-45f4-907a-912752831772"
     },

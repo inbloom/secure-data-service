@@ -107,30 +107,30 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @teacherAccess = @entityData[arg1]["teacherAccess"]
 end
 Then /^I perform CRUD for each resource available$/ do
+
+  target = ""
+
   resources.each do |resource|
-    begin
-      #post is not allowed for associations
-        post_resource resource
-        begin
-          get_resource resource
-        rescue =>e
-          $stderr.puts "#{resource} ==> #{e}"
-        end
-        begin
-          @fields[@updates['field']] = @updates['value']
-          steps %Q{
-          When I navigate to PUT \"/v1#{resource}/#{@newId}\"
-          Then I should receive a return code of 204
-          Given a valid entity json document for a \"#{resource_type}\"
-          }
-          update_natural_key resource
-        rescue =>e
-          $stderr.puts "#{resource} ==> #{e}"
-        end
-        delete_resource resource
-        puts  "|#{get_resource_type(resource)}|"
-    rescue =>e
-      $stderr.puts"#{resource} ==> #{e}"
+    if resource == target
+      $SLI_DEBUG = true
+    else
+      $SLI_DEBUG = false
+    end
+  #post is not allowed for associations
+    resource_type = get_resource_type resource
+    post_resource resource
+    get_resource resource
+    
+    @fields[@updates['field']] = @updates['value']
+    steps %Q{
+    When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+    Then I should receive a return code of 204
+    Given a valid entity json document for a \"#{resource_type}\"
+    }
+    delete_resource resource
+    puts  "|#{get_resource_type(resource)}|"
+    if resource == target
+      break
     end
   end
 end
@@ -197,11 +197,15 @@ def update_natural_key resource
     resource_type = get_resource_type resource
        
     @naturalKey.each do |nKey,nVal|
+      puts "**********\nupdating " + nKey.to_s +  " -> " + nVal.to_s
+      # cache @fields so it can be restored to unmodified state
+      temp = @fields.clone
       @fields[nKey] = nVal
       steps %Q{
           When I navigate to PUT \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 409 
       }
+      @fields = temp
     end
   end
 end
@@ -321,7 +325,6 @@ Then /^I perform POST for each resource available in the order defined by table:
     elsif resource.include? "session"
       @fields["gradingPeriodReference"].push(@context_hash["gradingPeriods"]["id"])
     end
-    begin
     steps %Q{
           When I navigate to POST \"/v1#{resource}\"
           Then I should receive a return code of 201
@@ -351,48 +354,44 @@ Then /^I perform POST for each resource available in the order defined by table:
           When I navigate to POST \"/v1/staffEducationOrgAssignmentAssociations\"
     }
     end
-    rescue=>e
-      $stderr.puts "#{resource} ==> #{e}"
-    end
   end
 end
-Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do 
+Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
   resources.each do |resource|
-    begin
-      if @context_hash.has_key? resource[1..-1] == false
-        next
-      end
-      resource_type = get_resource_type resource
-      steps %Q{
-          Given a valid entity json document for a \"#{resource_type}\"
-      }
-      @newId = @context_hash[resource[1..-1]]["id"]
-      @fields = @context_hash[resource[1..-1]]["BODY"]
-      get_resource resource
-      @fields[@updates['field']] = @updates['value']
-      steps %Q{
-          When I navigate to PUT \"/v1#{resource}/#{@newId}\"
-          Then I should receive a return code of 204
-      }
-      @fields = @context_hash[resource[1..-1]]["BODY"]
-#      update_natural_key resource
-    rescue =>e
-      $stderr.puts "#{resource} => #{e}"
+    if @context_hash.has_key? resource[1..-1] == false
+      next
     end
+    if resource == "/competencyLevelDescriptor"
+      next
+    end
+    resource_type = get_resource_type resource
+    steps %Q{
+        Given a valid entity json document for a \"#{resource_type}\"
+    }
+    @newId = @context_hash[resource[1..-1]]["id"]
+    @fields = @context_hash[resource[1..-1]]["BODY"]
+    get_resource resource
+    @fields[@updates['field']] = @updates['value']
+    steps %Q{
+        When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+        Then I should receive a return code of 204
+    }
+    @fields = @context_hash[resource[1..-1]]["BODY"]
   end
 end
 Then /^I perform DELETE for each resource availabel in the order defined by table:$/ do |table|
- $stderr. puts "START DELETE************************************************"
  table.hashes.each do |hash|
     resource = "/"+ hash["Entity Resource"]
-    begin
-     resource_type = get_resource_type resource
-     @newId = @context_hash[resource[1..-1]]["id"]
-      @fields = @context_hash[resource[1..-1]]["BODY"]
-      delete_resource resource
-    rescue =>e
-      $stderr.puts "#{resource}/#{@newId} => #{e}"
+    resource_type = get_resource_type resource
+    
+    if resource == "/competencyLevelDescriptor"
+      next
     end
+
+    puts  "|#{resource_type}|"
+    @newId = @context_hash[resource[1..-1]]["id"]
+    @fields = @context_hash[resource[1..-1]]["BODY"]
+    delete_resource resource
   end
 end
 
