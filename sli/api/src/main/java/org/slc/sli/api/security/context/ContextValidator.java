@@ -60,6 +60,15 @@ public class ContextValidator implements ApplicationContextAware {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    private static final Collection<String> ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION = new HashSet<String>(
+            Arrays.asList(EntityNames.ATTENDANCE, EntityNames.COHORT, EntityNames.COURSE, EntityNames.COURSE_OFFERING,
+                    EntityNames.COURSE_TRANSCRIPT, EntityNames.DISCIPLINE_INCIDENT, EntityNames.DISCIPLINE_ACTION,
+                    EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADUATION_PLAN, EntityNames.PROGRAM, EntityNames.SECTION,
+                    EntityNames.SESSION, EntityNames.STUDENT_COHORT_ASSOCIATION,
+                    EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+                    EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+                    EntityNames.STUDENT_SECTION_ASSOCIATION)
+    );
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -76,12 +85,24 @@ public class ContextValidator implements ApplicationContextAware {
 
     private boolean isValidForEdOrgWrite(ContainerRequest request, SLIPrincipal principal) {
         boolean isValid = true;
+
         if (request.getMethod() != "GET") {
-            Collection<String> edOrgs = principal.getSubEdOrgHierarchy(); //TODO initialize the principal hierarchy
-            // TODO check edOrg hierarchy if requested entity is one of the entity types we need to check
-            isValid = false;
+            String entityType = getEntityType(request);
+            if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.contains(entityType)) {
+                Collection<String> principalsEdOrgs = principal.getSubEdOrgHierarchy(); //TODO initialize the principal hierarchy
+                String entityEdOrg = getEntityEdOrg(request);
+                isValid = principalsEdOrgs.contains(entityEdOrg);
+            }
         }
         return isValid;
+    }
+
+    private String getEntityEdOrg(ContainerRequest request) {
+        return "";  //TODO replace stub
+    }
+
+    private String getEntityType(ContainerRequest request) {
+        return "";  //TODO replace stub
     }
 
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
