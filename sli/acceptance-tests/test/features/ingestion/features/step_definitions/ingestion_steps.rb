@@ -1075,6 +1075,9 @@ end
 # STEPS: WHEN
 ############################################################
 
+When /^the landing zone is reinitialized$/ do
+  initializeLandingZone(@landing_zone_path)
+end
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
