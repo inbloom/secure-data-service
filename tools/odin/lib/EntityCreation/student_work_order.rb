@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative '../Shared/EntityClasses/studentAssessment'
+
 # student work order factory creates student work orders
 class StudentWorkOrderFactory
   def initialize(world, scenario, section_factory)
@@ -57,6 +59,7 @@ class StudentWorkOrder
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
     @section_factory = opts[:section_factory]
     @scenario = opts[:scenario]
+    @assessment_factory = opts[:assessment_factory]
   end
 
   def build(writer)
@@ -72,6 +75,7 @@ class StudentWorkOrder
           schools = schools.drop(1)
         end
         generate_enrollment(writer, schools[0], curr_type, year, grade, session)
+        generate_grade_wide_assessments(writer, grade, session)
       end
     }
   end
@@ -90,6 +94,19 @@ class StudentWorkOrder
                                                     school_id, start_year, start_grade)
         }
       end
+    end
+  end
+
+  def generate_grade_wide_assessments(writer, grade, session)
+    unless @assessment_factory.nil?
+      times_taken = @scenario['ASSESSMENTS_TAKEN'][:grade_wide]
+      @assessment_factory.assessments(grade: grade, session: session).each{|a|
+        #TODO this is going to be a busy first couple of days of school, might want to spread them out
+        date = session['interval'].get_begin_date
+        times_taken.times{
+          writer.create_student_assessment(StudentAssessment.new(@id, a, date += 1))
+        }
+      }
     end
   end
 

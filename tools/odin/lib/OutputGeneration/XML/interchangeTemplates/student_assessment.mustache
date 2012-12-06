@@ -1,0 +1,13 @@
+{{#entity}}
+<StudentAssessment>
+  <AdministrationDate>{{date}}</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>{{score}}</Result>
+  </ScoreResults>
+  {{> Partials/_student_reference}}
+  {{> Partials/_assessment_reference}}
+</StudentAssessment>
+{{/entity}}
