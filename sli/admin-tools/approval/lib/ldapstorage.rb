@@ -146,7 +146,7 @@ class LDAPStorage
     }
 
     # make it secure connection if the port is 636
-    if port == 1636
+    if port == 636 #1636 for local port forwarding
       @ldap_conf[:encryption] = {    :method => :simple_tls    }
     end
 
