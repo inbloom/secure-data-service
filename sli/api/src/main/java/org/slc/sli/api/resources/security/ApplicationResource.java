@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,6 +39,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.UnversionedResource;
+import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
@@ -83,6 +85,10 @@ public class ApplicationResource extends UnversionedResource {
     private boolean sandboxEnabled;
 
     private EntityService service;
+    
+    @Autowired
+    @Qualifier("applicationResourceService")
+    private ResourceService resourceService;
 
     @Autowired
     @Qualifier("validationRepo")
@@ -113,6 +119,11 @@ public class ApplicationResource extends UnversionedResource {
     public ApplicationResource(EntityDefinitionStore entityDefs) {
         store = entityDefs;
         service = store.lookupByResourceName(RESOURCE_NAME).getService();
+    }
+
+    @PostConstruct
+    public void init() {
+        super.setResourceService(resourceService);
     }
 
     @POST
@@ -187,36 +198,6 @@ public class ApplicationResource extends UnversionedResource {
         Response resp = super.getAll(uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
-    }
-
-
-    // TODO
-    // what to do with you...
-    protected void addAdditionalCritera(NeutralQuery query) {
-
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
-            query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
-        } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
-
-            //know this is ugly, but having trouble getting or queries to work
-            List<String> idList = new ArrayList<String>();
-            NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
-            Iterable<String> ids = repo.findAllIds("application", newQuery);
-            for (String id : ids) {
-                idList.add(id);
-            }
-
-            newQuery = new NeutralQuery(0);
-            newQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
-            newQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
-
-            ids = repo.findAllIds("application", newQuery);
-            for (String id : ids) {
-                idList.add(id);
-            }
-            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, idList));
-        } //else - operator -- sees all apps
     }
 
 
