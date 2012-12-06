@@ -29,6 +29,7 @@ class AssessmentMetadataGenerator < InterchangeGenerator
     super(yaml, interchange)
 
     @header, @footer = build_header_footer( "AssessmentMetadata" )
+    @writers[ AssessmentFamily ] = EntityWriter.new("assessment_family.mustache")
     @writers[ Assessment ] = EntityWriter.new("assessment.mustache")
     @writers[ AssessmentItem ] = EntityWriter.new("assessment_item.mustache")
 
