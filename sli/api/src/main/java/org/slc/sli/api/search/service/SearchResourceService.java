@@ -38,8 +38,6 @@ import com.google.common.collect.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.common.collect.Lists;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
@@ -444,16 +442,7 @@ public class SearchResourceService {
                 } catch (IOException ioe) {
                     logger.info("Unable to delete data directory for embedded elasticsearch");
                 }
-                Settings settings = ImmutableSettings.settingsBuilder()
-                        .put("node.http.enabled", true)
-                        .put("path.logs","target/elasticsearch/logs")
-                        .put("path.data","target/elasticsearch/data")
-                        .put("gateway.type", "none")
-                        .put("index.store.type", "memory")
-                        .put("index.number_of_shards", 1)
-                        .put("index.number_of_replicas", 1).build();
-
-                node = NodeBuilder.nodeBuilder().local(true).settings(settings).node();
+                node = NodeBuilder.nodeBuilder().local(true).node();
             }
         }
 
