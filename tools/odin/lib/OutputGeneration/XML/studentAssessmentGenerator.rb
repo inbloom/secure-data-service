@@ -16,21 +16,19 @@ limitations under the License.
 
 =end
 
-require_relative "./EntityWriter"
-require_relative "./interchangeGenerator"
+require_relative 'interchangeGenerator'
+require_relative 'EntityWriter'
 require_relative "../../Shared/util"
 
-Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
-# event-based staff association interchange generator
-class AssessmentMetadataGenerator < InterchangeGenerator
-  # initialization will define the header and footer for the staff association interchange
+class StudentAssessmentGenerator < InterchangeGenerator
+
+  # initialization will define the header and footer for the student assessment interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
 
-    @header, @footer = build_header_footer( "AssessmentMetadata" )
-    @writers[ Assessment ] = EntityWriter.new("assessment.mustache")
-    @writers[ AssessmentItem ] = EntityWriter.new("assessment_item.mustache")
-
+    @header, @footer = build_header_footer( "StudentAssessment" )
+    @writers[StudentAssessment] = EntityWriter.new("student_assessment.mustache")
   end
+
 end
