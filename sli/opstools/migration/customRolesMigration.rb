@@ -10,19 +10,16 @@ databases.each do |dbName|
 
   customRoleDocs = coll.find({})
   customRoleDocs.each do |doc|
-    puts("\n---The doc is #{doc.inspect}")
+    puts("\n---The original doc is #{doc.inspect}")
     roles = doc["body"]["roles"]
     roles.each do |role|
-      if role.has_key?("isAdminRole")
-        next
-      end
-      if role["rights"].include?("ADMIN_APPS")
+      if role["groupTitle"] == "IT Administrator"
         role["isAdminRole"] = true
-        role["rights"].delete("ADMIN_APPS")
+        role["rights"].delete("ADMIN_APPS") #This line probably won't do anything but whatever
       else
         role["isAdminRole"] = false
       end
-      puts("The role is #{role.inspect}")
+      puts("The updated role is #{role.inspect}")
     end
     coll.remove({"_id" => doc["_id"]})
     puts("The doc we're about to insert is #{doc.inspect}")

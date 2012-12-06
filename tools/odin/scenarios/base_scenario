@@ -39,3 +39,5 @@ STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
 
 # Set the number of records we cache before writing them to disk.
 BATCH_SIZE: 10000
+
+ASSESSMENTS_TAKEN: {grade_wide: 3}
