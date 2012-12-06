@@ -88,9 +88,9 @@ secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 secondary_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
 
 #Developer creds
-developer_email_imap_registration_user: testdev.wgen@gmail.com
+developer_email_imap_registration_user: RCTest Developer
 developer_email_imap_registration_user_email: testdev.wgen@gmail.com
-developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
+developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: testdev.wgen1234
 
 #Landing zone
 landingzone: pike-lz.slidev.org
