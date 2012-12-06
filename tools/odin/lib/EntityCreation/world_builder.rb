@@ -443,7 +443,12 @@ class WorldBuilder
       @log.info "creating session information for school year: #{year}-#{year+1}"
       @edOrgs["leas"].each_index do |index|
         edOrg = @edOrgs["leas"][index]
-        state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
+        if edOrg["id"].kind_of? String
+          state_organization_id = edOrg["id"]
+        else
+          state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
+        end
+        
         start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
         interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
 
@@ -770,7 +775,12 @@ class WorldBuilder
       # get sessions currently stored on local education agency
       # iterate through sessions
       sessions  = ed_org["sessions"]
-      ed_org_id = DataUtility.get_local_education_agency_id(ed_org["id"])
+      if ed_org["id"].kind_of? String
+        ed_org_id = ed_org["id"]
+      else
+        ed_org_id = DataUtility.get_local_education_agency_id(ed_org["id"])
+      end
+      
       sessions.each do |session|
         interval  = session["interval"]
         year      = session["year"]
