@@ -263,12 +263,6 @@ public class ApplicationResource extends UnversionedResource {
     @RightsAllowed({Right.DEV_APP_CRUD})
     public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
 
-        if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You cannot delete this application");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
-
         EntityBody ent = service.get(uuid);
         if (ent != null) {
             validateDeveloperHasAccessToApp(ent);
