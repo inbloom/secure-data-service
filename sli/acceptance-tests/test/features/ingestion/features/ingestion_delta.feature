@@ -54,7 +54,7 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And a batch job log has been created
     And zip file is scp to ingestion landing zone with name "Reingest-StoriedDataSet_IL_Daybreak.zip"
     And two batch job logs have been created
-    And "10" seconds have elapsed
+    And a batch job for file "Reingest-StoriedDataSet_IL_Daybreak.zip" is completed in database
 And I should see "InterchangeStudent.xml student 78 deltas!" in the resulting batch job file
 And I should see "InterchangeEducationOrganization.xml course 95 deltas!" in the resulting batch job file
 And I should see "InterchangeEducationOrganization.xml school 3 deltas!" in the resulting batch job file

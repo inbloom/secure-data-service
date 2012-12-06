@@ -40,7 +40,7 @@ describe "WorldBuilder" do
         @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
         @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
-  	  end
+      end
 
       it "education organization interchange will contain a single state education agency" do
         @education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
@@ -72,6 +72,12 @@ describe "WorldBuilder" do
       it "master schedule interchange will contain the correct number of course offerings" do
         @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(102)
       end
+      context "assessment metadata interchange" do
+        let(:assessment_metadata) {File.new("#{File.dirname(__FILE__)}/../generated/InterchangeAssessmentMetadata.xml", "r")}
+        it "will contain 5 assessments for each grade for each year" do
+          assessment_metadata.readlines.select{|l| l.match("<Assessment>")}.length.should eq(78)
+        end
+      end
     end
   end
 
@@ -93,26 +99,26 @@ describe "WorldBuilder" do
         @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
         @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
-  	  end
+      end
 
       it "education organization interchange will contain a single state education agency" do
-      	@education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
-	    end
-	    it "education organization interchange will contain multiple local education agencies" do
-	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<School>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many elementary schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many middle schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many high schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should be_> 2
-	    end
+        @education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
+      end
+      it "education organization interchange will contain multiple local education agencies" do
+        @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should be_> 2
+      end
+      it "education organization interchange will contain many schools" do
+        @education_organization.readlines.select{|l| l.match("<School>")}.length.should be_> 2
+      end
+      it "education organization interchange will contain many elementary schools" do
+        @education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should be_> 2
+      end
+      it "education organization interchange will contain many middle schools" do
+        @education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should be_> 2
+      end
+      it "education organization interchange will contain many high schools" do
+        @education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should be_> 2
+      end
       it "education organization interchange will contain the correct number of courses" do
         @education_organization.readlines.select{|l| l.match("<Course>")}.length.should eq(34)
       end
@@ -127,6 +133,12 @@ describe "WorldBuilder" do
       end
       it "master schedule interchange will contain the correct number of course offerings" do
         @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(166)
+      end
+      context "assessment metadata interchange" do
+        let(:assessment_metadata) {File.new("#{File.dirname(__FILE__)}/../generated/InterchangeAssessmentMetadata.xml", "r")}
+        it "will contain 2 assessments for each grade for each year" do
+          assessment_metadata.readlines.select{|l| l.match("<Assessment>")}.length.should eq(26)
+        end
       end
     end
   end

@@ -63,7 +63,7 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | assessment                               |                  0|
+     | assessment                               |                 78|
      | attendance                               |                  0|
      | calendarDate                             |                580|
      | cohort                                   |                  0|
@@ -110,7 +110,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                  0|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 917 records." in the resulting batch job file
+    And I should see "Processed 995 records." in the resulting batch job file
     And I should not see an error log file created
 	  And I should not see a warning log file created
 
