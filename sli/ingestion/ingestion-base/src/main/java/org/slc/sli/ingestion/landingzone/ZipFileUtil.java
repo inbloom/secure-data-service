@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ZipFileUtil {
 
+    private ZipFileUtil() {}
+
     static Logger log = LoggerFactory.getLogger(ZipFileUtil.class);
 
     static final int BUFFER = 2048;
@@ -52,18 +54,30 @@ public class ZipFileUtil {
                 + zipFile.getName().substring(0, zipFile.getName().lastIndexOf(".")) + time.getTime();
 
         // make dir to unzip files
-        File path = new File(filePath);
+        File targetDir = new File(filePath);
 
-        if (!path.mkdirs()) {
+        if (!targetDir.mkdirs()) {
             throw new IOException("directory creation failed: " + filePath);
         }
 
+        extract(zipFile, targetDir, false);
+
+        return targetDir;
+    }
+
+    /**
+     * @param sourceZipFile
+     * @param targetDir
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static void extract(File sourceZipFile, File targetDir, boolean mkdirs) throws IOException {
         FileInputStream fis = null;
         ZipArchiveInputStream zis = null;
 
         try {
             // Create input stream
-            fis = new FileInputStream(zipFile);
+            fis = new FileInputStream(sourceZipFile);
             zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
 
             ArchiveEntry entry;
@@ -72,15 +86,13 @@ public class ZipFileUtil {
             while ((entry = zis.getNextEntry()) != null) {
 
                 if (!entry.isDirectory()) {
-                    extractTo(zis, entry, path);
+                    extract(zis, entry, targetDir, mkdirs);
                 }
             }
         } finally {
             IOUtils.closeQuietly(zis);
             IOUtils.closeQuietly(fis);
         }
-
-        return path;
     }
 
     /**
@@ -90,16 +102,22 @@ public class ZipFileUtil {
      *            Archive
      * @param entry
      *            Zip Entry
-     * @param dir
+     * @param targetDir
      *            Directory to extract file to
      * @throws IOException
      *             in case of error
      */
-    protected static void extractTo(ZipArchiveInputStream zis, ArchiveEntry entry, File dir) throws IOException {
+    protected static void extract(ZipArchiveInputStream zis, ArchiveEntry entry, File targetDir, boolean mkdirs) throws IOException {
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(dir.getAbsolutePath() + File.separator + entry.getName());
+            File targetFile = new File(targetDir.getAbsolutePath() + File.separator + entry.getName());
+
+            if (mkdirs) {
+                targetFile.getParentFile().mkdirs();
+            }
+
+            fos = new FileOutputStream(targetFile);
             bos = new BufferedOutputStream(fos, BUFFER);
 
             int count;

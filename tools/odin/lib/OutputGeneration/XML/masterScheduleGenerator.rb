@@ -16,10 +16,9 @@ limitations under the License.
 
 =end
 
-require "mustache"
-
 require_relative "./EntityWriter"
 require_relative "./interchangeGenerator.rb"
+require_relative "../../Shared/util"
 
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
@@ -27,7 +26,6 @@ Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load
 class MasterScheduleGenerator < InterchangeGenerator
 
   # initialization will define the header and footer for the master schedule interchange
-  # writes header to master schedule interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
@@ -44,8 +42,8 @@ class MasterScheduleGenerator < InterchangeGenerator
   end
 
   # creates and writes section to interchange
-  def create_section(id, year, term, interval, ed_org_id, grading_periods)
-    self << Section.new(id, year, term, interval, ed_org_id, grading_periods)
+  def create_section(id, school_id, offering)
+    self << Section.new(id, school_id, offering)
   end
 
 end

@@ -4,6 +4,11 @@
     <CalendarDate id="CLND_20110922Instructionalday">
         <Date>2011-09-22</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL</StateOrganizationId>
+			</EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <GradingPeriod id="GP_1_SCHS">
         <GradingPeriod>End of Year</GradingPeriod>

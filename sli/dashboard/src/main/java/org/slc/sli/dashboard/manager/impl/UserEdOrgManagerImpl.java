@@ -217,23 +217,19 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         List<GenericEntity> retVal = new ArrayList<GenericEntity>();
         for (String edOrgId : schoolReachableFromEdOrg.keySet()) {
             GenericEntity obj = new GenericEntity();
-            try {
-                GenericEntity edOrgEntity = edOrgIdMap.get(edOrgId);
-                // if edOrgEntity is null, it may be API could not return entity
-                // because of error code 403.
-                if (edOrgEntity != null) {
-                    obj.put(Constants.ATTR_NAME, edOrgEntity.get(Constants.ATTR_NAME_OF_INST));
-                    obj.put(Constants.ATTR_ID, edOrgEntity.get(Constants.ATTR_ID));
-                    // convert school ids to the school object array and sort based on the name of
-                    // the institution
-                    Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(new GenericEntityComparator(
-                            Constants.ATTR_NAME_OF_INST, String.class));
-                    reachableSchools.addAll(schoolReachableFromEdOrg.get(edOrgId));
-                    obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
-                    retVal.add(obj);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("error creating json object for " + edOrgId);
+            GenericEntity edOrgEntity = edOrgIdMap.get(edOrgId);
+            // if edOrgEntity is null, it may be API could not return entity
+            // because of error code 403.
+            if (edOrgEntity != null) {
+                obj.put(Constants.ATTR_NAME, edOrgEntity.get(Constants.ATTR_NAME_OF_INST));
+                obj.put(Constants.ATTR_ID, edOrgEntity.get(Constants.ATTR_ID));
+                // convert school ids to the school object array and sort based on the name of
+                // the institution
+                Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(new GenericEntityComparator(
+                        Constants.ATTR_NAME_OF_INST, String.class));
+                reachableSchools.addAll(schoolReachableFromEdOrg.get(edOrgId));
+                obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
+                retVal.add(obj);
             }
         }
         
@@ -272,14 +268,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     // Insert schools into the list under a "dummy" ed-org
     private static List<GenericEntity> insertSchoolsUnderDummyEdOrg(List<GenericEntity> retVal,
             Collection<GenericEntity> schools) {
-        try {
+        if (retVal != null) {
             GenericEntity obj = new GenericEntity();
             obj.put(Constants.ATTR_NAME, DUMMY_EDORG_NAME);
             obj.put(Constants.ATTR_SCHOOLS, schools);
             retVal.add(obj);
-        } catch (Exception e) {
-            throw new RuntimeException("error creating json object for dummy edOrg");
         }
+
         return retVal;
     }
     
@@ -382,7 +377,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public GenericEntity getStaffInfo(String token) {
         String id = getApiClient().getId(token);
         GenericEntity staffEntity = getApiClient().getStaffWithEducationOrganization(token, id, null);

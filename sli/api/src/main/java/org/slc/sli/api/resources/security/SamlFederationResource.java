@@ -135,7 +135,7 @@ public class SamlFederationResource {
     @POST
     @Path("sso/post")
     @SuppressWarnings("unchecked")
-    public Response consume(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) throws Exception {
+    public Response consume(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) {
 
         info("Received a SAML post for SSO...");
         TenantContext.setTenantId(null);

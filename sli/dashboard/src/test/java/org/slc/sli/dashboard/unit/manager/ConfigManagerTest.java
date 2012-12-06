@@ -33,6 +33,7 @@ import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.impl.ConfigManagerImpl;
 import org.slc.sli.dashboard.security.SLIPrincipal;
+import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.JsonConverter;
 
 /**
@@ -139,8 +140,8 @@ public class ConfigManagerTest {
         try {
             configManager.getComponentConfig("1", new EdOrgKey("2012zj-0b0711a4-e000-11e1-9f3b-3c07546832b4"),
                     "fakeConfigId");
-        } catch (Throwable t) {
-            Assert.assertEquals("Unable to read local custom config for fakeConfigId", t.getMessage());
+        } catch (DashboardException dbe) {
+            Assert.assertEquals("Unable to read local custom config for fakeConfigId", dbe.getMessage());
         }
     }
 

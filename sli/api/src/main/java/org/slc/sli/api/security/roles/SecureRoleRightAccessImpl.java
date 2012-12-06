@@ -155,7 +155,6 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
 
                     for (Map<String, Object> role : roleData) {
                         List<String> names = (List<String>) role.get("names");
-                        String groupTitle = (String) role.get("groupTitle");
                         Boolean isAdmin = Boolean.FALSE;
                         
                         if (role.containsKey("isAdminRole")) {
@@ -166,12 +165,9 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                             if (roleNames.contains(roleName)) {
                                 List<String> rights = (List<String>) role.get("rights");
                                 Role mainRole = RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build();
-                                Role groupTitleRole = RoleBuilder.makeRole(groupTitle).addGrantedAuthorities(rights).build();
 
                                 mainRole.setAdmin(isAdmin);
-                                groupTitleRole.setAdmin(isAdmin);
                                 roles.add(mainRole);
-                                roles.add(groupTitleRole);
                             }
                         }
                     }

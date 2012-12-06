@@ -16,8 +16,6 @@ limitations under the License.
 
 =end
 
-require "mustache"
-
 require_relative "./EntityWriter"
 require_relative "interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"
@@ -28,7 +26,6 @@ Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
 class EducationOrgCalendarGenerator < InterchangeGenerator
   
   # initialization will define the header and footer for the education organization calendar interchange
-  # writes header to education organization calendar interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
@@ -51,8 +48,7 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
   end
 
   # creates and writes calendar date to interchange
-  def create_calendar_date(date, event)
-    self << CalendarDate.new(date, event)
+  def create_calendar_date(date, event, ed_org_id)
+    self << CalendarDate.new(date, event, ed_org_id)
   end
-
 end

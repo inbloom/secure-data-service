@@ -17,6 +17,7 @@
 
 package org.slc.sli.dashboard.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TimedLogic {
 
-    private static Logger logger = LoggerFactory.getLogger(TimedLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimedLogic.class);
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -63,8 +64,8 @@ public class TimedLogic {
                     Date d2 = dateFormat.parse((String) o2.get(Constants.ATTR_ADMIN_DATE));
                     return d2.compareTo(d1);
 
-                } catch (Exception e) {
-                    logger.error("Date compare error");
+                } catch (ParseException e) {
+                    LOGGER.error("Date compare error");
                     return 0;
                 }
             }
@@ -149,7 +150,7 @@ public class TimedLogic {
                     } else {
                         return Integer.parseInt(score2) - Integer.parseInt(score1);
                     }
-                } catch (Exception e) {
+                } catch (ClassCastException e) {
                     return 0;
                 }
             }

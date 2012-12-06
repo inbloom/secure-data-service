@@ -5,6 +5,11 @@
     <CalendarDate id="CLND_20100823Instructionalday">
         <Date>2010-08-23</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL</StateOrganizationId>
+			</EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <GradingPeriod id="GRDP_20101108">
         <GradingPeriod>Third Six Weeks</GradingPeriod>

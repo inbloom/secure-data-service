@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,12 +29,11 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -41,10 +41,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -335,7 +337,7 @@ public class SubDocAccessor {
             Query subDocQuery = new Query(Criteria.where("_id").is(id));
 
             DBObject parentQueryDBObject = toSubDocQuery(subDocQuery, true);
-            List<Entity> entities = findSubDocs(parentQueryDBObject, null, new Query().getQueryObject());
+            List<Entity> entities = findSubDocs(parentQueryDBObject, new Query().getQueryObject());
             if (entities != null && entities.size() == 1) {
                 return entities.get(0);
             }
@@ -345,7 +347,7 @@ public class SubDocAccessor {
 
         public List<Entity> findAll(Query originalQuery) {
             DBObject parentQueryDBObject = toSubDocQuery(originalQuery, true);
-            List<Entity> entities = findSubDocs(parentQueryDBObject, null, getLimitQuery(originalQuery));
+            List<Entity> entities = findSubDocs(parentQueryDBObject, getLimitQuery(originalQuery));
             return entities;
         }
 
@@ -472,8 +474,24 @@ public class SubDocAccessor {
             return null;
         }
 
+        private int countSubDocs(DBObject parentQuery) {
+            simplifyParentQuery(parentQuery);
+            DBObject idQuery = buildIdQuery(parentQuery);
+
+            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()), parentQuery.toString(), ", {$group: { _id: null, count: {$sum: 1}}}");
+            TenantContext.setIsSystemCall(false);
+
+            CommandResult result = template.executeCommand(queryCommand);
+            Iterator<DBObject> resultList = ((List<DBObject>) result.get("result")).iterator();
+            if(resultList.hasNext()) {
+            	return (Integer)(resultList.next().get("count"));
+            } else {
+            	return 0;
+            }
+        }
+
         @SuppressWarnings("unchecked")
-        private List<Entity> findSubDocs(DBObject parentQuery, DBObject subDocQuery, DBObject limitQuery) {
+        private List<Entity> findSubDocs(DBObject parentQuery, DBObject limitQuery) {
             StringBuilder limitQuerySB = new StringBuilder();
             if (limitQuery != null && limitQuery.keySet().size() > 0) {
                 if (limitQuery.get("$sort") != null) {
@@ -488,29 +506,8 @@ public class SubDocAccessor {
             }
             simplifyParentQuery(parentQuery);
 
-            DBObject idQuery = null;
-            if (parentQuery.containsField("_id")) {
-                idQuery = new Query().getQueryObject();
-                Object idFinalList = parentQuery.get("_id");
-                if (idFinalList instanceof List) {
-                    idQuery.put("_id", new BasicDBObject("$in", idFinalList));
-                } else {
-                    idQuery.put("_id", idFinalList);
-                }
-                parentQuery.removeField("_id");
-            }
-
-            String queryCommand;
-            if (idQuery != null) {
-                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + idQuery.toString()
-                        + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},"
-                        + "{$match : " + parentQuery.toString() + "}" + limitQuerySB.toString() + "]}";
-            } else {
-                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
-                        + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},"
-                        + "{$match : " + parentQuery.toString() + "}" + limitQuerySB.toString() + "]}";
-            }
-            LOG.debug("the aggregate query command is: {}", queryCommand);
+            DBObject idQuery = buildIdQuery(parentQuery);
+            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()), parentQuery.toString(), limitQuerySB.toString());
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
@@ -523,6 +520,32 @@ public class SubDocAccessor {
                 }
             }
             return entities;
+        }
+
+        private String buildAggregateQuery(String match1, String match2, String others) {
+        	StringBuilder queryStringBuilder = new StringBuilder();
+        	queryStringBuilder.append("{aggregate : \"").append(collection).append("\", pipeline:[");
+        	queryStringBuilder.append("{$match : ").append(match1).append("},");
+        	queryStringBuilder.append("{$project : {\"").append(subField).append("\":1,\"_id\":0 } },");
+        	queryStringBuilder.append("{$unwind: \"$").append(subField).append("\"},");
+        	queryStringBuilder.append("{$match : ").append(match2).append("}");
+        	queryStringBuilder.append(others).append("]}");
+        	return queryStringBuilder.toString();
+        }
+
+        private DBObject buildIdQuery(DBObject parentQuery) {
+        	DBObject idQuery = null;
+        	if (parentQuery.containsField("_id")) {
+                idQuery = new Query().getQueryObject();
+                Object idFinalList = parentQuery.get("_id");
+                if (idFinalList instanceof List) {
+                    idQuery.put("_id", new BasicDBObject("$in", idFinalList));
+                } else {
+                    idQuery.put("_id", idFinalList);
+                }
+                parentQuery.removeField("_id");
+            }
+        	return idQuery;
         }
 
         @SuppressWarnings("unchecked")
@@ -614,14 +637,9 @@ public class SubDocAccessor {
             return findById(id) != null;
         }
 
-        // Note: This is suboptimal and too memory intensive. Should be implemented
-        // by iterating over the cursor without instantiating instances of MongoEntity as
-        // done in the find(..) method, which should also be refactored.
         public long count(Query query) {
-            if (this.findAll(query) != null) {
-                return this.findAll(query).size();
-            }
-            return 0L;
+        	DBObject parentQueryDBObject = toSubDocQuery(query, true);
+        	return countSubDocs(parentQueryDBObject);
         }
 
         // public boolean delete(String id) {

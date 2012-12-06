@@ -7,9 +7,7 @@
 if [ $# -gt 0 ];
 then
   echo "Usage: scripts/slirp_reset (run from the config/ directory)"
-  echo "This script uses scripts in the indexes/ and shards/ folders"
-  echo "NOTICE: ALL Sharding jobs will execute with the following configuration, it can be modified in the $0 script."
-  echo "     \"var num_years=1, tenant='Hyrule'\" "
+  echo "This script uses scripts in the indexes/ folder"
   exit 1
 fi
 
@@ -23,14 +21,11 @@ SLOW_QUERY=100
 
 PRIMARIES="slirpmongo03.slidev.org slirpmongo05.slidev.org slirpmongo09.slidev.org slirpmongo11.slidev.org"
 ISDB="slirpmongo99.slidev.org"
-SHARD_VARS="var num_years=1, tenant='Hyrule'"
 
 ### The script!
-echo "*********************************************************************************************"
-echo "**  WARNING  :  you must use deploy.slidev.org to PUSH updated code/configuration to SLIRP **"
-echo "*********************************************************************************************"
-sleep 4
-
+echo "******************************************************************************"
+echo "**  Resetting SLIRP at `date`"
+echo "******************************************************************************"
 
 echo " ***** Stopping Tomcat!"
 service tomcat stop
@@ -40,6 +35,14 @@ echo " ***** Clearing LZ!"
 rm -r -f /opt/lz/inbound/*
 
 echo " ***** Identifying Collections and dropping each one"
+
+for i in $PRIMARIES;
+do
+  mongo $i <<END
+use sli
+db.setProfilingLevel(0);
+END
+done
 
 # Identify collections
 COLLECTIONS=`mongo sli<<END
@@ -91,11 +94,6 @@ done
 
 echo " ***** Adding Indexes to sli db"
 mongo sli < indexes/sli_indexes.js
-######echo " ***** Applying Sharding Script"
-######mongo admin --eval " $SHARD_VARS " shards/sli-shard-presplit.js
-#######mongo admin --eval "var num_years=1, tenant='Hyrule'" sli-shard-presplit.js
-######echo " ***** Reapplying Indexes to sli db"
-######mongo sli < indexes/sli_indexes.js
 
 echo " ***** Clearing databases off $ISDB"
 mongo $ISDB/is <<END
@@ -124,7 +122,8 @@ $CURLCMD "http://slirpingest01.slidev.org:8161/admin/deleteDestination.action?JM
 $CURLCMD "http://slirpingest01.slidev.org:8161/admin/deleteDestination.action?JMSDestination=ingestion.pit&JMSDestinationType=queue&secret="$ACTIVEMQ_SECRET >>/dev/null
 $CURLCMD "http://slirpingest01.slidev.org:8161/admin/deleteDestination.action?JMSDestination=ingestion.workItem&JMSDestinationType=queue&secret="$ACTIVEMQ_SECRET  >>/dev/null
 
+echo " ***** Removing ingestion log"
+rm -f /opt/logs/ingestion.log
+
 echo " ***** Restarting Tomcat"
 service tomcat start
-
-

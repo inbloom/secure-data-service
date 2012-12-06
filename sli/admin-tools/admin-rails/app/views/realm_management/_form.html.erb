@@ -1,3 +1,5 @@
+<div>
+  <div class="whitespacesm"></div>
   <% if @realm.errors.any? or @realm.idp.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@realm.errors.count + @realm.idp.errors.count, "error") %> prohibited this Realm from being saved:</h2>
@@ -14,30 +16,23 @@
   <% end %>
 
 
-    <div class = "field well">
-       	<%= f.label :name, "Display Name" %> <br />
-   	    <%= f.text_field :name, :size => 50 %>
-    </div>
+   	<%= f.label :name, "Display Name" %>
+	    <%= f.text_field :name, :size => 50 %>
 
     <%= f.fields_for :idp, @realm.idp do |idp| %>
-        <div class = "field well">
-        		<%= idp.label :id, "IDP URL (URL that identifies the federated IDP)" %>  <br />
-        		<%= idp.text_field :id, :size => 50 %>
-        </div>
+    		<%= idp.label :id, 'IDP URL <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL that identifies the federated IDP"></i>'.html_safe %>
+    		<%= idp.text_field :id, :size => 50 %>
 
-        <div class = "field well">
-          <%= idp.label :redirectEndpoint, "Redirect Endpoint (URL where authentication requests are sent)" %><br />
-          <%= idp.text_field :redirectEndpoint, :size => 50 %>
-        </div>
+        <%= idp.label :redirectEndpoint, 'Redirect Endpoint <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL where authentication requests are sent"></i>'.html_safe %>
+        <%= idp.text_field :redirectEndpoint, :size => 50 %>
     <% end %>
 
-    <div class = "field well">
-        <%= f.label :uniqueIdentifier, "Realm Identifier (Used for skipping the realm selection)" %> <br />
-       	<%= f.text_field :uniqueIdentifier, :size => 50 %>
-    </div>
+    <%= f.label :uniqueIdentifier, 'Realm Identifier <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Used for skipping realm selection"></i>'.html_safe %>
+   	<%= f.text_field :uniqueIdentifier, :size => 50 %>
 
 
-  <div class="actions">
-    <%= f.submit :value => "Save", :class=>"btn" %>
+  <div class="actions form-actions">
+    <%= f.submit :value => "Save", :class=>"btn btn-primary" %>
   </div>
+</div>
 

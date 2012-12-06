@@ -1,13 +1,27 @@
 {
-"recordType":"teacherSectionAssociation",
-"attributes":
-{
-	"TeacherReference":
-	{
-		"StaffIdentity":
-		{
-			"StaffUniqueStateId":"jjackson"
-		}
-	}
-}
+    "recordType":"teacherSectionAssociation",
+    "attributes":
+    {
+        "TeacherReference":
+        {
+            "StaffIdentity":
+            {
+                "StaffUniqueStateId":"jjackson"
+            }
+        },
+        "SectionReference":
+        {
+            "SectionIdentity":
+            {
+                "EducationalOrgReference":
+                {
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"this school"
+                    }
+                },
+                "UniqueSectionCode":"this section"
+            }
+        }
+    }
 }

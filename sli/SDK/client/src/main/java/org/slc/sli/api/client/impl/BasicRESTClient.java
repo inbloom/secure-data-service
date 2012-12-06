@@ -119,9 +119,8 @@ public class BasicRESTClient implements RESTClient {
         OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(config.getApiKey())
                 .apiSecret(config.getApiSecret()).callback(config.getCallback()).build();
         Verifier verifier = new Verifier(authorizationCode);
-        Token t = null;
         SliApi.TokenResponse r = ((SliApi.SLIOauth20ServiceImpl) service).getAccessToken(
-                new Token(config.getApiSecret(), authorizationCode), verifier, t);
+                new Token(config.getApiSecret(), authorizationCode), verifier, null);
 
         if (r != null && r.getToken() != null) {
             accessToken = r.getToken();
@@ -172,8 +171,6 @@ public class BasicRESTClient implements RESTClient {
         if (obj.has("authenticated")) {
             JsonNode e = obj.get("authenticated");
             if (e.getBooleanValue()) {
-                // e = obj.get("sessionId");
-                // sessionToken = e.asText();
                 return sessionToken;
             }
         }

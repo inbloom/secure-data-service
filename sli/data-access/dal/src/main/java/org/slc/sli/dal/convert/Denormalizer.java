@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -434,9 +435,11 @@ public class Denormalizer {
                 if (key.startsWith("$")) {
                     Map<String, Object> fieldAndValue = (Map<String, Object>) originalUpdate.getUpdateObject().get(key);
                     Map<String, Object> newFieldAndValue = new HashMap<String, Object>();
-                    for (String field : fieldAndValue.keySet()) {
+                    
+                    for (Entry<String, Object> entry : fieldAndValue.entrySet()) {
+                        String field = entry.getKey();
                         if (!field.startsWith("$")) {
-                            newFieldAndValue.put(denormalizedToField + ".$." + field, fieldAndValue.get(field));
+                            newFieldAndValue.put(denormalizedToField + ".$." + field, entry.getValue());
                         }
                     }
                     updateDBObject.put(key, newFieldAndValue);
