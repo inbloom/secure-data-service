@@ -21,18 +21,13 @@ require 'yaml'
 require_relative 'baseEntity'
 class Assessment < BaseEntity
 
-  attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of
-  def initialize(id, year_of)
+  attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed
+  def initialize(id, year_of, gradeLevelAssessed = nil)
     @id = id
     @year_of = year_of
-    @rand = Random.new(@id)
-    build
-  end
-
-  def build
-
-    @assessmentTitle = @rand.rand(10000).to_s
-    @assessmentIdentificationCode = { :code => @rand.rand(10000).to_s, :assessmentIdentificationSystemType => 'State' }
+    @gradeLevelAssessed = gradeLevelAssessed
+    @assessmentTitle = @id
+    @assessmentIdentificationCode = { code: @id, assessmentIdentificationSystemType: 'State' }
   end
 
 end

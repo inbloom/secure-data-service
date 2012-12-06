@@ -64,6 +64,7 @@ class DataUtility
 
   # create the id for the school based on the given type
   def self.get_school_id(id, type)
+    return id if id.kind_of? String
     case type
     when :elementary then get_elementary_school_id id
     when :middle then get_middle_school_id id

@@ -73,6 +73,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
     private static final String STAGED_ENTITIES = "stagedEntities";
     private static final String RECORD_HASH = "recordHash";
+    private static final String RECORD_HASH_TENANT_FIELD = "t";
     private static final String JOB_ID = "jobId";
     private static final String SYNC_STAGE = "syncStage";
     private static final String COUNT = "count";
@@ -543,7 +544,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public void removeRecordHashByTenant(String tenantId) {
         Query searchTenantId = new Query();
-        searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
+        searchTenantId.addCriteria(Criteria.where(RECORD_HASH_TENANT_FIELD).is(tenantId));
         batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
     }
 
