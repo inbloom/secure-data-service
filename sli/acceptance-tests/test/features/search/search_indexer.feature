@@ -3,7 +3,6 @@ Feature:  Search Indexer: Scheduler, Extract, Index
 
 Background:
 Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
-Given I DELETE to clear the Indexer
 
 Scenario:  Malformed TextFile in Directory
 Given I drop Invalid Files to Inbox Directory

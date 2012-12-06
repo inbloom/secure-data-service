@@ -24,22 +24,23 @@ require 'socket'
 # Clear Elastic Search Indexer
 # Clear student and section collection from mongo
 After('@clearIndexer') do |scenario|
+  # we might not need to clear indexer, as extract command will clear it
   step 'I DELETE to clear the Indexer'
   
   # Clear Mongo
   # TODO:  This is obsolete
   conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'])
   db   = conn[PropLoader.getProps['ingestion_database_name']]
-  result = "true"
+  result = true
   collections = ["student","section"]
   collections.each do |collection|
     entity_collection = db[collection]
     entity_collection.remove("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]})
-    if entity_collection.find("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]}).count.to_s != "0"
-      result = "false"
+    if entity_collection.find("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]}).count != 0
+      result = false
     end
   end
-  assert(result == "true", "Some collections were not cleared successfully.")
+  assert(result, "Some collections were not cleared successfully.")
 end
 ###################################################################################
 
@@ -55,6 +56,14 @@ Given /^I DELETE to clear the Indexer$/ do
   @format = "application/json;charset=utf-8"
   url = PropLoader.getProps['elastic_search_address'] 
   restHttpDeleteAbs(url)
+  assert(@res != nil, "Response from rest-client POST is nil")
+  puts @res
+end
+
+Given /^I flush the Indexer$/ do
+  @format = "application/json;charset=utf-8"
+  url = PropLoader.getProps['elastic_search_address'] + "/_flush"
+  restHttpPostAbs(url)
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
 end
@@ -165,7 +174,7 @@ Given /^"(.*?)" hit is returned$/ do |expectedHits|
 end
 
 Given /^I search in API for "(.*?)"$/ do |query|
-  url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/student?q=" + query
+  url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/students?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")  
 end
@@ -177,10 +186,10 @@ Given /^I see the following fields:$/ do |table|
   verifyElementsOnResponse(arrayOfHits, @table)   
 end
 
-Then /^I see the following search results:$/ do |table|
+Then /^I see the following search results at index (\d+):$/ do |index, table|
   json = JSON.parse(@res.body)
   @table = table
-  verifyElementsOnResponse(json, @table)
+  verifyElementsOnResponseAtIndex(index, json, @table)
 end
 
 Then /^no search results are returned$/ do
@@ -198,6 +207,16 @@ Given /^I import into tenant collection$/ do
   end
 end
 
+Given /^I clear the tenants that I previously imported$/ do
+  tenants = ["Midgar", "Hyrule"]
+  dbname = PropLoader.getProps["api_database_name"]
+  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"])[dbname]
+  tenants.each do |tenant|
+    id = convertTenantIdToDbName(tenant)
+    db['tenant'].remove("_id" => id)
+  end
+end
+
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
   assert(sourcePath != nil, "Source path is nil")
@@ -206,6 +225,24 @@ def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
     FileUtils.mkdir_p(destPath)
   end
   FileUtils.cp sourcePath, destPath  
+end
+
+def verifyElementsOnResponseAtIndex(index, arrayOfElements, table)
+  response = arrayOfElements.at(index.to_i)
+  table.hashes.each do |row|
+    field = row["Field"]
+    currentRes = response
+    value = nil
+    while (field.include? ".")
+      delimiter = field.index('.') + 1
+      length = field.length - delimiter      
+      current = field[0..delimiter-2]        
+      field = field[delimiter,length]  
+      currentRes = currentRes[current]   
+    end          
+    value = currentRes[field]
+    assert(value == row["Value"], "Expected #{row["Value"]} Actual #{value}" )
+  end
 end
 
 def verifyElementsOnResponse(arrayOfElements, table)
@@ -255,6 +292,7 @@ end
 
 def generateTenantDoc(tenantName)
   doc = {
+    "_id" => convertTenantIdToDbName(tenantName),
     "type" => "tenant",
     "body" => {
       "tenantId" => tenantName,

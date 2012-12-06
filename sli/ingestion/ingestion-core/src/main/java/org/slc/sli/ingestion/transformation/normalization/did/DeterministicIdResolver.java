@@ -34,7 +34,6 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.validation.SchemaRepository;
 
 /**
  * Resolver for deterministic id resolution.
@@ -53,9 +52,6 @@ public class DeterministicIdResolver {
 
     @Autowired
     private DidEntityConfigReader didConfigReader;
-
-    @Autowired
-    private SchemaRepository schemaRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 

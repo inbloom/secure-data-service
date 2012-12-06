@@ -18,6 +18,7 @@
 package org.slc.sli.dashboard.entity.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -125,7 +126,17 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
                     try {
                         Constructor<?> constructor = this.castingClass.getConstructor(String.class);
                         o1Type = constructor.newInstance(o1Type.toString());
-                    } catch (Exception e) {
+                    } catch (SecurityException e) {
+                        o1Priority = Integer.MAX_VALUE;
+                    } catch (NoSuchMethodException e) {
+                        o1Priority = Integer.MAX_VALUE;
+                    } catch (IllegalArgumentException e) {
+                        o1Priority = Integer.MAX_VALUE;
+                    } catch (InstantiationException e) {
+                        o1Priority = Integer.MAX_VALUE;
+                    } catch (IllegalAccessException e) {
+                        o1Priority = Integer.MAX_VALUE;
+                    } catch (InvocationTargetException e) {
                         o1Priority = Integer.MAX_VALUE;
                     }
                 }
@@ -145,7 +156,17 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
                     try {
                         Constructor<?> constructor = this.castingClass.getConstructor(String.class);
                         o2Type = constructor.newInstance(o2Type.toString());
-                    } catch (Exception e) {
+                    } catch (SecurityException e) {
+                        o2Priority = Integer.MAX_VALUE;
+                    } catch (NoSuchMethodException e) {
+                        o2Priority = Integer.MAX_VALUE;
+                    } catch (IllegalArgumentException e) {
+                        o2Priority = Integer.MAX_VALUE;
+                    } catch (InstantiationException e) {
+                        o2Priority = Integer.MAX_VALUE;
+                    } catch (IllegalAccessException e) {
+                        o2Priority = Integer.MAX_VALUE;
+                    } catch (InvocationTargetException e) {
                         o2Priority = Integer.MAX_VALUE;
                     }
                 }
@@ -176,16 +197,33 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
                     o2TypeComparable = (String) o2Type;
                     result = o1TypeComparable.compareTo(o2TypeComparable);
                 } else {
-                    try {
                         // throwing exception is very expensive.
                         // so, check an object is null or not before calling toString method.
                         // if an object is null, then the object has the lowest priority
                         if (o1Type != null && o2Type != null) {
                             // Let's assume that all Comparable implemented class takes one String
                             // object parameter in its constructor.
-                            Constructor<?> constructor = this.castingClass.getConstructor(String.class);
-                            o1TypeComparable = (Comparable) constructor.newInstance(o1Type.toString());
-                            o2TypeComparable = (Comparable) constructor.newInstance(o2Type.toString());
+                            Constructor<?> constructor;
+                            try {
+                                constructor = this.castingClass.getConstructor(String.class);
+                                o1TypeComparable = (Comparable) constructor.newInstance(o1Type.toString());
+                                o2TypeComparable = (Comparable) constructor.newInstance(o2Type.toString());
+                                return o1TypeComparable.compareTo(o2TypeComparable);
+                            } catch (SecurityException e) {
+                                // security exception when requesting constructor
+                                result = 0;
+                            } catch (NoSuchMethodException e) {
+                                // no such constructor
+                                result = 0;
+                            } catch (IllegalArgumentException e) {
+                                result = 0;
+                            } catch (InstantiationException e) {
+                                result = 0;
+                            } catch (IllegalAccessException e) {
+                                result = 0;
+                            } catch (InvocationTargetException e) {
+                                result = 0;
+                            }
                         } else if (o1Type != null && o2Type == null) {
                             result = -1;
                         } else if (o1Type == null && o2Type != null) {
@@ -193,16 +231,12 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
                         } else if (o1Type == null && o2Type == null) {
                             result = 0;
                         }
-
-                    } catch (Exception e) {
-                        result = 0;
-                    }
-
                 }
             } catch (ClassCastException cce) {
                 // does not implement Comparable, cannot be compared
                 result = 0;
             }
+            
             return result;
         }
     }

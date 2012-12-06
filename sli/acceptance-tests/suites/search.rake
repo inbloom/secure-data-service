@@ -10,8 +10,8 @@ task :sarjeSearchTests=> [:importUnifiedData] do
 end
 
 desc "Implement Context Security for Staff & Teachers"
-task :searchSecurityTests do
-  runTests("test/features/search/search_context_security.feature")
+task :searchApiTests => [:runSearchBulkExtract] do
+  runTests("test/features/search/search_api.feature")
 end
 
 desc "Run Bulk Extract" 

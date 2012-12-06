@@ -9,16 +9,6 @@ numYears: 3
 DATA_OUTPUT: xml
 DIRECTORY: generated/
 
-# Example of other configuration
-# (11/21/2012 shalka: i'm going to be removing these very soon)
-numSEA: 1
-numLEA: 1
-studentsPerSchool: 10
-numPrograms: 4
-numCourses: 2
-numCourseOffering: 2
-numBellSchedule: 2
-
 # Minimum and Maximum grade breakdown percentages
 MINIMUM_GRADE_PERCENTAGE: 6.5
 MAXIMUM_GRADE_PERCENTAGE: 8.5
@@ -44,13 +34,8 @@ TENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 ELEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 
-# Minimum and Maximum number of students per section for each school type
-MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION: 20
-MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION: 22
-MINIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION: 23
-MAXIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION: 26
-MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION: 27
-MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION: 30
+# number of students per section for each school type
+STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
 
 # Set the number of records we cache before writing them to disk.
 BATCH_SIZE: 10000

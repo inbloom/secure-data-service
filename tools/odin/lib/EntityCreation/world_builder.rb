@@ -227,35 +227,22 @@ class WorldBuilder
   # -> for larger numbers of students, many waves will be created
   def assemble_students_into_waves(type, num_students)
     if type == "elementary"
-      min = @scenarioYAML["MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.elementary, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.elementary, num_students)
     elsif type == "middle"
-      min = @scenarioYAML["MINIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.middle, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.middle, num_students)
     elsif type == "high"
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.high, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.high, num_students)
     end
   end
 
   # takes the specified grades and uses the total number of students, as well as the minimum and maximum
   # number of students per section, to assemble 'waves' of students by grade
-  def get_students_per_grade(grades, num_students, min, max)
-    students_per_grade = Hash.new
-    grades.each do |grade|
-      students_per_grade[grade] = 0
-    end
-    while num_students > 0
-      grades.each do |grade|
-        current_students = random_on_interval(min, max)
-        current_students = num_students if num_students < current_students
-        students_per_grade[grade] += current_students
-        num_students              -= current_students
-      end
-    end
+  def self.get_students_per_grade(grades, num_students)
+    num_grades = grades.count
+    students_per_grade = Hash[*grades.zip([num_students/num_grades].cycle).flatten]
+    (0..(num_students % num_grades)-1).each{|i|
+      students_per_grade[grades[i]] += 1
+    }
     students_per_grade
   end
 
@@ -442,21 +429,16 @@ class WorldBuilder
   # uses the specified education organization 'type' to determine which grade to analyze in the @breakdown instance variable,
   # and if incoming students are present, assigns them across education organizations of specified 'type'
   def assign_incoming_students(type, year)
+    students_per_section = @scenarioYAML['STUDENTS_PER_SECTION'][type]
     if type == "elementary"
       grade = :KINDERGARTEN
-      min   = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max   = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "middle"
       grade = :SIXTH_GRADE
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "high"
       grade = :NINTH_GRADE
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-  end
+    end
   
-    if @breakdown[grade] > 0 && min >= 0 && max >= min
+    if @breakdown[grade] > 0
       # actually perform split
       students_to_be_split = @breakdown[grade]
       students_so_far      = 0
@@ -464,7 +446,7 @@ class WorldBuilder
 
       while students_to_be_split > 0
         @edOrgs[type].each_index do |index|
-          num_students_assigned_to_this_school = random_on_interval(min, max)
+          num_students_assigned_to_this_school = students_per_section
 
           if students_to_be_split == 0
             num_students_assigned_to_this_school = 0
@@ -721,7 +703,7 @@ class WorldBuilder
 
         # create calendar date(s) using interval
         # create grading period(s) using interval, school year, and state organization id
-        calendar_dates  = create_calendar_dates(interval)        
+        calendar_dates  = create_calendar_dates(interval, ed_org_id)        
         grading_periods = create_grading_periods(interval, year, ed_org_id)
 
         # create and write session
@@ -738,7 +720,7 @@ class WorldBuilder
 
         # write calendar date(s)
         calendar_dates.each do |calendar_date|
-          @data_writer.create_calendar_date(calendar_date["date"], calendar_date["event"])
+          @data_writer.create_calendar_date(calendar_date["date"], calendar_date["event"], calendar_date["ed_org_id"])
         end
       end
     end
@@ -786,17 +768,17 @@ class WorldBuilder
   # - end date
   # - holidays
   # - num of instructional days (not used)
-  def create_calendar_dates(interval)
+  def create_calendar_dates(interval, ed_org_id)
     calendar_dates = []
     begin_date     = interval.get_begin_date
     end_date       = interval.get_end_date
     holidays       = interval.get_holidays
     (begin_date..end_date).step(1) do |date|
       if holidays.include?(date)
-        calendar_dates << {"date" => date, "event" => :HOLIDAY}
+        calendar_dates << {"date" => date, "event" => :HOLIDAY, "ed_org_id" => ed_org_id}
       else
         if date.wday != 0 and date.wday != 6
-          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY}
+          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id}
         end
       end
     end

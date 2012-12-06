@@ -646,9 +646,11 @@ def getErrorCount
     @resource = ""
     resourceToErrorCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-      if(entry.rindex('error'))
+      if entry.match(/^error/)
         @error_filename = entry
+        puts entry
         @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
+        puts @resource
         file = File.open(@landing_zone_path+entry, "r")
         file.each_line do |line|
           if(line.rindex('ERROR'))
@@ -668,9 +670,11 @@ def getWarnCount
     @resource = ""
     resourceToWarnCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-    if(entry.rindex('warn'))
+    if entry.match(/^warn/)
       @warn_filename = entry
-      @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]
+      puts entry
+      @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]    
+      puts @resource
       file = File.open(@landing_zone_path+entry, "r")
       file.each_line do |line|
         if(line.rindex('WARN'))
@@ -1445,6 +1449,13 @@ When /^I navigate to the Ingestion Service HealthCheck page and submit login cre
    $healthCheckResult = res.body
 end
 
+When /^I can find a (.*?) with (.*?) (.*?) in tenant db "([^"]*)"$/ do |collection, id_type, id, tenantId|
+  @db = @conn[convertTenantIdToDbName(tenantId)]
+  @coll = @db[collection]
+  # Set the "drilldown document" to the input id_type/id pair
+  @dd_doc = @coll.find(id_type => id).to_a
+end
+
 ############################################################
 # STEPS: THEN
 ############################################################
@@ -1707,6 +1718,65 @@ Then /^I check to find if record is in collection:$/ do |table|
 
   assert(@result == "true", "Some records are not found in collection.")
   enable_NOTABLESCAN()
+end
+
+Then /^the student entity (.*?)\.(.*?) should be "([^"]*)"$/ do |doc_key, subdoc_key, expected_value|
+  # Make sure drilldown_document has been set already
+  assert(defined? @dd_doc, "Required mongo document has not been retrieved")
+  # Perform a deep document inspection of doc.subdoc.keyvalue
+  # Check the body of the returned document array for expected key/value pair
+  assert(ddiStudent(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
+end
+
+# Deep-Document Inspection of the Student collection in TENANT_DB
+# --> This checks whether doc.subdoc = expected_value
+def ddiStudent(doc_key, subdoc_key, expected_value)
+  ### TODO: Factor this code out for now until Odin is ready for it
+  return true
+  # --> This checks whether body.subdoc = expected_value
+  if doc_key == "body"
+    # Parse the actual value from the student
+    # --> This might be an array OR a string, depending on what's in mongo
+    # --> so we need to use duck typing 
+    if @dd_doc[0][doc_key][subdoc_key].respond_to?(:to_ary)
+      real_value = @dd_doc[0][doc_key][subdoc_key][0]
+    else 
+      real_value = @dd_doc[0][doc_key][subdoc_key]
+    end
+         
+    # Check equality
+    puts "Looking for #{expected_value}, found #{real_value}"
+    if real_value == expected_value
+      return true
+    else
+      puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
+      return false
+    end  
+
+  # --> This checks whether schools.subdoc = expected_value
+  elsif doc_key == "schools"
+    # This checks how many records of the schools.subdoc type exist
+    # --> Example: [tenant_db].student.schools.entryGradeLevel has one entity per year
+    num_entities = @dd_doc[0][doc_key].length
+    
+    # Recursively check the returned document array for expected key/value pair
+    for i in 0..num_entities-1
+      real_value = @dd_doc[0][doc_key][i][subdoc_key]
+      puts "Looking for #{expected_value}, found #{real_value}"
+      
+      # Check equality
+      if real_value == expected_value
+        return true
+      end  
+    end
+   puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
+   return false
+
+  # --> Default case if I don't recognize "doc_key"
+  else
+    puts "This type of entity is not covered by ddiStudent in ingestion_steps.rb"
+    return false 
+  end
 end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|

@@ -16,22 +16,37 @@ limitations under the License.
 
 =end
 
+# student work order factory creates student work orders
+class StudentWorkOrderFactory
+  def initialize(world, scenario, section_factory)
+    @world = world
+    @scenario = scenario
+    @section_factory = section_factory
+    @next_id = 0
+  end
+
+  def generate_work_orders(edOrg, yielder)
+    students = edOrg['students']
+    unless students.nil?
+      years = students.keys.sort
+      initial_year = years.first
+      initial_grade_breakdown = students[initial_year]
+      initial_grade_breakdown.each{|grade, num_students|
+        (1..num_students).each{|_|
+          student_id = @next_id += 1
+          yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade,
+                                             initial_year: initial_year, edOrg: edOrg,
+                                             section_factory: @section_factory)
+        }
+      }
+    end
+  end
+
+end
+
+# student work order represents all data to be genreated for a given student
 class StudentWorkOrder
   attr_accessor :id, :edOrg, :birth_day_after, :initial_grade, :initial_year
-
-  def self.gen_work_orders(students, edOrg, start_with_id, yielder)
-    student_id = start_with_id
-    years = students.keys.sort
-    initial_year = years.first
-    initial_grade_breakdown = students[initial_year]
-    initial_grade_breakdown.each{|grade, num_students|
-      (1..num_students).each{|_|
-        student_id += 1
-        yielder.yield StudentWorkOrder.new(student_id, initial_grade: grade, initial_year: initial_year, edOrg: edOrg)
-      }
-    }
-    student_id
- end
 
   def initialize(id, opts = {})
     @id = id
@@ -39,55 +54,46 @@ class StudentWorkOrder
     @rand = Random.new(@id)
     @initial_grade = (opts[:initial_grade] or :KINDERGARTEN)
     @initial_year = (opts[:initial_year] or 2011)
-    @sections = (opts[:sections] or {})
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
+    @section_factory = opts[:section_factory]
+    @scenario = opts[:scenario]
   end
 
-  def build(interchanges)
-    @student_interchange = interchanges[:studentParent]
-    @enrollment_interchange = interchanges[:enrollment]
-    student = Student.new(@id, @birth_day_after)
-    @student_interchange << student unless @student_interchange.nil?
+  def build(writer)
+    writer.create_student(@id, @birth_day_after)
     schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
     curr_type = GradeLevelType.school_type(@initial_grade)
-    unless @enrollment_interchange.nil?
-      @edOrg['sessions'].each{ |session|
-        year = session['year']
-        grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
-        unless grade.nil?
-          if GradeLevelType.school_type(grade) != curr_type
-            curr_type = GradeLevelType.school_type(grade)
-            schools = schools.drop(1)
-          end
-          gen_enrollment(schools[0], year, grade, session, @sections[year])
+    @edOrg['sessions'].each{ |session|
+      year = session['year']
+      grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
+      unless grade.nil?
+        if GradeLevelType.school_type(grade) != curr_type
+          curr_type = GradeLevelType.school_type(grade)
+          schools = schools.drop(1)
         end
-      }
-    end
+        generate_enrollment(writer, schools[0], curr_type, year, grade, session)
+      end
+    }
   end
 
   private
 
-  def gen_enrollment(school_id, start_year, start_grade, session, sections)
-    schoolAssoc = StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
-    @enrollment_interchange << schoolAssoc
-    unless sections.nil?
-      sections_per_student = 5
-      section_cycle = sections.cycle
-      @rand.rand(sections.count).times{ section_cycle.next }
-      sections_per_student.times{
-        section = section_cycle.next
-        sectionAssoc = StudentSectionAssociation.new(@id, section, school_id, start_year, start_grade)
-        @enrollment_interchange << sectionAssoc
-      }
+  def generate_enrollment(writer, school_id, type, start_year, start_grade, session)
+    writer.create_student_school_association(@id, school_id, start_year, start_grade)
+    unless @section_factory.nil?
+      sections = @section_factory.sections(school_id, type.to_s, start_year, start_grade)
+      unless sections.nil?
+        #generate a section for each available course offering
+        sections.each{|course_offering, available_sections|
+          section = available_sections.to_a[id % available_sections.count]
+          writer.create_student_section_association(@id, section, course_offering['id'],
+                                                    school_id, start_year, start_grade)
+        }
+      end
     end
-  end
-
-  def self.make_session(school, session)
-    {:school => school, :sessionInfo => session}
   end
 
   def find_age(grade)
     5 + GradeLevelType.get_ordered_grades.index(grade)
   end
-
 end

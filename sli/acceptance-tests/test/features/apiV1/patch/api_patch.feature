@@ -23,24 +23,22 @@ Background: Logged in as IT Admin James Stevenson
     Scenario: Partial update using PATCH for sub doc
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
     Then I should receive a return code of 200
-    And "beginDate" should be "1998-08-14"
-    And "studentId" should be "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
-    When I change the field "beginDate" to "2012-01-01"
+    And "homeroomIndicator" should be "false"
+    When I change the field "homeroomIndicator" to "true"
     And I navigate to PATCH "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
     Then I should receive a return code of 204
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
-    And "beginDate" should be "2012-01-01"
+    And "homeroomIndicator" should be "true"
     
     Scenario: Sad path - some fields in the partial update are invalid for sub doc
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 2>"
     Then I should receive a return code of 200
-    And "beginDate" should be "1980-10-09"
-    And "studentId" should be "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b"
-    When I change the field "beginDate" to "2012-01-01---"
+    And "homeroomIndicator" should be "false"
+    When I change the field "homeroomIndicator" to "non-true/false value"
     And I navigate to PATCH "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 2>"
     Then I should receive a return code of 400
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 2>"
-    And "beginDate" should be "1980-10-09"
+    And "homeroomIndicator" should be "false"
 
   Scenario: Partial update on Array
     When I navigate to GET "/students/<MARVIN MILLER STUDENT ID>"
@@ -81,3 +79,10 @@ Background: Logged in as IT Admin James Stevenson
     When I change the field "sex" to "Male"
     And I navigate to PATCH "/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 403
+
+  Scenario: Sad path - update natural key through PATCH
+    When I navigate to GET "/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 200
+    When I change the field "studentUniqueStateId" to "some other value"
+    And I navigate to PATCH "/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 409

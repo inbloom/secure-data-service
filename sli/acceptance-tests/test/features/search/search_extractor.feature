@@ -3,11 +3,11 @@ Feature:  Search Indexer: Extractor
 
 Background:
 Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
-Given I DELETE to clear the Indexer
 
 Scenario:  Data Extraction
 Given I send a command to start the extractor to extract now
 Given Indexer should have "94" entities
+And I flush the Indexer
 And I search in Elastic Search for "matt"
 And "1" hit is returned
 And I see the following fields:

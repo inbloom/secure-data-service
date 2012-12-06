@@ -16,8 +16,6 @@ limitations under the License.
 
 =end
 
-require "mustache"
-
 require_relative "./EntityWriter"
 require_relative "interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"
@@ -29,7 +27,6 @@ Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
 class EducationOrganizationGenerator < InterchangeGenerator
 
   # initialization will define the header and footer for the education organization interchange
-  # writes header to education organization interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)

@@ -99,3 +99,9 @@ task :test do
     t.rspec_path = 'rspec'
   end
 end
+
+desc "Test Odin Throughput"
+task :throughput do
+  ruby "spec/throughput.rb"
+end
+

@@ -17,7 +17,6 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -110,7 +109,7 @@ public final class SliDeltaManager {
             n.addMetaData("rhHash", recordHashValues);
             n.addMetaData("rhTenantId", tenantId);
 
-            isPrevIngested = (record != null && record.hash.equals(recordHashValues));
+            isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
 
         } catch (NoNaturalKeysDefinedException e) {
             // If we can't determine the natural keys, don't include it in recordHash processing
@@ -176,13 +175,5 @@ public final class SliDeltaManager {
 
             throw new NaturalKeyValidationException(message);
         }
-    }
-
-    private static String byteArray2Hex(final byte[] hash) {
-        Formatter formatter = new Formatter();
-        for (byte b : hash) {
-            formatter.format("%02x", b);
-        }
-        return formatter.toString();
     }
 }
