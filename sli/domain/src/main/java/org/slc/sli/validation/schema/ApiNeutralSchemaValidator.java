@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
@@ -46,12 +47,12 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
 public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApiNeutralSchemaValidator.class);
-    
+
     private static final DeterministicUUIDGeneratorStrategy DETERMINISTIC_UUID_GENERATOR = new DeterministicUUIDGeneratorStrategy();
 
     private static final boolean INSERT_OR_UPDATE = true;
     private static final boolean PATCH = false;
-    
+
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
 
@@ -60,7 +61,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
         this.validateNaturalKeys(entity, INSERT_OR_UPDATE);
         return super.validate(entity);
     }
-    
+
 
     @Override
     public boolean validatePresent(Entity entity) throws EntityValidationException {
@@ -115,11 +116,11 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
             }
         }
     }
-    
+
     /**
      * Given an entity, returns its generated UUID.
-     * 
-     * 
+     *
+     *
      * @param entity
      * @return
      * @throws NoNaturalKeysDefinedException
@@ -130,15 +131,15 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
         existingEntityNaturalKeyDescriptor.setNaturalKeys(naturalKeyExtractor.getNaturalKeys(entity));
         existingEntityNaturalKeyDescriptor.setEntityType(entity.getType());
         existingEntityNaturalKeyDescriptor.setTenantId(TenantContext.getTenantId());
-        
+
         return DETERMINISTIC_UUID_GENERATOR.generateId(existingEntityNaturalKeyDescriptor);
     }
-    
+
     /**
      * Calculates the existing document's UUID and the updated version's UUID and compares them, throwing a
      * NaturalKeyValidationException if the two UUIDs do not match.
-     * 
-     * 
+     *
+     *
      * @param originalEntity
      * @param newEntity
      * @param naturalKeyFields
@@ -148,13 +149,13 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
         try {
             // calculate current UUID before any changes applied
             String existingUUID = this.calculateUUID(originalEntity);
-            
+
             // true when doing a PUT, false when doing a PATCH
             if (clearOriginal) {
                 originalEntity.getBody().clear();
             }
-            
-            // apply the patch. 
+
+            // apply the patch.
             originalEntity.getBody().putAll(newEntity.getBody());
 
             // recalculate the natural key
@@ -168,25 +169,26 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
             throw new NaturalKeyValidationException(e, originalEntity.getType(), new ArrayList<String>(naturalKeyFields.keySet()));
         }
     }
-    
+
     /**
      * Calculates the new entity's UUID and confirms that no document with that UUID already exists. If one exists,
      * a NaturalKeyValidationException is thrown.
-     * 
-     * 
+     *
+     *
      * @param entity
      * @param collectionName
      * @param naturalKeyFields
      */
     private void validateNaturalKeyDoesNotConflictWithExistingDocument(Entity entity, String collectionName, Map<String, Boolean> naturalKeyFields) {
+        if (collectionName.equals(EntityNames.ATTENDANCE)) {  //DE2302 this should be removed once Attendances have distinct natural keys
+            return;
+        }
         NeutralQuery neutralQuery = new NeutralQuery();
         Map<String, Object> newEntityBody = entity.getBody();
         for (Entry<String, Boolean> keyField : naturalKeyFields.entrySet()) {
             neutralQuery.addCriteria(new NeutralCriteria(keyField.getKey(), NeutralCriteria.OPERATOR_EQUAL,
                     newEntityBody.get(keyField.getKey())));
         }
-        neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                entity.getMetaData().get("tenantId"), false));
 
         Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
         if (existingEntity != null) {
