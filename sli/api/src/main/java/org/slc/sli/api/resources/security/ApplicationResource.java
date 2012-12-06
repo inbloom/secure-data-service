@@ -90,7 +90,7 @@ public class ApplicationResource extends UnversionedResource {
     private boolean sandboxEnabled;
 
     private EntityService service;
-    
+
     @Autowired
     @Qualifier("applicationResourceService")
     private ResourceService resourceService;
@@ -115,7 +115,7 @@ public class ApplicationResource extends UnversionedResource {
 
     //These fields can only be set during bootstrapping and can never be modified through the API
     private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
-    
+
     public void setAutoRegister(boolean register) {
         autoRegister = register;
     }
@@ -133,7 +133,7 @@ public class ApplicationResource extends UnversionedResource {
 
     @POST
     @Override
-    @RightsAllowed({Right.DEV_APP_CRUD})
+    @RightsAllowed({ Right.DEV_APP_CRUD })
     public Response post(EntityBody newApp, @Context final UriInfo uriInfo) {
         if (newApp.containsKey(CLIENT_SECRET) || newApp.containsKey(CLIENT_ID) || newApp.containsKey("id")) {
             EntityBody body = new EntityBody();
@@ -186,7 +186,7 @@ public class ApplicationResource extends UnversionedResource {
         neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + token));
 
         Iterable<EntityBody> it = service.list(neutralQuery);
-                       
+
         if (it == null || it.iterator() == null) {
             return false;
         }
@@ -195,7 +195,7 @@ public class ApplicationResource extends UnversionedResource {
 
     @SuppressWarnings("rawtypes")
     @GET
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     @Override
     public Response getAll(@Context final UriInfo uriInfo) {
         Response resp = super.getAll(uriInfo);
@@ -216,7 +216,7 @@ public class ApplicationResource extends UnversionedResource {
     @GET
     @Override
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         Response resp = super.getWithId(uuid, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
@@ -260,7 +260,7 @@ public class ApplicationResource extends UnversionedResource {
     @DELETE
     @Override
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.DEV_APP_CRUD})
+    @RightsAllowed({ Right.DEV_APP_CRUD })
     public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
 
         EntityBody ent = service.get(uuid);
@@ -273,7 +273,7 @@ public class ApplicationResource extends UnversionedResource {
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
+    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE })
     @Override
     public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
@@ -293,7 +293,7 @@ public class ApplicationResource extends UnversionedResource {
         if (clientId == null) {
             app.put(CLIENT_ID, oldApp.get(CLIENT_ID));
         }
-        
+
         String createdBy = (String) app.get(CREATED_BY);
         if (createdBy == null) {
             app.put(CREATED_BY, oldApp.get(CREATED_BY));
@@ -403,7 +403,7 @@ public class ApplicationResource extends UnversionedResource {
 
     private void validateDeveloperHasAccessToApp(EntityBody app) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
+
         if (sandboxEnabled) {
             @SuppressWarnings("unchecked")
             Map<String, Object> metaData = (Map<String, Object>) app.get("metaData");

@@ -19,25 +19,21 @@ package org.slc.sli.api.resources.security;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -45,7 +41,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +55,7 @@ import java.util.List;
 @Component
 @Scope("request")
 @Path("securityEvent")
-@Produces({HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8"})
+@Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SecurityEventResource extends UnversionedResource {
 
     public static final String RESOURCE_NAME = "securityEvent";
@@ -83,7 +78,7 @@ public class SecurityEventResource extends UnversionedResource {
     }
 
     @GET
-    @RightsAllowed({Right.SECURITY_EVENT_VIEW})
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW })
     @Override
     public Response getAll(@Context final UriInfo uriInfo) {
         return retrieveEntities(uriInfo);
