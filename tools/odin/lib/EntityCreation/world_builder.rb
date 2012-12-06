@@ -25,6 +25,7 @@ require_relative '../Shared/EntityClasses/enum/StaffClassificationType.rb'
 require_relative '../Shared/data_utility.rb'
 require_relative '../Shared/date_interval.rb'
 require_relative '../Shared/date_utility.rb'
+require_relative "assessment_factory"
 
 # World Builder
 # -> intent is to create 'scaffolding' that represents a detailed, time-sensitive view of the world
@@ -91,6 +92,7 @@ class WorldBuilder
     begin_year, num_years = add_time_information_to_edOrgs
     expand_student_counts_using_time_information(begin_year, num_years)
     create_master_schedule
+    create_assessments(begin_year, num_years)
     write_interchanges
   end
 
@@ -1021,6 +1023,17 @@ class WorldBuilder
   # does NOT round
   def random_on_interval(min, max)
     min + @prng.rand(max - min)
+  end
+
+  def create_assessments(begin_year, num_years)
+    factory = AssessmentFactory.new(@scenarioYAML)
+    (begin_year..(begin_year + num_years -1)).each{|year|
+      GradeLevelType.get_ordered_grades.each{|grade|
+        factory.assessments(grade: grade, year: year).each{|assessment|
+          @data_writer.create_assessment(assessment)
+        }
+      }
+    }
   end
 
   def self.choose_feeders(elem, mid, high)

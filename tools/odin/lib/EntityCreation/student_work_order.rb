@@ -100,7 +100,7 @@ class StudentWorkOrder
   def generate_grade_wide_assessments(writer, grade, session)
     unless @assessment_factory.nil?
       times_taken = @scenario['ASSESSMENTS_TAKEN'][:grade_wide]
-      @assessment_factory.assessments(grade: grade, session: session).each{|a|
+      @assessment_factory.assessments(grade: grade, year: session['year']).each{|a|
         #TODO this is going to be a busy first couple of days of school, might want to spread them out
         date = session['interval'].get_begin_date
         times_taken.times{

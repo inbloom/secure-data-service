@@ -25,6 +25,7 @@ require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/enrollmentGenerator.rb"
 require_relative "XML/staffAssociationGenerator.rb"
 require_relative "XML/studentAssessmentGenerator.rb"
+require_relative "XML/assessment_metadata_generator.rb"
 require_relative "DataWriter.rb"
 
 # ed-fi xml interchange writer class
@@ -57,6 +58,7 @@ class XmlDataWriter < DataWriter
     @education_organization_writer = EducationOrganizationGenerator.new(@yaml, initialize_interchange(directory, "EducationOrganization"))
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new(@yaml, initialize_interchange(directory, "EducationOrgCalendar"))
     @master_schedule_writer        = MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
+    @assessment_metadata_writer    = AssessmentMetadataGenerator.new(@yaml, initialize_interchange(directory, "AssessmentMetadata"))
     @student_enrollment_writer     = EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
     @staff_association_writer      = StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @student_assessment_writer     = StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
@@ -68,6 +70,7 @@ class XmlDataWriter < DataWriter
     @education_organization_writer.start
     @education_org_calendar_writer.start
     @master_schedule_writer.start
+    @assessment_metadata_writer.start
     @student_enrollment_writer.start
     @staff_association_writer.start
     @student_assessment_writer.start
@@ -85,6 +88,7 @@ class XmlDataWriter < DataWriter
     @education_organization_writer.finalize
     @education_org_calendar_writer.finalize
     @master_schedule_writer.finalize
+    @assessment_metadata_writer.finalize
     @student_enrollment_writer.finalize
     @staff_association_writer.finalize
     @student_assessment_writer.finalize
@@ -204,4 +208,8 @@ class XmlDataWriter < DataWriter
     increment_count(:student_assessment)
   end
 
+  def create_assessment(assessment)
+    @assessment_metadata_writer << assessment
+    increment_count(:assessment)
+  end
 end

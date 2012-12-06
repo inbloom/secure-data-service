@@ -44,3 +44,4 @@ TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 STAFF_CATALOG: scenarios/staff.json
 
 ASSESSMENTS_TAKEN: {grade_wide: 3}
+ASSESSMENTS_PER_GRADE: 2
