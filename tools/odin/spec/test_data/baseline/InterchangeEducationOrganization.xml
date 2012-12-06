@@ -730,7 +730,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Course>
   <LocalEducationAgency>
     <StateOrganizationId>locl-0000000004</StateOrganizationId>
-    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <NameOfInstitution>School District locl-0000000004</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -752,7 +752,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>elem-0000000001</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <NameOfInstitution>elem-0000000001 Elementary School</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
@@ -788,7 +788,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>midl-0000000002</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <NameOfInstitution>midl-0000000002 Middle School</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
@@ -821,7 +821,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>high-0000000003</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <NameOfInstitution>high-0000000003 High School</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
