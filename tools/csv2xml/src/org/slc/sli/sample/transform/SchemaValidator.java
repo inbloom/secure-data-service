@@ -35,23 +35,24 @@ import org.xml.sax.SAXException;
  */
 public class SchemaValidator {
 
-    private static final String SCHEMA_DIR = "./edfiXsd/";
+    private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd-SLI/";
 
     private static final String SCHEMAS[] = {
-            "Interchange-AssessmentMetadata.xsd",
-            "Interchange-EducationOrgCalendar.xsd",
-            "Interchange-EducationOrganization.xsd",
-            "Interchange-HSGeneratedStudentTranscript.xsd",
-            "Interchange-MasterSchedule.xsd",
-            "Interchange-StaffAssociation.xsd",
-            "Interchange-StudentAssessment.xsd",
-            "Interchange-StudentAttendance.xsd",
-            "Interchange-StudentCohort.xsd",
-            "Interchange-StudentDiscipline.xsd",
-            "Interchange-StudentEnrollment.xsd",
-            "Interchange-StudentGrade.xsd",
-            "Interchange-StudentParent.xsd",
-            "Interchange-StudentProgram.xsd" };
+            "SLI-Interchange-AssessmentMetadata.xsd",
+            "SLI-Interchange-EducationOrgCalendar.xsd",
+            "SLI-Interchange-EducationOrganization.xsd",
+            "SLI-Interchange-HSGeneratedStudentTranscript.xsd",
+            "SLI-Interchange-MasterSchedule.xsd",
+            "SLI-Interchange-StaffAssociation.xsd",
+            "SLI-Interchange-Student.xsd",
+            "SLI-Interchange-StudentAssessment.xsd",
+            "SLI-Interchange-StudentAttendance.xsd",
+            "SLI-Interchange-StudentCohort.xsd",
+            "SLI-Interchange-StudentDiscipline.xsd",
+            "SLI-Interchange-StudentEnrollment.xsd",
+            "SLI-Interchange-StudentGrade.xsd",
+            "SLI-Interchange-StudentParent.xsd",
+            "SLI-Interchange-StudentProgram.xsd" };
 
     /**
      * validate xml file in xmlDir folder.

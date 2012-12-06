@@ -646,7 +646,7 @@ def getErrorCount
     @resource = ""
     resourceToErrorCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-      if(entry.rindex('error'))
+      if entry.match(/^error/)
         @error_filename = entry
         puts entry
         @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
@@ -670,7 +670,7 @@ def getWarnCount
     @resource = ""
     resourceToWarnCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-    if(entry.rindex('warn'))
+    if entry.match(/^warn/)
       @warn_filename = entry
       puts entry
       @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]    
