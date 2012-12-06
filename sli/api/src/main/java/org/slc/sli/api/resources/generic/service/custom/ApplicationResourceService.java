@@ -10,6 +10,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -26,12 +27,22 @@ public class ApplicationResourceService extends DefaultResourceService {
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+    @Autowired
+    @Value("${sli.sandbox.enabled}")
+    private boolean sandboxEnabled;
+
     @Override
     protected void addAdditionalCriteria(final NeutralQuery query) {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
-            query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
+        if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
+            if (sandboxEnabled) {
+                // Sandbox developer can see all apps in their tenancy
+                query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId(), false));
+            } else {
+                // Prod. Developer sees all apps they own
+                query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
+            }
         } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
 
             //know this is ugly, but having trouble getting or queries to work
@@ -53,6 +64,4 @@ public class ApplicationResourceService extends DefaultResourceService {
             query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, idList));
         } //else - operator -- sees all apps
     }
-
-
 }
