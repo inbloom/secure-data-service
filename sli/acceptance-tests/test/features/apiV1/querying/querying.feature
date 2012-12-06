@@ -248,6 +248,7 @@ Then I should receive a collection with 25 elements
     Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |
+      | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |
       
 Scenario Outline: Include fields for endpoints to Elastic Search
@@ -290,6 +291,7 @@ And format "application/json"
  Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |
+      | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |
       
  Scenario Outline:  Exclude Fields for endpoints to Elastic Search
@@ -335,4 +337,5 @@ And format "application/json"
  Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |
+      | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |
