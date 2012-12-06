@@ -41,3 +41,4 @@ STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
 BATCH_SIZE: 10000
 
 ASSESSMENTS_TAKEN: {grade_wide: 3}
+ASSESSMENTS_PER_GRADE: 2
