@@ -184,4 +184,14 @@ describe "generate_work_orders" do
     end
   end
 
+  context "with infinitely many schools" do
+    let(:world)  {{'high' => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]}].cycle}}
+
+    it "will lazily create work orders in finite time" do
+      Timeout::timeout(5){
+        WorkOrderProcessor.generate_work_orders(world, {}).take(100).length.should eq(100)
+      }
+    end
+  end
+
 end
