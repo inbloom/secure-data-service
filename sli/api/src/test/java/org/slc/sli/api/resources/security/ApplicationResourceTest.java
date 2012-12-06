@@ -70,10 +70,10 @@ import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
  * @author pwolf
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
-@TestExecutionListeners({WebContextTestExecutionListener.class,
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ WebContextTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class})
+        DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class ApplicationResourceTest {
 
@@ -358,7 +358,7 @@ public class ApplicationResourceTest {
     }
 
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdate() throws URISyntaxException {
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
@@ -382,6 +382,21 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
     }
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
     @Test
     public void testSandboxAutoAuthorize() throws Exception {
@@ -402,7 +417,7 @@ public class ApplicationResourceTest {
         return parseIdFromLocation(created);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testUpdateRegistrationAsDeveloper() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -427,7 +442,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateApprovalDate() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -441,7 +456,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRequestDate() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -455,7 +470,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRegistrationAsOperator() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -473,7 +488,7 @@ public class ApplicationResourceTest {
 
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateAppAsOperator() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -490,7 +505,7 @@ public class ApplicationResourceTest {
 
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void denyApplication() throws URISyntaxException {
         // Create - Deny
@@ -507,7 +522,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void approveApplication() throws URISyntaxException {
         //Create - Approve
@@ -526,7 +541,7 @@ public class ApplicationResourceTest {
         assertTrue("approval date set", reg.containsKey(APPROVAL_DATE));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private Map getRegistrationDataForApp(String uuid) throws URISyntaxException {
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         Response resp = resource.getWithId(uuid, uriInfo);
@@ -536,7 +551,7 @@ public class ApplicationResourceTest {
         return toReturn;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterApplication() throws URISyntaxException {
         //Create - Approve - Unregister
@@ -562,7 +577,7 @@ public class ApplicationResourceTest {
         assertFalse("request date not set", reg.containsKey(REQUEST_DATE));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void resubmitDeniedApplication() throws URISyntaxException {
         //Create - Deny - Dev Update
@@ -590,7 +605,7 @@ public class ApplicationResourceTest {
         assertTrue("request date set", reg.containsKey(REQUEST_DATE));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterDeniedApplication() throws URISyntaxException {
         //Create - Deny - Unregister

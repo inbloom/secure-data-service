@@ -54,9 +54,9 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
-@TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class})
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 public class SecurityEventResourceTest {
 
     @Autowired

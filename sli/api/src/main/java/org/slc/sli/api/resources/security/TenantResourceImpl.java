@@ -68,7 +68,7 @@ import java.util.TreeSet;
 @Component
 @Scope("request")
 @Path("tenants")
-@Produces({HypermediaType.JSON + ";charset=utf-8"})
+@Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class TenantResourceImpl extends UnversionedResource implements TenantResource {
 
     @Value("${sli.sandbox.enabled}")
@@ -139,7 +139,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
 
     @Override
     @POST
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     public Response post(EntityBody newTenant, @Context final UriInfo uriInfo) {
         // Tenants can not be created using this class. They will be created via OnboardingResource
         return SecurityUtil.forbiddenResponse();
@@ -161,7 +161,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
                 "Failed to find landing zone information after creation.");
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({ "unchecked" })
     protected String createLandingZone(EntityBody newTenant, boolean isSandbox) throws TenantResourceCreationException {
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
 
@@ -180,7 +180,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
                 (List<String>) newLz.get(LZ_USER_NAMES), isSandbox);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames,
                                        boolean isSandbox) throws TenantResourceCreationException {
 
@@ -352,7 +352,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
 
     @Override
     @GET
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     public Response getAll(@Context final UriInfo uriInfo) {
         return super.getAll(uriInfo);
     }
@@ -367,7 +367,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @Override
     @GET
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     public Response getWithId(@PathParam(UUID) String tenantId, @Context final UriInfo uriInfo) {
         return super.getWithId(tenantId, uriInfo);
     }
@@ -383,7 +383,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @SuppressWarnings("deprecation")
     @POST
     @Path("{" + UUID + "}" + "/preload")
-    @RightsAllowed({Right.INGEST_DATA})
+    @RightsAllowed({ Right.INGEST_DATA })
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
         EntityService service = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody entity = service.get(tenantId);
@@ -423,7 +423,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
      */
     @GET
     @Path("{" + UUID + "}" + "/preload/jobstatus")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     public Response getPreloadJob() {
         return Response.status(Status.NOT_IMPLEMENTED).build();
     }
@@ -431,7 +431,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @Override
     @DELETE
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         return super.delete(uuid, uriInfo);
     }
@@ -439,7 +439,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @Override
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({ Right.ADMIN_ACCESS })
     public Response put(@PathParam(UUID) String uuid, EntityBody tenant, @Context final UriInfo uriInfo) {
         return super.put(uuid, tenant, uriInfo);
     }

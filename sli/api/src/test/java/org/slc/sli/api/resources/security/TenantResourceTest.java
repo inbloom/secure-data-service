@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -46,7 +45,6 @@ import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
