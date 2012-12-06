@@ -207,6 +207,16 @@ Given /^I import into tenant collection$/ do
   end
 end
 
+Given /^I clear the tenants that I previously imported$/ do
+  tenants = ["Midgar", "Hyrule"]
+  dbname = PropLoader.getProps["api_database_name"]
+  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"])[dbname]
+  tenants.each do |tenant|
+    id = convertTenantIdToDbName(tenant)
+    db['tenant'].remove("_id" => id)
+  end
+end
+
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
   assert(sourcePath != nil, "Source path is nil")
@@ -282,6 +292,7 @@ end
 
 def generateTenantDoc(tenantName)
   doc = {
+    "_id" => convertTenantIdToDbName(tenantName),
     "type" => "tenant",
     "body" => {
       "tenantId" => tenantName,
