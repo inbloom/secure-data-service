@@ -30,6 +30,18 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
 #update the realm unique identifier
 @db[:realm].update({'body.uniqueIdentifier' => 'Shared Learning Infrastructure'}, '$set' => {'body.uniqueIdentifier' => 'Shared Learning Collaborative'})
 
+
+def get_deterministic_id(ed_org)
+    stateOrganizationId = ed_org['body']['stateOrganizationId']
+    tenantId = ed_org['metaData']['tenantId']
+	entityType = 'educationOrganization'
+	sha1_hash = get_sha1_hash(entityType, tenantId, stateOrganizationId)
+
+    @log.info "keys: #{entityType}, #{tenantId}, #{stateOrganizationId}"
+
+	"#{sha1_hash}_id"
+end
+
 @db[:application].find({}).each { |app_auth|
   @log.info "starting migration application #{app_auth['_id']} #{app_auth['body']['name']}"
   ed_orgs = app_auth['body']['authorized_ed_orgs']
@@ -43,14 +55,19 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   			ed_org = @db[:educationOrganization].find_one({"_id" => ed_org_id, "metaData.tenantId" => app_tenant_id})
   			
   			unless ed_org.nil?
-				stateOrganizationId = ed_org['body']['stateOrganizationId']
-				tenantId = ed_org['metaData']['tenantId']
-				entityType = 'educationOrganization'
-				sha1_hash = get_sha1_hash(entityType, tenantId, stateOrganizationId)
-		
-				@log.info "keys: #{entityType}, #{tenantId}, #{stateOrganizationId}"
-				new_ed_orgs.push(sha1_hash + "_id")
-				@log.info "converted : #{ed_org_id} -> #{sha1_hash}_id"
+				deterministic_id = get_deterministic_id(ed_org)
+
+				new_ed_orgs.push(deterministic_id)
+				@log.info "converted : #{ed_org_id} -> #{deterministic_id}"
+			else
+                ed_org = @db[:educationOrganization].find_one({"body.stateOrganizationId" => ed_org_id, "metaData.tenantId" => app_tenant_id})
+
+                unless ed_org.nil?
+                    deterministic_id = get_deterministic_id(ed_org)
+
+                    new_ed_orgs.push(deterministic_id)
+                    @log.info "converted : #{ed_org_id} -> #{deterministic_id}"
+                end
 			end
   		end 	  	  	
   	end
@@ -71,16 +88,19 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
         ed_org = @db[:educationOrganization].find_one({"_id" => auth_id})
 
         unless ed_org.nil?
-            stateOrganizationId = ed_org['body']['stateOrganizationId']
-            tenantId = ed_org['metaData']['tenantId']
-            entityType = 'educationOrganization'
-            @log.info "keys: #{entityType}, #{tenantId}, #{stateOrganizationId}"
+            deterministic_id = get_deterministic_id(ed_org)
 
-            sha1_hash = get_sha1_hash(entityType, tenantId, stateOrganizationId)
-            new_id = "#{sha1_hash}_id"
+            @db[:applicationAuthorization].update({'_id' => auth['_id']}, '$set' => {'body.authId' => deterministic_id})
+            @log.info "converted : #{auth_id} -> #{deterministic_id}"
+        else
+            ed_org = @db[:educationOrganization].find_one({"body.stateOrganizationId" => auth_id})
 
-            @db[:applicationAuthorization].update({'_id' => auth['_id']}, '$set' => {'body.authId' => new_id})
-            @log.info "converted : #{auth_id} -> #{new_id}"
+            unless ed_org.nil?
+                deterministic_id = get_deterministic_id(ed_org)
+
+                @db[:applicationAuthorization].update({'_id' => auth['_id']}, '$set' => {'body.authId' => deterministic_id})
+                @log.info "converted : #{auth_id} -> #{deterministic_id}"
+            end
         end
     end
 
