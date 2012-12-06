@@ -20,6 +20,8 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriod;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
@@ -34,14 +36,23 @@ public class GradingPeriodGenerator {
     public SLCGradingPeriod getGradingPeriod (String orgId,  int gradePeriodType) {
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
         
-        gpit.setGradingPeriod(getGradingPeriodType(gradePeriodType));
-        gpit.setSchoolYear("2011-2012");
+         //gpit.setGradingPeriod(getGradingPeriodType(gradePeriodType));
+        //gpit.setSchoolYear("2011-2012");
 //        gpit.setStateOrganizationId(orgId);
+        
         gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(orgId);
         SLCGradingPeriod gp = new SLCGradingPeriod();
 //        gp.setGradingPeriod(getGradingPeriodType());
         //gp.setId(orgId);
-        gp.setGradingPeriodIdentity(gpit);
+        //gp.setGradingPeriodIdentity(gpit);
+        
+        gp.setSchoolYear("2011-2012");
+        gp.setGradingPeriod(getGradingPeriodType(gradePeriodType));
+        SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType edOrgId = new SLCEducationalOrgIdentityType();
+        edOrgId.setStateOrganizationId(orgId);
+        gp.setEducationOrganizationReference(edOrgRef);
+        
         beginDate = "2011-03-" + inTwoDigits(gradePeriodType);
         endDate = "2012-03-" + inTwoDigits(gradePeriodType);
         gp.setBeginDate(beginDate);
@@ -66,8 +77,8 @@ public class GradingPeriodGenerator {
         for(int i = 0; i < 5; i++ ){
             SLCGradingPeriod gp = gpg.getGradingPeriod(i+"",i);
 
-            log.info("GradingPeriodType = " + gp.getGradingPeriodIdentity() + ",\n" +  "beginDate = " + gp.getBeginDate() + ",\n" +
-                     "endDate = " + gp.getEndDate() + ",\n" + "totalInstructionDays = " + gp.getTotalInstructionalDays() + ",\n");
+            //log.info("GradingPeriodType = " + gp.getGradingPeriodIdentity() + ",\n" +  "beginDate = " + gp.getBeginDate() + ",\n" +
+                     //"endDate = " + gp.getEndDate() + ",\n" + "totalInstructionDays = " + gp.getTotalInstructionalDays() + ",\n");
 
         }
 
