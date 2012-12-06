@@ -15,8 +15,8 @@
 */
 package org.slc.sli.ingestion.util;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author tke
@@ -25,7 +25,7 @@ import com.mongodb.DBObject;
 public class MongoIndex {
     private String collection;
     private boolean unique;
-    private DBObject keys = new BasicDBObject();
+    private Map<String, Object> keys = new HashMap<String, Object>();
 
     public String getCollection() {
         return collection;
@@ -39,10 +39,10 @@ public class MongoIndex {
     public void setUnique(boolean unique) {
         this.unique = unique;
     }
-    public DBObject getKeys() {
+    public Map<String, Object> getKeys() {
         return keys;
     }
-    public void setKeys(DBObject keys) {
+    public void setKeys(Map<String, Object> keys) {
         this.keys = keys;
     }
 
