@@ -118,6 +118,10 @@
 							}
 						}
 					},
+					"academicSubject": {
+						"type": "string",
+						"index": "not_analyzed"
+					},
 					"learningStandards": {
 						"type": "string",
 						"index": "not_analyzed"
@@ -159,6 +163,10 @@
 					"performanceBaseConversion": {
 						"type": "string",
 						"index": "not_analyzed"
+					},
+					"codeValue": {
+						"type": "string",
+						"index": "not_analyzed"
 					}
 				}
 			}
@@ -188,6 +196,10 @@
 								"index": "not_analyzed"
 							}
 						}
+					},
+					"codeValue": {
+						"type": "string",
+						"index": "not_analyzed"
 					}
 				}
 			}

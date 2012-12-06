@@ -227,10 +227,10 @@ When I navigate to GET "/v1/assessments?includeFields=minRawScore&minRawScore=13
 When I navigate to GET "/v1/learningObjectives"
  Then I should receive a return code of 200
   Then I should receive a collection with 5 elements
- #When I navigate to GET "/v1/learningObjectives?academicSubject=Mathematics"
- #Then I should receive a return code of 200
- #Then I should receive a collection with 3 elements
- #Then each entity's "academicSubject" should be "Mathematics" 
+ When I navigate to GET "/v1/learningObjectives?academicSubject=Mathematics"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 3 elements
+ Then each entity's "academicSubject" should be "Mathematics" 
 When I navigate to GET "/v1/learningObjectives?includeFields=objectiveGradeLevel,learningStandards"
  Then each entity's response body I should see the following fields only:
       | id                  |
@@ -238,10 +238,10 @@ When I navigate to GET "/v1/learningObjectives?includeFields=objectiveGradeLevel
       | learningStandards   |
       | links               |
       | entityType          | 
- #When I navigate to GET "/v1/learningStandards?subjectArea=Mathematics"
- #Then I should receive a return code of 200
- #Then I should receive a collection with 11 elements
- #Then each entity's "subjectArea" should be "Mathematics" 
+ When I navigate to GET "/v1/learningStandards?subjectArea=Mathematics"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 11 elements
+ Then each entity's "subjectArea" should be "Mathematics" 
 When I navigate to GET "/v1/learningStandards?includeFields=subjectArea,gradeLevel,description"
  Then each entity's response body I should see the following fields only:
       | id                  |
@@ -260,14 +260,14 @@ When I navigate to GET "/v1/learningStandards?includeFields=subjectArea,gradeLev
       | objectiveGradeLevel |
       | links               |
       | entityType          |
-# When I navigate to GET "/v1/competencyLevelDescriptor?codeValuel=A"
-# Then I should receive a return code of 200
-# Then I should receive a collection with 1 elements
-# Then each entity's "codeValue" should be "B" 
-# When I navigate to GET "/v1/competencyLevelDescriptor?codeValue=A"
-# Then I should receive a return code of 200
-# Then I should receive a collection with 1 elements
-# Then each entity's "codeValue" should be "A" 
+ When I navigate to GET "/v1/competencyLevelDescriptor?codeValue!=A"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 1 elements
+ Then each entity's "codeValue" should be "B" 
+ When I navigate to GET "/v1/competencyLevelDescriptor?codeValue=A"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 1 elements
+ Then each entity's "codeValue" should be "A" 
  When I navigate to GET "/v1/competencyLevelDescriptor?includeFields=description"
   Then each entity's response body I should see the following fields only:
       | id                  |
