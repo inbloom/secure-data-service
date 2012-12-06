@@ -29,6 +29,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
 
@@ -55,6 +56,7 @@ public class ContextValidatorTest {
     public void testDenyWritingOutsideOfEdOrgHierarchy() throws Exception {
 
         when(containerRequest.getMethod()).thenReturn("UPDATE");
+
         Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
         validateEdOrgWrite.setAccessible(true);
 
@@ -63,5 +65,22 @@ public class ContextValidatorTest {
         Assert.assertFalse("should fail validation", isValid.booleanValue());
 
     }
+
+    @Test
+    public void testValidWritingInEdOrgHierarchy() throws Exception {
+
+        when(containerRequest.getMethod()).thenReturn("UPDATE");
+        when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("1234existsOnEntity"));
+        //TODO setup inputs to have a matching ed org
+
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
+        validateEdOrgWrite.setAccessible(true);
+
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
+
+        Assert.assertTrue("should pass validation", isValid.booleanValue());
+
+    }
+
 
 }
