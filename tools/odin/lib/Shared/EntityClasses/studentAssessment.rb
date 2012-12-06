@@ -20,9 +20,10 @@ require_relative 'baseEntity.rb'
 
 class StudentAssessment < BaseEntity
   attr_accessor :studentId, :assessment, :date, :score
-  def initialize(student_id, assessment_title, date)
+  def initialize(student_id, assessment_title, date, grade = nil)
     @studentId = student_id
-    @assessment = {assessmentTitle: assessment_title}
+    @assessment = {assessmentTitle: assessment_title,
+                   gradeLevelAssessed: (GradeLevelType.get(grade) unless grade.nil?)}
     @date = date
     @score = student_id.hash % 100
   end

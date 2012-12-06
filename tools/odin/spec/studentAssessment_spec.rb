@@ -24,12 +24,13 @@ describe "StudentAssessmentGenerator" do
   let(:generator) {StudentAssessmentGenerator.new(scenario, output)}
   describe "<<" do
     it "will output a Student Assessment to edfi" do
-      assessment = StudentAssessment.new("student42", "assessment64", Date.new(2012, 12, 21))
+      assessment = StudentAssessment.new("student42", "assessment64", Date.new(2012, 12, 21), :KINDERGARTEN)
       generator.start
       generator << assessment
       generator.finalize
       output.string.should match(/<StudentUniqueStateId>student42<\/StudentUniqueStateId>/)
       output.string.should match(/<AssessmentTitle>assessment64<\/AssessmentTitle>/)
+      output.string.should match(/<GradeLevelAssessed>Kindergarten<\/GradeLevelAssessed>/)
       output.string.should match(/<Result>[0-9]*<\/Result>/)
     end
   end
