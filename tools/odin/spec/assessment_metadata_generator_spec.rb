@@ -26,6 +26,7 @@ describe 'AssessmentMetadataGenerator' do
   let(:interchange) { File.open( path, 'w')}
   let(:generator) {AssessmentMetadataGenerator.new(get_spec_scenario(), interchange)}
   let(:assessment) {FactoryGirl.build(:assessment)}
+  let(:assessment_item) {FactoryGirl.build(:assessment_item)}
 
   describe '<<' do
     it 'will write an assessment to edfi' do
@@ -34,6 +35,7 @@ describe 'AssessmentMetadataGenerator' do
 
       generator << assessment
 
+      generator << assessment_item
       generator.finalize()
 
       validate_file( path ).should be true
