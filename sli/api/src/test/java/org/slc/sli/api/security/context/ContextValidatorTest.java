@@ -17,30 +17,43 @@
 
 package org.slc.sli.api.security.context;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.lang.reflect.Method;
 
 /**
  * Tests for ContextResolver
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
 public class ContextValidatorTest {
 
     @Autowired
-    private ContextResolverStore contextResolverStore;
+    private ContextValidator contextValidator;
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    private ContainerRequest containerRequest;
+    private SLIPrincipal principal;
 
+    @Before
+    public void setUp() {
+        containerRequest = Mockito.mock(ContainerRequest.class);
+        principal = Mockito.mock(SLIPrincipal.class);
+    }
 
     @Test
-    public void test() {
-        //TODO
+    public void testDenyWritingOutsideOfEdOrgHierarchy() throws Exception {
+
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("validateEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
+        validateEdOrgWrite.setAccessible(true);
+        validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
     }
 
 }
