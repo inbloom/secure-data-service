@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "calendarDateReference",
     "academicWeekReference"
 })
-@XmlRootElement public class SLCSession
+@XmlRootElement(name = "Session") 
+public class SLCSession
     extends ComplexObjectType
 {
 

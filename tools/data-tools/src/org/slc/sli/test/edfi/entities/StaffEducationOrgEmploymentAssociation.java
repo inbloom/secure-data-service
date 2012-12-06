@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -49,7 +50,8 @@ import javax.xml.bind.annotation.XmlType;
     "department",
     "fullTimeEquivalency"
 })
-@XmlRootElement public class StaffEducationOrgEmploymentAssociation {
+@XmlRootElement(name = "StaffEducationOrgEmploymentAssociation") 
+public class StaffEducationOrgEmploymentAssociation {
 
     @XmlElement(name = "StaffReference", required = true)
     protected StaffReferenceType staffReference;

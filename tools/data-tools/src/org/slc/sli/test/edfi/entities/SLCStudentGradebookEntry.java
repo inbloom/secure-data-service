@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -61,7 +62,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "studentSectionAssociationReference",
     "gradebookEntryReference"
 })
-@XmlRootElement public class SLCStudentGradebookEntry
+@XmlRootElement(name = "StudentGradebookEntry") 
+public class SLCStudentGradebookEntry
     extends ComplexObjectType
 {
 

@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -39,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "SLC-MeetingTimeReferenceType", propOrder = {
     "meetingTimeIdentity"
 })
-@XmlRootElement public class SLCMeetingTimeReferenceType {
+@XmlRootElement(name = "MeetingTimeReferenceType") 
+public class SLCMeetingTimeReferenceType {
 
     @XmlElement(name = "MeetingTimeIdentity", required = true)
     protected SLCMeetingTimeIdentityType meetingTimeIdentity;

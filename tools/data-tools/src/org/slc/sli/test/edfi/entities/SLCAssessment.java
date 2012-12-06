@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "assessmentFamilyReference",
     "sectionReference"
 })
-@XmlRootElement public class SLCAssessment
+@XmlRootElement(name = "Assessment") 
+public class SLCAssessment
     extends ComplexObjectType
 {
 

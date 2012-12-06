@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,8 @@ import javax.xml.bind.annotation.XmlType;
     "learningStandardReference",
     "objectiveAssessmentReference"
 })
-@XmlRootElement public class SLCObjectiveAssessment
+@XmlRootElement(name = "ObjectiveAssessment") 
+public class SLCObjectiveAssessment
     extends ComplexObjectType
 {
 

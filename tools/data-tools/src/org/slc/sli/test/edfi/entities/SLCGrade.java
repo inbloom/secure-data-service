@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -60,7 +61,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "studentSectionAssociationReference",
     "gradingPeriodReference"
 })
-@XmlRootElement public class SLCGrade
+@XmlRootElement(name = "Grade") 
+public class SLCGrade
     extends ComplexObjectType
 {
 

@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -47,7 +48,8 @@ import javax.xml.bind.annotation.XmlType;
     "sessionReference",
     "courseReference"
 })
-@XmlRootElement public class SLCCourseOffering
+@XmlRootElement(name = "CourseOffering") 
+public class SLCCourseOffering
     extends ComplexObjectType
 {
 

@@ -34,13 +34,13 @@ public class GradingPeriodGenerator {
     Random generator = new Random(31);
 
     public SLCGradingPeriod getGradingPeriod (String orgId,  int gradePeriodType) {
-        GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
+        //GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
         
          //gpit.setGradingPeriod(getGradingPeriodType(gradePeriodType));
         //gpit.setSchoolYear("2011-2012");
 //        gpit.setStateOrganizationId(orgId);
         
-        gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(orgId);
+        //gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(orgId);
         SLCGradingPeriod gp = new SLCGradingPeriod();
 //        gp.setGradingPeriod(getGradingPeriodType());
         //gp.setId(orgId);
@@ -51,6 +51,7 @@ public class GradingPeriodGenerator {
         SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
         SLCEducationalOrgIdentityType edOrgId = new SLCEducationalOrgIdentityType();
         edOrgId.setStateOrganizationId(orgId);
+        edOrgRef.setEducationalOrgIdentity(edOrgId);
         gp.setEducationOrganizationReference(edOrgRef);
         
         beginDate = "2011-03-" + inTwoDigits(gradePeriodType);
@@ -60,6 +61,9 @@ public class GradingPeriodGenerator {
         Random random = new Random(31);
         int roll = 45 + (int) (random.nextDouble() * (150 - 45));
         gp.setTotalInstructionalDays(roll);
+        
+        
+        
 
         return gp;
     }

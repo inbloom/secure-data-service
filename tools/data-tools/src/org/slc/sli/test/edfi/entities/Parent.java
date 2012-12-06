@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,8 @@ import javax.xml.bind.annotation.XmlType;
     "electronicMail",
     "loginId"
 })
-@XmlRootElement public class Parent
+@XmlRootElement(name = "Parent") 
+public class Parent
     extends ComplexObjectType
 {
 

@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,8 @@ import javax.xml.bind.annotation.XmlType;
     "behaviors",
     "secondaryBehaviors"
 })
-@XmlRootElement public class SLCStudentDisciplineIncidentAssociation
+@XmlRootElement(name = "StudentDisciplineIncidentAssociation") 
+public class SLCStudentDisciplineIncidentAssociation
     extends ComplexObjectType
 {
 

@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "StudentCTEProgramAssociation", propOrder = {
     "cteProgram"
 })
-@XmlRootElement public class StudentCTEProgramAssociation
+@XmlRootElement(name = "StudentCTEProgramAssociation") 
+public class StudentCTEProgramAssociation
     extends StudentProgramAssociation
 {
 

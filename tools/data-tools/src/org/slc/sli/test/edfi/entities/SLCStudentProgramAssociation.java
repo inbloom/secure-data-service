@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reasonExited",
     "educationOrganizationReference"
 })
-@XmlRootElement public class SLCStudentProgramAssociation
+@XmlRootElement(name = "StudentProgramAssociation") 
+public class SLCStudentProgramAssociation
     extends ComplexObjectType
 {
 

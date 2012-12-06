@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -52,7 +53,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "substituteAssigned",
     "staffReference"
 })
-@XmlRootElement public class LeaveEvent
+@XmlRootElement(name = "LeaveEvent") 
+public class LeaveEvent
     extends ComplexObjectType
 {
 

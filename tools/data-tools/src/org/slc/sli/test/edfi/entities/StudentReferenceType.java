@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -39,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "StudentReferenceType", propOrder = {
     "studentIdentity"
 })
-@XmlRootElement public class StudentReferenceType
+@XmlRootElement(name = "StudentReferenceType") 
+public class StudentReferenceType
     extends ReferenceType
 {
 

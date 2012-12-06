@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,8 @@ import javax.xml.bind.annotation.XmlType;
     "studentIndicators",
     "loginId"
 })
-@XmlRootElement public class Student
+@XmlRootElement(name = "Student") 
+public class Student
     extends ComplexObjectType
 {
 

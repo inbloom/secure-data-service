@@ -6,7 +6,8 @@
 //
 
 
-package org.slc.sli.test.edfi.entities;import javax.xml.bind.annotation.XmlRootElement;
+package org.slc.sli.test.edfi.entities;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -58,7 +59,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "iepBeginDate",
     "iepEndDate"
 })
-@XmlRootElement public class StudentSpecialEdProgramAssociation
+@XmlRootElement(name = "StudentSpecialEdProgramAssociation") 
+public class StudentSpecialEdProgramAssociation
     extends StudentProgramAssociation
 {
 
