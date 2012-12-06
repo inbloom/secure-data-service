@@ -13,10 +13,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -42,10 +42,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -71,10 +71,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -100,10 +100,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -129,10 +129,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -158,10 +158,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -187,10 +187,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -216,10 +216,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -245,10 +245,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -274,10 +274,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -303,10 +303,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -332,10 +332,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -361,10 +361,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -390,10 +390,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -419,10 +419,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -448,10 +448,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -477,10 +477,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -506,10 +506,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -535,10 +535,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -564,10 +564,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -593,10 +593,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -622,10 +622,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -651,10 +651,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -680,10 +680,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -709,10 +709,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -738,10 +738,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -767,10 +767,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -796,10 +796,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -825,10 +825,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -854,10 +854,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -883,10 +883,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -912,10 +912,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -941,10 +941,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -970,10 +970,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -999,10 +999,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1028,10 +1028,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1057,10 +1057,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1086,10 +1086,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1115,10 +1115,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1144,10 +1144,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1173,10 +1173,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1202,10 +1202,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1231,10 +1231,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1260,10 +1260,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1289,10 +1289,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1318,10 +1318,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1347,10 +1347,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1376,10 +1376,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1405,10 +1405,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1434,10 +1434,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1463,10 +1463,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1492,10 +1492,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1521,10 +1521,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1550,10 +1550,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1579,10 +1579,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1608,10 +1608,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1637,10 +1637,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1666,10 +1666,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1695,10 +1695,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1724,10 +1724,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1753,10 +1753,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1782,10 +1782,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1811,10 +1811,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1840,10 +1840,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1869,10 +1869,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1898,10 +1898,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1927,10 +1927,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1956,10 +1956,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -1985,10 +1985,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2014,10 +2014,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2043,10 +2043,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2072,10 +2072,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2101,10 +2101,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2130,10 +2130,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2159,10 +2159,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2188,10 +2188,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2217,10 +2217,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2246,10 +2246,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2275,10 +2275,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2304,10 +2304,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2333,10 +2333,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2362,10 +2362,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2391,10 +2391,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2420,10 +2420,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2449,10 +2449,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2478,10 +2478,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2507,10 +2507,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2536,10 +2536,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2565,10 +2565,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2594,10 +2594,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2623,10 +2623,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2652,10 +2652,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2681,10 +2681,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2710,10 +2710,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2739,10 +2739,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2768,10 +2768,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2797,10 +2797,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2826,10 +2826,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2855,10 +2855,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2884,10 +2884,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2913,10 +2913,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2942,10 +2942,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -2972,10 +2972,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -2987,17 +2987,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3014,10 +3014,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3029,17 +3029,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3056,10 +3056,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3071,17 +3071,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3098,10 +3098,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3113,17 +3113,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3140,10 +3140,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3155,17 +3155,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3182,10 +3182,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3197,17 +3197,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3224,10 +3224,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3239,17 +3239,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3266,10 +3266,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3281,17 +3281,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3308,10 +3308,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3323,17 +3323,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3350,10 +3350,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3365,17 +3365,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3392,10 +3392,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3407,17 +3407,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3434,10 +3434,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3449,17 +3449,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3476,10 +3476,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3491,17 +3491,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3518,10 +3518,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3533,17 +3533,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3560,10 +3560,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3575,17 +3575,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>elem-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3602,10 +3602,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3617,17 +3617,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3644,10 +3644,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3659,17 +3659,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3686,10 +3686,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3701,17 +3701,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3728,10 +3728,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3743,17 +3743,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3770,10 +3770,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3785,17 +3785,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3812,10 +3812,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3827,17 +3827,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3854,10 +3854,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3869,17 +3869,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3896,10 +3896,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3911,17 +3911,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3938,10 +3938,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3953,17 +3953,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3980,10 +3980,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -3995,17 +3995,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4022,10 +4022,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4037,17 +4037,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4064,10 +4064,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4079,17 +4079,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4106,10 +4106,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4121,17 +4121,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4148,10 +4148,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4163,17 +4163,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4190,10 +4190,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4205,17 +4205,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4232,10 +4232,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4247,17 +4247,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4274,10 +4274,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4289,17 +4289,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4316,10 +4316,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4331,17 +4331,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4358,10 +4358,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4373,17 +4373,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4400,10 +4400,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4415,17 +4415,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4442,10 +4442,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4457,17 +4457,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4484,10 +4484,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4499,17 +4499,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4526,10 +4526,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4541,17 +4541,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4568,10 +4568,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4583,17 +4583,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4610,10 +4610,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4625,17 +4625,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4652,10 +4652,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4667,17 +4667,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4694,10 +4694,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4709,17 +4709,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4736,10 +4736,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4751,17 +4751,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4778,10 +4778,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4793,17 +4793,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4820,10 +4820,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4835,17 +4835,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4862,10 +4862,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4877,17 +4877,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4904,10 +4904,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4919,17 +4919,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4946,10 +4946,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -4961,17 +4961,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -4988,10 +4988,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5003,17 +5003,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5030,10 +5030,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5045,17 +5045,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5072,10 +5072,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5087,17 +5087,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>midl-East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5114,10 +5114,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5129,17 +5129,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5156,10 +5156,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5171,17 +5171,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5198,10 +5198,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5213,17 +5213,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5240,10 +5240,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5255,17 +5255,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5282,10 +5282,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5297,17 +5297,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5324,10 +5324,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5339,17 +5339,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5366,10 +5366,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5381,17 +5381,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5408,10 +5408,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5423,17 +5423,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5450,10 +5450,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5465,17 +5465,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5492,10 +5492,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5507,17 +5507,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5534,10 +5534,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5549,17 +5549,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5576,10 +5576,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5591,17 +5591,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2002-2003 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5618,10 +5618,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5633,17 +5633,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5660,10 +5660,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5675,17 +5675,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5702,10 +5702,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5717,17 +5717,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5744,10 +5744,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5759,17 +5759,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5786,10 +5786,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5801,17 +5801,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5828,10 +5828,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5843,17 +5843,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5870,10 +5870,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5885,17 +5885,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5912,10 +5912,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5927,17 +5927,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5954,10 +5954,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -5969,17 +5969,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -5996,10 +5996,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -6011,17 +6011,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -6038,10 +6038,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -6053,17 +6053,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -6080,10 +6080,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <SessionIdentity>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+            <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -6095,17 +6095,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>high-Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>locl-IL-DAYBREAK</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2003-2004 Year Round session: locl-IL-DAYBREAK</SessionName>
+        <SessionName>2003-2004 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
