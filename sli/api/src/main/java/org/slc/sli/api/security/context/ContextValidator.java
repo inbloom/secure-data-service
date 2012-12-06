@@ -69,6 +69,13 @@ public class ContextValidator implements ApplicationContextAware {
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
         validateUserHasContextToRequestedEntities(request, principal);
+        if(request.getMethod() != "GET") {
+            validateEdOrgWrite(request, principal);
+        }
+    }
+
+    private void validateEdOrgWrite(ContainerRequest request, SLIPrincipal principal) {
+        //TODO replace stub
     }
 
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
