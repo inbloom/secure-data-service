@@ -1,25 +1,25 @@
-dashboard_server_address: "https://pike-dashboard.slidev.org"
+dashboard_server_address: "http://local.slidev.org:8888"
 dashboard_app_prefix: "/dashboard"
 dashboard_landing_page: "/"
-dashboard_api_server_uri: "https://pike-api.slidev.org"
-realm_page_url: "https://pike-api.slidev.org/api/oauth/authorize"
+dashboard_api_server_uri: "http://local.slidev.org:8080"
+realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
 browser: "firefox"
 
-admintools_server_url: "https://pike-admin.slidev.org"
-api_server_url: "https://pike-api.slidev.org"
-databrowser_server_url: "https://pike-databrowser.slidev.org"
+admintools_server_url: "http://local.slidev.org:3001"
+api_server_url: "http://local.slidev.org:8080"
+databrowser_server_url: "http://local.slidev.org:3000"
 
 ingestion_db: "localhost"
 ingestion_database_name: "sli"
 ingestion_batchjob_db: "localhost"
 ingestion_batchjob_database_name: "ingestion_batch_job"
-lz_server_url: "pike-lz.slidev.org"
-lz_sftp_port: "443"
+lz_server_url: "devpantheon.slidev.org"
+lz_sftp_port: "22"
 ingestion_server_url: "devpantheon.slidev.org"
-ingestion_username: "testuser0.wgen@gmail.com"
-ingestion_password: "liferaywgen1234"
+ingestion_username: "ingestion"
+ingestion_password: "password"
 ingestion_remote_lz_path: "/home/ingestion/"
-ingestion_mode: "remote"
+ingestion_mode: "local"
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
 ingestion_healthcheck_url: "http://local.slidev.org:8000/ingestion-service/healthcheck"
 ingestion_properties_file: "../config/properties/sli.properties"
@@ -44,14 +44,14 @@ simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap_hostname: localhost #local.slidev.org
-ldap_port: 1636
-ldap_base: "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org"
-ldap_admin_user: cn=Admin,dc=slidev,dc=org
+ldap_hostname: ldap.slidev.org
+ldap_port: 389
+ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
+ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
 
-user_registration_app_production_url: "https://pike-admin.slidev.org"
-user_registration_app_sandbox_url: "https://pike-admin.slidev.org"
+user_registration_app_production_url: "http://local.slidev.org:3001"
+user_registration_app_sandbox_url: "http://local.slidev.org:3001"
 user_registration_app_host_url: "slcedu.org"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
@@ -65,65 +65,83 @@ email_smtp_port: 3000
 email_imap_port: 993
 
 # for CI and local environments
-email_imap_host: imap.gmail.com
+email_imap_host: mon.slidev.org
 email_imap_registration_user: devldapuser
 email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
 
 ################# e2e test properties #################################
-
 # For CI environments
-
-email_imap_hostname: imap.gmail.com
+email_imap_hostname: mon.slidev.org
 email_imap_portname: 993
 
-#SEA Admin creds - For RC Only
-primary_email_imap_registration_user: testuser0.wgen@gmail.com
-primary_email_imap_registration_user_email: testuser0.wgen@gmail.com
-primary_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
+#SEA Admin creds - For CI environments
+primary_email_imap_registration_user: e2etestsea
+primary_email_imap_registration_user_email: e2etestsea@slidev.org
+primary_email_imap_registration_pass: test1234
 
-#LEA Admin creds - For RC Only
-secondary_email_imap_registration_user: testuser1.wgen@gmail.com
-secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
-secondary_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
+#LEA Admin creds - For CI environments
+secondary_email_imap_registration_user: e2etestlea
+secondary_email_imap_registration_user_email: e2etestlea@slidev.org
+secondary_email_imap_registration_pass: test1234
 
-#Developer creds
-developer_email_imap_registration_user: RCTest Developer
-developer_email_imap_registration_user_email: testdev.wgen@gmail.com
-developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: testdev.wgen1234
+#Developer creds - For CI environments
+developer_email_imap_registration_user: e2etestdev
+developer_email_imap_registration_user_email: e2etestdev@slidev.org
+developer_email_imap_registration_pass: test1234
 
-#Landing zone
-landingzone: pike-lz.slidev.org
+#Developer creds (sandbox) - For CI environments
+developer_sb_email_imap_registration_user: e2etestdev_sb
+developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev.org
+developer_sb_email_imap_registration_pass: test1234
+
+#Developer 2 creds (sandbox) - For CI environments
+developer2_sb_email_imap_registration_user: e2etestdev_sb2
+developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev.org
+developer2_sb_email_imap_registration_pass: test1234
+
+#Landing zone -
+landingzone: picard-lz.slidev.org
 landingzone_port: 443
 
+sandbox_tenant: e2etestdev_sb@slidev.org
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
-ci_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=IL-Daybreak
+ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 
-# for RC environments (amazon)
-#email_imap_host: imap.gmail.com
-#email_imap_registration_user: testuser0.wgen@gmail.com
-#email_imap_registration_user_email: testuser0.wgen@gmail.com
-#email_imap_registration_pass: liferaywgen
+##For RC environments
+#email_imap_hostname: imap.gmail.com
+#email_imap_portname: 993
+
+##SEA Admin creds - For RC environments
+#primary_email_imap_registration_user: testuser0.wgen@gmail.com
+#primary_email_imap_registration_user_email: testuser0.wgen@gmail.com
+#primary_email_imap_registration_pass: liferaywgen
+
+##LEA Admin creds - For RC environments
 #secondary_email_imap_registration_user: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_pass: liferaywgen
 
-#For RC environments
+##Developer creds - For RC environments
+#developer_email_imap_registration_user: testdev.wgen@gmail.com
+#developer_email_imap_registration_user_email: testdev.wgen@gmail.com
+#developer_email_imap_registration_pass: test1234
 
-#e2e_tenant_name: RCTestTenant
-#e2e_edorg: RCTestEdOrg
-#e2e_edorg: STANDARD-SEA
-#e2e_sea_email: testuser0.wgen@gmail.com
-#e2e_lea_email: testuser1.wgen@gmail.com
-#e2e_dev_email: testdev.wgen@gmail.com
-#e2e_password: test1234
+##Developer creds (sandbox) - For RC environments
+#developer_sb_email_imap_registration_user: 
+#developer_sb_email_imap_registration_user_email: 
+#developer_sb_email_imap_registration_pass: 
 
+##Developer 2 creds (sandbox) - For RC environments
+#developer2_sb_email_imap_registration_user: 
+#developer2_sb_email_imap_registration_user_email: 
+#developer2_sb_email_imap_registration_pass: 
 
 ################# /e2e test properties #################################
 
-portal_server_address: "https://pike-portal.slidev.org"
+portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"
 
