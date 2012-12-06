@@ -65,7 +65,7 @@ import java.util.Set;
  * @author pghosh
  */
 
-@Component
+@Component("defaultResourceService")
 public class DefaultResourceService implements ResourceService {
 
     @Autowired
@@ -148,6 +148,7 @@ public class DefaultResourceService implements ResourceService {
             public ServiceResponse run(final Resource resource, final EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;
                 final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
+                addAdditionalCriteria(apiQuery);
 
                 if (getAllEntities) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
@@ -176,6 +177,10 @@ public class DefaultResourceService implements ResourceService {
                 return new ServiceResponse((List<EntityBody>) entityBodies, count);
             }
         });
+    }
+
+    protected void addAdditionalCriteria(final NeutralQuery apiQuery) {
+        // no-op
     }
 
     protected long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
