@@ -16,20 +16,20 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Resolves which course transcripts any given teacher can access.
@@ -67,7 +67,7 @@ public class TeacherCourseTranscriptResolver implements EntityContextResolver {
     }
     
     private Set<String> getAcademicRecordTranscripts(Entity principal) {
-        List<String> studentIds = new ArrayList<String>();
+        List<String> studentIds;
         if (!securityCache.contains(EntityNames.STUDENT_ACADEMIC_RECORD)) {
             studentIds = academicResolver.findAccessible(principal);
         } else {
@@ -85,7 +85,7 @@ public class TeacherCourseTranscriptResolver implements EntityContextResolver {
     
     private Set<String> getStudentTranscripts(Entity principal) {
         
-        List<String> studentIds = new ArrayList<String>();
+        List<String> studentIds;
         if (!securityCache.contains(EntityNames.STUDENT)) {
             studentIds = academicResolver.findAccessible(principal);
         } else {

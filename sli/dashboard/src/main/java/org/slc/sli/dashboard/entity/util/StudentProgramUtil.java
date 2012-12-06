@@ -32,7 +32,7 @@ public class StudentProgramUtil {
     private static String[] studentEntityProgramCodes = {Constants.PROGRAM_ELL, Constants.PROGRAM_FRE};
     
     public static String[] getProgramCodesForStudent() {
-        return studentEntityProgramCodes;
+        return studentEntityProgramCodes.clone();
     }
 
     

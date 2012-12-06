@@ -20,8 +20,8 @@ require 'yaml'
 
 require_relative '../lib/Shared/date_utility.rb'
 
+# specifications for date utility
 describe "DateUtility" do
-
   before(:each) do
     @yaml = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
     @scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
@@ -129,7 +129,6 @@ describe "DateUtility" do
   	describe "--> requesting set of holidays for a school year" do
       it "will return an array of holidays for the specified school year" do
         holidays = DateUtility.get_school_holidays(@random, 2011)
-        puts "holidays: #{holidays}"
         fail if !holidays.include? Date.new(2011, 9, 5)
         fail if !holidays.include? Date.new(2011, 10, 10)
         fail if !holidays.include? Date.new(2011, 11, 11)
@@ -147,7 +146,6 @@ describe "DateUtility" do
         
         holidays = nil
         holidays = DateUtility.get_school_holidays(@random, 2012)
-        puts "holidays: #{holidays}"
         fail if !holidays.include? Date.new(2012, 9, 3)
         fail if !holidays.include? Date.new(2012, 10, 8)
         fail if !holidays.include? Date.new(2012, 11, 9)

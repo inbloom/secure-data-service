@@ -17,45 +17,21 @@
 
 package org.slc.sli.api.resources.security;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.slc.sli.api.resources.security.ApplicationResource.APPROVAL_DATE;
-import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_ID;
-import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_SECRET;
-import static org.slc.sli.api.resources.security.ApplicationResource.REGISTRATION;
-import static org.slc.sli.api.resources.security.ApplicationResource.REQUEST_DATE;
-import static org.slc.sli.api.resources.security.ApplicationResource.RESOURCE_NAME;
-import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
-import com.sun.jersey.api.uri.UriBuilderImpl;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.slc.sli.api.resources.generic.DefaultResource;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.UnversionedResource;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.MockRepo;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,24 +42,38 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.MockRepo;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.slc.sli.api.resources.security.ApplicationResource.APPROVAL_DATE;
+import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_ID;
+import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_SECRET;
+import static org.slc.sli.api.resources.security.ApplicationResource.REGISTRATION;
+import static org.slc.sli.api.resources.security.ApplicationResource.REQUEST_DATE;
+import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
 
 /**
- *
  * @author pwolf
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class,
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@TestExecutionListeners({WebContextTestExecutionListener.class,
+        DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class})
 @DirtiesContext
 public class ApplicationResourceTest {
 
@@ -114,7 +104,7 @@ public class ApplicationResourceTest {
     @Before
     public void setUp() throws Exception {
 
-        uriInfo = buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo("");
         injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
@@ -368,9 +358,7 @@ public class ApplicationResourceTest {
     }
 
 
-
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void testUpdate() throws URISyntaxException {
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));
@@ -414,7 +402,7 @@ public class ApplicationResourceTest {
         return parseIdFromLocation(created);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Test
     public void testUpdateRegistrationAsDeveloper() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -439,7 +427,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void testUpdateApprovalDate() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -453,7 +441,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void testUpdateRequestDate() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -467,7 +455,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void testUpdateRegistrationAsOperator() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -485,7 +473,7 @@ public class ApplicationResourceTest {
 
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void testUpdateAppAsOperator() throws URISyntaxException {
         EntityBody app = getNewApp();
@@ -502,7 +490,7 @@ public class ApplicationResourceTest {
 
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void denyApplication() throws URISyntaxException {
         // Create - Deny
@@ -519,7 +507,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void approveApplication() throws URISyntaxException {
         //Create - Approve
@@ -538,7 +526,7 @@ public class ApplicationResourceTest {
         assertTrue("approval date set", reg.containsKey(APPROVAL_DATE));
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private Map getRegistrationDataForApp(String uuid) throws URISyntaxException {
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         Response resp = resource.getWithId(uuid, uriInfo);
@@ -548,7 +536,7 @@ public class ApplicationResourceTest {
         return toReturn;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void unregisterApplication() throws URISyntaxException {
         //Create - Approve - Unregister
@@ -574,7 +562,7 @@ public class ApplicationResourceTest {
         assertFalse("request date not set", reg.containsKey(REQUEST_DATE));
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void resubmitDeniedApplication() throws URISyntaxException {
         //Create - Deny - Dev Update
@@ -602,7 +590,7 @@ public class ApplicationResourceTest {
         assertTrue("request date set", reg.containsKey(REQUEST_DATE));
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void unregisterDeniedApplication() throws URISyntaxException {
         //Create - Deny - Unregister
@@ -623,40 +611,6 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.put(uuid, app, uriInfo).getStatus());
     }
 
-    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
-        UriInfo mock = mock(UriInfo.class);
-        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("absolute");
-            }
-        });
-        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("base");
-            }
-        });
-        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("request");
-            }
-        });
-
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMapImpl>() {
-            @Override
-            public MultivaluedMapImpl answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return new MultivaluedMapImpl();
-            }
-        });
-
-        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
-        return mock;
-    }
 
     private static String parseIdFromLocation(Response response) {
         List<Object> locationHeaders = response.getMetadata().get("Location");

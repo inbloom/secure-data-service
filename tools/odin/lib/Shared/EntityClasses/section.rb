@@ -16,83 +16,32 @@ limitations under the License.
 
 =end
 
-require_relative 'baseEntity.rb'
+require_relative "../data_utility.rb"
+require_relative "baseEntity.rb"
+require_relative "enum/EducationalEnvironmentType.rb"
+require_relative "enum/MediumOfInstructionType.rb"
+require_relative "enum/PopulationServedType.rb"
 
+# creates section
 class Section < BaseEntity
 
-  def initialize(id, school, course, session, program, rand)
+  attr_accessor :school_id, :id, :unique_section_code, :sequence, :environment, 
+    :medium, :population, :course_offering, :session
+
+  def initialize(id, school_id, offering, session = offering['session'], program = nil)
     @id = id
-    @school = school
-    @course = course
-    @session = session
-    @rand = rand
+    # move these to choices.yml eventually and have these be a weighted choice
+    @sequence = 1  
+    @environment = "Classroom"
+    @medium = "Face-to-face instruction"
+    @population = "Regular Students"
+    @school_id = school_id
+    @course_offering = {code: DataUtility.get_course_offering_code(offering["id"]),
+                        ed_org_id: offering['ed_org_id'],
+                        session: offering['session']}
+    @session = offering['session']
+    @unique_section_code = DataUtility.get_unique_section_id(@id, offering['id'])
+    #@program              = program
+    # --> programs are not currently implemented
   end
-
-  def id
-    @id
-  end 
-
-  def sequence
-    @rand.rand(8) + 1
-  end
-
-  def environment
-    choose(["Classroom",
-            "Homebound",
-            "Hospital class",
-            "In-school suspension",
-            "Laboratory",
-            "Mainstream (Special Education)",
-            "Off-school center",
-            "Pull-out class",
-            "Resource room",
-            "Self-contained (Special Education)",
-            "Self-study",
-            "Shop"])
-  end
-
-  def medium 
-    choose(["Televised",
-            "Telepresence/video conference",
-            "Videotaped/prerecorded video",
-            "Other technology-based instruction",
-            "Technology-based instruction in classroom",
-            "Correspondence instruction",
-            "Face-to-face instruction",
-            "Virtual/On-line Distance learning",
-            "Center-based instruction",
-            "Independent study",
-            "Internship",
-            "Other"])
-  end
-
-  def population
-    choose(["Students",
-            "Bilingual Students",
-            "Compensatory/Remedial Education Students",
-            "Gifted and Talented Students",
-            "Career and Technical Education Students",
-            "Special Education Students",
-            "ESL Students",
-            "Adult Basic Education Students",
-            "Honors Students",
-            "Migrant Students"])
-  end
-
-  def courseCode
-    @course
-  end
-
-  def edOrgId
-    @school
-  end
-
-  def session
-    @session
-  end
-
-  def program
-    @program
-  end
-
 end

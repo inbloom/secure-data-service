@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AdministrationEnvironmentType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The environment in which the test was administered.  For example:\n\t\t\tElectronic\nClassroom\nTesting Center\n...",
-  "xsd-type" : "token",
-  "symbols" : [ "Classroom", "School", "Testing_Center" ]
-}

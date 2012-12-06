@@ -27,6 +27,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -54,7 +55,7 @@ public class ConfigControllerTest extends ControllerTestBase {
     private ConfigController configController = new ConfigController() {
         @Override
         public void putCustomConfig(ConfigMap map) {
-
+            //No Op
         }
     };
 
@@ -69,12 +70,9 @@ public class ConfigControllerTest extends ControllerTestBase {
     public void testSave() throws Exception {
         ConfigMap configMap = loadFile(Config.class.getClassLoader().getResource(CONFIG_MAP_LOCATION).getFile(),
                 ConfigMap.class);
-        try {
-            String response = configController.saveConfig(configMap);
-            Assert.assertEquals("Success", response);
-        } catch (Exception e) {
-            Assert.fail("Should pass validation but getting " + e.getMessage());
-        }
+        
+        String response = configController.saveConfig(configMap);
+        Assert.assertEquals("Success", response);
     }
 
     @Test
@@ -87,7 +85,7 @@ public class ConfigControllerTest extends ControllerTestBase {
         try {
             configController.saveConfig(map);
             Assert.fail("Should not be able to save");
-        } catch (Exception e) {
+        } catch (HttpMessageConversionException e) {
             Assert.assertEquals("Invalid input parameter configMap", e.getMessage().substring(0, 33));
         }
     }

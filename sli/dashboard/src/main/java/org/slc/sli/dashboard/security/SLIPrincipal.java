@@ -37,7 +37,7 @@ public class SLIPrincipal implements Principal, UserDetails {
     private String district;
 
     public SLIPrincipal() {
-
+        //Default constructor
     }
 
     @Override

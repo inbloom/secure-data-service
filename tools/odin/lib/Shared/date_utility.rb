@@ -38,29 +38,11 @@ class DateUtility
 
   # generates a random date on the specified interval (inclusive of the specified dates)
   def self.random_date_on_interval(random, date1, date2 = date1)
-  	# if date1 is after date2 --> raise illegal argument error
-
-    if date1.year == date2.year
-      year  = date1.year
-      if date1.month == date2.month
-      	month = date1.month
-      	if date1.day == date2.day
-      	  day = date1.day
-      	else
-      	  day = random_on_interval(random, date1.day, date2.day)
-      	end
-      else
-      	month = random_month(random, date1.month, date2.month)
-      	day   = random_day(random, month, year)
-      end
-    else
-      year  = random_year(random, date1.year, date2.year)
-      month = random_month(random)
-      day   = random_day(random, month, year)
+    if date1 > date2
+      raise(ArgumentError, ":date1 must be before :date2") if date1 > date2
     end
-  	
-  	random_date = Date.new(year, month, day)
-  	random_date
+    dates = (date1..date2).step(1).to_a
+    dates[random.rand(dates.size) - 1]
   end
 
   # generates a random school day on the specified interval (inclusive of the specified dates)
@@ -241,4 +223,6 @@ class DateUtility
     end
     dates
   end
+
+  # add school days function?
 end

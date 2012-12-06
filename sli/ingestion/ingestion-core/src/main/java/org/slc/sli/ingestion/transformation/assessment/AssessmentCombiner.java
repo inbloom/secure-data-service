@@ -57,6 +57,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     private static final String ASSESSMENT_ITEM = "assessmentItem";
+    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -100,7 +101,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            String parentFamilyTitle = (String) attrs.remove("parentAssessmentFamilyTitle");
+            String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
@@ -170,17 +171,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
             if (records != null) {
                 for (NeutralRecord record : records) {
-                    // remove the assessmentReference from assessmentItem because current sli data
-                    // model does not has this attribute, it will not pass the validation when save
-                    // to sli db. The assessmentreference will be used for supporting out of order
-                    // ingestion in the future
-                    /*
-                     * Map<String, Object> itemAttributes = record.getAttributes();
-                     * if (itemAttributes.containsKey("assessmentReference")) {
-                     * itemAttributes.remove("assessmentReference");
-                     * }
-                     * assessmentItems.add(itemAttributes);
-                     */
                     assessmentItems.add(record.getAttributes());
                 }
 
@@ -217,8 +207,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         return null;
     }
 
-    private String getAssocationFamilyMap(String assessmentFamilyTitle, HashMap<String, Map<String, Object>> deepFamilyMap,
+    private String getAssocationFamilyMap(String assessmentFamilyTitle, Map<String, Map<String, Object>> deepFamilyMap,
             String familyHierarchyName) {
+        String theFamilyHierarchyName = familyHierarchyName;
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
         query.addCriteria(Criteria.where("body.AssessmentFamilyTitle").is(assessmentFamilyTitle));
@@ -228,21 +219,21 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         for (NeutralRecord neutralRecord : neutralRecords) {
             Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
-            if ("".equals(familyHierarchyName)) {
-                familyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
+            if ("".equals(theFamilyHierarchyName)) {
+                theFamilyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
             } else {
-                familyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
+                theFamilyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + theFamilyHierarchyName;
             }
             deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
 
             // check if there are parent nodes
             if (associationAttrs.containsKey("parentAssessmentFamilyTitle")
                     && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyTitle"))) {
-                familyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
-                        deepFamilyMap, familyHierarchyName);
+                theFamilyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
+                        deepFamilyMap, theFamilyHierarchyName);
             }
         }
 
-        return familyHierarchyName;
+        return theFamilyHierarchyName;
     }
 }

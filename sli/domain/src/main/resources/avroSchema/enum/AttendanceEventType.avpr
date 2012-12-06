@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AttendanceEventType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A code describing the type of the attendance event (e.g., daily attendance, section attendance, etc.)",
-  "xsd-type" : "token",
-  "symbols" : [ "Daily_Attendance", "Section_Attendance", "Program_Attendance", "Extracurricular_Attendance" ]
-}

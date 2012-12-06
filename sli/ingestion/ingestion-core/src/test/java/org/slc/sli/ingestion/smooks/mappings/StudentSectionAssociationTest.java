@@ -17,17 +17,21 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
@@ -39,8 +43,8 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentSectionAssociationTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<StudentSectionAssociation>"
@@ -84,6 +88,11 @@ public class StudentSectionAssociationTest {
             + " <HomeroomIndicator>false</HomeroomIndicator>"
             + "</StudentSectionAssociation></InterchangeStudentEnrollment>";
 
+    @Mock
+    private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver mockDIdResolver;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -95,7 +104,7 @@ public class StudentSectionAssociationTest {
         String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
 
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXMLTestData, recordLevelDeltaEnabledEntityNames);
+                invalidXMLTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
         checkInValidSectionNeutralRecord(record);
     }
 
@@ -105,7 +114,7 @@ public class StudentSectionAssociationTest {
         String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
 
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                xmlTestData, recordLevelDeltaEnabledEntityNames);
+                xmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
         checkValidSectionNeutralRecord(record);
     }
 

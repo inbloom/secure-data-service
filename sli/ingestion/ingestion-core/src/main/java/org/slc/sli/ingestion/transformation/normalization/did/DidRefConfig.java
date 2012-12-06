@@ -63,7 +63,7 @@ public class DidRefConfig {
     public String toString() {
         try {
             return MAPPER.writeValueAsString(this);
-        } catch (Exception e) {
+        } catch (java.io.IOException e) {
             return super.toString();
         }
     }

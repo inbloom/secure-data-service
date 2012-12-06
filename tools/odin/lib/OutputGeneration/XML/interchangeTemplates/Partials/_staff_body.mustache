@@ -1,0 +1,68 @@
+<StaffUniqueStateId>{{id}}</StaffUniqueStateId>
+<StaffIdentificationCode IdentificationSystem="{{identificationSystem}}">
+    <ID>{{staffIdentificationCode}}</ID>
+</StaffIdentificationCode>
+<Name{{#nameVerification}} Verification="{{nameVerification}}"{{/nameVerification}}>
+    {{#prefix}}
+    <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
+    {{/prefix}}
+    <FirstName>{{firstName}}</FirstName>
+    {{#middleName}}
+    <MiddleName>{{middleName}}</MiddleName>
+    {{/middleName}}
+    <LastSurname>{{lastName}}</LastSurname>
+    {{#suffix}}
+    <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
+    {{/suffix}}
+</Name>
+{{#otherName}}
+<OtherName OtherNameType="{{otherNameType}}">
+    {{#prefix}}
+    <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
+    {{/prefix}}
+    <FirstName>{{firstName}}</FirstName>
+    {{#middleName}}
+    <MiddleName>{{middleName}}</MiddleName>
+    {{/middleName}}
+    <LastSurname>{{lastName}}</LastSurname>
+    {{#suffix}}
+    <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
+    {{/suffix}}
+</OtherName>
+{{/otherName}}
+<Sex>{{sex}}</Sex>
+<BirthDate>{{birthDay}}</BirthDate>
+<Address AddressType="Home">
+    <StreetNumberName>{{address}}</StreetNumberName>
+    <City>{{city}}</City>
+    <StateAbbreviation>{{state}}</StateAbbreviation>
+    <PostalCode>{{postalCode}}</PostalCode>
+</Address>
+<ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>{{email}}</EmailAddress>
+</ElectronicMail>
+<HispanicLatinoEthnicity>{{hispanicLatino}}</HispanicLatinoEthnicity>
+{{#oldEthnicity}}
+<OldEthnicity>{{oldEthnicity}}</OldEthnicity>
+{{/oldEthnicity}}
+{{#race}}
+<Race>
+    <RacialCategory>{{race}}</RacialCategory>
+</Race>
+{{/race}}
+
+<HighestLevelOfEducationCompleted>{{highestLevelOfEducationCompleted}}</HighestLevelOfEducationCompleted>
+{{#yearsOfPriorProfessionalExperience}}
+<YearsOfPriorProfessionalExperience>{{yearsOfPriorProfessionalExperience}}</YearsOfPriorProfessionalExperience>
+{{/yearsOfPriorProfessionalExperience}}
+{{#yearsOfPriorTeachingExperience}}
+<YearsOfPriorTeachingExperience>{{yearsOfPriorTeachingExperience}}</YearsOfPriorTeachingExperience>
+{{/yearsOfPriorTeachingExperience}}
+{{#credentials}}
+
+<Credentials>{{credentials}}</Credentials>
+{{/credentials}}
+
+{{#loginId}}
+<LoginId>{{loginId}}</LoginId>
+{{/loginId}}

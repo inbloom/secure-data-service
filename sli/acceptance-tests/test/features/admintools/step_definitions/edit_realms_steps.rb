@@ -72,7 +72,7 @@ When /^I should click the delete realm link$/ do
 end
 
 Then /^I should see that I am on the new realm page$/ do
-  assertWithWait("Should be on new realm page"){@driver.page_source.index("Create New Realm") != nil}
+  assertWithWait("Should be on new realm page"){@driver.page_source.index("Manage Realm") != nil}
 end
 
 Then /^all of the input fields should be blank$/ do
@@ -94,7 +94,7 @@ Then /^I should see that the page doesn't exist$/ do
 end
 
 Then /^I should be redirected to a new realm page$/ do
-  assertWithWait("Should be on new realm page") {@driver.page_source.index("Create New Realm") != nil}
+  assertWithWait("Should be on new realm page") {@driver.page_source.index("Manage Realm") != nil}
 end
 
 When /^I enter valid data into all fields$/ do
@@ -102,10 +102,6 @@ When /^I enter valid data into all fields$/ do
   @driver.find_element(:name, 'realm[idp][id]').send_keys "IDPID"
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys "RedirectEndpoint"
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Unique Identifier"
-end
-
-When /^I click the "([^"]*)" button$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
 end
 
 Then /^I should see that I am on the "([^"]*)" page$/ do |arg1|

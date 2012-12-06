@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "PopulationServedType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of students the course was designed for.",
-  "xsd-type" : "token",
-  "symbols" : [ "Regular_Students", "Bilingual_Students", "Compensatory_Remedial_Education_Students", "Gifted_and_Talented_Students", "Career_and_Technical_Education_Students", "Special_Education_Students", "ESL_Students", "Adult_Basic_Education_Students", "Honors_Students", "Migrant_Students" ]
-}

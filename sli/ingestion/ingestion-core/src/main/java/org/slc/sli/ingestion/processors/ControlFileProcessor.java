@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -67,6 +68,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_STAGE_DESC = "Validates the control file";
 
+    private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+
     @Autowired
     private ControlFileValidator validator;
 
@@ -79,16 +82,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
 
         processUsingNewBatchJob(exchange);
 
@@ -109,7 +102,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
@@ -132,7 +125,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             FaultsReport errorReport = new FaultsReport();
 
             if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
-            // TODO Deal with validator being autowired in BatchJobAssembler
                 if (validator.isValid(cfd, errorReport)) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
@@ -151,12 +143,12 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
 
-            // TODO set properties on the exchange based on job properties
-
             setExchangeHeaders(exchange, newJob, errorReport);
 
             setExchangeBody(exchange, batchJobId);
-            cf.getFile().delete();
+            if (!cf.getFile().delete()) {
+                LOG.debug("Failed to delete: " + cf.getFile().getPath());
+            }
 
 
         } catch (Exception exception) {
@@ -171,7 +163,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
@@ -183,11 +175,11 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, FaultsReport errorReport) {
         if (errorReport.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.PURGE.name());
         } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.CONTROL_FILE_PROCESSED.name());
         }
 
         if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
@@ -224,8 +216,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private HashMap<String, String> aggregateBatchJobProperties(ControlFile cf) {
-        HashMap<String, String> batchProperties = new HashMap<String, String>();
+    private Map<String, String> aggregateBatchJobProperties(ControlFile cf) {
+        Map<String, String> batchProperties = new HashMap<String, String>();
         Enumeration<Object> keys = cf.getConfigProperties().keys();
         Enumeration<Object> elements = cf.getConfigProperties().elements();
 

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "MeetingDayItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The enumeration items for the day(s) of the week (e.g., Monday, Wednesday) that the class meets or an indication that a class meets \"out-of-school\" or \"self-paced\".",
-  "xsd-type" : "token",
-  "symbols" : [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
-}

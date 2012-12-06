@@ -16,31 +16,51 @@ limitations under the License.
 
 =end
 
-require_relative 'baseEntity'
+require_relative "../date_interval.rb"
+require_relative "baseEntity"
+require_relative "enum/SchoolTerm.rb"
+require_relative "enum/GradingPeriodType.rb"
 
 # creates session
 class Session < BaseEntity
 
-  attr_accessor :name, :school_year, :term, :edOrgId;
+  attr_accessor :name, :school_year, :ed_org_id;
 
-  def initialize(name, year, term, interval, edOrgId)
-  	@name = name
-  	@school_year = year.to_s + " " + (year+1).to_s
-  	@term = term
-  	@interval = interval
-  	@edOrgId = edOrgId
+  def initialize(name, year, term, interval, ed_org_id, grading_periods)
+  	@name            = name
+  	@school_year     = year.to_s + "-" + (year+1).to_s
+  	@term            = term
+  	@interval        = interval
+  	@ed_org_id       = ed_org_id
+    @grading_periods = grading_periods
+  end
+
+  def term
+    SchoolTerm.to_string(@term)
   end
 
   def begin_date
-  	# use interval.get_begin_date
+  	@interval.get_begin_date
   end
 
   def end_date
-  	# use interval.get_end_date
+  	@interval.get_end_date
   end
 
   def num_school_days
-  	#use interval.get_num_school_days
+  	@interval.get_num_school_days
   end
 
+  def grading_periods
+    periods = []
+    @grading_periods.each do |grading_period|
+      interval             = grading_period["interval"]
+      period               = Hash.new
+      period["type"]       = GradingPeriodType.to_string(grading_period["type"])
+      period["begin_date"] = interval.get_begin_date
+      period["ed_org_id"]  = grading_period["ed_org_id"]
+      periods              << period
+    end
+    periods
+  end
 end

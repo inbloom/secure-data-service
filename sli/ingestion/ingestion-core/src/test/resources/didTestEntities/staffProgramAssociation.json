@@ -1,0 +1,20 @@
+{
+    "recordType":"staffProgramAssociation",
+    "attributes":
+    {
+        "StaffReference":
+        {
+            "StaffIdentity":
+            {
+                "StaffUniqueStateId":"jjackson"
+            }
+        },
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"testProgramId"
+            }
+        }
+    }
+}

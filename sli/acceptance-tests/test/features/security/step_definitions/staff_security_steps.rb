@@ -42,7 +42,7 @@ end
 
 Then /^the response does not includes the protected fields$/ do
 
-  restHttpGet("/home", "application/json")
+  restHttpGet("/v1/home", "application/json")
   home = JSON.parse(@res.body)
   home['links'].each do |link|
     if link['rel'] == 'self'
@@ -72,7 +72,7 @@ Given /^my role is Leader$/ do
 end
 
 Then /^the response includes the protected fields$/ do
-  restHttpGet("/home", "application/json")
+  restHttpGet("/v1/home", "application/json")
   home = JSON.parse(@res.body)
   home['links'].each do |link|
     if link['rel'] == 'self'

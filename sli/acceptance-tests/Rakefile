@@ -507,17 +507,6 @@ task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :p
   end
 end
 
-#desc "Run Liferay Tests"
-#task :liferay => [:liferayTest] do
- # displayFailureReport()
-#  if $SUCCESS
- #   puts "Completed All Tests"
- # else
- #   raise "Tests have failed"
- # end
-#end
-
-
 desc "Run all sandbox tests"
 task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
@@ -560,7 +549,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :v1SelectorTests] do
+                     :v1SelectorTests,
+                     :longLivedSessionTests] do
   displayFailureReport()
 end
 
@@ -613,6 +603,7 @@ end
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  runTests("test/features/databrowser/ssp.feature")
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   displayFailureReport()
@@ -713,7 +704,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, 
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest] do
+                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest] do
 
   displayFailureReport()
   if $SUCCESS
@@ -726,6 +717,21 @@ end
 # Ingestion tests end
 ############################################################
 
+############################################################
+# Odin Data Generation tests start
+############################################################
+desc "Run Ingestion Acceptances Tests"
+task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Odin Data Generation tests end
+############################################################
 
 ############################################################
 # Integration Tests start

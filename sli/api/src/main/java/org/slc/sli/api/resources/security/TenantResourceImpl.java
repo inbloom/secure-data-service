@@ -18,12 +18,11 @@ package org.slc.sli.api.resources.security;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -39,16 +38,13 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -61,7 +57,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -77,7 +72,7 @@ import java.util.TreeSet;
 public class TenantResourceImpl extends UnversionedResource implements TenantResource {
 
     @Value("${sli.sandbox.enabled}")
-    protected boolean isSandboxEnabled;
+    private boolean isSandboxEnabled;
 
     protected void setSandboxEnabled(boolean isSandboxEnabled) {
         this.isSandboxEnabled = isSandboxEnabled;
@@ -115,8 +110,6 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         ingestionServerList = testList;
     }
 
-    // private Random random = new Random(System.currentTimeMillis());
-
     @PostConstruct
     protected void init() {
         ingestionServerList = Arrays.asList(ingestionServers.split(","));
@@ -146,8 +139,8 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
 
     @Override
     @POST
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response post(EntityBody newTenant, @Context final UriInfo uriInfo) {
-
         // Tenants can not be created using this class. They will be created via OnboardingResource
         return SecurityUtil.forbiddenResponse();
     }
@@ -346,7 +339,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
 
         int curMin = Integer.MAX_VALUE;
         String curHost = ingestionServerList.get(0);
-        for (Entry<String, MutableInt> e : map.entrySet()) {
+        for (Map.Entry<String, MutableInt> e : map.entrySet()) {
             int i = e.getValue().get();
             if (i < curMin) {
                 curMin = i;
@@ -359,13 +352,8 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
 
     @Override
     @GET
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getAll(@Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to view tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
         return super.getAll(uriInfo);
     }
 
@@ -379,14 +367,9 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @Override
     @GET
     @Path("{" + UUID + "}")
-    public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to view tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
-        return super.getWithId(uuid, uriInfo);
+    @RightsAllowed({Right.ADMIN_ACCESS})
+    public Response getWithId(@PathParam(UUID) String tenantId, @Context final UriInfo uriInfo) {
+        return super.getWithId(tenantId, uriInfo);
     }
 
     /**
@@ -400,20 +383,19 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @SuppressWarnings("deprecation")
     @POST
     @Path("{" + UUID + "}" + "/preload")
+    @RightsAllowed({Right.INGEST_DATA})
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
         EntityService service = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody entity = service.get(tenantId);
         String tenantName = (String) entity.get("tenantId");
 
-        if (!SecurityUtil.hasRight(Right.INGEST_DATA) || !isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
+        if (!isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
         if (lockChecker.ingestionLocked(tenantName)) {
-            // throw new TenantResourceCreationException(Status.CONFLICT,
-            // "Ingestion is locked for this tenant");
             return Response.status(Status.CONFLICT).build();
         }
 
@@ -429,8 +411,6 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
             }
         }
 
-        // Map<String, Object> landingZone = landingZones.get(0);
-        // landingZone.put("preload", preload(Arrays.asList(dataSet)));
         service.update(tenantId, entity);
         return Response.created(context.getAbsolutePathBuilder().path("jobstatus").build()).build();
     }
@@ -443,6 +423,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
      */
     @GET
     @Path("{" + UUID + "}" + "/preload/jobstatus")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getPreloadJob() {
         return Response.status(Status.NOT_IMPLEMENTED).build();
     }
@@ -450,26 +431,16 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @Override
     @DELETE
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to delete tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
         return super.delete(uuid, uriInfo);
     }
 
     @Override
     @PUT
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response put(@PathParam(UUID) String uuid, EntityBody tenant, @Context final UriInfo uriInfo) {
-        SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to provision tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
         return super.put(uuid, tenant, uriInfo);
     }
 

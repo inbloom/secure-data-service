@@ -53,7 +53,7 @@ When zip files are scped to the ingestion landing zone
         | collectionName              | count |
         | assessment                  | 19    |
         | attendance                  | 75    |
-        | calendarDate                | 556   |
+        | calendarDate                | 1112  |
         | cohort                      | 3     |
         | competencyLevelDescriptor   | 6     |
         | course                      | 103   |
@@ -80,7 +80,7 @@ When zip files are scped to the ingestion landing zone
         | studentAcademicRecord       | 117   |
         | studentAssessment           | 203   |
         | studentCohortAssociation    | 6     |
-        | studentCompetency           | 59    |
+        | studentCompetency           | 60    |
         | studentCompetencyObjective  | 4     |
         | studentDisciplineIncidentAssociation| 8|
         | studentGradebookEntry       | 315   |

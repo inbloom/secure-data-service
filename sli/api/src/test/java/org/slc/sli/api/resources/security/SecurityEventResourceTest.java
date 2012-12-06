@@ -17,26 +17,6 @@
 
 package org.slc.sli.api.resources.security;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,15 +34,29 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
+
 /**
  * Unit Tests for Security Event Resource class.
- *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class})
 public class SecurityEventResourceTest {
 
     @Autowired
@@ -319,39 +313,4 @@ public class SecurityEventResourceTest {
         }
 
     }
-
-    @Test
-    public void testDeveloperGetSecurityEvents() {
-        injector.setDeveloperContext();
-
-        Response response = resource.getAll(uriInfo);
-
-        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
-            fail("Developer shoudd be forbidden from accessing SecurityEvent. " + response);
-        }
-    }
-
-    @Test
-    public void testRealmAdminGetSecurityEvents() {
-        injector.setRealmAdminContext();
-
-        Response response = resource.getAll(uriInfo);
-
-        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
-            fail("Realm Admin shoudd be forbidden from accessing SecurityEvent. " + response);
-        }
-    }
-
-    @Test
-    public void testEducatorGetSecurityEvents() {
-        injector.setEducatorContext();
-
-        Response response = resource.getAll(uriInfo);
-
-        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
-            fail("Educator shoudd be forbidden from accessing SecurityEvent. " + response);
-        }
-    }
-
-
 }

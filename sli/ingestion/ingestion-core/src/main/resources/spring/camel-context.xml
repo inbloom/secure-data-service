@@ -29,7 +29,9 @@
 
 
 
-	<context:component-scan base-package="org.slc.sli" />
+	<context:component-scan base-package="org.slc.sli">
+	<context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
+	</context:component-scan>
 	<context:annotation-config />
 
 	

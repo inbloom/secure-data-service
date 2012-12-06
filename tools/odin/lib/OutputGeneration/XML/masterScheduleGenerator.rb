@@ -16,39 +16,34 @@ limitations under the License.
 
 =end
 
+require_relative "./EntityWriter"
 require_relative "./interchangeGenerator.rb"
+require_relative "../../Shared/util"
+
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
+
+# event-based master schedule interchange generator
 class MasterScheduleGenerator < InterchangeGenerator
-  def initialize
-    @header = <<-HEADER
-<?xml version="1.0"?>
-<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd ">
-HEADER
-    @footer = <<-FOOTER
-</InterchangeMasterSchedule>
-FOOTER
+
+  # initialization will define the header and footer for the master schedule interchange
+  # leaves file handle open for event-based writing of ed-fi entities
+  def initialize(yaml, interchange)
+    super(yaml, interchange)
+
+    @header, @footer = build_header_footer( "MasterSchedule" )
+
+    @writers[CourseOffering] = EntityWriter.new("course_offering.mustache")
+    @writers[Section] = EntityWriter.new("section.mustache")
   end
 
-  def write(prng, yamlHash)
-    File.open("generated/InterchangeMasterSchedule.xml", 'w') do |f|
-      f.write(@header)
-      #This needs to map to courses
+  # creates and writes course offering to interchange
+  def create_course_offering(id, title, ed_org_id, session, course)
+    self << CourseOffering.new(id, title, ed_org_id, session, course)
+  end
 
-      if !yamlHash['numCourseOffering'].nil?
-        for id in 1..yamlHash['numCourseOffering'] do
-          f.write CourseOffering.new(id.to_s, prng).render
-        end
-      end
-
-      if !yamlHash['numBellSchedule'].nil?
-        for id in 1..yamlHash['numBellSchedule'] do
-          f.write BellSchedule.new(id.to_s, prng).render
-        end
-      end
-
-      f.write(@footer)
-    end
+  # creates and writes section to interchange
+  def create_section(id, school_id, offering)
+    self << Section.new(id, school_id, offering)
   end
 
 end

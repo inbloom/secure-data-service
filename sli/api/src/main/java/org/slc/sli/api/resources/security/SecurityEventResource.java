@@ -24,12 +24,14 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -81,44 +83,24 @@ public class SecurityEventResource extends UnversionedResource {
     }
 
     @GET
+    @RightsAllowed({Right.SECURITY_EVENT_VIEW})
     @Override
     public Response getAll(@Context final UriInfo uriInfo) {
         return retrieveEntities(uriInfo);
     }
 
     private Response retrieveEntities(final UriInfo uriInfo) {
-        // SecurityUtil.ensureAuthenticated();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-            if (principal != null) {
-                List<String> roles = principal.getRoles();
-                if (roles != null
-                        && (roles.contains(RoleInitializer.SEA_ADMINISTRATOR)
-                        || roles.contains(RoleInitializer.LEA_ADMINISTRATOR) || roles
-                        .contains(RoleInitializer.SLC_OPERATOR))) {
-                    EntityDefinition entityDef = entityDefs.lookupByResourceName(RESOURCE_NAME);
-                    NeutralQuery mainQuery = queryConverter.convert(uriInfo);
-                    mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(RESOURCE_NAME);
+        NeutralQuery mainQuery = queryConverter.convert(uriInfo);
+        mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
+        mainQuery.setSortBy("timeStamp");
+        mainQuery.setSortOrder(SortOrder.descending);
 
-                    // Why are we explicitly setting the sort order and sort by?
-                    mainQuery.setSortBy("timeStamp");
-                    mainQuery.setSortOrder(SortOrder.descending);
-
-                    List<EntityBody> results = new ArrayList<EntityBody>();
-                    for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
-                        results.add(entityBody);
-                    }
-                    info("Found [" + results.size() + "] SecurityEvents!");
-                    return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
-                } else {
-                    return Response.status(Status.FORBIDDEN).build();
-                }
-            } else {
-                return Response.status(Status.FORBIDDEN).build();
-            }
-        } else {
-            return Response.status(Status.FORBIDDEN).build();
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
+            results.add(entityBody);
         }
+        debug("Found [" + results.size() + "] SecurityEvents!");
+        return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
     }
 }

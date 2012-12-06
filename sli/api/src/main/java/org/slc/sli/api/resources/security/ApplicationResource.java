@@ -41,6 +41,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
@@ -72,6 +73,10 @@ import org.springframework.stereotype.Component;
 public class ApplicationResource extends UnversionedResource {
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
+    public static final String APPLICATION = "application";
+    public static final String MESSAGE = "message";
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_APPROVED = "APPROVED";
 
     @Autowired
     private EntityDefinitionStore store;
@@ -128,21 +133,18 @@ public class ApplicationResource extends UnversionedResource {
 
     @POST
     @Override
+    @RightsAllowed({Right.DEV_APP_CRUD})
     public Response post(EntityBody newApp, @Context final UriInfo uriInfo) {
         if (newApp.containsKey(CLIENT_SECRET) || newApp.containsKey(CLIENT_ID) || newApp.containsKey("id")) {
             EntityBody body = new EntityBody();
-            body.put("message", "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
+            body.put(MESSAGE, "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
                     + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to create new applications.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
+
         if (!missingRequiredUrls(newApp)) {
             EntityBody body = new EntityBody();
-            body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
+            body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
@@ -159,10 +161,10 @@ public class ApplicationResource extends UnversionedResource {
         newApp.put(CREATED_BY, principal.getExternalId());
 
         Map<String, Object> registration = new HashMap<String, Object>();
-        registration.put(STATUS, "PENDING");
+        registration.put(STATUS, STATUS_PENDING);
         if (autoRegister) {
             registration.put(APPROVAL_DATE, System.currentTimeMillis());
-            registration.put(STATUS, "APPROVED");
+            registration.put(STATUS, STATUS_APPROVED);
         }
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
@@ -193,6 +195,7 @@ public class ApplicationResource extends UnversionedResource {
 
     @SuppressWarnings("rawtypes")
     @GET
+    @RightsAllowed({Right.ADMIN_ACCESS})
     @Override
     public Response getAll(@Context final UriInfo uriInfo) {
         Response resp = super.getAll(uriInfo);
@@ -213,6 +216,7 @@ public class ApplicationResource extends UnversionedResource {
     @GET
     @Override
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.ADMIN_ACCESS})
     public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         Response resp = super.getWithId(uuid, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
@@ -227,7 +231,7 @@ public class ApplicationResource extends UnversionedResource {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void filterSensitiveData(Map entity) {
-        Object appObj = entity.get("application");
+        Object appObj = entity.get(APPLICATION);
         List appList = new ArrayList();
         if (appObj != null) {
             if (appObj instanceof Map) {
@@ -241,7 +245,7 @@ public class ApplicationResource extends UnversionedResource {
                 Map reg = (Map) appMap.get("registration");
                 //only see client id and secret if you're an app developer and it's approved
                 if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
-                    if (!reg.get("status").equals("APPROVED")) {
+                    if (!reg.get("status").equals(STATUS_APPROVED)) {
                         appMap.remove(CLIENT_ID);
                         appMap.remove(CLIENT_SECRET);
                     }
@@ -256,6 +260,7 @@ public class ApplicationResource extends UnversionedResource {
     @DELETE
     @Override
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.DEV_APP_CRUD})
     public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
@@ -263,7 +268,7 @@ public class ApplicationResource extends UnversionedResource {
             body.put("message", "You cannot delete this application");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
+
         EntityBody ent = service.get(uuid);
         if (ent != null) {
             validateDeveloperHasAccessToApp(ent);
@@ -274,11 +279,12 @@ public class ApplicationResource extends UnversionedResource {
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
+    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
     @Override
     public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
             EntityBody body = new EntityBody();
-            body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
+            body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
@@ -320,7 +326,7 @@ public class ApplicationResource extends UnversionedResource {
                 || (!registrationDatesMatch(oldReg, newReg, REQUEST_DATE))) {
 
             EntityBody body = new EntityBody();
-            body.put("message",
+            body.put(MESSAGE,
                     "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date|created_by) specified in PUT.  "
                             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -333,23 +339,23 @@ public class ApplicationResource extends UnversionedResource {
         if (SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {
             if (changedKeys.size() > 0) {
                 EntityBody body = new EntityBody();
-                body.put("message", "You are not authorized to alter applications.");
+                body.put(MESSAGE, "You are not authorized to alter applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
-            if (newRegStatus.equals("APPROVED") && oldRegStatus.equals("PENDING")) {
+            if (newRegStatus.equals(STATUS_APPROVED) && oldRegStatus.equals(STATUS_PENDING)) {
                 debug("App approved");
-                newReg.put(STATUS, "APPROVED");
+                newReg.put(STATUS, STATUS_APPROVED);
                 newReg.put(APPROVAL_DATE, System.currentTimeMillis());
-            } else if (newRegStatus.equals("DENIED") && oldRegStatus.equals("PENDING")) {
+            } else if (newRegStatus.equals("DENIED") && oldRegStatus.equals(STATUS_PENDING)) {
                 debug("App denied");
-            } else if (newRegStatus.equals("UNREGISTERED") && oldRegStatus.equals("APPROVED")) {
+            } else if (newRegStatus.equals("UNREGISTERED") && oldRegStatus.equals(STATUS_APPROVED)) {
                 debug("App unregistered");
                 newReg.remove(APPROVAL_DATE);
                 newReg.remove(REQUEST_DATE);
             } else {
                 EntityBody body = new EntityBody();
-                body.put("message", "Invalid state change: " + oldRegStatus + " to " + newRegStatus);
+                body.put(MESSAGE, "Invalid state change: " + oldRegStatus + " to " + newRegStatus);
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
@@ -357,20 +363,20 @@ public class ApplicationResource extends UnversionedResource {
             validateDeveloperHasAccessToApp(oldApp);
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
-                body.put("message", "You are not authorized to register applications.");
+                body.put(MESSAGE, "You are not authorized to register applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
-            if (oldRegStatus.equals("PENDING")) {
+            if (oldRegStatus.equals(STATUS_PENDING)) {
                 EntityBody body = new EntityBody();
-                body.put("message", "Application cannot be modified while approval request is in Pending state.");
+                body.put(MESSAGE, "Application cannot be modified while approval request is in Pending state.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
             // when a denied or unreg'ed app is altered, it goes back into pending
             if (oldRegStatus.equals("DENIED") || oldRegStatus.equals("UNREGISTERED")) {
 
-                newReg.put(STATUS, "PENDING");
+                newReg.put(STATUS, STATUS_PENDING);
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
 
@@ -382,17 +388,13 @@ public class ApplicationResource extends UnversionedResource {
                 //validate sandbox user isn't trying to authorize an edorg outside of their tenant
                 if (!edOrgsBelongToTenant(edOrgs)) {
                     EntityBody body = new EntityBody();
-                    body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
+                    body.put(MESSAGE, "Attempt to authorized edorg in sandbox outside of tenant.");
                     return Response.status(Status.BAD_REQUEST).entity(body).build();
                 }
 
                 service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
                 iterateEdOrgs(uuid, edOrgs);
             }
-        } else {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to update application.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
         //Make sure bootstrap and auto_authorize/approve fields aren't ever modified
@@ -407,9 +409,23 @@ public class ApplicationResource extends UnversionedResource {
 
     private void validateDeveloperHasAccessToApp(EntityBody app) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
-            throw new AccessDeniedException("Developer " + principal.getExternalId() 
-                    + " is not the creator of this app and cannot modify it.");
+        
+        if (sandboxEnabled) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> metaData = (Map<String, Object>) app.get("metaData");
+            if (metaData != null) {
+                String tenantId = (String) metaData.get("tenantId");
+                if (tenantId != null && tenantId.equals(principal.getTenantId())) {
+                    return;
+                }
+            }
+            throw new AccessDeniedException("Developer " + principal.getExternalId()
+                    + " does not share the same tenant as the creator of this app and cannot modify it.");
+        } else {
+            if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
+                throw new AccessDeniedException("Developer " + principal.getExternalId()
+                        + " is not the creator of this app and cannot modify it.");
+            }
         }
     }
 
@@ -477,7 +493,7 @@ public class ApplicationResource extends UnversionedResource {
         Long oldDate = (Long) oldReg.get(field);
         Long newDate = (Long) newReg.get(field);
 
-        if (oldDate == newDate) {
+        if (oldDate == null && newDate == null) {
             return true;
         } else if (oldDate != null && newDate != null) {
             return oldDate.equals(newDate);

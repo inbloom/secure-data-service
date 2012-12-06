@@ -143,13 +143,6 @@
       </exclusions>
     </dependency>
 
-    <!-- Apache Avro -->
-    <dependency>
-      <groupId>org.apache.avro</groupId>
-      <artifactId>avro</artifactId>
-      <version>${avro.version}</version>
-    </dependency>
-
     <!-- Apache Camel Core repository -->
     <dependency>
       <groupId>org.apache.camel</groupId>

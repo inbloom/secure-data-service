@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "IdeaEligibilityType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Indicator of the eligibility of the student to receive special education services according to the Individuals with Disabilities Education Act (IDEA).",
-  "xsd-type" : "token",
-  "symbols" : [ "Not_Applicable_To_This_Student", "Individuals_With_Disabilities_Education_Act" ]
-}

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CourseRepeatCodeType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Indicates that an academic course has been repeated by a student and how that repeat is to be computed in the student's academic grade average.",
-  "xsd-type" : "token",
-  "symbols" : [ "RepeatCounted", "RepeatNotCounted", "ReplacementCounted", "ReplacedNotCounted", "RepeatOtherInstitution", "NotCountedOther" ]
-}

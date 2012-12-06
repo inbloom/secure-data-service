@@ -24,9 +24,13 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
+import org.slc.sli.modeling.uml.Multiplicity;
 import org.slc.sli.modeling.uml.NamespaceOwnedElement;
+import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.UmlPackage;
+//import org.slc.sli.modeling.uml.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +70,12 @@ public class Xsd2UmlLinkerTest {
         modelElements.add(umlPackage);
         ClassType mockClass = mock(ClassType.class);
         Attribute attribute = mock(Attribute.class);
+        Multiplicity multiplicity = mock(Multiplicity.class);
+        when(attribute.getMultiplicity()).thenReturn(multiplicity);
+        when(attribute.getName()).thenReturn(CLASSTYPE_NAME);
+        Range range = mock(Range.class);
+        when(multiplicity.getRange()).thenReturn(range);
+        when(range.getUpper()).thenReturn(Occurs.UNBOUNDED);
         plugin = mock(Xsd2UmlPlugin.class);
         List<Attribute> attributeList = new ArrayList<Attribute>();
         attributeList.add(attribute);
@@ -86,6 +96,12 @@ public class Xsd2UmlLinkerTest {
     public void testInvalidAssociationEnd() throws Exception {
         when(plugin.isAssociationEnd(Mockito.any(ClassType.class), Mockito.any(Attribute.class), Mockito.any(Xsd2UmlPluginHost.class))).thenReturn(true);
         when(plugin.getAssociationEndTypeName(Mockito.any(ClassType.class), Mockito.any(Attribute.class), Mockito.any(Xsd2UmlPluginHost.class))).thenReturn("test");
+        assertNotNull(Xsd2UmlLinker.link(model, plugin));
+    }
+      @Test(expected = IllegalArgumentException.class)
+    public void testValidAssociationEnd() throws Exception {
+        when(plugin.isAssociationEnd(Mockito.any(ClassType.class), Mockito.any(Attribute.class), Mockito.any(Xsd2UmlPluginHost.class))).thenReturn(true);
+        when(plugin.getAssociationEndTypeName(Mockito.any(ClassType.class), Mockito.any(Attribute.class), Mockito.any(Xsd2UmlPluginHost.class))).thenReturn("classTypeName");
         assertNotNull(Xsd2UmlLinker.link(model, plugin));
     }
 }

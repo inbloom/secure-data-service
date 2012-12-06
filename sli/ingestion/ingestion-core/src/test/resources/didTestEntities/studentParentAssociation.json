@@ -1,0 +1,20 @@
+{
+"recordType":"studentParentAssociation",
+"attributes":
+    {
+        "StudentReference":
+        {
+            "StudentIdentity":
+            {
+                "StudentUniqueStateId":"100000000"
+            }
+        },
+    	"ParentReference":
+    	{
+			"ParentIdentity":
+			{
+				"ParentUniqueStateId":"testParentId"
+			}
+    	}
+    }
+}

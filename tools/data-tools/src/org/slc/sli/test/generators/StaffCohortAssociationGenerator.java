@@ -19,6 +19,8 @@ package org.slc.sli.test.generators;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +28,13 @@ import org.slc.sli.test.edfi.entities.CohortIdentityType;
 import org.slc.sli.test.edfi.entities.CohortReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCCohortIdentityType;
+import org.slc.sli.test.edfi.entities.SLCCohortReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStaffCohortAssociation;
+import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
@@ -42,11 +51,11 @@ public class StaffCohortAssociationGenerator {
      * 
      * @return <code>List<StudentCohortAssociation></code>
      */
-    public static List<StaffCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
+    public static List<SLCStaffCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         Set<String> staffIds = cohortMeta.staffIds;
-        
+       
         return generateLowFi(cohortId, staffIds, schoolId);
     }
 
@@ -60,6 +69,60 @@ public class StaffCohortAssociationGenerator {
      * 
      * @return <code>StaffCohortAssociation</code>
      */
+    
+    
+    public static List<SLCStaffCohortAssociation> generateLowFi(String cohortId, Collection<String> staffIds, String schoolId) {
+
+    	List<SLCStaffCohortAssociation> staffCohortAssociations = new ArrayList<SLCStaffCohortAssociation>();
+        
+        // construct and add the staff reference
+    	Iterator itr = staffIds.iterator();
+    	 String staffId = null;
+    	int counter = 0;
+    	 while(itr.hasNext()) {
+             staffId = (String) itr.next();
+             counter++;
+              	
+	        SLCStaffIdentityType sit = new SLCStaffIdentityType();
+	        sit.setStaffUniqueStateId(staffId);
+	        SLCStaffReferenceType srt = new SLCStaffReferenceType();
+	        srt.setStaffIdentity(sit);
+	        
+	        SLCStaffCohortAssociation staffCohortAssoc = new SLCStaffCohortAssociation();
+            staffCohortAssoc.setStaffReference(srt);
+            	        
+	        
+	
+	        // construct and add the Cohort Reference       
+	        SLCCohortIdentityType ci = new SLCCohortIdentityType();
+	        ci.setCohortIdentifier(cohortId);
+	        
+	        SLCEducationalOrgIdentityType slceoit = new SLCEducationalOrgIdentityType ();
+	        slceoit.setStateOrganizationId(schoolId);
+	        SLCEducationalOrgReferenceType slceort = new SLCEducationalOrgReferenceType();
+	        slceort.setEducationalOrgIdentity(slceoit);
+        
+        
+	        ci.setEducationalOrgReference(slceort);
+       
+        
+			SLCCohortReferenceType crt = new SLCCohortReferenceType();
+			crt.setCohortIdentity(ci);
+			staffCohortAssoc.setCohortReference(crt);
+	    
+
+        //set begin and end dates
+      
+			staffCohortAssoc.setBeginDate(beginDate);
+			staffCohortAssoc.setEndDate(endDate);
+        
+			staffCohortAssoc.setStudentRecordAccess(Boolean.TRUE);
+			
+			staffCohortAssociations.add(staffCohortAssoc);
+    	 }
+        return staffCohortAssociations;
+    }
+    /*
     public static StaffCohortAssociation generateLowFi(String cohortId, String staffId, String schoolId) {
 
         StaffCohortAssociation staffCohortAssoc = new StaffCohortAssociation();
@@ -95,7 +158,7 @@ public class StaffCohortAssociationGenerator {
         
         return staffCohortAssoc;
     }
-
+	*/
     /**
      * Generates a StaffCohortAssociation between a cohort and a list of staffs 
      * with a school as a reference.
@@ -106,6 +169,7 @@ public class StaffCohortAssociationGenerator {
      * 
      * @return <code>List<StaffCohortAssociation></code>
      */
+    /*
     public static List<StaffCohortAssociation> generateLowFi(String cohortId, Collection<String> staffIds, String schoolId) {
 
         List<StaffCohortAssociation> staffCohortAssociations = new ArrayList<StaffCohortAssociation>();
@@ -145,7 +209,7 @@ public class StaffCohortAssociationGenerator {
         
         return staffCohortAssociations;
     }
-
+*/
 
 }
 

@@ -132,6 +132,8 @@ Then /^his account status is "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the "([^"]*)" button$/ do |button_name|
+  buttons = @driver.find_elements(:id,button_name.downcase+"_button_"+@user_name)
+  puts "Warning: not exactly one element found: #{buttons.size}" unless buttons.size == 1
   @driver.find_element(:id,button_name.downcase+"_button_"+@user_name).click
 end
 

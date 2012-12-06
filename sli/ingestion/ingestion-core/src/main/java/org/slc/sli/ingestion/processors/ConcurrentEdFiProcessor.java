@@ -64,6 +64,8 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
 
+    private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentEdFiProcessor.class);
 
     @Autowired
@@ -176,7 +178,7 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
@@ -188,15 +190,15 @@ public class ConcurrentEdFiProcessor implements Processor {
     private void setExchangeHeaders(Exchange exchange, boolean hasError) {
         if (hasError) {
             exchange.getIn().setHeader("hasErrors", hasError);
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.DATA_TRANSFORMATION.name());
         }
     }
 
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 }

@@ -16,14 +16,13 @@
 
 package org.slc.sli.api.resources.generic.util;
 
-import java.net.URI;
-import java.util.List;
-
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.List;
 
 /**
  * Class for storing changes to requested uri.
@@ -120,7 +119,7 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public List<String> getMatchedURIs() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     

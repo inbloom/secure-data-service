@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CTEServiceItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Enumeration items for Special CTE program services provided to student.",
-  "xsd-type" : "token",
-  "symbols" : [ "Transportation_Services" ]
-}

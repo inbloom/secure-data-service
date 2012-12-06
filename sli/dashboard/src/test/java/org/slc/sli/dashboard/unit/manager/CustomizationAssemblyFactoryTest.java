@@ -364,8 +364,8 @@ public class CustomizationAssemblyFactoryTest {
         try {
             customizationAssemblyFactory.getModelAndViewConfig("deep", simpleMaleStudentEntity.get("id"));
             Assert.fail("Should not allow deep config structures");
-        } catch (Throwable t) {
-            Assert.assertEquals("The items hierarchy is too deep - only allow 5 elements", t.getMessage());
+        } catch (DashboardException de) {
+            Assert.assertEquals("The items hierarchy is too deep - only allow 5 elements", de.getMessage());
         }
     }
     

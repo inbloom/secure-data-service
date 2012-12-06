@@ -23,7 +23,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
  *
@@ -37,7 +37,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     private final String batchJobId;
     private final BatchJobStageType stage;
     private final String resourceId;
-    private final BatchJobDAO batchJobDAO;
+    private transient final BatchJobDAO batchJobDAO;
 
     private volatile boolean hasErrors;
 
@@ -74,7 +74,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
         String recordIdentifier = null;
         Error error = Error.createIngestionError(batchJobId, resourceId, (stage == null) ? null : stage.getName(),
-                BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
+                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), recordIdentifier,
                 FaultType.TYPE_ERROR.getName(), FaultType.TYPE_ERROR.getName(), message);
         batchJobDAO.saveError(error);
 
@@ -86,7 +86,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
         String recordIdentifier = null;
         Error error = Error.createIngestionError(batchJobId, resourceId, (stage == null) ? "" : stage.getName(),
-                BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
+                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), recordIdentifier,
                 FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(), message);
         batchJobDAO.saveError(error);
     }

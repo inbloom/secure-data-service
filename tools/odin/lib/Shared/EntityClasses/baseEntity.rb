@@ -15,21 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
 # base entity
+
+require 'yaml'
+
 class BaseEntity
+  class << self; attr_accessor :demographics end
+  @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")
+
+  def self.demographics; @@demographics end
+
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end
-  
+
   def wChoose(distribution)
     r = @rand.rand weight_total(distribution)
     distribution.each do |element, weight|
       if r < weight
-        return element
+      return element
       end
       r -= weight
-    end 
+    end
   end
 
   def weight_total(distribution)
@@ -40,13 +47,8 @@ class BaseEntity
     sum
   end
 
-  def to_hash
-    hash = {}
-    tmp = {}
-    self.instance_variables.each do |var|
-      tmp[var[1..-1].to_sym] = self.instance_variable_get(var)
-    end
-    hash[self.class.name.downcase.to_sym] = tmp
-    hash
+  def bit_choose()
+    rand(2) == 1
   end
+
 end

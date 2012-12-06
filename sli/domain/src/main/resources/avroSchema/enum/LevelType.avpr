@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "LevelType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The grade level(s) certified for teaching.",
-  "xsd-type" : "token",
-  "symbols" : [ "All_Level_Grade_Level_PK_12", "All_Level_Grade_Level_EC_12", "Early_Childhood_PK_K", "Elementary_Grade_Level_1_6", "Elementary_Grade_Level_1_8", "Elementary_Grade_Level_4_8", "Elementary_Grade_Level_EC_4", "Elementary_Grade_Level_EC_6", "Elementary_Grade_Level_PK_5", "Elementary_Grade_Level_PK_6", "Grade_Level_NA", "Junior_High_Grade_Level_6_8", "Secondary_Grade_Level_6_12", "Secondary_Grade_Level_8_12" ]
-}

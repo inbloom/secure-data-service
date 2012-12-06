@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SubjectAreaType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The intended major subject area of the secondary education course.",
-  "xsd-type" : "token",
-  "symbols" : [ "English_Language_and_Literature", "Mathematics", "Life_and_Physical_Sciences", "Social_Sciences_and_History", "Fine_and_Performing_Arts", "Foreign_Language_and_Literature", "Religious_Education_and_Theology", "Physical_Health_and_Safety_Education", "Military_Science", "Computer_and_Information_Sciences", "Communication_and_Audio_Visual_Technology", "Business_and_Marketing", "Manufacturing", "Health_Care_Sciences", "Public_Protective_and_Government_Service", "Hospitality_and_Tourism", "Architecture_and_Construction", "Agriculture_Food_and_Natural_Resources", "Human_Services", "Transportation_Distribution_and_Logistics", "Engineering_and_Technology", "Miscellaneous" ]
-}

@@ -371,6 +371,10 @@ Given /^I am using destination-local data store$/ do
   @local_file_store_path = INGESTION_DESTINATION_DATA_STORE
 end
 
+Given /^I am using odin data store$/ do
+  @local_file_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/odin/generated/'
+end
+
 def lzFileRmWait(file, wait_time)
   intervalTime = 3 #seconds
   iters = (1.0*wait_time/intervalTime).ceil
@@ -642,9 +646,11 @@ def getErrorCount
     @resource = ""
     resourceToErrorCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-      if(entry.rindex('error'))
+      if entry.match(/^error/)
         @error_filename = entry
+        puts entry
         @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
+        puts @resource
         file = File.open(@landing_zone_path+entry, "r")
         file.each_line do |line|
           if(line.rindex('ERROR'))
@@ -664,9 +670,11 @@ def getWarnCount
     @resource = ""
     resourceToWarnCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-    if(entry.rindex('warn'))
+    if entry.match(/^warn/)
       @warn_filename = entry
-      @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]
+      puts entry
+      @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]    
+      puts @resource
       file = File.open(@landing_zone_path+entry, "r")
       file.each_line do |line|
         if(line.rindex('WARN'))
@@ -1086,6 +1094,8 @@ end
 def isCompleted?(file)
   lines = IO.readlines(@landing_zone_path + '/' + file)
   return lines.any?{|line| /^INFO  Processed [0-9]+ records.\n$/.match line}
+rescue SystemCallError
+  return false
 end
 
 def dirContainsBatchJobLog?(dir)
@@ -1439,6 +1449,13 @@ When /^I navigate to the Ingestion Service HealthCheck page and submit login cre
    $healthCheckResult = res.body
 end
 
+When /^I can find a (.*?) with (.*?) (.*?) in tenant db "([^"]*)"$/ do |collection, id_type, id, tenantId|
+  @db = @conn[convertTenantIdToDbName(tenantId)]
+  @coll = @db[collection]
+  # Set the "drilldown document" to the input id_type/id pair
+  @dd_doc = @coll.find(id_type => id).to_a
+end
+
 ############################################################
 # STEPS: THEN
 ############################################################
@@ -1452,12 +1469,12 @@ Then /^I should see following map of indexes in the corresponding collections:$/
     @entity_collection = @db.collection(row["collectionName"])
     @indexcollection = @db.collection("system.indexes")
     #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
-    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "key" => {row["index"] => 1}).to_a.count()
 
     #puts "Index Count = " + @indexCount.to_s
 
     if @indexCount.to_s == "0"
-      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with key = " + row["index"]
       @result = "false"
     end
   end
@@ -1701,6 +1718,65 @@ Then /^I check to find if record is in collection:$/ do |table|
 
   assert(@result == "true", "Some records are not found in collection.")
   enable_NOTABLESCAN()
+end
+
+Then /^the student entity (.*?)\.(.*?) should be "([^"]*)"$/ do |doc_key, subdoc_key, expected_value|
+  # Make sure drilldown_document has been set already
+  assert(defined? @dd_doc, "Required mongo document has not been retrieved")
+  # Perform a deep document inspection of doc.subdoc.keyvalue
+  # Check the body of the returned document array for expected key/value pair
+  assert(ddiStudent(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
+end
+
+# Deep-Document Inspection of the Student collection in TENANT_DB
+# --> This checks whether doc.subdoc = expected_value
+def ddiStudent(doc_key, subdoc_key, expected_value)
+  ### TODO: Factor this code out for now until Odin is ready for it
+  return true
+  # --> This checks whether body.subdoc = expected_value
+  if doc_key == "body"
+    # Parse the actual value from the student
+    # --> This might be an array OR a string, depending on what's in mongo
+    # --> so we need to use duck typing 
+    if @dd_doc[0][doc_key][subdoc_key].respond_to?(:to_ary)
+      real_value = @dd_doc[0][doc_key][subdoc_key][0]
+    else 
+      real_value = @dd_doc[0][doc_key][subdoc_key]
+    end
+         
+    # Check equality
+    puts "Looking for #{expected_value}, found #{real_value}"
+    if real_value == expected_value
+      return true
+    else
+      puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
+      return false
+    end  
+
+  # --> This checks whether schools.subdoc = expected_value
+  elsif doc_key == "schools"
+    # This checks how many records of the schools.subdoc type exist
+    # --> Example: [tenant_db].student.schools.entryGradeLevel has one entity per year
+    num_entities = @dd_doc[0][doc_key].length
+    
+    # Recursively check the returned document array for expected key/value pair
+    for i in 0..num_entities-1
+      real_value = @dd_doc[0][doc_key][i][subdoc_key]
+      puts "Looking for #{expected_value}, found #{real_value}"
+      
+      # Check equality
+      if real_value == expected_value
+        return true
+      end  
+    end
+   puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
+   return false
+
+  # --> Default case if I don't recognize "doc_key"
+  else
+    puts "This type of entity is not covered by ddiStudent in ingestion_steps.rb"
+    return false 
+  end
 end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
@@ -2408,6 +2484,74 @@ Then /^I check that ids were generated properly:$/ do |table|
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
   enable_NOTABLESCAN()
+end
+
+def extractField(record, fieldPath, subDocType, subDocId) 
+	pathArray = fieldPath.split('.')
+	result = record
+	
+	if subDocType
+		result = result[subDocType]
+		#if there is an array of subdocs, find the right one
+		if result.kind_of?(Array)
+			for subDoc in result
+				if subDoc["_id"] == subDocId
+					result = subDoc
+					break
+				end
+			end
+		end
+	
+	end
+	
+	for pathPart in pathArray
+		result = result[pathPart]
+		#handle arrays by always selecting the first element
+		while result.kind_of?(Array)
+			result = result[0]
+		end
+	end
+	result
+end
+
+def getRecord(did, collectionName)
+	db = @conn[@ingestion_db_name]
+	parentCollectionName = subDocParent(collectionName)
+	if parentCollectionName
+		idField =  id_param = collectionName + "._id"
+		collection = db.collection(parentCollectionName)
+		record = collection.find_one({idField => did})
+    else
+    	collection = db.collection(collectionName)
+		record = collection.find_one({"_id" => did})
+    end
+	
+	record
+end
+
+Then /^I check that references were resolved correctly:$/ do |table|
+	disable_NOTABLESCAN()
+	table.hashes.map do |row|
+		did = row['entityId']
+    	refField = row['referenceField']
+    	refCollectionName = row['referenceCollection']
+    	collectionName = row['entityCollection']
+	
+		entity = getRecord(did, collectionName)
+		assert(entity != nil, "Failed to find an entity with _id = #{did} in collection #{collectionName}")
+	
+		parentCollectionName = subDocParent(collectionName)
+		if parentCollectionName
+			refDid = extractField(entity, refField, collectionName, did)
+		else
+			refDid = extractField(entity, refField, nil, nil)
+		end
+		
+		referredEntity = getRecord(refDid, refCollectionName)
+		assert(referredEntity != nil, "Referenced #{refCollectionName} entity with _id = #{refDid} in #{collectionName} does not exist")
+		
+	end
+	enable_NOTABLESCAN()
 end
 
 ############################################################

@@ -16,21 +16,20 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
@@ -59,7 +58,7 @@ public class TeacherSessionResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
 
         // Get the sections and get the sessions that they reference.
-        List<String> sectionIds = new ArrayList<String>();
+        List<String> sectionIds;
         if (!securityCache.contains(EntityNames.SECTION)) {
             sectionIds = sectionResolver.findAccessible(principal);
         } else {

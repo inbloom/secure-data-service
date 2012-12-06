@@ -22,12 +22,16 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.AttendanceEvent;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCAttendanceEvent;
 import org.slc.sli.test.edfi.entities.AttendanceEventCategoryType;
 import org.slc.sli.test.edfi.entities.AttendanceEventType;
 import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
-import org.slc.sli.test.edfi.entities.SectionIdentityType;
-import org.slc.sli.test.edfi.entities.SectionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCSectionIdentityType;
+import org.slc.sli.test.edfi.entities.SLCSectionReferenceType;
 
 public class AttendanceEventGenerator {
 
@@ -39,24 +43,34 @@ public class AttendanceEventGenerator {
     
     private static String[] attendance = {"In Attendance","Excused Absence","Unexcused Absence", "Tardy", "Early departure"};
 
-    public static AttendanceEvent generateLowFi(String studentID, String schoolID, String sectionCode) {
-        AttendanceEvent ae = new AttendanceEvent();
+    public static SLCAttendanceEvent generateLowFi(String studentID, String schoolID, String sectionCode) {
+        SLCAttendanceEvent ae = new SLCAttendanceEvent();
 
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         ae.setEventDate(DATE_FORMATTER.format(calendar.getTime()));
         ae.setAttendanceEventCategory(getAttendanceEventCategoryTypeMedFi());
         ae.setStudentReference(StudentGenerator.getStudentReferenceType(studentID));
-        ae.setSchoolReference(SchoolGenerator.getEducationalOrgReferenceType(schoolID));
+        // TODO this will need to be changed when SLCEducationalOrgReferenceType is used
+//        ae.setSchoolReference(SchoolGenerator.getEducationalOrgReferenceType(schoolID));
+        EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
+        EducationalOrgIdentityType edOrgId = new EducationalOrgIdentityType();
+        edOrgId.setStateOrganizationId(schoolID);
+        edOrgRef.setEducationalOrgIdentity(edOrgId);
+        ae.setSchoolReference(edOrgRef);
 
         if (INCLUDE_OPTIONAL_DATA) {
             ae.setAttendanceEventType(getAttendanceEventType());
             ae.setAttendanceEventReason("My dog ate my homework.");
             ae.setEducationalEnvironment(getEducationalEnvironmentType());
 
-            SectionReferenceType sectionReferenceType = new SectionReferenceType();
-            SectionIdentityType sectionIdentityType = new SectionIdentityType();
+            SLCSectionReferenceType sectionReferenceType = new SLCSectionReferenceType();
+            SLCSectionIdentityType sectionIdentityType = new SLCSectionIdentityType();
+            SLCEducationalOrgReferenceType slcEdOrgRef = new SLCEducationalOrgReferenceType();
+            SLCEducationalOrgIdentityType slcEdOrgId = new SLCEducationalOrgIdentityType();
+            slcEdOrgId.setStateOrganizationId(schoolID);
+            slcEdOrgRef.setEducationalOrgIdentity(slcEdOrgId);
             sectionIdentityType.setUniqueSectionCode(sectionCode);
-            sectionIdentityType.setStateOrganizationId(schoolID);
+            sectionIdentityType.setEducationalOrgReference(slcEdOrgRef);
             sectionReferenceType.setSectionIdentity(sectionIdentityType);
             ae.setSectionReference(sectionReferenceType);
         }

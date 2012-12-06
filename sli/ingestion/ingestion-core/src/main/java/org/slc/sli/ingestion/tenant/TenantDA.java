@@ -25,7 +25,7 @@ import java.util.Map;
  * @author jtully
  */
 public interface TenantDA {
-    List<String> getLzPaths(String ingestionServer);
+    List<String> getLzPaths();
 
     String getTenantId(String lzPath);
 

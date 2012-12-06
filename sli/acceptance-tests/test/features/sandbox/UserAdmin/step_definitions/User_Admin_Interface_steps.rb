@@ -18,29 +18,20 @@ limitations under the License.
 
 
 require "selenium-webdriver"
-require 'approval'
-require "mongo" 
-require 'rumbster'
-require 'digest'
-
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
-Before do 
-   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 120)
-   @db = Mongo::Connection.new.db(convertTenantIdToDbName('Midgar'))
+Before do
+  extend Test::Unit::Assertions
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 120)
 end
 
-
 When /^I navigate to the sandbox user account management page$/ do
-  samt_url = PropLoader.getProps['admintools_server_url']+PropLoader.getProps['samt_app_suffix']
+  samt_url = PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['samt_app_suffix']
   @driver.get samt_url
 end
 
-
 Then /^I am redirected to "(.*?)" page$/ do |pageTitle|
-  #assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
-  sleep(3)
   begin
     assertText(pageTitle)
   rescue Exception => e
@@ -67,31 +58,32 @@ Then /^I see a table with headings of "(.*?)" and "(.*?)" and "(.*?)" and "(.*?)
 end
 
 Then /^I see a user with Full Name is "(.*?)" in the table$/ do | fullName|
- fullName = fullName.gsub("hostname",Socket.gethostname)
- fullName_element = @explicitWait.until{@driver.find_element(:xpath,"//tr[td='#{fullName}']")}
- assert(fullName_element!=nil,"can not find user with full name is #{fullName}")
+  fullName = fullName.gsub("hostname", Socket.gethostname)
+  fullName_element = @explicitWait.until{@driver.find_element(:xpath,"//tr[td='#{fullName}']")}
+
+  assert_not_nil(fullName_element, "Cannot find user with full name is #{fullName}")
   @userFullName = fullName
 end
 
 Then /^I see "(.*?)" has "(.*?)" and "(.*?)" role$/ do |full_name, role1, role2|
-    roles=[ role1, role2 ]
-    roles.sort! { |a,b| a.downcase <=> b.downcase }
-    step "I see a user with Full Name is \"#{full_name}\" in the table"
-    roles_element = @explicitWait.until{@driver.find_element(:id,"#{full_name}_role")}
-    displayed_roles = roles_element.text().split(",")
-    displayed_roles.each do |str|
-        str.strip!
-    end
-    displayed_roles.sort! { |a,b| a.downcase <=> b.downcase }
-    assert(roles.size == displayed_roles.size, "roles size do not match")
-    for idx in 0 ... roles.size
-        assert(roles[idx] == displayed_roles[idx], "user roles do not match #{roles[idx]} #{displayed_roles[idx]}")
-    end
+  roles=[ role1, role2 ]
+  roles.sort! { |a,b| a.downcase <=> b.downcase }
+  step "I see a user with Full Name is \"#{full_name}\" in the table"
+  roles_element = @explicitWait.until{@driver.find_element(:id,"#{full_name}_role")}
+  displayed_roles = roles_element.text().split(",")
+  displayed_roles.each do |str|
+    str.strip!
+  end
+  displayed_roles.sort! { |a,b| a.downcase <=> b.downcase }
+  assert_equal(roles.size, displayed_roles.size, "roles size do not match")
+  for idx in 0 ... roles.size
+    assert_equal(roles[idx], displayed_roles[idx], "user roles do not match #{roles[idx]} #{displayed_roles[idx]}")
+  end
 end
 
 Then /^the user "(.*?)" is "(.*?)"$/ do |key, value|
   element = @explicitWait.until{@driver.find_element(:id,"#{@userFullName}_#{key}")}
-  assert(element.text==value,"the user #{key} is #{element.text} but expected #{value}")
+  assert_equal(value, element.text,"the user #{key} is #{element.text} but expected #{value}")
 end
 
 Then /^I will get an error message that "(.*?)"$/ do |message|
@@ -100,21 +92,22 @@ end
 
 Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fullName, role|
   @test_env = "sandbox"
-  new_user = create_new_user(fullName, role) 
+  new_user = create_new_user(fullName, role)
+  puts new_user
+
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
   format = "application/json"
-  puts new_user
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   puts restHttpPost("/users", new_user.to_json, format, sessionId)
-  
+
 end
 
 Given /^There is a sandbox user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
   @test_env = "sandbox"
-  new_user=create_new_user(full_name, role, addition_roles)
-  new_user['email']=email.gsub("hostname", Socket.gethostname)
-  new_user['uid']=new_user['email']
+  new_user = create_new_user(full_name, role, addition_roles)
+  new_user['email'] = email.gsub("hostname", Socket.gethostname)
+  new_user['uid'] = new_user['email']
 
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
@@ -122,96 +115,95 @@ Given /^There is a sandbox user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in L
 
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
-  @user_full_name=new_user['fullName']
-  @user_unique_id=new_user['uid']
+  @user_full_name = new_user['fullName']
+  @user_unique_id = new_user['uid']
 end
 
 When /^I click the "(.*?)" link for "(.*?)"$/ do |button_name, user_name|
-  @user_full_name=user_name.gsub("hostname", Socket.gethostname)
+  @user_full_name = user_name.gsub("hostname", Socket.gethostname)
   @explicitWait.until{@driver.find_element(:xpath, "//a[@id='#{@user_full_name}_#{button_name}']")}.click
-end 
+end
 
 Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
   field=getField(field_name)
-  value=value.gsub("hostname", Socket.gethostname) 
-  assert(field.attribute("value") == "#{value}", "#{value} do not match what's displayed #{field.attribute("value")}")
+  value=value.gsub("hostname", Socket.gethostname)
+  assert_equal(value, field.attribute("value"))
 end
 
 Then /^the Role combobox is populated with (.*?)$/ do |primary_role|
   drop_down = @explicitWait.until{@driver.find_element(:id, "user_primary_role")}
   option = @explicitWait.until{drop_down.find_element(:xpath, ".//option[text()=#{primary_role}]")}
-  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected}")
+  assert_equal("true", option.attribute("selected"), "#{primary_role} does not match what's expected}")
 end
 
-Then /^the Role checkbox is checked with "(.*?)"$/ do |additional_role| 
+Then /^the Role checkbox is checked with "(.*?)"$/ do |additional_role|
   roles = additional_role.split(",")
   roles.each do |str|
     str.strip!
   end
-  checkboxes=@explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")}
+  checkboxes = @explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")}
   checkboxes.each do |checkbox|
     value = checkbox.attribute("value")
     if checkbox.attribute("checked")
-      assert((roles.include? value), "Checkbox #{value} should not be checked!") 
-    else 
-      assert((roles.include? value) == false, "Checkbox #{value} should be checked!")
+      assert(roles.include?(value), "Checkbox #{value} should not be checked!")
+    else
+      assert(!roles.include?(value), "Checkbox #{value} should be checked!")
     end
   end
 end
 
 Then /^I can update the (.*?) field to "(.*?)"$/ do |field_name, new_value|
-  field=getField(field_name)
+  field = getField(field_name)
   field.clear
   if field_name == "\"Tenant\"" or field_name == "\"EdOrg\""  #don't localize tenant and edorg value
     value = new_value
   else
-    value=localize(new_value)
+    value = localize(new_value)
   end
-  field.send_keys value 
-  if field_name == "\"Full Name\"" 
-    @user_full_name=value
-    @userFullName=value
+  field.send_keys value
+  if field_name == "\"Full Name\""
+    @user_full_name = value
+    @userFullName = value
   end
-  if field_name == "\"Email\"" 
-    @user_email=value
+  if field_name == "\"Email\""
+    @user_email = value
   end
-end 
+end
 
 Then /^I can delete text in (.*?) field$/ do |field_name|
-  field=getField(field_name)
+  field = getField(field_name)
   field.clear
 end
 
-Then /^the user has "(.*?)" updated to "(.*?)"$/ do |table_header, new_value| 
+Then /^the user has "(.*?)" updated to "(.*?)"$/ do |table_header, new_value|
   if table_header == "Tenant" or table_header == "EdOrg" #don't localize tenant and edorg value
     value = new_value
-  else 
-    value=localize(new_value);
+  else
+    value = localize(new_value);
   end
-  #tr=@driver.find_element(:id, @user_unique_id)
-  td=@explicitWait.until{@driver.find_element(:id, "#{@user_full_name}_#{table_header.downcase.gsub(" ", "_")}")}
-  assert(td.text()==value, "#{table_header} not updated! Expecting: #{new_value}, got: #{td.text()}")
+  td = @explicitWait.until{@driver.find_element(:id, "#{@user_full_name}_#{table_header.downcase.gsub(" ", "_")}")}
+  assert_equal(value, td.text(), "#{table_header} not updated")
 end
 
 Then /^the user still has (.*?) as (.*?)$/ do |table_header, new_value|
-    step "the user has #{table_header} updated to #{new_value.gsub("hostname_", "")}"
-end 
+  step "the user has #{table_header} updated to #{new_value.gsub("hostname_", "")}"
+end
 
 Then /^I can change the Role from the dropdown to (.*?)$/ do |primary_role|
-    step "I can select #{primary_role} from a choice between \"Ingestion User, Application Developer, Sandbox Administrator\" Role"
+  step "I can select #{primary_role} from a choice between \"Ingestion User, Application Developer, Sandbox Administrator\" Role"
 end
 
 Then /^I can add additional Role "(.*?)"$/ do |optional_role|
-  checkboxes=@explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")}
+  checkboxes = @explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")}
   checkboxes.each do |checkbox|
     value = checkbox.attribute("value")
     if optional_role == value && checkbox.attribute("checked") != "true"
-        sleep 1 
-        checkbox.click
+      sleep 1
+      checkbox.click
     end
     if optional_role != value && checkbox.attribute("checked") == "true"
-        sleep 1 
-        checkbox.click
+      sleep 1
+      checkbox.click
     end
   end
 end
@@ -222,22 +214,22 @@ Then /^the user has Roles as "(.*?)"$/ do |roles|
     role.strip!
   end
   roles_list.sort!
-  tr=@explicitWait.until{@driver.find_element(:id, @user_unique_id)}
-  td=@explicitWait.until{tr.find_element(:id, "#{@user_full_name}_role")}
+  tr = @explicitWait.until{@driver.find_element(:id, @user_unique_id)}
+  td = @explicitWait.until{tr.find_element(:id, "#{@user_full_name}_role")}
   displayed = td.text().split(",")
   displayed.each do |str|
     str.strip!
   end
+  assert_equal(roles_list.size, displayed.size)
   displayed.sort!
-  assert(roles_list.size == displayed.size, "roles size do not match #{roles_list.size} #{displayed.size}")
-  for idx in 0 ... roles_list.size
-    assert(roles_list[idx] == displayed[idx], "user roles do not match #{roles_list[idx]} #{displayed[idx]}")
+  (0..roles_list.size).each do |idx|
+    assert_equal(displayed[idx], roles_list[idx])
   end
-end 
+end
 
-Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2| 
-    step "the user has Roles as \"#{role1}, #{role2}\""
-end 
+Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2|
+  step "the user has Roles as \"#{role1}, #{role2}\""
+end
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
   puts "click on #{@userFullName}_#{buttonName}"
@@ -246,7 +238,7 @@ end
 
 
 Then /^I am asked to confirm the delete action$/ do
-   #do nothing
+  #do nothing
 end
 
 When /^I confirm the delete action$/ do
@@ -287,12 +279,12 @@ Then /^that user is removed from LDAP$/ do
 end
 
 Then /^the user entry is removed from the table$/ do
-element =nil
+  element = nil
   begin
-   element = @driver.find_element(:xpath,"//tr[td='#{@userFullName}']")
+    element = @driver.find_element(:xpath,"//tr[td='#{@userFullName}']")
   rescue
   end
-  assert(element==nil,"the user #{@userFullName} is not removed from the table")
+  assert_nil(element,"the user #{@userFullName} is not removed from the table")
 end
 
 Then /^I see my Full Name is "(.*?)" in the table$/ do |fullName|
@@ -300,12 +292,8 @@ Then /^I see my Full Name is "(.*?)" in the table$/ do |fullName|
 end
 
 Then /^the "(.*?)" button is disabled$/ do |buttonName|
-delete_button=nil
- # begin
   delete_button = @explicitWait.until{@driver.find_element(:xpath,"//button[@id='#{@userFullName}_#{buttonName}' and @disabled = 'disabled']")}
-#  rescue
- # end
-  assert(delete_button!=nil,"the #{buttonName} button is not disabled")
+  assert(!delete_button.nil?, "the #{buttonName} button is not disabled")
 end
 
 When /^I click on (".*?") button$/ do |buttonName|
@@ -316,49 +304,48 @@ Given /^the testing user does not already exists in LDAP$/ do
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
   format = "application/json"
-  restHttpDelete("/users/"+Socket.gethostname+"_testuser@testwgen.net", format, sessionId)
+  restHttpDelete("/users/" + Socket.gethostname + "_testuser@testwgen.net", format, sessionId)
 end
-    
+
 When /^I have entered Full Name and Email into the required fields$/ do
   @explicitWait.until{@driver.find_element(:name, 'user[fullName]')}.send_keys "Sandbox AcceptanceTests"
   @explicitWait.until{@driver.find_element(:name, 'user[email]')}.send_keys Socket.gethostname+"_testuser@testwgen.net"
 end
 
-Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choices| 
-    drop_down = @explicitWait.until{@driver.find_element(:id, "user_primary_role")}
-    #drop_down.click
-    for i in choices.split(",")  do
-        i.strip!
-        option = @explicitWait.until{drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")}
-        assert(option != nil)
-    end
+Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choices|
+  drop_down = @explicitWait.until{@driver.find_element(:id, "user_primary_role")}
+  for i in choices.split(",")  do
+    i.strip!
+    option = @explicitWait.until{drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")}
+    assert(option != nil)
+  end
 
-    options = @explicitWait.until{drop_down.find_elements(:xpath, ".//option")}
-    assert(options.size == choices.split(",").size, "Only has #{options.size} choices, but requirement has #{choices.split(",").size} chioces") 
-   
-    select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id, "user_primary_role")})
-    select.select_by(:text, role)
+  options = @explicitWait.until{drop_down.find_elements(:xpath, ".//option")}
+  assert(options.size == choices.split(",").size, "Only has #{options.size} choices, but requirement has #{choices.split(",").size} chioces")
+
+  select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id, "user_primary_role")})
+  select.select_by(:text, role)
 end
 
 Then /^I can also check "(.*?)" Role$/ do |r|
-    @explicitWait.until{@driver.find_element(:id, "#{r.downcase.gsub(" ", "_")}_role")}.click 
+  @explicitWait.until{@driver.find_element(:id, "#{r.downcase.gsub(" ", "_")}_role")}.click
 end
- 
+
 When /^I click (".*?") link$/ do |link|
   @explicitWait.until{@driver.find_element(:xpath, "//a[text()=#{link}]")}.click
-end 
+end
 
 When /^I click button "(.*?)"$/ do |not_in_use|
   @explicitWait.until{@driver.find_element(:name, "commit")}.click
 end
 
 Then /^a "(.*?)" message is displayed$/ do |message|
-    assertText(message)
+  assertText(message)
 end
 
 def check_heading(heading_name)
-heading_element=@explicitWait.until{@driver.find_element(:xpath, "//tr[th='#{heading_name}']")}
-assert(heading_element!=nil,"can not find heading name #{heading_name}")
+  heading_element = @explicitWait.until{@driver.find_element(:xpath, "//tr[th='#{heading_name}']")}
+  assert(!heading_element.nil?, "Cannot find heading name #{heading_name}")
 end
 
 def assertText(text)
@@ -367,7 +354,7 @@ def assertText(text)
 end
 
 def build_user(uid,fullName,groups,tenant,edorg)
-new_user = {
+  new_user = {
       "uid" => uid,
       "groups" => groups,
       "fullName" => fullName,
@@ -378,42 +365,41 @@ new_user = {
       "homeDir" => "/dev/null"
   }
   append_hostname(new_user)
-  
+
 end
-  
+
 def append_hostname(user )
   oldUid = user["uid"]
-  newUid = oldUid+"_"+Socket.gethostname
+  newUid = oldUid+"_" + Socket.gethostname
   user.merge!({"uid" => newUid})
   return user
 end
 
-def localize(value) 
-  value=Socket.gethostname+"_"+value
+def localize(value)
+  Socket.gethostname + "_" + value
 end
 
 def getField(field_name)
   if field_name == "\"EdOrg\""
     id = "user_edorg"
   else
-  label=@explicitWait.until{@driver.find_element(:xpath, "//label[text()=#{field_name}]")}
-  id=label.attribute("for")
+    label = @explicitWait.until{@driver.find_element(:xpath, "//label[text()=#{field_name}]")}
+    id = label.attribute("for")
   end
-  field=@explicitWait.until{@driver.find_element(:id, "#{id}")}
+  @explicitWait.until{@driver.find_element(:id, "#{id}")}
 end
 
 def create_new_user(fullName, role, addition_roles=nil)
   localizedFullName = fullName.gsub("hostname",Socket.gethostname)
   groups = Array.new
   groups.push(role)
-  if addition_roles != nil 
+  unless addition_roles.nil?
     more_roles = addition_roles.split(",")
     more_roles.each do |str|
-        groups.push(str.strip)
+      groups.push(str.strip)
     end
   end
-     
-  uid=localizedFullName.split(" ")[-1].downcase
-  new_user=build_user(uid,localizedFullName,groups,"sandboxadministrator@slidev.org","")
-end
 
+  uid=localizedFullName.split(" ")[-1].downcase
+  build_user(uid,localizedFullName, groups, "sandboxadministrator@slidev.org","")
+end

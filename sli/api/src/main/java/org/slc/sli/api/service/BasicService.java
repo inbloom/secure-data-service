@@ -89,7 +89,6 @@ public class BasicService implements EntityService {
     private Right writeRight; // this is possibly the worst named variable ever
 
     private static final boolean ENABLE_CONTEXT_RESOLVING = false;
-    public static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>();
 
     @Autowired
     @Qualifier("validationRepo")
@@ -977,7 +976,7 @@ public class BasicService implements EntityService {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
                 } else {
                     String fieldPath = prefix + fieldName;
-                    Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                    Right neededRight = provider.getRequiredWriteLevel(defn.getType(), fieldPath);
                     debug("Field {} requires {}", fieldPath, neededRight);
 
                     if (neededRight == Right.WRITE_RESTRICTED) {
@@ -1018,11 +1017,7 @@ public class BasicService implements EntityService {
                 .getPrincipal();
 
         if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
-            if (VALIDATOR_ENTITIES.contains(defn.getType())) {
-                useResolvers = false;
-            } else {
-                useResolvers = ENABLE_CONTEXT_RESOLVING;
-            }
+            useResolvers = ENABLE_CONTEXT_RESOLVING;
         }
 
         return useResolvers;

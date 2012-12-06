@@ -168,7 +168,6 @@ public class JobReportingProcessor implements Processor {
                     stageDesc = stageChunk.getStageDesc();
                 }
 
-                // Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
                 Stage stageBrief = stageBriefMap.get(stageName);
                 if (stageBrief != null) {
                     if (stageBrief.getStartTimestamp() != null
@@ -301,22 +300,23 @@ public class JobReportingProcessor implements Processor {
             LandingZone landingZone) throws IOException {
 
         // writer for job and stage level (non-resource specific) errors and warnings
-        if (externalResourceId == null) {
-            externalResourceId = JOB_STAGE_RESOURCE_ID;
+        String theExternalResourceId = externalResourceId;
+        if (theExternalResourceId == null) {
+            theExternalResourceId = JOB_STAGE_RESOURCE_ID;
         }
 
         String errorFileName = null;
 
-        if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
+        if (JOB_STAGE_RESOURCE_ID.equals(theExternalResourceId)) {
             errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
         } else {
-            errorFileName = type + "." + externalResourceId + "-" + batchJobId + ".log";
+            errorFileName = type + "." + theExternalResourceId + "-" + batchJobId + ".log";
         }
-        PrintWriter writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
-        return writer;
+        return new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
 
     }
 
+    @SuppressWarnings("static-access")
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
         List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);
         if (edfiMetrics != null) {
@@ -339,8 +339,6 @@ public class JobReportingProcessor implements Processor {
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
-
-        // TODO group counts by externallyUploadedResourceId
 
         List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
         Iterator<Stage> it = stages.iterator();

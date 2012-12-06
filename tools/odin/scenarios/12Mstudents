@@ -1,8 +1,2 @@
+# Overrides for base_scenario properties
 studentCount: 12000000
-
-# Example of other configuration
-numSEA: 1
-numLEA: 4
-studentsPerSchool: 1800
-numPrograms: 4
-numCourses: 250

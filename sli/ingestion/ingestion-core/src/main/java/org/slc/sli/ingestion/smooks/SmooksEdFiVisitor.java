@@ -37,10 +37,12 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -73,6 +75,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private BatchJobDAO batchJobDAO;
     private Set<String> recordLevelDeltaEnabledEntities;
+    private DeterministicUUIDGeneratorStrategy dIdStrategy;
+    private DeterministicIdResolver dIdResolver;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -112,13 +116,14 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO)) {
+
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, errorReport)) {
                     queueNeutralRecordForWriting(neutralRecord);
 
                 } else {
                     String type = neutralRecord.getRecordType();
                     Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : Long.valueOf(0);
-                    duplicateCounts.put(type, new Long(count.longValue() + 1));
+                    duplicateCounts.put(type, Long.valueOf(count.longValue() + 1));
                 }
             }
 
@@ -211,6 +216,14 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     public void setRecordLevelDeltaEnabledEntities(Set<String> entities) {
         this.recordLevelDeltaEnabledEntities = entities;
+    }
+
+    public void setDIdGeneratorStrategy(DeterministicUUIDGeneratorStrategy dIdGeneratorStrategy) {
+        this.dIdStrategy = dIdGeneratorStrategy;
+    }
+
+    public void setDIdResolver(DeterministicIdResolver dIdResolver) {
+        this.dIdResolver = dIdResolver;
     }
 
     /* we are not using the below visitor hooks */

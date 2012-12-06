@@ -59,42 +59,30 @@ public class LayoutControllerTest extends ControllerTestBase  {
     @SuppressWarnings("unchecked")
     @Test
     public void testHandle() throws Exception {
-        try {
-            ModelAndView mv = layoutController.handle("simpleLayout", null, request);
-            Assert.assertEquals(2, ((Map<String, Config>) mv.getModel().get(Constants.MM_KEY_VIEW_CONFIGS)).size());
-            Assert.assertEquals(1, ((Map<String, GenericEntity>) mv.getModel().get(Constants.MM_KEY_DATA)).size());
-            Assert.assertEquals(1, ((Collection<Config>) mv.getModel().get(Constants.MM_KEY_LAYOUT)).size());
-        } catch (Exception e) {
-            Assert.fail("Should pass but getting " + e.getMessage());
-        }
+        ModelAndView mv = layoutController.handle("simpleLayout", null, request);
+        Assert.assertEquals(2, ((Map<String, Config>) mv.getModel().get(Constants.MM_KEY_VIEW_CONFIGS)).size());
+        Assert.assertEquals(1, ((Map<String, GenericEntity>) mv.getModel().get(Constants.MM_KEY_DATA)).size());
+        Assert.assertEquals(1, ((Collection<Config>) mv.getModel().get(Constants.MM_KEY_LAYOUT)).size());
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testHandleWithId() throws Exception {
-        try {
-            ModelAndView mv = layoutController.handleWithId("simpleLayout", null, request);
-            ModelAndView mv1 = layoutController.handle("simpleLayout", null, request);
-            Map<String, Config> c = (Map<String, Config>) mv.getModel().get(Constants.MM_KEY_VIEW_CONFIGS);
-            Map<String, Config> c1 = (Map<String, Config>) mv1.getModel().get(Constants.MM_KEY_VIEW_CONFIGS);
-            Assert.assertEquals(2, c.size());
-            Assert.assertEquals(2, c1.size());
-            for (Map.Entry<String, Config> conf : c.entrySet()) {
-                Assert.assertEquals(conf.getValue().getName(), c1.get(conf.getKey()).getName());
-            }
-        } catch (Exception e) {
-            Assert.fail("Should pass but getting " + e.getMessage());
+        ModelAndView mv = layoutController.handleWithId("simpleLayout", null, request);
+        ModelAndView mv1 = layoutController.handle("simpleLayout", null, request);
+        Map<String, Config> c = (Map<String, Config>) mv.getModel().get(Constants.MM_KEY_VIEW_CONFIGS);
+        Map<String, Config> c1 = (Map<String, Config>) mv1.getModel().get(Constants.MM_KEY_VIEW_CONFIGS);
+        Assert.assertEquals(2, c.size());
+        Assert.assertEquals(2, c1.size());
+        for (Map.Entry<String, Config> conf : c.entrySet()) {
+            Assert.assertEquals(conf.getValue().getName(), c1.get(conf.getKey()).getName());
         }
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testHandleLos() throws Exception {
-        try {
-            ModelAndView mv = layoutController.handleLos(request);
-            Assert.assertEquals(2, ((Map<String, Config>) mv.getModel().get(Constants.MM_KEY_VIEW_CONFIGS)).size());
-        } catch (Exception e) {
-            Assert.fail("Should pass but getting " + e.getMessage());
-        }
+        ModelAndView mv = layoutController.handleLos(request);
+        Assert.assertEquals(2, ((Map<String, Config>) mv.getModel().get(Constants.MM_KEY_VIEW_CONFIGS)).size());
     }
 }

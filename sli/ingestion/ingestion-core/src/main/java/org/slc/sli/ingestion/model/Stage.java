@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
  * Model for the different stages of ingestion processing.
@@ -52,20 +52,21 @@ public class Stage {
 
     public Stage(String stageName, String stageDesc) {
         this.stageName = stageName;
-        this.setStageDesc(stageDesc);
+        this.stageDesc = stageDesc;
         this.metrics = new LinkedList<Metrics>();
     }
 
     public Stage(String stageName, String stageDesc, String status, Date startTimestamp, Date stopTimestamp, List<Metrics> metrics) {
         this.stageName = stageName;
-        this.setStageDesc(stageDesc);
+        this.stageDesc = stageDesc;
         this.status = status;
-        this.startTimestamp = startTimestamp;
-        this.stopTimestamp = stopTimestamp;
-        if (metrics == null) {
-            metrics = new LinkedList<Metrics>();
+        this.startTimestamp = new Date(startTimestamp.getTime());
+        this.stopTimestamp = new Date (stopTimestamp.getTime());
+        List<Metrics> theMetrics = metrics;
+        if (theMetrics == null) {
+            theMetrics = new LinkedList<Metrics>();
         }
-        this.metrics = metrics;
+        this.metrics = theMetrics;
     }
 
     public static Stage createAndStartStage(BatchJobStageType batchJobStageType, String stageDesc) {
@@ -103,19 +104,19 @@ public class Stage {
     }
 
     public Date getStartTimestamp() {
-        return startTimestamp;
+        return new Date(startTimestamp.getTime());
     }
 
     public void setStartTimestamp(Date startTimestamp) {
-        this.startTimestamp = startTimestamp;
+        this.startTimestamp = new Date(startTimestamp.getTime());
     }
 
     public Date getStopTimestamp() {
-        return stopTimestamp;
+        return new Date(stopTimestamp.getTime());
     }
 
     public void setStopTimestamp(Date stopTimestamp) {
-        this.stopTimestamp = stopTimestamp;
+        this.stopTimestamp = new Date (stopTimestamp.getTime());
     }
 
     public List<Metrics> getMetrics() {
@@ -164,23 +165,23 @@ public class Stage {
             this.status = status;
         }
         if (startTimestamp != null) {
-            this.startTimestamp = startTimestamp;
+            this.startTimestamp = new Date (startTimestamp.getTime());
         }
         if (stopTimestamp != null) {
-            this.stopTimestamp = stopTimestamp;
+            this.stopTimestamp = new Date (stopTimestamp.getTime());
         }
     }
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
-        this.sourceIp = BatchJobUtils.getHostAddress();
-        this.hostname = BatchJobUtils.getHostName();
+        this.setStartTimestamp(BatchJobUtils2.getCurrentTimeStamp());
+        this.sourceIp = BatchJobUtils2.getHostAddress();
+        this.hostname = BatchJobUtils2.getHostName();
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
+        this.setStopTimestamp(BatchJobUtils2.getCurrentTimeStamp());
         this.elapsedTime = calcElapsedTime();
     }
 

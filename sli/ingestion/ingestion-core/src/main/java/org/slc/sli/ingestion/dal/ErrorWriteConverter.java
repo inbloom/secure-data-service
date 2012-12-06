@@ -20,8 +20,6 @@ package org.slc.sli.ingestion.dal;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -34,16 +32,10 @@ import org.slc.sli.ingestion.model.Error;
 
 public class ErrorWriteConverter implements Converter<Error, DBObject> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordWriteConverter.class);
-
-    // private EntityEncryption encryptor;
-    // @Autowired
-    EntityEncryption encryptor;
+    private EntityEncryption encryptor;
 
     @Override
     public DBObject convert(Error error) {
-
-        String errorDetail;
 
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("_class", error.getClass().getName());

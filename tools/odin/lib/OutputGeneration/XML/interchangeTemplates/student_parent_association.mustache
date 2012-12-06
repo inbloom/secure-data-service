@@ -1,0 +1,25 @@
+{{#entity}}
+ <StudentParentAssociation>
+    {{> Partials/_student_reference}}
+    {{> Partials/_parent_reference}}
+    {{#relation}}
+    <Relation>{{relation}}</Relation>
+    {{/relation}}
+    {{#primaryContactStatus}}
+    <PrimaryContactStatus>{{primaryContactStatus}}</PrimaryContactStatus>
+    {{/primaryContactStatus}}
+    {{#livesWith}}
+    <LivesWith>{{livesWith}}</LivesWith>
+    {{/livesWith}}
+    {{#emergencyContactStatus}}
+    <EmergencyContactStatus>{{emergencyContactStatus}}</EmergencyContactStatus>
+    {{/emergencyContactStatus}}
+    {{#contactPriority}}
+    <ContactPriority>{{contactPriority}}</ContactPriority>
+    {{/contactPriority}}
+    {{#contactRestrictions}}
+    <ContactRestrictions>{{contactRestrictions}}</ContactRestrictions>
+    {{/contactRestrictions}}
+
+</StudentParentAssociation>
+{{/entity}}

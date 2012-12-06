@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ReasonNotTestedType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The primary reason student is not tested. For example:\n\t\t\tAbsent\nRefusal by parent\nRefusal by student\nMedical waiver\nIllness\nDisruptive behavior\nLEP Exempt\n...",
-  "xsd-type" : "token",
-  "symbols" : [ "Absent", "LEP_exempt", "LEP_postponement", "Not_appropriate_ARD_decision", "Not_tested_ARD_decision", "Alternate_assessment_administered", "Parental_waiver", "Foreign_exchange_student_waiver", "Refusal_by_parent", "Refusal_by_student", "Medical_waiver", "Disruptive_behavior", "Previously_passed_the_examination", "Other" ]
-}

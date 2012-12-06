@@ -15,37 +15,60 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
+require 'logger'
+
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
+# base class for ed-fi xml interchange generators
 class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
-  def initialize(filename)
+  def initialize(yaml, interchange)
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
+
+    @interchange = interchange
+    @batch_size = yaml['BATCH_SIZE']
+    if @batch_size.nil?
+      @batch_size = 10000
+    end
     @stime = Time.now
-    @entityCount = 0
-    @filename = filename
+    @entities = []
+    @writers = Hash.new
+    @header = ""
+    @footer = ""
+    @log.info "initialized interchange generator using file handle: #{@interchange.path}"
   end
 
-  def start()
-    @interchange = File.open("generated/#{@filename}", 'w')
+  def start
     @interchange << @header
   end
 
-  def <<(entities)
-    @entityCount = @entityCount + entities.length
-    if @entityCount % 100000 == 0
-      puts "\t#@entityCount entities created."
+  def <<(entity)
+    @entities << entity
+    if @entities.size >= @batch_size
+      render_batch
+      @entities = []
     end
-
   end
 
-  def finalize()
+  def render_batch
+    split_entities = @entities.group_by( &:class )
+
+    split_entities.each do |k, v|
+      @interchange << (@writers[k].write(v))
+    end
+  end
+
+  def finalize
+    render_batch
     @interchange << @footer
     @interchange.close()
-
     elapsed = Time.now - @stime
-    puts "\t#@entityCount written in #{elapsed} seconds."
+    @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
   end
 
 end

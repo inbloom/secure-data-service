@@ -1,13 +1,62 @@
 {
-"recordType":"section",
-"attributes":
-{
-	"SchoolReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"testSchoolId"
-		}
-	}
-}
+    "recordType":"section",
+    "attributes":
+    {
+        "SchoolReference":
+        {
+            "EducationalOrgIdentity":
+            {
+                "StateOrganizationId":"testSchoolId"
+            }
+        },
+        "SessionReference":
+        {
+           "SessionIdentity":
+           {
+               "EducationalOrgReference":
+               {
+                   "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "SessionName":"theSessionName"
+           }
+        },
+        "CourseOfferingReference":
+        {
+            "CourseOfferingIdentity":
+            {
+                "LocalCourseCode":"local course code",
+                "SessionReference":
+                {
+                    "SessionIdentity":
+                    {
+                        "EducationalOrgReference":
+                        {
+                            "EducationalOrgIdentity":
+                            {
+                                "StateOrganizationId":"state organization id 1"
+                            }
+                        },
+                        "SessionName":"session name"
+                    }
+                },
+                "EducationalOrgReference":
+                {
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"state organization id 2"
+                    }
+                }
+            }
+        },
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"testProgramId"
+            }
+        }
+    }
 }

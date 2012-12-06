@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "EducationalPlanItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of education plan(s) the student is following, if appropriate.  For example:\nSpecial education\nVocational",
-  "xsd-type" : "token",
-  "symbols" : [ "Personal_Graduation_Plan", "Section_504_Plan", "Full_Time_Employment", "Employability_Skills", "Outside_Service_Access", "Completion_and_Reach_Age_22", "IDEA_IEP" ]
-}

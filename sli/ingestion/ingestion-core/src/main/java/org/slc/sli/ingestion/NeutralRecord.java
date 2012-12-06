@@ -43,64 +43,64 @@ import org.codehaus.jackson.map.ObjectMapper;
  * Container format to store any type of Ingestion data generically.
  *
  */
-public class NeutralRecord {
+public class NeutralRecord implements Cloneable {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
      * stores an Id value uniquely identifying the record within the data store.
      */
-    protected String recordId;
+    private String recordId;
 
     /**
      * stores an Id value correlating the record to a certain external source,
      * such as a particular LEA (or possibly a specific source system within
      * that LEA).
      */
-    protected String sourceId;
+    private String sourceId;
 
     /**
      * stores an Id value correlating the record to a particular batch or
      * processing request.
      */
-    protected String batchJobId;
+    private String batchJobId;
 
     /**
      * stores a flag whether the current record is association.
      */
-    protected boolean association;
+    private boolean association;
 
     /**
      * stores the Id value uniquely identifying this record in the scope of the
      * source system. The Id is assumed to be permanent and unique the object,
      * statewide.
      */
-    protected Object localId;
+    private Object localId;
 
     /**
      * stores a name that identifies the type of object represented by this
      * record (Student, School, etc).
      */
-    protected String recordType;
+    private String recordType;
 
     /**
      * stores a mapping that captures references to other records, in the form
      * {recordType:localId}.
      */
-    protected Map<String, Object> localParentIds;
+    private Map<String, Object> localParentIds;
 
     /**
      * stores a mapping that captures all the attributes associated with the
      * record (aside from localId and any id references).
      */
-    protected Map<String, Object> attributes;
+    private Map<String, Object> attributes;
 
     /**
      * stores the value of a hashing algorithm that can be used to quickly
      * compare two records' attributes for equality, and/or act as a surrogate
      * to the complete contents of a record.
      */
-    protected String attributesCrc;
+    private String attributesCrc;
 
     /**
      * The name of the file where this neutral record originated
@@ -154,6 +154,7 @@ public class NeutralRecord {
         this.recordId = recordId;
     }
 
+        
     /**
      * @param localId
      *            the localId to set
@@ -449,9 +450,29 @@ public class NeutralRecord {
     public String toString() {
         try {
             return MAPPER.writeValueAsString(this);
-        } catch (Exception e) {
+        } catch (java.io.IOException e) {
             return super.toString();
         }
     }
 
+    /*
+     * Clone, e.g. for the DiD calculation needs
+     * 
+     *  @return The cloned object, taking care to handle composite members such as maps.
+     * 
+     */
+    @Override
+    public Object clone() {
+    	NeutralRecord result = null;
+    	try {
+    		result = (NeutralRecord) super.clone();
+    		result.localParentIds = (HashMap<String, Object>) ((HashMap<String, Object>) this.localParentIds).clone();
+    		result.attributes = (HashMap<String, Object>) ((HashMap<String, Object>) this.attributes).clone();
+    		result.metaData = (HashMap<String, Object>) ((HashMap<String, Object>) this.metaData).clone();
+    	}
+    	catch ( CloneNotSupportedException e ) {
+    		result = null;
+    	}
+  		return result;
+    }
 }

@@ -59,6 +59,7 @@ end
 
 When /^I click 'OK' on the warning message$/ do
   @driver.switch_to.alert.accept
+  sleep(3)
 end
 
 When /^I click on the Add Group button$/ do

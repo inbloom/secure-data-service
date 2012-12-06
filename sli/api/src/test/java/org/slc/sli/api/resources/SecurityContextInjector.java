@@ -17,8 +17,10 @@
 
 package org.slc.sli.api.resources;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,8 +35,11 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
@@ -115,8 +120,7 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         setSecurityContext(principal);
 
-        // why do developers have admin access?
-        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.INGEST_DATA }; //Have INGEST_DATA right in sandbox
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD }; 
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
@@ -256,6 +260,13 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setRoles(roles);
         setSecurityContext(principal);
+    }
+    
+    public void setAnonymousContext() {
+        OAuth2Authentication token = new OAuth2Authentication(
+                new ClientToken("blah", "blah", new HashSet<String>()), 
+                new AnonymousAuthenticationToken("blah", new Object(), new ArrayList<GrantedAuthority>(Arrays.asList(Right.ANONYMOUS_ACCESS))));
+        SecurityContextHolder.getContext().setAuthentication(token);
     }
 
     /**

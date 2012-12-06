@@ -2,19 +2,49 @@
 "recordType":"disciplineAction",
 "attributes":
 {
-	"ResponsibilitySchoolReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"someResponsibilitySchoolReference"
-		}
-	},
-	"AssignmentSchoolReference":
+    "StudentReference":
     {
-    	"EducationalOrgIdentity":
-    	{
-    		"StateOrganizationId":"someAssignmentSchoolReference"
-    	}
+        "StudentIdentity":
+        {
+            "StudentUniqueStateId":"100000000"
+        }
+    },
+    "ResponsibilitySchoolReference":
+    {
+        "EducationalOrgIdentity":
+        {
+            "StateOrganizationId":"someResponsibilitySchoolReference"
+        }
+    },
+    "AssignmentSchoolReference":
+    {
+        "EducationalOrgIdentity":
+        {
+            "StateOrganizationId":"someAssignmentSchoolReference"
+        }
+    },
+    "DisciplineIncidentReference":
+    [
+        {
+            "DisciplineIncidentIdentity":
+            {
+                "EducationalOrgReference":
+                {
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"testSchoolId"
+                    }
+               },
+               "IncidentIdentifier":"theIncident"
+            }
+        }
+    ],
+    "StaffReference":
+    {
+        "StaffIdentity":
+        {
+            "StaffUniqueStateId":"jjackson"
+        }
     }
 }
 }

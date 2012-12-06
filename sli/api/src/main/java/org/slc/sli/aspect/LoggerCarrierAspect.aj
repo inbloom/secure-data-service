@@ -6,7 +6,7 @@ import org.slc.sli.common.util.logging.SecurityEvent;
 
 public aspect LoggerCarrierAspect {
 
-    declare parents : (org.slc.sli.api..* && !java.lang.Enum+ && !org.slc.sli.api.util.SecurityUtil.SecurityTask+ && !org.slc.sli.api.util.PATCH)  implements LoggerCarrier;
+    declare parents : (org.slc.sli.api..* && !java.lang.Enum+ && !org.slc.sli.api.util.SecurityUtil.SecurityTask+ && !org.slc.sli.api.util.PATCH && !org.slc.sli.api.security.RightsAllowed)  implements LoggerCarrier;
 
     public void LoggerCarrier.debug(String msg) {
         LoggerFactory.getLogger(this.getClass()).debug(msg);

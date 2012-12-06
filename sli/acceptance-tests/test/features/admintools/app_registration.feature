@@ -5,6 +5,7 @@ As a super-admin I want to be able to create new application keys to allow the o
 
 Background:
 Given I have an open web browser
+And LDAP server has been setup and running
 
 Scenario: SLI Developer Logging in
 
@@ -153,22 +154,30 @@ When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
-And I have clicked on the button 'Deny' for the application named "NewApp"
+And I have clicked on the button 'Delete' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
 When I click 'Yes'
 Then the application named "NewApp" is removed from the SLI
 
 
-@sandbox
+@sandbox 
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
-	Then I see the list of my registered applications only
+    Then I see the list of my registered applications only
 
-@sandbox
+@sandbox 
+Scenario: Different App developer in same tenant should also see my apps
+    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
+    Then I can navigate to app registration page with that user
+	Then I am redirected to the Application Registration Tool page
+	Then I see the list of registered applications as well
+
+
+@sandbox 
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
@@ -185,5 +194,18 @@ Scenario: App Developer registers an application in App Registration Tool in San
 		And the Registration Status field is Registered
 	When I click on the In Progress button
 	  Then I can see the on-boarded states
+
+@sandbox
+Scenario: The other app developer in my tenancy can also modify and delete my apps
+    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
+    Then I can navigate to app registration page with that user
+	    And I am redirected to the Application Registration Tool page
+    Then I clicked on the button Edit for the application "NewApp"
+        Then every field except the shared secret and the app ID became editable
+        And I can update the version to "100" 
+        Then I clicked Save
+        Then I am redirected to the Application Registration Tool page
+    And I can delete "NewApp"
+
 
 

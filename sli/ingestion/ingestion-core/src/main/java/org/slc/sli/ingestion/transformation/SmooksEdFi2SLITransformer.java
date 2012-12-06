@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.transformation;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,8 +28,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -45,14 +42,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 @Component
 public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFi2SLITransformer.class);
-
-    private final String EDFI_ASSESSMENT_REFERENCE = "AssessmentReference";
-    private final String SLI_ASSESSMENT_REFERENCE = "assessmentId";
-    private final String EDFI_PROGRAM_REFERENCE = "ProgramReference";
-    private final String SLC_PROGRAM_REFERENCE = "programReference";
-
 
     private Map<String, Smooks> smooksConfigs;
 
@@ -94,7 +83,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
             smooks.filterSource(source, result);
             sliEntities = getEntityListResult(result);
-        } catch (IOException e) {
+        } catch (java.io.IOException e) {
             sliEntities = Collections.emptyList();
         }
 
