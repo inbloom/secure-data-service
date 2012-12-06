@@ -60,15 +60,16 @@ describe "Odin" do
     end
   end
 
-  describe "#md5"
-  it "generates the same data for each run" do
-    odin = Odin.new
-    odin.generate( nil )
-
-    sha1 = odin.md5()
-    4.times do
+  describe "#md5" do
+    it "generates the same data for each run" do
+      odin = Odin.new
       odin.generate( nil )
-      odin.md5().should eq sha1
+
+      sha1 = odin.md5()
+      4.times do
+        odin.generate( nil )
+        odin.md5().should eq sha1
+      end
     end
   end
 
@@ -92,8 +93,8 @@ describe "Odin" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
       end
       
-      it "will generate a valid control file with 7 interchanges" do     
-        @interchanges.length.should eq(7)
+      it "will generate a valid control file with 8 interchanges" do     
+        @interchanges.length.should eq(8)
       end
       
       it "will generate a valid control file with Student as a type" do
