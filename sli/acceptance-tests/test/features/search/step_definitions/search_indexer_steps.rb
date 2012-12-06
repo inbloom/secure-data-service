@@ -174,7 +174,7 @@ Given /^"(.*?)" hit is returned$/ do |expectedHits|
 end
 
 Given /^I search in API for "(.*?)"$/ do |query|
-  url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/student?q=" + query
+  url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/students?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")  
 end
@@ -186,10 +186,10 @@ Given /^I see the following fields:$/ do |table|
   verifyElementsOnResponse(arrayOfHits, @table)   
 end
 
-Then /^I see the following search results:$/ do |table|
+Then /^I see the following search results at index (\d+):$/ do |index, table|
   json = JSON.parse(@res.body)
   @table = table
-  verifyElementsOnResponse(json, @table)
+  verifyElementsOnResponseAtIndex(index, json, @table)
 end
 
 Then /^no search results are returned$/ do
@@ -215,6 +215,24 @@ def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
     FileUtils.mkdir_p(destPath)
   end
   FileUtils.cp sourcePath, destPath  
+end
+
+def verifyElementsOnResponseAtIndex(index, arrayOfElements, table)
+  response = arrayOfElements.at(index.to_i)
+  table.hashes.each do |row|
+    field = row["Field"]
+    currentRes = response
+    value = nil
+    while (field.include? ".")
+      delimiter = field.index('.') + 1
+      length = field.length - delimiter      
+      current = field[0..delimiter-2]        
+      field = field[delimiter,length]  
+      currentRes = currentRes[current]   
+    end          
+    value = currentRes[field]
+    assert(value == row["Value"], "Expected #{row["Value"]} Actual #{value}" )
+  end
 end
 
 def verifyElementsOnResponse(arrayOfElements, table)
