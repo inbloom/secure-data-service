@@ -23,6 +23,7 @@ require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
 require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/enrollmentGenerator.rb"
+require_relative "XML/studentAssessmentGenerator.rb"
 require_relative "DataWriter.rb"
 
 # ed-fi xml interchange writer class
@@ -37,7 +38,7 @@ class XmlDataWriter < DataWriter
   def initialize(yaml)
     super()
     @yaml      = yaml
-    @directory = yaml['DIRECTORY']
+    @directory = (yaml['DIRECTORY'] or 'generated/')
     initialize_edfi_xml_writers(@directory)
   end
 
@@ -57,6 +58,7 @@ class XmlDataWriter < DataWriter
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new(@yaml, initialize_interchange(directory, "EducationOrgCalendar"))
     @master_schedule_writer        = MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
     @student_enrollment_writer     = EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
+    @student_assessment_writer     = StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
     
     # enable entities to be written
     # -> writes header
@@ -66,6 +68,7 @@ class XmlDataWriter < DataWriter
     @education_org_calendar_writer.start
     @master_schedule_writer.start
     @student_enrollment_writer.start
+    @student_assessment_writer.start
   end
 
   # initializes interchange of specified 'type' in 'directory'
@@ -81,6 +84,7 @@ class XmlDataWriter < DataWriter
     @education_org_calendar_writer.finalize
     @master_schedule_writer.finalize
     @student_enrollment_writer.finalize
+    @student_assessment_writer.finalize
   end
 
   # -------   education organization interchange entities   ------
@@ -176,4 +180,11 @@ class XmlDataWriter < DataWriter
   end
 
   # ---------   student enrollment interchange entities   --------
+  #
+
+  def create_student_assessment(student_assessment)
+    @student_assessment_writer << student_assessment
+    increment_count(:student_assessment)
+  end
+
 end
