@@ -33,6 +33,10 @@ public class MongoIndex {
         this.keys = keys;
     }
 
+    public MongoIndex() {
+
+    }
+
     public String getCollection() {
         return collection;
     }
