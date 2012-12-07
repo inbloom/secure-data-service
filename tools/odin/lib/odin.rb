@@ -141,8 +141,9 @@ class Odin
     end
     if displayed_title
       @log.info "To guarantee that all members of the staff catalog be created, It is recommended that you:"
-      @log.info " -> increase the number of students in the scenario (property: numStudents)"
-      @log.info " -> tune the cardinality of entities (there is not one property to control this)"
+      @log.info " -> increase the number of students in the scenario (property in yaml: numStudents)"
+      @log.info " -> increase the number of years in the scenario (property in yaml: numYears)"
+      @log.info " -> tune the cardinality of entities (there are several properties to control this)"
     end
   end
 

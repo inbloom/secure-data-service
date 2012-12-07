@@ -144,9 +144,9 @@ class DataWriter
   # ----------   staff association interchange entities   --------
 
   # create staff and store in memory
-  def create_staff(id, year_of)
+  def create_staff(id, year_of, name = nil)
     initialize_entity(:staff)
-    @entities[:staff] << Staff.new(id, year_of)
+    @entities[:staff] << Staff.new(id, year_of, name)
     increment_count(:staff)
   end
 
@@ -157,7 +157,26 @@ class DataWriter
     increment_count(:staff_ed_org_assignment_association)
   end
 
+  # create teacher and store in memory
+  def create_teacher(id, year_of, name = nil)
+    initialize_entity(:teacher)
+    @entities[:teacher] << Teacher.new(id, year_of, name)
+    increment_count(:teacher)
+  end
+
+  # create teacher school association and store in memory
+  def create_teacher_school_association(teacher_id, school_id, program_assignment, grades, subjects)
+    initialize_entity(:teacher_school_association)
+    @entities[:teacher_school_association] << TeacherSchoolAssociation.new(teacher_id, school_id, program_assignment, grades, subjects)
+    increment_count(:teacher_school_association)
+  end
+
   # ----------   staff association interchange entities   --------
+
+  # --------   assessment metadata interchange entities   --------
+  # --------   assessment metadata interchange entities   --------
+  # ---------   student assessment interchange entities   --------
+  # ---------   student assessment interchange entities   --------
 
   # if the specified entity (which should be a symbol used to identify the ed-fi entity) does not
   # currently have an entry in the @entities hash, then initialize an entry in both the @entities
@@ -183,6 +202,7 @@ class DataWriter
     @counts.each do |entity, count|
       @log.info "#{entity}\t\t | count: #{count}"
     end
+    @log.info "Total count: #{@counts.values.inject(:+)}"
   end
 
   # get the entities created

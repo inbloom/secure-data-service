@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 require_relative 'spec_helper'
 require_relative '../lib/OutputGeneration/XML/enrollmentGenerator'
 

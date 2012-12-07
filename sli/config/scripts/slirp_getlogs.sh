@@ -4,9 +4,8 @@
 #
 #set -x
 
-if [ $# -ne 1 ];
-then
-  echo "Usage: scripts/slirp_getlogs RUN_NAME (run from the config/ directory)"
+if [ $# -lt 1 ] ; then
+  echo "Usage: scripts/slirp_getlogs RUN_NAME [FILE DATABASE] (run from the config/ directory)"
   exit 1
 fi
 
@@ -26,17 +25,29 @@ echo "Create directory..."
 mkdir $NAME
 
 #
-# Get start/stop time TO SCREEN
-#
-echo "Job Start/Stop..."
-mongo --quiet $ISDB/ingestion_batch_job --eval 'db.newBatchJob.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})'
-mongo --quiet $ISDB/ingestion_batch_job --eval '"Errors: " + db.error.count()'
-
-#
 # Get start/stop time
 #
+echo "Job Start/Stop..."
 mongo --quiet $ISDB/ingestion_batch_job --eval 'db.newBatchJob.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})' > $NAME/time
 mongo --quiet $ISDB/ingestion_batch_job --eval 'db.error.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})' > $NAME/error
+
+#
+# Get start/stop time TO SCREEN
+#
+mongo --quiet $ISDB/ingestion_batch_job --eval '"Errors: " + db.error.count()'
+cat $NAME/time
+
+#
+# Verify
+#
+while [ $# -gt 2 ] ; do
+  FILE=$2
+  DATABASE=$3
+  shift
+  shift
+  scripts/slirp_verify_ingestion.sh $FILE $DATABASE > $NAME/verification
+  cat $NAME/verification
+done
 
 #
 # Get stats

@@ -26,6 +26,7 @@ require_relative '../lib/Shared/date_utility.rb'
 require_relative "../lib/Shared/EntityClasses/enum/GradingPeriodType.rb"
 require_relative "../lib/Shared/EntityClasses/enum/CalendarEventType.rb"
 require_relative "../lib/Shared/EntityClasses/enum/StaffClassificationType.rb"
+require_relative "../lib/Shared/EntityClasses/enum/ProgramAssignmentType.rb"
 
 # specifications for base data writer
 describe "DataWriter" do
@@ -137,5 +138,22 @@ describe "DataWriter" do
       @writer.get_entity_count(:staff_ed_org_assignment_association).should_not be_nil
       @writer.get_entity_count(:staff_ed_org_assignment_association).should eq(1)
     end
+
+    it "will store a teacher in-memory when handling call to create one" do
+      @writer.get_entity_count(:teacher).should eq(0)
+      @writer.create_teacher(3, 1971)
+      @writer.get_entity_count(:teacher).should_not be_nil
+      @writer.get_entity_count(:teacher).should eq(1)
+    end
+
+    it "will store a teacher school association in-memory when handling call to create one" do
+      @writer.get_entity_count(:teacher_school_association).should eq(0)
+      @writer.create_teacher_school_association(3, 1, :REGULAR_EDUCATION, [:FIRST_GRADE], [:COMPUTER_AND_INFORMATION_SCIENCES])
+      @writer.get_entity_count(:teacher_school_association).should_not be_nil
+      @writer.get_entity_count(:teacher_school_association).should eq(1)
+    end
+
+    # add assessment metadata tests
+    # add student assessment tests
   end
 end

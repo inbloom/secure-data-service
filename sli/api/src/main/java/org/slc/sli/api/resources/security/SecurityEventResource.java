@@ -64,10 +64,6 @@ public class SecurityEventResource extends UnversionedResource {
     private final UriInfoToApiQueryConverter queryConverter;
 
     @Autowired
-    @Qualifier("validationRepo")
-    Repository<Entity> repo;
-
-    @Autowired
     public SecurityEventResource(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
         this.queryConverter = new UriInfoToApiQueryConverter();
@@ -95,7 +91,7 @@ public class SecurityEventResource extends UnversionedResource {
         for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
             results.add(entityBody);
         }
-        debug("Found [" + results.size() + "] SecurityEvents!");
+        debug("Found [{}] SecurityEvents!", results.size());
         return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
     }
 }
