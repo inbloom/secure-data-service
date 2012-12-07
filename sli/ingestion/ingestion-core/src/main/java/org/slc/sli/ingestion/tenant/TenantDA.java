@@ -75,4 +75,10 @@ public interface TenantDA {
      * @return a map of landing zone paths to the list of files to preload on them
      */
     Map<String, List<String>> getPreloadFiles();
+
+    /**
+     *
+     * @return a list of all the tenant dbs
+     */
+    List<String> getAllTenantDbs();
 }

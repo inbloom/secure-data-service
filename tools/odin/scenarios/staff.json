@@ -1,0 +1,161 @@
+[
+  {
+    "userId": "cgray",
+    "name": "Charles Gray",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Sunset Central High School"
+      }
+    ]
+  },
+  {
+    "userId": "linda.kim",
+    "name": "Linda Kim",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Middle School",
+        "association": "East Daybreak Junior High"
+      }
+    ]
+  },
+  {
+    "userId": "rbraverman",
+    "name": "Rebecca Braverman",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "demo",
+    "name": "Johnny Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "sampleUser",
+    "name": "Billy Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": ""
+      }
+    ]
+  },
+  {
+    "userId": "mgonzales",
+    "name": "Maria Gonzales",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "akopel",
+    "name": "Amy Kopel",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "msmith",
+    "name": "Mary Smith",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "ckoch",
+    "name": "Christopher Koch",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "rrogers",
+    "name": "Rick Rogers",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "mjohnson",
+    "name": "Michael Johnson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "sbantu",
+    "name": "Susan Bantu",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "jstevenson",
+    "name": "James Stevenson",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "jjackson",
+    "name": "Jack Jackson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  }
+]

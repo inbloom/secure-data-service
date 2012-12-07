@@ -20,10 +20,10 @@ require_relative 'baseEntity.rb'
 
 class StudentAssessment < BaseEntity
   attr_accessor :studentId, :assessment, :date, :score
-  def initialize(student_id, assessment_title, date)
+  def initialize(student_id, assessment, date, rand = nil)
     @studentId = student_id
-    @assessment = {assessmentTitle: assessment_title}
+    @assessment = assessment
     @date = date
-    @score = student_id.hash % 100
+    @score = rand.rand(100) unless rand.nil?
   end
 end

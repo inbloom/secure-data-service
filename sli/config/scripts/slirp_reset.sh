@@ -3,17 +3,29 @@
 # This script resets SLIRP Mongo and ActiveMQ
 # For use between Day 1 ingestion tests
 #
+#set -x
 
-if [ $# -gt 0 ];
-then
-  echo "Usage: scripts/slirp_reset (run from the config/ directory)"
+if [ $# -gt 1 ] ; then
+  echo "Usage: scripts/slirp_reset [SLOW_QUERY_TIME] (run from the config/ directory)"
   echo "This script uses scripts in the indexes/ folder"
   exit 1
 fi
 
 #
 # Threshold for logging slowq queries, ms
-SLOW_QUERY=100
+#
+if [ $# -eq 1 ] ; then
+  SLOW_QUERY=$1
+else
+  SLOW_QUERY=100
+  # There is a bug with the slow query log see https://jira.mongodb.org/browse/CS-5365
+  SLOW_QUERY=0
+fi
+if [ $SLOW_QUERY -gt 0 ] ; then
+  SLOW_QUERY_PARAMS="1,$SLOW_QUERY"
+else
+  SLOW_QUERY_PARAMS="0"
+fi
 
 ######################
 #   Primary Config   #
@@ -76,19 +88,19 @@ do
 use sli
 db.setProfilingLevel(0);
 db.dropDatabase();
-db.setProfilingLevel(1,$SLOW_QUERY);
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
 use d36f43474916ad310100c9711f21b65bd8231cc6
 db.setProfilingLevel(0);
 db.dropDatabase();
-db.setProfilingLevel(1,$SLOW_QUERY);
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
 use 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a
 db.setProfilingLevel(0);
 db.dropDatabase();
-db.setProfilingLevel(1,$SLOW_QUERY);
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
 use ff501cb38db19529bc3eb7fd5759f3844626fdf6
 db.setProfilingLevel(0);
 db.dropDatabase();
-db.setProfilingLevel(1,$SLOW_QUERY);
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
 END
 done
 
@@ -99,12 +111,12 @@ echo " ***** Clearing databases off $ISDB"
 mongo $ISDB/is <<END
 db.setProfilingLevel(0);
 db.dropDatabase();
-db.setProfilingLevel(1,$SLOW_QUERY);
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
 END
 mongo $ISDB/ingestion_batch_job <<END
 db.setProfilingLevel(0);
 db.dropDatabase();
-db.setProfilingLevel(1,$SLOW_QUERY);
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
 END
 echo " ***** Setting up indexes on $ISDB"
 mongo $ISDB/is < indexes/is_indexes.js
