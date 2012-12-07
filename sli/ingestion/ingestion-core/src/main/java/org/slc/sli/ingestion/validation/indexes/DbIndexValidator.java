@@ -98,10 +98,10 @@ public abstract class DbIndexValidator {
                 if (indexMatch) {
                     log.info("{} : Index {} verified", database.getName() + "." + collectionName, index.getKeys().toString());
                     break;
-                } else {
-                    log.error("{} : Index {} is missing", database.getName() + "." + collectionName, index.getKeys().toString());
                 }
             }
+        } else {
+            log.error("{} : Index {} is missing", database.getName() + "." + collectionName, index.getKeys().toString());
         }
     }
 
