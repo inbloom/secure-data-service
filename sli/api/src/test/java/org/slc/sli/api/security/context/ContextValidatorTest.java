@@ -114,6 +114,8 @@ public class ContextValidatorTest {
     	Map<String, Object> newEntityBody = new HashMap<String, Object>();
     	newEntityBody.put(ParameterConstants.SCHOOL_ID, "valid-path-id");
     	Entity newEntity = new MongoEntity(EntityNames.SECTION, newEntityBody);
+    	PathSegment v1Path = Mockito.mock(PathSegment.class);
+    	when(v1Path.getPath()).thenReturn("v1");
     	PathSegment sectionPath = Mockito.mock(PathSegment.class);
     	when(sectionPath.getPath()).thenReturn(ResourceNames.SECTIONS);
     	PathSegment idPath = Mockito.mock(PathSegment.class);
@@ -121,19 +123,19 @@ public class ContextValidatorTest {
     	
     	Map<String, Object> existingEntityBody = new HashMap<String, Object>();
     	existingEntityBody.put(ParameterConstants.SCHOOL_ID, "invalid-body-id");
-    	Entity existingEntity = new MongoEntity(EntityNames.SECTION, existingEntityBody);
+    	Entity existingEntity = new MongoEntity(EntityNames.SECTION, "section-id", existingEntityBody, null);
     	
     	when(containerRequest.getEntity(Entity.class)).thenReturn(newEntity);
         when(containerRequest.getMethod()).thenReturn("PUT");
-        when(containerRequest.getPathSegments()).thenReturn(Arrays.asList(sectionPath, idPath));
+        when(containerRequest.getPathSegments()).thenReturn(Arrays.asList(v1Path, sectionPath, idPath));
         when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("valid-path-id", "valid-id", "second-valid-id"));
-        when(repo.findById(EntityNames.SECTION, "section-id")).thenReturn(existingEntity);
+        when(repo.findById(EntityNames.SECTION, "valid-path-id")).thenReturn(existingEntity);
         
         contextValidator.setRepo(repo);
-        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", Entity.class, SLIPrincipal.class);
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
         validateEdOrgWrite.setAccessible(true);
 
-        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{newEntity, principal});
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
 
         Assert.assertFalse("should fail validation", isValid.booleanValue());
     }

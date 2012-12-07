@@ -120,7 +120,8 @@ public class ContextValidator implements ApplicationContextAware {
 				// look if we have ed org write context to already existing entity
 				int RESOURCE_SEGMENT_INDEX = 1;
 				int IDS_SEGMENT_INDEX = 2;
-				if (request.getPathSegments().size() > IDS_SEGMENT_INDEX) {
+				List<PathSegment> ps = request.getPathSegments();
+				if (ps.size() > IDS_SEGMENT_INDEX) {
 					String resourceName = request.getPathSegments().get(RESOURCE_SEGMENT_INDEX).getPath();
 					String id = request.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
 					Entity existingEntity = repo.findById(store.lookupByResourceName(resourceName).getStoredCollectionName(), id);
@@ -141,6 +142,9 @@ public class ContextValidator implements ApplicationContextAware {
 	}
 
 	private boolean isEntityValidForEdOrgWrite(Entity entity, SLIPrincipal principal) {
+		if (entity == null) {
+			return false;
+		}
 		boolean isValid = true;
 		if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()) != null) {
 			Collection<String> principalsEdOrgs = principal.getSubEdOrgHierarchy(); //TODO initialize the principal hierarchy
