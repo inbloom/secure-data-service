@@ -202,15 +202,38 @@ class XmlDataWriter < DataWriter
     increment_count(:staff_ed_org_assignment_association)
   end
 
-  # ----------   staff association interchange entities   --------
-
-  def create_student_assessment(student_assessment)
-    @student_assessment_writer << student_assessment
-    increment_count(:student_assessment)
+  # write teacher to staff association interchange
+  def create_teacher(id, year_of, name = nil)
+    @staff_association_writer.create_teacher(id, year_of, name)
+    increment_count(:teacher)
   end
+
+  # write teacher school association to staff association interchange
+  def create_teacher_school_association(teacher_id, school_id, program_assignment, grades, subjects)
+    @staff_association_writer.create_teacher_school_association(teacher_id, school_id, program_assignment, grades, subjects)
+    increment_count(:teacher_school_association)
+  end
+
+  # ----------   staff association interchange entities   --------
+  # --------   assessment metadata interchange entities   --------
 
   def create_assessment(assessment)
     @assessment_metadata_writer << assessment
     increment_count(:assessment)
   end
+  
+  def create_assessment_family(assessment_family)
+    @assessment_metadata_writer << assessment_family
+    increment_count(:assessment_family)
+  end
+  
+  # --------   assessment metadata interchange entities   --------
+  # ---------   student assessment interchange entities   --------
+  
+  def create_student_assessment(student_assessment)
+    @student_assessment_writer << student_assessment
+    increment_count(:student_assessment)
+  end
+  
+  # ---------   student assessment interchange entities   --------
 end
