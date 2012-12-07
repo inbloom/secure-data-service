@@ -2,7 +2,7 @@
 Feature:  SARJE - consume a queue written by oplogagent
 
 Scenario:  Can bind and read from search queue
-Given I bind to queue "search_events"
+Given I bind to queue "search"
 And I send a terminate message to the queue
 And I read the queue
 And I expect "94" messages to be dequeued
