@@ -14,7 +14,7 @@ Scenario: App developer deletes installed app
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "Application Registration"
+  And under System Tools, I click on "Register Application"
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page
   Then I have clicked on the button 'Deny' for the application named "NotTheAppYoureLookingFor"
@@ -37,7 +37,7 @@ Scenario:  LEA deletes realm
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "Realm Management"
+  And under System Tools, I click on "Manage Realm"
   And I switch to the iframe
   And I should see that I am on the "Daybreak Test Realm" edit page
   And I should click the delete realm link
