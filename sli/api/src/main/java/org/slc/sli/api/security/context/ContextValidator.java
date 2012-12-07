@@ -39,9 +39,9 @@ import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -106,25 +106,26 @@ public class ContextValidator implements ApplicationContextAware {
 	private boolean isValidForEdOrgWrite(ContainerRequest request, SLIPrincipal principal) {
 		boolean isValid = true;
 
-		if (request.getMethod() != "GET") {
-			if(request.getMethod() != "POST") {
+		int RESOURCE_SEGMENT_INDEX = 1;
+		if (request.getMethod() != "GET" && request.getPathSegments().size() > RESOURCE_SEGMENT_INDEX) {
+
+			String resourceName = request.getPathSegments().get(RESOURCE_SEGMENT_INDEX).getPath();
+			EntityDefinition def = store.lookupByResourceName(resourceName);
+			
+			int IDS_SEGMENT_INDEX = 2;
+			if(request.getMethod() != "POST" && request.getPathSegments().size() > IDS_SEGMENT_INDEX) {
 				// look if we have ed org write context to already existing entity
-				int RESOURCE_SEGMENT_INDEX = 1;
-				int IDS_SEGMENT_INDEX = 2;
-				List<PathSegment> ps = request.getPathSegments();
-				if (ps.size() > IDS_SEGMENT_INDEX) {
-					String resourceName = request.getPathSegments().get(RESOURCE_SEGMENT_INDEX).getPath();
-					String id = request.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
-					Entity existingEntity = repo.findById(store.lookupByResourceName(resourceName).getStoredCollectionName(), id);
-					isValid = isEntityValidForEdOrgWrite(existingEntity, principal);
-				}
-				// check write context of update
+				String id = request.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
+				Entity existingEntity = repo.findById(store.lookupByResourceName(resourceName).getStoredCollectionName(), id);
+				isValid = isEntityValidForEdOrgWrite(existingEntity, principal);
 			}
 			
 			if (isValid) {
-				Entity newEntity = request.getEntity(Entity.class);
-				if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(newEntity.getType()) != null) {
-					String edOrgId = (String) newEntity.getBody().get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(newEntity.getType()));
+				Object entityObj = request.getEntity(Object.class);
+				Map<String, Object> newEntity = (Map<String, Object>) entityObj;
+				
+				if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(def.getType()) != null) {
+					String edOrgId = (String) newEntity.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(def.getType()));
 					isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
 				}
 			}

@@ -21,9 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.TreeSet;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -33,6 +31,8 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Contains helper methods for traversing the edorg hierarchy.
@@ -206,6 +206,15 @@ public class EdOrgHelper {
         }
 
         return schools;
+    }
+    
+    public List<String> getSubEdOrgHierarchy(Entity principal) {
+    	List<String> result = new ArrayList<String>();
+    	List<String> directEdOrgs = getDirectEdOrgAssociations(principal);
+    	result.addAll(directEdOrgs);
+    	result.addAll(getChildEdOrgs(new TreeSet<String>(directEdOrgs)));
+    	return result;
+    	
     }
 
     /**
