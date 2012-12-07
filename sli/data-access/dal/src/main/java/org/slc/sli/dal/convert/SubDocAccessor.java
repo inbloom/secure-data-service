@@ -254,7 +254,7 @@ public class SubDocAccessor {
                 subDocs.add(subDocToDBObject(entity));
             }
             Update update = new Update();
-            update.pushAll(subField, subDocs.toArray());
+            update.set("type", collection).pushAll(subField, subDocs.toArray());
             return update.getUpdateObject();
         }
 
