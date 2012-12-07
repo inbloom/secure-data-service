@@ -90,9 +90,8 @@ describe "WorldBuilder" do
         it "will contain 2 assessments for each grade for each year" do
           assessment_metadata.select{|l| l.match("<Assessment>")}.length.should eq(78)
         end
-        it "will contain an assessment family for each year, and one global assessment family" do
-          pending "assessment family implmentation"
-          assessment_metadata.select{|l| l.match("<AssessmentFamily>")}.length.should eq(14)
+        it "will contain for each year an assessment family for each grade, and one global assessment family" do
+          assessment_metadata.select{|l| l.match("<AssessmentFamily>")}.length.should eq(42)
         end
       end
     end
@@ -169,8 +168,7 @@ describe "WorldBuilder" do
         it "will contain 2 assessments for each grade for each year" do
           assessment_metadata.select{|l| l.match("<Assessment>")}.length.should eq(26)
         end
-        it "will contain an assessment family for each year, and one global assessment family" do
-          pending "assessment family implmentation"
+        it "will contain an assessment family for each grade, and one global assessment family" do
           assessment_metadata.select{|l| l.match("<AssessmentFamily>")}.length.should eq(14)
         end
       end
