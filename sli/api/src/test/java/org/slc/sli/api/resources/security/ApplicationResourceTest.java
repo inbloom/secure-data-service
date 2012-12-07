@@ -431,7 +431,8 @@ public class ApplicationResourceTest {
         Map<String, Object> appBody = repo.findById("application", uuid).getBody();
         appBody.put(ApplicationResource.AUTHORIZED_ED_ORGS, Arrays.asList(edorgId, edorgId, edorgId2));
         EntityBody body = new EntityBody(appBody);
-        Response updated = resource.updateApplication(uuid, body, headers, uriInfo);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        Response updated = resource.put(uuid, body, uriInfo);
         assertEquals(STATUS_NO_CONTENT, updated.getStatus());
         appBody = repo.findById("application", uuid).getBody();
         assertEquals(((List) appBody.get(ApplicationResource.AUTHORIZED_ED_ORGS)).size(), 2);
