@@ -183,6 +183,7 @@ class DataWriter
     @counts.each do |entity, count|
       @log.info "#{entity}\t\t | count: #{count}"
     end
+    @log.info "Total count: #{@counts.values.inject(:+)}"
   end
 
   # get the entities created
