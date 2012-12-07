@@ -35,6 +35,7 @@ import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -67,6 +68,7 @@ public class FourPartResourceTest {
     private EntityDefinitionStore entityDefs;
 
     @Autowired
+    @Qualifier("defaultResourceService")
     private DefaultResourceService resourceService;
 
     private java.net.URI requestURI;

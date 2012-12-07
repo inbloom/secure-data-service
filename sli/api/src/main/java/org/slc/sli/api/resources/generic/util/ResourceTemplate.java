@@ -29,7 +29,9 @@ public enum ResourceTemplate {
     CUSTOM("/rest/{version}/{resource}/{id}/custom"),
     AGGREGATES("/rest/{version}/{resource}/{id}/aggregations"),
     CALCULATED_VALUES("/rest/{version}/{resource}/{id}/calculatedValues"),
-    SEARCH("/rest/{version}/{resource}/{entity}");
+    SEARCH("/rest/{version}/{resource}/{entity}"),
+    UNVERSIONED_ONE_PART("/rest/{resource}"),
+    UNVERSIONED_TWO_PART("/rest/{resource}/{id}");
 
     private final String template;
 

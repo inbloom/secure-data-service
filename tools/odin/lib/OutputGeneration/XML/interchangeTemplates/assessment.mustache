@@ -3,9 +3,7 @@
     <AssessmentTitle>{{assessmentTitle}}</AssessmentTitle>
 
     {{#assessmentIdentificationCode}}
-    <AssessmentIdentificationCode IdentificationSystem="{{assessmentIdentificationSystemType}}">
-        <ID>{{code}}</ID>
-    </AssessmentIdentificationCode>
+         {{> Partials/_assessment_identification_code}}
     {{/assessmentIdentificationCode}}
     {{#assessmentCategoryType}}
     <AssessmentCategory>{{assessmentCategoryType}}</AssessmentCategory>

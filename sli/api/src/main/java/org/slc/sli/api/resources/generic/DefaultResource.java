@@ -25,10 +25,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.constants.PathConstants;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -50,30 +50,37 @@ import org.slc.sli.api.util.PATCH;
 @Component
 @Scope("request")
 public class DefaultResource extends GenericResource implements CustomEntityReturnable {
+    private ResourceTemplate onePartTemplate;
+    private ResourceTemplate twoPartTemplate;
+    private String version;
+
+    public DefaultResource() {
+        this.setOnePartTemplate(ResourceTemplate.ONE_PART);
+        this.setTwoPartTemplate(ResourceTemplate.TWO_PART);
+        this.setVersion(PathConstants.V1);
+    }
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
 
-        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
+        return getAllResponseBuilder.build(uriInfo, onePartTemplate, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
-
                 return resourceService.getEntities(resource, uriInfo.getRequestUri(), false);
             }
         });
-
     }
 
     @POST
     public Response post(final EntityBody entityBody,
                          @Context final UriInfo uriInfo) {
 
-        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST, new ResourceLogic() {
+        return defaultResponseBuilder.build(uriInfo, onePartTemplate, ResourceMethod.POST, new ResourceLogic() {
             @Override
             public Response run(Resource resource) {
                 final String id = resourceService.postEntity(resource, entityBody);
 
-                final String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
+                final String uri = ResourceUtil.getURI(uriInfo, version,
                         resource.getResourceType(), id).toString();
 
                 return Response.status(Response.Status.CREATED).header("Location", uri).build();
@@ -87,7 +94,7 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
 
-        return getResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
+        return getResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
                 return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
@@ -102,7 +109,7 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
                         final EntityBody entityBody,
                         @Context final UriInfo uriInfo) {
 
-        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PUT, new ResourceLogic() {
+        return defaultResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.PUT, new ResourceLogic() {
 
             @Override
             public Response run(Resource resource) {
@@ -118,7 +125,7 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     public Response delete(@PathParam("id") final String id,
                            @Context final UriInfo uriInfo) {
 
-        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.DELETE, new ResourceLogic() {
+        return defaultResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.DELETE, new ResourceLogic() {
             @Override
             public Response run(Resource resource) {
                 resourceService.deleteEntity(resource, id);
@@ -135,7 +142,7 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
                           final EntityBody entityBody,
                           @Context final UriInfo uriInfo) {
 
-        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PATCH, new ResourceLogic() {
+        return defaultResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.PATCH, new ResourceLogic() {
 
             @Override
             public Response run(Resource resource) {
@@ -154,4 +161,15 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
                 resourceHelper.getEntityDefinition(resource.getResourceType()));
     }
 
+    protected void setOnePartTemplate(final ResourceTemplate onePartTemplate) {
+        this.onePartTemplate = onePartTemplate;
+    }
+
+    protected void setTwoPartTemplate(final ResourceTemplate twoPartTemplate) {
+        this.twoPartTemplate = twoPartTemplate;
+    }
+
+    protected void setVersion(final String version) {
+        this.version = version;
+    }
 }

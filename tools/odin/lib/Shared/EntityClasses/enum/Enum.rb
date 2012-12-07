@@ -44,6 +44,7 @@ module Enum
     end
  
     def const_missing(key)
+      return nil if @hash[key] == nil
       @hash[key].value
     end    
  
@@ -55,6 +56,13 @@ module Enum
  
     def all
       @hash.values
+    end
+
+    def get_key(value)
+      items = []
+      @hash.values.each { |item| items << item if item.value == value }
+      return nil if items.size == 0 or items.size > 1
+      items.first.key
     end
  
     def all_to_hash

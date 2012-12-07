@@ -146,7 +146,6 @@ Scenario Outline: Query subdoc
     | cgrayadmin | cgrayadmin1234 | /v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6/childLearningObjectives  | learningObjective | dd9165f2-65fe-6d27-a8ec-bdc5f47757b7 |
     | cgrayadmin | cgrayadmin1234 | /v1/learningObjectives/dd9165f2-65fe-6d27-a8ec-bdc5f47757b7/parentLearningObjectives | learningObjective | dd9165f2-65be-6d27-a8ac-bdc5f46757b6 |
 
-      
 Scenario Outline: Confirm that API blocks regex against PII data:
   Given I am logged in using <username> <password> to realm "IL"
   And format "application/json;charset=utf-8"

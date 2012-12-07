@@ -100,7 +100,9 @@
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
-  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" />
+  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" >
+    <property name="entityRepository" ref="mongoEntityRepository" />
+  </bean>
 
   <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
     <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
