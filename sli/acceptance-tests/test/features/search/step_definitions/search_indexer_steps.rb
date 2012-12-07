@@ -177,6 +177,7 @@ Given /^I search in API for "(.*?)"$/ do |query|
   url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/students?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")  
+  @result = JSON.parse(@res.body)
 end
 
 Given /^I see the following fields:$/ do |table|
