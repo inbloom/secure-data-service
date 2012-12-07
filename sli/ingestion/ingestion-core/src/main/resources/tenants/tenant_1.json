@@ -9,58 +9,58 @@
             "desc": "Landing zone for Tenant_1-State"
         },
         {
-            "educationOrganization": "Disctrict_1",
+            "educationOrganization": "District_1",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_1",
-            "desc": "Landing zone for Tenant_1-Disctrict_1"
+            "path": "<lzpath>/Tenant_1-District_1",
+            "desc": "Landing zone for Tenant_1-District_1"
         },
         {
-            "educationOrganization": "Disctrict_2",
+            "educationOrganization": "District_2",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_2",
-            "desc": "Landing zone for Tenant_1-Disctrict_2"
+            "path": "<lzpath>/Tenant_1-District_2",
+            "desc": "Landing zone for Tenant_1-District_2"
         },
         {
-            "educationOrganization": "Disctrict_3",
+            "educationOrganization": "District_3",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_3",
-            "desc": "Landing zone for Tenant_1-Disctrict_3"
+            "path": "<lzpath>/Tenant_1-District_3",
+            "desc": "Landing zone for Tenant_1-District_3"
         },
         {
-            "educationOrganization": "Disctrict_4",
+            "educationOrganization": "District_4",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_4",
-            "desc": "Landing zone for Tenant_1-Disctrict_4"
+            "path": "<lzpath>/Tenant_1-District_4",
+            "desc": "Landing zone for Tenant_1-District_4"
         },
         {
-            "educationOrganization": "Disctrict_5",
+            "educationOrganization": "District_5",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_5",
-            "desc": "Landing zone for Tenant_1-Disctrict_5"
+            "path": "<lzpath>/Tenant_1-District_5",
+            "desc": "Landing zone for Tenant_1-District_5"
         },
         {
-            "educationOrganization": "Disctrict_6",
+            "educationOrganization": "District_6",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_6",
-            "desc": "Landing zone for Tenant_1-Disctrict_6"
+            "path": "<lzpath>/Tenant_1-District_6",
+            "desc": "Landing zone for Tenant_1-District_6"
         },
         {
-            "educationOrganization": "Disctrict_7",
+            "educationOrganization": "District_7",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_7",
-            "desc": "Landing zone for Tenant_1-Disctrict_7"
+            "path": "<lzpath>/Tenant_1-District_7",
+            "desc": "Landing zone for Tenant_1-District_7"
         },
         {
-            "educationOrganization": "Disctrict_8",
+            "educationOrganization": "District_8",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_8",
-            "desc": "Landing zone for Tenant_1-Disctrict_8"
+            "path": "<lzpath>/Tenant_1-District_8",
+            "desc": "Landing zone for Tenant_1-District_8"
         },
         {
-            "educationOrganization": "Disctrict_9",
+            "educationOrganization": "District_9",
             "ingestionServer": "<hostname>",
-            "path": "<lzpath>/Tenant_1-Disctrict_9",
-            "desc": "Landing zone for Tenant_1-Disctrict_9"
+            "path": "<lzpath>/Tenant_1-District_9",
+            "desc": "Landing zone for Tenant_1-District_9"
         }
     ]
 }
