@@ -64,6 +64,7 @@
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
   <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
+  <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator" />
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
