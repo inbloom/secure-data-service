@@ -101,7 +101,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration Approval"
+And under System Tools, I click on "Approve Application Registration"
 And I switch to the iframe
 And I am redirected to the Application Registration Approval Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table
