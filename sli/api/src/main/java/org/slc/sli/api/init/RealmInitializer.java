@@ -107,7 +107,7 @@ public class RealmInitializer {
              * simplifies code paths we must test
              */
             Map<String, Object> bootstrapDeveloperRealmBody = createDeveloperRealmBody();
-            createOrUpdateRealm(sandboxUniqueId, bootstrapDeveloperRealmBody);
+            createOrUpdateRealm(devUniqueId, bootstrapDeveloperRealmBody);
         }
     }
     
@@ -157,6 +157,7 @@ public class RealmInitializer {
     protected Map<String, Object> createDeveloperRealmBody() {
         Map<String, Object> body = createRealmBody(devUniqueId, devRealmName, "", null, false, devIdpId, 
                 devRedirectEndpoint);
+        body.put("developer", true); 
         
         return insertSaml(body, false);
     }

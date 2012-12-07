@@ -226,7 +226,11 @@ public class SecurityUtil {
 
         if (entity != null) {
             Boolean admin = (Boolean) entity.getBody().get("admin");
-            return admin != null ? admin : false;
+            Boolean developer = (Boolean) entity.getBody().get("developer");
+            admin = admin != null ? admin : false;
+            developer = developer != null ? developer : false;
+            
+            return (admin || developer);
         } else {
             throw new IllegalArgumentException("Could not find realm " + realmId);
         }

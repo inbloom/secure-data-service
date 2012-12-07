@@ -89,7 +89,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         adminRoles
                 .put(SANDBOX_ADMINISTRATOR,
                         RoleBuilder.makeRole(SANDBOX_ADMINISTRATOR)
-                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN }).setAdmin(true)
+                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN, Right.PRODUCTION_LOGIN }).setAdmin(true)
                                 .build());
         adminRoles.put(
                 REALM_ADMINISTRATOR,

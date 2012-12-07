@@ -258,7 +258,11 @@ public class SamlFederationResource {
         } else {
             Object temp = realm.getBody().get("admin");
             Boolean isAdminRealm = temp == null ? false : (Boolean) temp;
-            if (isAdminRealm) {
+            
+            Boolean isDevRealm = (Boolean) realm.getBody().get("admin");
+            isDevRealm = (isDevRealm == null) ? false : isDevRealm;
+            
+            if (isAdminRealm || isDevRealm) {
                 if (samlTenant != null) {
                     tenant = samlTenant;
                 } else {
@@ -287,15 +291,19 @@ public class SamlFederationResource {
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
 
-        boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
+        Boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
+        isAdminRealm = (isAdminRealm != null) ? isAdminRealm : Boolean.FALSE;
+        
+        Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
+        isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
 
-        if ("-133".equals(principal.getEntity().getEntityId()) && !isAdminRealm) {
+        if ("-133".equals(principal.getEntity().getEntityId()) && !(isAdminRealm || isDevRealm)) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we
             // have no valid user
             throw new AccessDeniedException("Invalid user.");
         }
 
-        if (!isAdminRealm && !realmHelper.isUserAllowedLoginToRealm(principal.getEntity(), realm)) {
+        if (!(isAdminRealm || isDevRealm) && !realmHelper.isUserAllowedLoginToRealm(principal.getEntity(), realm)) {
             throw new AccessDeniedException("User is not associated with realm.");
         }
 
