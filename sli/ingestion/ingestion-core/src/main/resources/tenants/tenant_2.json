@@ -1,0 +1,66 @@
+{
+    "tenantId": "Tenant_2",
+    "dbName": "Tenant_2",
+    "landingZone": [
+        {
+            "educationOrganization": "State",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-State",
+            "desc": "Landing zone for Tenant_2-State"
+        },
+        {
+            "educationOrganization": "Disctrict_1",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_1",
+            "desc": "Landing zone for Tenant_2-Disctrict_1"
+        },
+        {
+            "educationOrganization": "Disctrict_2",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_2",
+            "desc": "Landing zone for Tenant_2-Disctrict_2"
+        },
+        {
+            "educationOrganization": "Disctrict_3",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_3",
+            "desc": "Landing zone for Tenant_2-Disctrict_3"
+        },
+        {
+            "educationOrganization": "Disctrict_4",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_4",
+            "desc": "Landing zone for Tenant_2-Disctrict_4"
+        },
+        {
+            "educationOrganization": "Disctrict_5",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_5",
+            "desc": "Landing zone for Tenant_2-Disctrict_5"
+        },
+        {
+            "educationOrganization": "Disctrict_6",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_6",
+            "desc": "Landing zone for Tenant_2-Disctrict_6"
+        },
+        {
+            "educationOrganization": "Disctrict_7",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_7",
+            "desc": "Landing zone for Tenant_2-Disctrict_7"
+        },
+        {
+            "educationOrganization": "Disctrict_8",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_8",
+            "desc": "Landing zone for Tenant_2-Disctrict_8"
+        },
+        {
+            "educationOrganization": "Disctrict_9",
+            "ingestionServer": "<hostname>",
+            "path": "<lzpath>/Tenant_2-Disctrict_9",
+            "desc": "Landing zone for Tenant_2-Disctrict_9"
+        }
+    ]
+}
