@@ -42,8 +42,7 @@ And I should not see an error log file created
  And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
- Scenario: Post a zip file containing purge configuration
- Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And I have checked the counts of the following collections:
      |collectionName|
      | application  |
