@@ -80,6 +80,7 @@ public abstract class DbIndexValidator {
 
                 for (Map.Entry<String, Object> indexCacheEntry : indexMapFromCache.entrySet()) {
                     if (!indexMap.containsKey(indexCacheEntry.getKey())) {
+                        indexMatch = false;
                         break;
                     }
 
@@ -92,6 +93,7 @@ public abstract class DbIndexValidator {
                     double indexMapDoubleValue = Double.valueOf(indexMap.get(indexCacheEntry.getKey()).toString());
                     if (!indexCacheEntry.getValue().equals(indexMapDoubleValue)
                             && !indexCacheEntry.getValue().equals(indexMap.get(indexCacheEntry.getKey()))) {
+                        indexMatch = false;
                         break;
                     } else {
                         indexMatch = true;
