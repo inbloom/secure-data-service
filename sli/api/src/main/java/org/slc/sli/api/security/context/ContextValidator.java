@@ -75,24 +75,16 @@ public class ContextValidator implements ApplicationContextAware {
 	@PostConstruct
 	private void init() {
 		ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION = new HashMap<String, String>() {{
-			put(EntityNames.ATTENDANCE, "");
-			put(EntityNames.COHORT, "");
-			put(EntityNames.COURSE, "");
-			put(EntityNames.COURSE_OFFERING, "");
-			put(EntityNames.COURSE_TRANSCRIPT, "");
-			put(EntityNames.DISCIPLINE_INCIDENT, "");
-			put(EntityNames.DISCIPLINE_ACTION, "");
-			put(EntityNames.GRADEBOOK_ENTRY, "");
-			put(EntityNames.GRADUATION_PLAN, "");
-			put(EntityNames.PROGRAM, "");
+			put(EntityNames.ATTENDANCE, "schoolId");
+			put(EntityNames.COHORT, "educationOrgId");
+			put(EntityNames.COURSE, "schoolId");
+			put(EntityNames.COURSE_OFFERING, "schoolId");
+			put(EntityNames.DISCIPLINE_INCIDENT, "schoolId");
+			put(EntityNames.GRADUATION_PLAN, "educationOrganizationId");
 			put(EntityNames.SECTION, ParameterConstants.SCHOOL_ID);
-			put(EntityNames.SESSION, "");
-			put(EntityNames.STUDENT_COHORT_ASSOCIATION, "");
-			put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, "");
-			put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "");
-			put(EntityNames.STUDENT_GRADEBOOK_ENTRY, "");
-			put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "");
-			put(EntityNames.STUDENT_SECTION_ASSOCIATION, "");
+			put(EntityNames.SESSION, "schoolId");
+			put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "educationOrganizationId");
+			put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "schoolId");
 		}};
 	}
 
@@ -104,7 +96,6 @@ public class ContextValidator implements ApplicationContextAware {
 
 	public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
 		validateUserHasContextToRequestedEntities(request, principal);
-
 
 		if(!isValidForEdOrgWrite(request, principal)) {
 			throw new AccessDeniedException("Trying to write an entity outside of your education organization hierarchy");
