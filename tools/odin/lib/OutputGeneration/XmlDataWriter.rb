@@ -92,6 +92,7 @@ class XmlDataWriter < DataWriter
     @student_enrollment_writer.finalize
     @staff_association_writer.finalize
     @student_assessment_writer.finalize
+    display_entity_counts
   end
 
   # -------   education organization interchange entities   ------

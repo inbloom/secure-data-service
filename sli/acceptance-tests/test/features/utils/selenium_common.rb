@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
   return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
 end
@@ -96,7 +95,11 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 
 end
 
-After do |scenario| 
+After do |scenario|
+  begin
+    File.delete("./cats_with_lasers.png")
+  rescue Exception => e
+  end
   #puts "Running the After hook for Scenario: #{scenario}"s
   begin
     File.rm("./cats_with_lasers.png")

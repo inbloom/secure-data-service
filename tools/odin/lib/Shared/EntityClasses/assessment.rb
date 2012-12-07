@@ -22,7 +22,7 @@ require_relative 'baseEntity'
 class Assessment < BaseEntity
 
   attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed
-  def initialize(id, year_of, gradeLevelAssessed = nil)
+  def initialize(id, year_of = 2012, gradeLevelAssessed = nil)
     @id = id
     @year_of = year_of
     @gradeLevelAssessed = gradeLevelAssessed

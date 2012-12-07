@@ -40,6 +40,7 @@ Then /^I click on log out$/ do
   menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
   menu = menuList.find_element(:id,"menulink")
   menu.click
+  puts menuList.find_element(:link_text, "Logout").attribute("href")
   menuList.find_element(:link_text, "Logout").click
   assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
 end
@@ -126,6 +127,11 @@ Then /^under System Tools, I see the following "(.*?)"$/ do |links|
   verifyItemsInSections(links, section, "System Tools")
 end
 
+Then /^under System Tools, I shouldn't see the following "(.*?)"$/ do |links|
+  section = @driver.find_element(:id, "column-4")
+  verifyItemsInSections(links, section, "System Tools", false)
+end
+
 Then /^under My Applications, I see the following apps: "(.*?)"$/ do |apps|
   myApps = @driver.find_element(:id, "column-4")
   verifyItemsInSections(apps, myApps, "My Applications")
@@ -164,7 +170,7 @@ def clickOnLink(linkText)
   @driver.find_element(:link, linkText).click
 end
 
-def verifyItemsInSections(expectedItems, section, sectionTitle)
+def verifyItemsInSections(expectedItems, section, sectionTitle, exist = true)
   listOfItems = expectedItems.split(';')
   title = section.find_element(:class, "portlet-title-text")
   assert(title.text == sectionTitle, "Expected: #{sectionTitle} Actual: #{title}")
@@ -177,7 +183,9 @@ def verifyItemsInSections(expectedItems, section, sectionTitle)
         break
       end
     end
-    assert(found,"#{item} was not found in My Applications")
+    message = (exist)? "#{item} should be found under #{sectionTitle}" :
+        "#{item} should not be found under #{sectionTitle}"
+    assert(found == exist, message)
   end
 end
 

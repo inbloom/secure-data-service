@@ -31,8 +31,8 @@ describe "WorkOrderProcessor" do
   describe "#build" do
     context 'With a simple work order' do
       let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
-      let(:assessment_factory) {double('assessment factory', :assessments => (1..5).map{|i| "assessment#{i}"})}
-      let(:scenario) {{'ASSESSMENTS_TAKEN' => {grade_wide: 3}}}
+      let(:assessment_factory) {double('assessment factory', :assessments => (1..5).map{|i| Assessment.new("assessment#{i}")})}
+      let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 3}}}
       let(:ed_org) {{'id' => 64, 'sessions' => [{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)}, 
                                                 {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)}]}}
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001, 
@@ -89,7 +89,8 @@ describe "WorkOrderProcessor" do
           student_assessments << sa
         end
         WorkOrderProcessor.new(data_writer, scenario).build(work_order)
-        sas_by_assessment = student_assessments.group_by{|sa| sa.assessment[:assessmentTitle]}
+        puts "student assessments are #{student_assessments}"
+        sas_by_assessment = student_assessments.group_by{|sa| sa.assessment}
         assessment_factory.assessments.each{|i|
           sas_by_assessment[i].should have(6).items
         }
