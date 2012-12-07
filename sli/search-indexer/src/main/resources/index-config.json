@@ -118,10 +118,6 @@
 							}
 						}
 					},
-					"academicSubject": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
 					"learningStandards": {
 						"type": "string",
 						"index": "not_analyzed"
@@ -301,10 +297,6 @@
 								"index": "not_analyzed"
 							}
 						}
-					},
-					"academicSubject": {
-						"type": "string",
-						"index": "not_analyzed"
 					},
 					"assessmentCategory": {
 						"type": "string",
