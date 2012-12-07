@@ -1075,8 +1075,13 @@ class WorldBuilder
   def create_assessments(begin_year, num_years)
     factory = AssessmentFactory.new(@scenarioYAML)
     (begin_year..(begin_year + num_years -1)).each{|year|
+      parent_family = AssessmentFamily.new("#{year} Standard", year)
+      @data_writer.create_assessment_family parent_family
       GradeLevelType.get_ordered_grades.each{|grade|
+        family = AssessmentFamily.new("#{year} #{GradeLevelType.get grade} Standard", year, parent_family)
+        @data_writer.create_assessment_family(family)
         factory.assessments(grade: grade, year: year).each{|assessment|
+          assessment.assessmentFamilyReference = family
           @data_writer.create_assessment(assessment)
         }
       }

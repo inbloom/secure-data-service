@@ -222,6 +222,11 @@ class XmlDataWriter < DataWriter
     increment_count(:assessment)
   end
   
+  def create_assessment_family(assessment_family)
+    @assessment_metadata_writer << assessment_family
+    increment_count(:assessment_family)
+  end
+  
   # --------   assessment metadata interchange entities   --------
   # ---------   student assessment interchange entities   --------
   
