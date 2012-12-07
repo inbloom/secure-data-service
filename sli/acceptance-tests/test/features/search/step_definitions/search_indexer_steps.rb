@@ -47,6 +47,8 @@ Given /^I send a command to start the extractor to extract now$/ do
 end
 
 Given /^I DELETE to clear the Indexer$/ do
+  # we don't need a token for search calls
+  @sessionId = ""
   @format = "application/json;charset=utf-8"
   url = PropLoader.getProps['elastic_search_address'] 
   restHttpDeleteAbs(url)
@@ -154,9 +156,8 @@ Given /^I check that Elastic Search is non\-empty$/ do
   verifyElasticSearchCount()
 end
 
-Given /^I search in Elastic Search for "(.*?)"$/ do |query|
-  #TODO should we remove the tenant id?
-  url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/_search?q=" + query
+Given /^I search in Elastic Search for "(.*?)" in tenant "(.*?)"$/ do |query, tenant|
+  url = PropLoader.getProps['elastic_search_address'] + "/" + convertTenantIdToDbName(tenant) + "/_search?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
