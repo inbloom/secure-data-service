@@ -45,7 +45,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | staffProgramAssociation                   |
      | student                                   |
      | studentAcademicRecord                     |
-     | studentAssessment              |
+     | studentAssessment                         |
      | studentCohortAssociation                  |
      | studentCompetency                         |
      | studentCompetencyObjective                |
@@ -63,9 +63,9 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | assessment                               |                  0|
+     | assessment                               |                 78|
      | attendance                               |                  0|
-     | calendarDate                             |                579|
+     | calendarDate                             |               1161|
      | cohort                                   |                  0|
      | competencyLevelDescriptor                |                  0|
      | course                                   |                 34|
@@ -73,12 +73,12 @@ Then I should see following map of entry counts in the corresponding collections
      | courseSectionAssociation                 |                  0|
      | disciplineAction                         |                  0|
      | disciplineIncident                       |                  0|
-     | educationOrganization                    |                  5|
+     | educationOrganization                    |                  6|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
      | grade                                    |                  0|
      | gradebookEntry                           |                  0|
-     | gradingPeriod                            |                  3|
+     | gradingPeriod                            |                  6|
      | graduationPlan                           |                  0|
      | learningObjective                        |                  0|
      | learningStandard                         |                  0|
@@ -86,18 +86,18 @@ Then I should see following map of entry counts in the corresponding collections
      | program                                  |                  0|
      | reportCard                               |                  0|
      | schoolSessionAssociation                 |                  0|
-     | section                                  |                  0|
+     | section                                  |                 75|
      | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
-     | session                                  |                  3|
+     | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
-     | staff                                    |                  0|
+     | staff                                    |                 49|
      | staffCohortAssociation                   |                  0|
-     | staffEducationOrganizationAssociation    |                  0|
+     | staffEducationOrganizationAssociation    |                147|
      | staffProgramAssociation                  |                  0|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
-     | studentAssessment                        |                  0|
+     | studentAssessment                        |                180|
      | studentCohortAssociation                 |                  0|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
@@ -105,56 +105,33 @@ Then I should see following map of entry counts in the corresponding collections
      | studentParentAssociation                 |                  0|
      | studentProgramAssociation                |                  0|
      | studentSchoolAssociation                 |                 30|
-     | studentSectionAssociation                |                  0|
+     | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                  0|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 766 records." in the resulting batch job file
+    And I should see "Processed 1959 records." in the resulting batch job file
     And I should not see an error log file created
 	  And I should not see a warning log file created
 
 Scenario: Verify entities in education organization calendar were ingested correctly: Populated Database
     And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
-     | session                     | 1                   | body.sessionName                         | 2001-2002 Year Round session: locl-0000000004 | string               |
-     | session                     | 1                   | body.sessionName                         | 2002-2003 Year Round session: locl-0000000004 | string               |
-     | session                     | 1                   | body.sessionName                         | 2003-2004 Year Round session: locl-0000000004 | string               |
-     | session                     | 1                   | body.schoolYear                          | 2001-2002                                     | string               |
-     | session                     | 1                   | body.schoolYear                          | 2002-2003                                     | string               |
-     | session                     | 1                   | body.schoolYear                          | 2003-2004                                     | string               |
-     | session                     | 3                   | body.term                                | Year Round                                    | string               |
-     | session                     | 1                   | body.beginDate                           | 2001-09-07                                    | string               |
-     | session                     | 1                   | body.beginDate                           | 2002-09-09                                    | string               |
-     | session                     | 1                   | body.beginDate                           | 2003-09-05                                    | string               |
-     | session                     | 1                   | body.endDate                             | 2002-06-04                                    | string               |
-     | session                     | 1                   | body.endDate                             | 2003-06-04                                    | string               |
-     | session                     | 1                   | body.endDate                             | 2004-06-01                                    | string               |
-     | session                     | 3                   | body.totalInstructionalDays              | 180                                           | integer              |
-     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.gradingPeriod | End of Year                                   | string               |
-     | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2001-2002                                     | string               |
-     | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2002-2003                                     | string               |
-     | gradingPeriod               | 1                   | body.gradingPeriodIdentity.schoolYear    | 2003-2004                                     | string               |
-     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | 42aaf7313c83453e0977f82dee426e6a51dd99a4_id   | string               |
-     | gradingPeriod               | 1                   | body.beginDate                           | 2001-09-07                                    | string               |
-     | gradingPeriod               | 1                   | body.beginDate                           | 2002-09-09                                    | string               |
-     | gradingPeriod               | 1                   | body.beginDate                           | 2003-09-05                                    | string               |
-     | gradingPeriod               | 1                   | body.endDate                             | 2002-06-04                                    | string               |
-     | gradingPeriod               | 1                   | body.endDate                             | 2003-06-04                                    | string               |
-     | gradingPeriod               | 1                   | body.endDate                             | 2004-06-01                                    | string               |
-     | gradingPeriod               | 3                   | body.totalInstructionalDays              | 180                                           | integer              |
-     | calendarDate                | 0                   | body.date                                | 2001-09-06                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2001-09-07                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2002-06-04                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2002-06-05                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2002-09-08                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2002-09-09                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2003-06-04                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2003-06-05                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2003-09-04                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2003-09-05                                    | string               |
-     | calendarDate                | 1                   | body.date                                | 2004-06-01                                    | string               |
-     | calendarDate                | 0                   | body.date                                | 2004-06-02                                    | string               |
+     | session                     | 1                   | body.sessionName                         | 2001-2002 Year Round session: IL-DAYBREAK     | string               |
+     | session                     | 1                   | body.sessionName                         | 2002-2003 Year Round session: IL-DAYBREAK     | string               |
+     | session                     | 1                   | body.sessionName                         | 2003-2004 Year Round session: IL-DAYBREAK     | string               |
+     | session                     | 2                   | body.schoolYear                          | 2001-2002                                     | string               |
+     | session                     | 2                   | body.schoolYear                          | 2002-2003                                     | string               |
+     | session                     | 2                   | body.schoolYear                          | 2003-2004                                     | string               |
+     | session                     | 6                   | body.term                                | Year Round                                    | string               |
+     | session                     | 6                   | body.totalInstructionalDays              | 180                                           | integer              |
+     | gradingPeriod               | 6                   | body.gradingPeriodIdentity.gradingPeriod | End of Year                                   | string               |
+     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2001-2002                                     | string               |
+     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2002-2003                                     | string               |
+     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2003-2004                                     | string               |
+     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | 71fdd5177721d3f95ad0f1f580ad55d7aa6a922e_id   | string               |
+     | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |
+     | gradingPeriod               | 6                   | body.totalInstructionalDays              | 180                                           | integer              |
 
 Scenario: Verify entities in student were ingested correctly: Populated Database
     And I check to find if record is in collection:
@@ -172,9 +149,12 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 1                   | body.studentUniqueStateId                | 10                                            | string               |
      | student                     | 10                  | schools.entryDate                        | 2001-09-01                                    | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Sixth grade                                   | string               |
-     | student                     | 6                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
-     | student                     | 1                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
-     | student                     | 10                  | schools.edOrgs                           | 42aaf7313c83453e0977f82dee426e6a51dd99a4_id   | string               |   
+     | student                     | 1                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
+     | student                     | 3                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
+     | student                     | 6                   | schools.edOrgs                           | 352e8570bd1116d11a72755b987902440045d346_id   | string               |   
+     | student                     | 5                   | schools.edOrgs                           | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id   | string               |   
+     | student                     | 3                   | schools.edOrgs                           | a13489364c2eb015c219172d561c62350f0453f3_id   | string               |   
+     | student                     | 10                  | schools.edOrgs                           | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |   
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
   When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"
@@ -184,5 +164,3 @@ Scenario: Verify entities in specific student document ingested correctly: Popul
     And the student entity schools.entryGradeLevel should be "Kindergarten"
     And the student entity schools.entryGradeLevel should be "First grade" 
     And the student entity schools.entryGradeLevel should be "Second grade" 
-
- 

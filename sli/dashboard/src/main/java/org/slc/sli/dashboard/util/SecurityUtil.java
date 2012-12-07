@@ -76,11 +76,19 @@ public class SecurityUtil {
             Authentication authentication = context.getAuthentication();
             if (authentication != null) {
                 Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-                for (GrantedAuthority authority : authorities) {
-                    if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
-                        return true;
+                if (authorities != null) {
+                    for (GrantedAuthority authority : authorities) {
+                        if (authority != null) {
+                            String authorityString = authority.getAuthority();
+                            
+                            if (Constants.ROLE_IT_ADMINISTRATOR.equals(authorityString)) {
+                                return true;
+                            }
+                        }
+                        
                     }
                 }
+                
             }
         }
         return false;

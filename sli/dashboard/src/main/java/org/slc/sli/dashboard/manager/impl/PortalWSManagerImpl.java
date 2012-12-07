@@ -49,11 +49,13 @@ public class PortalWSManagerImpl implements PortalWSManager {
     }
     
     private String get(String url, boolean isAdmin) {
+        if (this.restClient == null) {
+            return StringUtils.EMPTY;
+        }
+        
         try {
             return restClient.getJsonRequest(url + "?isAdmin=" + isAdmin, true);
         } catch (JsonSyntaxException ex) {
-            return StringUtils.EMPTY;
-        } catch (NullPointerException npe) {
             return StringUtils.EMPTY;
         } catch (IllegalArgumentException iae) {
             return StringUtils.EMPTY;

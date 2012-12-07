@@ -22,26 +22,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.generic.UnversionedResource;
+import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -72,7 +70,7 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 @Path("apps")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
-public class ApplicationResource extends DefaultCrudEndpoint {
+public class ApplicationResource extends UnversionedResource {
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
     public static final String APPLICATION = "application";
@@ -94,6 +92,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     private EntityService service;
 
     @Autowired
+    @Qualifier("applicationResourceService")
+    private ResourceService resourceService;
+
+    @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
@@ -105,7 +107,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String APPROVAL_DATE = "approval_date";
     public static final String REQUEST_DATE = "request_date";
     public static final String STATUS = "status";
-    public static final String RESOURCE_NAME = APPLICATION;
+    public static final String RESOURCE_NAME = "apps";
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
 
@@ -113,21 +115,26 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     //These fields can only be set during bootstrapping and can never be modified through the API
     private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
-    
+
     public void setAutoRegister(boolean register) {
         autoRegister = register;
     }
 
     @Autowired
     public ApplicationResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, RESOURCE_NAME);
         store = entityDefs;
         service = store.lookupByResourceName(RESOURCE_NAME).getService();
     }
 
+    @PostConstruct
+    public void init() {
+        super.setResourceService(resourceService);
+    }
+
     @POST
-    @RightsAllowed({Right.DEV_APP_CRUD})
-    public Response createApplication(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    @Override
+    @RightsAllowed({ Right.DEV_APP_CRUD })
+    public Response post(EntityBody newApp, @Context final UriInfo uriInfo) {
         if (newApp.containsKey(CLIENT_SECRET) || newApp.containsKey(CLIENT_ID) || newApp.containsKey("id")) {
             EntityBody body = new EntityBody();
             body.put(MESSAGE, "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
@@ -169,8 +176,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         for (String fieldName : PERMANENT_FIELDS) {
             newApp.remove(fieldName);
         }
-
-        return super.create(newApp, headers, uriInfo);
+        return super.post(newApp, uriInfo);
     }
 
     private boolean isDuplicateToken(String token) {
@@ -180,7 +186,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + token));
 
         Iterable<EntityBody> it = service.list(neutralQuery);
-                       
+
         if (it == null || it.iterator() == null) {
             return false;
         }
@@ -189,50 +195,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @SuppressWarnings("rawtypes")
     @GET
-    @RightsAllowed({Right.ADMIN_ACCESS})
-    public Response getApplications(
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp = super.readAll(offset, limit, headers, uriInfo);
+    @RightsAllowed({ Right.ADMIN_ACCESS })
+    @Override
+    public Response getAll(@Context final UriInfo uriInfo) {
+        Response resp = super.getAll(uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
-    }
-
-
-
-    @Override
-    protected void addAdditionalCritera(NeutralQuery query) {
-
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { 
-            if (sandboxEnabled) {
-                // Sandbox developer can see all apps in their tenancy
-                query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId(), false));
-            } else {
-                // Prod. Developer sees all apps they own
-                query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal .getExternalId()));
-            }
-        } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
-
-            //know this is ugly, but having trouble getting or queries to work
-            List<String> idList = new ArrayList<String>();
-            NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
-            Iterable<String> ids = repo.findAllIds(APPLICATION, newQuery);
-            for (String id : ids) {
-                idList.add(id);
-            }
-
-            newQuery = new NeutralQuery(0);
-            newQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
-            newQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
-
-            ids = repo.findAllIds(APPLICATION, newQuery);
-            for (String id : ids) {
-                idList.add(id);
-            }
-            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, idList));
-        } //else - operator -- sees all apps
     }
 
 
@@ -246,11 +214,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
      */
     @SuppressWarnings("rawtypes")
     @GET
+    @Override
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.ADMIN_ACCESS})
-    public Response getApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        Response resp = super.read(uuid, headers, uriInfo);
+    @RightsAllowed({ Right.ADMIN_ACCESS })
+    public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
+        Response resp = super.getWithId(uuid, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
@@ -290,24 +258,24 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     }
 
     @DELETE
+    @Override
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.DEV_APP_CRUD})
-    public Response deleteApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        
+    @RightsAllowed({ Right.DEV_APP_CRUD })
+    public Response delete(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
+
         EntityBody ent = service.get(uuid);
         if (ent != null) {
             validateDeveloperHasAccessToApp(ent);
         } //if it is null, then we'll let the super.delete handle the case of deleting an app with bad ID
-        return super.delete(uuid, headers, uriInfo);
+        return super.delete(uuid, uriInfo);
     }
 
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
-    public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE })
+    @Override
+    public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
             EntityBody body = new EntityBody();
             body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
@@ -325,7 +293,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if (clientId == null) {
             app.put(CLIENT_ID, oldApp.get(CLIENT_ID));
         }
-        
+
         String createdBy = (String) app.get(CREATED_BY);
         if (createdBy == null) {
             app.put(CREATED_BY, oldApp.get(CREATED_BY));
@@ -430,13 +398,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
         }
 
-
-        return super.update(uuid, app, headers, uriInfo);
+        return super.put(uuid, app, uriInfo);
     }
 
     private void validateDeveloperHasAccessToApp(EntityBody app) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
+
         if (sandboxEnabled) {
             @SuppressWarnings("unchecked")
             Map<String, Object> metaData = (Map<String, Object>) app.get("metaData");

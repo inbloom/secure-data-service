@@ -17,6 +17,7 @@
 
 package org.slc.sli.dashboard.client;
 
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -852,9 +853,9 @@ public class LiveAPIClient {
         // this method expected to return JSON in array.
         // If JSON is not in array, convert to array.
         if (!response.startsWith("[")) {
-            maps = gson.fromJson("[" + response + "]", new ArrayList<Map>().getClass());
+            maps = gson.fromJson("[" + response + "]", ArrayList.class);
         } else {
-            maps = gson.fromJson(response, new ArrayList<Map>().getClass());
+            maps = gson.fromJson(response, ArrayList.class);
         }
 
         if (maps != null) {

@@ -19,7 +19,7 @@ package org.slc.sli.sample.transform;
 
 import org.slc.sli.sample.transform.CcsCsv2XmlTransformer.GradeLevelMapper;
 
-import org.slc.sli.sample.entities.GradeLevelType;
+import org.slc.sli.sample.entitiesR1.GradeLevelType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,11 +28,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slc.sli.sample.entities.AcademicSubjectType;
-import org.slc.sli.sample.entities.LearningObjective;
-import org.slc.sli.sample.entities.LearningStandardId;
-import org.slc.sli.sample.entities.LearningStandardIdentityType;
-import org.slc.sli.sample.entities.LearningStandardReferenceType;
+import org.slc.sli.sample.entitiesR1.AcademicSubjectType;
+import org.slc.sli.sample.entitiesR1.LearningObjective;
+import org.slc.sli.sample.entitiesR1.LearningStandardId;
+import org.slc.sli.sample.entitiesR1.LearningStandardIdentityType;
+import org.slc.sli.sample.entitiesR1.LearningStandardReferenceType;
 import org.slc.sli.sample.transform.CcsCsv2XmlTransformer.LearningStandardResult;
 
 public class CCSEnglishCSV2XMLTransformer {

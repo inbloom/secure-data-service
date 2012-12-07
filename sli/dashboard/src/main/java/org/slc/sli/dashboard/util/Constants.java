@@ -61,7 +61,7 @@ public final class Constants {
     public static final String MM_KEY_ATTENDANCE = "attendances";
     public static final String MM_KEY_HISTORICAL = "historicaldata";
     public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
-    public static final String MM_KEY_LOGGER = "logger";
+    public static final String MM_KEY_LOGGER = "LOGGER";
     public static final String MM_COMPONENT_ID = "componentId";
     public static final String MM_ENTITY_ID = "entityId";
     

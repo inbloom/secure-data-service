@@ -204,6 +204,7 @@ public class Config implements Cloneable, Serializable {
         protected boolean lazy;
 
         public Data() {
+            //Default constructor
         }
 
         public Data(String entity, String cacheKey, boolean lazy, Map<String, Object> params) {
@@ -301,7 +302,7 @@ public class Config implements Cloneable, Serializable {
         }
 
         public Object[] getValue() {
-            return value;
+            return value.clone();
         }
 
         @Override
@@ -350,6 +351,7 @@ public class Config implements Cloneable, Serializable {
     }
 
     public Config() {
+        //Default constructor
     }
 
     public String getId() {
@@ -381,7 +383,11 @@ public class Config implements Cloneable, Serializable {
     }
 
     public Item[] getItems() {
-        return items;
+        if (items == null) {
+            return null;
+        }
+        
+        return items.clone();
     }
 
     public Map<String, Object> getParams() {

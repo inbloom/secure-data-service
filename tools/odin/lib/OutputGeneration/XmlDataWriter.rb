@@ -23,6 +23,9 @@ require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
 require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/enrollmentGenerator.rb"
+require_relative "XML/staffAssociationGenerator.rb"
+require_relative "XML/studentAssessmentGenerator.rb"
+require_relative "XML/assessment_metadata_generator.rb"
 require_relative "DataWriter.rb"
 
 # ed-fi xml interchange writer class
@@ -37,7 +40,7 @@ class XmlDataWriter < DataWriter
   def initialize(yaml)
     super()
     @yaml      = yaml
-    @directory = yaml['DIRECTORY']
+    @directory = (yaml['DIRECTORY'] or 'generated/')
     initialize_edfi_xml_writers(@directory)
   end
 
@@ -51,12 +54,14 @@ class XmlDataWriter < DataWriter
       Dir.mkdir(@directory)
     end
 
-    # initialize_student_enrollment_writer
     @student_parent_writer         = StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
     @education_organization_writer = EducationOrganizationGenerator.new(@yaml, initialize_interchange(directory, "EducationOrganization"))
     @education_org_calendar_writer = EducationOrgCalendarGenerator.new(@yaml, initialize_interchange(directory, "EducationOrgCalendar"))
     @master_schedule_writer        = MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
+    @assessment_metadata_writer    = AssessmentMetadataGenerator.new(@yaml, initialize_interchange(directory, "AssessmentMetadata"))
     @student_enrollment_writer     = EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
+    @staff_association_writer      = StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
+    @student_assessment_writer     = StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
     
     # enable entities to be written
     # -> writes header
@@ -65,7 +70,10 @@ class XmlDataWriter < DataWriter
     @education_organization_writer.start
     @education_org_calendar_writer.start
     @master_schedule_writer.start
+    @assessment_metadata_writer.start
     @student_enrollment_writer.start
+    @staff_association_writer.start
+    @student_assessment_writer.start
   end
 
   # initializes interchange of specified 'type' in 'directory'
@@ -80,7 +88,10 @@ class XmlDataWriter < DataWriter
     @education_organization_writer.finalize
     @education_org_calendar_writer.finalize
     @master_schedule_writer.finalize
+    @assessment_metadata_writer.finalize
     @student_enrollment_writer.finalize
+    @staff_association_writer.finalize
+    @student_assessment_writer.finalize
   end
 
   # -------   education organization interchange entities   ------
@@ -98,8 +109,8 @@ class XmlDataWriter < DataWriter
   end
 
   # write school to education organization interchange
-  def create_school(rand, id, parent_id, type)
-    @education_organization_writer.create_school(rand, id, parent_id, type)
+  def create_school(id, parent_id, type)
+    @education_organization_writer.create_school(id, parent_id, type)
     increment_count(:school)
   end
 
@@ -146,8 +157,8 @@ class XmlDataWriter < DataWriter
   end
 
   # write section to master schedule interchange
-  def create_section(id, year, term, interval, ed_org_id, grading_periods)
-    @master_schedule_writer.create_section(id, year, term, interval, ed_org_id, grading_periods)
+  def create_section(id, school_id, offering)
+    @master_schedule_writer.create_section(id, school_id, offering)
     increment_count(:section)
   end
 
@@ -170,10 +181,35 @@ class XmlDataWriter < DataWriter
   end
 
   # write student section association to student enrollment interchange
-  def create_student_section_association(id, section, school_id, start_year, start_grade)
-    @student_enrollment_writer.create_student_section_association(id, section, school_id, start_year, start_grade)
+  def create_student_section_association(id, section, offering_id, school_id, start_year, start_grade)
+    @student_enrollment_writer.create_student_section_association(id, section, offering_id, school_id, start_year, start_grade)
     increment_count(:student_section_association)
   end
 
   # ---------   student enrollment interchange entities   --------
+  # ----------   staff association interchange entities   --------
+
+  # write staff to staff association interchange
+  def create_staff(id, year_of, name = nil)
+    @staff_association_writer.create_staff(id, year_of, name)
+    increment_count(:staff)
+  end
+
+  # write staff education organization assignment association to staff association interchange
+  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date, end_date = nil)
+    @staff_association_writer.create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date, end_date)
+    increment_count(:staff_ed_org_assignment_association)
+  end
+
+  # ----------   staff association interchange entities   --------
+
+  def create_student_assessment(student_assessment)
+    @student_assessment_writer << student_assessment
+    increment_count(:student_assessment)
+  end
+
+  def create_assessment(assessment)
+    @assessment_metadata_writer << assessment
+    increment_count(:assessment)
+  end
 end

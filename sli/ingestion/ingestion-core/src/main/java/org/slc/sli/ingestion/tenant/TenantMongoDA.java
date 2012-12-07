@@ -286,4 +286,17 @@ public class TenantMongoDA implements TenantDA {
         return fileMap;
     }
 
+    @Override
+    public List<String> getAllTenantDbs () {
+        List<String> tenantDbs = new ArrayList<String>();
+        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, new NeutralQuery());
+
+        for(Entity entity : entities) {
+            String collection = (String) entity.getBody().get(DB_NAME);
+            tenantDbs.add(collection);
+        }
+
+        return tenantDbs;
+    }
+
 }

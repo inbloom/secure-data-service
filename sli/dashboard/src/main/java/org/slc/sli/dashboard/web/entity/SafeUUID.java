@@ -31,10 +31,11 @@ public class SafeUUID {
     String uuid;
     
     public SafeUUID() {
+        //Default constructor
     }
     
     public SafeUUID(String id) {
-        setId(id);
+        this.uuid = id;
     }
     
     public String getId() {

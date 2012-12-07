@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ZipFileUtil {
 
+    private ZipFileUtil() {}
+
     static Logger log = LoggerFactory.getLogger(ZipFileUtil.class);
 
     static final int BUFFER = 2048;

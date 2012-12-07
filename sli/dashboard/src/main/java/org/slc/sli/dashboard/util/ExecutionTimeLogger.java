@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 @Aspect
 public class ExecutionTimeLogger {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExecutionTimeLogger.class);
     /**
      * Annotation to mark methods that need execution time logging
      * @author agrebneva
@@ -54,7 +54,7 @@ public class ExecutionTimeLogger {
             return proceedingJoinPoint.proceed();
         } finally {
             if (ProceedingJoinPoint.METHOD_CALL.equals(proceedingJoinPoint.getKind())) {
-                logger.info(">>>>>" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + " ms " + proceedingJoinPoint.toShortString() + "," + Arrays.asList(proceedingJoinPoint.getArgs()));
+                LOGGER.info(">>>>>" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + " ms " + proceedingJoinPoint.toShortString() + "," + Arrays.asList(proceedingJoinPoint.getArgs()));
             }
         }
     }

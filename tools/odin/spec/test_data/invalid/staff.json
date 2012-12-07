@@ -1,0 +1,40 @@
+[
+  {
+    "userId": "cgray",
+    "name": "Charles Gray",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": ""
+      }
+    ]
+  },
+  {
+    "userId": "",
+    "name": "Linda Kim",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Middle School",
+        "association": ""
+      }
+    ]
+  },
+  {
+    "userId": "rbraverman",
+    "name": "Rebecca Braverman",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Wrong School Type",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  }
+]

@@ -64,6 +64,7 @@ class DataUtility
 
   # create the id for the school based on the given type
   def self.get_school_id(id, type)
+    return id if id.kind_of? String
     case type
     when :elementary then get_elementary_school_id id
     when :middle then get_middle_school_id id
@@ -99,8 +100,8 @@ class DataUtility
     "cofr-" + pad_id_with_zeroes(id, 10)
   end
 
-  def self.get_unique_section_id(id)
-    "sctn-" + pad_id_with_zeroes(id, 10)
+  def self.get_unique_section_id(id, offering)
+    "sctn-" + pad_id_with_zeroes(offering, 5) + pad_id_with_zeroes(id, 5)
   end
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
 

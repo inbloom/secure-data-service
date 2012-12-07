@@ -53,8 +53,7 @@ import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
  * 
  */
 public class StudentProgressManagerImpl implements StudentProgressManager {
-    
-    private static Logger log = LoggerFactory.getLogger(StudentProgressManagerImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StudentProgressManagerImpl.class);
     public static final String TRANSCRIPT_HISTORY = "transcriptHistory";
     public static final String GRADE = "grade";
     public static final String SUBJECT = "subject";
@@ -258,8 +257,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     
     private void getSchools(List<String> schoolIds, String token, Map<String, GenericEntity> cache) {
         
-        List<GenericEntity> schools = entityManager.getEntities(token, SDKConstants.SCHOOLS_ENTITY, schoolIds,
-                new HashMap<String, String>());
+        List<GenericEntity> schools = entityManager.getEntities(token, SDKConstants.SCHOOLS_ENTITY, schoolIds, new HashMap<String, String>());
         
         for (GenericEntity school : schools) {
             cache.put(school.getId(), school);
@@ -419,7 +417,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     private List<Map<String, Object>> filterBySubjectArea(List<Map<String, Object>> studentSectionAssociations,
             String subjectArea) {
         if (subjectArea == null) {
-            log.warn("Subject Area to match is null!");
+            LOG.warn("Subject Area to match is null!");
             return studentSectionAssociations;
         }
         
@@ -506,13 +504,11 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
                 if (entries == null) {
                     continue;
                 }
-                
-                geStudentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE,
-                        entries.get(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
-                
-                gradebookEntries.put(studentGradebookEntry.get(Constants.ATTR_GRADEBOOK_ENTRY_ID).toString(),
-                        geStudentGradebookEntry);
-                log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
+
+                geStudentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE, entries.get(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
+
+                gradebookEntries.put(studentGradebookEntry.get(Constants.ATTR_GRADEBOOK_ENTRY_ID).toString(), geStudentGradebookEntry);
+                LOG.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
             }
             
             results.put(studentId, gradebookEntries);

@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TimedLogic {
 
-    private static Logger logger = LoggerFactory.getLogger(TimedLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimedLogic.class);
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -64,11 +64,8 @@ public class TimedLogic {
                     Date d2 = dateFormat.parse((String) o2.get(Constants.ATTR_ADMIN_DATE));
                     return d2.compareTo(d1);
 
-                } catch (NullPointerException e) {
-                    logger.error("Date compare error");
-                    return 0;
                 } catch (ParseException e) {
-                    logger.error("Date compare error");
+                    LOGGER.error("Date compare error");
                     return 0;
                 }
             }

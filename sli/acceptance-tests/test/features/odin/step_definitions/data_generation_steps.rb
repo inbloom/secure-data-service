@@ -31,23 +31,26 @@ end
 When /^I generate the 10 student data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for 10 students"
-  generate('10students')   
+  generate("10students")   
 end
 
 When /^I generate the 10001 student data set$/ do
-  generate('10001students')    
+  generate("10001students")    
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|
-  @zip_path = @gen_path + new_dir
+  @zip_path = "#{@gen_path}#{new_dir}/"
   FileUtils.mkdir_p(@zip_path)
   FileUtils.chmod(0777, @zip_path)
-  runShellCommand("zip -j #{@zip_path}/#{zip_file} #{@gen_path}/*.xml #{@gen_path}/*.ctl")
+  runShellCommand("zip -j #{@zip_path}#{zip_file} #{@gen_path}*.xml #{@gen_path}*.ctl")
 end
 
 When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
-  @zip_path = @gen_path + new_dir
-  Dir["#{@gen_path}*.xml"].each {|f| FileUtils.cp(f, @zip_path)}
+  @zip_path = "#{@gen_path}#{new_dir}"
+  Dir["#{@gen_path}*.xml"].each do |f|
+    FileUtils.cp(f, @zip_path)
+    puts "Copied file #{f} to #{@zip_path}"
+  end
   Dir["#{@gen_path}*.ctl"].each {|f| FileUtils.cp(f, @zip_path)}
 end
 
@@ -55,7 +58,10 @@ end
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
 Then /^I should see ([0-9]+) xml interchange files$/ do |file_count|
-  raise "Did not find expected number of Interchange files (found #{file_count}, expected 8)" if file_count.to_i != 8
+  count = Dir["#{@gen_path}*"].length
+  file_count = file_count.to_i
+  puts "Expected to see #{file_count} files, found #{count}"
+  raise "Did not find expected number of Interchange files (found #{count}, expected #{file_count})" if file_count.to_i != count
 end
 
 Then /^I should see (.*?) has been generated$/ do |filename|

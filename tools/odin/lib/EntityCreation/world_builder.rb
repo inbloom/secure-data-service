@@ -19,11 +19,13 @@ limitations under the License.
 require 'date'
 require 'logger'
 
-require_relative "../Shared/EntityClasses/enum/GradeLevelType.rb"
-require_relative "../Shared/EntityClasses/enum/GradingPeriodType.rb"
-require_relative "../Shared/data_utility.rb"
-require_relative "../Shared/date_interval.rb"
-require_relative "../Shared/date_utility.rb"
+require_relative '../Shared/EntityClasses/enum/GradeLevelType.rb'
+require_relative '../Shared/EntityClasses/enum/GradingPeriodType.rb'
+require_relative '../Shared/EntityClasses/enum/StaffClassificationType.rb'
+require_relative '../Shared/data_utility.rb'
+require_relative '../Shared/date_interval.rb'
+require_relative '../Shared/date_utility.rb'
+require_relative "assessment_factory"
 
 # World Builder
 # -> intent is to create 'scaffolding' that represents a detailed, time-sensitive view of the world
@@ -32,26 +34,22 @@ require_relative "../Shared/date_utility.rb"
 # (1) create world using number of students + time information (begin year, number of years)
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldBuilder
-  def initialize(prng, yaml, writer)
-    small_batch_size  = 500
-    medium_batch_size = 5000
-    large_batch_size  = 25000
-
+  def initialize(prng, yaml, writer, pre_requisites)
     $stdout.sync = true
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
     @prng = prng
     @scenarioYAML = yaml
 
-    @edOrgs = Hash.new
-    @edOrgs["seas"]       = []
-    @edOrgs["leas"]       = []
-    @edOrgs["elementary"] = []
-    @edOrgs["middle"]     = []
-    @edOrgs["high"]       = []
+    @edOrgs = {"seas" => [], "leas" => [], "elementary" => [], "middle" => [], "high" => []}
 
-    @breakdown   = {}
-    @data_writer = writer
+    @breakdown      = {}              # used for storing breakdown of students per grade
+    @data_writer    = writer          # data writer (abstracts where data is actually 'written' to away from world building)
+    @pre_requisites = pre_requisites  # pre-requisites for world building (education organizations and staff members/teachers that must be created)
+    @schools        = []              # holds state organization id's of schools specified in the staff.json
+
+    @num_staff_members = 0            # use to make sure staff   unique state ids are unique
+    @num_teachers      = 0            # use to make sure teacher unique state ids are unique
   end
 
   # Builds the initial snapshot of the world
@@ -94,6 +92,7 @@ class WorldBuilder
     begin_year, num_years = add_time_information_to_edOrgs
     expand_student_counts_using_time_information(begin_year, num_years)
     create_master_schedule
+    create_assessments(begin_year, num_years)
     write_interchanges
   end
 
@@ -190,10 +189,13 @@ class WorldBuilder
   def create_schools(tag, num_schools, total_num_students)
     if tag == "elementary"
       avg_num_students = @scenarioYAML["AVERAGE_ELEMENTARY_SCHOOL_NUM_STUDENTS"]
+      index = :elementary
     elsif tag == "middle"
       avg_num_students = @scenarioYAML["AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS"]
+      index = :middle
     elsif tag == "high"
       avg_num_students = @scenarioYAML["AVERAGE_HIGH_SCHOOL_NUM_STUDENTS"]
+      index = :high
     end
     avg_num_students_threshold = @scenarioYAML["AVERAGE_NUM_STUDENTS_THRESHOLD"]
     min                        = avg_num_students - (avg_num_students * avg_num_students_threshold)
@@ -205,18 +207,27 @@ class WorldBuilder
       school_counter   += 1
       current_students = (total_num_students - student_counter) if current_students > (total_num_students - student_counter)
       student_counter  += current_students
+      school_id        = school_counter
+      members          = []
+
+      school_id, members = @pre_requisites[index].shift if @pre_requisites[index].size > 0
+
+      if school_id.kind_of? String
+        @schools << school_id
+      end
       
-      edOrg              = Hash.new
-      edOrg["id"]        = school_counter
-      edOrg["parent"]    = nil
-      #edOrg["programs"]  = []
-      edOrg["sessions"]  = []
-      edOrg["staff"]     = create_staff_for_school()
-      edOrg["offerings"] = Hash.new
-      edOrg["students"]  = Hash.new
+      staff, teachers    = create_staff_and_teachers_for_school(members)
       begin_year         = @scenarioYAML["beginYear"]
-      edOrg["students"][begin_year] = assemble_students_into_waves(tag, current_students)
-      @edOrgs[tag]       << edOrg
+
+      @edOrgs[tag]       << {
+        "id" => school_id, 
+        "parent" => nil, 
+        "sessions" => [], 
+        "staff" => staff,
+        "teachers" => teachers,
+        "offerings" => {},
+        "students" => {begin_year => assemble_students_into_waves(tag, current_students)}
+      }
     end
     return school_counter
   end
@@ -227,35 +238,20 @@ class WorldBuilder
   # -> for larger numbers of students, many waves will be created
   def assemble_students_into_waves(type, num_students)
     if type == "elementary"
-      min = @scenarioYAML["MINIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_ELEMENTARY_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.elementary, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.elementary, num_students)
     elsif type == "middle"
-      min = @scenarioYAML["MINIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_MIDDLE_SCHOOL_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.middle, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.middle, num_students)
     elsif type == "high"
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      return get_students_per_grade(GradeLevelType.high, num_students, min, max)
+      WorldBuilder.get_students_per_grade(GradeLevelType.high, num_students)
     end
   end
 
   # takes the specified grades and uses the total number of students, as well as the minimum and maximum
   # number of students per section, to assemble 'waves' of students by grade
-  def get_students_per_grade(grades, num_students, min, max)
-    students_per_grade = Hash.new
-    grades.each do |grade|
-      students_per_grade[grade] = 0
-    end
-    while num_students > 0
-      grades.each do |grade|
-        current_students = random_on_interval(min, max)
-        current_students = num_students if num_students < current_students
-        students_per_grade[grade] += current_students
-        num_students              -= current_students
-      end
-    end
+  def self.get_students_per_grade(grades, num_students)
+    num_grades = grades.count
+    students_per_grade = Hash[*grades.zip([num_students/num_grades].cycle).flatten]
+    (0..(num_students % num_grades)-1).each{|i| students_per_grade[grades[i]] += 1 }
     students_per_grade
   end
 
@@ -272,22 +268,28 @@ class WorldBuilder
     school_counter   = 0
     while all_schools.size > 0
       district_counter += 1
+      district_id      = district_counter
+      members          = []
       num_schools_in_this_district = random_on_interval(min_num_schools_per_district, max_num_schools_per_district).round
-      
-      if num_schools_in_this_district > (num_schools - school_counter)
-        num_schools_in_this_district = (num_schools - school_counter)
+      num_schools_in_this_district = (num_schools - school_counter) if num_schools_in_this_district > (num_schools - school_counter)
+
+      district_id, members = @pre_requisites[:leas].shift if @pre_requisites[:leas].size > 0
+ 
+      schools_in_this_district = []
+      while @schools.size > 0 and num_schools_in_this_district > 0
+        schools_in_this_district << @schools.shift
+        num_schools_in_this_district -= 1
       end
 
-      schools_in_this_district = all_schools.pop(num_schools_in_this_district)      
-      update_schools_with_district_id(district_counter, schools_in_this_district)
+      if num_schools_in_this_district > 0
+        schools_in_this_district << all_schools.pop(num_schools_in_this_district)
+        schools_in_this_district.flatten!
+      end
       
-      edOrg             = Hash.new
-      edOrg["id"]       = district_counter
-      edOrg["parent"]   = nil
+      update_schools_with_district_id(district_id, schools_in_this_district)
+      
       #edOrg["programs"] = []
-      edOrg["sessions"] = []
-      edOrg["staff"]    = create_staff_for_local_education_agency()
-      @edOrgs["leas"]   << edOrg
+      @edOrgs["leas"]   << {"id" => district_id, "parent" => nil, "sessions" => [], "staff" => create_staff_for_local_education_agency(members)}
       school_counter    += num_schools_in_this_district
     end
     return district_counter
@@ -298,9 +300,7 @@ class WorldBuilder
   # unique "id" is contained within "schools_in_this_district", and sets the "parent" attribute
   # of those matching edOrgs to the district id.
   def update_schools_with_district_id(district_id, schools_in_this_district)
-    # check in elementary schools
-    # check in middle schools
-    # check in high schools
+    # check in elementary, middle, and high schools
     @edOrgs["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
     @edOrgs["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
@@ -315,35 +315,94 @@ class WorldBuilder
   # future implementation should look at yaml for average number of districts in a state and create multiple 
   #  state education agencies, as needed
   def update_districts_with_states(num_districts)
-    state_id          = num_districts + 1
-    edOrg             = Hash.new
-    edOrg["id"]       = state_id
-    edOrg["courses"]  = create_courses()
-    edOrg["staff"]    = create_staff_for_state_education_agency()
+    state_id  = num_districts + 1
+    members   = []
+    state_id, members = @pre_requisites[:seas].shift if @pre_requisites[:seas].size > 0
+
     #edOrg["programs"] = []
-    @edOrgs["seas"]  << edOrg
-    
-    @edOrgs["leas"].each do |edOrg| 
-      edOrg["parent"] = state_id
-    end
+    @edOrgs["seas"]  << {"id" => state_id, "courses" => create_courses, "staff" => create_staff_for_state_education_agency(members)}
+    @edOrgs["leas"].each { |edOrg| edOrg["parent"] = state_id }
   end
 
   # creates staff members at the state education agency level
-  def create_staff_for_state_education_agency()
-    members = []
-    members
+  # -> initializes roles to be used at the state education agency level and calls generic create_staff method
+  # -> allows optional input of staff members guaranteed to be created (rather than pseudo-randomly generated)
+  def create_staff_for_state_education_agency(members = nil)
+    create_staff_for_education_organization(get_default_state_education_agency_roles, members)
   end
 
   # creates staff members at the local education agency level
-  def create_staff_for_local_education_agency()
-    members = []
-    members
+  # -> initializes roles to be used at the local education agency level and calls generic create_staff method
+  # -> allows optional input of staff members guaranteed to be created (rather than pseudo-randomly generated)
+  def create_staff_for_local_education_agency(members = nil)
+    create_staff_for_education_organization(get_default_local_education_agency_roles, members)
   end  
 
   # creates staff members at the school level
-  def create_staff_for_school()
+  # -> initializes roles to be used at the school level and calls generic create_staff method
+  # -> allows optional input of staff members guaranteed to be created (rather than pseudo-randomly generated)
+  def create_staff_and_teachers_for_school(members = nil)
+    staff    = create_staff_for_education_organization(get_default_school_roles, members)
+    teachers = create_teachers_for_education_organization(members)
+    return staff, teachers
+  end
+
+  # returns the list of default state education agency roles
+  def get_default_state_education_agency_roles
+    [:COUNSELOR, :INSTRUCTIONAL_COORDINATOR, :SPECIALIST_CONSULTANT, :STUDENT_SUPPORT_SERVICES_STAFF, :SUPERINTENDENT]
+  end
+
+  # returns the list of default local education agency roles
+  def get_default_local_education_agency_roles
+    [:ASSISTANT_SUPERINTENDENT, :LEA_ADMINISTRATIVE_SUPPORT_STAFF, :LEA_ADMINISTRATOR, :LEA_SPECIALIST, :LEA_SYSTEM_ADMINISTRATOR]
+  end
+  
+  # returns the list of default school roles
+  def get_default_school_roles
+    [:ASSISTANT_PRINCIPAL, :ATHLETIC_TRAINER, :HIGH_SCHOOL_COUNSELOR, :INSTRUCTIONAL_AIDE, :LIBRARIAN, :PRINCIPAL, :SCHOOL_ADMINISTRATOR, :SCHOOL_NURSE]
+  end  
+
+  # creates staff members based on the specified roles and required staff members
+  def create_staff_for_education_organization(roles, required)
     members = []
+    if !required.nil? and required.size > 0
+      required.each do |member|
+        # skip this entry if its an Educator --> handled in 'create_teachers' method
+        next if member[:role] == "Educator"
+        
+        @num_staff_members += 1
+        members << {"id" => member[:staff_id], "role" => member[:role], "name" => member[:name]}
+        for index in (0..(roles.size - 1)) do
+          if StaffClassificationType.to_string(roles[index]) == member[:role]
+            @log.info "Removing role: #{member[:role]} from default roles --> specified by member in staff catalog."
+            roles.delete_at(index)
+            break
+          end
+        end
+      end
+    end
+    if !roles.nil? and roles.size > 0
+      for index in (0..(roles.size - 1)) do
+        @num_staff_members += 1
+        members << {"id" => @num_staff_members, "role" => roles[index]}
+      end
+    end
     members
+  end
+
+  # creates teachers (ahead of time) based on required pre-requisites
+  def create_teachers_for_education_organization(required)
+    teachers = []
+    if !required.nil? and required.size > 0
+      required.each do |member|
+        # skip this entry if its not an Educator --> handled in 'create_staff' method
+        next if member[:role] != "Educator"
+
+        @num_teachers += 1
+        teachers << {"id" => member[:staff_id], "name" => member[:name]}
+      end
+    end
+    teachers
   end
 
   def build_world_from_edOrgs()
@@ -386,7 +445,12 @@ class WorldBuilder
       @log.info "creating session information for school year: #{year}-#{year+1}"
       @edOrgs["leas"].each_index do |index|
         edOrg = @edOrgs["leas"][index]
-        state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
+        if edOrg["id"].kind_of? String
+          state_organization_id = edOrg["id"]
+        else
+          state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
+        end
+        
         start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
         interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
 
@@ -442,21 +506,16 @@ class WorldBuilder
   # uses the specified education organization 'type' to determine which grade to analyze in the @breakdown instance variable,
   # and if incoming students are present, assigns them across education organizations of specified 'type'
   def assign_incoming_students(type, year)
+    students_per_section = @scenarioYAML['STUDENTS_PER_SECTION'][type]
     if type == "elementary"
       grade = :KINDERGARTEN
-      min   = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max   = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "middle"
       grade = :SIXTH_GRADE
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
     elsif type == "high"
       grade = :NINTH_GRADE
-      min = @scenarioYAML["MINIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-      max = @scenarioYAML["MAXIMUM_HIGH_SCHOOL_STUDENTS_PER_SECTION"]
-  end
+    end
   
-    if @breakdown[grade] > 0 && min >= 0 && max >= min
+    if @breakdown[grade] > 0
       # actually perform split
       students_to_be_split = @breakdown[grade]
       students_so_far      = 0
@@ -464,7 +523,7 @@ class WorldBuilder
 
       while students_to_be_split > 0
         @edOrgs[type].each_index do |index|
-          num_students_assigned_to_this_school = random_on_interval(min, max)
+          num_students_assigned_to_this_school = students_per_section
 
           if students_to_be_split == 0
             num_students_assigned_to_this_school = 0
@@ -645,7 +704,7 @@ class WorldBuilder
     end
     # parent_id should now be populated with id of the state education agency
     state_education_agency = @edOrgs["seas"].detect {|sea| sea["id"] == parent_id}
-
+    
     courses = Hash.new
     if type == "elementary"
       GradeLevelType.elementary.each do |grade|
@@ -680,6 +739,7 @@ class WorldBuilder
     write_education_organization_interchange
     write_education_org_calendar_interchange
     write_master_schedule_interchange
+    write_staff_association_interchange
   end
 
   # writes ed-fi xml interchange: education organization entities:
@@ -692,14 +752,19 @@ class WorldBuilder
     # write state education agencies
     @edOrgs["seas"].each do |edOrg|
       @data_writer.create_state_education_agency(@prng, edOrg["id"])
-      write_courses(DataUtility.get_state_education_agency_id(edOrg["id"]), edOrg["courses"])
+      if edOrg["id"].kind_of? String
+        ed_org_id = edOrg["id"]
+      else
+        ed_org_id = DataUtility.get_state_education_agency_id(edOrg["id"])
+      end
+      write_courses(ed_org_id, edOrg["courses"])
     end
     # write local education agencies
     @edOrgs["leas"].each       { |edOrg| @data_writer.create_local_education_agency(@prng, edOrg["id"], edOrg["parent"]) }
     # write schools
-    @edOrgs["elementary"].each { |edOrg| @data_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "elementary") }
-    @edOrgs["middle"].each     { |edOrg| @data_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "middle") }
-    @edOrgs["high"].each       { |edOrg| @data_writer.create_school(@prng, edOrg["id"], edOrg["parent"], "high") }
+    @edOrgs["elementary"].each { |edOrg| @data_writer.create_school(edOrg["id"], edOrg["parent"], "elementary") }
+    @edOrgs["middle"].each     { |edOrg| @data_writer.create_school(edOrg["id"], edOrg["parent"], "middle") }
+    @edOrgs["high"].each       { |edOrg| @data_writer.create_school(edOrg["id"], edOrg["parent"], "high") }
   end
 
   # writes ed-fi xml interchange: education organization calendar entities:
@@ -712,7 +777,12 @@ class WorldBuilder
       # get sessions currently stored on local education agency
       # iterate through sessions
       sessions  = ed_org["sessions"]
-      ed_org_id = DataUtility.get_local_education_agency_id(ed_org["id"])
+      if ed_org["id"].kind_of? String
+        ed_org_id = ed_org["id"]
+      else
+        ed_org_id = DataUtility.get_local_education_agency_id(ed_org["id"])
+      end
+      
       sessions.each do |session|
         interval  = session["interval"]
         year      = session["year"]
@@ -750,6 +820,99 @@ class WorldBuilder
     write_course_offerings("elementary")
     write_course_offerings("middle")
     write_course_offerings("high")
+  end
+
+  # writes ed-fi xml interchange: staff association entities:
+  # - Staff
+  # - [not implemented yet] StaffEducationOrgAssignmentAssociation
+  def write_staff_association_interchange
+    write_staff_at_ed_org("seas")
+    write_staff_at_ed_org("leas")
+    write_staff_at_ed_org("elementary")
+    write_staff_at_ed_org("middle")
+    write_staff_at_ed_org("high")
+  end
+
+  # writes the staff members and teachers out for each education organization that is of the specified 'type'
+  def write_staff_at_ed_org(type)
+    @edOrgs[type].each do |ed_org|
+      ed_org_id = ed_org["id"]
+      sessions  = ed_org["sessions"]
+
+      # create staff members for the current education organization
+      if !ed_org["staff"].nil? and ed_org["staff"].size > 0
+        ed_org["staff"].each do |member|
+          year_of = Date.today.year - random_on_interval(25, 65)
+          if member["name"].nil?
+            @data_writer.create_staff(member["id"], year_of)
+          else
+            @data_writer.create_staff(member["id"], year_of, member["name"])
+          end
+
+          if !sessions.nil? and sessions.size > 0
+            # create staff members for {elementary, middle, high} schools and local education agencies in the same way
+            # -> use their published (or inherited) sessions
+            # -> perform no date manipulation (sets offset to zero)
+            create_staff_ed_org_associations_for_sessions(sessions, 0, member, ed_org_id, type)
+          else
+            # state education agencies are not publishing sessions, so find a local education agency whose parent is
+            # the state education agency being processed, and use its sessions (with minor manipulations)
+            create_staff_ed_org_associations_for_sessions(find_sessions_from_child_district(ed_org_id), 30, member, ed_org_id, type)
+          end
+        end
+      end
+      
+      # create teachers for the current education organization
+      if !ed_org["teachers"].nil? and ed_org["teachers"].size > 0
+      end
+    end
+  end
+
+  # uses the specified state education agency's state organization id to find a child local education agency,
+  # and returns the sessions that the local education agency has published
+  # -> does not perform any manipulation to sessions
+  def find_sessions_from_child_district(ed_org_id)
+    sessions = []
+    child    = @edOrgs["leas"].detect {|lea| lea["parent"] == ed_org_id}
+    child["sessions"]
+  end
+
+
+  # iterates through sessions, using begin and end date, to assemble staff -> education organization associations (assignment, not employment)
+  # -> manipulates date interval of each session by 'offset' (subtracts offset from begin_date, adds offset to end_date)
+  def create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
+    if !sessions.nil? and sessions.size > 0
+      sessions.each do |session|
+        title = member["role"]
+        if StaffClassificationType.to_symbol(title).nil?
+          classification = get_staff_classification_for_ed_org_type(type)
+        else          
+          classification = StaffClassificationType.to_symbol(title)
+        end
+
+        if ed_org_id.kind_of? Integer
+          state_org_id = DataUtility.get_state_education_agency_id(ed_org_id) if type == "seas"
+          state_org_id = DataUtility.get_local_education_agency_id(ed_org_id) if type == "leas"
+          state_org_id = DataUtility.get_elementary_school_id(ed_org_id)      if type == "elementary"
+          state_org_id = DataUtility.get_middle_school_id(ed_org_id)          if type == "middle"
+          state_org_id = DataUtility.get_high_school_id(ed_org_id)            if type == "high"
+        else
+          state_org_id = ed_org_id
+        end
+                
+        interval   = session["interval"]
+        begin_date = interval.get_begin_date - offset
+        end_date   = interval.get_end_date   + offset
+        @data_writer.create_staff_ed_org_assignment_association(member["id"], state_org_id, classification, title, begin_date, end_date)
+      end
+    end
+  end
+
+  # based on the education organization type (state education agecy, local education agency, or school), choose a staff classification type
+  def get_staff_classification_for_ed_org_type(type)
+    return select_random_from_options(get_default_state_education_agency_roles) if type == "seas"
+    return select_random_from_options(get_default_local_education_agency_roles) if type == "leas"
+    return select_random_from_options(get_default_school_roles)
   end
 
   # writes the course offerings for each 'type' of school ("elementary", "middle", or "high" school)
@@ -851,10 +1014,26 @@ class WorldBuilder
     end
   end
 
+  # selects a random object from the list of options
+  def select_random_from_options(options)
+    options[@prng.rand(options.size) - 1]
+  end
+
   # computes a random number on the interval [min, max]
   # does NOT round
   def random_on_interval(min, max)
     min + @prng.rand(max - min)
+  end
+
+  def create_assessments(begin_year, num_years)
+    factory = AssessmentFactory.new(@scenarioYAML)
+    (begin_year..(begin_year + num_years -1)).each{|year|
+      GradeLevelType.get_ordered_grades.each{|grade|
+        factory.assessments(grade: grade, year: year).each{|assessment|
+          @data_writer.create_assessment(assessment)
+        }
+      }
+    }
   end
 
   def self.choose_feeders(elem, mid, high)
