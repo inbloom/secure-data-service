@@ -53,8 +53,8 @@ class TestJobScheduler < Test::Unit::TestCase
     def test_job_reader
       job_reader = Eventbus::JobReader.new(CONFIG)
       jobs, event_job_map = job_reader.get_jobs
-      assert_equal(4, jobs.size)
-      assert_equal(4, event_job_map.size)
+      assert_equal(3, jobs.size)
+      assert_equal(3, event_job_map.size)
     end
 
   def test_event_job_mapper
