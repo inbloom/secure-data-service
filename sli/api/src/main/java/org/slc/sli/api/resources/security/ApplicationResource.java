@@ -95,10 +95,6 @@ public class ApplicationResource extends UnversionedResource {
     @Qualifier("applicationResourceService")
     private ResourceService resourceService;
 
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
-
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
     public static final String REGISTRATION = "registration";
