@@ -41,10 +41,14 @@ describe "Odin" do
 
           # ensure there are no extra generated files without a corresponding baseline
           # as a hedge against adding files without a corresponding baseline.
-          File.exists?("#{File.dirname(__FILE__)}/test_data/baseline/#{f}").should be TRUE
+          File.exists?("#{File.dirname(__FILE__)}/test_data/baseline/#{f}").should be_true
 
           baseline = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/test_data/baseline/#{f}" ) )
-          doc.should be_equivalent_to(baseline)
+          #doc.should be_equivalent_to(baseline)
+          EquivalentXml.equivalent?(doc, baseline) { |n1, n2, result| 
+            puts "\t failed to reproduce baseline document: #{f}" if result == false
+            result.should be_true
+          }
         end
       end
       # ensure there are no missing generated files.
@@ -56,15 +60,16 @@ describe "Odin" do
     end
   end
 
-  describe "#md5"
-  it "generates the same data for each run" do
-    odin = Odin.new
-    odin.generate( nil )
-
-    sha1 = odin.md5()
-    4.times do
+  describe "#md5" do
+    it "generates the same data for each run" do
+      odin = Odin.new
       odin.generate( nil )
-      odin.md5().should eq sha1
+
+      sha1 = odin.md5()
+      4.times do
+        odin.generate( nil )
+        odin.md5().should eq sha1
+      end
     end
   end
 
@@ -88,8 +93,8 @@ describe "Odin" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
       end
       
-      it "will generate a valid control file with 5 interchanges" do     
-        @interchanges.length.should eq(5)
+      it "will generate a valid control file with 8 interchanges" do     
+        @interchanges.length.should eq(8)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -107,6 +112,14 @@ describe "Odin" do
       it "will generate a valid control file with MasterSchedule as a type" do
         @interchanges["MasterSchedule"].should match(/MasterSchedule.xml/)
       end
+
+      it "will generate a valid control file with StaffAssociation as a type" do
+        @interchanges["StaffAssociation"].should match(/StaffAssociation.xml/)
+      end
+
+      it "will generate a valid control file with StaffAssociation as a type" do
+        @interchanges["StudentEnrollment"].should match(/StudentEnrollment.xml/)
+      end
       
       it "will generate a zip file of the included interchanges" do
         # Make sure the zipfile exists in the dir we expect
@@ -117,8 +130,12 @@ describe "Odin" do
         genDataUnzip(zipDir, "OdinSampleDataSet.zip", "OdinSampleDataSet") 
         # Verify the dumb number of files matches expected values
         # --> always add 2 files to your expected count for . and ..      
-        Dir.entries(File.new "#{zipDir}/OdinSampleDataSet").length.should eq(8)   
+        #Dir.entries(File.new "#{zipDir}/OdinSampleDataSet").length.should eq(10)   
+        # --> not sure this is a valid test.. what are we really testing with this? we already check the number of interchanges above.
+
         # Re-zip the data to prep for Acceptance Tests
+        # --> this also feels wrong
+        # --> acceptance testings can zip the generated/ directory (or OdinSampleDataSet/ sub-directory).. so why are we doing this?
         genDataZip("#{zipDir}/OdinSampleDataSet", "OdinSampleDataSet.zip", "#{zipDir}/OdinSampleDataSet")        
       end
       
