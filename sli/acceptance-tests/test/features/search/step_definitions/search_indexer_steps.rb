@@ -218,6 +218,53 @@ Given /^I clear the tenants that I previously imported$/ do
   end
 end
 
+############ sorting-step utils for pagination ##########
+Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
+  value = convert(value)
+  header.downcase!
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  resultValue = headers[header]
+  resultValue.should be_a Array
+  resultValue.length.should == 1
+  singleValue = convert(resultValue[0])
+  singleValue.should == value
+end
+
+Then /^the a next link exists with offset equal to (\d+) and limit equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=next/.match link
+      assert(Regexp.new("offset=" + start).match(link), "offset is not correct: #{link}")
+      assert(Regexp.new("limit=" + max).match(link), "limit is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+Then /^the a previous link exists with offset equal to (\d+) and limit equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=prev/.match link
+      assert(Regexp.new("offset=" + start).match(link), "offset is not correct: #{link}")
+      assert(Regexp.new("limit=" + max).match(link), "limit is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+
+
+###### End of sorting-step utils for pagination ##########
+
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
   assert(sourcePath != nil, "Source path is nil")
