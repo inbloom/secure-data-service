@@ -29,32 +29,27 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.SecurityEventContextResolver;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -76,6 +71,10 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
     @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
+    
+    
+    @Autowired
+    SecurityEventContextResolver resolver;
 
     @Autowired
     public SecurityEventResource(EntityDefinitionStore entityDefs) {
@@ -108,10 +107,15 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
         mainQuery.setLimit(limit);
         mainQuery.setSortBy("timeStamp");
         mainQuery.setSortOrder(SortOrder.descending);
+        mainQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, resolver.findAccessible(null)));
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-        for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
-            results.add(entityBody);
+       /* for (Entity entity : repo.findAll("securityEvent", mainQuery)) {
+            
+            results.add(new EntityBody(entity.getBody()));
+        }*/
+        for (EntityBody body : entityDef.getService().list(mainQuery)) {
+            results.add(body);
         }
         debug("Found [" + results.size() + "] SecurityEvents!");
         return Response.ok(new EntityResponse(entityDef.getType(), results)).build();

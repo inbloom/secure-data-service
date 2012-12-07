@@ -418,7 +418,7 @@ Examples:
 | "assessment"            | "assessments"             | 17    |/assessments|                                                                            
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 1     |/staff/@ids/staffCohortAssociations/cohorts|
-| "course"                | "courses"                 | 26    |/schools/@ids/courses|
+| "course"                | "courses"                 | 27    |/schools/@ids/courses|
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              

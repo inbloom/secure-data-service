@@ -74,7 +74,7 @@ public class DefaultResourceServiceTest {
     @Before
     public void setup() throws Exception {
         // inject administrator security context for unit testing
-        injector.setAdminContextWithElevatedRights();
+        injector.setStaffContext();
 
         resource = new Resource("v1", "students");
         ssaResource = new Resource("v1", "studentSectionAssociations");
