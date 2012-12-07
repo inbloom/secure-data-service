@@ -32,6 +32,7 @@ import javax.ws.rs.core.PathSegment;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.IContextValidator;
@@ -40,6 +41,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -83,7 +85,7 @@ public class ContextValidator implements ApplicationContextAware {
 			put(EntityNames.GRADEBOOK_ENTRY, "");
 			put(EntityNames.GRADUATION_PLAN, "");
 			put(EntityNames.PROGRAM, "");
-			put(EntityNames.SECTION, "");
+			put(EntityNames.SECTION, ParameterConstants.SCHOOL_ID);
 			put(EntityNames.SESSION, "");
 			put(EntityNames.STUDENT_COHORT_ASSOCIATION, "");
 			put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, "");
@@ -103,7 +105,7 @@ public class ContextValidator implements ApplicationContextAware {
 	public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
 		validateUserHasContextToRequestedEntities(request, principal);
 		boolean isValid = true;
-		
+
 		if (request.getMethod() != "GET") {
 			if(request.getMethod() != "POST") {
 				// look if we have ed org write context to already existing entity
@@ -112,32 +114,34 @@ public class ContextValidator implements ApplicationContextAware {
 				if (request.getPathSegments().size() > IDS_SEGMENT_INDEX) {
 					String resourceName = request.getPathSegments().get(RESOURCE_SEGMENT_INDEX).getPath();
 					String id = request.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
-					Entity entity = repo.findById(store.lookupByResourceName(resourceName).getStoredCollectionName(), id);
-					isValid = isValidForEdOrgWrite(entity, principal);
+					Entity existingEntity = repo.findById(store.lookupByResourceName(resourceName).getStoredCollectionName(), id);
+					isValid = isValidForEdOrgWrite(existingEntity, principal);
 				}
 				// check write context of update
 			}
-			Entity entity = request.getEntity(Entity.class);
-			if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()) != null) {
-				String edOrgId = (String) entity.getBody().get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()));
-				isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
+			if (isValid) {
+				Entity newEntity = request.getEntity(Entity.class);
+				if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(newEntity.getType()) != null) {
+					String edOrgId = (String) newEntity.getBody().get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(newEntity.getType()));
+					isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
+				}
 			}
 		}
-		
+
+
 		if(!isValid) {
 			throw new AccessDeniedException("Trying to write an entity outside of your education organization hierarchy");
 		}
 	}
 	
 
-	private boolean isValidForEdOrgWrite(Entity entity , SLIPrincipal principal) {
+	private boolean isValidForEdOrgWrite(Entity entity, SLIPrincipal principal) {
 		boolean isValid = true;
-
-			if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()) != null) {
-				Collection<String> principalsEdOrgs = principal.getSubEdOrgHierarchy(); //TODO initialize the principal hierarchy
-				String edOrgId = (String) entity.getBody().get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()));
-				isValid = principalsEdOrgs.contains(edOrgId);
-			}
+		if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()) != null) {
+			Collection<String> principalsEdOrgs = principal.getSubEdOrgHierarchy(); //TODO initialize the principal hierarchy
+			String edOrgId = (String) entity.getBody().get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()));
+			isValid = principalsEdOrgs.contains(edOrgId);
+		}
 		return isValid;
 	}
 
@@ -265,6 +269,10 @@ public class ContextValidator implements ApplicationContextAware {
 		}
 
 		return found;
+	}
+	
+	public void setRepo(PagingRepositoryDelegate<Entity> repo) {
+		this.repo = repo;
 	}
 
 }

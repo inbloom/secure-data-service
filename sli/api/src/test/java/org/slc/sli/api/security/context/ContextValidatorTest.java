@@ -33,6 +33,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -54,18 +56,21 @@ public class ContextValidatorTest {
 
     private ContainerRequest containerRequest;
     private SLIPrincipal principal;
+    private PagingRepositoryDelegate<Entity> repo;
 
-    @Before
+    @SuppressWarnings("unchecked")
+	@Before
     public void setUp() {
         containerRequest = Mockito.mock(ContainerRequest.class);
         principal = Mockito.mock(SLIPrincipal.class);
+        repo = Mockito.mock(PagingRepositoryDelegate.class);
     }
 
     @Test
     public void testDenyWritingOutsideOfEdOrgHierarchyCreate() throws Exception {
     	
     	Map<String, Object> entityBody = new HashMap<String, Object>();
-    	entityBody.put("schoolId", "unshared-id");
+    	entityBody.put(ParameterConstants.SCHOOL_ID, "unshared-id");
     	Entity entity = new MongoEntity(EntityNames.SECTION, entityBody);
     	
     	when(containerRequest.getEntity(Entity.class)).thenReturn(entity);
@@ -84,30 +89,80 @@ public class ContextValidatorTest {
 
     @Test
     public void testValidWritingInEdOrgHierarchyCreate() throws Exception {
+    	Map<String, Object> entityBody = new HashMap<String, Object>();
+    	entityBody.put(ParameterConstants.SCHOOL_ID, "1234existsOnEntity");
+    	Entity entity = new MongoEntity(EntityNames.SECTION, entityBody);
+    	
+    	when(containerRequest.getEntity(Entity.class)).thenReturn(entity);
 
         when(containerRequest.getMethod()).thenReturn("POST");
         when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("1234existsOnEntity"));
         //TODO setup inputs to have a matching ed org
 
-        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", Entity.class, SLIPrincipal.class);
         validateEdOrgWrite.setAccessible(true);
 
-        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{entity, principal});
 
         Assert.assertTrue("should pass validation", isValid.booleanValue());
 
     }
     
+    
     @Test
-    public void testDenyWritingOutsideOfEdOrgHierarchyUpdate() throws Exception {
-
+    public void testDenyWritingForEdOrgInEntityBodyUpdate() throws Exception {
+    	Map<String, Object> newEntityBody = new HashMap<String, Object>();
+    	newEntityBody.put(ParameterConstants.SCHOOL_ID, "valid-path-id");
+    	Entity newEntity = new MongoEntity(EntityNames.SECTION, newEntityBody);
+    	PathSegment sectionPath = Mockito.mock(PathSegment.class);
+    	when(sectionPath.getPath()).thenReturn(ResourceNames.SECTIONS);
+    	PathSegment idPath = Mockito.mock(PathSegment.class);
+    	when(idPath.getPath()).thenReturn("valid-path-id");
+    	
+    	Map<String, Object> existingEntityBody = new HashMap<String, Object>();
+    	existingEntityBody.put(ParameterConstants.SCHOOL_ID, "invalid-body-id");
+    	Entity existingEntity = new MongoEntity(EntityNames.SECTION, existingEntityBody);
+    	
+    	when(containerRequest.getEntity(Entity.class)).thenReturn(newEntity);
         when(containerRequest.getMethod()).thenReturn("PUT");
-        when(containerRequest.getPathSegments()).thenReturn(Arrays.asList(new PathSegment[]{}));
-
-        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
+        when(containerRequest.getPathSegments()).thenReturn(Arrays.asList(sectionPath, idPath));
+        when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("valid-path-id", "valid-id", "second-valid-id"));
+        when(repo.findById(EntityNames.SECTION, "section-id")).thenReturn(existingEntity);
+        
+        contextValidator.setRepo(repo);
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", Entity.class, SLIPrincipal.class);
         validateEdOrgWrite.setAccessible(true);
 
-        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{newEntity, principal});
+
+        Assert.assertFalse("should fail validation", isValid.booleanValue());
+    }
+    
+    @Test
+    public void testDenyWritingForEdOrgInPathUpdate() throws Exception {
+    	Map<String, Object> newEntityBody = new HashMap<String, Object>();
+    	newEntityBody.put(ParameterConstants.SCHOOL_ID, "invalid-path-id");
+    	Entity newEntity = new MongoEntity(EntityNames.SECTION, newEntityBody);
+    	PathSegment sectionPath = Mockito.mock(PathSegment.class);
+    	when(sectionPath.getPath()).thenReturn(ResourceNames.SECTIONS);
+    	PathSegment idPath = Mockito.mock(PathSegment.class);
+    	when(idPath.getPath()).thenReturn("valid-path-id");
+    	
+    	Map<String, Object> existingEntityBody = new HashMap<String, Object>();
+    	existingEntityBody.put(ParameterConstants.SCHOOL_ID, "valid-body-id");
+    	Entity existingEntity = new MongoEntity(EntityNames.SECTION, existingEntityBody);
+    	
+    	when(containerRequest.getEntity(Entity.class)).thenReturn(newEntity);
+        when(containerRequest.getMethod()).thenReturn("PUT");
+        when(containerRequest.getPathSegments()).thenReturn(Arrays.asList(sectionPath, idPath));
+        when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("valid-body-id", "valid-id", "second-valid-id"));
+        when(repo.findById(EntityNames.SECTION, "section-id")).thenReturn(existingEntity);
+        
+        contextValidator.setRepo(repo);
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", Entity.class, SLIPrincipal.class);
+        validateEdOrgWrite.setAccessible(true);
+
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{newEntity, principal});
 
         Assert.assertFalse("should fail validation", isValid.booleanValue());
 
