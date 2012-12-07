@@ -237,6 +237,22 @@ public class ApplicationAuthorizationResourceTest {
         Response resp = resource.getAuthorization("some-uuid");
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
+    
+    @Test
+    public void testNoDuplicateApps() {
+        setupAuth("MY-DISTRICT");
+        EntityBody auth = getNewAppAuth("MY-DISTRICT");
+        EntityBody oldAuth = (EntityBody) auth.clone();
+        
+        auth.put("appIds", Arrays.asList(new String[] { "appId1", "appId1", "appId2" }));
+        Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
+        Mockito.when(service.update("some-uuid", auth)).thenReturn(Boolean.TRUE);
+        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Response resp = resource.updateAuthorization("some-uuid", auth, uriInfo);
+        
+        assertEquals(STATUS_NO_CONTENT, resp.getStatus());
+        
+    }
 
 
     private EntityBody getNewAppAuth(String edOrg) {

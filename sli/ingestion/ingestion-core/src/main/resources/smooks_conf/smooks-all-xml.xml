@@ -3812,7 +3812,7 @@
 
   <jb:bean beanId="calendarDateMetaData" class="java.util.HashMap"
     createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'date'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'date,EducationOrgReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="calendarDateAttributes" class="java.util.HashMap"

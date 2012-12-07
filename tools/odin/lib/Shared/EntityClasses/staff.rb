@@ -16,32 +16,65 @@ limitations under the License.
 
 =end
 
+require 'date'
 require 'yaml'
 
+require_relative '../data_utility.rb'
 require_relative 'baseEntity'
+
+# creates staff
 class Staff < BaseEntity
 
   attr_accessor :id, :staffIdentificationCode, :identificationSystem, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino, :highestLevelOfEducationCompleted
-  def initialize(id, year_of)
-    @id = id
+
+  def initialize(id, year_of, name = nil)
+    @id = DataUtility.get_staff_unique_state_id(id) if id.kind_of? Integer
+    @id = id if id.kind_of? String
     @year_of = year_of
-    @rand = Random.new(@id)
+    @name = name
+    if id.kind_of? String
+      @rand = Random.new(year_of)
+    else
+      @rand = Random.new(id)
+    end
     buildStaff
   end
 
   def buildStaff
-    @sex = choose(@@demographics['sex'])
     @staffIdentificationCode = @rand.rand(10000).to_s
     @identificationSystem = choose(@@demographics['identificationSystem'])
     @highestLevelOfEducationCompleted = choose(@@demographics['highestLevelOfEducationCompleted'])
  
-    @prefix = sex == "Male?" ? "Mr" : "Ms"
-    @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-    @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-    @lastName = choose(@@demographics['lastNames'])
-    @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
-    @birthDay = (@year_of + @rand.rand(365)).to_s
+    if @name.nil?
+      @sex = choose(@@demographics['sex'])
+      @prefix = sex == "Male?" ? "Mr" : "Ms"
+      @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+      @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+      @lastName = choose(@@demographics['lastNames'])
+      @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+    else
+      @firstName, @lastName = parse_name(@name)
+      if @@demographics['maleNames'].include?(@firstName)
+        @sex = "Male"
+        @prefix = "Mr"
+        @middleName = choose(@@demographics['maleNames'])
+        @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+      elsif @@demographics['femaleNames'].include?(@firstName)
+        @sex = "Female"
+        @prefix = "Ms"
+        @middleName = choose(@@demographics['femaleNames'])
+        @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+      else
+        @sex = choose(@@demographics['sex'])
+        @prefix = sex == "Male?" ? "Mr" : "Ms"
+        @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+        @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+        @lastName = choose(@@demographics['lastNames'])
+        @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+      end
+    end
+    @birthDay = Date.new(@year_of, 1, 1) + @rand.rand(365)
     @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
     @loginId = email
     @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])
@@ -50,7 +83,13 @@ class Staff < BaseEntity
     @postalCode = @@demographics['postalCode']
     @race = wChoose(@@demographics['raceDistribution'])
     @hispanicLatino = wChoose(@@demographics['hispanicLatinoDist'])
-
   end
 
+  # currently parses two 'word' names (first name and last name)
+  def parse_name(name)
+    parsed = name.split(' ')
+    if parsed.size == 2
+      return parsed[0], parsed[1]
+    end
+  end
 end

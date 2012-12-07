@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
+ * Provides functionality to parse tenant DB index file, ensure indexes and pre-split
+ *
  * @author tke
  *
  */
@@ -61,16 +63,19 @@ public final class MongoCommander {
         return true;
     }
 
-    public static void ensureIndexes(String indexFile, String db, MongoTemplate mongoTemplate) {
+    public static Set<String> readIndexes(String indexFile) {
+        Set<String> indexes = new TreeSet<String>();
         InputStream indexesStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(indexFile);
+
+        if (indexesStream == null) {
+            LOG.error("Failed to open index file {}", indexFile);
+            return indexes;
+        }
 
         DataInputStream in = null;
         BufferedReader br = null;
 
-        Set<String> indexes = new TreeSet<String>();
-
         String currentLine;
-
         //Reading in all the indexes
         try {
             in = new DataInputStream(indexesStream);
@@ -87,8 +92,50 @@ public final class MongoCommander {
             IOUtils.closeQuietly(br);
             IOUtils.closeQuietly(in);
         }
+        return indexes;
+    }
+
+    public static void ensureIndexes(String indexFile, String db, MongoTemplate mongoTemplate) {
+        Set<String> indexes = readIndexes(indexFile);
 
         ensureIndexes(indexes, db, mongoTemplate);
+    }
+
+    public static MongoIndex parseIndex (String indexEntry) {
+        MongoIndex mongoIndex = new MongoIndex();
+
+        String[] indexTokens = indexEntry.split(",");
+
+        if (indexTokens.length < 3) {
+            throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
+                    + indexEntry);
+        }
+
+        String collection = indexTokens[0];
+        boolean unique = Boolean.parseBoolean(indexTokens[1]);
+        DBObject keys = new BasicDBObject();
+
+        mongoIndex.setCollection(collection);
+        mongoIndex.setUnique(unique);
+
+        for (int i = 2; i < indexTokens.length; i++) {
+            String [] index = indexTokens[i].split(":");
+
+            //default order of the index
+            int order = 1;
+
+            //If the key specifies order
+            if (index.length == 2) {
+                //remove all the non visible characters from order string
+                order = Integer.parseInt(index[1].replaceAll("\\s", ""));
+            } else if (index.length != 1) {
+                throw new IllegalStateException("Unexpected index order: "
+                        + indexTokens[i]);
+            }
+
+            mongoIndex.getKeys().put(index[0], order);
+        }
+        return mongoIndex;
     }
 
     /**
@@ -98,6 +145,7 @@ public final class MongoCommander {
      * @param db : target database
      * @param mongoTemplate
      */
+    @SuppressWarnings("boxing")
     public static void ensureIndexes(Set<String> indexes, String db, MongoTemplate mongoTemplate) {
         if (indexes != null) {
             LOG.info("Ensuring {} indexes for {} db", indexes.size(), db);
@@ -113,42 +161,15 @@ public final class MongoCommander {
             // (collection, unique, indexKeys ...)
             for (String indexEntry : indexes) {
                 indexOrder++;
-                String[] indexTokens = indexEntry.split(",");
-
-                if (indexTokens.length < 3) {
-                    throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
-                            + indexEntry);
-                }
-
-                String collection = indexTokens[0];
-                boolean unique = Boolean.parseBoolean(indexTokens[1]);
-                DBObject keys = new BasicDBObject();
-
-                for (int i = 2; i < indexTokens.length; i++) {
-                    String [] index = indexTokens[i].split(":");
-
-                    //default order of the index
-                    int order = 1;
-
-                    //If the key specifies order
-                    if (index.length == 2) {
-                        //remove all the non visible characters from order string
-                        order = Integer.parseInt(index[1].replaceAll("\\s", ""));
-                    } else if (index.length != 1) {
-                        throw new IllegalStateException("Unexpected index order: "
-                                + indexTokens[i]);
-                    }
-
-                    keys.put(index[0], order);
-                }
+                MongoIndex index = parseIndex(indexEntry);
 
                 DBObject options = new BasicDBObject();
                 options.put("name", "idx_" + indexOrder);
-                options.put("unique", unique);
-                options.put("ns", dbConn.getCollection(collection).getFullName());
+                options.put("unique", index.isUnique());
+                options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
 
                 try {
-                    dbConn.getCollection(collection).createIndex(keys, options);
+                    dbConn.getCollection(index.getCollection()).createIndex(index.getKeys(), options);
                 } catch (MongoException e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }

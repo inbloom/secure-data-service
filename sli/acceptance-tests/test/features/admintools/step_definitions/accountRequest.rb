@@ -93,6 +93,7 @@ When /^I fill out the field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
   @driver.find_element(:xpath, "//input[contains(
     translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '#{trimmed.downcase}')
     ]").send_keys(value)
+  puts "field = #{field}, value = #{value}"
 end
 
 When /^I query LDAP for EULA acceptance for account with login name "([^\"]*)"$/ do |email|
@@ -125,8 +126,10 @@ end
 Then /^when I click "([^\"]*)"$/ do |button|
   if button == 'Cancel'
     @driver.find_element(:xpath, "//a[text()=\"#{button}\"]").click
+    puts "Declined Terms and Conditions."
   else
     @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+    puts "Accepted Terms and Conditions."
   end
 end
 
@@ -138,6 +141,7 @@ end
 Then /^I am redirected to a page with terms and conditions$/ do
   assertWithWait("Was not redirected to #{@baseUrl}/eula") { @driver.current_url.include?("#{@baseUrl}/eula") }
   assertText("Terms and Conditions")
+  puts "Terms and Conditions displayed"
 end
 
 Then /^I receive an error that the account already exists$/ do
