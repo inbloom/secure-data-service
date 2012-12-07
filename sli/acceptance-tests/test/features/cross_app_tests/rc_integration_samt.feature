@@ -32,7 +32,7 @@ Feature:  RC Integration SAMT Tests
     And I can update the "EdOrg" field to "STANDARD-SEA"
 
     When I click button "Save"
-    Then I am redirected to the "Admin Account Management" page
+    Then I am redirected to the "Manage Administrator Accounts" page
     And the "Success" message is displayed
     And the newly created user has "Tenant" updated to "<TENANT>"
     And the newly created user has "EdOrg" updated to "STANDARD-SEA"
