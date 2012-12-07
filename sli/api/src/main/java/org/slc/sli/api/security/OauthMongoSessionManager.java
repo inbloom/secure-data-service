@@ -304,7 +304,6 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
                                 ClientToken token = new ClientToken((String) session.get("clientId"), null, null);
 
-
                                 // Spring doesn't provide a setter for the approved field (used by
                                 // isAuthorized), so we set it the hard way
                                 Field approved = ClientToken.class.getDeclaredField("approved");

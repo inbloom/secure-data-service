@@ -17,9 +17,11 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
-import org.slc.sli.test.edfi.entities.CalendarDate;
+import org.slc.sli.test.edfi.entities.SLCCalendarDate;
 import org.slc.sli.test.edfi.entities.SLCCalendarDateIdentityType;
 import org.slc.sli.test.edfi.entities.SLCCalendarDateReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriod;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.SLCSession;
@@ -115,6 +117,12 @@ public class InterchangeEdOrgCalGenerator {
 					SLCCalendarDateReferenceType calRef = new SLCCalendarDateReferenceType();
 					SLCCalendarDateIdentityType cit = new SLCCalendarDateIdentityType();
 					
+			        SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
+			        SLCEducationalOrgIdentityType edOrgId = new SLCEducationalOrgIdentityType();
+			        edOrgId.setStateOrganizationId(orgId);
+			        edOrgRef.setEducationalOrgIdentity(edOrgId);			        
+					cit.setEducationOrgReference(edOrgRef);
+					
 					cit.setDate(calendar.date);
 					calRef.setCalendarDateIdentity(cit);
 					gradingPeriod.getCalendarDateReference().add(calRef);
@@ -139,14 +147,25 @@ public class InterchangeEdOrgCalGenerator {
 		long startTime = System.currentTimeMillis();
 		for (CalendarMeta calendarMeta : calendarMetas) {
 
-			CalendarDate calendar;
+			//this has to be fixed!
+			String calendarId = calendarMeta.id;
+			String orgId = calendarId.substring(0,
+					calendarId.lastIndexOf("-"));
+			orgId = orgId.substring(0, orgId.lastIndexOf("-"));
+	        SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
+	        SLCEducationalOrgIdentityType edOrgId = new SLCEducationalOrgIdentityType();
+	        edOrgId.setStateOrganizationId(orgId);
+	        edOrgRef.setEducationalOrgIdentity(edOrgId);
+	        
+			SLCCalendarDate calendar;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
 				calendar = null;
 			} else {
-				calendar = new CalendarDate();
+				calendar = new SLCCalendarDate();
 				calendar.setDate(calendarMeta.date);
 				calendar.setCalendarEvent(CalendarDateGenerator.getCalendarEventType());
+				calendar.setEducationOrgReference(edOrgRef);
 			}
 
 			iWriter.marshal(calendar);

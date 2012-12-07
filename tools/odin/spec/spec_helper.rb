@@ -66,3 +66,10 @@ FactoryGirl.find_definitions
 def get_spec_scenario
   { 'BATCH_SIZE' => 1 }
 end
+
+# monkey patch StringIO so it can be used more like a file for tests
+class StringIO
+  def path
+    "testfile"
+  end
+end

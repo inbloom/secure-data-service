@@ -26,7 +26,7 @@ else
   # Add times
   #
   echo "0" > /tmp/b
-  grep millis $FILE | sed -e 's/^.* \([0-9]*\),.*$/\1 +/' | sort -n -r >> /tmp/b
+  grep millis $FILE | grep -v Invalid | sed -e 's/^.* \([0-9]*\),.*$/\1 +/' | sort -n -r >> /tmp/b
   echo "p" >> /tmp/b
   TOTAL=`dc < /tmp/b`
   let "SECONDS = $TOTAL / 1000"

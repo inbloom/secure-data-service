@@ -1,0 +1,17 @@
+{{#entity}}
+<AssessmentItem>
+
+    {{> Partials/_assessment_reference}}
+    <IdentificationCode>{{identificationCode}}</IdentificationCode>
+    <ItemCategory>{{itemCategory}}</ItemCategory>
+    <MaxRawScore>{{maxRawScore}}</MaxRawScore>
+    <CorrectResponse>{{correctResponse}}</CorrectResponse>
+    {{#learningStandardReference}}
+    {{> Partials/_learning_standard_reference}}
+    {{/learningStandardReference}}
+    {{#nomenclature}}
+    <Nomenclature>{{nomenclature}}</Nomenclature>
+    {{/nomenclature}}
+
+</AssessmentItem>
+{{/entity}}
