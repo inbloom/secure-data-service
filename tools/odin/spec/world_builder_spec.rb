@@ -39,7 +39,6 @@ describe "WorldBuilder" do
       # before each test: refresh the file handle for the education organization interchange
       before (:each) do
         @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
-        @assessment_metadata    = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeAssessmentMetadata.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
         @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
         @staff_association      = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeStaffAssociation.xml", "r")
@@ -86,8 +85,15 @@ describe "WorldBuilder" do
         # three for staff education organization assignment associations (over 3 years)
         @staff_association.readlines.select{|l| l.match("<StaffUniqueStateId>stff-0000000001")}.length.should eq(4)
       end
-      it "assessment metadata interchange will contain 5 assessments for each grade for each year" do
-        @assessment_metadata.readlines.select{|l| l.match("<Assessment>")}.length.should eq(78)
+      context "assessment metadata interchange" do
+        let(:assessment_metadata) {File.new("#{File.dirname(__FILE__)}/../generated/InterchangeAssessmentMetadata.xml", "r").readlines}
+        it "will contain 2 assessments for each grade for each year" do
+          assessment_metadata.select{|l| l.match("<Assessment>")}.length.should eq(78)
+        end
+        it "will contain an assessment family for each year, and one global assessment family" do
+          pending "assessment family implmentation"
+          assessment_metadata.select{|l| l.match("<AssessmentFamily>")}.length.should eq(14)
+        end
       end
     end
   end
@@ -109,7 +115,6 @@ describe "WorldBuilder" do
       # before each test: refresh the file handle for the education organization interchange
       before (:each) do
         @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
-        @assessment_metadata    = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeAssessmentMetadata.xml", "r")
         @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
         @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
         @staff_association      = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeStaffAssociation.xml", "r")
@@ -159,10 +164,17 @@ describe "WorldBuilder" do
         # one for staff education organization assignment associations (over 1 year)
         @staff_association.readlines.select{|l| l.match("<StaffUniqueStateId>stff-0000000001")}.length.should eq(2)
       end
-      it "assessment metadata interchange will contain 5 assessments for each grade for each year" do
-        @assessment_metadata.readlines.select{|l| l.match("<Assessment>")}.length.should eq(26)
+      context "assessment metadata interchange" do
+        let(:assessment_metadata) {File.new("#{File.dirname(__FILE__)}/../generated/InterchangeAssessmentMetadata.xml", "r").readlines}
+        it "will contain 2 assessments for each grade for each year" do
+          assessment_metadata.select{|l| l.match("<Assessment>")}.length.should eq(26)
+        end
+        it "will contain an assessment family for each year, and one global assessment family" do
+          pending "assessment family implmentation"
+          assessment_metadata.select{|l| l.match("<AssessmentFamily>")}.length.should eq(14)
+        end
       end
-    end
+     end
   end
   describe "#choose_feeders" do
     context "with 8 elementary schools, 4 middle schools, and 2 high schools" do
