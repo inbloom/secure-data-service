@@ -835,7 +835,8 @@ class WorldBuilder
 
   # writes the staff members and teachers out for each education organization that is of the specified 'type'
   def write_staff_at_ed_org(type)
-    @edOrgs[type].each do |ed_org|
+    @edOrgs[type].each_index do |ed_org_index|
+      ed_org    = @edOrgs[type][ed_org_index]
       ed_org_id = ed_org["id"]
       sessions  = ed_org["sessions"]
 
@@ -843,27 +844,53 @@ class WorldBuilder
       if !ed_org["staff"].nil? and ed_org["staff"].size > 0
         ed_org["staff"].each do |member|
           year_of = Date.today.year - random_on_interval(25, 65)
-          if member["name"].nil?
-            @data_writer.create_staff(member["id"], year_of)
-          else
-            @data_writer.create_staff(member["id"], year_of, member["name"])
-          end
-
+          @data_writer.create_staff(member["id"], year_of, member["name"])
+          
           if !sessions.nil? and sessions.size > 0
             # create staff members for {elementary, middle, high} schools and local education agencies in the same way
             # -> use their published (or inherited) sessions
             # -> perform no date manipulation (sets offset to zero)
-            create_staff_ed_org_associations_for_sessions(sessions, 0, member, ed_org_id, type)
+            offset = 0
           else
             # state education agencies are not publishing sessions, so find a local education agency whose parent is
             # the state education agency being processed, and use its sessions (with minor manipulations)
-            create_staff_ed_org_associations_for_sessions(find_sessions_from_child_district(ed_org_id), 30, member, ed_org_id, type)
+            sessions = find_sessions_from_child_district(ed_org_id)
+            offset   = 30
           end
+          create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
         end
       end
       
       # create teachers for the current education organization
       if !ed_org["teachers"].nil? and ed_org["teachers"].size > 0
+        ed_org["teachers"].each_index do |teacher_index|
+          teacher  = ed_org["teachers"][teacher_index]
+          year_of  = Date.today.year - random_on_interval(25, 65)
+          grades   = teacher["grades"]
+          subjects = teacher["subjects"]
+          
+          if grades.nil? or grades.size == 0
+            grades = [DataUtility.get_random_grade_for_type(@prng, type)]
+            @edOrgs[type][ed_org_index]["teachers"][teacher_index]["grades"] = grades
+          end
+          if subjects.nil? or subjects.size == 0
+            subjects = DataUtility.get_random_academic_subjects_for_type(@prng, type)
+            @edOrgs[type][ed_org_index]["teachers"][teacher_index]["subjects"] = subjects
+          end
+
+          @log.info "writing teacher: #{teacher} at ed org: #{ed_org_id}"
+          @data_writer.create_teacher(teacher["id"], year_of, teacher["name"])
+          @data_writer.create_teacher_school_association(teacher["id"], ed_org_id, :REGULAR_EDUCATION, grades, subjects)
+
+          # create staff education organization assignment associations for teachers
+          # -> use their published (or inherited) sessions
+          if !sessions.nil? and sessions.size > 0
+            # -> this is meant to replace changing the ed-fi xsd (where begin and end dates would be put teacher school associations)
+            # -> instead, every teacher will have a single teacher school association (per school they teach at), and multiple
+            #    staff -> education organization assignment associations (one for each year they teach at a given school)
+            create_staff_ed_org_associations_for_teachers(sessions, teacher["id"], ed_org_id, type)
+          end
+        end
       end
     end
   end
@@ -907,12 +934,37 @@ class WorldBuilder
       end
     end
   end
+  
+  # iterates through sessions, using begin and end date, to assemble teacher -> school associations
+  # -> not used, yet
+  # -> will be used soon (as soon as ed-fi changes to add start and end dates to teacher school associations)
+  def create_staff_ed_org_associations_for_teachers(sessions, teacher_id, ed_org_id, type)
+    if !sessions.nil? and sessions.size > 0
+      sessions.each do |session|
+        if ed_org_id.kind_of? Integer
+          state_org_id = DataUtility.get_state_education_agency_id(ed_org_id) if type == "seas"
+          state_org_id = DataUtility.get_local_education_agency_id(ed_org_id) if type == "leas"
+          state_org_id = DataUtility.get_elementary_school_id(ed_org_id)      if type == "elementary"
+          state_org_id = DataUtility.get_middle_school_id(ed_org_id)          if type == "middle"
+          state_org_id = DataUtility.get_high_school_id(ed_org_id)            if type == "high"
+        else
+          state_org_id = ed_org_id
+        end
+        classification = :TEACHER
+        title          = "Educator"
+        interval       = session["interval"]
+        begin_date     = interval.get_begin_date
+        end_date       = interval.get_end_date
+        @data_writer.create_staff_ed_org_assignment_association(teacher_id, state_org_id, classification, title, begin_date, end_date)
+      end
+    end
+  end
 
   # based on the education organization type (state education agecy, local education agency, or school), choose a staff classification type
   def get_staff_classification_for_ed_org_type(type)
-    return select_random_from_options(get_default_state_education_agency_roles) if type == "seas"
-    return select_random_from_options(get_default_local_education_agency_roles) if type == "leas"
-    return select_random_from_options(get_default_school_roles)
+    return DataUtility.select_random_from_options(@prng, get_default_state_education_agency_roles) if type == "seas"
+    return DataUtility.select_random_from_options(@prng, get_default_local_education_agency_roles) if type == "leas"
+    return DataUtility.select_random_from_options(@prng, get_default_school_roles)
   end
 
   # writes the course offerings for each 'type' of school ("elementary", "middle", or "high" school)
@@ -1012,11 +1064,6 @@ class WorldBuilder
         @data_writer.create_course(@prng, id, title, edOrgId)
       end
     end
-  end
-
-  # selects a random object from the list of options
-  def select_random_from_options(options)
-    options[@prng.rand(options.size) - 1]
   end
 
   # computes a random number on the interval [min, max]
