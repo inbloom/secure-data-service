@@ -52,6 +52,18 @@ public class RealmInitializer {
     @Value("${bootstrap.admin.realm.redirectEndpoint}")
     private String adminRedirectEndpoint;
 
+    @Value("${bootstrap.developer.realm.name}")
+    private String devRealmName;
+
+    @Value("${bootstrap.developer.realm.uniqueId}")
+    private String devUniqueId;
+
+    @Value("${bootstrap.developer.realm.idpId}")
+    private String devIdpId;
+
+    @Value("${bootstrap.developer.realm.redirectEndpoint}")
+    private String devRedirectEndpoint;
+
     @Value("${bootstrap.sandbox.realm.uniqueId}")
     private String sandboxUniqueId;
 
@@ -75,31 +87,38 @@ public class RealmInitializer {
 
     //This is what we use to look up the existing admin realm.  If this changes, we might end up with extra realms
     public static final String ADMIN_REALM_ID = "Shared Learning Collaborative";
-
+    
     @PostConstruct
     public void bootstrap() {
         // boostrap the admin realm
-        Entity existingAdminRealm = findRealm(ADMIN_REALM_ID);
         Map<String, Object> bootstrapAdminRealmBody = createAdminRealmBody();
-        if (existingAdminRealm != null) {
-            info("Admin realm already exists --> updating if necessary.");
-            updateRealmIfNecessary(existingAdminRealm, bootstrapAdminRealmBody);
-        } else {
-            info("Creating Admin realm.");
-            repository.create(REALM_RESOURCE, bootstrapAdminRealmBody);
-        }
-
+        createOrUpdateRealm(ADMIN_REALM_ID, bootstrapAdminRealmBody);
+        
         // if sandbox mode, bootstrap the sandbox realm
         if (createSandboxRealm) {
-            Entity existingSandboxRealm = findRealm(sandboxUniqueId);
             Map<String, Object> bootstrapSandboxRealmBody = createSandboxRealmBody();
-            if (existingSandboxRealm != null) {
-                info("Sandbox realm already exists --> updating if necessary.");
-                updateRealmIfNecessary(existingSandboxRealm, bootstrapSandboxRealmBody);
-            } else {
-                info("Creating Sandbox realm.");
-                repository.create(REALM_RESOURCE, bootstrapSandboxRealmBody);
-            }
+            createOrUpdateRealm(sandboxUniqueId, bootstrapSandboxRealmBody);
+        } else {
+            /* not in sandbox mode, create developer realm
+             * not overloading the sandbox realm in prod to minimize impact on existing code
+             * if sandbox realm is overloaded in prod, and there are code that only checks
+             * sandbox realm without verifying the environment is really sandbox environment,
+             * then it will break.  Creating a new developer realm may seems unnecessary, but 
+             * simplifies code paths we must test
+             */
+            Map<String, Object> bootstrapDeveloperRealmBody = createDeveloperRealmBody();
+            createOrUpdateRealm(sandboxUniqueId, bootstrapDeveloperRealmBody);
+        }
+    }
+    
+    private void createOrUpdateRealm(String realmId, Map<String, Object> realmEntity) {
+        Entity existingRealm = findRealm(realmId);
+        if (existingRealm != null) {
+            info("{} realm already exists --> updating if necessary", realmId);
+            updateRealmIfNecessary(existingRealm, realmEntity);
+        } else {
+            info("Creating {} realm.", realmId);
+            repository.create(REALM_RESOURCE, realmEntity);
         }
     }
     
@@ -131,26 +150,29 @@ public class RealmInitializer {
     protected Map<String, Object> createAdminRealmBody() {
         Map<String, Object> body = createRealmBody(ADMIN_REALM_ID, adminRealmName, adminTenantId, "fakeab32-b493-999b-a6f3-sliedorg1234",
                 true, adminIdpId, adminRedirectEndpoint);
-        Map<String, Object> saml = new HashMap<String, Object>();
-        saml.put("field", getAdminFields());
-        body.put("saml", saml);
-        return body;
+        
+        return insertSaml(body, true);
+    }
+
+    protected Map<String, Object> createDeveloperRealmBody() {
+        Map<String, Object> body = createRealmBody(devUniqueId, devRealmName, "", null, false, devIdpId, 
+                devRedirectEndpoint);
+        
+        return insertSaml(body, false);
     }
 
     protected Map<String, Object> createSandboxRealmBody() {
         Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, "", null, false, sandboxIdpId,
                 sandboxRedirectEndpoint);
-        Map<String, Object> saml = new HashMap<String, Object>();
-        saml.put("field", getSandboxFields());
-        body.put("saml", saml);
-        return body;
+        
+        return insertSaml(body, false);
     }
 
-    public Map<String, Object> createRealmBody(String tenantId, String uniqueId, String realmName, String idpId, String redirectEndpoint) {
-        Map<String, Object> body = createRealmBody(uniqueId, realmName, tenantId, null, false, idpId, redirectEndpoint);
+    private Map<String, Object> insertSaml(Map<String, Object> body, boolean isAdminRealm) {
         Map<String, Object> saml = new HashMap<String, Object>();
-        saml.put("field", getSandboxFields());
+        saml.put("field", getFields(isAdminRealm));
         body.put("saml", saml);
+        
         return body;
     }
     
@@ -175,26 +197,18 @@ public class RealmInitializer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private List getAdminFields() {
-        List toReturn = new ArrayList();
-        toReturn.add(createField("roles", "(.+)"));
-        toReturn.add(createField("tenant", "(.+)"));
-        toReturn.add(createField("edOrg", "(.+)"));
-        toReturn.add(createField("userId", "(.+)"));
-        toReturn.add(createField("userName", "(.+)"));
-        return toReturn;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private List getSandboxFields() {
+    private List getFields(boolean isAdminRealm) {
         List toReturn = new ArrayList();
         toReturn.add(createField("roles", "(.+)"));
         toReturn.add(createField("tenant", "(.+)"));
         toReturn.add(createField("userId", "(.+)"));
         toReturn.add(createField("userName", "(.+)"));
+        if (isAdminRealm) {
+            toReturn.add(createField("edOrg", "(.+)"));
+        }
         return toReturn;
     }
-
+    
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private Map createField(String name, String transform) {
         Map toReturn = new HashMap();
