@@ -71,14 +71,15 @@ public abstract class DbIndexValidator {
         Map<String, Object> indexMap = index.getKeys();
         if (indexCache.containsKey(collectionName)) {
             List<HashMap<String, Object>> indices = indexCache.get(collectionName);
+
+            boolean indexMatch = false;
             for (Map<String, Object> indexMapFromCache : indices) {
                 if (indexMapFromCache.size() != indexMap.size()) {
                     continue;
                 }
-                boolean indexMatch = true;
+
                 for (Map.Entry<String, Object> indexCacheEntry : indexMapFromCache.entrySet()) {
                     if (!indexMap.containsKey(indexCacheEntry.getKey())) {
-                        indexMatch = false;
                         break;
                     }
 
@@ -91,14 +92,19 @@ public abstract class DbIndexValidator {
                     double indexMapDoubleValue = Double.valueOf(indexMap.get(indexCacheEntry.getKey()).toString());
                     if (!indexCacheEntry.getValue().equals(indexMapDoubleValue)
                             && !indexCacheEntry.getValue().equals(indexMap.get(indexCacheEntry.getKey()))) {
-                        indexMatch = false;
                         break;
+                    } else {
+                        indexMatch = true;
                     }
                 }
                 if (indexMatch) {
                     log.info("{} : Index verified: {}", database.getName() + "." + collectionName, index.getKeys().toString());
                     break;
                 }
+            }
+
+            if (!indexMatch){
+                log.error("{} : Index missing: {}", database.getName() + "." + collectionName, index.getKeys().toString());
             }
         } else {
             log.error("{} : Index missing: {}", database.getName() + "." + collectionName, index.getKeys().toString());
