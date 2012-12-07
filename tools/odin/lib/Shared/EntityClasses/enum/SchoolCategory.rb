@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumeration for types of schools. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="SchoolCategoryItemType">
 #   <xs:annotation>
@@ -52,4 +54,9 @@ class SchoolCategory
   SchoolCategory.define :PRIMARY, "Primary School"
   SchoolCategory.define :SECONDARY, "SecondarySchool"
   SchoolCategory.define :UNGRADED, "Ungraded"
+
+  # translates the specified Symbol into the String representation of the school category type
+  def self.to_string(key)
+    const_get(key)
+  end
 end

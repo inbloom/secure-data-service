@@ -282,10 +282,6 @@ When /^I provision with "([^"]*)" high\-level ed\-org to "([^"]*)"$/ do |env,edo
   enable_NOTABLESCAN
 end
 
-Then /^I get the success message$/ do
-  assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
-end
-
 Then /^the user gets an error message$/ do
   already_provisioned = @driver.find_element(:id,"alreadyProvisioned")
   assert(already_provisioned!=nil,"didnt get an already provisioned message")

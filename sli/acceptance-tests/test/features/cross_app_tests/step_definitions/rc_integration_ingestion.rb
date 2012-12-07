@@ -25,9 +25,20 @@ require 'net/sftp'
 require 'net/http'
 require 'rest-client'
 
-require_relative '../../../utils/sli_utils.rb'
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
+
+module NoLandingZone
+    @hasNoLandingZone = false;
+end
+
+World(NoLandingZone)
+
+Before do
+  RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
+end
 
 ############################################################
 # TEST SETUP FUNCTIONS
@@ -170,10 +181,6 @@ end
 # Cucumber steps
 ########
 
-Given /^I am using local data store$/ do
-  @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
-end
-
 Given /^I am using default landing zone$/ do
   @landing_zone_path = "/"
 end
@@ -185,24 +192,39 @@ Given /^I have a local configured landing zone for my tenant$/ do
   db_name = PropLoader.getProps['ingestion_database_name']
   conn = Mongo::Connection.new(host)
   db = conn.db(db_name)
-  tenants = db.collection("tenant").find("body.tenantId" => "RCTestTenant").to_a
-  assert(!tenants.empty?, "Cannot find the tenant \"RCTestTenant\" in mongo")
 
-  tenants[0]["body"]["landingZone"].each do |lz|
-    if lz["educationOrganization"] == "STANDARD-SEA"
-      @landing_zone_path = lz["path"]
-      if (@landing_zone_path =~ /\/$/).nil?
-        @landing_zone_path += "/"
-      end
-      break
-    end
+  if (@mode == "SANDBOX")
+   @tenant_name = PropLoader.getProps['sandbox_tenant']
+  else
+   @tenant_name = PropLoader.getProps['tenant']
   end
-  assert(!@landing_zone_path.nil?, "Cannot find configured lz path")
 
-  clear_local_lz
+  tenants = db.collection("tenant").find("body.tenantId" => @tenant_name).to_a
+
+  if tenants.empty?
+    puts "#{@tenant_name} tenantId not found in Mongo - skipping tenant database deletion"
+  else
+    edorg = PropLoader.getProps['edorg']
+    tenants[0]["body"]["landingZone"].each do |lz|
+      if lz["educationOrganization"] == edorg
+        @landing_zone_path = lz["path"]
+        if (@landing_zone_path =~ /\/$/).nil?
+          @landing_zone_path += "/"
+        end
+        break
+      end
+    end
+    @ingestion_db_name = tenants[0]['body']['dbName']
+  end
+  if @landing_zone_path.nil?
+    puts "Could not retrieve landing zone path"
+    @hasNoLandingZone = true
+  else
+    clear_local_lz
+  end
 end
 
-Given /^I use the landingzone user name "(.*?)" and password "(.*?)" on landingzone server "(.*?)" on port "(.*?)"$/ do |arg1, arg2, arg3, arg4|
+Given /^I use the landingzone user name "([^"]*)" and password "([^"]*)" on landingzone server "([^"]*)" on port "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   @lz_username = arg1
   @lz_password = arg2
   @lz_url = arg3
@@ -210,9 +232,11 @@ Given /^I use the landingzone user name "(.*?)" and password "(.*?)" on landingz
 end
 
 Given /^I drop the file "(.*?)" into the landingzone$/ do |arg1|
-  source_path = processPayloadFile arg1
-  dest_path = @landing_zone_path + arg1
-  lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
+  if !@hasNoLandingZone
+    source_path = processPayloadFile arg1
+    dest_path = @landing_zone_path + arg1
+    lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
+  end
 end
 
 Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/ do |arg1, arg2, arg3|
@@ -234,4 +258,20 @@ end
 Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg1|
   result = fileContainsMessage("", arg1, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
   assert result
+end
+
+Given /^a landing zone$/ do
+  if RUN_ON_RC
+    steps %Q{
+        Given I am using local data store
+        And I am using default landing zone
+        And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE PORT>"
+
+  }
+  else
+    steps %Q{
+        Given I am using local data store
+        And I have a local configured landing zone for my tenant
+  }
+  end
 end

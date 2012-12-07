@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+require_relative 'assessment_factory'
 require_relative '../Shared/EntityClasses/studentAssessment'
 
 # student work order factory creates student work orders
@@ -25,6 +26,7 @@ class StudentWorkOrderFactory
     @scenario = scenario
     @section_factory = section_factory
     @next_id = 0
+    @assessment_factory = AssessmentFactory.new(@scenario)
   end
 
   def generate_work_orders(edOrg, yielder)
@@ -38,7 +40,8 @@ class StudentWorkOrderFactory
           student_id = @next_id += 1
           yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade,
                                              initial_year: initial_year, edOrg: edOrg,
-                                             section_factory: @section_factory)
+                                             section_factory: @section_factory, 
+                                             assessment_factory: @assessment_factory)
         }
       }
     end
@@ -99,12 +102,12 @@ class StudentWorkOrder
 
   def generate_grade_wide_assessments(writer, grade, session)
     unless @assessment_factory.nil?
-      times_taken = @scenario['ASSESSMENTS_TAKEN'][:grade_wide]
-      @assessment_factory.assessments(grade: grade, session: session).each{|a|
+      times_taken = @scenario['ASSESSMENTS_TAKEN']['grade_wide']
+      @assessment_factory.assessments(grade: grade, year: session['year']).each{|a|
         #TODO this is going to be a busy first couple of days of school, might want to spread them out
         date = session['interval'].get_begin_date
         times_taken.times{
-          writer.create_student_assessment(StudentAssessment.new(@id, a, date += 1))
+          writer.create_student_assessment(StudentAssessment.new(@id, a, date += 1, @rand))
         }
       }
     end

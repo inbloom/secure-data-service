@@ -25,6 +25,12 @@ AVERAGE_NUM_STUDENTS_THRESHOLD: 0.50
 AVERAGE_NUM_SCHOOLS_PER_DISTRICT: 5
 AVERAGE_SCHOOLS_THRESHOLD: 0.60
 
+# Number of students per section for each school type
+STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
+
+# Set the number of records we cache before writing them to disk.
+BATCH_SIZE: 10000
+
 # Course Catalog (currently published at State Education Agency level)
 SIXTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 SEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
@@ -34,10 +40,8 @@ TENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 ELEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 
-# number of students per section for each school type
-STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
-
-# Set the number of records we cache before writing them to disk.
-BATCH_SIZE: 10000
+# Staff Catalog location
+STAFF_CATALOG: scenarios/staff.json
 
 ASSESSMENTS_TAKEN: {grade_wide: 3}
+ASSESSMENTS_PER_GRADE: 2

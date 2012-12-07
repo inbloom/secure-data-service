@@ -322,7 +322,7 @@ public class StudentGradeGenerator {
 
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
         gpit.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
-        period.setGradingPeriodIdentity(gpit);
+        //period.setGradingPeriodIdentity(gpit);
 
         // period.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
 
@@ -334,7 +334,9 @@ public class StudentGradeGenerator {
             EducationOrgIdentificationCode edOrg) {
     	SLCGradingPeriodReferenceType ref = new SLCGradingPeriodReferenceType();
         SLCGradingPeriodIdentityType identity = new SLCGradingPeriodIdentityType();
-        identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
+        //identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
+        identity.setGradingPeriod(period.getGradingPeriod());
+        
         identity.setBeginDate(period.getBeginDate());
         // identity.setStateOrganizationId(edOrg);
         ref.setGradingPeriodIdentity(identity);

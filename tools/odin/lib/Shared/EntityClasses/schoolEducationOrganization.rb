@@ -23,43 +23,44 @@ require_relative "enum/GradeLevelType.rb"
 # creates school
 class SchoolEducationOrganization < BaseEntity
 
-  def initialize(rand, id, parent_id, type)
-    @rand      = rand
-    @id        = id
-    @parent_id = parent_id
+  attr_accessor :state_org_id, :grades, :parent_id
+
+  def initialize(id, parent_id, type)
+    if parent_id.kind_of? String
+      @parent_id = parent_id
+    else
+      @parent_id = DataUtility.get_local_education_agency_id(parent_id)
+    end
     @type      = type
     @grades    = []
     if @type == "elementary"
+      if id.kind_of? String
+        @state_org_id = id
+      else
+        @state_org_id = DataUtility.get_elementary_school_id(@id)
+      end
       GradeLevelType.elementary.each do |level|
         @grades << GradeLevelType.get(level)
       end
     elsif @type == "middle"
+      if id.kind_of? String
+        @state_org_id = id
+      else
+        @state_org_id = DataUtility.get_middle_school_id(@id)
+      end
       GradeLevelType.middle.each do |level|
         @grades << GradeLevelType.get(level)
       end
     else
+      if id.kind_of? String
+        @state_org_id = id
+      else
+        @state_org_id = DataUtility.get_high_school_id(@id)
+      end
       GradeLevelType.high.each do |level|
         @grades << GradeLevelType.get(level)
       end
     end
-  end
-
-  def stateOrgId
-    if @type == "elementary"
-      DataUtility.get_elementary_school_id(@id)
-    elsif @type == "middle"
-      DataUtility.get_middle_school_id(@id)
-    elsif @type == "high"
-      DataUtility.get_high_school_id(@id)
-    end 
-  end
-
-  def parentId
-    DataUtility.get_local_education_agency_id(@parent_id)
-  end
-
-  def grades
-    @grades
   end
 
   def type
