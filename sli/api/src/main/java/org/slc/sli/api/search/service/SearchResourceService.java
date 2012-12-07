@@ -137,7 +137,7 @@ public class SearchResourceService {
                 setRealEntityTypes(finalEntities);
             }
         } catch (HttpStatusCodeException hsce) { // TODO: create some sli exception for this
-            warn("Error retrieving results from ES: " + hsce.getMessage());
+            //warn("Error retrieving results from ES: " + hsce.getMessage());
             // if item not indexed, throw Illegal
             if (hsce.getStatusCode() == HttpStatus.NOT_FOUND || hsce.getStatusCode().value() >= 500) {
                 throw new IllegalArgumentException("Search is not available for the user at this moment.");
@@ -213,7 +213,7 @@ public class SearchResourceService {
             apiQuery.setOffset(apiQuery.getOffset() + limitPerQuery);
         }
 
-        debug("finalEntities " + finalEntities.size() + " totalLimit " + totalLimit + " offset " + offset);
+       // debug("finalEntities " + finalEntities.size() + " totalLimit " + totalLimit + " offset " + offset);
         if (finalEntities.size() < offset) {
             return Collections.emptyList();
         }
@@ -299,7 +299,7 @@ public class SearchResourceService {
             Map<String, EntityBody> row;
             for (String type: entitiesByType.rowKeySet()) {
                 row = entitiesByType.row(type);
-                accessible = isAccessible(type, row.keySet());
+                accessible = FilterOutInaccessibleIds(type, row.keySet());
                 for (String id: accessible) {
                     if (row.containsKey(id)) {
                         filterMap.put(id, type, row.get(id));
@@ -337,7 +337,7 @@ public class SearchResourceService {
      * @param ids
      * @return
      */
-    public Set<String> isAccessible(String toType, Set<String> ids) {
+    public Set<String> FilterOutInaccessibleIds(String toType, Set<String> ids) {
 
         // get validator
         IContextValidator validator = contextValidator.findValidator(toType, false);
