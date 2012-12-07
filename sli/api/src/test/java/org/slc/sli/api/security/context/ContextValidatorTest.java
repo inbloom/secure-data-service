@@ -78,10 +78,10 @@ public class ContextValidatorTest {
         when(containerRequest.getPathSegments()).thenReturn(Arrays.asList(new PathSegment[]{}));
         when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("valid-id", "second-valid-id"));
 
-        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", Entity.class, SLIPrincipal.class);
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
         validateEdOrgWrite.setAccessible(true);
 
-        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{entity, principal});
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
 
         Assert.assertFalse("should fail validation", isValid.booleanValue());
 
@@ -99,10 +99,10 @@ public class ContextValidatorTest {
         when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("1234existsOnEntity"));
         //TODO setup inputs to have a matching ed org
 
-        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", Entity.class, SLIPrincipal.class);
+        Method validateEdOrgWrite = contextValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
         validateEdOrgWrite.setAccessible(true);
 
-        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{entity, principal});
+        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(contextValidator, new Object[]{containerRequest, principal});
 
         Assert.assertTrue("should pass validation", isValid.booleanValue());
 

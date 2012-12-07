@@ -104,6 +104,15 @@ public class ContextValidator implements ApplicationContextAware {
 
 	public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
 		validateUserHasContextToRequestedEntities(request, principal);
+
+
+		if(!isValidForEdOrgWrite(request, principal)) {
+			throw new AccessDeniedException("Trying to write an entity outside of your education organization hierarchy");
+		}
+	}
+	
+	
+	private boolean isValidForEdOrgWrite(ContainerRequest request, SLIPrincipal principal) {
 		boolean isValid = true;
 
 		if (request.getMethod() != "GET") {
@@ -115,10 +124,11 @@ public class ContextValidator implements ApplicationContextAware {
 					String resourceName = request.getPathSegments().get(RESOURCE_SEGMENT_INDEX).getPath();
 					String id = request.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
 					Entity existingEntity = repo.findById(store.lookupByResourceName(resourceName).getStoredCollectionName(), id);
-					isValid = isValidForEdOrgWrite(existingEntity, principal);
+					isValid = isEntityValidForEdOrgWrite(existingEntity, principal);
 				}
 				// check write context of update
 			}
+			
 			if (isValid) {
 				Entity newEntity = request.getEntity(Entity.class);
 				if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(newEntity.getType()) != null) {
@@ -127,15 +137,10 @@ public class ContextValidator implements ApplicationContextAware {
 				}
 			}
 		}
-
-
-		if(!isValid) {
-			throw new AccessDeniedException("Trying to write an entity outside of your education organization hierarchy");
-		}
+		return isValid;
 	}
-	
 
-	private boolean isValidForEdOrgWrite(Entity entity, SLIPrincipal principal) {
+	private boolean isEntityValidForEdOrgWrite(Entity entity, SLIPrincipal principal) {
 		boolean isValid = true;
 		if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()) != null) {
 			Collection<String> principalsEdOrgs = principal.getSubEdOrgHierarchy(); //TODO initialize the principal hierarchy
