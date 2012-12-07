@@ -41,7 +41,7 @@ class EnrollmentGenerator < InterchangeGenerator
   end
 
   # writes student section association to student enrollment interchange
-  def create_student_section_association(student_id, section_code, school_id, year, grade)
-    self.<< StudentSectionAssociation.new(student_id, {'id' => section_code}, school_id, year, grade)
+  def create_student_section_association(student_id, section_id, offering_id, school_id, year, grade)
+    self.<< StudentSectionAssociation.new(student_id, section_id, offering_id, school_id, year, grade)
   end
 end

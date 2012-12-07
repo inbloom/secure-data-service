@@ -25,6 +25,7 @@ import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -52,6 +53,7 @@ public class DefaultAssessmentResourceServiceTest {
     private DefaultAssessmentResourceService defaultAssessmentResourceService; //class under test
 
     @Autowired
+    @Qualifier("defaultResourceService")
     private DefaultResourceService resourceService;
 
     @Autowired

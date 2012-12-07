@@ -33,6 +33,7 @@ import org.slc.sli.common.util.entity.EntityManipulator;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +59,7 @@ import java.util.Set;
 public class GetResponseBuilder extends ResponseBuilder {
 
     @Autowired
+    @Qualifier("defaultResourceService")
     protected ResourceService resourceService;
 
     @Autowired

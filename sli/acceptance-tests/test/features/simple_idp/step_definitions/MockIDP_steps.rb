@@ -105,7 +105,7 @@ Then /^I should be redirected to the databrowser web page$/ do
 end
 
 Then /^I should see the name "([^"]*)" on the page$/ do |arg1|
-  assert(@driver.page_source.include?(arg1), "Failed to find #{arg1} on the page")
+  assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end
 
 Then /^I am denied from accessing the databrowser$/ do

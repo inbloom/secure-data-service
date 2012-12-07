@@ -18,6 +18,7 @@ limitations under the License.
 
 require "logger"
 
+require_relative "EntityClasses/enum/AcademicSubjectType.rb"
 require_relative "EntityClasses/enum/GradeLevelType.rb"
 
 # Data Utility class
@@ -62,15 +63,6 @@ class DataUtility
     "high-" + pad_id_with_zeroes(id, 10)
   end
 
-  # create the id for the school based on the given type
-  def self.get_school_id(id, type)
-    case type
-    when :elementary then get_elementary_school_id id
-    when :middle then get_middle_school_id id
-    when :high then get_high_school_id id
-    end
-  end
-
   # create course's unique id
   def self.get_course_unique_id(id)
     "crse-" + pad_id_with_zeroes(id, 10)
@@ -80,6 +72,7 @@ class DataUtility
   def self.get_course_title(grade, subject)
     GradeLevelType.get(grade) + " " + subject
   end
+
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------
 
   #----------   INTERCHANGE: STAFF ASSOCIATION   ----------
@@ -95,16 +88,62 @@ class DataUtility
   #----------   INTERCHANGE: STAFF ASSOCIATION   ----------
 
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
+  # create a course offering code
   def self.get_course_offering_code(id)
     "cofr-" + pad_id_with_zeroes(id, 10)
   end
 
-  def self.get_unique_section_id(id)
-    "sctn-" + pad_id_with_zeroes(id, 10)
+  # create a unique section id
+  def self.get_unique_section_id(id, offering)
+    "sctn-" + pad_id_with_zeroes(offering, 5) + pad_id_with_zeroes(id, 5)
   end
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
 
+  # returns a randomly selected grade for the specified school 'type'
+  def self.get_random_grade_for_type(prng, type)
+    return select_random_from_options(prng, GradeLevelType.elementary) if type == "elementary"
+    return select_random_from_options(prng, GradeLevelType.middle)     if type == "middle"
+    return select_random_from_options(prng, GradeLevelType.high)       if type == "high"
+    return nil
+  end
+
+  # returns randomly selected academic subjects for the specified school 'type'
+  def self.get_random_academic_subjects_for_type(prng, type)
+    subjects = []
+    if type == "elementary"
+      while subjects.size < 1
+        subjects << select_random_from_options(prng, AcademicSubjectType.elementary)
+      end
+    elsif type == "middle"
+      while subjects.size < 2
+        subject  = select_random_from_options(prng, AcademicSubjectType.middle)
+        subjects << subject unless subjects.include? subject
+      end
+    elsif type == "high"
+      while subjects.size < 3
+        subject  = select_random_from_options(prng, AcademicSubjectType.high)
+        subjects << subject unless subjects.include? subject
+      end
+    end
+    subjects
+  end
+
+  # create the id for the school based on the given type
+  def self.get_school_id(id, type)
+    return id if id.kind_of? String
+    case type
+    when :elementary then get_elementary_school_id id
+    when :middle then get_middle_school_id id
+    when :high then get_high_school_id id
+    end
+  end
+
   def self.pad_id_with_zeroes(id, num_zeroes)
     id.to_s.rjust(num_zeroes, '0')
+  end
+
+  # selects a random object from the list of options
+  def self.select_random_from_options(prng, options)
+    options[prng.rand(options.size) - 1]
   end
 end

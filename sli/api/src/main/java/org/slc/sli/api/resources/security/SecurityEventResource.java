@@ -17,47 +17,36 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- *
  * Provides read access to SecurityEvents through the /securityEvent path.
  * For more information, see the schema for the $$securityEvent$$ entity.
  *
@@ -67,45 +56,34 @@ import org.slc.sli.domain.Repository;
 @Scope("request")
 @Path("securityEvent")
 @Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-public class SecurityEventResource extends DefaultCrudEndpoint {
+public class SecurityEventResource extends UnversionedResource {
 
-    public static final String          RESOURCE_NAME     = "securityEvent";
-    public static final List<String>    WATCHED_APP       = Arrays.asList("SimpleIDP");
+    public static final String RESOURCE_NAME = "securityEvent";
+    public static final List<String> WATCHED_APP = Arrays.asList("SimpleIDP");
     private final EntityDefinitionStore entityDefs;
-
-    @Autowired
-    @Qualifier("validationRepo")
-    Repository<Entity> repo;
+    private final UriInfoToApiQueryConverter queryConverter;
 
     @Autowired
     public SecurityEventResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, RESOURCE_NAME);
         this.entityDefs = entityDefs;
+        this.queryConverter = new UriInfoToApiQueryConverter();
     }
 
-    public Response createSecurityEvent(EntityBody newSecurityEvent, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.create(newSecurityEvent, headers, uriInfo);
+    public Response createSecurityEvent(EntityBody newSecurityEvent, @Context final UriInfo uriInfo) {
+        return super.post(newSecurityEvent, uriInfo);
     }
 
     @GET
-    @RightsAllowed({Right.SECURITY_EVENT_VIEW})
-    public Response getSecurityEvents(
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-
-        return retrieveEntities(offset, limit, uriInfo);
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW })
+    @Override
+    public Response getAll(@Context final UriInfo uriInfo) {
+        return retrieveEntities(uriInfo);
     }
 
-
-    private Response retrieveEntities(final int offset, final int limit, final UriInfo uriInfo) {
-
+    private Response retrieveEntities(final UriInfo uriInfo) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(RESOURCE_NAME);
-        NeutralQuery mainQuery = new NeutralQuery();
+        NeutralQuery mainQuery = queryConverter.convert(uriInfo);
         mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
-        mainQuery.setOffset(offset);
-        mainQuery.setLimit(limit);
         mainQuery.setSortBy("timeStamp");
         mainQuery.setSortOrder(SortOrder.descending);
 
@@ -113,8 +91,7 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
         for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
             results.add(entityBody);
         }
-        debug("Found [" + results.size() + "] SecurityEvents!");
+        debug("Found [{}] SecurityEvents!", results.size());
         return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
-
     }
 }
