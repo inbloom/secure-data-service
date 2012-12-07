@@ -17,7 +17,32 @@
 
 package org.slc.sli.api.resources.security;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.slc.sli.api.resources.security.ApplicationResource.APPROVAL_DATE;
+import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_ID;
+import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_SECRET;
+import static org.slc.sli.api.resources.security.ApplicationResource.REGISTRATION;
+import static org.slc.sli.api.resources.security.ApplicationResource.REQUEST_DATE;
+import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,6 +54,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.context.validator.ValidatorTestHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -42,29 +68,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.slc.sli.api.resources.security.ApplicationResource.APPROVAL_DATE;
-import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_ID;
-import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_SECRET;
-import static org.slc.sli.api.resources.security.ApplicationResource.REGISTRATION;
-import static org.slc.sli.api.resources.security.ApplicationResource.REQUEST_DATE;
-import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * @author pwolf
@@ -86,6 +90,9 @@ public class ApplicationResourceTest {
 
     @Autowired
     private SecurityContextInjector injector;
+    
+    @Autowired
+    private ValidatorTestHelper helper;
 
     @Autowired
     private MockRepo repo;
@@ -206,6 +213,7 @@ public class ApplicationResourceTest {
         app.put("redirect_uri", "https://slidev.org");
         app.put("description", "blah blah blah");
         app.put("name", "TestApp");
+
         app.put("client_type", "PUBLIC");
         app.put("behavior", "Full Window App");
         app.put("is_admin", false);
@@ -214,6 +222,9 @@ public class ApplicationResourceTest {
         Map<String, Object> developer = new HashMap<String, Object>();
         developer.put("organization", "Acme");
         developer.put("license_accepted", true);
+        Map<String, Object> registration = new HashMap<String, Object>();
+        registration.put("status", ApplicationResource.STATUS_APPROVED);
+        app.put("registration", registration);
         app.put("developer_info", developer);
         app.put("installed", false);
         return app;
@@ -407,6 +418,23 @@ public class ApplicationResourceTest {
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         Response updated = unversionedResource.put(uuid, app, uriInfo);
         assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+    }
+    
+    @Test
+    public void testSandboxAutoAuthorizeWithNoDuplicates() throws Exception {
+        resource.setAutoRegister(true);
+        resource.setSandboxEnabled(true);
+        injector.setDeveloperContext();
+        String uuid = createApp();
+        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
+        String edorgId2 = helper.generateEdorgWithParent(null).getEntityId();
+        Map<String, Object> appBody = repo.findById("application", uuid).getBody();
+        appBody.put(ApplicationResource.AUTHORIZED_ED_ORGS, Arrays.asList(edorgId, edorgId, edorgId2));
+        EntityBody body = new EntityBody(appBody);
+        Response updated = resource.updateApplication(uuid, body, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+        appBody = repo.findById("application", uuid).getBody();
+        assertEquals(((List) appBody.get(ApplicationResource.AUTHORIZED_ED_ORGS)).size(), 2);
     }
 
     private String createApp() throws URISyntaxException {

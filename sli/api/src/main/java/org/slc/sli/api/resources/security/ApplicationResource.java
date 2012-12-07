@@ -19,8 +19,10 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
@@ -324,6 +326,12 @@ public class ApplicationResource extends UnversionedResource {
 
         changedKeys.remove("registration");
         changedKeys.remove("metaData");
+        
+        // Ensure uniqueness among the authorized edorgs.
+        List<String> edOrg = (List) app.get(AUTHORIZED_ED_ORGS);
+        Set<String> unique = new LinkedHashSet<String>(edOrg);
+        edOrg = new ArrayList<String>(unique);
+        app.put(AUTHORIZED_ED_ORGS, edOrg);
 
         // Operator - can only change registration status
         if (SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {
@@ -374,6 +382,7 @@ public class ApplicationResource extends UnversionedResource {
             if (sandboxEnabled && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
+
 
                 //validate sandbox user isn't trying to authorize an edorg outside of their tenant
                 if (!edOrgsBelongToTenant(edOrgs)) {
@@ -435,7 +444,8 @@ public class ApplicationResource extends UnversionedResource {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs, false));
-        return edOrgs.size() == edorgService.count(query);
+        long count = edorgService.count(query);
+        return edOrgs.size() == count;
     }
 
     private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
@@ -460,6 +470,9 @@ public class ApplicationResource extends UnversionedResource {
     private void updateAuthorization(String uuid, Iterable<EntityBody> auths) {
         for (EntityBody auth : auths) {
             List<String> appsIds = (List) auth.get("appIds");
+            // Clear out all duplicates and make sure there is only one of the one we need.
+            while ((appsIds.remove(uuid)))
+                ;
             appsIds.add(uuid);
             auth.put("appIds", appsIds);
             service.update((String) auth.get("id"), auth);
@@ -508,5 +521,19 @@ public class ApplicationResource extends UnversionedResource {
         return true;
     }
 
+    /**
+     * @return the sandboxEnabled
+     */
+    public boolean isSandboxEnabled() {
+        return sandboxEnabled;
+    }
+    
+    /**
+     * @param sandboxEnabled
+     *            the sandboxEnabled to set
+     */
+    public void setSandboxEnabled(boolean sandboxEnabled) {
+        this.sandboxEnabled = sandboxEnabled;
+    }
 
 }
