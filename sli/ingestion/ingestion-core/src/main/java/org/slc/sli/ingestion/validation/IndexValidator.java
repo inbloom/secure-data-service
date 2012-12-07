@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,8 +47,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.util.MongoCommander;
-import org.slc.sli.ingestion.util.MongoIndex;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -97,7 +94,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         try {
             errorMessage += parseFile("sli_indexes.js", sliIndexCache, mongoTemplate);
             errorMessage += parseFile("ingestion_batch_job_indexes.js", batchJobIndexCache, batchJobMongoTemplate);
-            errorMessage += verifyTenantDbs(tenantIndexCache, mongoTemplate);
         } catch (URISyntaxException e) {
             log.error("Error occured while verifying indexes: " + e.getLocalizedMessage());
         }
@@ -109,32 +105,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         }
 
         return true;
-    }
-
-    /**Verify the tenantDB indexes.
-     * This method assumes all tenant DB have the same indexes
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private String verifyTenantDbs(Map<String, List<HashMap<String, Object>>> indexCache, MongoTemplate mongoTemplate) {
-        StringBuilder errorMessage = new StringBuilder("");
-
-        List<String> tenantDbs = tenantDA.getAllTenantDbs();
-        Set<String> indexes = MongoCommander.readIndexes(TENANT_INDEX);
-
-        for (String tenantDb : tenantDbs) {
-            for(String indexEntry : indexes) {
-                MongoIndex indexObj = MongoCommander.parseIndex(indexEntry);
-                if (indexObj != null) {
-                    boolean indexPresent = verifyIndex(indexCache, mongoTemplate.getDb().getSisterDB(tenantDb), indexObj.getCollection(), indexObj.getKeys().toMap());
-                    if (!indexPresent) {
-                        errorMessage.append("\nIndex " + indexObj.getKeys().toString() + " missing from collection " + indexObj.getCollection());
-                    }
-                }
-            }
-        }
-
-        return errorMessage.toString();
     }
 
     private String parseFile(String fileName, Map<String, List<HashMap<String, Object>>> indexCache,

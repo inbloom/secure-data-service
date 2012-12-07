@@ -211,7 +211,7 @@ public final class IndexFileParser {
         return null;
     }
 
-    private static Map<String, Object> parseJson(String jsonString) {
+    public static Map<String, Object> parseJson(String jsonString) {
 
         JsonFactory factory = new JsonFactory();
         ObjectMapper mapper = new ObjectMapper(factory);
