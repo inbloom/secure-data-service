@@ -20,6 +20,8 @@ limitations under the License.
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
+require_relative '../../utils/email.rb'
+
 Given /^I go to the account registration page on RC$/ do
   @driver.get PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
 end
@@ -28,13 +30,41 @@ Given /^I go to the portal page on RC$/ do
   @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
 end
 
+Given /^I am running in Sandbox mode$/ do
+  @mode = "SANDBOX"
+end
+
+Given /^when I click Accept$/ do 
+
+  if (@mode == "SANDBOX")
+    @imap_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+  else
+    @imap_username = PropLoader.getProps['developer_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_email_imap_registration_pass']
+  end
+
+  @content = check_email({:imap_host => PropLoader.getProps['email_imap_hostname'],
+                         :imap_port => PropLoader.getProps['email_imap_portname'],
+                         :content_substring => "RCTest",
+                         :subject_substring => "Email Confirmation",
+                         :imap_username => @imap_username ,
+                         :imap_password => @imap_password }) do
+
+    @driver.find_element(:xpath, "//input[contains(@id, 'accept')]").click
+    puts "Accepted Terms and Conditions."
+
+  end
+end
+
 Given /^I received an email to verify my email address$/ do
-  subject_string = "Email Confirmation"
-  content_string = "RCTest"
-  content = check_email_for_verification(subject_string, content_string)
-  content.split("\n").each do |line|
+  
+  puts @content
+  puts PropLoader.getProps['admintools_server_url']
+  @content.split("\n").each do |line|
     if(/#{PropLoader.getProps['admintools_server_url']}/.match(line))
       @email_verification_link = line
+      puts @email_verification_link
     end
   end
   assert(!@email_verification_link.nil?, "Cannot find the link from the email")
@@ -63,6 +93,7 @@ end
 
 Then /^he should receive an email telling him his account is approved$/ do
   subject_string = "Welcome to the Shared Learning Collaborative"
+  subject_string = "Welcome to the SLC Developer Sandbox" if (@mode == "SANDBOX")
   content_string = "Welcome RCTest"
   content = check_email_for_verification(subject_string, content_string)
   assert(!content.nil?, "Cannot find email telling me that my account is approved")
@@ -89,10 +120,19 @@ end
 private
 
 def check_email_for_verification(subject_substring = nil, content_substring = nil)
-  imap_host = PropLoader.getProps['email_imap_hostname'] #'imap.gmail.com'
-  imap_port = PropLoader.getProps['email_imap_portname'] #993
-  imap_user = PropLoader.getProps['developer_email_imap_registration_user_email'] #'testdev.wgen@gmail.com'
-  imap_password = PropLoader.getProps['developer_email_imap_registration_pass'] #'testdev.wgen1234'
+
+  if (@mode == "SANDBOX")
+    @imap_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+  else
+    @imap_username = PropLoader.getProps['developer_email_imap_registration_user']
+    @imap_password = PropLoader.getProps['developer_email_imap_registration_pass']
+  end
+
+  imap_host = PropLoader.getProps['email_imap_hostname'] 
+  imap_port = PropLoader.getProps['email_imap_portname'] 
+  imap_user = @imap_username
+  imap_password = @imap_password 
   not_so_distant_past = Date.today.prev_day
   not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
