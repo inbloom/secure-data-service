@@ -20,12 +20,21 @@ require_relative '../../utils/common_stepdefs.rb'
 require_relative '../../apiV1/utils/api_utils.rb'
 require 'socket'
 
+############################### Before Scenario Do ################################
+
+Before('@clearIndexer') do |scenario|
+  # Import tenant just in case it's empty in later extracts
+  step 'I import into tenant collection'
+end
+
 ###############################  After Scenario Do ###############################
 # Clear Elastic Search Indexer
 # Clear student and section collection from mongo
 After('@clearIndexer') do |scenario|
   # we might not need to clear indexer, as extract command will clear it
   step 'I DELETE to clear the Indexer'
+  #undo the import in Before scenario
+  step 'I clear the tenants that I previously imported'
   
   # Clear Mongo
   # TODO:  This is obsolete
@@ -107,19 +116,19 @@ Given /^I import some student data$/ do
 end
 
 Given /^I drop Invalid Files to Inbox Directory$/ do
-  @srcFileName = "InvalidStudentSearch.json"
+  @srcFileName = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a_student_1.json"
   src = "test/features/search/test_data/" + @srcFileName
   fileCopy(src)
 end
 
 Given /^I drop Valid Files to Inbox Directory$/ do
-  @srcFileName = "ValidStudentSearch1.json"
+  @srcFileName = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a_student_2.json"
   src = "test/features/search/test_data/" + @srcFileName
   fileCopy(src)
 end
 
 Then /^I drop another Valid File to the Inbox Directory$/ do
-  @srcFileName = "ValidStudentSearch2.json"
+  @srcFileName = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a_student_3.json"
   src = "test/features/search/test_data/" + @srcFileName
   fileCopy(src)
 end
