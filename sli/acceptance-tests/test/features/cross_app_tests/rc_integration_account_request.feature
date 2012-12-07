@@ -14,7 +14,7 @@ Scenario: SLC Operator logs into SAMT and deletes the developer account
     Then I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "Administrative Account Management"
+    And under System Tools, I click on "Manage Administrator Accounts"
 
     And I switch to the iframe
     Then I delete the user "RCTest Developer" if exists

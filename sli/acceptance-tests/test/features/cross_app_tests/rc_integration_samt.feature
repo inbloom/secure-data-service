@@ -15,7 +15,7 @@ Feature:  RC Integration SAMT Tests
     Then I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "Administrative Account Management"
+    And under System Tools, I click on "Manage Administrator Accounts"
 
     And I switch to the iframe
     Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN" if exists
