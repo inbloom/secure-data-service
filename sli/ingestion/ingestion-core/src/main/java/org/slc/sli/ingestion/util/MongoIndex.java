@@ -27,6 +27,16 @@ public class MongoIndex {
     private boolean unique;
     private Map<String, Object> keys = new HashMap<String, Object>();
 
+    public MongoIndex(String collection, boolean unique, Map<String, Object> keys) {
+        this.collection = collection;
+        this.unique = unique;
+        this.keys = keys;
+    }
+
+    public MongoIndex() {
+
+    }
+
     public String getCollection() {
         return collection;
     }
