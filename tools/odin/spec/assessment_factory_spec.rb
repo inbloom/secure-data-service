@@ -22,7 +22,7 @@ require_relative '../lib/EntityCreation/assessment_factory'
 describe "AssessmentFactory" do
   describe "#assessments" do
     context "with a scenario calling for 5 grade wide assessments" do
-      let(:scenario) {{'ASSESSMENTS_PER_GRADE' => 5}}
+      let(:scenario) {{'ASSESSMENTS_PER_GRADE' => 5, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' =>  {'grade_wide' => 4}}}
       let(:factory) {AssessmentFactory.new scenario}
 
       it "will return 5 unique assessments for the third grade in 2012" do
