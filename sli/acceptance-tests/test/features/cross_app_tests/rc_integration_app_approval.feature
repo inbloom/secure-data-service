@@ -51,7 +51,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 #Create a new installed App
 Then I am redirected to the Application Registration Tool page
@@ -71,7 +71,7 @@ And a notification email is sent to "slcoperator-email@slidev.org"
 And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 #Create a new web full window app
@@ -101,7 +101,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration Approval"
+And under System Tools, I click on "Approve Application Registration"
 And I switch to the iframe
 And I am redirected to the Application Registration Approval Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table
@@ -124,7 +124,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table

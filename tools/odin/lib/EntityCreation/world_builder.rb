@@ -1083,6 +1083,9 @@ class WorldBuilder
         factory.assessments(grade: grade, year: year).each{|assessment|
           assessment.assessmentFamilyReference = family
           @data_writer.create_assessment(assessment)
+          assessment.assessment_items.each{|ai|
+            @data_writer.create_assessment_item(ai)
+          }
         }
       }
     }
