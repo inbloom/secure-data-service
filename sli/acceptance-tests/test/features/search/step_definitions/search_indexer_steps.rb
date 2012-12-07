@@ -35,21 +35,6 @@ After('@clearIndexer') do |scenario|
   step 'I DELETE to clear the Indexer'
   #undo the import in Before scenario
   step 'I clear the tenants that I previously imported'
-  
-  # Clear Mongo
-  # TODO:  This is obsolete
-  conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'])
-  db   = conn[PropLoader.getProps['ingestion_database_name']]
-  result = true
-  collections = ["student","section"]
-  collections.each do |collection|
-    entity_collection = db[collection]
-    entity_collection.remove("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]})
-    if entity_collection.find("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]}).count != 0
-      result = false
-    end
-  end
-  assert(result, "Some collections were not cleared successfully.")
 end
 ###################################################################################
 
@@ -183,7 +168,7 @@ Given /^"(.*?)" hit is returned$/ do |expectedHits|
 end
 
 Given /^I search in API for "(.*?)"$/ do |query|
-  url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/students?q=" + query
+  url = PropLoader.getProps["api_server_url"] + "/api/rest/v1/search/students?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")  
   @result = JSON.parse(@res.body)
