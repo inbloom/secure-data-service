@@ -39,8 +39,9 @@ class AssessmentFactory
 
   def grade_wide_assessments(grade, year)
     n = @scenario['ASSESSMENTS_PER_GRADE']
+    item_count = @scenario['ASSESSMENT_ITEMS_PER_ASSESSMENT']['grade_wide']
     (1..n).map{|i|
-      Assessment.new("#{year}-#{grade} Assessment #{i}", year, grade)
+      Assessment.new("#{year}-#{grade} Assessment #{i}", year, grade, item_count)
     }
   end
 
