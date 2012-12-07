@@ -9,6 +9,8 @@ end
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud_auto")
 end
 
 task :apiV1AssociationTests => [:realmInit] do
