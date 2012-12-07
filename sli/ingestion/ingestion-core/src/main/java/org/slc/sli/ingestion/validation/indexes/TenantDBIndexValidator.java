@@ -33,9 +33,9 @@ import org.slc.sli.ingestion.util.MongoIndex;
  */
 public class TenantDBIndexValidator extends DbIndexValidator {
 
-    private Logger LOG = LoggerFactory.getLogger(TenantDBIndexValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TenantDBIndexValidator.class);
 
-    private String INDEX_FILE = "tenantDB_indexes.txt";
+    private static final String INDEX_FILE = "tenantDB_indexes.txt";
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -53,6 +53,7 @@ public class TenantDBIndexValidator extends DbIndexValidator {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
 
         for (String tenantDb : tenantDbs) {
+            LOG.info("Validating indexes for {} database", tenantDb);
             for (MongoIndex index : indexes) {
                 checkIndexes(index, mongoTemplate.getDb().getSisterDB(tenantDb));
             }

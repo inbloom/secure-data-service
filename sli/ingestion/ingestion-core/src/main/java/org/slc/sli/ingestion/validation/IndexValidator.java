@@ -33,15 +33,28 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  */
 public class IndexValidator extends SimpleValidatorSpring<Object> {
 
-    private Logger log = LoggerFactory.getLogger(IndexValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IndexValidator.class);
 
     @Autowired
     private DbIndexValidator tenantDBIndexValidator;
+
+    @Autowired
+    private DbIndexValidator sliDbIndexValidator;
+
+    @Autowired
+    private DbIndexValidator batchJobDbIndexValidator;
 
 
     @Override
     public boolean isValid(Object object, ErrorReport callback) {
 
+        LOG.info("Validating indexes for sli database....");
+        sliDbIndexValidator.verifyIndexes();
+
+        LOG.info("Validating indexes for batch job database....");
+        batchJobDbIndexValidator.verifyIndexes();
+
+        LOG.info("Validating indexes for tenant databases....");
         tenantDBIndexValidator.verifyIndexes();
 
         return true;

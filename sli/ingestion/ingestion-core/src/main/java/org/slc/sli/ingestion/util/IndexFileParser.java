@@ -20,7 +20,6 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -93,12 +92,10 @@ public final class IndexFileParser {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            LOG.error(e.getMessage());
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Error reading index file:" + e.getMessage());
         } catch (URISyntaxException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Index file not found: " + e.getMessage());
         } finally {
             IOUtils.closeQuietly(br);
             IOUtils.closeQuietly(fstream);
