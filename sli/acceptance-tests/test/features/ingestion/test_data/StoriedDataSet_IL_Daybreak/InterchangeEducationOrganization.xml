@@ -37,6 +37,11 @@
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
+	<LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK-DIS</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
@@ -44,6 +49,31 @@
     </StateEducationAgencyReference>
   </LocalEducationAgency>
 
+    <LocalEducationAgency>
+    <StateOrganizationId>IL-DAYBREAK-DIS</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4528</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>456 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
