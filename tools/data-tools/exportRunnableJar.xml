@@ -49,11 +49,11 @@
           </fileset>
         </scp>
         <sshexec host="${host}" username="${username}" password="${password}" 
-        command="mkdir -p ${path}/../../sli/domain/src/main/resources/edfiXsd/"
+        command="mkdir -p ${path}/../../sli/edfi-schema/src/main/resources/edfiXsd"
         trust = "true"/>
         
-        <scp todir="${username}:${password}@${host}:${path}/../../sli/domain/src/main/resources/edfiXsd/" trust="true">
-                  <fileset dir="../../sli/domain/src/main/resources/edfiXsd/" />
+        <scp todir="${username}:${password}@${host}:${path}/../../sli/edfi-schema/src/main/resources/edfiXsd" trust="true">
+                  <fileset dir="../../sli/edfi-schema/src/main/resources/edfiXsd/" />
         </scp>
     	    	        
         <scp file = "${config}" todir="${username}:${password}@${host}:${path}/" trust="true"/>

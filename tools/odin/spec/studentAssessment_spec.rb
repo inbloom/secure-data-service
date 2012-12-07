@@ -24,7 +24,7 @@ describe "StudentAssessmentGenerator" do
   let(:generator) {StudentAssessmentGenerator.new(scenario, output)}
   describe "<<" do
     it "will output a Student Assessment to edfi" do
-      assessment = StudentAssessment.new("student42", "assessment64", Date.new(2012, 12, 21), :KINDERGARTEN)
+      assessment = StudentAssessment.new("student42", Assessment.new("assessment64", 2012, "Kindergarten"), Date.new(2012, 12, 21))
       generator.start
       generator << assessment
       generator.finalize

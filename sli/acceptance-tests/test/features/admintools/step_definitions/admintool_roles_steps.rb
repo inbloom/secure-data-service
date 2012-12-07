@@ -94,9 +94,9 @@ Given /^I have navigated to the default Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-When /^I click on the Logout link$/ do
-  pending # express the regexp above with the code you wish you had
-end
+#When /^I click on the Logout link$/ do
+#  pending # express the regexp above with the code you wish you had
+#end
 
 Then /^I am no longer authenticated to SLI IDP$/ do
   pending # express the regexp above with the code you wish you had
@@ -136,24 +136,6 @@ Given /^the following collections are empty in sli datastore:$/ do |table|
     end
   end
   assert(@result == "true", "Some collections were not cleared successfully.")
-end
-
-Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.count().to_i
-    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
-
-    if @entity_count.to_s != row["count"].to_s
-      @result = "false"
-    end
-  end
-
-  assert(@result == "true", "Some records didn't load successfully.")
 end
 
 Then /^I should see following map of entry counts in the corresponding sli collections:$/ do |table|

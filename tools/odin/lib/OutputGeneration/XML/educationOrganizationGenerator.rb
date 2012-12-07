@@ -51,8 +51,8 @@ class EducationOrganizationGenerator < InterchangeGenerator
   end
 
   # creates and writes school to interchange
-  def create_school(rand, id, parent_id, type)
-    self.<< SchoolEducationOrganization.new(rand, id, parent_id, type)
+  def create_school(id, parent_id, type)
+    self.<< SchoolEducationOrganization.new(id, parent_id, type)
   end
 
   # creates and writes course to interchange
