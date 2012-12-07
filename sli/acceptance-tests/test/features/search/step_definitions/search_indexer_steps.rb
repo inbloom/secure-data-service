@@ -313,6 +313,8 @@ def verifyElementsOnResponse(arrayOfElements, table)
 end
 
 def verifyElasticSearchCount(numEntities = -1)
+  # set sessionId to be non-nil
+  @sessionId = ""
   max = 10
   done = false
   numTries = 0
