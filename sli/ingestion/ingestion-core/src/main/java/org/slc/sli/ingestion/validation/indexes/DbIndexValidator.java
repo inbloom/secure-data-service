@@ -105,5 +105,5 @@ public abstract class DbIndexValidator {
         }
     }
 
-    protected abstract void verifyIndexes();
+    public abstract void verifyIndexes();
 }

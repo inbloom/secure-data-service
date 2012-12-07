@@ -48,7 +48,7 @@ public class TenantDBIndexValidator extends DbIndexValidator {
 
 
     @Override
-    protected void verifyIndexes() {
+    public void verifyIndexes() {
         List<MongoIndex> indexes = IndexFileParser.parseTxtFile(INDEX_FILE);
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
 
