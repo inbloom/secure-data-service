@@ -38,10 +38,10 @@ import com.google.common.collect.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.common.collect.Lists;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -202,6 +202,7 @@ public class SearchResourceService {
 
             // call BasicService to query the elastic search repo
             entityBodies = (List<EntityBody>) getService().list(apiQuery);
+            debug("Got " + entityBodies.size() + " entities back");
             int lastSize = entityBodies.size();
             finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
 
@@ -424,9 +425,7 @@ public class SearchResourceService {
      */
     @Component
     static final class Embedded {
-        final Logger logger = LoggerFactory.getLogger(Embedded.class);
-
-        private static final String EMBEDDED_DATA = "data";
+        private static final String ES_DIR = "es";
         private Node node;
 
         @Value(value="${sli.search.embedded:false}")
@@ -435,21 +434,31 @@ public class SearchResourceService {
         @PostConstruct
         public void init() {
             if (embeddedEnabled) {
-                logger.info("Starting embedded ElasticSearch node");
+            	info("Starting embedded ElasticSearch node");
                 try {
-                    FileUtils.deleteDirectory(new File(EMBEDDED_DATA));
-                    node = NodeBuilder.nodeBuilder().local(true).node();
+
+                    String tmpDir = System.getProperty("java.io.tmpdir");
+                    File elasticsearchDir = new File(tmpDir, ES_DIR);
+                    debug("ES data tmp dir is " + elasticsearchDir.getAbsolutePath());
+                    FileUtils.deleteDirectory(elasticsearchDir);
+                    Settings settings = ImmutableSettings.settingsBuilder()
+                            .put("node.http.enabled", true)
+                            .put("path.data", elasticsearchDir.getAbsolutePath() + "/data")
+                            .put("gateway.type", "none")
+                           //.put("index.store.type", "memory")
+                            .put("index.number_of_shards", 1)
+                            .put("index.number_of_replicas", 1).build();
+
+                    node = NodeBuilder.nodeBuilder().local(true).settings(settings).node();
                 } catch (IOException ioe) {
-                    logger.info("Unable to delete data directory for embedded elasticsearch");
+                	info("Unable to delete data directory for embedded elasticsearch");
                 }
-                node = NodeBuilder.nodeBuilder().local(true).node();
             }
         }
 
         @PreDestroy
         public void destroy(){
             if (embeddedEnabled && node != null) {
-                logger.info("Destroying embedded ElasticSearch node");
                 node.close();
             }
         }
