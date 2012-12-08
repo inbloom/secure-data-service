@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 require_relative 'spec_helper'
-require_relative '../lib/EntityCreation/assessment_factory'
+require_relative '../lib/WorldDefinition/assessment_work_order'
 
 describe "AssessmentFactory" do
   describe "#assessments" do
@@ -25,20 +25,35 @@ describe "AssessmentFactory" do
       let(:scenario) {{'ASSESSMENTS_PER_GRADE' => 5, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' =>  {'grade_wide' => 4}}}
       let(:factory) {AssessmentFactory.new scenario}
 
+      assessments = []
       it "will return 5 unique assessments for the third grade in 2012" do
-        assessments = factory.assessments(grade: :THIRD_GRADE, year: 2012)
+        e = Enumerator.new do |y|
+          factory.gen_assessments(y, grade: :THIRD_GRADE, year: 2012)
+        end
+
+        e.each do |work_order|
+            assessments << work_order
+        end
+
         assessments.should have(5).items
-        Set.new(assessments.map{|a| a.assessmentTitle}).should have(5).items
+        Set.new(assessments.map{|a| a[:id]}).should have(5).items
         assessments.each{|a|
-          a.year_of.should eq 2012
-          a.gradeLevelAssessed.should eq "Third grade"
+          a[:year].should eq 2012
+          a[:grade].should eq "Third grade"
         }
       end
 
       it "will return a different set of assessments for different grades" do
         titles = Set.new
         GradeLevelType.get_ordered_grades.each{|g|
-          titles += factory.assessments(grade: g, year: 2012).map{|a| a.assessmentTitle}
+          e = Enumerator.new do |y|
+            factory.gen_assessments(y, grade: g, year: 2012)
+          end
+
+          e.each do |work_order|
+            puts "<<<< #{work_order}"
+            titles << work_order[:id]
+          end
         }
         titles.should have(5*GradeLevelType.get_ordered_grades.count).items
       end
@@ -46,8 +61,14 @@ describe "AssessmentFactory" do
       it "will return a different set of assessments for different years" do
         titles = Set.new
         years = 2001..2012
-        years.each{|y|
-          titles += factory.assessments(grade: :THIRD_GRADE, year: y).map{|a| a.assessmentTitle}
+        years.each{|g|
+          e = Enumerator.new do |y|
+            factory.gen_assessments(y, grade: "First", year: g)
+          end
+
+          e.each do |work_order|
+            titles << work_order[:id]
+          end
         }
         titles.should have(5*years.count).items
       end
