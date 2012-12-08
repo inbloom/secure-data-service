@@ -23,7 +23,16 @@ require_relative '../data_utility'
 class StudentSchoolAssociation < BaseEntity
   attr_accessor :studentId, :schoolStateOrgId, :startYear, :startGrade
 
-  def initialize(studentId, schoolId, startYear = 2011, grade = :ELEVENTH_GRADE)
+  def initialize(studentId, schoolId, startYear, grade)
+
+    if startYear.nil?
+      exit -1
+    end
+
+    if grade.nil?
+      exit -1
+    end
+
     @studentId = studentId
     @schoolStateOrgId = DataUtility.get_school_id(schoolId, GradeLevelType.school_type(grade))
     @startYear = startYear

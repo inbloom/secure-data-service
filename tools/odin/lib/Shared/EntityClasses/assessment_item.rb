@@ -19,11 +19,14 @@ limitations under the License.
 require_relative 'baseEntity'
 class AssessmentItem < BaseEntity
 
-  attr_accessor :id, :identificationCode, :itemCategory, :maxRawScore, :correctResponse, :nomenclature, :assessment
+  attr_accessor :id, :identificationCode, :itemCategory, :maxRawScore, :correctResponse,
+                :assessmentTitle, :assessment, :gradeLevelAssessed
   def initialize(id, assessment)
     @id = id
-    @assessment = assessment
-    @identificationCode = "#{assessment.assessmentIdentificationCode[:code]}##{id}"
+    @assessment = assessment[:id]
+    @assessmentTitle =assessment[:id]
+    @gradeLevelAssessed = assessment[:grade]
+    @identificationCode = "#{@assessmentTitle}##{id}"
     @itemCategory = "True-False"
     @maxRawScore = 10
     @correctResponse = id.odd?

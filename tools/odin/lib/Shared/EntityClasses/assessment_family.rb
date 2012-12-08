@@ -30,7 +30,6 @@ class AssessmentFamily < BaseEntity
   end
 
   def build
-
     @assessmentFamilyTitle = @id
     @assessmentFamilyIdentificationCode = { :code => @id, :assessmentIdentificationSystemType => 'State' }
   end
