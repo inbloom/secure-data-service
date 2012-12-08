@@ -136,7 +136,7 @@ Scenario: Search by id
   When I search for the identifier "South Daybreak Elementary" in "educationOrganizations"
   Then I should see the text "South Daybreak Elementary"
   And I should see the text "Elementary School"
-  When I search for the identifier "<REBECCA BRAVERMAN UNIQUE ID>" in "teachers"
+  When I search for the identifier "<REBECCA BRAVERMAN UNIQUE ID>" in "staff"
   Then I should see the text "Rebecca"
   And I should see the text "Braverman"
   When I search for the identifier "<AMY KOPEL UNIQUE ID>" in "staff"
