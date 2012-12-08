@@ -71,11 +71,15 @@ class InterchangeGenerator
     @interchange.close()
     elapsed = Time.now - @stime
     if @has_entities
-      @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
+    @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
     else
       @log.info "no entities for #{@interchange.path}"
       File.delete @interchange
     end
+  end
+
+  def can_write?(entity)
+    @writers[entity].nil? == false
   end
 
 end

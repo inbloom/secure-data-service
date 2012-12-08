@@ -19,8 +19,6 @@ limitations under the License.
 
 require 'timeout'
 
-require_relative '../lib/EntityCreation/work_order_processor.rb'
-
 describe "SectionWorkOrderFactory" do
   describe "sections" do
     context "with a simple edorg and scenario" do

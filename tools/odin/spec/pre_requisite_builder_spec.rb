@@ -18,7 +18,7 @@ limitations under the License.
 
 require 'yaml'
 
-require_relative '../lib/EntityCreation/pre_requisite_builder.rb'
+require_relative '../lib/WorldDefinition/pre_requisite_builder.rb'
 require_relative '../lib/Shared/util.rb'
 
 # specifications for pre-requisite builder

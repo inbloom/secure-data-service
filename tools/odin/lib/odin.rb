@@ -29,9 +29,8 @@ require "rexml/document"
 require 'thwait'
 require 'yaml'
 
-require_relative 'EntityCreation/pre_requisite_builder.rb'
-require_relative 'EntityCreation/world_builder.rb'
-require_relative 'EntityCreation/work_order_processor.rb'
+require_relative 'WorldDefinition/pre_requisite_builder.rb'
+require_relative 'WorldDefinition/world_builder.rb'
 require_relative 'OutputGeneration/DataWriter.rb'
 require_relative 'OutputGeneration/XmlDataWriter.rb'
 require_relative 'OutputGeneration/XML/validator'
@@ -39,12 +38,16 @@ require_relative 'Shared/util'
 require_relative 'Shared/demographics'
 require_relative 'Shared/EntityClasses/student'
 
+require_relative 'EntityCreation/entity_factory'
+require_relative 'EntityCreation/work_order_queue'
 # offline data integration nexus --> ODIN
 class Odin
   def initialize
     $stdout.sync = true
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
+    @workOrderQueue = nil
+    @entityQueue = nil
   end
 
   def generate( scenario )
@@ -68,18 +71,22 @@ class Odin
       writer = DataWriter.new
     end
 
-    start = Time.now
+    @entityQueue = EntityQueue.new
+    @entityQueue.writer(writer)
 
+    @workOrderQueue = WorkOrderQueue.new
+    @workOrderQueue.factory(EntityFactory.new(prng), @entityQueue)
+
+    start = Time.now
+    
     # load pre-requisites for scenario (specified in yaml)
     pre_requisites = PreRequisiteBuilder.load_pre_requisites(scenarioYAML)
     display_pre_requisites_before_world_building(pre_requisites)
 
     # create a snapshot of the world
-    edOrgs = WorldBuilder.new(prng, scenarioYAML, writer, pre_requisites).build
+    edOrgs = WorldBuilder.new(prng, scenarioYAML, @workOrderQueue, pre_requisites).build
     display_world_summary(edOrgs)
     display_pre_requisites_after_world_building(pre_requisites)
-    
-    WorkOrderProcessor.run edOrgs, writer, scenarioYAML
 
     # clean up writer
     # -> xml  data writer: writes any entities that are still queued and closes file handles

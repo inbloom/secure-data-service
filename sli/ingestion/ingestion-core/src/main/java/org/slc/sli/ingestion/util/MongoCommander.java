@@ -82,8 +82,7 @@ public final class MongoCommander {
                 options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
 
                 try {
-                    DBObject keys = new BasicDBObject(index.getKeys());
-                    dbConn.getCollection(index.getCollection()).createIndex(keys, options);
+                    dbConn.getCollection(index.getCollection()).createIndex(index.getKeys(), options);
                 } catch (MongoException e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }
