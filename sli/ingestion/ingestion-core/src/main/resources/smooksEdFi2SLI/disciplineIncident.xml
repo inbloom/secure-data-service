@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
     xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
     xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
     xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
   <json:reader rootName="json" />
+
+  <core:filterSettings type="SAX" readerPoolSize="5" />
 
   <jb:bean beanId="disciplineIncidents" class="java.util.ArrayList" createOnElement="#document">
     <jb:wiring beanIdRef="disciplineIncident" />
@@ -42,28 +46,28 @@
     <jb:wiring beanIdRef="DisciplineIncident_Behaviors" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_Behaviors" 
-  	class="java.util.ArrayList" 
+  <jb:bean beanId="DisciplineIncident_Behaviors"
+  	class="java.util.ArrayList"
   	createOnElement="behaviors element">
   	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_CodeValue" />
   	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_ShortDescription" />
   	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_Description" />
   </jb:bean>
-	
-  <jb:bean beanId="DisciplineIncident_Behaviors_CodeValue" 
-  	class="java.util.HashMap" 
+
+  <jb:bean beanId="DisciplineIncident_Behaviors_CodeValue"
+  	class="java.util.HashMap"
   	createOnElement="behaviors element element codeValue">
     <jb:value property="codeValue" data="Behaviors element element CodeValue" />
   </jb:bean>
-	
-  <jb:bean beanId="DisciplineIncident_Behaviors_ShortDescription" 
-  	class="java.util.HashMap" 
+
+  <jb:bean beanId="DisciplineIncident_Behaviors_ShortDescription"
+  	class="java.util.HashMap"
   	createOnElement="behaviors element element shortDescription">
     <jb:value property="shortDescription" data="Behaviors element element ShortDescription" />
   </jb:bean>
-   
-  <jb:bean beanId="DisciplineIncident_Behaviors_Description" 
-  	class="java.util.HashMap" 
+
+  <jb:bean beanId="DisciplineIncident_Behaviors_Description"
+  	class="java.util.HashMap"
   	createOnElement="behaviors element element description">
     <jb:value property="description" data="Behaviors element element Description" />
   </jb:bean>
@@ -76,13 +80,13 @@
     <jb:wiring beanIdRef="DisciplineIncident_SecondaryBehaviors" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_SecondaryBehaviors" 
-  	class="java.util.HashMap" 
+  <jb:bean beanId="DisciplineIncident_SecondaryBehaviors"
+  	class="java.util.HashMap"
   	createOnElement="secondaryBehaviors element">
     <jb:value property="behaviorCategory" data="SecondaryBehaviors element BehaviorCategory" />
     <jb:value property="secondaryBehavior" data="SecondaryBehaviors element SecondaryBehavior" />
   </jb:bean>
-	
+
   <!-- DisciplineIncident supporting objects: Weapons -->
 
   <jb:bean beanId="DisciplineIncident_WeaponsArray"

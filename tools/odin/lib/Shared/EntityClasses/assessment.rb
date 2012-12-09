@@ -16,23 +16,20 @@ limitations under the License.
 
 =end
 
-require 'yaml'
+require_relative 'assessment_item'
 
 require_relative 'baseEntity'
 class Assessment < BaseEntity
 
-  attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of
-  def initialize(id, year_of)
+  attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
+    :assessmentFamilyReference, :assessment_items
+  def initialize(id, year_of = 2012, gradeLevelAssessed = nil, num_items = 0)
     @id = id
     @year_of = year_of
-    @rand = Random.new(@id)
-    build
-  end
-
-  def build
-
-    @assessmentTitle = @rand.rand(10000).to_s
-    @assessmentIdentificationCode = { :code => @rand.rand(10000).to_s, :assessmentIdentificationSystemType => 'State' }
+    @gradeLevelAssessed = gradeLevelAssessed
+    @assessmentTitle = @id
+    @assessmentIdentificationCode = { code: @id, assessmentIdentificationSystemType: 'State' }
+    @assessment_items = (1..num_items).map{|i| AssessmentItem.new(i, self)}
   end
 
 end

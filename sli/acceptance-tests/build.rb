@@ -52,7 +52,7 @@ puts "*******NOTE******** Ingestion must have been built prior to running this s
 curTime = Time.new
 dirString = ""
 
-dirs_to_zip = ["acceptance-tests", "opstools", "admin-tools/approval", "ingestion/ingestion-validation/target/"]
+dirs_to_zip = ["acceptance-tests", "opstools", "admin-tools/approval", "ingestion/ingestion-validation/target/", "api/src/main/resources/wadl/"]
 
 `cd ..;zip -r testBundle_#{curTime.strftime("%m%d%Y_%H%M%S")}_#{branch}.zip #{dirs_to_zip.join(" ")}`
 

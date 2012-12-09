@@ -39,6 +39,7 @@ import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -75,6 +76,7 @@ public class DefaultResourceTest {
     private EntityDefinitionStore entityDefs;
 
     @Autowired
+    @Qualifier("defaultResourceService")
     private DefaultResourceService resourceService;
 
     private Resource resource = null;

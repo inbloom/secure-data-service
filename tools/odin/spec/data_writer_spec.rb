@@ -25,6 +25,8 @@ require_relative '../lib/Shared/date_interval.rb'
 require_relative '../lib/Shared/date_utility.rb'
 require_relative "../lib/Shared/EntityClasses/enum/GradingPeriodType.rb"
 require_relative "../lib/Shared/EntityClasses/enum/CalendarEventType.rb"
+require_relative "../lib/Shared/EntityClasses/enum/StaffClassificationType.rb"
+require_relative "../lib/Shared/EntityClasses/enum/ProgramAssignmentType.rb"
 
 # specifications for base data writer
 describe "DataWriter" do
@@ -70,7 +72,7 @@ describe "DataWriter" do
 
     it "will store a school in-memory when handling call to create one" do
       @writer.get_entity_count(:school).should eq(0)
-      @writer.create_school(@random, 3, 2, "elementary")
+      @writer.create_school(3, 2, "elementary")
       @writer.get_entity_count(:school).should_not be_nil
       @writer.get_entity_count(:school).should eq(1)
     end
@@ -122,5 +124,36 @@ describe "DataWriter" do
       @writer.get_entity_count(:course_offering).should_not be_nil
       @writer.get_entity_count(:course_offering).should eq(1)
     end
+
+    it "will store a staff in-memory when handling call to create one" do
+      @writer.get_entity_count(:staff).should eq(0)
+      @writer.create_staff(1, 1969)
+      @writer.get_entity_count(:staff).should_not be_nil
+      @writer.get_entity_count(:staff).should eq(1)
+    end
+
+    it "will store a staff education organization assignment association in-memory when handling call to create one" do
+      @writer.get_entity_count(:staff_ed_org_assignment_association).should eq(0)
+      @writer.create_staff_ed_org_assignment_association(1, 1, :PRINCIPAL, "title", Date.new(2009, 9, 4))
+      @writer.get_entity_count(:staff_ed_org_assignment_association).should_not be_nil
+      @writer.get_entity_count(:staff_ed_org_assignment_association).should eq(1)
+    end
+
+    it "will store a teacher in-memory when handling call to create one" do
+      @writer.get_entity_count(:teacher).should eq(0)
+      @writer.create_teacher(3, 1971)
+      @writer.get_entity_count(:teacher).should_not be_nil
+      @writer.get_entity_count(:teacher).should eq(1)
+    end
+
+    it "will store a teacher school association in-memory when handling call to create one" do
+      @writer.get_entity_count(:teacher_school_association).should eq(0)
+      @writer.create_teacher_school_association(3, 1, :REGULAR_EDUCATION, [:FIRST_GRADE], [:COMPUTER_AND_INFORMATION_SCIENCES])
+      @writer.get_entity_count(:teacher_school_association).should_not be_nil
+      @writer.get_entity_count(:teacher_school_association).should eq(1)
+    end
+
+    # add assessment metadata tests
+    # add student assessment tests
   end
 end

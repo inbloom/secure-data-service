@@ -15,16 +15,10 @@
  */
 package org.slc.sli.ingestion.util;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-import java.util.TreeSet;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -33,12 +27,13 @@ import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
+ * Provides functionality to parse tenant DB index file, ensure indexes and pre-split
+ *
  * @author tke
  *
  */
@@ -50,43 +45,8 @@ public final class MongoCommander {
 
     private static final String ID = "_id";
 
-    private static boolean validIndex(String line) {
-        if (line.startsWith("#")) {
-            return false;
-        }
-        String[] indexTokens = line.split(",");
-        if (indexTokens.length < 3) {
-            return false;
-        }
-        return true;
-    }
-
     public static void ensureIndexes(String indexFile, String db, MongoTemplate mongoTemplate) {
-        InputStream indexesStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(indexFile);
-
-        DataInputStream in = null;
-        BufferedReader br = null;
-
-        Set<String> indexes = new TreeSet<String>();
-
-        String currentLine;
-
-        //Reading in all the indexes
-        try {
-            in = new DataInputStream(indexesStream);
-            br = new BufferedReader(new InputStreamReader(in));
-            while ((currentLine = br.readLine()) != null) {
-                //skipping lines starting with #
-                if (validIndex(currentLine)) {
-                    indexes.add(currentLine);
-                }
-            }
-        } catch (IOException e) {
-            LOG.error("Failed to create index from {}", indexFile);
-        } finally {
-            IOUtils.closeQuietly(br);
-            IOUtils.closeQuietly(in);
-        }
+        Set<String> indexes = IndexFileParser.readIndexes(indexFile);
 
         ensureIndexes(indexes, db, mongoTemplate);
     }
@@ -98,6 +58,7 @@ public final class MongoCommander {
      * @param db : target database
      * @param mongoTemplate
      */
+    @SuppressWarnings("boxing")
     public static void ensureIndexes(Set<String> indexes, String db, MongoTemplate mongoTemplate) {
         if (indexes != null) {
             LOG.info("Ensuring {} indexes for {} db", indexes.size(), db);
@@ -113,42 +74,16 @@ public final class MongoCommander {
             // (collection, unique, indexKeys ...)
             for (String indexEntry : indexes) {
                 indexOrder++;
-                String[] indexTokens = indexEntry.split(",");
-
-                if (indexTokens.length < 3) {
-                    throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
-                            + indexEntry);
-                }
-
-                String collection = indexTokens[0];
-                boolean unique = Boolean.parseBoolean(indexTokens[1]);
-                DBObject keys = new BasicDBObject();
-
-                for (int i = 2; i < indexTokens.length; i++) {
-                    String [] index = indexTokens[i].split(":");
-
-                    //default order of the index
-                    int order = 1;
-
-                    //If the key specifies order
-                    if (index.length == 2) {
-                        //remove all the non visible characters from order string
-                        order = Integer.parseInt(index[1].replaceAll("\\s", ""));
-                    } else if (index.length != 1) {
-                        throw new IllegalStateException("Unexpected index order: "
-                                + indexTokens[i]);
-                    }
-
-                    keys.put(index[0], order);
-                }
+                MongoIndex index = IndexFileParser.parseIndex(indexEntry);
 
                 DBObject options = new BasicDBObject();
                 options.put("name", "idx_" + indexOrder);
-                options.put("unique", unique);
-                options.put("ns", dbConn.getCollection(collection).getFullName());
+                options.put("unique", index.isUnique());
+                options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
 
                 try {
-                    dbConn.getCollection(collection).createIndex(keys, options);
+                    DBObject keys = new BasicDBObject(index.getKeys());
+                    dbConn.getCollection(index.getCollection()).createIndex(keys, options);
                 } catch (MongoException e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }

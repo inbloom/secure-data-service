@@ -28,6 +28,7 @@ import org.junit.Test;
 
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 
+
 /**
  * @author tke
  *
@@ -124,4 +125,5 @@ public class ValidateBuildIT {
             }
         }
     }
+
 }

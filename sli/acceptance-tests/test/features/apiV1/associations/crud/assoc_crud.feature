@@ -103,11 +103,11 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       # Staff - Rick Rogers
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             | rrogers    | rrogers1234 |
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             | rrogers    | rrogers1234 |
-      | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Regular Education      | Special Education      | rrogers    | rrogers1234 |
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Special Education      | Regular Education      | rrogers    | rrogers1234 |
       # Teacher - Charles Gray (IT Admin)
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             | cgrayadmin | cgray1234   |
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             | cgrayadmin | cgray1234   |
-      | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Regular Education      | Special Education      | cgrayadmin | cgray1234   |
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Special Education      | Regular Education      | cgrayadmin | cgray1234   |
 
     Scenario Outline: Read All as State level Staff
       Given my contextual access is defined by table:

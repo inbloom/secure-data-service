@@ -157,7 +157,7 @@ public class ZipFileUtilTest {
             ArchiveEntry entry;
             ArrayList<String> zipFileSet = new ArrayList<String>();
             while ((entry = zipFileStrm.getNextEntry()) != null) {
-                zipFileSet.add(File.separator + entry.getName());
+                zipFileSet.add(File.separator + entry.getName().replace('/', File.separatorChar));
             }
 
             ArrayList<String> extractedFileSet = new ArrayList<String>();
