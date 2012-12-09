@@ -57,6 +57,11 @@
       <list>
         <value>classpath:tenants/tenant_Midgar.json</value>
         <value>classpath:tenants/tenant_Hyrule.json</value>
+        <value>classpath:tenants/tenant_1.json</value>
+        <value>classpath:tenants/tenant_2.json</value>
+        <value>classpath:tenants/tenant_3.json</value>
+        <value>classpath:tenants/tenant_4.json</value>
+        <value>classpath:tenants/tenant_5.json</value>
       </list>
     </property>
   </bean>

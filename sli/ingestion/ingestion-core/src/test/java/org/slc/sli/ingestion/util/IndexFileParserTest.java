@@ -46,7 +46,7 @@ public class IndexFileParserTest {
         assertTrue(index.isUnique());
 
         index = indexes.get(3);
-        assertEquals(3, index.getKeys().size());
+        assertEquals(3, index.getKeys().toMap().size());
 
         for (MongoIndex idx : indexes) {
             if (idx.getCollection().equalsIgnoreCase("realm")) {

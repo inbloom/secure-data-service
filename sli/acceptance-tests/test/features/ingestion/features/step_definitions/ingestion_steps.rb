@@ -1923,6 +1923,15 @@ Then /^verify the following data in that document:$/ do |table|
   enable_NOTABLESCAN()
 end
 
+Then /^I verify all super doc "(.*?)" entities have correct type field$/ do |entityType|
+disable_NOTABLESCAN()
+super_coll=@db[entityType]
+total_count = super_coll.count
+count = super_coll.find({"type" => entityType}).count
+assert(total_count == count, "not all super doc #{entityType} have correct type field")
+enable_NOTABLESCAN()
+end
+
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
   disable_NOTABLESCAN()
   @entity.each do |ent|

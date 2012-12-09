@@ -61,14 +61,14 @@ public abstract class DbIndexValidator {
         }
     }
 
-    @SuppressWarnings("boxing")
+    @SuppressWarnings({ "boxing", "unchecked" })
     protected void checkIndexes(MongoIndex index, DB database) {
 
         String collectionName = index.getCollection();
 
         updateCache(collectionName, database);
 
-        Map<String, Object> indexMap = index.getKeys();
+        Map<String, Object> indexMap = index.getKeys().toMap();
         if (indexCache.containsKey(collectionName)) {
             List<HashMap<String, Object>> indices = indexCache.get(collectionName);
 
