@@ -64,7 +64,7 @@ end
 puts "Currently in #{Dir.pwd}"
 Dir["generated/*"].each do |f|
   puts "Removing #{f}"
-  `rm -f #{f}`
+  `rm -rf #{f}`
 end
 print " OK\n"
 
