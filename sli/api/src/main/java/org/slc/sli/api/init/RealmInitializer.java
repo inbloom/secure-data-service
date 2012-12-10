@@ -149,21 +149,20 @@ public class RealmInitializer {
 
     protected Map<String, Object> createAdminRealmBody() {
         Map<String, Object> body = createRealmBody(ADMIN_REALM_ID, adminRealmName, adminTenantId, "fakeab32-b493-999b-a6f3-sliedorg1234",
-                true, adminIdpId, adminRedirectEndpoint);
+                true, false, adminIdpId, adminRedirectEndpoint);
         
         return insertSaml(body, true);
     }
 
     protected Map<String, Object> createDeveloperRealmBody() {
-        Map<String, Object> body = createRealmBody(devUniqueId, devRealmName, "", null, false, devIdpId, 
+        Map<String, Object> body = createRealmBody(devUniqueId, devRealmName, "", null, false, true, devIdpId, 
                 devRedirectEndpoint);
-        body.put("developer", true); 
         
         return insertSaml(body, false);
     }
 
     protected Map<String, Object> createSandboxRealmBody() {
-        Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, "", null, false, sandboxIdpId,
+        Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, "", null, false, false, sandboxIdpId,
                 sandboxRedirectEndpoint);
         
         return insertSaml(body, false);
@@ -178,7 +177,7 @@ public class RealmInitializer {
     }
     
     private Map<String, Object> createRealmBody(String uniqueId, String name, String tenantId, String edOrg,
-            boolean admin, String idpId, String redirectEndpoint) {
+            boolean admin, boolean developer, String idpId, String redirectEndpoint) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("name", name);
         body.put("uniqueIdentifier", uniqueId);
@@ -189,6 +188,7 @@ public class RealmInitializer {
             body.put("edOrg", edOrg);
         }
         body.put("admin", admin);
+        body.put("developer", developer); 
 
         Map<String, Object> idp = new HashMap<String, Object>();
         idp.put("id", idpId);
