@@ -22,16 +22,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
@@ -45,8 +51,15 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
+
 public class WriteValidatorTest {
 
+    public static final String ED_ORG_A = "edOrg-A";
+    public static final String ED_ORG_B = "edOrg-B";
+    public static final String SECTION_ID = "section-id";
+    public static final String UN_ASSOCIATED_ED_ORG = "unAssociatedEdOrg";
     @Autowired
     private WriteValidator writeValidator;
 
@@ -55,6 +68,7 @@ public class WriteValidatorTest {
     private PagingRepositoryDelegate<Entity> repo;
     private List<PathSegment> postPath;
     private List<PathSegment> putPath;
+    private Entity existingSection;
 
 
     @SuppressWarnings("unchecked")
@@ -69,10 +83,17 @@ public class WriteValidatorTest {
         PathSegment sectionPath = Mockito.mock(PathSegment.class);
         when(sectionPath.getPath()).thenReturn(ResourceNames.SECTIONS);
         PathSegment idPath = Mockito.mock(PathSegment.class);
-        when(idPath.getPath()).thenReturn("section-id");
+        when(idPath.getPath()).thenReturn(SECTION_ID);
 
         postPath = Arrays.asList(v1Path, sectionPath);
         putPath = Arrays.asList(v1Path, sectionPath, idPath);
+
+        EntityBody entityBody = new EntityBody();
+        existingSection = new MongoEntity(EntityNames.SECTION, SECTION_ID, entityBody, null);
+        when(repo.findById(EntityNames.SECTION, SECTION_ID)).thenReturn(existingSection);
+        writeValidator.setRepo(repo);
+
+        when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList(ED_ORG_A, ED_ORG_B));
     }
 
     @Test
@@ -80,10 +101,9 @@ public class WriteValidatorTest {
     public void testDenyWritingOutsideOfEdOrgHierarchyCreate() {
     	
     	EntityBody entityBody = new EntityBody();
-    	entityBody.put(ParameterConstants.SCHOOL_ID, "unshared-id");
+    	entityBody.put(ParameterConstants.SCHOOL_ID, UN_ASSOCIATED_ED_ORG);
 
         when(uriInfo.getPathSegments()).thenReturn(postPath);
-        when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("valid-id", "second-valid-id"));
 
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
         Assert.fail("should fail validation");
@@ -93,47 +113,28 @@ public class WriteValidatorTest {
     public void testValidWritingInEdOrgHierarchyCreate() {
 
         EntityBody entityBody = new EntityBody();
-    	entityBody.put(ParameterConstants.SCHOOL_ID, "1234existsOnEntity");
+    	entityBody.put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
 
         when(uriInfo.getPathSegments()).thenReturn(postPath);
-        when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("1234existsOnEntity"));
 
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
         // should pass validation
     }
     
-/*
     @Test
+    @ExpectedException(value = AccessDeniedException.class)
     public void testDenyWritingForEdOrgInEntityBodyUpdate() throws Exception {
-    	Map<String, Object> newEntityBody = new HashMap<String, Object>();
-    	newEntityBody.put(ParameterConstants.SCHOOL_ID, "valid-path-id");
-    	Entity newEntity = new MongoEntity(EntityNames.SECTION, newEntityBody);
-    	PathSegment v1Path = Mockito.mock(PathSegment.class);
-    	when(v1Path.getPath()).thenReturn("v1");
-    	PathSegment sectionPath = Mockito.mock(PathSegment.class);
-    	when(sectionPath.getPath()).thenReturn(ResourceNames.SECTIONS);
-    	PathSegment idPath = Mockito.mock(PathSegment.class);
-    	when(idPath.getPath()).thenReturn("valid-path-id");
-    	
-    	Map<String, Object> existingEntityBody = new HashMap<String, Object>();
-    	existingEntityBody.put(ParameterConstants.SCHOOL_ID, "invalid-body-id");
-    	Entity existingEntity = new MongoEntity(EntityNames.SECTION, "section-id", existingEntityBody, null);
-    	
-    	when(uriInfo.getEntity(Entity.class)).thenReturn(newEntity);
-        when(uriInfo.getMethod()).thenReturn("PUT");
-        when(uriInfo.getPathSegments()).thenReturn(Arrays.asList(v1Path, sectionPath, idPath));
-        when(principal.getSubEdOrgHierarchy()).thenReturn(Arrays.asList("valid-path-id", "valid-id", "second-valid-id"));
-        when(repo.findById(EntityNames.SECTION, "valid-path-id")).thenReturn(existingEntity);
-        
-        writeValidator.setRepo(repo);
-        Method validateEdOrgWrite = writeValidator.getClass().getDeclaredMethod("isValidForEdOrgWrite", ContainerRequest.class, SLIPrincipal.class);
-        validateEdOrgWrite.setAccessible(true);
+        EntityBody entityBody = new EntityBody();
+    	entityBody.put(ParameterConstants.SCHOOL_ID, ED_ORG_A);
 
-        Boolean isValid = (Boolean) validateEdOrgWrite.invoke(writeValidator, new Object[]{uriInfo, principal});
+        existingSection.getBody().put(ParameterConstants.SCHOOL_ID, UN_ASSOCIATED_ED_ORG);
 
-        Assert.assertFalse("should fail validation", isValid.booleanValue());
+        when(uriInfo.getPathSegments()).thenReturn(putPath);
+
+        writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
+        Assert.fail("should fail validation");
     }
-    
+/*
     @Test
     public void testDenyWritingForEdOrgInPathUpdate() throws Exception {
     	Map<String, Object> newEntityBody = new HashMap<String, Object>();

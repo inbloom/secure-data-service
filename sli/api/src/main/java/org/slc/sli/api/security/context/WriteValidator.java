@@ -9,12 +9,10 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.UriInfo;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -70,11 +68,11 @@ public class WriteValidator {
             if (uriInfo.getPathSegments().size() > IDS_SEGMENT_INDEX) {
                 // look if we have ed org write context to already existing entity
                 String id = uriInfo.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
-                Entity existingEntity = repo.findById(store.lookupByResourceName(resourceName).getStoredCollectionName(), id);
+                Entity existingEntity = repo.findById(def.getStoredCollectionName(), id);
                 isValid = isEntityValidForEdOrgWrite(existingEntity, principal);
             }
 
-            if (entityBody != null && !entityBody.isEmpty()) {
+            if (isValid && entityBody != null) {
                 if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(def.getType()) != null) {
                     String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(def.getType()));
                     isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
@@ -86,14 +84,10 @@ public class WriteValidator {
 
 
     private boolean isEntityValidForEdOrgWrite(Entity entity, SLIPrincipal principal) {
-        if (entity == null) {
-            return false;
-        }
         boolean isValid = true;
         if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()) != null) {
-            Collection<String> principalsEdOrgs = principal.getSubEdOrgHierarchy();
             String edOrgId = (String) entity.getBody().get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()));
-            isValid = principalsEdOrgs.contains(edOrgId);
+            isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
         }
         return isValid;
     }
