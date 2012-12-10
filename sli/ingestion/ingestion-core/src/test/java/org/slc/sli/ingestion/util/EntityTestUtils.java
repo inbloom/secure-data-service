@@ -45,13 +45,12 @@ import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
 import org.mockito.Mockito;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
@@ -59,6 +58,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -81,8 +81,9 @@ public class EntityTestUtils {
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
         ErrorReport errorReport = Mockito.mock(ErrorReport.class);
 
-        Smooks smooks = new Smooks(smooksConfig);
+        SliSmooks smooks = new SliSmooks(smooksConfig);
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport, null);
+        smooksEdFiVisitor.setSliSmooks(smooks);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
 
         smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
@@ -102,7 +103,7 @@ public class EntityTestUtils {
 
         return entityList;
     }
-
+    
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
 
         Entity e = mock(Entity.class);
@@ -258,7 +259,6 @@ public class EntityTestUtils {
     public static InputStream getResourceAsStream(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
     }
-
     private static final class DummyResourceWriter implements ResourceWriter<NeutralRecord> {
 
         private List<NeutralRecord> neutralRecordList;
