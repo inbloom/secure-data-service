@@ -65,22 +65,25 @@ public class ResourceEndPoint {
         }
     }
 
-    protected ApiNameSpace loadNameSpace(InputStream fileStream) throws IOException {
+    protected ApiNameSpace[] loadNameSpace(InputStream fileStream) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ApiNameSpace apiNameSpace = mapper.readValue(fileStream, ApiNameSpace.class);
-        String nameSpace = apiNameSpace.getNameSpace();
+        ApiNameSpace[] apiNameSpaces = mapper.readValue(fileStream, ApiNameSpace[].class);
 
-        List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
-        for (ResourceEndPointTemplate resource : resources) {
-            if (!resource.isQueryable()) {
-                queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+        for (ApiNameSpace apiNameSpace : apiNameSpaces) {
+            String nameSpace = apiNameSpace.getNameSpace();
+
+            List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
+            for (ResourceEndPointTemplate resource : resources) {
+                if (!resource.isQueryable()) {
+                    queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+                }
+
+                resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
             }
-            
-            resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
         }
 
-        return apiNameSpace;
+        return apiNameSpaces;
     }
 
     protected Map<String, String> buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {

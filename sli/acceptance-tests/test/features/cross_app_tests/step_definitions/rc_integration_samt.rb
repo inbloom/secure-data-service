@@ -74,6 +74,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
    value = "900000016"
  elsif human_readable_text == "BRANDON SUZUKI UNIQUE ID"
    value = "100000022"
+ elsif human_readable_text == "ZOE LOCUST UNIQUE ID"
+   value = "900000009"
  elsif human_readable_text == "REBECCA BRAVERMAN UNIQUE ID"
    value = "rbraverman"
  elsif human_readable_text == "AMY KOPEL UNIQUE ID"
