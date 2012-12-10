@@ -112,10 +112,6 @@ end
 def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
   puts "srcPath = " + srcPath
   puts "destPath = " + destPath
-  puts "lz_server_url = " + lz_server_url
-  puts "lz_username = " + lz_username
-  puts "lz_password = " + lz_password
-  puts "lz_port_number = " + lz_port_number.to_s
 
   if @local_lz
     FileUtils.cp srcPath, destPath
@@ -123,6 +119,11 @@ def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_passwor
     runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}")
   else
     begin
+      puts "lz_server_url = " + lz_server_url
+      puts "lz_username = " + lz_username
+      puts "lz_password = " + lz_password 
+      puts "lz_port_number = " + lz_port_number.to_s
+    
       Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
         #puts "clearing lz for old log files"
         clear_remote_lz(sftp)
