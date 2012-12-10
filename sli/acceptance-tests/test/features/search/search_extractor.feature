@@ -3,7 +3,7 @@ Feature:  Search Indexer: Extractor
 
 Scenario:  Data Extraction
 Given I send a command to start the extractor to extract now
-Given Indexer should have "147" entities
+Given Indexer should have "145" entities
 And I flush the Indexer
 And I search in Elastic Search for "matt" in tenant "Midgar"
 And "1" hit is returned
