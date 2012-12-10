@@ -24,7 +24,7 @@ class CalendarDate < BaseEntity
   attr_accessor :date, :ed_org_id;
 
   def initialize(date, event, ed_org_id)
-  	@date      = date
+  	@date      = date.to_s
     @event     = event
     @ed_org_id = ed_org_id
   end

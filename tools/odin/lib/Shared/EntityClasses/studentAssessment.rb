@@ -23,7 +23,7 @@ class StudentAssessment < BaseEntity
   def initialize(student_id, assessment, date, rand = nil)
     @studentId = student_id
     @assessment = assessment
-    @date = date
+    @date = date.to_s
     @score = rand.rand(100) unless rand.nil?
   end
 end
