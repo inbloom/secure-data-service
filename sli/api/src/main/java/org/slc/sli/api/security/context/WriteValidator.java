@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.UriInfo;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Verify the user has access to write to an entity. We do this by determining the entities edOrg and the principals edOrgs
@@ -70,7 +71,7 @@ public class WriteValidator {
                 String id = uriInfo.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
                 Entity existingEntity = repo.findById(def.getStoredCollectionName(), id);
                 if (existingEntity != null) {
-                    isValid = isEntityValidForEdOrgWrite((EntityBody) existingEntity.getBody(), existingEntity.getType(), principal);
+                    isValid = isEntityValidForEdOrgWrite(existingEntity.getBody(), existingEntity.getType(), principal);
                 }
             }
 
@@ -82,7 +83,7 @@ public class WriteValidator {
     }
 
 
-    private boolean isEntityValidForEdOrgWrite(EntityBody entityBody, String entityType, SLIPrincipal principal) {
+    private boolean isEntityValidForEdOrgWrite(Map<String,Object> entityBody, String entityType, SLIPrincipal principal) {
         boolean isValid = true;
         if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType) != null) {
             String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType));
