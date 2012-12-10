@@ -495,22 +495,21 @@ public class SearchResourceService {
 				File elasticsearchDir = new File(tmpDir, ES_DIR);
 				debug(String.format("ES data tmp dir is %s", elasticsearchDir.getAbsolutePath()));
 
-				if (deleteDirectory(elasticsearchDir)) {
+				deleteDirectory(elasticsearchDir);
 
-					Settings settings = ImmutableSettings
-							.settingsBuilder()
-							.put("node.http.enabled", true)
-							.put("path.data",
-									elasticsearchDir.getAbsolutePath()
-											+ "/data")
-							.put("gateway.type", "none")
-							// .put("index.store.type", "memory")
-							.put("index.number_of_shards", 1)
-							.put("index.number_of_replicas", 1).build();
+				Settings settings = ImmutableSettings
+						.settingsBuilder()
+						.put("node.http.enabled", true)
+						.put("path.data",
+								elasticsearchDir.getAbsolutePath()
+										+ "/data")
+						.put("gateway.type", "none")
+						// .put("index.store.type", "memory")
+						.put("index.number_of_shards", 1)
+						.put("index.number_of_replicas", 1).build();
 
-					node = NodeBuilder.nodeBuilder().local(true)
-							.settings(settings).node();
-				}
+				node = NodeBuilder.nodeBuilder().local(true)
+						.settings(settings).node();
 			}
 		}
 
@@ -521,21 +520,15 @@ public class SearchResourceService {
 			}
 		}
 
-		private Boolean deleteDirectory(File folder) {
-			Boolean isDeleted = false;
+		private void deleteDirectory(File folder) {
 			try {
 				FileUtils.forceDelete(folder);
 				if (folder.exists()) {
 					warn("Unable to delete data directory for embedded elasticsearch");
-					isDeleted = false;
 				}
-				isDeleted = true;
 			} catch (Exception e) {
-				info("Unable to delete data directory for embedded elasticsearch");
-				isDeleted = false;
+				error("Unable to delete data directory for embedded elasticsearch", e);
 			}
-			
-			return isDeleted;
 		}
 	}
 }
