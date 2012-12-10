@@ -70,25 +70,22 @@ public class WriteValidator {
                 String id = uriInfo.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
                 Entity existingEntity = repo.findById(def.getStoredCollectionName(), id);
                 if (existingEntity != null) {
-                    isValid = isEntityValidForEdOrgWrite(existingEntity, principal);
+                    isValid = isEntityValidForEdOrgWrite((EntityBody) existingEntity.getBody(), existingEntity.getType(), principal);
                 }
             }
 
             if (isValid && entityBody != null) {
-                if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(def.getType()) != null) {
-                    String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(def.getType()));
-                    isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
-                }
+                isValid = isEntityValidForEdOrgWrite(entityBody, def.getType(), principal);
             }
         }
         return isValid;
     }
 
 
-    private boolean isEntityValidForEdOrgWrite(Entity entity, SLIPrincipal principal) {
+    private boolean isEntityValidForEdOrgWrite(EntityBody entityBody, String entityType, SLIPrincipal principal) {
         boolean isValid = true;
-        if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()) != null) {
-            String edOrgId = (String) entity.getBody().get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entity.getType()));
+        if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType) != null) {
+            String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType));
             isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
         }
         return isValid;
