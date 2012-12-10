@@ -146,7 +146,7 @@ class LDAPStorage
     }
 
     # make it secure connection if the port is 636
-    if port == 636
+    if port == 636 #1636 for local port forwarding
       @ldap_conf[:encryption] = {    :method => :simple_tls    }
     end
 
@@ -211,7 +211,7 @@ class LDAPStorage
   end
 
   def authenticate(uid, password)
-    # retrieve the raw user record 
+    # retrieve the raw user record
     filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, uid)
     user = search_map_user_fields(filter, 1, true)[0]
     return false if !user
@@ -515,6 +515,6 @@ class LDAPStorage
 
 end
 
-# usage 
+# usage
 #require 'approval'
 #storage = LDAPStorage.new("ldap.slidev.org", 389, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")

@@ -72,7 +72,7 @@ class StudentWorkOrder
     schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
     curr_type = GradeLevelType.school_type(@initial_grade)
     @edOrg['sessions'].each{ |session|
-      year = session['year']
+      year = (session['year'] or @initial_year + 1)
       grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
       unless grade.nil?
         if GradeLevelType.school_type(grade) != curr_type
@@ -121,10 +121,12 @@ class StudentWorkOrder
 
       enumerator.each do |assessment|
         #TODO this is going to be a busy first couple of days of school, might want to spread them out
-        date = session['interval'].get_begin_date
-        times_taken.times{
-          rval << {:type=>StudentAssessment, :id=>@id, :assessment=>assessment, :date=>(date+=1), :rand=>@rand}
-        }
+        if session.nil? == false && session['interval'].nil? == false
+          date = session['interval'].get_begin_date
+          times_taken.times{
+            rval << {:type=>StudentAssessment, :id=>@id, :assessment=>assessment, :date=>(date+=1), :rand=>@rand}
+          }
+        end
       end
     end
     rval

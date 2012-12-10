@@ -51,7 +51,6 @@ describe "AssessmentFactory" do
           end
 
           e.each do |work_order|
-            puts "<<<< #{work_order}"
             titles << work_order[:id]
           end
         }
