@@ -76,6 +76,7 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
+        Mockito.when(entity.getEntityId()).thenReturn("-133");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setEdOrg(ED_ORG_ID);
         principal.setEdOrgId(ED_ORG_ID);
@@ -89,10 +90,12 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("staff");
+        Mockito.when(entity.getEntityId()).thenReturn("blahblahstaffblahblahmerp");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setEdOrg(ED_ORG_ID);
         principal.setEdOrgId(ED_ORG_ID);
-        setSecurityContext(principal);
+        setSecurityContext(principal, new HashSet<GrantedAuthority>(Arrays.asList(
+                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED, Right.READ_PUBLIC)));
     }
 
     public void setAccessAllAdminContext() {
@@ -250,6 +253,12 @@ public class SecurityContextInjector {
 
         return new PreAuthenticatedAuthenticationToken(principal, token, authorities);
     }
+    
+    private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, final SLIPrincipal principal, Set<GrantedAuthority> rights) {
+        final RolesToRightsResolver finalResolver = resolver;
+        return new PreAuthenticatedAuthenticationToken(principal, token, rights);
+    }
+
 
     public void setEducatorContext() {
         String user = "educator";
@@ -291,6 +300,17 @@ public class SecurityContextInjector {
 
         return principal;
     }
+    
+    private SLIPrincipal setSecurityContext(SLIPrincipal principal, Set<GrantedAuthority> rights) {
+        String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
+
+        debug("assembling authentication token");
+        PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, rights);
+
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+        return principal;
+    }
 
     private SLIPrincipal buildPrincipal(String user, String fullName, String realmId, List<String> roles,
             Entity principalEntity) {
@@ -307,5 +327,7 @@ public class SecurityContextInjector {
         principal.setSessionId(session.getEntityId());
         return principal;
     }
+    
+    
 
 }

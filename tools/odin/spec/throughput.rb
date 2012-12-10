@@ -16,10 +16,35 @@ def readable_file_size(size)
     return size, "Bytes" 
   elsif size < MEGA_SIZE
     return (size / KILO_SIZE), "KB" 
-  elsif size < GIGA_SIZE
-    return (size / MEGA_SIZE), "MB"  
   else
-    return (size / GIGA_SIZE), "GB"
+    return (size / MEGA_SIZE), "MB"  
+  end
+end
+
+def readable_time(seconds)
+  hrs = "00"; min = "00"; sec = "00"
+  if seconds < 60
+    sec = seconds.round(3)
+  elsif seconds < 3600
+    min = (seconds / 60).to_i
+    sec = "%.3f" % (seconds % 60).round(3)
+  else
+    hrs = (seconds / 3600).to_i
+    min = ((seconds % 3600)/ 60).to_i
+    sec = ('%.3f' % ((seconds % 3600) % 60).to_f.round(3))
+  end
+  return "#{pad_two_zeroes(hrs.to_s)}:#{pad_two_zeroes(min.to_s)}:#{pad_two_zeroes(sec.to_s)} (hr:min:sec)"
+end
+
+def pad_two_zeroes(num)
+  if num.split('').length < 2 
+    num.to_s.rjust(2, '0')
+  elsif num.to_f == 0
+    num
+  elsif num.to_i < 10
+    num = "0" + "#{num}"
+  else
+    num
   end
 end
 
@@ -39,7 +64,7 @@ end
 puts "Currently in #{Dir.pwd}"
 Dir["generated/*"].each do |f|
   puts "Removing #{f}"
-  `rm -f #{f}`
+  `rm -rf #{f}`
 end
 print " OK\n"
 
@@ -58,6 +83,6 @@ print "###############################\n"
 puts "# FINISHED ANALYZING THROUGHPUT"
 print "###############################\n" 
 print "Total generated data size is: #{total_size} #{units}\n"
-print "Time to generate is #{total_time} seconds\n\n"
+print "Time to generate is #{readable_time(total_time)}\n\n"
 print "Final Odin throughput for #{config['scenario']} is %.3f #{units}/sec\n\n" % (total_size / total_time)
 
