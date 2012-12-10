@@ -89,7 +89,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                         <output>target/tomcat7x/logs/tomcat7x.log</output>
 
 						<zipUrlInstaller>
-						<url>http://mirrors.ibiblio.org/apache/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
+						<url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
 						<downloadDir>target/tomcat7x/downloads</downloadDir>
 						<extractDir>target/tomcat7x/extracts</extractDir>
 						</zipUrlInstaller>

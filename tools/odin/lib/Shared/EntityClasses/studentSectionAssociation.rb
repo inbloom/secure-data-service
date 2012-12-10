@@ -22,12 +22,11 @@ class StudentSectionAssociation < BaseEntity
 
   attr_accessor :studentId, :sectionId, :edOrgId, :year
 
-  def initialize(studentId, sectionId, offering_id, edOrgId, year, grade)
+  def initialize(studentId, sectionId, edOrgId, year, grade)
     @studentId = studentId
-    @sectionId = DataUtility.get_unique_section_id(sectionId, offering_id)
+    @sectionId = sectionId
     @edOrgId = DataUtility.get_school_id(edOrgId, GradeLevelType.school_type(grade))
     @year = year
   end
 
-  
 end

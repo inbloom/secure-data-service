@@ -29,14 +29,14 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import org.slc.sli.sample.entities.AcademicSubjectType;
-import org.slc.sli.sample.entities.ComplexObjectType;
-import org.slc.sli.sample.entities.ContentStandardType;
-import org.slc.sli.sample.entities.GradeLevelType;
-import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
-import org.slc.sli.sample.entities.LearningObjective;
-import org.slc.sli.sample.entities.LearningStandard;
-import org.slc.sli.sample.entities.LearningStandardId;
+import org.slc.sli.sample.entitiesR1.AcademicSubjectType;
+import org.slc.sli.sample.entitiesR1.ComplexObjectType;
+import org.slc.sli.sample.entitiesR1.ContentStandardType;
+import org.slc.sli.sample.entitiesR1.GradeLevelType;
+import org.slc.sli.sample.entitiesR1.InterchangeAssessmentMetadata;
+import org.slc.sli.sample.entitiesR1.LearningObjective;
+import org.slc.sli.sample.entitiesR1.LearningStandard;
+import org.slc.sli.sample.entitiesR1.LearningStandardId;
 
 public class CcsCsv2XmlTransformer {
     private CcsCsvReader ccsCsvReader;
@@ -148,7 +148,8 @@ public class CcsCsv2XmlTransformer {
             }
         }
         learningStandards.addAll(learningObjectives);
-        JAXBContext context = JAXBContext.newInstance(LearningStandard.class);
+//        JAXBContext context = JAXBContext.newInstance(LearningStandard.class);
+        JAXBContext context = JAXBContext.newInstance(InterchangeAssessmentMetadata.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders", getCopyrightXmlComment());
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);

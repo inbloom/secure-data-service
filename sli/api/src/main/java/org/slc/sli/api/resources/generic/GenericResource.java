@@ -30,6 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
 import org.slc.sli.api.representation.EntityBody;
@@ -61,6 +62,7 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 public abstract class GenericResource {
 
     @Autowired
+    @Qualifier("defaultResourceService")
     protected ResourceService resourceService;
 
     @Autowired
@@ -149,5 +151,9 @@ public abstract class GenericResource {
             }
         }
         return queryString;
+    }
+
+    protected void setResourceService(final ResourceService service) {
+        this.resourceService = service;
     }
 }

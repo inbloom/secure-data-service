@@ -15,11 +15,11 @@ limita tions under the License.
 }}
 {{#entity}}
   <School>
-    <StateOrganizationId>{{stateOrgId}}</StateOrganizationId>
+    <StateOrganizationId>{{state_org_id}}</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>{{stateOrgId}}</ID>
+      <ID>{{state_org_id}}</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>{{stateOrgId}} {{type}}</NameOfInstitution>
+    <NameOfInstitution>{{state_org_id}} ({{type}})</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
@@ -43,7 +43,7 @@ limita tions under the License.
     </SchoolCategories>
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>{{parentId}}</StateOrganizationId>
+        <StateOrganizationId>{{parent_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>

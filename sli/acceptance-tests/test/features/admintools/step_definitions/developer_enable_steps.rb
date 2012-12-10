@@ -103,7 +103,7 @@ end
 
 Then /^I see all of the Districts$/ do
   lis = @driver.find_elements(:css, 'div#enable-menu div#lea-menu table tbody tr')
-  assert(lis.count > 1, "One district should exist")
+  assert(lis.count >= 1, "One district should exist")
 end
 
 Then /^I check the Districts$/ do
@@ -132,7 +132,7 @@ Then /^I log in as a valid SLI Operator "([^"]*)" from the "([^"]*)" hosted dire
 end
 
 Then /^I am redirected to the Application Registration Approval Tool page$/ do
-  assert(@driver.page_source.index("Application Registration Approval") != nil, "Should be at the Application Registration Approval Tool page")
+  assert(@driver.page_source.index("Approve Applications") != nil, "Should be at the Application Registration Approval Tool page")
 end
 
 Then /^I see the newly enabled application$/ do

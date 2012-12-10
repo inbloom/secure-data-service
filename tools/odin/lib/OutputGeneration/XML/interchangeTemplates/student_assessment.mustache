@@ -1,0 +1,35 @@
+{{#entity}}
+<StudentAssessment>
+  <AdministrationDate>{{date}}</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>{{score}}</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>{{studentId}}</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  {{#assessment}}
+  <AssessmentReference>
+
+      <AssessmentIdentity>
+
+          <AssessmentTitle>{{assessmentTitle}}</AssessmentTitle>
+
+          {{#academicSubject}}
+          <AcademicSubject>{{academicSubject}}</AcademicSubject>
+          {{/academicSubject}}
+          {{#gradeLevelAssessed}}
+          <GradeLevelAssessed>{{gradeLevelAssessed}}</GradeLevelAssessed>
+          {{/gradeLevelAssessed}}
+          {{#version}}
+          <Version>{{version}}</Version>
+          {{/version}}
+      </AssessmentIdentity>
+  </AssessmentReference>
+  {{/assessment}}
+</StudentAssessment>
+{{/entity}}

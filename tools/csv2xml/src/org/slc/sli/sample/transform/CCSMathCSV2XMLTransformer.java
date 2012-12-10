@@ -23,12 +23,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.slc.sli.sample.entities.AcademicSubjectType;
-import org.slc.sli.sample.entities.GradeLevelType;
-import org.slc.sli.sample.entities.LearningObjective;
-import org.slc.sli.sample.entities.LearningStandardId;
-import org.slc.sli.sample.entities.LearningStandardIdentityType;
-import org.slc.sli.sample.entities.LearningStandardReferenceType;
+import org.slc.sli.sample.entitiesR1.AcademicSubjectType;
+import org.slc.sli.sample.entitiesR1.GradeLevelType;
+import org.slc.sli.sample.entitiesR1.LearningObjective;
+import org.slc.sli.sample.entitiesR1.LearningStandardId;
+import org.slc.sli.sample.entitiesR1.LearningStandardIdentityType;
+import org.slc.sli.sample.entitiesR1.LearningStandardReferenceType;
 import org.slc.sli.sample.transform.CcsCsv2XmlTransformer.LearningStandardResult;
 
 /**
@@ -116,7 +116,7 @@ public class CCSMathCSV2XMLTransformer {
         });
         transformer.setGradeLevelMapper(new CcsCsv2XmlTransformer.GradeLevelMapper() {
             @Override
-            public int getGradeLevel(String dotNotation) {
+            public int getGradeLevel(String dotNotation) { 
                 String[] gradeLevels = dotNotation.split("\\.");
                 int gradeLevel = 0;
                 try {
