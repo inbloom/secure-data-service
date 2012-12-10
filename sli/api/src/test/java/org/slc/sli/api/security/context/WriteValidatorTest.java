@@ -118,7 +118,6 @@ public class WriteValidatorTest {
         when(uriInfo.getPathSegments()).thenReturn(postPath);
 
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
-        // should pass validation
     }
     
     @Test
@@ -132,7 +131,6 @@ public class WriteValidatorTest {
         when(uriInfo.getPathSegments()).thenReturn(putPath);
 
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
-        Assert.fail("should fail validation");
     }
 
     @Test
@@ -146,7 +144,6 @@ public class WriteValidatorTest {
         when(uriInfo.getPathSegments()).thenReturn(putPath);
 
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
-        Assert.fail("should fail validation");
     }
 
 
@@ -162,4 +159,26 @@ public class WriteValidatorTest {
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
     }
 
+    @Test
+    public void testValidDelete() {
+        existingSection.getBody().put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
+        when(uriInfo.getPathSegments()).thenReturn(putPath);
+        writeValidator.validateWriteRequest(null, uriInfo, principal);
+    }
+
+    @Test
+    @ExpectedException(value = AccessDeniedException.class)
+    public void testInvalidDelete() {
+        existingSection.getBody().put(ParameterConstants.SCHOOL_ID, UN_ASSOCIATED_ED_ORG);
+        when(uriInfo.getPathSegments()).thenReturn(putPath);
+        writeValidator.validateWriteRequest(null, uriInfo, principal);
+    }
+
+    @Test
+    @ExpectedException(value = AccessDeniedException.class)
+    public void testEntityNotFound() {
+        when(repo.findById(EntityNames.SECTION, SECTION_ID)).thenReturn(null);
+        when(uriInfo.getPathSegments()).thenReturn(putPath);
+        writeValidator.validateWriteRequest(null, uriInfo, principal);
+    }
 }

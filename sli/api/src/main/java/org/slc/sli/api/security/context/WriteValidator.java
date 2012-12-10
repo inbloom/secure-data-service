@@ -69,7 +69,9 @@ public class WriteValidator {
                 // look if we have ed org write context to already existing entity
                 String id = uriInfo.getPathSegments().get(IDS_SEGMENT_INDEX).getPath();
                 Entity existingEntity = repo.findById(def.getStoredCollectionName(), id);
-                isValid = isEntityValidForEdOrgWrite(existingEntity, principal);
+                if (existingEntity != null) {
+                    isValid = isEntityValidForEdOrgWrite(existingEntity, principal);
+                }
             }
 
             if (isValid && entityBody != null) {
