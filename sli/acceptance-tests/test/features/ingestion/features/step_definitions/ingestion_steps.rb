@@ -646,7 +646,7 @@ def getErrorCount
     @resource = ""
     resourceToErrorCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-      if(entry.rindex('error'))
+      if entry.match(/^error/)
         @error_filename = entry
         puts entry
         @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
@@ -670,7 +670,7 @@ def getWarnCount
     @resource = ""
     resourceToWarnCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
-    if(entry.rindex('warn'))
+    if entry.match(/^warn/)
       @warn_filename = entry
       puts entry
       @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]    
@@ -1075,6 +1075,9 @@ end
 # STEPS: WHEN
 ############################################################
 
+When /^the landing zone is reinitialized$/ do
+  initializeLandingZone(@landing_zone_path)
+end
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
@@ -1917,6 +1920,15 @@ Then /^verify the following data in that document:$/ do |table|
     end
   end
   enable_NOTABLESCAN()
+end
+
+Then /^I verify all super doc "(.*?)" entities have correct type field$/ do |entityType|
+disable_NOTABLESCAN()
+super_coll=@db[entityType]
+total_count = super_coll.count
+count = super_coll.find({"type" => entityType}).count
+assert(total_count == count, "not all super doc #{entityType} have correct type field")
+enable_NOTABLESCAN()
 end
 
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
