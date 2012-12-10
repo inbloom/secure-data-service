@@ -17,7 +17,7 @@ Scenario: App developer deletes installed app
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "Application Registration"
+  And under System Tools, I click on "Register Application"
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page
   Then I have clicked on the button 'Deny' for the application named "NotTheAppYoureLookingFor"

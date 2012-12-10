@@ -57,6 +57,11 @@
       <list>
         <value>classpath:tenants/tenant_Midgar.json</value>
         <value>classpath:tenants/tenant_Hyrule.json</value>
+        <value>classpath:tenants/tenant_1.json</value>
+        <value>classpath:tenants/tenant_2.json</value>
+        <value>classpath:tenants/tenant_3.json</value>
+        <value>classpath:tenants/tenant_4.json</value>
+        <value>classpath:tenants/tenant_5.json</value>
       </list>
     </property>
   </bean>
@@ -64,6 +69,9 @@
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
   <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
+  <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator" />
+  <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.SLIDbIndexValidator" />
+  <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
@@ -86,7 +94,7 @@
     <bean id="stageTrackingAspect" class="org.slc.sli.ingestion.aspect.StageTrackingAspect"
        factory-method="aspectOf">
   </bean>
-  
+
 </beans>
 
 

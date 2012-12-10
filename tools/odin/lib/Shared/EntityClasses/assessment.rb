@@ -16,18 +16,27 @@ limitations under the License.
 
 =end
 
-require 'yaml'
+require_relative 'assessment_item'
 
 require_relative 'baseEntity'
 class Assessment < BaseEntity
 
-  attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed
-  def initialize(id, year_of = 2012, gradeLevelAssessed = nil)
+  attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
+    :assessmentFamilyReference, :assessment_items
+
+  def initialize(id, year_of = 2012, gradeLevelAssessed = nil, num_items = 0, assessmentFamilyReference = nil)
     @id = id
     @year_of = year_of
     @gradeLevelAssessed = gradeLevelAssessed
     @assessmentTitle = @id
     @assessmentIdentificationCode = { code: @id, assessmentIdentificationSystemType: 'State' }
+
+    @assessment_items = (1..num_items).map{|i| AssessmentItem.new(i, self.to_hash)}
+    @assessmentFamilyReference = assessmentFamilyReference
+  end
+
+  def to_hash
+    {:id=>@id, :year=>@year_of, :grade=>@gradeLevelAssessed, :family=>@assessmentFamilyReference}
   end
 
 end

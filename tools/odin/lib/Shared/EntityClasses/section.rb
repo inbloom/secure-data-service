@@ -36,7 +36,7 @@ class Section < BaseEntity
     @medium = "Face-to-face instruction"
     @population = "Regular Students"
     @school_id = school_id
-    @course_offering = {code: DataUtility.get_course_offering_code(offering["id"]),
+    @course_offering = {code: DataUtility.get_course_offering_code(offering['id']),
                         ed_org_id: offering['ed_org_id'],
                         session: offering['session']}
     @session = offering['session']

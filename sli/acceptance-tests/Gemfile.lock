@@ -60,6 +60,7 @@ GEM
       net-ssh (>= 2.0.9)
     net-ssh (2.5.2)
     nokogiri (1.5.5)
+    nokogiri (1.5.5-x86-mingw32)
     oauth2 (0.8.0)
       faraday (~> 0.8)
       httpauth (~> 0.1)

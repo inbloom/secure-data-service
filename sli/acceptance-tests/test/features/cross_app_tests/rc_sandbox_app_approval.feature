@@ -17,7 +17,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
@@ -43,7 +43,7 @@ Then the "NotTheAppYoureLookingFor" is enabled for Districts
 And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New

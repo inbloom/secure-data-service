@@ -30,9 +30,9 @@ class SectionWorkOrderFactory
       ed_org['students'].each{|year, student_map|
         unless ed_org['offerings'].nil?
           student_map.each{|grade, num|
-            sections_from_edorg(ed_org, ed_org_type, year, grade).each{|course, sections|
-              sections.each{|section|
-                yielder.yield SectionWorkOrder.new(section, school_id, course)
+            sections_from_edorg(ed_org, ed_org_type, year, grade).each{|offering, sections|
+              sections.each{|section_id|
+                yielder.yield({:type=>Section, :id=>section_id, :edOrg=>school_id, :offering=>offering})
               }
             }
           }
@@ -63,26 +63,10 @@ class SectionWorkOrderFactory
     student_count = ed_org['students'][year][grade]
     section_count = (student_count.to_f / students_per_section(ed_org_type)).ceil
     (1..section_count)
-  end
+    end
 
   def students_per_section(type)
     @scenario['STUDENTS_PER_SECTION'][type]
-  end
-
-
-end
-
-
-class SectionWorkOrder
-
-  def initialize(id, school_id, offering)
-    @id = id
-    @school_id = school_id
-    @offering = offering
-  end
-
-  def build(writer)
-    writer.create_section(@id, @school_id, @offering)
   end
 
 end

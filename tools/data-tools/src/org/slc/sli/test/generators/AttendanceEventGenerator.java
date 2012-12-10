@@ -52,8 +52,8 @@ public class AttendanceEventGenerator {
         ae.setStudentReference(StudentGenerator.getStudentReferenceType(studentID));
         // TODO this will need to be changed when SLCEducationalOrgReferenceType is used
 //        ae.setSchoolReference(SchoolGenerator.getEducationalOrgReferenceType(schoolID));
-        EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
-        EducationalOrgIdentityType edOrgId = new EducationalOrgIdentityType();
+        SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType edOrgId = new SLCEducationalOrgIdentityType();
         edOrgId.setStateOrganizationId(schoolID);
         edOrgRef.setEducationalOrgIdentity(edOrgId);
         ae.setSchoolReference(edOrgRef);

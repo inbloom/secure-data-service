@@ -19,7 +19,7 @@ Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and
   Then I should see Admin link  
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "Administrative Account Management"
+  And under System Tools, I click on "Manage Administrator Accounts"
 
   And I switch to the iframe
   Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN" if exists
@@ -36,7 +36,7 @@ Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and
   And I can change the EdOrg dropdown to "IL-DAYBREAK"    
   
   When I click button "Save"
-  Then I am redirected to the "Admin Account Management" page
+  Then I am redirected to the "Manage Administrator Accounts" page
   And the "Success" message is displayed
   And the newly created user has "Tenant" updated to "<TENANT>"
   And the newly created user has "EdOrg" updated to "IL-DAYBREAK"

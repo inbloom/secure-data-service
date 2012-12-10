@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-require_relative 'assessment_factory'
+require_relative './assessment_work_order'
 require_relative '../Shared/EntityClasses/studentAssessment'
 
 # student work order factory creates student work orders
@@ -38,10 +38,10 @@ class StudentWorkOrderFactory
       initial_grade_breakdown.each{|grade, num_students|
         (1..num_students).each{|_|
           student_id = @next_id += 1
-          yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade,
+          yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade, 
                                              initial_year: initial_year, edOrg: edOrg,
-                                             section_factory: @section_factory, 
-                                             assessment_factory: @assessment_factory)
+                                             section_factory: @section_factory,
+                                             assessment_factory: @assessment_factory).to_hash
         }
       }
     end
@@ -63,10 +63,12 @@ class StudentWorkOrder
     @section_factory = opts[:section_factory]
     @scenario = opts[:scenario]
     @assessment_factory = opts[:assessment_factory]
+    @enrollment = []
+    @assessment = []
+    build()
   end
 
-  def build(writer)
-    writer.create_student(@id, @birth_day_after)
+  def build
     schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
     curr_type = GradeLevelType.school_type(@initial_grade)
     @edOrg['sessions'].each{ |session|
@@ -77,40 +79,55 @@ class StudentWorkOrder
           curr_type = GradeLevelType.school_type(grade)
           schools = schools.drop(1)
         end
-        generate_enrollment(writer, schools[0], curr_type, year, grade, session)
-        generate_grade_wide_assessments(writer, grade, session)
+        @enrollment.concat generate_enrollment(schools[0], curr_type, year, grade, session)
+        @assessment.concat generate_grade_wide_assessments(grade, session)
       end
     }
   end
 
+  def to_hash
+    hash = {:type=>Student}
+    instance_variables.each {|var| hash[var.to_s.delete("@").to_sym] = instance_variable_get(var) }
+    hash
+  end
+
   private
 
-  def generate_enrollment(writer, school_id, type, start_year, start_grade, session)
-    writer.create_student_school_association(@id, school_id, start_year, start_grade)
+  def generate_enrollment(school_id, type, start_year, start_grade, session)
+    rval = []
+    rval << {:type=>StudentSchoolAssociation, :id=>@id, :schoolId=>school_id, :startYear=>start_year, :startGrade=>start_grade}
     unless @section_factory.nil?
       sections = @section_factory.sections(school_id, type.to_s, start_year, start_grade)
-      unless sections.nil?
+
+    unless sections.nil?
         #generate a section for each available course offering
         sections.each{|course_offering, available_sections|
           section = available_sections.to_a[id % available_sections.count]
-          writer.create_student_section_association(@id, section, course_offering['id'],
-                                                    school_id, start_year, start_grade)
+          rval << {:type=>StudentSectionAssociation, :id=>@id, :sectionId=>section, :courseOffering => course_offering['id'], :schoolId=>school_id, :startYear=>start_year, :startGrade=>start_grade}
         }
       end
     end
+    rval
   end
 
-  def generate_grade_wide_assessments(writer, grade, session)
+  def generate_grade_wide_assessments(grade, session)
+    rval = []
     unless @assessment_factory.nil?
       times_taken = @scenario['ASSESSMENTS_TAKEN']['grade_wide']
-      @assessment_factory.assessments(grade: grade, year: session['year']).each{|a|
+
+      enumerator = Enumerator.new do |y|
+        @assessment_factory.gen_assessments(y, grade: grade, year: session['year'])
+      end
+
+      enumerator.each do |assessment|
         #TODO this is going to be a busy first couple of days of school, might want to spread them out
         date = session['interval'].get_begin_date
         times_taken.times{
-          writer.create_student_assessment(StudentAssessment.new(@id, a, date += 1, @rand))
+          rval << {:type=>StudentAssessment, :id=>@id, :assessment=>assessment, :date=>(date+=1), :rand=>@rand}
         }
-      }
+      end
     end
+    rval
   end
 
   def find_age(grade)

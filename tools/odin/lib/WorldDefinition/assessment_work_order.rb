@@ -25,23 +25,21 @@ class AssessmentFactory
     @scenario = scenario
   end
 
-  #get a list of assessments
-  def assessments(opts = {})
+  #get a list of assessment work orders
+  def gen_assessments(yielder, opts = {})
     grade = GradeLevelType.get((opts[:grade] or :UNGRADED))
     year = opts[:year]
     section = opts[:section]
     if section.nil?
-      grade_wide_assessments(grade, year)
+      n = @scenario['ASSESSMENTS_PER_GRADE']
+      item_count = @scenario['ASSESSMENT_ITEMS_PER_ASSESSMENT']['grade_wide']
+      (1..n).map{ |i|
+        yielder.yield({:type=>Assessment, :id=> "#{year}-#{grade} Assessment #{i}", :year => year, :grade => grade, :itemCount=>item_count})
+      }
     else
       [] #TODO implement section specific assessments
     end
   end
-
-  def grade_wide_assessments(grade, year)
-    n = @scenario['ASSESSMENTS_PER_GRADE']
-    (1..n).map{|i|
-      Assessment.new("#{year}-#{grade} Assessment #{i}", year, grade)
-    }
-  end
-
 end
+
+

@@ -161,15 +161,15 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
                 resourceHelper.getEntityDefinition(resource.getResourceType()));
     }
 
-    protected void setOnePartTemplate(final ResourceTemplate onePartTemplate) {
+    protected final void setOnePartTemplate(final ResourceTemplate onePartTemplate) {
         this.onePartTemplate = onePartTemplate;
     }
 
-    protected void setTwoPartTemplate(final ResourceTemplate twoPartTemplate) {
+    protected final void setTwoPartTemplate(final ResourceTemplate twoPartTemplate) {
         this.twoPartTemplate = twoPartTemplate;
     }
 
-    protected void setVersion(final String version) {
+    protected final void setVersion(final String version) {
         this.version = version;
     }
 }

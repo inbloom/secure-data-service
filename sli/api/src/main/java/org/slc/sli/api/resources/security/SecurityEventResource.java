@@ -17,6 +17,17 @@
 
 package org.slc.sli.api.resources.security;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -24,6 +35,7 @@ import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.UnversionedResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.context.resolver.SecurityEventContextResolver;
 import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -35,16 +47,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Provides read access to SecurityEvents through the /securityEvent path.
@@ -61,11 +63,15 @@ public class SecurityEventResource extends UnversionedResource {
     public static final String RESOURCE_NAME = "securityEvent";
     public static final List<String> WATCHED_APP = Arrays.asList("SimpleIDP");
     private final EntityDefinitionStore entityDefs;
-    private final UriInfoToApiQueryConverter queryConverter;
 
     @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
+    
+    
+    @Autowired
+    SecurityEventContextResolver resolver;
+    private final UriInfoToApiQueryConverter queryConverter;
 
     @Autowired
     public SecurityEventResource(EntityDefinitionStore entityDefs) {
@@ -90,12 +96,17 @@ public class SecurityEventResource extends UnversionedResource {
         mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
         mainQuery.setSortBy("timeStamp");
         mainQuery.setSortOrder(SortOrder.descending);
+        mainQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, resolver.findAccessible(null)));
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-        for (EntityBody entityBody : entityDef.getService().list(mainQuery)) {
-            results.add(entityBody);
+       /* for (Entity entity : repo.findAll("securityEvent", mainQuery)) {
+            
+            results.add(new EntityBody(entity.getBody()));
+        }*/
+        for (EntityBody body : entityDef.getService().list(mainQuery)) {
+            results.add(body);
         }
-        debug("Found [" + results.size() + "] SecurityEvents!");
+        debug("Found [{}] SecurityEvents!", results.size());
         return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
     }
 }

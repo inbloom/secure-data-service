@@ -1,4 +1,4 @@
-@RALLY_2875 @stan
+@RALLY_2875
 Feature: Generate sample data using Odin data generator
 
 Given I am using the odin working directory
