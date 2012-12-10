@@ -175,7 +175,6 @@ public class WriteValidatorTest {
     }
 
     @Test
-    @ExpectedException(value = AccessDeniedException.class)
     public void testEntityNotFound() {
         when(repo.findById(EntityNames.SECTION, SECTION_ID)).thenReturn(null);
         when(uriInfo.getPathSegments()).thenReturn(putPath);
