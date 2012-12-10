@@ -14,7 +14,7 @@ Scenario: As a slc operator I disable an approved sandbox account
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And I click on Account Approval
+  And I click on Approve Account
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"
@@ -40,7 +40,7 @@ Scenario: As a slc operator I enable an approved sandbox account
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And I click on Account Approval
+  And I click on Approve Account
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"

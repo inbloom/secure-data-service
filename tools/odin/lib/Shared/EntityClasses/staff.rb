@@ -74,7 +74,7 @@ class Staff < BaseEntity
         @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
       end
     end
-    @birthDay = Date.new(@year_of, 1, 1) + @rand.rand(365)
+    @birthDay = (Date.new(@year_of, 1, 1) + @rand.rand(365)).to_s
     @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
     @loginId = email
     @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])

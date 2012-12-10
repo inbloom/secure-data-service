@@ -113,7 +113,7 @@ public class MongoCommanderTest {
 
     @Test
     public void testEnsureIndexes() {
-        MongoCommander.ensureIndexes("test.indexes", dbName, mockedMongoTemplate);
+        MongoCommander.ensureIndexes("tenantDB_indexes.txt", dbName, mockedMongoTemplate);
 
         for (String collection : shardCollections) {
             DBObject asskeys = new BasicDBObject();

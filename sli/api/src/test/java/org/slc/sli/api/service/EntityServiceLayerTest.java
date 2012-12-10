@@ -88,7 +88,7 @@ public class EntityServiceLayerTest {
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
-        securityContextInjector.setAccessAllAdminContextWithElevatedRights();
+        securityContextInjector.setStaffContext();
         
         repo.deleteAll("student", null);
         repo.deleteAll("school", null);

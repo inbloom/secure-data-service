@@ -35,7 +35,9 @@ class StaffEducationOrgAssignmentAssociation < BaseEntity
     @ed_org_id      = ed_org_id
     @classification = StaffClassificationType.to_string(classification)
     @title          = title
-    @begin_date     = begin_date
-    @end_date       = end_date
+    @begin_date     = begin_date.to_s
+    if end_date.nil? == false
+      @end_date       = end_date.to_s
+    end
   end
 end

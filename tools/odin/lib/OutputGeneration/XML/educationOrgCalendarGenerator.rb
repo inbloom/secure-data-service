@@ -37,18 +37,4 @@ class EducationOrgCalendarGenerator < InterchangeGenerator
     @writers[CalendarDate] = EntityWriter.new("calendar_date.mustache")
   end
 
-  # creates and writes session to interchange
-  def create_session(name, year, term, interval, ed_org_id, grading_periods)
-  	self << Session.new(name, year, term, interval, ed_org_id, grading_periods)
-  end
-
-  # creates and writes grading period to interchange
-  def create_grading_period(type, year, interval, ed_org_id, calendar_dates)
-    self << GradingPeriod.new(type, year, interval, ed_org_id, calendar_dates)
-  end
-
-  # creates and writes calendar date to interchange
-  def create_calendar_date(date, event, ed_org_id)
-    self << CalendarDate.new(date, event, ed_org_id)
-  end
 end

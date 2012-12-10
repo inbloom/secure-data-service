@@ -155,21 +155,21 @@ Scenario: Paging tests from the context of a teacher
         Given format "application/json"
         And all parameters are cleared
         When I navigate to GET "/v1/courses"
-        And the header "TotalCount" equals 26
+        And the header "TotalCount" equals 27
         Given parameter "offset" is "10"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"
         Then I should receive a collection with 10 unique elements
-        And the header "TotalCount" equals 26
+        And the header "TotalCount" equals 27
         Given parameter "offset" is "20"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"
-        Then I should receive a collection with 6 unique elements
+        Then I should receive a collection with 7 unique elements
         Given parameter "offset" is "24"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"
-        Then I should receive a collection with 2 non-unique elements
-        And the header "TotalCount" equals 26
+        Then I should receive a collection with 3 non-unique elements
+        And the header "TotalCount" equals 27
         Given parameter "offset" is "40"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"

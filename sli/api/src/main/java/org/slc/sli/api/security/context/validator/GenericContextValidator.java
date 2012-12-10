@@ -16,7 +16,9 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,24 @@ public class GenericContextValidator implements IContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    
+    private static final List<String> IGNORE_LIST = Arrays.asList(
+            EntityNames.ATTENDANCE,
+            EntityNames.COURSE_TRANSCRIPT,
+            EntityNames.EDUCATION_ORGANIZATION,
+            EntityNames.DISCIPLINE_ACTION,
+            EntityNames.STUDENT_ACADEMIC_RECORD,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+            EntityNames.STUDENT_PARENT_ASSOCIATION,
+            EntityNames.REPORT_CARD,
+            EntityNames.STUDENT_SECTION_ASSOCIATION,
+            EntityNames.STUDENT,
+            EntityNames.SCHOOL,
+            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_ASSESSMENT,
+            EntityNames.STAFF
+            );
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
@@ -51,7 +71,7 @@ public class GenericContextValidator implements IContextValidator {
         if (userType.equals("staff")) {
             return false;
         }
-        return store.findResolver(userType, entityType) != null;
+        return !IGNORE_LIST.contains(entityType) && store.findResolver(userType, entityType) != null;
     }
 
     @Override

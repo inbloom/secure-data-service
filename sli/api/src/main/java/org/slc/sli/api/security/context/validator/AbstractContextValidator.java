@@ -85,6 +85,12 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type)
                 || EntityNames.REPORT_CARD.equals(type);
     }
+    
+    protected void addEndDateToQuery(NeutralQuery query) {
+        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
+        query.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
+        query.addOrQuery(new NeutralQuery(endDateCriteria));
+    }
 
     /**
      * Determines if the specified type is a sub-entity of student section association.
@@ -136,6 +142,15 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected boolean isStaff() {
         return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+    }
+    
+    /**
+     * Determines if the user is of type 'teacher'.
+     *
+     * @return True if user is of type 'teacher', false otherwise.
+     */
+    protected boolean isTeacher() {
+        return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
 
     protected boolean isFieldExpired(Map<String, Object> body, String fieldName) {
