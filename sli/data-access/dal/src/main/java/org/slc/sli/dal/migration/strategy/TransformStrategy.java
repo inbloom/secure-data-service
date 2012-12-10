@@ -15,12 +15,10 @@
  */
 package org.slc.sli.dal.migration.strategy;
 
-import java.util.List;
-
 import org.slc.sli.domain.Entity;
 
 /**
- * Defines a strategy for migrating an entity between versions
+ * Defines a strategy for transforming entities between versions
  * 
  * @author sashton
  * 
@@ -34,11 +32,4 @@ public interface TransformStrategy {
      */
     void transform(Entity entity);
 
-    /**
-     * Transforms a list of a given entity type
-     * 
-     * @param entityType
-     * @param entities
-     */
-    void transform(String entityType, List<Entity> entities);
 }
