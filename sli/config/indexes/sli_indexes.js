@@ -16,6 +16,7 @@
 
 
 db["application"].ensureIndex({"body.admin_visible":1});  // ?
+db["application"].ensureIndex({"body.created_by":1});  // ?
 db["application"].ensureIndex({"body.allowed_for_all_edorgs":1});  //app auth per edorg
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});  //app auth per edorg
 db["application"].ensureIndex({"body.authorized_for_all_edorgs":1});  //app auth per edorg
