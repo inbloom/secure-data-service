@@ -103,7 +103,8 @@ class StudentWorkOrder
         #generate a section for each available course offering
         sections.each{|course_offering, available_sections|
           section = available_sections.to_a[id % available_sections.count]
-          rval << {:type=>StudentSectionAssociation, :id=>@id, :sectionId=>section, :courseOffering => course_offering['id'], :schoolId=>school_id, :startYear=>start_year, :startGrade=>start_grade}
+          rval << {:type=>StudentSectionAssociation, :id=>@id, :sectionId=>section, :courseOffering => course_offering['id'],
+                   :schoolId=>school_id, :startYear=>start_year, :startGrade=>start_grade}
         }
       end
     end
@@ -111,25 +112,20 @@ class StudentWorkOrder
   end
 
   def generate_grade_wide_assessments(grade, session)
-    rval = []
     unless @assessment_factory.nil?
       times_taken = @scenario['ASSESSMENTS_TAKEN']['grade_wide']
 
-      enumerator = Enumerator.new do |y|
-        @assessment_factory.gen_assessments(y, grade: grade, year: session['year'])
-      end
-
-      enumerator.each do |assessment|
+      @assessment_factory.grade_wide_assessments(GradeLevelType.get(grade), session['year']).map{ |assessment|
         #TODO this is going to be a busy first couple of days of school, might want to spread them out
         if session.nil? == false && session['interval'].nil? == false
-          date = session['interval'].get_begin_date
-          times_taken.times{
-            rval << {:type=>StudentAssessment, :id=>@id, :assessment=>assessment, :date=>(date+=1), :rand=>@rand}
+          start_date = session['interval'].get_begin_date + 1
+          end_date = start_date + times_taken -1
+          (start_date..end_date).map{ |d|
+            {:type=>StudentAssessment, :id=>@id, :assessment=>assessment, :date=>d, :rand=>@rand}
           }
         end
-      end
-    end
-    rval
+      }.flatten
+    end or []
   end
 
   def find_age(grade)
