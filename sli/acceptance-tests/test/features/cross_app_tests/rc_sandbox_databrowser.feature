@@ -108,7 +108,7 @@ Feature: Data Browser
     Then I should see the text "Amy"
     And I should see the text "Kopel"
     # Search for something I don't have access to
-    When I search for the identifier "<MATT SOLLARS UNIQUE ID>" in "students"
+    When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
     Then I see a "There were no entries matching your search" alert box
     When I click on the logout link
     And I navigate to the Portal home page
