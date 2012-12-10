@@ -91,7 +91,7 @@ class XmlDataWriter < DataWriter
     if entity.is_a?(Array)
       entity.each do |e|
         write_one_entity(e)
-  end
+    end
 
     else
       initialize_entity(entity.class)
@@ -101,15 +101,16 @@ class XmlDataWriter < DataWriter
         if writer.can_write?(entity.class)
           writer << entity
           found = true
-  end
-  end
-  end
+        end
+      end
 
-    if found == false
-      puts "<<<< #{entity} writer not registered."
-      exit -1
-  end
-    increment_count(entity)
+      if found == false
+        puts "<<<< #{entity} writer not registered."
+        exit -1
+      end
+
+      increment_count(entity)
+    end
 
   end
 
