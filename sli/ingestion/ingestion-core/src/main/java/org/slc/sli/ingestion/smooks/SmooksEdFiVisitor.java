@@ -78,6 +78,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
     private SliSmooks sliSmooks;
+    
+    private int currentLineNumber;
+    private int currentColumnNumber;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -118,8 +121,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
-        Locator locator = getDocumentLocator();
-//        System.out.println("visitAfter\t"+element.getName()+": line="+locator.getLineNumber()+" col="+locator.getColumnNumber());
+//        System.out.println("visitAfter\t"+element.getName()+": line="+currentLineNumber+" col="+currentColumnNumber);
         
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
@@ -242,10 +244,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        // nothing
         Locator locator = getDocumentLocator();
-//        System.out.println("visitBefore\t"+element.getName()+": line="+locator.getLineNumber()+" col="+locator.getColumnNumber());
-                
+        currentLineNumber = locator==null ? -1 : locator.getLineNumber();
+        currentColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
     }
     
     @Override
