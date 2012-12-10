@@ -42,7 +42,7 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I should see Admin link
       And I click on Admin
       Then I should be on the admin page
-      And under System Tools, I see the following "Application Registration;Create Custom Roles;Create Landing Zone;Change Password;Manage Developer Accounts"
+      And under System Tools, I see the following "Register Application;Create Custom Roles;Create Landing Zone;Change Password;Manage Developer Accounts"
 
     Scenario: Original developer change the role of new developer and confirm admin links
       When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
@@ -84,6 +84,6 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I should see Admin link
       And I click on Admin
       Then I should be on the admin page
-      And under System Tools, I see the following "Application Registration;Create Custom Roles;Change Password"
+      And under System Tools, I see the following "Register Application;Create Custom Roles;Change Password"
       #DE2242 causes this step to fail - And under System Tools, I shouldn't see the following "Create Landing Zone;Manage Developer Accounts"
       And under System Tools, I shouldn't see the following "Manage Developer Accounts"
