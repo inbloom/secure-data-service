@@ -25,6 +25,7 @@ ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingesti
 ingestion_healthcheck_url: "http://local.slidev.org:8000/ingestion-service/healthcheck"
 ingestion_properties_file: "../config/properties/sli.properties"
 ingestion_log_directory: "../ingestion/ingestion-service/target/ingestion/logs/"
+ingestion_index_validation: true
 ingestion_rc_tenant: ""
 ingestion_rc_edorg: ""
 
