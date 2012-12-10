@@ -44,19 +44,21 @@ tenant_coll.find().each do |tenant|
     @tenant_db = Mongo::Connection.new(db_host).db(tenant['body']['dbName'])
     superdoc_update_record = {}
     super_docs.each do |super_doc|
-      super_doc_coll = @tenant_db[super_doc]
-      super_doc_coll.ensure_index([['type',Mongo::ASCENDING]])
-      update_count = 0
-      super_doc_coll.find({"type" => {"$exists" => false}}).each do |super_doc_entity|
-      # puts "found super doc without type field"
-      # puts super_doc_entity
-        update_count += 1
-        super_doc_entity_updated = super_doc_entity.merge({"type" => super_doc})
-        #puts "updated super doc entity is"
-        #puts super_doc_entity_updated
-        super_doc_coll.save(super_doc_entity_updated)
+      if @tenant_db.collection_names.include? super_doc
+        super_doc_coll = @tenant_db[super_doc]
+        # super_doc_coll.ensure_index([['type',Mongo::ASCENDING]])
+        update_count = 0
+        super_doc_coll.find({"type" => {"$exists" => false}}).each do |super_doc_entity|
+        # puts "found super doc without type field"
+        # puts super_doc_entity
+          update_count += 1
+          super_doc_entity_updated = super_doc_entity.merge({"type" => super_doc})
+          #puts "updated super doc entity is"
+          #puts super_doc_entity_updated
+          super_doc_coll.save(super_doc_entity_updated)
+        end
+        superdoc_update_record = superdoc_update_record.merge({super_doc => update_count}) if update_count >0
       end
-      superdoc_update_record = superdoc_update_record.merge({super_doc => update_count}) if update_count >0
     end
     @update_log << {"tenantId" => tenant['body']['tenantId'],"update_log" => superdoc_update_record}
   end
