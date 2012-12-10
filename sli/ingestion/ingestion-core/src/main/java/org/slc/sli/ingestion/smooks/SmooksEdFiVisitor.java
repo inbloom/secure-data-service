@@ -79,8 +79,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private DeterministicIdResolver dIdResolver;
     private SliSmooks sliSmooks;
     
-    private int currentLineNumber;
-    private int currentColumnNumber;
+    private int visitBeforeLineNumber;
+    private int visitBeforeColumnNumber;
+    private int visitAfterLineNumber;
+    private int visitAfterColumnNumber;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -121,7 +123,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
-//        System.out.println("visitAfter\t"+element.getName()+": line="+currentLineNumber+" col="+currentColumnNumber);
+        Locator locator = getDocumentLocator();
+        visitAfterLineNumber = locator==null ? -1 : locator.getLineNumber();
+        visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
         
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
@@ -209,6 +213,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             this.occurences.put(neutralRecord.getRecordType(), FIRST_INSTANCE);
             neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
+        
+        neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
+        neutralRecord.setVisitBeforeColumnNumber(visitBeforeColumnNumber);
+        neutralRecord.setVisitAfterLineNumber(visitAfterLineNumber);
+        neutralRecord.setVisitAfterColumnNumber(visitAfterColumnNumber);
 
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
         // files)
@@ -245,8 +254,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
         Locator locator = getDocumentLocator();
-        currentLineNumber = locator==null ? -1 : locator.getLineNumber();
-        currentColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
+        visitBeforeLineNumber = locator==null ? -1 : locator.getLineNumber();
+        visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
     }
     
     @Override
