@@ -61,7 +61,8 @@ public class GenericContextValidator implements IContextValidator {
             EntityNames.SCHOOL,
             EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
             EntityNames.STUDENT_GRADEBOOK_ENTRY,
-            EntityNames.STUDENT_ASSESSMENT
+            EntityNames.STUDENT_ASSESSMENT,
+            EntityNames.STAFF
             );
 
     @Override
