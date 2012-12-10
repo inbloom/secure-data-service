@@ -210,6 +210,12 @@ task :v1BlacklistValidationTests => [:realmInit] do
   runTests("test/features/apiV1/blacklistValidation/blacklistValidation.feature")
 end
 
+desc "Run data migration Tests"
+task :apiMigrationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/migration/migration.feature")
+end
+
 desc "Run V1 SecurityEvent Tests"
 task :v1SecurityEventTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
