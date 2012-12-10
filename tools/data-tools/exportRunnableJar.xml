@@ -18,9 +18,8 @@
 	<property name="password"	value="b00ksrc00l"/>
 	<input message="Specify a subdir for your generator (e.g. bsuzuki): " addproperty="subdir"/>
 	<property name="path"         value="/metroplex/testDataGeneration/${username}/${subdir}/"/>
-	<input message="Specify a config file (e.g. db-datagen-approach/ref-configurations/config.properties): " addproperty="config"/>
+	<input message="Specify a config file: " addproperty="config" defaultvalue="generator-configs/mediumDataSet.properties"/>
 
-	    	
     <target name="create_run_jar">
         <jar destfile="TestDataGeneration.jar">
             <manifest>
@@ -37,6 +36,7 @@
             <zipfileset dir="lib" includes="commons-codec-1.6.jar"/>
             <zipfileset dir="lib" includes="commons-io-2.2.jar"/>
             <zipfileset dir="lib" includes="commons-lang3-3.0.1.jar"/>
+            <zipfileset dir="../../sli/common/sli-common/target" includes="sli-common-1.0-SNAPSHOT.jar"/>
         </jar>
         <sshexec host="${host}" username="${username}" password="${password}" 
         command="mkdir -p ${path}" trust = "true"/>
@@ -49,11 +49,17 @@
           </fileset>
         </scp>
         <sshexec host="${host}" username="${username}" password="${password}" 
-        command="mkdir -p ${path}/../../sli/domain/src/main/resources/edfiXsd/"
+        command="mkdir -p ${path}/../../sli/edfi-schema/src/main/resources/edfiXsd/"
+        trust = "true"/>
+        <sshexec host="${host}" username="${username}" password="${password}" 
+        command="mkdir -p ${path}/../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/"
         trust = "true"/>
         
-        <scp todir="${username}:${password}@${host}:${path}/../../sli/domain/src/main/resources/edfiXsd/" trust="true">
-                  <fileset dir="../../sli/domain/src/main/resources/edfiXsd/" />
+        <scp todir="${username}:${password}@${host}:${path}/../../sli/edfi-schema/src/main/resources/edfiXsd/" trust="true">
+                  <fileset dir="../../sli/edfi-schema/src/main/resources/edfiXsd/" />
+        </scp>
+        <scp todir="${username}:${password}@${host}:${path}/../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/" trust="true">
+                  <fileset dir="../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/" />
         </scp>
     	    	        
         <scp file = "${config}" todir="${username}:${password}@${host}:${path}/" trust="true"/>

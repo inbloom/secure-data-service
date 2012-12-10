@@ -18,10 +18,16 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+
 /*
  * Based on org.slc.sli.test.utils.IngestionDataParser
  */
 public class EdfiStats {
+    private static final String README_FILE = "README";
+
+    private static final String EXPECTED_JS = "jsExpected.js";
+    
     private SAXParserFactory factory = SAXParserFactory.newInstance();
     private SAXParser saxParser = null;
         
@@ -139,56 +145,92 @@ public class EdfiStats {
         Map<String, Long> edfiCounts = (Map<String, Long>)counts.get(0);
         Set<String> uniqueStudentSessions = (Set<String>)counts.get(1);
         
+        // Derive counts for transformed entities
         Map<String, Long> sliCounts = IngestionDataParser.mapEntityCounts(edfiCounts);
         if (sliCounts.get("attendance") == 0) {
             sliCounts.remove("attendance");
         } else {
            sliCounts.put("attendance", (long)uniqueStudentSessions.size());
         }
+        
+        // Derive counts for subdocs or superdocs
+        Map<String, Map<String, Long>> superDocCounts = deriveSuperDocCounts(sliCounts);
+        
+        // Remove counts that should not be directly checked
         sliCounts.remove("assessmentItem"                       );
         sliCounts.remove("assessmentFamily"                     );
         sliCounts.remove("assessmentPeriodDescriptor"           );
-        sliCounts.remove("courseOffering"                       );
         sliCounts.remove("objectiveAssessment"                  );
         sliCounts.remove("performanceLevelDescriptor"           );
         sliCounts.remove("serviceDescriptor"                    );
         sliCounts.remove("studentAssessmentItem"                );
         sliCounts.remove("studentObjectiveAssessment"           );
         sliCounts.remove("studentAssessmentAssociation"         );
-        sliCounts.remove("studentSectionAssociation"            );
-        sliCounts.remove("teacherSectionAssociation"            );
-        sliCounts.remove("studentProgramAssociation"            );
-        sliCounts.remove("studentCohortAssociation"             );
-        sliCounts.remove("gradebookEntry"                       );
-        sliCounts.remove("studentDisciplineIncidentAssociation" );
 
         PrintWriter js = new PrintWriter(
-                new FileOutputStream(dataDirectory + "/" + "jsExpected.js"));
-        js.println("//mongo localhost:27017/sli --eval 'var tenant=\"MegatronIL\";' jsExpected.js");
+                new FileOutputStream(dataDirectory + File.separator + EXPECTED_JS));
+        js.println("//mongo localhost:27017/<database_name> " + EXPECTED_JS);
         //http://stackoverflow.com/questions/2159678/paste-a-multi-line-java-string-in-eclipse
-        js.println("var criteria = {};\r\n" + 
-                "if( typeof tenant  != 'undefined' \r\n" + 
-                "       &&  tenant  != null \r\n" + 
-                "       &&  tenant.length > 0) \r\n" + 
-                "    criteria['metaData.tenantId']=tenant;");
         js.println("var entities ={");
         for(String entity: new TreeSet<String>(sliCounts.keySet())) {
             js.println("              '" + entity + "'" +  ":" + sliCounts.get(entity) + ",");
         }
         js.println("};");
 
-        js.println("for(var entity in  entities){\r\n" + 
-        		"    var expectedCount = entities[entity];\r\n" + 
-        		"    var mongoCount = db[entity].find(criteria).count();\r\n" + 
-        		"    if(expectedCount != mongoCount)\r\n" + 
-        		"        print (\"                                  >\"  + entity + \"[\" + expectedCount + \"/\" + mongoCount + \"] Mismatch *\"); \r\n" + 
-        		"    else\r\n" + 
-        		"        print (entity + \"[\" + expectedCount + \"/\" + mongoCount + \"] Match *\"); \r\n" + 
-        		"}");
+        js.println("var superdocs = {");
+        // Write out superdoc entities
+        for(String superEntity: new TreeSet<String>(superDocCounts.keySet())) {
+            js.println("    '" + superEntity + "':{");
+            
+            // Write out subdoc counts
+            for(String subEntity: new TreeSet<String>(superDocCounts.get(superEntity).keySet())) {
+                js.println("        '" + subEntity + "'" +  ":" + superDocCounts.get(superEntity).get(subEntity) + ",");
+            }
+            
+            js.println("    },");
+        }
+        js.println("}");
+
+        js.println(
+                "for(var entity in  entities){\n" + 
+                "    var expectedCount = entities[entity];\n" + 
+                "    var mongoCount = db[entity].find().count();\n" + 
+                "    if(expectedCount != mongoCount) {\n" + 
+                "        print (\"                                  >\"  + entity + \"[\" + expectedCount + \"/\" + mongoCount + \"] Mismatch *\"); \n" + 
+                "    } else {\n" + 
+                "        print (entity + \"[\" + expectedCount + \"/\" + mongoCount + \"] Match *\"); \n" + 
+                "    }\n" + 
+                "}\n" + 
+                "print(\"\\nChecking sub-document counts:\");\n" + 
+                "for (var superdoc in superdocs) {\n" + 
+                "    var fields = superdocs[superdoc];\n" + 
+                "    var expectedCounts = {};\n" + 
+                "    var mongoCounts = {};\n" + 
+                "    for (var field in fields) {\n" + 
+                "        expectedCounts[field] = fields[field];\n" + 
+                "        mongoCounts[field] = 0;\n" + 
+                "    }\n" + 
+                "    db[superdoc].find().forEach( function(x){\n" + 
+                "        for (var field in fields) {\n" + 
+                "            if (field in x) {\n" + 
+                "                mongoCounts[field] += x[field].length;\n" + 
+                "            }\n" + 
+                "        }\n" + 
+                "    })\n" + 
+                "    for (var field in fields) {\n" + 
+                "        var s = superdoc + \".\" + field + \"[\" + expectedCounts[field] + \"/\" + mongoCounts[field] + \"]\";\n" + 
+                "        if (expectedCounts[field] != mongoCounts[field]) {\n" + 
+                "            print (\"                                  >\"  + s + \"Mismatch *\"); \n" + 
+                "        } else {\n" + 
+                "            print (\"  \" + s + \" Match *\"); \n" + 
+                "        }\n" + 
+                "    }\n" + 
+                "}\n" + 
+                "");
         js.close();
         
         PrintWriter readme = new PrintWriter(
-                new FileOutputStream(dataDirectory + "/" + "README"));
+                new FileOutputStream(dataDirectory + File.separator + README_FILE));
         long totalCount = 0;
         for(String entity: new TreeSet<String>(edfiCounts.keySet())) {
             Long count = edfiCounts.get(entity);
@@ -198,13 +240,63 @@ public class EdfiStats {
         readme.println("------------------------------------------------------------");
         readme.println(String.format("%50s:%10d", "Total", totalCount));
         System.out.println(String.format("%30s:%-10d", "Total Entities", totalCount));
-        System.out.println("see " + dataDirectory + "/" + "expected.js");
-        System.out.println("see " + dataDirectory + "/" + "README");
+        System.out.println("see " + dataDirectory + File.separator + EXPECTED_JS);
+        System.out.println("see " + dataDirectory + File.separator + README_FILE);
         readme.close();
     }
  
+    private static Map<String, Map<String, Long>> deriveSuperDocCounts(Map<String, Long> sliCounts) {
+        Map<String, Map<String, Long>> superDocCounts = new HashMap<String, Map<String, Long>>();
+        
+//        // Add count information for DENORMALIZATIONs
+//        for(String element: EmbeddedDocumentRelations.getDenormalizedDocuments()){
+//            // Associate the subdoc count to the destination entity and field
+//            
+//            // HACK remove the subdoc count from the sliCounts to prevent it being checked directly
+//            Long count = sliCounts.remove(element);
+//            
+//            if (count != null) {
+//                String superDoc = EmbeddedDocumentRelations.getDenormalizeToEntity(element);
+//                String subDoc = EmbeddedDocumentRelations.getDenormalizedToField(element);
+//                Map<String, Long> subDocCounts = superDocCounts.get(superDoc);
+//                if (subDocCounts == null) {
+//                    // Create the super doc entry if necessary
+//                    subDocCounts = new HashMap<String, Long>();
+//                    superDocCounts.put(superDoc, subDocCounts);
+//                }           
+//                subDocCounts.put(subDoc, count);
+//            }
+//        }
+        
+        // Add count information for sub-documents
+        for(String element: EmbeddedDocumentRelations.getSubDocuments()){
+            
+            // HACK remove the subdoc count from the sliCounts to prevent it being checked directly
+            Long count = sliCounts.remove(element);
+            
+            if (count != null) {
+                String superDoc = EmbeddedDocumentRelations.getParentEntityType(element);
+                Map<String, Long> subDocCounts = superDocCounts.get(superDoc);
+                if (subDocCounts == null) {
+                    // Create the super doc entry if necessary
+                    subDocCounts = new HashMap<String, Long>();
+                    superDocCounts.put(superDoc, subDocCounts);
+                }
+                if (subDocCounts.containsKey(element)) {
+                    count += subDocCounts.get(element);
+                }
+                subDocCounts.put(element, count);
+            }
+        }
+        return superDocCounts;
+    }
+
     public static void main(String argv[]) throws Exception{
         String dataDirectory  = "C:\\Users\\ldalgado\\Desktop\\TestPlan\\GalvatonSDS\\Medium";
+        if (argv.length > 0) {
+            dataDirectory = argv[0];
+        }
+        System.out.println("Generating expected counts for xml files at " + dataDirectory);
         EdfiStats.generateStats(dataDirectory);        
     }
 }
