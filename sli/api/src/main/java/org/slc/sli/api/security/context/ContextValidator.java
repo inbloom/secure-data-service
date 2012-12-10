@@ -134,7 +134,10 @@ public class ContextValidator implements ApplicationContextAware {
                 if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
                         && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                     debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
-                } else {
+                } else if (SecurityUtil.getSLIPrincipal().getEntity() != null 
+                        && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
+                    debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+                } else {                
                     idsToValidate.add(ent.getEntityId());
                 }
             }

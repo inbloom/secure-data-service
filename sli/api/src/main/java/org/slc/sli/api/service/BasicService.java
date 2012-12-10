@@ -21,22 +21,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -60,6 +48,14 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -341,7 +337,7 @@ public class BasicService implements EntityService {
                 nq.setOffset(0);
                 nq.setLimit(MAX_RESULT_SIZE);
             }
-
+            
             if (useContextResolver()) {
                 SecurityCriteria securityCriteria = findAccessible(defn.getType());
                 nq = securityCriteria.applySecurityCriteria(nq);
@@ -368,16 +364,7 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        Collection<Entity> entities;
-        if (useContextResolver()) {
-            SecurityCriteria securityCriteria = findAccessible(defn.getType());
-            NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-            localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
-            entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
-        } else {
-            entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
-        }
-
+        Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
 
@@ -556,21 +543,21 @@ public class BasicService implements EntityService {
                     }
                 }
             } else {
-                try {
-                    boolean useTransitiveResolver = true;
-                    if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
-                        //Transitive resolver for public resources would be too relaxed,
-                        //e.g. letting anyone create any association to any edorg
-                        useTransitiveResolver = false;
-                    }
-                    contextValidator.validateContextToEntities(def, ids, useTransitiveResolver);
-                } catch (AccessDeniedException e) {
-                    debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                    throw (AccessDeniedException) new AccessDeniedException("Invalid reference. No association to referenced entity.").initCause(e);
-                } catch (EntityNotFoundException e) {
-                    debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
-                    throw (AccessDeniedException) new AccessDeniedException("Invalid reference. No association to referenced entity.").initCause(e);
-                }
+	            try {
+	                boolean useTransitiveResolver = true;
+	                if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
+	                    //Transitive resolver for public resources would be too relaxed,
+	                    //e.g. letting anyone create any association to any edorg
+	                    useTransitiveResolver = false;
+	                }
+	                contextValidator.validateContextToEntities(def, ids, useTransitiveResolver);
+	            } catch (AccessDeniedException e) {
+	                debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
+	                throw (AccessDeniedException) new AccessDeniedException("Invalid reference. No association to referenced entity.").initCause(e);
+	            } catch (EntityNotFoundException e) {
+	                debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
+	                throw (AccessDeniedException) new AccessDeniedException("Invalid reference. No association to referenced entity.").initCause(e);
+	            }
             }
         }
     }
@@ -729,7 +716,7 @@ public class BasicService implements EntityService {
      * @return
      */
     private boolean isEntityAllowed(String entityId, String collectionName, String toType) {
-        SecurityCriteria securityCriteria = findAccessible(toType);
+        SecurityCriteria securityCriteria = new SecurityCriteria();
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
@@ -829,7 +816,7 @@ public class BasicService implements EntityService {
                 || defn.getType().equals(EntityNames.GRADUATION_PLAN);
 
     }
-
+    
     /**
      * Removes fields user isn't entitled to see
      *
@@ -1013,7 +1000,7 @@ public class BasicService implements EntityService {
 
         return metadata;
     }
-
+    
     private boolean useContextResolver() {
 
         boolean useResolvers = true;

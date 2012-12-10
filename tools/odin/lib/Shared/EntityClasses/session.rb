@@ -30,7 +30,9 @@ class Session < BaseEntity
   	@name            = name
   	@school_year     = year.to_s + "-" + (year+1).to_s
   	@term            = term
-  	@interval        = interval
+    @begin_date = interval.get_begin_date.to_s
+    @end_date = interval.get_end_date.to_s
+    @num_days = interval.get_num_school_days
   	@ed_org_id       = ed_org_id
     @grading_periods = grading_periods
   end
@@ -40,15 +42,15 @@ class Session < BaseEntity
   end
 
   def begin_date
-  	@interval.get_begin_date
+  	@begin_date
   end
 
   def end_date
-  	@interval.get_end_date
+  	@end_date
   end
 
   def num_school_days
-  	@interval.get_num_school_days
+  	@num_days
   end
 
   def grading_periods
@@ -57,7 +59,7 @@ class Session < BaseEntity
       interval             = grading_period["interval"]
       period               = Hash.new
       period["type"]       = GradingPeriodType.to_string(grading_period["type"])
-      period["begin_date"] = interval.get_begin_date
+      period["begin_date"] = interval.get_begin_date.to_s
       period["ed_org_id"]  = grading_period["ed_org_id"]
       periods              << period
     end

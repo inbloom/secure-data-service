@@ -149,6 +149,9 @@ public class CommonValidatorTest {
                 for (IContextValidator validator : validators) {
                     if (validator.canValidate(entity, isTransitive)) {
                         numValidators++;
+                        if (numValidators > 1) {
+                            System.out.println(validator);
+                        }
                     }
                 }
     

@@ -26,10 +26,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +55,12 @@ public class TeacherSectionResolver implements EntityContextResolver {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    
+    @Autowired
+    private StudentSectionAssociationEndDateFilter dateFilter;
+
+    @Value("${sli.security.gracePeriod}")
+    private String sectionGracePeriod;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -77,9 +85,14 @@ public class TeacherSectionResolver implements EntityContextResolver {
         Iterable<Entity> studentSections = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, new NeutralQuery(
                 new NeutralCriteria("studentId", NeutralCriteria.CRITERIA_IN, studentIds)));
         for (Entity studentSection : studentSections) {
-            if (studentSection.getBody().containsKey(ParameterConstants.SECTION_ID)) {
-                studentSectionIds.add((String) studentSection.getBody().get(ParameterConstants.SECTION_ID));
+
+            String endDate = (String) studentSection.getBody().get(ParameterConstants.END_DATE);
+            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(getSectionGraceDate(), endDate))) {
+                if (studentSection.getBody().containsKey(ParameterConstants.SECTION_ID)) {
+                    studentSectionIds.add((String) studentSection.getBody().get(ParameterConstants.SECTION_ID));
+                }
             }
+
         }
 
         Set<String> sectionIds = new HashSet<String>();
@@ -88,4 +101,12 @@ public class TeacherSectionResolver implements EntityContextResolver {
         securityCache.warm(EntityNames.SECTION, sectionIds);
         return new ArrayList<String>(sectionIds);
     }
+    
+    private String getSectionGraceDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        return helper.getFilterDate(sectionGracePeriod, calendar);
+    }
 }
+
+

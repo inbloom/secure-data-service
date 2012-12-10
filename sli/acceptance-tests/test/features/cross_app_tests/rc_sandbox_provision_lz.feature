@@ -17,7 +17,7 @@ Background:
     Then I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "Provision Landing Zone"
+    And under System Tools, I click on "Create Landing Zone"
     And I switch to the iframe
     When the developer selects to preload "Small Dataset"
     And I switch to the iframe

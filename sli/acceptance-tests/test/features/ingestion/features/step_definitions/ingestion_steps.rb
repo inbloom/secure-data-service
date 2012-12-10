@@ -38,6 +38,7 @@ CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
+INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
 LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
 LZ_SFTP_PORT = PropLoader.getProps['lz_sftp_port']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
@@ -64,14 +65,14 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 Before do
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB)
-  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
+  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
   @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
   ensureBatchJobIndexes(@batchConn)
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
-  if (INGESTION_RC_TENANT == "" && INGESTION_RC_EDORG == "")
+  if (((INGESTION_RC_TENANT == "") || (INGESTION_RC_TENANT == nil)) && ((INGESTION_RC_EDORG == "") || (INGESTION_RC_EDORG == nil)))
     @ingestion_lz_key_override = nil
   else
     @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
@@ -1921,6 +1922,15 @@ Then /^verify the following data in that document:$/ do |table|
     end
   end
   enable_NOTABLESCAN()
+end
+
+Then /^I verify all super doc "(.*?)" entities have correct type field$/ do |entityType|
+disable_NOTABLESCAN()
+super_coll=@db[entityType]
+total_count = super_coll.count
+count = super_coll.find({"type" => entityType}).count
+assert(total_count == count, "not all super doc #{entityType} have correct type field")
+enable_NOTABLESCAN()
 end
 
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|

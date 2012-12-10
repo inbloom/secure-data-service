@@ -33,8 +33,8 @@ class StaffAssociationGenerator < InterchangeGenerator
     @header, @footer = build_header_footer( "StaffAssociation" )    
     @writers[ Staff ] = EntityWriter.new("staff.mustache")
     @writers[ StaffEducationOrgAssignmentAssociation ] = EntityWriter.new("staff_ed_org_assignment_association.mustache")
-    #@writers[ Teacher ] = EntityWriter.new("teacher.mustache")
-    #@writers[ TeacherSchoolAssociation ] = EntityWriter.new("teacher_school_association.mustache")
+    @writers[ Teacher ] = EntityWriter.new("teacher.mustache")
+    @writers[ TeacherSchoolAssociation ] = EntityWriter.new("teacher_school_association.mustache")
     #@writers[ TeacherSectionAssociation ] = EntityWriter.new("teacher_section_association.mustache")
   end
 
@@ -53,12 +53,14 @@ class StaffAssociationGenerator < InterchangeGenerator
   #end
 
   # creates and writes teacher to interchange
-  #def create_teacher
-  #end
+  def create_teacher(id, year_of, name = nil)
+    self << Teacher.new(id, year_of, name)
+  end
 
   # creates and writes teacher school association to interchange
-  #def create_teacher_school_association
-  #end
+  def create_teacher_school_association(teacher_id, school_id, program_assignment, grades, subjects)
+    self << TeacherSchoolAssociation.new(teacher_id, school_id, program_assignment, grades, subjects)
+  end
 
   # creates and writes teacher section association to interchange
   #def create_teacher_section_association

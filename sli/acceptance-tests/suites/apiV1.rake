@@ -11,6 +11,8 @@ task :apiV1EntityTests => [:realmInit] do
   # This is to extract assessment, learningStandard, etc. into Elastic Search  
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/entities/crud")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud_auto")
 end
 
 task :apiV1AssociationTests => [:realmInit] do

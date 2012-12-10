@@ -79,7 +79,7 @@ public class ThreePartResourceTest {
     @Before
     public void setup() throws Exception {
         // inject administrator security context for unit testing
-        injector.setAdminContextWithElevatedRights();
+        injector.setStaffContext();
 
         studentResource = new Resource("v1", "students");
         sectionResource = new Resource("v1", "sections");

@@ -14,7 +14,7 @@ Scenario: SLC Operator logs into SAMT and deletes the developer account
     Then I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "Administrative Account Management"
+    And under System Tools, I click on "Manage Administrator Accounts"
 
     And I switch to the iframe
     Then I delete the user "RCTest Developer" if exists
@@ -50,7 +50,7 @@ Scenario: As an SLC Operator I want to approve the app developer account
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And I click on Account Approval
+  And I click on Approve Account
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"

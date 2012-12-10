@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
     xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
     xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
     xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
     <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
 
     <jb:bean beanId="graduationPlans" class="java.util.ArrayList" createOnElement="#document">
         <jb:wiring beanIdRef="graduationPlan" />
@@ -91,7 +95,7 @@
   <jb:bean beanId="GraduationPlan_CreditsByCourse_CourseCode" class="java.util.HashMap"
            createOnElement="attributes creditsByCourse element courseCode element">
       <jb:value property="ID" data="attributes creditsByCourse element courseCode element ID" />
-      <jb:value property="identificationSystem" 
+      <jb:value property="identificationSystem"
                 data="attributes creditsByCourse element courseCode element identificationSystem" />
       <jb:value property="assigningOrganizationCode"
                 data="attributes creditsByCourse element courseCode element assigningOrganizationCode" />
