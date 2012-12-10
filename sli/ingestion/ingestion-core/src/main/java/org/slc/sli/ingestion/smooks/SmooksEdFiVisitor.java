@@ -23,20 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.MongoException;
-
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
-import org.springframework.data.mongodb.UncategorizedMongoDbException;
-
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
@@ -45,6 +36,15 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
+import org.xml.sax.Locator;
+
+import com.mongodb.MongoException;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -77,6 +77,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
+    private SliSmooks sliSmooks;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -105,10 +106,21 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             IngestionFileEntry fe) {
         return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
     }
+    
+    public void setSliSmooks(SliSmooks sliSmooks) {
+        this.sliSmooks = sliSmooks;
+    }
+    
+    private Locator getDocumentLocator() {
+        return sliSmooks==null ? null : sliSmooks.getDocumentLocator();
+    }
 
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
+        Locator locator = getDocumentLocator();
+//        System.out.println("visitAfter\t"+element.getName()+": line="+locator.getLineNumber()+" col="+locator.getColumnNumber());
+        
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
@@ -231,8 +243,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
         // nothing
+        Locator locator = getDocumentLocator();
+//        System.out.println("visitBefore\t"+element.getName()+": line="+locator.getLineNumber()+" col="+locator.getColumnNumber());
+                
     }
-
+    
     @Override
     public void onChildElement(SAXElement element, SAXElement childElement, ExecutionContext executionContext) {
         // nothing
