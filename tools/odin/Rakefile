@@ -28,7 +28,7 @@ end
 
 desc "Run world builder tests"
 task :world_builder do
-  RSpec::Core::RakeTask.new(:odin) do |t|
+  RSpec::Core::RakeTask.new(:world_builder) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/world_builder_spec.rb'
     t.rspec_path = 'rspec'
@@ -46,7 +46,7 @@ end
 
 desc "Run grade level type tests"
 task :grade_level_type do
-  RSpec::Core::RakeTask.new(:test) do |t|
+  RSpec::Core::RakeTask.new(:grade_level_type) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/grade_level_type_spec.rb'
     t.rspec_path = 'rspec'
@@ -85,6 +85,24 @@ task :validator do
   RSpec::Core::RakeTask.new(:validator) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/validator_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run assessment tests"
+task :assessment do
+  RSpec::Core::RakeTask.new(:assessment) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/assessment*_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
+desc "Run student factory tests"
+task :student_factory do
+  RSpec::Core::RakeTask.new(:student_factory) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/work_order_processor_spec.rb'
     t.rspec_path = 'rspec'
   end
 end

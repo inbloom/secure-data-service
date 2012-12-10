@@ -16,25 +16,20 @@ limitations under the License.
 
 =end
 
-require 'yaml'
-
 require_relative 'baseEntity'
 class AssessmentItem < BaseEntity
 
-  attr_accessor :id, :identificationCode, :itemCategory, :maxRawScore, :correctResponse, :nomenclature, :assessment
-  def initialize(id, year_of)
+  attr_accessor :id, :identificationCode, :itemCategory, :maxRawScore, :correctResponse,
+                :assessmentTitle, :assessment, :gradeLevelAssessed
+  def initialize(id, assessment)
     @id = id
-    @year_of = year_of
-    @rand = Random.new(@id)
-    build
-  end
-
-  def build
-
-    @identificationCode = @rand.rand(10000).to_s
-    @itemCategory = @rand.rand(10000).to_s
-    @maxRawScore = @rand.rand( 100 ).to_i
-    @correctResponse = @rand.rand(10000).to_s
+    @assessment = assessment[:id]
+    @assessmentTitle =assessment[:id]
+    @gradeLevelAssessed = assessment[:grade]
+    @identificationCode = "#{@assessmentTitle}##{id}"
+    @itemCategory = "True-False"
+    @maxRawScore = 10
+    @correctResponse = id.odd?
   end
 
 end

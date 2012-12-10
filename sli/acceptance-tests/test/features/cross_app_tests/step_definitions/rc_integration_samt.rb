@@ -64,6 +64,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = PropLoader.getProps['landingzone_port']
  elsif human_readable_text == "TENANT"
   value = PropLoader.getProps['tenant']
+   elsif human_readable_text == "SANDBOX_TENANT"
+  value = PropLoader.getProps['sandbox_tenant']
  elsif human_readable_text == "CI_IDP_Redirect_URL"
    value = PropLoader.getProps["ci_idp_redirect_url"]
  elsif human_readable_text == "MATT SOLLARS UNIQUE ID"
@@ -72,8 +74,10 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
    value = "900000016"
  elsif human_readable_text == "BRANDON SUZUKI UNIQUE ID"
    value = "100000022"
+ elsif human_readable_text == "ZOE LOCUST UNIQUE ID"
+   value = "900000009"
  elsif human_readable_text == "REBECCA BRAVERMAN UNIQUE ID"
-   value = "a"
+   value = "rbraverman"
  elsif human_readable_text == "AMY KOPEL UNIQUE ID"
    value = "akopel"
   end
@@ -198,7 +202,7 @@ end
 
 Then /^I am redirected to the "(.*?)" page$/ do |pageTitle|
   #assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
-  sleep(3)
+  sleep(6)
   begin
     assertText(pageTitle)
   rescue Exception => e

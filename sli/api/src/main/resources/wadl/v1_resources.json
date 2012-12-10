@@ -1,4 +1,4 @@
-{
+[{
   "nameSpace": "v1",
   "resources": [
     {
@@ -561,4 +561,4 @@
         "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     }
   ]
-}
+}]

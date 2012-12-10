@@ -25,7 +25,9 @@ require_relative '../Shared/EntityClasses/enum/StaffClassificationType.rb'
 require_relative '../Shared/data_utility.rb'
 require_relative '../Shared/date_interval.rb'
 require_relative '../Shared/date_utility.rb'
-require_relative "assessment_factory"
+require_relative 'assessment_work_order.rb'
+require_relative 'student_work_order.rb'
+require_relative 'section_work_order.rb'
 
 # World Builder
 # -> intent is to create 'scaffolding' that represents a detailed, time-sensitive view of the world
@@ -34,22 +36,26 @@ require_relative "assessment_factory"
 # (1) create world using number of students + time information (begin year, number of years)
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldBuilder
-  def initialize(prng, yaml, writer, pre_requisites)
+  def initialize(prng, yaml, queue, pre_requisites)
+    small_batch_size  = 500
+    medium_batch_size = 5000
+    large_batch_size  = 25000
+
     $stdout.sync = true
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
     @prng = prng
     @scenarioYAML = yaml
 
-    @edOrgs = {"seas" => [], "leas" => [], "elementary" => [], "middle" => [], "high" => []}
+    @world = {"seas" => [], "leas" => [], "elementary" => [], "middle" => [], "high" => []}
 
     @breakdown      = {}              # used for storing breakdown of students per grade
-    @data_writer    = writer          # data writer (abstracts where data is actually 'written' to away from world building)
     @pre_requisites = pre_requisites  # pre-requisites for world building (education organizations and staff members/teachers that must be created)
     @schools        = []              # holds state organization id's of schools specified in the staff.json
 
     @num_staff_members = 0            # use to make sure staff   unique state ids are unique
     @num_teachers      = 0            # use to make sure teacher unique state ids are unique
+    @queue = queue
   end
 
   # Builds the initial snapshot of the world
@@ -69,8 +75,7 @@ class WorldBuilder
       @log.error "studentCount or schoolCount must be set for a world to be created --> Exiting..."
     end
 
-    #finalize_interchanges
-    return @edOrgs
+    return @world
   end
 
   # Builds world using the specified number of students as the driving criteria
@@ -91,9 +96,10 @@ class WorldBuilder
     create_edOrgs_using_breakdown
     begin_year, num_years = add_time_information_to_edOrgs
     expand_student_counts_using_time_information(begin_year, num_years)
+
     create_master_schedule
     create_assessments(begin_year, num_years)
-    write_interchanges
+    create_work_orders
   end
 
   # iterates through the set of ordered grade levels (Kindergarten through 12th grade) and uses
@@ -151,7 +157,7 @@ class WorldBuilder
     update_breakdown_based_on_student_distribution(@scenarioYAML["beginYear"])
 
     # choose the feeder schools
-    WorldBuilder.choose_feeders(@edOrgs['elementary'], @edOrgs['middle'], @edOrgs['high'])
+    WorldBuilder.choose_feeders(@world['elementary'], @world['middle'], @world['high'])
   end
 
   # go through education organizations and make sure that the @breakdown instance variable is representative of the world
@@ -160,21 +166,21 @@ class WorldBuilder
   # -> occurs because creation of education organizations assembles students into 'waves' (thought of as cohorts)
   def update_breakdown_based_on_student_distribution(year)
     new_breakdown = Hash.new
-    @edOrgs["elementary"].each do |school|
+    @world["elementary"].each do |school|
       students_by_grade = school["students"][year]
       students_by_grade.each do |grade, num_students|
         new_breakdown[grade] = 0 if !new_breakdown.has_key?(grade)
         new_breakdown[grade] += num_students
       end
     end
-    @edOrgs["middle"].each do |school|
+    @world["middle"].each do |school|
       students_by_grade = school["students"][year]
       students_by_grade.each do |grade, num_students|
         new_breakdown[grade] = 0 if !new_breakdown.has_key?(grade)
         new_breakdown[grade] += num_students
       end
     end
-    @edOrgs["high"].each do |school|
+    @world["high"].each do |school|
       students_by_grade = school["students"][year]
       students_by_grade.each do |grade, num_students|
         new_breakdown[grade] = 0 if !new_breakdown.has_key?(grade)
@@ -219,7 +225,7 @@ class WorldBuilder
       staff, teachers    = create_staff_and_teachers_for_school(members)
       begin_year         = @scenarioYAML["beginYear"]
 
-      @edOrgs[tag]       << {
+      @world[tag]       << {
         "id" => school_id, 
         "parent" => nil, 
         "sessions" => [], 
@@ -229,7 +235,7 @@ class WorldBuilder
         "students" => {begin_year => assemble_students_into_waves(tag, current_students)}
       }
     end
-    return school_counter
+    school_counter
   end
 
   # assembles students into waves by iterating through each grade and 'allocating' a section in each grade
@@ -289,10 +295,10 @@ class WorldBuilder
       update_schools_with_district_id(district_id, schools_in_this_district)
       
       #edOrg["programs"] = []
-      @edOrgs["leas"]   << {"id" => district_id, "parent" => nil, "sessions" => [], "staff" => create_staff_for_local_education_agency(members)}
+      @world["leas"]   << {"id" => district_id, "parent" => nil, "sessions" => [], "staff" => create_staff_for_local_education_agency(members)}
       school_counter    += num_schools_in_this_district
     end
-    return district_counter
+    district_counter
   end
 
   # actually does the work to iterate through the edOrgs structure (specifically the arrays
@@ -301,9 +307,9 @@ class WorldBuilder
   # of those matching edOrgs to the district id.
   def update_schools_with_district_id(district_id, schools_in_this_district)
     # check in elementary, middle, and high schools
-    @edOrgs["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
-    @edOrgs["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
-    @edOrgs["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
+    @world["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
+    @world["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
+    @world["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
   end
 
   # updates the populated edOrgs arrays for leas (local education agencies) by determining how many districts are to be
@@ -320,8 +326,8 @@ class WorldBuilder
     state_id, members = @pre_requisites[:seas].shift if @pre_requisites[:seas].size > 0
 
     #edOrg["programs"] = []
-    @edOrgs["seas"]  << {"id" => state_id, "courses" => create_courses, "staff" => create_staff_for_state_education_agency(members)}
-    @edOrgs["leas"].each { |edOrg| edOrg["parent"] = state_id }
+    @world["seas"]  << {"id" => state_id, "courses" => create_courses, "staff" => create_staff_for_state_education_agency(members)}
+    @world["leas"].each { |edOrg| edOrg["parent"] = state_id }
   end
 
   # creates staff members at the state education agency level
@@ -443,12 +449,12 @@ class WorldBuilder
       # -> create calendar date(s) for grading period
       # -> [not implemented] iterate through schools and determine with some probability if school overrides existing lea session
       @log.info "creating session information for school year: #{year}-#{year+1}"
-      @edOrgs["leas"].each_index do |index|
-        edOrg = @edOrgs["leas"][index]
+      @world["leas"].each_index do |index|
+        edOrg = @world["leas"][index]
         if edOrg["id"].kind_of? String
           state_organization_id = edOrg["id"]
         else
-          state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
+        state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
         end
         
         start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
@@ -460,7 +466,7 @@ class WorldBuilder
         session["name"]     = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id
         session["interval"] = interval
         session["edOrgId"]  = state_organization_id
-        @edOrgs["leas"][index]["sessions"] << session
+        @world["leas"][index]["sessions"] << session
       end
     end
 
@@ -475,9 +481,9 @@ class WorldBuilder
   # iterate through schools of matching 'type' and set the sessions to be used
   def update_schools_with_sessions(type)
     @log.info "updating #{type} schools to include inherited sessions"
-    @edOrgs[type].each_index do |index|
-      school = @edOrgs[type][index]
-      @edOrgs[type][index]["sessions"] = get_sessions_to_be_used_by_school(school)
+    @world[type].each_index do |index|
+      school = @world[type][index]
+      @world[type][index]["sessions"] = get_sessions_to_be_used_by_school(school)
     end
   end
 
@@ -519,10 +525,10 @@ class WorldBuilder
       # actually perform split
       students_to_be_split = @breakdown[grade]
       students_so_far      = 0
-      @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.get(grade)} students to be split across #{@edOrgs[type].size} schools"
+      @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.get(grade)} students to be split across #{@world[type].size} schools"
 
       while students_to_be_split > 0
-        @edOrgs[type].each_index do |index|
+        @world[type].each_index do |index|
           num_students_assigned_to_this_school = students_per_section
 
           if students_to_be_split == 0
@@ -533,7 +539,7 @@ class WorldBuilder
           students_so_far      += num_students_assigned_to_this_school
           students_to_be_split -= num_students_assigned_to_this_school
 
-          @edOrgs[type][index]["students"][year][grade] += num_students_assigned_to_this_school
+          @world[type][index]["students"][year][grade] += num_students_assigned_to_this_school
 
           if students_to_be_split == 0
             break
@@ -545,11 +551,11 @@ class WorldBuilder
 
   # iterates through education organizations of specified 'type' and ripples student counts forward for the specified 'year'
   def update_students_within_school(type, year)
-    @edOrgs[type].each_index do |index|
-      school = @edOrgs[type][index]
+    @world[type].each_index do |index|
+      school = @world[type][index]
       students_by_year = school["students"]
       if school["students"][year].nil?
-        @edOrgs[type][index]["students"][year] = shuffle_students_forward_at_school(school["students"][year - 1])
+        @world[type][index]["students"][year] = shuffle_students_forward_at_school(school["students"][year - 1])
       end
     end
   end
@@ -602,8 +608,8 @@ class WorldBuilder
   # --> use {session, course} pair to create course offering at current school
   def create_course_offerings_for_school(type, num_offerings)
     offering_id = num_offerings
-    @edOrgs[type].each_index do |index|
-      school    = @edOrgs[type][index]
+    @world[type].each_index do |index|
+      school    = @world[type][index]
       sessions  = get_sessions_to_be_used_by_school(school)
       courses   = get_courses_to_be_used_by_school(type, school)
       sessions.each do |session|
@@ -635,7 +641,7 @@ class WorldBuilder
             offerings << offering
           end
         end
-        @edOrgs[type][index]["offerings"][current_year] = offerings
+        @world[type][index]["offerings"][current_year] = offerings
       end
     end
     offering_id
@@ -669,22 +675,22 @@ class WorldBuilder
   end
 
   # finds the direct parent (local education agency) for a school
-  # -> looks in @edOrgs structure under "leas"
+  # -> looks in @world structure under "leas"
   def get_parent_for_school(school)
     parent_id = school["parent"]
-    parent    = @edOrgs["leas"].detect {|lea| lea["id"] == parent_id}
+    parent    = @world["leas"].detect {|lea| lea["id"] == parent_id}
     parent
   end
 
   # finds the parent (local education agency or state education agency) for a local education agency
-  # -> looks in @edOrgs structure under "leas"
-  # -> looks in @edOrgs structure under "seas" (if no LEA parent was found)
+  # -> looks in @world structure under "leas"
+  # -> looks in @world structure under "seas" (if no LEA parent was found)
   # this is done because local education agencies can nest a potentially unlimited number of times
   def get_parent_for_local_education_agency(local_education_agency)
     parent_id = local_education_agency["parent"]
-    parent    = @edOrgs["leas"].detect {|lea| lea["id"] == parent_id}
+    parent    = @world["leas"].detect {|lea| lea["id"] == parent_id}
     # if parent is nil --> no parent found under "leas"
-    parent    = @edOrgs["seas"].detect {|sea| sea["id"] == parent_id} if parent.nil?
+    parent    = @world["seas"].detect {|sea| sea["id"] == parent_id} if parent.nil?
     parent
   end
 
@@ -697,13 +703,13 @@ class WorldBuilder
     # check in state education agencies for parent that failed to be in leas
     # if found, return state education agency
     parent_id = school["parent"]
-    parent    = @edOrgs["leas"].detect {|lea| lea["id"] == parent_id}
+    parent    = @world["leas"].detect {|lea| lea["id"] == parent_id}
     while parent != nil
       parent_id = parent["parent"]
-      parent    = @edOrgs["leas"].detect {|lea| lea["id"] == parent_id}
+      parent    = @world["leas"].detect {|lea| lea["id"] == parent_id}
     end
     # parent_id should now be populated with id of the state education agency
-    state_education_agency = @edOrgs["seas"].detect {|sea| sea["id"] == parent_id}
+    state_education_agency = @world["seas"].detect {|sea| sea["id"] == parent_id}
     
     courses = Hash.new
     if type == "elementary"
@@ -735,11 +741,12 @@ class WorldBuilder
   end
 
   # writes ed-fi xml interchanges
-  def write_interchanges
-    write_education_organization_interchange
-    write_education_org_calendar_interchange
-    write_master_schedule_interchange
-    write_staff_association_interchange
+  def create_work_orders
+    create_education_organization_work_orders
+    create_education_org_calendar_work_orders
+    create_master_schedule_work_orders
+    create_staff_association_work_orders
+    create_student_and_enrollment_work_orders
   end
 
   # writes ed-fi xml interchange: education organization entities:
@@ -748,32 +755,43 @@ class WorldBuilder
   # - School [Elementary, Middle, High]
   # - Course
   # - [not yet implemented] Program
-  def write_education_organization_interchange
+  def create_education_organization_work_orders
     # write state education agencies
-    @edOrgs["seas"].each do |edOrg|
-      @data_writer.create_state_education_agency(@prng, edOrg["id"])
+    @world["seas"].each do |edOrg|
+      ed_org_id = ""
       if edOrg["id"].kind_of? String
         ed_org_id = edOrg["id"]
       else
         ed_org_id = DataUtility.get_state_education_agency_id(edOrg["id"])
       end
-      write_courses(ed_org_id, edOrg["courses"])
+      @queue.push_work_order({ :type => SeaEducationOrganization, :id => ed_org_id })
+      create_course_work_orders(ed_org_id, edOrg["courses"])
     end
     # write local education agencies
-    @edOrgs["leas"].each       { |edOrg| @data_writer.create_local_education_agency(@prng, edOrg["id"], edOrg["parent"]) }
+    @world["leas"].each       { |edOrg|
+      @queue.push_work_order({ :type => LeaEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"]})
+    }
+
     # write schools
-    @edOrgs["elementary"].each { |edOrg| @data_writer.create_school(edOrg["id"], edOrg["parent"], "elementary") }
-    @edOrgs["middle"].each     { |edOrg| @data_writer.create_school(edOrg["id"], edOrg["parent"], "middle") }
-    @edOrgs["high"].each       { |edOrg| @data_writer.create_school(edOrg["id"], edOrg["parent"], "high") }
+    @world["elementary"].each { |edOrg|
+      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "elementary"})
+    }
+    @world["middle"].each     { |edOrg|
+      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "middle"})
+    }
+    @world["high"].each     { |edOrg|
+      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "high"})
+    }
+
   end
 
   # writes ed-fi xml interchange: education organization calendar entities:
   # - Session
   # - GradingPeriod
   # - CalendarDate
-  def write_education_org_calendar_interchange
+  def create_education_org_calendar_work_orders
     # write sessions at the district level
-    @edOrgs["leas"].each do |ed_org|
+    @world["leas"].each do |ed_org|
       # get sessions currently stored on local education agency
       # iterate through sessions
       sessions  = ed_org["sessions"]
@@ -795,7 +813,7 @@ class WorldBuilder
         grading_periods = create_grading_periods(interval, year, ed_org_id)
 
         # create and write session
-        @data_writer.create_session(name, year, term, interval, ed_org_id, grading_periods)
+        @queue.push_work_order( {:type=>Session, :name=>name, :year=>year, :term=>term, :interval=>interval, :edOrg => ed_org_id, :gradingPeriods => grading_periods})
 
         # write grading period(s)
         grading_periods.each do |grading_period|
@@ -803,12 +821,13 @@ class WorldBuilder
           year      = grading_period["year"]
           interval  = grading_period["interval"]
           ed_org_id = grading_period["ed_org_id"]
-          @data_writer.create_grading_period(type, year, interval, ed_org_id, calendar_dates)
+
+          @queue.push_work_order({:type=>GradingPeriod, :period_type=>type, :year=>year, :interval=>interval, :edOrg=>ed_org_id, :calendarDates => calendar_dates})
         end
 
         # write calendar date(s)
         calendar_dates.each do |calendar_date|
-          @data_writer.create_calendar_date(calendar_date["date"], calendar_date["event"], calendar_date["ed_org_id"])
+          @queue.push_work_order({:type=>CalendarDate, :date=>calendar_date["date"], :event => calendar_date["event"], :edOrgId => calendar_date["ed_org_id"]})
         end
       end
     end
@@ -816,26 +835,27 @@ class WorldBuilder
 
   # writes ed-fi xml interchange: master schedule entities:
   # - CourseOffering
-  def write_master_schedule_interchange
-    write_course_offerings("elementary")
-    write_course_offerings("middle")
-    write_course_offerings("high")
+  def create_master_schedule_work_orders
+    create_course_offerings_work_order("elementary")
+    create_course_offerings_work_order("middle")
+    create_course_offerings_work_order("high")
   end
 
   # writes ed-fi xml interchange: staff association entities:
   # - Staff
   # - [not implemented yet] StaffEducationOrgAssignmentAssociation
-  def write_staff_association_interchange
-    write_staff_at_ed_org("seas")
-    write_staff_at_ed_org("leas")
-    write_staff_at_ed_org("elementary")
-    write_staff_at_ed_org("middle")
-    write_staff_at_ed_org("high")
+  def create_staff_association_work_orders
+    create_staff_at_ed_org_work_orders("seas")
+    create_staff_at_ed_org_work_orders("leas")
+    create_staff_at_ed_org_work_orders("elementary")
+    create_staff_at_ed_org_work_orders("middle")
+    create_staff_at_ed_org_work_orders("high")
   end
 
   # writes the staff members and teachers out for each education organization that is of the specified 'type'
-  def write_staff_at_ed_org(type)
-    @edOrgs[type].each do |ed_org|
+  def create_staff_at_ed_org_work_orders(type)
+    @world[type].each_index do |ed_org_index|
+      ed_org    = @world[type][ed_org_index]
       ed_org_id = ed_org["id"]
       sessions  = ed_org["sessions"]
 
@@ -843,27 +863,54 @@ class WorldBuilder
       if !ed_org["staff"].nil? and ed_org["staff"].size > 0
         ed_org["staff"].each do |member|
           year_of = Date.today.year - random_on_interval(25, 65)
-          if member["name"].nil?
-            @data_writer.create_staff(member["id"], year_of)
-          else
-            @data_writer.create_staff(member["id"], year_of, member["name"])
-          end
-
+          @queue.push_work_order({:type=>Staff, :id=>member["id"], :year=>year_of, :name=>member["name"]})
+          
           if !sessions.nil? and sessions.size > 0
             # create staff members for {elementary, middle, high} schools and local education agencies in the same way
             # -> use their published (or inherited) sessions
             # -> perform no date manipulation (sets offset to zero)
-            create_staff_ed_org_associations_for_sessions(sessions, 0, member, ed_org_id, type)
+            offset = 0
           else
             # state education agencies are not publishing sessions, so find a local education agency whose parent is
             # the state education agency being processed, and use its sessions (with minor manipulations)
-            create_staff_ed_org_associations_for_sessions(find_sessions_from_child_district(ed_org_id), 30, member, ed_org_id, type)
+            sessions = find_sessions_from_child_district(ed_org_id)
+            offset   = 30
           end
+          create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
         end
       end
       
       # create teachers for the current education organization
       if !ed_org["teachers"].nil? and ed_org["teachers"].size > 0
+        ed_org["teachers"].each_index do |teacher_index|
+          teacher  = ed_org["teachers"][teacher_index]
+          year_of  = Date.today.year - random_on_interval(25, 65)
+          grades   = teacher["grades"]
+          subjects = teacher["subjects"]
+          
+          if grades.nil? or grades.size == 0
+            grades = [DataUtility.get_random_grade_for_type(@prng, type)]
+            @world[type][ed_org_index]["teachers"][teacher_index]["grades"] = grades
+          end
+          if subjects.nil? or subjects.size == 0
+            subjects = DataUtility.get_random_academic_subjects_for_type(@prng, type)
+            @world[type][ed_org_index]["teachers"][teacher_index]["subjects"] = subjects
+          end
+
+          @log.info "writing teacher: #{teacher} at ed org: #{ed_org_id}"
+          @queue.push_work_order({:type=>Teacher, :id=>teacher["id"], :year=>year_of, :name=>teacher["name"]})
+          @queue.push_work_order({:type=>TeacherSchoolAssociation, :id=>teacher["id"], :school=>ed_org_id,
+                                  :assignment=>:REGULAR_EDUCATION, :grades=>grades, :subjects=>subjects})
+
+          # create staff education organization assignment associations for teachers
+          # -> use their published (or inherited) sessions
+          if !sessions.nil? and sessions.size > 0
+            # -> this is meant to replace changing the ed-fi xsd (where begin and end dates would be put teacher school associations)
+            # -> instead, every teacher will have a single teacher school association (per school they teach at), and multiple
+            #    staff -> education organization assignment associations (one for each year they teach at a given school)
+            create_staff_ed_org_associations_for_teachers(sessions, teacher["id"], ed_org_id, type)
+          end
+        end
       end
     end
   end
@@ -873,7 +920,7 @@ class WorldBuilder
   # -> does not perform any manipulation to sessions
   def find_sessions_from_child_district(ed_org_id)
     sessions = []
-    child    = @edOrgs["leas"].detect {|lea| lea["parent"] == ed_org_id}
+    child    = @world["leas"].detect {|lea| lea["parent"] == ed_org_id}
     child["sessions"]
   end
 
@@ -903,24 +950,51 @@ class WorldBuilder
         interval   = session["interval"]
         begin_date = interval.get_begin_date - offset
         end_date   = interval.get_end_date   + offset
-        @data_writer.create_staff_ed_org_assignment_association(member["id"], state_org_id, classification, title, begin_date, end_date)
+        @queue.push_work_order({:type=>StaffEducationOrgAssignmentAssociation, :id=>member["id"], :edOrg=>state_org_id, :classification=>classification,
+                               :title=>title, :beginDate=>begin_date, :endDate=>end_date})
+      end
+    end
+  end
+  
+  # iterates through sessions, using begin and end date, to assemble teacher -> school associations
+  # -> not used, yet
+  # -> will be used soon (as soon as ed-fi changes to add start and end dates to teacher school associations)
+  def create_staff_ed_org_associations_for_teachers(sessions, teacher_id, ed_org_id, type)
+    if !sessions.nil? and sessions.size > 0
+      sessions.each do |session|
+        if ed_org_id.kind_of? Integer
+          state_org_id = DataUtility.get_state_education_agency_id(ed_org_id) if type == "seas"
+          state_org_id = DataUtility.get_local_education_agency_id(ed_org_id) if type == "leas"
+          state_org_id = DataUtility.get_elementary_school_id(ed_org_id)      if type == "elementary"
+          state_org_id = DataUtility.get_middle_school_id(ed_org_id)          if type == "middle"
+          state_org_id = DataUtility.get_high_school_id(ed_org_id)            if type == "high"
+        else
+          state_org_id = ed_org_id
+        end
+        classification = :TEACHER
+        title          = "Educator"
+        interval       = session["interval"]
+        begin_date     = interval.get_begin_date
+        end_date       = interval.get_end_date
+        @queue.push_work_order({:type=>StaffEducationOrgAssignmentAssociation, :id=>teacher_id, :edOrg=>state_org_id,
+                                :classification=>classification, :title=>title, :beginDate=>begin_date, :endDate=>end_date})
       end
     end
   end
 
   # based on the education organization type (state education agecy, local education agency, or school), choose a staff classification type
   def get_staff_classification_for_ed_org_type(type)
-    return select_random_from_options(get_default_state_education_agency_roles) if type == "seas"
-    return select_random_from_options(get_default_local_education_agency_roles) if type == "leas"
-    return select_random_from_options(get_default_school_roles)
+    return DataUtility.select_random_from_options(@prng, get_default_state_education_agency_roles) if type == "seas"
+    return DataUtility.select_random_from_options(@prng, get_default_local_education_agency_roles) if type == "leas"
+    return DataUtility.select_random_from_options(@prng, get_default_school_roles)
   end
 
   # writes the course offerings for each 'type' of school ("elementary", "middle", or "high" school)
   # -> iterates through schools of 'type'
   # -> if the school has course offerings
   # --> assembles course offering and passes to master schedule interchange writer
-  def write_course_offerings(type)
-    @edOrgs[type].each do |school|
+  def create_course_offerings_work_order(type)
+    @world[type].each do |school|
       if !school["offerings"].nil? and school["offerings"].size > 0
         school["offerings"].each do |year, course_offerings|
           course_offerings.each do |course_offering|
@@ -935,8 +1009,8 @@ class WorldBuilder
             else
               title   = GradeLevelType.get(grade) + " " + course["title"]
             end
-          
-            @data_writer.create_course_offering(id, title, ed_org_id, session, course)
+
+            @queue.push_work_order({:type=>CourseOffering, :id=>id, :title=>title, :edOrgId=>ed_org_id, :session=>session, :course=>course})
           end
         end
       end
@@ -999,7 +1073,7 @@ class WorldBuilder
   end
 
   # writes the courses at the state education agency to the education organization interchange
-  def write_courses(edOrgId, courses)
+  def create_course_work_orders(edOrgId, courses)
     courses.each do |key, value|
       grade = GradeLevelType.get(key)
       value.each do |course|
@@ -1009,31 +1083,15 @@ class WorldBuilder
         else
           title = grade + " " + course["title"]
         end
-        @data_writer.create_course(@prng, id, title, edOrgId)
+        @queue.push_work_order({:type => Course, :id => id, :title => title, :edOrgId => edOrgId})
       end
     end
-  end
-
-  # selects a random object from the list of options
-  def select_random_from_options(options)
-    options[@prng.rand(options.size) - 1]
   end
 
   # computes a random number on the interval [min, max]
   # does NOT round
   def random_on_interval(min, max)
     min + @prng.rand(max - min)
-  end
-
-  def create_assessments(begin_year, num_years)
-    factory = AssessmentFactory.new(@scenarioYAML)
-    (begin_year..(begin_year + num_years -1)).each{|year|
-      GradeLevelType.get_ordered_grades.each{|grade|
-        factory.assessments(grade: grade, year: year).each{|assessment|
-          @data_writer.create_assessment(assessment)
-        }
-      }
-    }
   end
 
   def self.choose_feeders(elem, mid, high)
@@ -1047,5 +1105,50 @@ class WorldBuilder
       ms = mid_cycle.next
       school['feeds_to'] = [ms['id'], ms['feeds_to'][0]]
     }
+  end
+
+  def generate_student_work_orders
+    section_factory = SectionWorkOrderFactory.new(@world, @scenarioYAML)
+    student_factory = StudentWorkOrderFactory.new(@world, @scenarioYAML, section_factory)
+    Enumerator.new do |y|
+      @world.each{|type, edOrgs|
+        edOrgs.each{|edOrg|
+          section_factory.gen_sections(edOrg, type, y)
+          student_factory.generate_work_orders(edOrg, y)
+        }
+      }
+    end
+  end
+
+  def create_student_and_enrollment_work_orders
+    generate_student_work_orders.each do |work_order|
+      @queue.push_work_order(work_order)
+    end
+  end
+
+  def generate_assessment_work_orders(begin_year, num_years)
+    factory = AssessmentFactory.new(@scenarioYAML)
+    Enumerator.new do |y|
+      (begin_year..(begin_year + num_years -1)).each{|year|
+        @queue.push_work_order({:type=>AssessmentFamily, :id=>"#{year} Standard", :year=>year})
+        GradeLevelType.get_ordered_grades.each{|grade|
+          @queue.push_work_order({:type=>AssessmentFamily, :id=>"#{year} #{GradeLevelType.get grade} Standard", :year=>year, :parent=>"#{year} Standard"})
+          factory.gen_assessments(y, grade: grade, year: year).each {|assessment|
+            assessment
+          }
+      }
+    }
+    end
+  end
+
+  def create_assessments(begin_year, num_years)
+    generate_assessment_work_orders(begin_year, num_years).each do |work_order|
+      work_order[:family] = "#{work_order[:year]} #{work_order[:grade]} Standard"
+      item_count = work_order[:itemCount]
+      @queue.push_work_order(work_order)
+      for i in 1..item_count
+        @queue.push_work_order({:type=>AssessmentItem, :id=>i, :assessment=>work_order})
+      end
+    end
   end
 end

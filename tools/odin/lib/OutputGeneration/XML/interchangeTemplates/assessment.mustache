@@ -1,14 +1,12 @@
 {{#entity}}
 <Assessment>
     <AssessmentTitle>{{assessmentTitle}}</AssessmentTitle>
-
     {{#assessmentIdentificationCode}}
-         {{> Partials/_assessment_identification_code}}
+    {{> Partials/_assessment_identification_code}}
     {{/assessmentIdentificationCode}}
     {{#assessmentCategoryType}}
     <AssessmentCategory>{{assessmentCategoryType}}</AssessmentCategory>
     {{/assessmentCategoryType}}
-
     {{#academicSubject}}
     <AcademicSubject>{{academicSubject}}</AcademicSubject>
     {{/academicSubject}}
@@ -18,7 +16,6 @@
     {{#lowestGradeLevelAssessed}}
     <LowestGradeLevelAssessed>{{lowestGradeLevelAssessed}}</LowestGradeLevelAssessed>
     {{/lowestGradeLevelAssessed}}
-
     {{#assessmentPerformanceLevel}}
     <AssessmentPerformanceLevel>{{.}}</AssessmentPerformanceLevel>
     {{/assessmentPerformanceLevel}}
@@ -34,28 +31,20 @@
     {{#revisionDate}}
     <RevisionDate>{{revisionDate}}</RevisionDate>
     {{/revisionDate}}
-
     {{#maxRawScore}}
     <MaxRawScore>{{maxRawScore}}</MaxRawScore>
     {{/maxRawScore}}
     {{#nomenclature}}
     <Nomenclature>{{nomenclature}}</Nomenclature>
     {{/nomenclature}}
-
     {{#assessmentPeriod}}
     <AssessmentPeriod>{{assessmentPeriod}}</AssessmentPeriod>
     {{/assessmentPeriod}}
-
-    {{#assessment_item_reference}}
     {{> Partials/_assessment_item_reference}}
-    {{/assessment_item_reference}}
-    
     {{#objective_assessment_reference}}
     {{> Partials/_objective_assessment_reference}}
     {{/objective_assessment_reference}}
-
     {{> Partials/_assessment_family_reference}}
-
     {{#sectionReference}}
     {{> Partials/_section_reference}}
     {{/sectionReference}}

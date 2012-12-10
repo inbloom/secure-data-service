@@ -169,8 +169,7 @@ public class SubDocAccessorTest {
                 "{$unwind: \"$studentSectionAssociation\"},{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
         when(template.executeCommand(findByID)).thenReturn(successCR);
 
-        String nonExistIdForDelete = "{aggregate : \"section\", pipeline:[{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}"
-                + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },"
+        String nonExistIdForDelete = "{aggregate : \"section\", pipeline:[{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },"
                 + "{$unwind: \"$studentSectionAssociation\"},{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
 
         when(template.executeCommand(nonExistIdForDelete)).thenReturn(failCR);

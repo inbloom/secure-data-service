@@ -254,7 +254,7 @@ public class SubDocAccessor {
                 subDocs.add(subDocToDBObject(entity));
             }
             Update update = new Update();
-            update.pushAll(subField, subDocs.toArray());
+            update.set("type", collection).pushAll(subField, subDocs.toArray());
             return update.getUpdateObject();
         }
 
@@ -506,7 +506,7 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
 
             DBObject idQuery = buildIdQuery(parentQuery);
-            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()), parentQuery.toString(), limitQuerySB.toString());
+            String queryCommand = buildAggregateQuery(idQuery != null ? idQuery.toString() : null, parentQuery.toString(), limitQuerySB.toString());
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
@@ -524,10 +524,14 @@ public class SubDocAccessor {
         private String buildAggregateQuery(String match1, String match2, String others) {
         	StringBuilder queryStringBuilder = new StringBuilder();
         	queryStringBuilder.append("{aggregate : \"").append(collection).append("\", pipeline:[");
-        	queryStringBuilder.append("{$match : ").append(match1).append("},");
+        	if (match1 != null) {
+        	    queryStringBuilder.append("{$match : ").append(match1).append("},");
+        	}
         	queryStringBuilder.append("{$project : {\"").append(subField).append("\":1,\"_id\":0 } },");
-        	queryStringBuilder.append("{$unwind: \"$").append(subField).append("\"},");
-        	queryStringBuilder.append("{$match : ").append(match2).append("}");
+        	queryStringBuilder.append("{$unwind: \"$").append(subField).append("\"}");
+        	if (match2 != null) {
+        	    queryStringBuilder.append(",{$match : ").append(match2).append("}");
+        	}
         	queryStringBuilder.append(others).append("]}");
         	return queryStringBuilder.toString();
         }

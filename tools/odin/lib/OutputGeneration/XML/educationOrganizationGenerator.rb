@@ -40,28 +40,4 @@ class EducationOrganizationGenerator < InterchangeGenerator
     @writers[Program] = EntityWriter.new("program.mustache")
   end
 
-  # creates and writes state education agency to interchange
-  def create_state_education_agency(rand, id)
-    self.<< SeaEducationOrganization.new(id, rand)
-  end
-
-  # creates and writes local education agency to interchange
-  def create_local_education_agency(rand, id, parent_id)
-    self.<< LeaEducationOrganization.new(id, parent_id, rand)
-  end
-
-  # creates and writes school to interchange
-  def create_school(id, parent_id, type)
-    self.<< SchoolEducationOrganization.new(id, parent_id, type)
-  end
-
-  # creates and writes course to interchange
-  def create_course(rand, id, title, ed_org_id)
-    self.<< Course.new(id, title, ed_org_id)
-  end
-
-  # creates and writes program to interchange
-  def create_program(rand, id)
-    self.<< Program.new(id.to_s, prng)
-  end
 end

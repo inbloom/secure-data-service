@@ -91,9 +91,9 @@ Then I should see following map of entry counts in the corresponding collections
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 49|
+     | staff                                    |                 52|
      | staffCohortAssociation                   |                  0|
-     | staffEducationOrganizationAssociation    |                147|
+     | staffEducationOrganizationAssociation    |                156|
      | staffProgramAssociation                  |                  0|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
@@ -108,9 +108,9 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
-     | teacherSchoolAssociation                 |                  0|
+     | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 1959 records." in the resulting batch job file
+    And I should see "Processed 1974 records." in the resulting batch job file
     And I should not see an error log file created
 	  And I should not see a warning log file created
 

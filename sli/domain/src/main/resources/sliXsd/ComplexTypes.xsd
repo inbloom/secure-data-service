@@ -6316,7 +6316,7 @@
 						often the LEA or school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
