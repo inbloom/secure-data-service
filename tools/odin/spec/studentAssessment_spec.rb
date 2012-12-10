@@ -22,16 +22,31 @@ describe "StudentAssessmentGenerator" do
   let(:scenario) {{}}
   let(:output) {StringIO.new('', 'w')}
   let(:generator) {StudentAssessmentGenerator.new(scenario, output)}
+  let(:assessment) {FactoryGirl.build(:assessment)}
+  let(:assessment_item) {FactoryGirl.build(:assessment_item)}
+  let(:student_assessment) {StudentAssessment.new("student42", assessment, Date.new(2012, 12, 21))}
+  let(:student_assessment_item) {StudentAssessmentItem.new(true, student_assessment, assessment_item)}
   describe "<<" do
     it "will output a Student Assessment to edfi" do
-      assessment = StudentAssessment.new("student42", Assessment.new("assessment64", 2012, :KINDERGARTEN), Date.new(2012, 12, 21))
       generator.start
-      generator << assessment
+      generator << student_assessment
       generator.finalize
+      output.string.should match(/<AdministrationDate>2012-12-21<\/AdministrationDate>/)
       output.string.should match(/<StudentUniqueStateId>student42<\/StudentUniqueStateId>/)
-      output.string.should match(/<AssessmentTitle>assessment64<\/AssessmentTitle>/)
-      output.string.should match(/<GradeLevelAssessed>Kindergarten<\/GradeLevelAssessed>/)
+      output.string.should match(/<AssessmentTitle>SAT II - US History<\/AssessmentTitle>/)
+      output.string.should match(/<GradeLevelAssessed>Twelfth grade<\/GradeLevelAssessed>/)
       output.string.should match(/<Result>[0-9]*<\/Result>/)
+    end
+    it "will output a student assessment item to edfi" do
+      generator.start
+      generator << student_assessment_item
+      generator.finalize
+      output.string.should match(/<AssessmentResponse>true<\/AssessmentResponse>/)
+      output.string.should match(/<AssessmentItemResult>Incorrect<\/AssessmentItemResult>/)
+      output.string.should match(/<AdministrationDate>2012-12-21<\/AdministrationDate>/)
+      output.string.should match(/<StudentUniqueStateId>student42<\/StudentUniqueStateId>/)
+      output.string.should match(/<AssessmentTitle>SAT II - US History<\/AssessmentTitle>/)
+      output.string.should match(/<GradeLevelAssessed>Twelfth grade<\/GradeLevelAssessed>/)
     end
   end
 end
