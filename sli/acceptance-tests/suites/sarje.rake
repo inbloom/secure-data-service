@@ -6,7 +6,7 @@ task :sarjeTests do
   TODROP = false
   DB_NAME = "sli"
   # Wait until scheduler populates subscription into activemq, which happens every 5s
-  sleep 8 
+  sleep 12 
   Rake::Task["importUnifiedData"].execute
   runTests("test/features/sarje/queue_binding.feature")
 end
