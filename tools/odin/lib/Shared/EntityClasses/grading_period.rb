@@ -29,9 +29,11 @@ class GradingPeriod < BaseEntity
   def initialize(type, year, interval, ed_org_id, calendar_dates)
   	@type           = type
   	@school_year    = year.to_s + "-" + (year+1).to_s
-  	@interval       = interval
   	@ed_org_id      = ed_org_id
     @calendar_dates = calendar_dates
+    @begin_date = interval.get_begin_date.to_s
+    @end_date = interval.get_end_date.to_s
+    @num_school_days = interval.get_num_school_days
   end
 
   def type
@@ -39,15 +41,15 @@ class GradingPeriod < BaseEntity
   end
 
   def begin_date
-  	@interval.get_begin_date
+  	@begin_date
   end
 
   def end_date
-  	@interval.get_end_date
+  	@end_date
   end
 
   def num_school_days
-  	@interval.get_num_school_days
+    @num_school_days
   end
 
   # this is not strictly needed, yet

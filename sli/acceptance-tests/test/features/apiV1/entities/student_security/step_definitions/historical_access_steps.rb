@@ -88,7 +88,7 @@ When /^I move student58 to a new section$/ do
     "studentId" => "00000000-abcd-0000-0000-000000000058",
     "sectionId" => "00000000-0001-0000-0000-000000000004",
     "beginDate" => "2011-01-01",
-    "endDate" => "2005-12-16"
+    #"endDate" => "2005-12-16"
   }
   createHash = {
     "repeatIdentifier" => "Not repeated",

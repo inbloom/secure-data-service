@@ -192,7 +192,52 @@ Examples:
 | Entity Type                    | Entity Resource URI   | Association Type                       | Update Field             | Updated Value             |
 | "parent"                       | "parents"             | "studentParentAssociation"             | "parentUniqueStateId"    | "ParentID102"             |
 
+    Scenario Outline: Get All Entities as School Teacher
+    
+    Given I am logged in using "cgray" "cgray1234" to realm "IL"
+     And format "application/vnd.slc+json"
+    And my contextual access is defined by table:
+    | Context                | Ids                                                                          |
+    | schools	             | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+    | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+    | staff	                 | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
+    Given entity URI <Entity Resource URI>
+    Given parameter "limit" is "0"
+     When I navigate to GET "/<ENTITY URI>"
+     Then I should receive a return code of 200
+      And I should receive a collection of "<Count>" entities
+      And each entity's "entityType" should be <Entity Type>
+      And uri was rewritten to "<Rewrite URI>"
 
+Examples:
+| Entity Type             | Entity Resource URI       | Count | Rewrite URI|
+| "assessment"            | "assessments"             | 17    |/assessments|                                                                            
+| "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
+| "cohort"                | "cohorts"                 | 1     |/staff/@ids/staffCohortAssociations/cohorts|
+| "course"                | "courses"                 | 27    |/schools/@ids/courses|
+| "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
+| "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
+| "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
+| "gradebookEntry"        | "gradebookEntries"        | 1     |/sections/@ids/gradebookEntries|
+| "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
+| "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
+| "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|
+| "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
+| "school"                | "schools"                 | 2     |/teachers/@ids/teacherSchoolAssociations/schools|                                                                              
+| "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
+| "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
+| "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
+| "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
+| "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
+| "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
+| "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
+| "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|
+| "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
+| "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
+| "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/educationOrganizations/@ids/studentCompetencyObjectives    |
 
 	@DE1825
 	Scenario: Invalid data parsing fails gracefully
