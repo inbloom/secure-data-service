@@ -140,13 +140,14 @@ def lzContainsFile(pattern, landingZone, lz_server_url = nil, lz_username = nil,
   puts "lzContainsFiles(" + pattern + " , " + landingZone + ")"
   puts "pattern = " + pattern
   puts "landingZone = " + landingZone
-  puts "lz_server_url = " + lz_server_url
-  puts "lz_username = " + lz_username
-  puts "lz_password = " + lz_password
-  puts "lz_port_number = " + lz_port_number.to_s
+
   if @local_lz
     !Dir["#{landingZone + pattern}"].empty?
   else
+    puts "lz_server_url = " + lz_server_url
+    puts "lz_username = " + lz_username
+    puts "lz_password = " + lz_password
+    puts "lz_port_number = " + lz_port_number.to_s
     Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
       sftp.dir.glob(landingZone, pattern) do |entry|
         return true
@@ -161,10 +162,7 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
   puts "prefix = " + prefix
   puts "message = " + message
   puts "landingZone = " + landingZone
-  puts "lz_server_url = " + lz_server_url
-  puts "lz_username = " + lz_username
-  puts "lz_password = " + lz_password
-  puts "lz_port_number = " + lz_port_number.to_s
+
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
       next if File.directory?(file);
@@ -175,6 +173,10 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
     end
     return false
   else
+    puts "lz_server_url = " + lz_server_url
+    puts "lz_username = " + lz_username
+    puts "lz_password = " + lz_password
+    puts "lz_port_number = " + lz_port_number.to_s
     Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
       sftp.dir.glob(landingZone, prefix + "*") do |entry|
         next if entry.name == '.' or entry.name == '..'
