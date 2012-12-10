@@ -20,6 +20,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.PathSegment;
 
@@ -35,7 +37,9 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -53,6 +57,10 @@ public class UriMutatorTest {
 
     @Autowired
     UriMutator mutator;
+    
+    @Autowired
+    @Qualifier("validationRepo")
+    Repository<Entity> repo;
 
     private SectionHelper sectionHelper;
     private EdOrgHelper edOrgHelper;
@@ -90,6 +98,26 @@ public class UriMutatorTest {
                 mutator.mutate(Arrays.asList(v1), null, staff));
         Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", Pair.of("/home", ""),
                 mutator.mutate(Arrays.asList(v1), null, teacher));
+    }
+    
+    @Test
+    public void testDeterministicRewrite() {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("staffUniqueStateId", "teacher");
+        Entity teacher = repo.create("teacher", body, "staff");
+        PathSegment v1 = Mockito.mock(PathSegment.class);
+        when(v1.getPath()).thenReturn("/staff");
+        Assert.assertEquals("Endponit should be rewritten to /teachers/id",
+                Pair.of("/teachers/" + teacher.getEntityId(), null),
+                mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=teacher", null));
+        
+        body.put("staffUniqueStateId", "staff");
+        teacher = repo.create("staff", body, "staff");
+        v1 = Mockito.mock(PathSegment.class);
+        when(v1.getPath()).thenReturn("/staff");
+        Assert.assertEquals("Endponit should be rewritten to /staff/id",
+                Pair.of("/staff/" + teacher.getEntityId(), null),
+                mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=staff", null));
     }
 
     @Test
