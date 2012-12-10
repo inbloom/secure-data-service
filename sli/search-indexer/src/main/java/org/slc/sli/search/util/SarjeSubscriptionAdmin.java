@@ -10,6 +10,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.Topic;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.search.config.IndexConfig;
@@ -162,7 +163,6 @@ public class SarjeSubscriptionAdmin {
      * Document representing a subscription
      *
      */
-    @SuppressWarnings("unused")
     @Document
     public static class Subscription {
         @Id
@@ -199,6 +199,14 @@ public class SarjeSubscriptionAdmin {
             }
             return triggers != null && triggers.containsAll(other.triggers) && triggers.size() == other.triggers.size();
         }
+        
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+                    append(eventId).
+                    append(queue).
+                    toHashCode();
+            }
 
     }
 
@@ -220,6 +228,14 @@ public class SarjeSubscriptionAdmin {
         public boolean equals(Object obj) {
             return obj != null && ns.equals(((SubscriptionTrigger) obj).ns);
         }
+        
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(13, 37). // two randomly chosen prime numbers
+                    // if deriving: appendSuper(super.hashCode()).
+                    append(ns).
+                    toHashCode();
+            }
 
     }
 }
