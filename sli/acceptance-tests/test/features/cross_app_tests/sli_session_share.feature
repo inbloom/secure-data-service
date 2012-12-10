@@ -7,7 +7,7 @@ Background:
 Given that dashboard has been authorized for all ed orgs
  And that databrowser has been authorized for all ed orgs
  
-Scenario: Session sharring between Databrowser & Dashboard
+Scenario: Session sharing between Databrowser & Dashboard
 
 	Given I have an open web browser
 	And I have navigated to the databrowser page
@@ -26,7 +26,7 @@ Scenario: Session sharring between Databrowser & Dashboard
 	Then I should forced to reauthenticate to gain access
 	
 @wip
-Scenario: Session sharring between Databrowser & Sample App
+Scenario: Session sharing between Databrowser & Sample App
 
 	Given I have an open web browser
 	And I have navigated to the databrowser page

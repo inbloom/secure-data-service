@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
     xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
     xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
     xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
   <json:reader rootName="json" />
 
+  <core:filterSettings type="SAX" readerPoolSize="5" />
+
   <jb:bean beanId="studentDisciplineIncidentAssociations" class="java.util.ArrayList" createOnElement="#document">
       <jb:wiring beanIdRef="studentDisciplineIncidentAssociation" />
   </jb:bean>
-  
+
   <jb:bean beanId="studentDisciplineIncidentAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'studentDisciplineIncidentAssociation'</jb:expression>
     <jb:wiring property="body" beanIdRef="studentDisciplineIncidentAssociationBody" />
   </jb:bean>
-  
+
   <jb:bean beanId="studentDisciplineIncidentAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="studentId" data="attributes StudentReference" />
     <jb:value property="disciplineIncidentId" data="attributes DisciplineIncidentReference" />
@@ -32,28 +36,28 @@
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors" />
   </jb:bean>
 
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors" 
-    class="java.util.ArrayList" 
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors"
+    class="java.util.ArrayList"
     createOnElement="attributes Behaviors">
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_CodeValue" />
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_ShortDescription" />
-    <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_Description" />    
+    <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_Description" />
   </jb:bean>
-  
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_CodeValue" 
-    class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_CodeValue"
+    class="java.util.HashMap"
     createOnElement="attributes Behaviors element CodeValue">
     <jb:value property="codeValue" data="attributes Behaviors element CodeValue" />
   </jb:bean>
-  
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_ShortDescription" 
-    class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_ShortDescription"
+    class="java.util.HashMap"
     createOnElement="atributes Behaviors element ShortDescription">
     <jb:value property="shortDescription" data="attributes Behaviors element ShortDescription" />
   </jb:bean>
-   
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_Description" 
-    class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_Description"
+    class="java.util.HashMap"
     createOnElement="attributes Behaviors element Description">
     <jb:value property="description" data="attributes Behaviors element Description" />
   </jb:bean>
@@ -66,13 +70,13 @@
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_SecondaryBehaviors" />
   </jb:bean>
 
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_SecondaryBehaviors" 
-    class="java.util.HashMap" 
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_SecondaryBehaviors"
+    class="java.util.HashMap"
     createOnElement="attributes SecondaryBehaviors element">
     <jb:value property="behaviorCategory" data="attributes SecondaryBehaviors element BehaviorCategory" />
     <jb:value property="secondaryBehavior" data="attributes StudentDisciplineIncidentAssociation element SecondaryBehaviors element SecondaryBehavior" />
   </jb:bean>
-  
+
 
 
 </smooks-resource-list>

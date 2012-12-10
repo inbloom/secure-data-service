@@ -40,6 +40,7 @@ class InterchangeGenerator
     @writers = Hash.new
     @header = ""
     @footer = ""
+    @has_entities
     @log.info "initialized interchange generator using file handle: #{@interchange.path}"
   end
 
@@ -48,6 +49,7 @@ class InterchangeGenerator
   end
 
   def <<(entity)
+    @has_entities = true
     @entities << entity
     if @entities.size >= @batch_size
       render_batch
@@ -68,7 +70,16 @@ class InterchangeGenerator
     @interchange << @footer
     @interchange.close()
     elapsed = Time.now - @stime
+    if @has_entities
     @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
+    else
+      @log.info "no entities for #{@interchange.path}"
+      File.delete @interchange
+    end
+  end
+
+  def can_write?(entity)
+    @writers[entity].nil? == false
   end
 
 end

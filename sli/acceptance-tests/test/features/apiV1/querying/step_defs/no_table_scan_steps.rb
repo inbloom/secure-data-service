@@ -45,15 +45,24 @@ end
 
 def resources
 config_path = File.expand_path("../../../../../../../api/src/main/resources/wadl/v1_resources.json", __FILE__)
-  v1_resources = JSON.parse(File.read(config_path))['resources']
-  paths = get_resource_paths v1_resources
-  paths.each do |path|
-    if path.include? "{id}"
-      base_resource = get_base_resource path
-      sub_id = get_id_for_resource base_resource
-      path.gsub!("{id}", sub_id)
+  namespaces = JSON.parse(File.read(config_path))
+
+  full_paths = Array.new
+
+  namespaces.each do |namespace|
+    v1_resources = namespace['resources']
+    paths = get_resource_paths v1_resources
+    paths.each do |path|
+        if path.include? "{id}"
+            base_resource = get_base_resource path
+            sub_id = get_id_for_resource base_resource
+            path.gsub!("{id}", sub_id)
+            full_paths.push(path)
+        end
     end
   end
+
+  full_paths
 end
 
 def get_resource_paths resources, base = ""

@@ -16,120 +16,189 @@ limitations under the License.
 
 =end
 
-require_relative '../lib/EntityCreation/world_builder.rb'
+require_relative '../lib/WorldDefinition/world_builder.rb'
 require_relative '../lib/OutputGeneration/XmlDataWriter.rb'
 require_relative '../lib/Shared/util.rb'
+require_relative '../lib/EntityCreation/work_order_queue.rb'
 
 # specifications for the world builder
 describe "WorldBuilder" do
-  describe "--> with a set of 10 students" do
+  describe "--> with a set of 10 students (3 years)" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
         configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10students", configYAML)
         rand         = Random.new(configYAML['seed'])
-        writer       = XmlDataWriter.new(scenarioYAML)
-        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
-        builder.build
-        writer.finalize
-      end
-
-      # before each test: refresh the file handle for the education organization interchange
-      before (:each) do
-        @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
-        @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
-        @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
+        @queue        = WorkOrderQueue.new
+        @pre_requisites = {:seas => {}, :leas => {}, :elementary => {}, :middle => {}, :high => {}}
+        @builder      = WorldBuilder.new(rand, scenarioYAML, @queue, @pre_requisites)
+        @world = @builder.build
   	  end
 
       it "education organization interchange will contain a single state education agency" do
-        @education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
+        @world["seas"].length.should eq(1)
+        @queue.count(SeaEducationOrganization).should eq(1)
       end
       it "education organization interchange will contain a single local education agency" do
-        @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should eq(1)
+        @world["leas"].length.should eq(1)
+        @queue.count(LeaEducationOrganization).should eq(1)
+      end
+      it "education organization interchange contains 3 schools" do
+        # check individual types of schools below.
+        @queue.count(SchoolEducationOrganization).should eq(3)
       end
       it "education organization interchange will contain a single elementary school" do
-        @education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should eq(1)
+        @world["elementary"].length.should eq(1)
       end
       it "education organization interchange will contain a single middle school" do
-        @education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should eq(1)
+        @world["middle"].length.should eq(1)
       end
       it "education organization interchange will contain a single high school" do
-        @education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should eq(1)
+        @world["high"].length.should eq(1)
       end
       it "education organization interchange will contain the correct number of courses" do
-        @education_organization.readlines.select{|l| l.match("<Course>")}.length.should eq(34)
+        count = 0
+        @world["seas"].each do |sea|
+          # organized by grade
+          sea["courses"].each do |grade|
+            # first element is the grade enum
+            count = count + grade[1].length
+          end
+        end
+        count.should eq(34)
+        @queue.count(Course).should eq(34)
       end
       it "education organization calendar interchange will contain the correct number of sessions" do
-        @education_org_calendar.readlines.select{|l| l.match("<Session>")}.length.should eq(3)
+        # sessions are defined at the LEA
+        count = 0
+        @world["leas"].each do |lea|
+          count = count + lea["sessions"].length
+        end
+        count.should eq(3)
+        @queue.count(Session).should eq(3)
       end
       it "education organization calendar interchange will contain the correct number of grading periods" do
-        @education_org_calendar.readlines.select{|l| l.match("<GradingPeriod>")}.length.should eq(9)
+        # Grading periods are not part of the world, they are created as work orders directly.
+        @queue.count(GradingPeriod).should eq(3)
       end
       it "education organization calendar interchange will contain the correct number of calendar dates" do
-        @education_org_calendar.readlines.select{|l| l.match("<CalendarDate>")}.length.should eq(580)
+        # Calendar dates are not part of the world, they are created as work orders directly.
+        @queue.count(CalendarDate).should eq(580)
       end
       it "master schedule interchange will contain the correct number of course offerings" do
-        @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(102)
+        # Course offerings are not part of the world, they are created as work orders directly.
+        @queue.count(CourseOffering).should eq(102)
+      end
+      it "staff association interchange will contain the correct number of staff members" do
+        @queue.count(Staff).should eq(34)
+      end
+      it "staff association interchange will contain the correct number of staff education organization assignment associations" do
+        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(102)
+      end
+
+      context "assessment metadata interchange" do
+        it "assessment metadata interchange will contain 5 assessments for each grade for each year" do
+          @queue.count(Assessment).should eq(78)
+        end
+        it "will contain for each year an assessment family for each grade, and one global assessment family" do
+          @queue.count(AssessmentFamily).should eq(42)
+        end
+        it "will contain 4 assessment items for each assessment" do
+          @queue.count(AssessmentItem).should eq(312)
+        end
       end
     end
   end
 
-  describe "--> with a set of 10,001 students" do
+  describe "--> with a set of 10,001 students (1 year)" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
         configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10001students", configYAML)
         rand         = Random.new(configYAML['seed'])
-        writer       = XmlDataWriter.new(scenarioYAML)
-        builder      = WorldBuilder.new(rand, scenarioYAML, writer)
-        builder.build
-        writer.finalize
+        @queue        = WorkOrderQueue.new
+        pre_requisites = {:seas => {}, :leas => {}, :elementary => {}, :middle => {}, :high => {}}
+        @builder      = WorldBuilder.new(rand, scenarioYAML, @queue, pre_requisites)
+        @world = @builder.build
       end
-
-      # before each test: refresh the file handle for the education organization interchange
-      before (:each) do
-        @education_organization = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrganization.xml", "r")
-        @education_org_calendar = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeEducationOrgCalendar.xml", "r")
-        @master_schedule        = File.new("#{File.dirname(__FILE__)}/../generated/InterchangeMasterSchedule.xml", "r")
-  	  end
 
       it "education organization interchange will contain a single state education agency" do
-      	@education_organization.readlines.select{|l| l.match("<StateEducationAgency>")}.length.should eq(1)
-	    end
-	    it "education organization interchange will contain multiple local education agencies" do
-	  	  @education_organization.readlines.select{|l| l.match("<LocalEducationAgency>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<School>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many elementary schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Elementary School</SchoolCategory>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many middle schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>Middle School</SchoolCategory>")}.length.should be_> 2
-	    end
-	    it "education organization interchange will contain many high schools" do
-	  	  @education_organization.readlines.select{|l| l.match("<SchoolCategory>High School</SchoolCategory>")}.length.should be_> 2
-	    end
+        @world["seas"].length.should eq(1)
+        @queue.count(SeaEducationOrganization).should eq(1)
+      end
+      it "education organization interchange will contain multiple local education agencies" do
+        @world["leas"].length.should be_> 2
+        @queue.count(LeaEducationOrganization).should be_> 2
+      end
+      it "education organization interchange contains many schools" do
+        # check individual types of schools below.
+        @queue.count(SchoolEducationOrganization).should be_ > 6
+      end
+      it "education organization interchange will contain many elementary schools" do
+        @world["elementary"].length.should be_> 2
+      end
+      it "education organization interchange will contain many middle schools" do
+        @world["middle"].length.should be_> 2
+      end
+      it "education organization interchange will contain many high schools" do
+        @world["high"].length.should be_> 2
+      end
       it "education organization interchange will contain the correct number of courses" do
-        @education_organization.readlines.select{|l| l.match("<Course>")}.length.should eq(34)
+        count = 0
+        @world["seas"].each do |sea|
+          # organized by grade
+          sea["courses"].each do |grade|
+            # first element is the grade enum
+            count = count + grade[1].length
+          end
+        end
+        count.should eq(34)
+        @queue.count(Course).should eq(34)
       end
       it "education organization calendar interchange will contain the correct number of sessions" do
-        @education_org_calendar.readlines.select{|l| l.match("<Session>")}.length.should eq(4)
+        # sessions are defined at the LEA
+        count = 0
+        @world["leas"].each do |lea|
+          count = count + lea["sessions"].length
+        end
+        count.should eq(4)
+        @queue.count(Session).should eq(4)
       end
       it "education organization calendar interchange will contain the correct number of grading periods" do
-        @education_org_calendar.readlines.select{|l| l.match("<GradingPeriod>")}.length.should eq(12)
+        # Grading periods are not part of the world, they are created as work orders directly.
+        @queue.count(GradingPeriod).should eq(4)
       end
       it "education organization calendar interchange will contain the correct number of calendar dates" do
-        @education_org_calendar.readlines.select{|l| l.match("<CalendarDate>")}.length.should eq(775)
+        # Calendar dates are not part of the world, they are created as work orders directly.
+        @queue.count(CalendarDate).should eq(775)
       end
       it "master schedule interchange will contain the correct number of course offerings" do
-        @master_schedule.readlines.select{|l| l.match("<CourseOffering>")}.length.should eq(166)
+        # Course offerings are not part of the world, they are created as work orders directly.
+        @queue.count(CourseOffering).should eq(166)
+      end
+      it "staff association interchange will contain the correct number of staff members" do
+        @queue.count(Staff).should eq(169)
+      end
+      it "staff association interchange will contain the correct number of staff education organization assignment associations" do
+        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(169)
+      end
+      context "assessment metadata interchange" do
+        it "assessment metadata interchange will contain 5 assessments for each grade for each year" do
+          @queue.count(Assessment).should eq(26)
+        end
+
+        it "will contain an assessment family for each grade, and one global assessment family" do
+          @queue.count(AssessmentFamily).should eq(14)
+        end
+        it "will contain 4 assessment items for each assessment" do
+          @queue.count(AssessmentItem).should eq(104)
+        end
       end
     end
   end
+
   describe "#choose_feeders" do
     context "with 8 elementary schools, 4 middle schools, and 2 high schools" do
       let(:elementary) {(1..8).map{|i| {'id' => i}}}
@@ -145,7 +214,6 @@ describe "WorldBuilder" do
         }
       end
       it "will give elementary schools a feeder middle school and high school" do
-        puts elementary
         elementary.each{|i|
           i['feeds_to'].should  have(2).items
           i['feeds_to'][0].should satisfy {|i| 9 <= i and i <= 12}
@@ -154,6 +222,7 @@ describe "WorldBuilder" do
       end
     end
   end
+
   describe "#get_students_per_grade" do
     let(:grades) {[:KINDERGARTEN, :FIRST_GRADE, :SECOND_GRADE, :THIRDGRADE]}
     it "will evenly distribute students into grades" do

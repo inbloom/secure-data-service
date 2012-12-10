@@ -71,4 +71,8 @@ class Demographics
   def schoolFood
     @choices['schoolFood']
   end
+
+  def highly_qualified_teacher
+    @choices['highly_qualified_teacher']
+  end
 end

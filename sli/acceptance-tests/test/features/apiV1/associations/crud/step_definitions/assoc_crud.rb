@@ -190,7 +190,7 @@ $entityData = {
     "teacherSchoolAssociation" => {
         "teacherId" => "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
         "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
-        "programAssignment" => "Regular Education"
+        "programAssignment" => "Special Education"
     },
     "teacherSectionAssociation" => {
         "teacherId" => "edce823c-ee28-4840-ae3d-74d9e9976dc5",

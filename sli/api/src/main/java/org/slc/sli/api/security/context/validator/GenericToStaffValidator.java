@@ -34,8 +34,7 @@ public class GenericToStaffValidator extends AbstractContextValidator {
     //Validates both teacher to staff and staff to staff
     public boolean canValidate(String entityType, boolean isTransitive) {
         
-        //For now we'll disable for teachers, but logic should be the same for both staff and teacher
-        return !isTransitive && EntityNames.STAFF.equals(entityType) && isStaff();
+        return !isTransitive && EntityNames.STAFF.equals(entityType);
     }
     
     @Override

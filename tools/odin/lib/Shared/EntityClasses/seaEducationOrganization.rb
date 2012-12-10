@@ -21,13 +21,16 @@ require_relative "baseEntity.rb"
 
 # creates state education agency
 class SeaEducationOrganization < BaseEntity
+  
+  attr_accessor :state_org_id
 
   def initialize(id, rand)
-    @id = id
+    if id.kind_of? String
+      @state_org_id = id
+    else
+      @state_org_id = DataUtility.get_state_education_agency_id(id)
+    end
     @rand = rand
   end
 
-  def stateOrgId
-    DataUtility.get_state_education_agency_id(@id)
-  end
 end

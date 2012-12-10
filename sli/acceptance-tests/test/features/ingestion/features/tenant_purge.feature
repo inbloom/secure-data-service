@@ -23,6 +23,17 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentDefault.xml records considered: 72" in the resulting batch job file
   And I should see "InterchangeStudentDefault.xml records failed: 0" in the resulting batch job file
 
+# The scenario below was determined never to have worked to test the
+# purge of recordHash collection, and in fact was found on 6Dec2012 to
+# falsely report success in the presence of a bug that caused the
+# recordHash collection to fail to be purged.  See DE2305.
+# Simultaneously, attempts to remediate the test to catch the bug have
+# been complicated by apparent environment specific issues.  We feel
+# it preferable to at least remove the code known to be problematic,
+# which was done with commit d31152af9db6290c08820ec2c3848114b0a28b5f
+# and leave in place the current progress toward making a working
+# test.  This @wip is tracked as tech debt DE2309.
+@wip
  Scenario: Post a zip file containing student from a different tenant
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "TenantNoPurge.zip" file as the payload of the ingestion job
@@ -42,8 +53,7 @@ And I should not see an error log file created
  And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
- Scenario: Post a zip file containing purge configuration
- Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And I have checked the counts of the following collections:
      |collectionName|
      | application  |

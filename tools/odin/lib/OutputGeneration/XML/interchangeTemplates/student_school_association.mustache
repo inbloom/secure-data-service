@@ -1,6 +1,10 @@
 {{#entity}}
 <StudentSchoolAssociation>
-   {{> Partials/_student_reference}}
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>{{studentId}}</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>{{schoolStateOrgId}}</StateOrganizationId>
