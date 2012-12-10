@@ -25,7 +25,7 @@ import org.slc.sli.domain.Entity;
  * @author sashton
  * 
  */
-public interface MigrationStrategy {
+public interface TransformStrategy {
 
     /**
      * Transforms a single entity
