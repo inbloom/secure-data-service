@@ -51,7 +51,7 @@ public class WriteValidator {
     public void validateWriteRequest(EntityBody entityBody, UriInfo uriInfo, SLIPrincipal principal) {
 
         if (!isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
-            throw new AccessDeniedException("Trying to write an entity outside of your education organization hierarchy");
+            throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
         }
 
     }
