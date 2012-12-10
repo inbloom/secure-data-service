@@ -31,6 +31,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a transitive teacher to see the requested set of staff entities.
@@ -38,7 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author mabernathy
  */
-//@Component - Disable teacher validators for now
+@Component
 public class TransitiveTeacherToStaffValidator extends AbstractContextValidator {
 
     @Autowired
