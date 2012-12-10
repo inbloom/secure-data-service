@@ -4,6 +4,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
@@ -60,7 +61,9 @@ public class WriteValidator {
         boolean isValid = true;
 
         int RESOURCE_SEGMENT_INDEX = 1;
-        if (uriInfo.getPathSegments().size() > RESOURCE_SEGMENT_INDEX) {
+        int VERSION_INDEX = 0;
+        if (uriInfo.getPathSegments().size() > RESOURCE_SEGMENT_INDEX
+                && uriInfo.getPathSegments().get(VERSION_INDEX).equals(PathConstants.V1)) {
 
             String resourceName = uriInfo.getPathSegments().get(RESOURCE_SEGMENT_INDEX).getPath();
             EntityDefinition def = store.lookupByResourceName(resourceName);
@@ -83,7 +86,7 @@ public class WriteValidator {
     }
 
 
-    private boolean isEntityValidForEdOrgWrite(Map<String,Object> entityBody, String entityType, SLIPrincipal principal) {
+    private boolean isEntityValidForEdOrgWrite(Map<String, Object> entityBody, String entityType, SLIPrincipal principal) {
         boolean isValid = true;
         if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType) != null) {
             String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType));
