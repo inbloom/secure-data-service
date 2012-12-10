@@ -76,11 +76,11 @@ public final class IndexFileParser {
                     br = new BufferedReader(new InputStreamReader(fstream));
                     String collectionName = null;
                     String keyJsonString;
-                    boolean unique = false;
+
                     String currentFileLine;
 
                     while ((currentFileLine = br.readLine()) != null) {
-
+                        boolean unique = false;
                         Matcher indexMatcher = ensureIndexStatement(currentFileLine);
 
                         if (indexMatcher != null) {
