@@ -40,11 +40,13 @@ class DataUtility
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------
   # create state education agency's state organization id
   def self.get_state_education_agency_id(id)
+    return id if id.kind_of? String
     "stte-" + pad_id_with_zeroes(id, 10)
   end
 
   # create local education agency's state organization id
   def self.get_local_education_agency_id(id)
+    return id if id.kind_of? String
     "locl-" + pad_id_with_zeroes(id, 10)
   end
 
