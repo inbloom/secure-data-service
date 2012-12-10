@@ -52,6 +52,9 @@ public class SliSchemaVersionValidator {
     public static final String ID = "_id";
     public static final String MONGO_SV = "mongo_sv";
     public static final String METADATA_COLLECTION = "metaData";
+    
+    private static final String VERSION_NUMBER_FIELD = "version";
+    private static final int NOT_VERSIONED_YET = 0;
 
     @Autowired
     protected SchemaRepository entitySchemaRepository;
@@ -60,13 +63,13 @@ public class SliSchemaVersionValidator {
     @Qualifier("mongoTemplate")
     protected MongoTemplate mongoTemplate;
     
-    private List<String> entitiesBeingUpversioned;
+    private Map<String, Integer> entitiesBeingUpversioned;
 
 
     @PostConstruct
     public void validate() {
 
-        this.entitiesBeingUpversioned = new ArrayList<String>();
+        this.entitiesBeingUpversioned = new HashMap<String, Integer>();
         
         for (NeutralSchema neutralSchema : entitySchemaRepository.getSchemas()) {
             AppInfo appInfo = neutralSchema.getAppInfo();
@@ -99,8 +102,8 @@ public class SliSchemaVersionValidator {
                             Update update = new Update().set(DAL_SV, schemaVersion).set(SARJE, 1);
                             mongoTemplate.updateFirst(query, update, METADATA_COLLECTION);
                             
-                            // remember that the entity is being upversioned
-                            entitiesBeingUpversioned.add(neutralSchema.getType());
+                            // remember that the entity's schema is being upversioned
+                            entitiesBeingUpversioned.put(neutralSchema.getType(), schemaVersion);
                         }
                     }
                 }
@@ -108,21 +111,27 @@ public class SliSchemaVersionValidator {
         }
     }
     
-    private boolean requiresMigration(String entityType) {
-        if (this.entitiesBeingUpversioned.contains(entityType)) {
-            return true;
+    private int getEntityVersionNumber(Entity entity) {
+        Map<String, Object> entityMetaData = entity.getMetaData();
+        
+        if (entityMetaData.containsKey(VERSION_NUMBER_FIELD)) {
+            return (Integer) entityMetaData.get(VERSION_NUMBER_FIELD);
         }
         
-        
-        
-        return false;
+        return NOT_VERSIONED_YET;
     }
-
-
+    
     public Entity migrate(Entity entity) {
         
-        if (this.requiresMigration(entity.getType())) {
+        String entityType = entity.getType();
+        
+        if (this.entitiesBeingUpversioned.containsKey(entityType)) {
+            int entityVersionNumber = this.getEntityVersionNumber(entity);
+            int newVersionNumber = this.entitiesBeingUpversioned.get(entityType);
             
+            if (entityVersionNumber < newVersionNumber) {
+                // perform on-demand upversioning
+            }
         }
         
         return entity;
