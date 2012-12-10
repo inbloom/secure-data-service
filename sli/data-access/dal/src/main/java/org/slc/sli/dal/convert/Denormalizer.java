@@ -16,17 +16,6 @@
 
 package org.slc.sli.dal.convert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,6 +25,18 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 
 
 /**
@@ -339,7 +340,7 @@ public class Denormalizer {
             }
 
             Update update = new Update();
-            update.pushAll(denormalizedToField, docs.toArray());
+            update.set("type", denormalizeToEntity).pushAll(denormalizedToField, docs.toArray());
 
             return update.getUpdateObject();
         }

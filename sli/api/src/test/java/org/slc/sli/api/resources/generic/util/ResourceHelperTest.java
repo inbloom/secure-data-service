@@ -112,4 +112,13 @@ public class ResourceHelperTest {
         assertEquals("studentSectionAssociations", resource.getResourceType());
         assertEquals("v1", resource.getNamespace());
     }
+    
+    @Test
+    public void testUnversioned() throws URISyntaxException {
+        Resource resource;
+        when(mockUriInfo.getRequestUri()).thenReturn(new URI("/rest/sections"));
+        resource = resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.UNVERSIONED_ONE_PART);
+        assertEquals("sections", resource.getResourceType());
+        assertEquals(null, resource.getNamespace());
+    }
 }

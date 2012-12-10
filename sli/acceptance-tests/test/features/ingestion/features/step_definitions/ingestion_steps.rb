@@ -38,6 +38,7 @@ CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
+INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
 LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
 LZ_SFTP_PORT = PropLoader.getProps['lz_sftp_port']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
@@ -64,14 +65,14 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 Before do
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB)
-  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
+  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
   @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
   ensureBatchJobIndexes(@batchConn)
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
-  if (INGESTION_RC_TENANT == "" && INGESTION_RC_EDORG == "")
+  if (((INGESTION_RC_TENANT == "") || (INGESTION_RC_TENANT == nil)) && ((INGESTION_RC_EDORG == "") || (INGESTION_RC_EDORG == nil)))
     @ingestion_lz_key_override = nil
   else
     @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
@@ -84,7 +85,7 @@ Before do
         puts "removing record"
         @tenantColl.remove(row)
       else
-        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule'
+        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule' and row['body']['tenantId'] != PropLoader.getProps['tenant'] and row['body']['tenantId'] != PropLoader.getProps['sandbox_tenant']
           puts "removing record"
           @tenantColl.remove(row)
         end
@@ -1075,6 +1076,9 @@ end
 # STEPS: WHEN
 ############################################################
 
+When /^the landing zone is reinitialized$/ do
+  initializeLandingZone(@landing_zone_path)
+end
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
@@ -1125,6 +1129,7 @@ When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |l
 end
 
 When /^a batch job log has been created$/ do
+  if !@hasNoLandingZone
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
@@ -1160,7 +1165,7 @@ When /^a batch job log has been created$/ do
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   end
-
+  end
 end
 
 When /^a batch job log has not been created$/ do
@@ -1919,6 +1924,15 @@ Then /^verify the following data in that document:$/ do |table|
   enable_NOTABLESCAN()
 end
 
+Then /^I verify all super doc "(.*?)" entities have correct type field$/ do |entityType|
+disable_NOTABLESCAN()
+super_coll=@db[entityType]
+total_count = super_coll.count
+count = super_coll.find({"type" => entityType}).count
+assert(total_count == count, "not all super doc #{entityType} have correct type field")
+enable_NOTABLESCAN()
+end
+
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
   disable_NOTABLESCAN()
   @entity.each do |ent|
@@ -1965,7 +1979,7 @@ def checkForContentInFileGivenPrefix(message, prefix)
       #puts "FILE CONTENTS = " + file_contents
 
       if (file_contents.rindex(message) == nil)
-        assert(false, "File doesn't contain correct processing message")
+        assert(false, "File doesn't contain correct processing message, contents were:\n#{file_contents}")
       end
       aFile.close
     else
@@ -2145,6 +2159,7 @@ Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ 
 end
 
 Then /^I should not see an error log file created$/ do
+  if !@hasNoLandingZone
   if (INGESTION_MODE == 'remote')
     if remoteLzContainsFile("error.*", @landing_zone_path)
       assert(false, "Error files created.")
@@ -2167,9 +2182,11 @@ Then /^I should not see an error log file created$/ do
     puts "STATUS FILENAME = " + @landing_zone_path + @error_status_filename
     assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
   end
+  end
 end
 
 And /^I should not see a warning log file created$/ do
+  if !@hasNoLandingZone
   if (INGESTION_MODE == 'remote')
     if remoteLzContainsFile("warn.*", @landing_zone_path)
       assert(false, "Warn files created.")
@@ -2191,6 +2208,7 @@ And /^I should not see a warning log file created$/ do
 
     puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
     assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
+  end
   end
 end
 

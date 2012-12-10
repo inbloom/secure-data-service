@@ -229,13 +229,14 @@ public class EdOrgHelper {
     }
 
     private Entity getTopLEAOfEdOrg(Entity entity) {
-        Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
+        if (entity.getBody().containsKey("parentEducationAgencyReference")) {
+            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
                 (String) entity.getBody().get("parentEducationAgencyReference"));
-        if (isLEA(parentEdorg)) {
-            return getTopLEAOfEdOrg(parentEdorg);
-        } else { // sea
-            return entity;
+            if (isLEA(parentEdorg)) {
+                return getTopLEAOfEdOrg(parentEdorg);
+            }
         }
+        return entity;
     }
 
     private String getSEAOfEdOrg(Entity entity) {

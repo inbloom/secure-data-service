@@ -420,7 +420,7 @@ Then I should receive a return code of 403
 And I should not be able to access data about the student <Student I cannot see>
 Examples:
 | User        | Count | Student I can see | Student I cannot see |
-| "teacher10" | 1     | "student57"       | "student58"          |
+| "teacher10" | 2     | "student57"       | "student59"          |
 | "teacher11" | 1     | "student58"       | "student59"          |
 | "teacher12" | 1     | "student58"       | "student57"          |
 | "staff20"   | 6     | "student60"       | "student61"          |
@@ -439,7 +439,7 @@ Then I should receive a return code of 403
 And I should not be able to access data about the section <Section I cannot see>
 Examples:
 | User        | Count | Section I can see | Section I cannot see | Notes |
-| "teacher10" | 1     | "section4"        | "section5"           | none |
+| "teacher10" | 1     | "section4"        | "section6"           | none |
 | "teacher11" |  1     | "section5"        | "section6"           | Sec 5 now has student that used to be in Sec4 |
 | "teacher12" | 2     | "section5"        | "section6"           | Sec 5 now has student that used to be in Sec4 |
 #| "staff20"   | 7     | "student61"       | "student62"          |

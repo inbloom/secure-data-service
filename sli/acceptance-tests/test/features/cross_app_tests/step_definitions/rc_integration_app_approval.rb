@@ -39,10 +39,11 @@ When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end
 
+
 Then /^my new apps client ID is present$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
-  puts client_id
+  puts "client_id: " + client_id
   assert(client_id != '', "Expected non empty client Id, got #{client_id}")
   assert(client_id != 'Pending', "Expected non 'Pending' client Id, got #{client_id}")
   $client_id = client_id
@@ -51,7 +52,7 @@ end
 Then /^my new apps shared secret is present$/ do
   #@driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_secret = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[2]').text
-  puts client_secret
+  puts "client_secret: " + client_secret
   assert(client_secret != '', "Expected non empty shared secret, got #{client_secret}")
   assert(client_secret != 'Pending', "Expected non 'Pending' shared secret, got #{client_secret}")
   $client_secret = client_secret

@@ -36,9 +36,4 @@ class StudentParentGenerator < InterchangeGenerator
     @writers[ StudentParentAssociation ] = EntityWriter.new("student_parent_association.mustache")
   end
 
-  # creates and writes student to interchange
-  def create_student(id, birthday_after)
-    self << Student.new(id, birthday_after)
-  end
-
 end
