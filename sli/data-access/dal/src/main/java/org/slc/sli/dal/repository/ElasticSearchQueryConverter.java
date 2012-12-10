@@ -101,6 +101,7 @@ public class ElasticSearchQueryConverter {
                     return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
                 }
                 String value = (String)criteria.getValue();
+                // terms will work for not-analyzed fields and matchPhrase is for analyzed
                 BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
                 shouldQuery.should(terms.getQuery(criteria));
                 shouldQuery.should(QueryBuilders.matchPhraseQuery(criteria.getKey(), value));
@@ -149,8 +150,13 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                //using regex is case-sensitive
-                return QueryBuilders.wildcardQuery(criteria.getKey(), "*" + ((String)criteria.getValue()).trim() + "*");
+            	String value = "*" + ((String)criteria.getValue()).trim() + "*";
+                BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
+                // wildcard will work for not-analyzed fields and queryString is for analyzed
+                shouldQuery.should(QueryBuilders.wildcardQuery(criteria.getKey(), value));
+                shouldQuery.should(QueryBuilders.queryString(value).field(criteria.getKey()));
+                shouldQuery.minimumNumberShouldMatch(1);
+                return shouldQuery;
             }
         });
 

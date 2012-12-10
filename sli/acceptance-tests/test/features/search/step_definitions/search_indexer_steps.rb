@@ -20,27 +20,21 @@ require_relative '../../utils/common_stepdefs.rb'
 require_relative '../../apiV1/utils/api_utils.rb'
 require 'socket'
 
+############################### Before Scenario Do ################################
+
+Before('@clearIndexer') do |scenario|
+  # Import tenant just in case it's empty in later extracts
+  step 'I import into tenant collection'
+end
+
 ###############################  After Scenario Do ###############################
 # Clear Elastic Search Indexer
 # Clear student and section collection from mongo
 After('@clearIndexer') do |scenario|
   # we might not need to clear indexer, as extract command will clear it
   step 'I DELETE to clear the Indexer'
-  
-  # Clear Mongo
-  # TODO:  This is obsolete
-  conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'])
-  db   = conn[PropLoader.getProps['ingestion_database_name']]
-  result = true
-  collections = ["student","section"]
-  collections.each do |collection|
-    entity_collection = db[collection]
-    entity_collection.remove("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]})
-    if entity_collection.find("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]}).count != 0
-      result = false
-    end
-  end
-  assert(result, "Some collections were not cleared successfully.")
+  #undo the import in Before scenario
+  step 'I clear the tenants that I previously imported'
 end
 ###################################################################################
 
@@ -53,6 +47,8 @@ Given /^I send a command to start the extractor to extract now$/ do
 end
 
 Given /^I DELETE to clear the Indexer$/ do
+  # we don't need a token for search calls
+  @sessionId = ""
   @format = "application/json;charset=utf-8"
   url = PropLoader.getProps['elastic_search_address'] 
   restHttpDeleteAbs(url)
@@ -107,19 +103,19 @@ Given /^I import some student data$/ do
 end
 
 Given /^I drop Invalid Files to Inbox Directory$/ do
-  @srcFileName = "InvalidStudentSearch.json"
+  @srcFileName = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a_student_1.json"
   src = "test/features/search/test_data/" + @srcFileName
   fileCopy(src)
 end
 
 Given /^I drop Valid Files to Inbox Directory$/ do
-  @srcFileName = "ValidStudentSearch1.json"
+  @srcFileName = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a_student_2.json"
   src = "test/features/search/test_data/" + @srcFileName
   fileCopy(src)
 end
 
 Then /^I drop another Valid File to the Inbox Directory$/ do
-  @srcFileName = "ValidStudentSearch2.json"
+  @srcFileName = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a_student_3.json"
   src = "test/features/search/test_data/" + @srcFileName
   fileCopy(src)
 end
@@ -160,9 +156,8 @@ Given /^I check that Elastic Search is non\-empty$/ do
   verifyElasticSearchCount()
 end
 
-Given /^I search in Elastic Search for "(.*?)"$/ do |query|
-  #TODO should we remove the tenant id?
-  url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/_search?q=" + query
+Given /^I search in Elastic Search for "(.*?)" in tenant "(.*?)"$/ do |query, tenant|
+  url = PropLoader.getProps['elastic_search_address'] + "/" + convertTenantIdToDbName(tenant) + "/_search?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
@@ -174,9 +169,10 @@ Given /^"(.*?)" hit is returned$/ do |expectedHits|
 end
 
 Given /^I search in API for "(.*?)"$/ do |query|
-  url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/students?q=" + query
+  url = PropLoader.getProps["api_server_url"] + "/api/rest/v1/search/students?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")  
+  @result = JSON.parse(@res.body)
 end
 
 Given /^I see the following fields:$/ do |table|
@@ -216,6 +212,53 @@ Given /^I clear the tenants that I previously imported$/ do
     db['tenant'].remove("_id" => id)
   end
 end
+
+############ sorting-step utils for pagination ##########
+Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
+  value = convert(value)
+  header.downcase!
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  resultValue = headers[header]
+  resultValue.should be_a Array
+  resultValue.length.should == 1
+  singleValue = convert(resultValue[0])
+  singleValue.should == value
+end
+
+Then /^the a next link exists with offset equal to (\d+) and limit equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=next/.match link
+      assert(Regexp.new("offset=" + start).match(link), "offset is not correct: #{link}")
+      assert(Regexp.new("limit=" + max).match(link), "limit is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+Then /^the a previous link exists with offset equal to (\d+) and limit equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=prev/.match link
+      assert(Regexp.new("offset=" + start).match(link), "offset is not correct: #{link}")
+      assert(Regexp.new("limit=" + max).match(link), "limit is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+
+
+###### End of sorting-step utils for pagination ##########
 
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
@@ -265,6 +308,8 @@ def verifyElementsOnResponse(arrayOfElements, table)
 end
 
 def verifyElasticSearchCount(numEntities = -1)
+  # set sessionId to be non-nil
+  @sessionId = ""
   max = 10
   done = false
   numTries = 0

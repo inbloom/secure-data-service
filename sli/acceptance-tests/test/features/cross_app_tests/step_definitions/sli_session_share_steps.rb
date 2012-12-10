@@ -28,6 +28,15 @@ end
 Given /^I was redirected to the realmchooser page$/ do
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
+    
+Given /^I see the realm selector I authenticate to "([^"]*)"$/ do |arg1|
+if (@driver.title.index("Choose your realm") != nil)
+  step "I selected the realm \"#{arg1}\""
+else
+  puts "Realm Selector page was skipped."
+end
+
+end
 
 Given /^I selected the realm "([^"]*)"$/ do |arg1|
   sleep 1
@@ -81,7 +90,7 @@ end
 
 Then /^I should forced to reauthenticate to gain access$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
-  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
+  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}  
 end
 
 When /^I navigate to the dashboard home page$/ do

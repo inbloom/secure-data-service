@@ -27,8 +27,10 @@ def check_email(config = {})
   retry_attempts = config[:retry_attempts] || 30
   retry_wait_time = config[:retry_wait_time] || 1
 
+  content_substring.gsub!(/\s/, '') unless content_substring.nil? # remove spaces because the imap client add unnecessary spaces
+  subject_substring.gsub!(/\s/, '') unless subject_substring.nil? # remove spaces because the imap client add unnecessary spaces
+
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-  puts "username = #{imap_username}, password = #{imap_password}"
   imap.login(imap_username, imap_password)
   imap.examine('INBOX')
   past = Date.today.prev_day.prev_day
@@ -38,25 +40,31 @@ def check_email(config = {})
   yield
 
   sleep initial_wait_time
-  retry_attempts.times do
-    sleep retry_wait_time
-    imap.examine('INBOX')
+  begin
+    retry_attempts.times do
+      sleep retry_wait_time
+      imap.examine('INBOX')
 
-    messages_after = imap.search(['SINCE', past_date])
-    messages_new = messages_after - messages_before
-    messages_before = messages_after
-    unless(messages_new.empty?)
-      messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
-      messages.each do |message|
-        content = message.attr["BODY[TEXT]"]
-        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
-            (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
-          return content
+      messages_after = imap.search(['SINCE', past_date])
+      messages_new = messages_after - messages_before
+      messages_before = messages_after
+      unless(messages_new.empty?)
+        messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
+        messages.each do |message|
+          content = message.attr["BODY[TEXT]"]
+          subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+          if((content_substring.nil? || (!content.nil? && content.gsub(/\s/, '').include?(content_substring))) &&
+              (subject_substring.nil? || (!subject.nil? && subject.gsub(/\s/, '').include?(subject_substring))))
+            return content
+          else
+            puts "incorrect email content = #{content}"
+            puts "incorrect email subject = #{subject}"
+          end
         end
       end
     end
+  ensure
+    imap.disconnect
   end
-  imap.disconnect
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end

@@ -146,7 +146,6 @@ Scenario Outline: Query subdoc
     | cgrayadmin | cgrayadmin1234 | /v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6/childLearningObjectives  | learningObjective | dd9165f2-65fe-6d27-a8ec-bdc5f47757b7 |
     | cgrayadmin | cgrayadmin1234 | /v1/learningObjectives/dd9165f2-65fe-6d27-a8ec-bdc5f47757b7/parentLearningObjectives | learningObjective | dd9165f2-65be-6d27-a8ac-bdc5f46757b6 |
 
-      
 Scenario Outline: Confirm that API blocks regex against PII data:
   Given I am logged in using <username> <password> to realm "IL"
   And format "application/json;charset=utf-8"
@@ -220,26 +219,27 @@ When I navigate to GET "/v1/assessments?minRawScore%3C20"
 When I navigate to GET "/v1/learningObjectives"
  Then I should receive a return code of 200
   Then I should receive a collection with 5 elements
- #When I navigate to GET "/v1/learningObjectives?academicSubject=Mathematics"
- #Then I should receive a return code of 200
- #Then I should receive a collection with 3 elements
- #Then each entity's "academicSubject" should be "Mathematics" 
- #When I navigate to GET "/v1/learningStandards?subjectArea=Mathematics"
- #Then I should receive a return code of 200
- #Then I should receive a collection with 11 elements
- #Then each entity's "subjectArea" should be "Mathematics" 
+When I navigate to GET "/v1/learningObjectives?academicSubject=Mathematics"
+Then I should receive a return code of 200
+Then I should receive a collection with 3 elements
+Then each entity's "academicSubject" should be "Mathematics" 
+When I navigate to GET "/v1/learningStandards?subjectArea=Mathematics"
+Then I should receive a return code of 200
+Then I should receive a collection with 11 elements
+Then each entity's "subjectArea" should be "Mathematics" 
  When I navigate to GET "/v1/studentCompetencyObjectives?objectiveGradeLevel=Kindergarten"
  Then I should receive a return code of 200
  Then I should receive a collection with 1 elements
  Then each entity's "objectiveGradeLevel" should be "Kindergarten" 
- # When I navigate to GET "/v1/competencyLevelDescriptor?codeValue!=A"
-# Then I should receive a return code of 200
-# Then I should receive a collection with 1 elements
-# Then each entity's "codeValue" should be "B" 
-# When I navigate to GET "/v1/competencyLevelDescriptor?codeValue=A"
-# Then I should receive a return code of 200
-# Then I should receive a collection with 1 elements
-# Then each entity's "codeValue" should be "A" 
+ # DE2311 Teacher to compentencyLevelDescriptor resolver/validator is missing  
+ #When I navigate to GET "/v1/competencyLevelDescriptor?codeValue!=A"
+ #Then I should receive a return code of 200
+ #Then I should receive a collection with 1 elements
+ #Then each entity's "codeValue" should be "B" 
+ #When I navigate to GET "/v1/competencyLevelDescriptor?codeValue=A"
+ #Then I should receive a return code of 200
+ #Then I should receive a collection with 1 elements
+ #Then each entity's "codeValue" should be "A" 
 When I navigate to GET "/v1/search/students?q=Mat"
 Then I should receive a collection with 1 elements
 Then each entity's "id" should be "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
@@ -248,6 +248,7 @@ Then I should receive a collection with 25 elements
     Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |
+      | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |
       
 Scenario Outline: Include fields for endpoints to Elastic Search
@@ -290,6 +291,7 @@ And format "application/json"
  Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |
+      | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |
       
  Scenario Outline:  Exclude Fields for endpoints to Elastic Search
@@ -335,4 +337,5 @@ And format "application/json"
  Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |
+      | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |

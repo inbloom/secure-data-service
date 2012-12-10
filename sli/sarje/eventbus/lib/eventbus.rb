@@ -37,7 +37,7 @@ module Eventbus
 
     # return the AMQ queue string for pubsub of events
     def events_address(event_type)
-      "/queue/#{event_type}_events"
+      "/queue/#{event_type}"
     end
 
     # fields in all event messages

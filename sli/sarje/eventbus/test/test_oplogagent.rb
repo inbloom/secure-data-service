@@ -81,11 +81,11 @@ class TestOpLogAgent < Test::Unit::TestCase
     }
 
     throttler = Eventbus::OpLogThrottler.new(config)
-    oplog1 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
-    oplog2 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"darth.vader", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
-    oplog3 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"philip.j.fry", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
-    oplog4 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"waluigi", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
-    oplog5 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"optimus.prime", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog1 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog2 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"darth.vader", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog3 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"philip.j.fry", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog4 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"waluigi", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog5 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"optimus.prime", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
     oplogs = [oplog1, oplog2, oplog3, oplog4, oplog5]
 
     subscription_event1 = {
@@ -205,10 +205,10 @@ class TestOpLogAgent < Test::Unit::TestCase
     }
 
     throttler = Eventbus::OpLogThrottler.new(config)
-    oplog1 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
-    oplog2 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.worm", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
-    oplog3 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"animal.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
-    oplog4 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"animal.otter", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog1 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog2 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.worm", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog3 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"animal.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog4 = {"ts"=>BSON::Timestamp.new(1344000397,0), increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"animal.otter", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
     oplogs = [oplog1, oplog2, oplog3, oplog4]
 
     subscription_event1 = {

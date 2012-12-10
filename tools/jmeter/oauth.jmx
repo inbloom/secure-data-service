@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="2.3">
+<jmeterTestPlan version="1.2" properties="2.3" jmeter="2.8 r1393162">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
@@ -266,7 +266,7 @@ vars.put(&quot;authCode&quot;, resp.authorization_code);</stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
-vars.put(&quot;accessToken&quot;, resp.access_token);
+props.put(&quot;accessToken&quot;, resp.access_token);
 log.info(&quot;Access token is &quot; + resp.access_token);</stringProp>
             </BSFPostProcessor>
             <hashTree/>

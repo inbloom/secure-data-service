@@ -19,6 +19,15 @@ Given I search in API for "Jeremy"
 #TO_DO: Update return code to 404 when the development is completed.
 Then I should receive a return code of 200
 And no search results are returned
+Given I search in API for "rudolp"
+Then I should receive a return code of 200
+Then I should receive a collection with 2 elements
+And I see the following search results at index 0:
+ |Field              |Value                                           |
+ |name.firstName     |Rudolph                                         |
+ And I see the following search results at index 1:
+ |Field              |Value                                           |
+ |name.firstName     |Rudolph                                         |
 
 @RALLY_US4156
 Scenario:  State IT admin can search for students from all Ed Orgs within the state
@@ -26,6 +35,7 @@ Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 # Search by First Name
 Given I search in API for "mi-ha"
 Then I should receive a return code of 200
+ Then I should receive a collection with 4 elements
 And I see the following search results at index 0:
  |Field              |Value                                           |
  |id                 |92a33cae13e838176dbea9ca8b8c354d7420eaa8_id     |
@@ -80,6 +90,34 @@ Given I search in API for "matt"
 Then I should receive a return code of 200
 And no search results are returned 
  
+ Scenario: Staff More than 50 search results
+ Given I am logged in using "ckoch" "ckoch1234" to realm "IL"
+ Given I search in API for "matt"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 50 elements
+  #TODO: BUG: this should be 54
+  And the header "TotalCount" equals 50
+  #And the a next link exists with offset equal to 50 and limit equal to 50
+  
+Scenario:  Educator with more than 50 results
+Given I am logged in using "manthony" "manthony1234" to realm "IL"
+ Given I search in API for "matt"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 50 elements
+  #TODO: BUG: this should be 54
+  And the header "TotalCount" equals 50
+  #And the a next link exists with offset equal to 50 and limit equal to 50
+  Given I search in API for "lin"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 50 elements
+  #TODO: BUG: this should be 54
+  And the header "TotalCount" equals 50
+  #And the a next link exists with offset equal to 50 and limit equal to 50
+
  
- 
- 
+ Scenario: School Level searching for student not in school
+ Given I am logged in using "mgonzales" "mgonzales1234" to realm "IL"
+ Given I search in API for "Alton"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 0 elements
+
