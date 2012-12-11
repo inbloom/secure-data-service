@@ -42,18 +42,22 @@ class SectionWorkOrderFactory
   end
 
   def sections(id, ed_org_type, year, grade)
-    ed_org = @world[ed_org_type].find{|s| s['id'] = id}
-    sections_from_edorg(ed_org, ed_org_type, year, grade)
+    if (@world.nil? == false && @world[ed_org_type].nil? == false)
+      ed_org = @world[ed_org_type].find{|s| s['id'] = id}
+      sections_from_edorg(ed_org, ed_org_type, year, grade)
+    end
   end
 
   def sections_from_edorg(ed_org, ed_org_type, year, grade)
-    offerings = ed_org['offerings'][year].select{|c| c['grade'] == grade}
     section_map = {}
-    offerings.each{|course|
-      find_sections(ed_org, ed_org_type, year, grade, course).each{|section|
-        section_map[course] = find_sections(ed_org, ed_org_type, year, grade, course)
+    if (ed_org['offerings'].nil? == false && ed_org['offerings'][year].nil? == false)
+      offerings = ed_org['offerings'][year].select{|c| c['grade'] == grade}
+      offerings.each{|course|
+        find_sections(ed_org, ed_org_type, year, grade, course).each{|section|
+          section_map[course] = find_sections(ed_org, ed_org_type, year, grade, course)
+        }
       }
-    }
+    end
     section_map
   end
 

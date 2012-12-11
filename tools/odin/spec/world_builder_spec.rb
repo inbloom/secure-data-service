@@ -98,7 +98,7 @@ describe "WorldBuilder" do
       end
 
       context "assessment metadata interchange" do
-        it "assessment metadata interchange will contain 5 assessments for each grade for each year" do
+        it "will contain 2 assessments for each grade for each year" do
           @queue.count(Assessment).should eq(78)
         end
         it "will contain for each year an assessment family for each grade, and one global assessment family" do
@@ -185,7 +185,7 @@ describe "WorldBuilder" do
         @queue.count(StaffEducationOrgAssignmentAssociation).should eq(169)
       end
       context "assessment metadata interchange" do
-        it "assessment metadata interchange will contain 5 assessments for each grade for each year" do
+        it "will contain 2 assessments for each grade for each year" do
           @queue.count(Assessment).should eq(26)
         end
 

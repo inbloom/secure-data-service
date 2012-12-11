@@ -580,7 +580,7 @@ public class SDKAPIClient implements APIClient {
     private List<GenericEntity> getStudentSectionAssociations(final String token, final String studentId,
             Map<String, String> params) {
         List<GenericEntity> studentSectionAssociations = this.readEntityList(token, SDKConstants.STUDENTS_ENTITY
-                + studentId + SDKConstants.STUDENT_SECTION_ASSOC, studentId);
+                + studentId + SDKConstants.STUDENT_SECTION_ASSOC + "?" + this.buildQueryString(params), studentId);
         
         return studentSectionAssociations;
     }

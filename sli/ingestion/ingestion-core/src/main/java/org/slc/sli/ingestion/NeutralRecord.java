@@ -113,6 +113,23 @@ public class NeutralRecord implements Cloneable {
     private int locationInSourceFile;
 
     /**
+     * The line number in source file of the record when the element is processed in visitBefore()
+     */
+    private int visitBeforeLineNumber;
+    /**
+     * The column number in source file of the record when the element is processed in visitBefore()
+     */
+    private int visitBeforeColumnNumber;
+    /**
+     * The line number in source file of the record when the element is processed in visitAfter()
+     */
+    private int visitAfterLineNumber;
+    /**
+     * The column number in source file of the record when the element is processed in visitAfter()
+     */
+    private int visitAfterColumnNumber;
+
+    /**
      * Time when neutral record was created (in ms).
      */
     private long creationTime;
@@ -300,6 +317,38 @@ public class NeutralRecord implements Cloneable {
 
     public void setLocationInSourceFile(int locationInSourceFile) {
         this.locationInSourceFile = locationInSourceFile;
+    }
+
+    public int getVisitBeforeLineNumber() {
+        return visitBeforeLineNumber;
+    }
+
+    public void setVisitBeforeLineNumber(int visitBeforeLineNumber) {
+        this.visitBeforeLineNumber = visitBeforeLineNumber;
+    }
+
+    public int getVisitBeforeColumnNumber() {
+        return visitBeforeColumnNumber;
+    }
+
+    public void setVisitBeforeColumnNumber(int visitBeforeColumnNumber) {
+        this.visitBeforeColumnNumber = visitBeforeColumnNumber;
+    }
+
+    public int getVisitAfterLineNumber() {
+        return visitAfterLineNumber;
+    }
+
+    public void setVisitAfterLineNumber(int visitAfterLineNumber) {
+        this.visitAfterLineNumber = visitAfterLineNumber;
+    }
+
+    public int getVisitAfterColumnNumber() {
+        return visitAfterColumnNumber;
+    }
+
+    public void setVisitAfterColumnNumber(int visitAfterColumnNumber) {
+        this.visitAfterColumnNumber = visitAfterColumnNumber;
     }
 
     public long getCreationTime() {

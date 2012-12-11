@@ -113,30 +113,6 @@ public class BatchJobMongoDATest {
         assertEquals(resultJob.getId(), BATCHJOBID);
     }
 
-    @Deprecated
-    @Test
-    public void testFindBatchJobErrors() {
-        List<Error> errors = new ArrayList<Error>();
-        Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid", "sourceIp",
-                "hostname", "recordId", BatchJobUtils2.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
-        errors.add(error);
-
-        when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq("error"))).thenReturn(errors);
-
-        List<Error> errorList = mockBatchJobMongoDA.findBatchJobErrors(BATCHJOBID);
-
-        Error errorReturned = errorList.get(0);
-        assertEquals(errorReturned.getBatchJobId(), BATCHJOBID);
-        assertEquals(errorReturned.getStageName(), BatchJobStageType.EDFI_PROCESSOR.getName());
-        assertEquals(errorReturned.getResourceId(), "resourceid");
-        assertEquals(errorReturned.getSourceIp(), "sourceIp");
-        assertEquals(errorReturned.getHostname(), "hostname");
-        assertEquals(errorReturned.getRecordIdentifier(), "recordId");
-        assertEquals(errorReturned.getSeverity(), FaultType.TYPE_ERROR.getName());
-        assertEquals(errorReturned.getErrorType(), "errorType");
-        assertEquals(errorReturned.getErrorDetail(), "errorDetail");
-    }
-
     /**
      * Test when the last result chunk falls on the limit boundary
      */
