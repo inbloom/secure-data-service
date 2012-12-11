@@ -13,42 +13,41 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
-
-import org.slc.sli.dal.migration.strategy.TransformStrategy;
-import org.springframework.stereotype.Component;
-
-import java.util.Map;
+package org.slc.sli.dal.migration.config;
 
 /**
  * Created with IntelliJ IDEA.
  * User: pghosh
  * Date: 12/10/12
- * Time: 2:52 PM
+ * Time: 3:04 PM
  * To change this template use File | Settings | File Templates.
  */
+public enum Strategy {
+    ADD("ADD"),
+    CUSTOM("CUSTOM"),
+    DEFAULT("DEFAULT");
 
-@Component
-public abstract class MigrationStrategyImpl implements TransformStrategy {
-    /**
-     *
-     * @return
-     */
-    public Map<String, Object> getParameters() {
-        return parameters;
+    private String className;
+
+    private Strategy(String strategyType) {
+        this.className = strategyType;
     }
 
-    /**
-     *
-     * @param parameters
-     */
-    public void setParameters(Map<String, Object> parameters) {
-        this.parameters = parameters;
+    public String getClassName() {
+        return this.className;
     }
 
-    /**
-     *  Parameters to be populated from the config
-     */
-    private Map<String,Object> parameters;
-
+    public static Strategy fromString(String className) {
+        if (className != null) {
+            for (Strategy strategy : Strategy.values()) {
+                if (className.equalsIgnoreCase(strategy.className)) {
+                    return strategy;
+                }
+            }
+        }
+        return null;
+    }
+    public String toString(){
+        return this.className;
+    }
 }
