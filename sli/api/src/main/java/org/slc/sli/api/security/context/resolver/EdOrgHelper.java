@@ -149,7 +149,7 @@ public class EdOrgHelper {
         List<String> ids = new ArrayList<String>();
         if (isTeacher(principal)) {
             ids.addAll(helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)));
-        } else {
+        } else if (isStaff(principal)) {
             ids.addAll(helper.findAccessible(principal,
                     Arrays.asList(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)));
         }
@@ -211,9 +211,11 @@ public class EdOrgHelper {
     public List<String> getSubEdOrgHierarchy(Entity principal) {
     	List<String> result = new ArrayList<String>();
     	List<String> directEdOrgs = getDirectEdOrgAssociations(principal);
-    	result.addAll(directEdOrgs);
-    	result.addAll(getChildEdOrgs(new TreeSet<String>(directEdOrgs)));
-    	return result;
+        if (!directEdOrgs.isEmpty()) {
+            result.addAll(directEdOrgs);
+            result.addAll(getChildEdOrgs(new TreeSet<String>(directEdOrgs)));
+        }
+        return result;
     	
     }
 
@@ -295,6 +297,10 @@ public class EdOrgHelper {
 
     private boolean isTeacher(Entity principal) {
         return principal.getType().equals(EntityNames.TEACHER);
+    }
+
+    private boolean isStaff(Entity principal) {
+        return principal.getType().equals(EntityNames.STAFF);
     }
 
 }

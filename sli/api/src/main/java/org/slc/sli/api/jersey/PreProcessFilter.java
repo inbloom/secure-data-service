@@ -49,7 +49,6 @@ import com.sun.jersey.spi.container.ContainerRequestFilter;
  * Records start time of the request
  *
  * @author dkornishev
- *
  */
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
@@ -71,7 +70,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     @Autowired
     private URITranslator translator;
-    
+
     @Autowired
     private EdOrgHelper edOrgHelper;
 
@@ -86,9 +85,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mongoStat.clear();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!SecurityUtil.isHostedUser(repo, principal)) {
-            principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
-        }
+        principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
 
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
