@@ -8,22 +8,22 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-  <context:component-scan base-package="org.slc.sli.ingestion">
-  </context:component-scan>
+  <context:component-scan base-package="org.slc.sli.ingestion" />
   <context:annotation-config />
 
-    <!-- Main application context, contains all other contexts in /spring -->
+  <!-- Main application context, contains all other contexts in /spring -->
+  <import resource="base-message-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
 
-  <bean id="lz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
-    <property name="directory" value="src/test/resources/dummylz"></property>
+  <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
+    <property name="directory" value="src/test/resources/dummylz" />
   </bean>
 
-	<context:property-placeholder
-		ignore-resource-not-found="true" />
-		
+  <context:property-placeholder ignore-resource-not-found="true" />
+
   <aop:aspectj-autoproxy />
+
+  <bean id="messageSource" parent="baseMessageSource" />
 
 </beans>

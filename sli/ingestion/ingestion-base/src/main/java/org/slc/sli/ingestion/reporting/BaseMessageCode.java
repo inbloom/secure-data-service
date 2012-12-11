@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.reporting;
 
+
 /**
- * Represents a source of the report.
+ * Enumeration of message codes for the ingestion-base module.
  *
- * @author okrook
+ * @author dduran
  *
  */
-public interface Source {
+public enum BaseMessageCode implements MessageCode {
 
-    String getSource();
+    SL_ERR_MSG1, SL_ERR_MSG2;
 
-    String getBatchJobId();
+    @Override
+    public String getCode() {
+        return this.name();
+    }
 
-    String getResourceId();
-
-    String getStageName();
 }

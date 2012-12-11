@@ -14,22 +14,41 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.reporting;
 
-/**
- * Represents a source of the report.
- *
- * @author okrook
- *
- */
-public interface Source {
+public final class SimpleReportStats implements ReportStats {
 
-    String getSource();
+    private final String context;
+    private long errorCount = 0L;
+    private long warningCount = 0L;
 
-    String getBatchJobId();
+    public SimpleReportStats(String context) {
+        this.context = context;
+    }
 
-    String getResourceId();
+    @Override
+    public String getContext() {
+        return context;
+    }
 
-    String getStageName();
+    @Override
+    public void incError() {
+        errorCount++;
+    }
+
+    @Override
+    public void incWarning() {
+        warningCount++;
+    }
+
+    @Override
+    public boolean hasErrors() {
+        return errorCount > 0;
+    }
+
+    @Override
+    public boolean hasWarnings() {
+        return warningCount > 0;
+    }
+
 }
