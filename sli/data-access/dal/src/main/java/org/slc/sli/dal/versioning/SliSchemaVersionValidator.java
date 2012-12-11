@@ -16,7 +16,10 @@
 
 package org.slc.sli.dal.versioning;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -26,6 +29,10 @@ import com.mongodb.DBObject;
 import org.slc.sli.dal.migration.config.Strategy;
 import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -33,12 +40,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-
-import org.slc.sli.dal.migration.strategy.TransformStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.AppInfo;
-import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Validates versions of XSD to versions of documents and signals for
@@ -116,6 +117,11 @@ public class SliSchemaVersionValidator {
         }
     }
     
+    @PostConstruct
+    public void initMigration() {
+        buildMigrationStrategyMap();
+    }
+
     private int getEntityVersionNumber(Entity entity) {
         Map<String, Object> entityMetaData = entity.getMetaData();
         
@@ -138,7 +144,7 @@ public class SliSchemaVersionValidator {
             
             if (entityVersionNumber < newVersionNumber) {
                 
-                for (TransformStrategy transformStrategy : whatever.getTransformStrategies(entityType, newVersionNumber)) {
+                    for (TransformStrategy transformStrategy : getTransformStrategies(entityType, newVersionNumber)) {
                     localEntity = transformStrategy.transform(localEntity);
                 }
                 
@@ -162,20 +168,43 @@ public class SliSchemaVersionValidator {
         
         return migratedEntities;
     }
-    private Map<String,List<TransformStrategy>> migrationStrategyMap = new HashMap<String, List<TransformStrategy>>();
-    private Map<String,Map<Strategy, Map<String,Object>>> entityConfig; //this will use object mapper to map json to config
+    
+    // <entityName, <versionNumber, [addStrategy, renameStrategy]>>
+    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
+
+    //this will use object mapper to map json to config
+    // <entityName, <versionNumber, config>>
+    private Map<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityConfig;
 
     /**
      * This method should be called post construct to load the strategies per entity type
      */
     private void buildMigrationStrategyMap () {
         readConfig();
-        for (Map.Entry<String, Map<Strategy, Map<String, Object>>> entry : entityConfig.entrySet()) {
-           List<TransformStrategy> strategies = new ArrayList<TransformStrategy>();
-            for (Map.Entry<Strategy,Map<String,Object>> strategy: entry.getValue().entrySet()){
-                strategies.addAll(getTransformStrategy(strategy.getKey(),strategy.getValue()));
+
+        // iterate over entities
+        for (Map.Entry<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityEntry : entityConfig.entrySet()) {
+
+            String entityType = entityEntry.getKey();
+            Map<Integer, Map<Strategy, Map<String, Object>>> versionUpdates = entityEntry.getValue();
+
+            Map<Integer, List<TransformStrategy>> transformsForVersion = new HashMap<Integer, List<TransformStrategy>>();
+
+            // iterate over version updates for a single entity
+            for (Map.Entry<Integer, Map<Strategy, Map<String, Object>>> versionEntry : versionUpdates.entrySet()) {
+
+                Integer versionNumber = versionEntry.getKey();
+                Map<Strategy, Map<String, Object>> versionStrategies = versionEntry.getValue();
+
+                List<TransformStrategy> strategies = new ArrayList<TransformStrategy>();
+                transformsForVersion.put(versionNumber, strategies);
+
+                // iterate over migration strategies for a single version update
+                for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategies.entrySet()) {
+                    strategies.addAll(getTransformStrategy(strategy.getKey(), strategy.getValue()));
+                }
             }
-            migrationStrategyMap.put(entry.getKey(),strategies);
+            migrationStrategyMap.put(entityType, transformsForVersion);
         }
 
     }
@@ -191,6 +220,7 @@ public class SliSchemaVersionValidator {
         List<TransformStrategy> transformStrategyList = new ArrayList<TransformStrategy>();
         switch (strategy) {
             case ADD:
+
                 //This might be a place for builder to build up the strategy
                 //need a way to pass the parameters read from the resource config json
                 TransformStrategy transformStrategy = applicationContext.getBean(AddStrategy.class);
@@ -212,18 +242,44 @@ public class SliSchemaVersionValidator {
         }
         return transformStrategyList;
     }
+    
+    
+    private List<TransformStrategy> getTransformStrategies(String entityType, int newVersionNumber) {
+        
+        Map<Integer, List<TransformStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
+        
+        if (entityMigrations == null) {
+            // LOG?
+        } else {
+            List<TransformStrategy> strategies = entityMigrations.get(newVersionNumber);
+
+            if (strategies == null) {
+                // LOG?
+            } else {
+                return strategies;
+            }
+        }
+        
+        // for the cases where it is undefined
+        return new ArrayList<TransformStrategy>();
+    }
 
     /**
      * This method will use the object parser and read the json config file and create list of operation per entity
      */
 
     private void readConfig() {
-        entityConfig = new HashMap<String, Map<Strategy, Map<String, Object>>>();
+
+        entityConfig = new HashMap<String, Map<Integer, Map<Strategy, Map<String, Object>>>>();
+
+        Map<Integer, Map<Strategy, Map<String, Object>>> dummyVersion = new HashMap<Integer, Map<Strategy, Map<String, Object>>>();
         Map<Strategy,Map<String,Object>> dummyOpp = new HashMap<Strategy, Map<String, Object>>();
         Map<String,Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("foo","bar");
+        paramMap.put("fieldName", "foo");
+        paramMap.put("defaultValue", "bar");
         dummyOpp.put(Strategy.ADD,paramMap);
-        entityConfig.put("student", dummyOpp);
+        dummyVersion.put(2, dummyOpp);
+        entityConfig.put("student", dummyVersion);
     }
 
 }
