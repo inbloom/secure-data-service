@@ -12,7 +12,7 @@
             <xs:sequence>
                 <xs:element name="tenantId" type="xs:string" minOccurs="0"/>
                 <xs:element name="admin" type="xs:boolean" minOccurs="1"/>
-                <xs:element name="developer" type="xs:boolean" minOccurs="1"/>
+                <xs:element name="developer" type="xs:boolean" minOccurs="0"/>
                 <xs:element name="idp" type="idpEndpoints" minOccurs="1"/>
                 <xs:element name="saml" type="samlMap" minOccurs="1"/>
                 <xs:element name="name" minOccurs="1">
