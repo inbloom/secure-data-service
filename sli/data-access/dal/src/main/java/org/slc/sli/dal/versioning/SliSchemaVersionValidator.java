@@ -72,9 +72,13 @@ public class SliSchemaVersionValidator {
     @Autowired
     private ApplicationContext applicationContext;
 
-
     @PostConstruct
-    public void validate() {
+    public void initMigration() {
+        this.detectMigrations();
+        this.buildMigrationStrategyMap();
+    }
+
+    private void detectMigrations() {
 
         this.entitiesBeingUpversioned = new HashMap<String, Integer>();
         
@@ -118,11 +122,6 @@ public class SliSchemaVersionValidator {
         }
     }
     
-    @PostConstruct
-    public void initMigration() {
-        buildMigrationStrategyMap();
-    }
-
     private int getEntityVersionNumber(Entity entity) {
         Map<String, Object> entityMetaData = entity.getMetaData();
         
