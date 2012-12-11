@@ -68,9 +68,13 @@ public class SliSchemaVersionValidator {
     protected MongoTemplate mongoTemplate;
     
     private Map<String, Integer> entitiesBeingUpversioned;
+    
+    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    //this will use object mapper to map json to config
+    // <entityName, <versionNumber, config>>
+    private Map<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityConfig;
+
 
     @PostConstruct
     public void initMigration() {
@@ -164,13 +168,6 @@ public class SliSchemaVersionValidator {
         return migratedEntities;
     }
     
-    // <entityName, <versionNumber, [addStrategy, renameStrategy]>>
-    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
-
-    //this will use object mapper to map json to config
-    // <entityName, <versionNumber, config>>
-    private Map<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityConfig;
-
     /**
      * This method should be called post construct to load the strategies per entity type
      */
