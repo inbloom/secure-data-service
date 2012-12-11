@@ -39,7 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -73,14 +72,12 @@ public class SliSchemaVersionValidator {
     @Autowired
     @Qualifier("mongoTemplate")
     protected MongoTemplate mongoTemplate;
-    
-
 
     private Map<String, Integer> entitiesBeingUpversioned;
-    
+
     private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
 
-    //this will use object mapper to map json to config
+    // this will use object mapper to map json to config
     // <entityName, <versionNumber, config>>
     private Map<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityConfig;
 
@@ -145,7 +142,7 @@ public class SliSchemaVersionValidator {
     }
 
     public Entity migrate(Entity entity) throws MigrationException {
-        
+
         if (entity == null) {
             return null;
         }
@@ -175,7 +172,7 @@ public class SliSchemaVersionValidator {
         if (entities == null) {
             return null;
         }
-        
+
         List<Entity> migratedEntities = new ArrayList<Entity>();
 
         for (Entity entity : entities) {
@@ -244,6 +241,8 @@ public class SliSchemaVersionValidator {
         } catch (InstantiationException e) {
             LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
         } catch (IllegalAccessException e) {
+            LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
+        } catch (MigrationException e) {
             LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
         }
 

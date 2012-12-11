@@ -33,13 +33,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * Tests for schema version checking logic.
@@ -110,7 +109,7 @@ public class SliSchemaVersionValidatorTest {
             }
         });
 
-        this.sliSchemaVersionValidator.validate();
+        this.sliSchemaVersionValidator.initMigration();
 
         Mockito.verify(mongoTemplate, Mockito.times(1)).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.any(String.class));
         Mockito.verify(mongoTemplate, Mockito.times(1)).insert(Mockito.any(Object.class), Mockito.any(String.class));
