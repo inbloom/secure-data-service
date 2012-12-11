@@ -24,11 +24,10 @@ import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.domain.Entity;
 
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 12/10/12
- * Time: 2:54 PM
- * To change this template use File | Settings | File Templates.
+ * Supports the migration of entities by adding a new field with a default value.
+ * 
+ * @author pghosh
+ * @author kmyers
  */
 
 public class AddStrategy implements TransformStrategy {
