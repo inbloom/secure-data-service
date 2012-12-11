@@ -78,19 +78,15 @@
     </bean>
 
     <bean id="xsdErrorHandler" class="org.slc.sli.ingestion.validation.XsdErrorHandler" scope="prototype">
-        <property name="messageSource" ref="messageSource" />
+        <property name="messageSource" ref="baseMessageSource" />
     </bean>
 
-      <bean id="controlFileValidator"
-    class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
+  <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">
       <list>
-        <bean
-          class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
-        <bean
-          class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
-        <bean
-          class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
+        <bean class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
+        <bean class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
+        <bean class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
       </list>
     </property>
   </bean>
@@ -99,16 +95,6 @@
     class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
   </bean>
 
-  <bean id="checksumValidator" class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator">
-  </bean>
-
-    <bean id="messageSource"
-    class="org.springframework.context.support.ResourceBundleMessageSource">
-    <property name="basenames">
-      <list>
-        <value>messages</value>
-      </list>
-    </property>
-  </bean>
+  <bean id="checksumValidator" class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
 
 </beans>
