@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
@@ -77,7 +78,7 @@ public class SliSchemaVersionValidator {
     @Qualifier("mongoTemplate")
     protected MongoTemplate mongoTemplate;
 
-    private Map<String, Integer> entitiesBeingUpversioned;
+    private Map<String, Integer> entityTypesBeingMigrated;
 
     private Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap;
 
@@ -85,11 +86,28 @@ public class SliSchemaVersionValidator {
     public void initMigration() {
         this.detectMigrations();
         this.migrationStrategyMap = this.buildMigrationStrategyMap();
+        this.warnForEachMissingMigrationStrategyList();
+    }
+    
+    /**
+     * Validates that all entities being migrated have migration strategies defined, or else
+     * logs a warning for each missing list-of-strategies.
+     * 
+     */
+    private void warnForEachMissingMigrationStrategyList() {
+        for (Entry<String, Integer> entry : entityTypesBeingMigrated.entrySet()) {
+            String entityType = entry.getKey();
+            int newVersion = entry.getValue();
+            
+            if (this.getMigrationStrategies(entityType, newVersion) == NO_STRATEGIES_DEFINED) {
+                LOG.warn("Migration of entity type [{}] to version [{}] is undefined", entry.getKey(), entry.getValue());
+            }
+        }
     }
 
     private void detectMigrations() {
 
-        this.entitiesBeingUpversioned = new HashMap<String, Integer>();
+        this.entityTypesBeingMigrated = new HashMap<String, Integer>();
 
         for (NeutralSchema neutralSchema : entitySchemaRepository.getSchemas()) {
             AppInfo appInfo = neutralSchema.getAppInfo();
@@ -123,7 +141,7 @@ public class SliSchemaVersionValidator {
                             mongoTemplate.updateFirst(query, update, METADATA_COLLECTION);
 
                             // remember that the entity's schema is being upversioned
-                            entitiesBeingUpversioned.put(neutralSchema.getType(), schemaVersion);
+                            entityTypesBeingMigrated.put(neutralSchema.getType(), schemaVersion);
                         }
                     }
                 }
@@ -151,9 +169,9 @@ public class SliSchemaVersionValidator {
 
         Entity localEntity = entity;
 
-        if (this.entitiesBeingUpversioned.containsKey(entityType)) {
+        if (this.entityTypesBeingMigrated.containsKey(entityType)) {
             int entityVersionNumber = this.getEntityVersionNumber(entity);
-            int newVersionNumber = this.entitiesBeingUpversioned.get(entityType);
+            int newVersionNumber = this.entityTypesBeingMigrated.get(entityType);
 
             if (entityVersionNumber < newVersionNumber) {
 
