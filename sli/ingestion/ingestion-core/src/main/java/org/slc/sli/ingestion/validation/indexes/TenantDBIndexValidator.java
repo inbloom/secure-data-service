@@ -58,7 +58,38 @@ public class TenantDBIndexValidator extends DbIndexValidator {
                 checkIndexes(index, mongoTemplate.getDb().getSisterDB(tenantDb));
             }
         }
-
     }
+
+    /**
+     * @return the mongoTemplate
+     */
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
+    }
+
+
+    /**
+     * @param mongoTemplate the mongoTemplate to set
+     */
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+
+    /**
+     * @return the tenantDA
+     */
+    public TenantDA getTenantDA() {
+        return tenantDA;
+    }
+
+
+    /**
+     * @param tenantDA the tenantDA to set
+     */
+    public void setTenantDA(TenantDA tenantDA) {
+        this.tenantDA = tenantDA;
+    }
+
 
 }
