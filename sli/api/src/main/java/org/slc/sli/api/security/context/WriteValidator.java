@@ -46,6 +46,13 @@ public class WriteValidator {
             put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "educationOrganizationId");
             put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "schoolId");
         }};
+
+        // STUDENT_SECTION_ASSOCIATION, SECTION_ID, SECTION
+        // STUDENT_GRADEBOOK_ENTRY, "gradebookEntryId", GRADEBOOK_ENTRY
+        // GRADEBOOK_ENTRY, SECTION_ID, SECTION
+        // COURSE_TRANSCRIPT, COURSE_ID, COURSE
+        // DISCIPLINE_ACTION
+
     }
 
 
