@@ -44,7 +44,7 @@ public class ValidateSchema {
         if("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)){
             SCHEMA_DIR = "../../sli/domain/src/main/resources/sliXsd-R1/";
         } else {
-            SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd-SLI/";
+            SCHEMA_DIR = "../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/";
         }
         if ("../../sli/domain/src/main/resources/edfiXsd-SLI/".equalsIgnoreCase(SCHEMA_DIR)) {
             SCHEMAS.add("SLI-Interchange-AssessmentMetadata.xsd");
