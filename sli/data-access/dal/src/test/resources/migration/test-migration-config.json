@@ -1,0 +1,12 @@
+{
+    "entities":{
+        "student": {
+            "2": {
+                "ADD": {
+                    "fieldName": "favoriteColor",
+                    "defaultValue": "yellow"
+                }            
+            }
+        }
+    }
+}

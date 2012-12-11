@@ -14,6 +14,10 @@
 
   <!-- SHARED CONFIG -->
   <tx:annotation-driven />
+  
+   <bean id="migrationConfigResource" class="org.springframework.core.io.ClassPathResource">
+      <constructor-arg index="0" value="migration/migration-config.json" />
+   </bean>
 
   <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="location" value="file:${sli.conf}" />

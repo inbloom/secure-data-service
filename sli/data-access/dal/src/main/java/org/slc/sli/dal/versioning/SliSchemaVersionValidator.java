@@ -39,7 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -70,6 +69,9 @@ public class SliSchemaVersionValidator {
 
     @Autowired
     protected SchemaRepository entitySchemaRepository;
+
+    @Autowired
+    protected Resource migrationConfigResource;
 
     @Autowired
     @Qualifier("mongoTemplate")
@@ -188,10 +190,9 @@ public class SliSchemaVersionValidator {
 
         Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
         
-        Resource jsonFile = new ClassPathResource("migration-config.json");
         MigrationConfig config = null;
         try {
-            config = MigrationConfig.parse(jsonFile.getInputStream());
+            config = MigrationConfig.parse(migrationConfigResource.getInputStream());
         } catch (IOException e) {
             LOG.error("Unable to read migration config file", e);
             return migrationStrategyMap;

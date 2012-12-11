@@ -36,6 +36,7 @@ import org.mockito.stubbing.Answer;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -64,6 +65,8 @@ public class SliSchemaVersionValidatorTest {
     @Before
     public void setUp() throws Exception {
         sliSchemaVersionValidator = new SliSchemaVersionValidator();
+        sliSchemaVersionValidator.migrationConfigResource = new ClassPathResource(
+                "migration/test-migration-config.json");
         MockitoAnnotations.initMocks(this);
     }
 
