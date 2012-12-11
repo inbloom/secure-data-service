@@ -22,6 +22,7 @@ import java.util.Map;
  * Defines a strategy for transforming entities between versions
  * 
  * @author sashton
+ * @author kmyers
  * 
  */
 public interface TransformStrategy {
@@ -31,7 +32,14 @@ public interface TransformStrategy {
      * 
      * @param entity
      */
-    void transform(Entity entity);
-    void setParameters(Map<String,Object> parameter);
+    public Entity transform(Entity entity);
+    
+    
+    /**
+     * Sets the transforms strategy implementation's specific parameters.
+     * 
+     * @param parameter
+     */
+    public void setParameters(Map<String, Object> parameter);
 
 }
