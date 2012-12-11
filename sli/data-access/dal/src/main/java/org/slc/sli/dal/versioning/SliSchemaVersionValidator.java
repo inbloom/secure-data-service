@@ -65,6 +65,8 @@ public class SliSchemaVersionValidator {
 
     private static final String VERSION_NUMBER_FIELD = "version";
     private static final int NOT_VERSIONED_YET = 0;
+    
+    private static final List<TransformStrategy> NO_STRATEGIES_DEFINED = new ArrayList<TransformStrategy>();
 
     @Autowired
     protected SchemaRepository entitySchemaRepository;
@@ -75,16 +77,12 @@ public class SliSchemaVersionValidator {
 
     private Map<String, Integer> entitiesBeingUpversioned;
 
-    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
-
-    // this will use object mapper to map json to config
-    // <entityName, <versionNumber, config>>
-    private Map<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityConfig;
+    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap;
 
     @PostConstruct
     public void initMigration() {
         this.detectMigrations();
-        this.buildMigrationStrategyMap();
+        this.migrationStrategyMap = this.buildMigrationStrategyMap();
     }
 
     private void detectMigrations() {
@@ -160,7 +158,8 @@ public class SliSchemaVersionValidator {
                 for (TransformStrategy transformStrategy : getTransformStrategies(entityType, newVersionNumber)) {
                     localEntity = transformStrategy.transform(localEntity);
                 }
-
+                
+                localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
             }
         }
 
@@ -185,15 +184,17 @@ public class SliSchemaVersionValidator {
     /**
      * This method should be called post construct to load the strategies per entity type
      */
-    private void buildMigrationStrategyMap() {
+    private  Map<String, Map<Integer, List<TransformStrategy>>> buildMigrationStrategyMap() {
 
+        Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
+        
         Resource jsonFile = new ClassPathResource("migration-config.json");
         MigrationConfig config = null;
         try {
             config = MigrationConfig.parse(jsonFile.getInputStream());
         } catch (IOException e) {
             LOG.error("Unable to read migration config file", e);
-            return;
+            return migrationStrategyMap;
         }
 
         Map<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityConfig = config.getEntities();
@@ -217,36 +218,20 @@ public class SliSchemaVersionValidator {
 
                 // iterate over migration strategies for a single version update
                 for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategies.entrySet()) {
-                    strategies.addAll(getTransformStrategy(strategy.getKey(), strategy.getValue()));
+                    try {
+                        TransformStrategy transformStrategy = strategy.getKey().getNewImplementation();
+                        transformStrategy.setParameters(strategy.getValue());
+                        strategies.add(transformStrategy);
+                    } catch (MigrationException e) {
+                        LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
+                    }
                 }
             }
             migrationStrategyMap.put(entityType, transformsForVersion);
         }
+        
+        return migrationStrategyMap;
 
-    }
-
-    /**
-     * @param strategy
-     * @param params
-     * @return
-     */
-    private List<TransformStrategy> getTransformStrategy(Strategy strategy, Map<String, Object> params) {
-        List<TransformStrategy> transformStrategyList = new ArrayList<TransformStrategy>();
-
-        TransformStrategy transform;
-        try {
-            transform = strategy.getNewImplementation();
-            transform.setParameters(params);
-            transformStrategyList.add(transform);
-        } catch (InstantiationException e) {
-            LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
-        } catch (IllegalAccessException e) {
-            LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
-        } catch (MigrationException e) {
-            LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
-        }
-
-        return transformStrategyList;
     }
 
     private List<TransformStrategy> getTransformStrategies(String entityType, int newVersionNumber) {
@@ -262,7 +247,7 @@ public class SliSchemaVersionValidator {
         }
 
         // for the cases where it is undefined
-        return new ArrayList<TransformStrategy>();
+        return NO_STRATEGIES_DEFINED;
     }
 
 }
