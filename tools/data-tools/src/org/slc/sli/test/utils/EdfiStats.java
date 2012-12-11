@@ -24,9 +24,9 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
  * Based on org.slc.sli.test.utils.IngestionDataParser
  */
 public class EdfiStats {
-    private static final String README_FILE = "README";
+    private static final String INPUTCOUNT_TXT = "inputCounts.txt";
 
-    private static final String EXPECTED_JS = "jsExpected.js";
+    private static final String EXPECTEDCOUNT_JS = "expectedCounts.js";
     
     private SAXParserFactory factory = SAXParserFactory.newInstance();
     private SAXParser saxParser = null;
@@ -168,8 +168,8 @@ public class EdfiStats {
         sliCounts.remove("studentAssessmentAssociation"         );
 
         PrintWriter js = new PrintWriter(
-                new FileOutputStream(dataDirectory + File.separator + EXPECTED_JS));
-        js.println("//mongo localhost:27017/<database_name> " + EXPECTED_JS);
+                new FileOutputStream(dataDirectory + File.separator + EXPECTEDCOUNT_JS));
+        js.println("//mongo localhost:27017/<database_name> " + EXPECTEDCOUNT_JS);
         //http://stackoverflow.com/questions/2159678/paste-a-multi-line-java-string-in-eclipse
         js.println("var entities ={");
         for(String entity: new TreeSet<String>(sliCounts.keySet())) {
@@ -230,7 +230,7 @@ public class EdfiStats {
         js.close();
         
         PrintWriter readme = new PrintWriter(
-                new FileOutputStream(dataDirectory + File.separator + README_FILE));
+                new FileOutputStream(dataDirectory + File.separator + INPUTCOUNT_TXT));
         long totalCount = 0;
         for(String entity: new TreeSet<String>(edfiCounts.keySet())) {
             Long count = edfiCounts.get(entity);
@@ -240,38 +240,18 @@ public class EdfiStats {
         readme.println("------------------------------------------------------------");
         readme.println(String.format("%50s:%10d", "Total", totalCount));
         System.out.println(String.format("%30s:%-10d", "Total Entities", totalCount));
-        System.out.println("see " + dataDirectory + File.separator + EXPECTED_JS);
-        System.out.println("see " + dataDirectory + File.separator + README_FILE);
+        System.out.println("see " + dataDirectory + File.separator + EXPECTEDCOUNT_JS);
+        System.out.println("see " + dataDirectory + File.separator + INPUTCOUNT_TXT);
         readme.close();
     }
  
     private static Map<String, Map<String, Long>> deriveSuperDocCounts(Map<String, Long> sliCounts) {
         Map<String, Map<String, Long>> superDocCounts = new HashMap<String, Map<String, Long>>();
         
-//        // Add count information for DENORMALIZATIONs
-//        for(String element: EmbeddedDocumentRelations.getDenormalizedDocuments()){
-//            // Associate the subdoc count to the destination entity and field
-//            
-//            // HACK remove the subdoc count from the sliCounts to prevent it being checked directly
-//            Long count = sliCounts.remove(element);
-//            
-//            if (count != null) {
-//                String superDoc = EmbeddedDocumentRelations.getDenormalizeToEntity(element);
-//                String subDoc = EmbeddedDocumentRelations.getDenormalizedToField(element);
-//                Map<String, Long> subDocCounts = superDocCounts.get(superDoc);
-//                if (subDocCounts == null) {
-//                    // Create the super doc entry if necessary
-//                    subDocCounts = new HashMap<String, Long>();
-//                    superDocCounts.put(superDoc, subDocCounts);
-//                }           
-//                subDocCounts.put(subDoc, count);
-//            }
-//        }
-        
         // Add count information for sub-documents
         for(String element: EmbeddedDocumentRelations.getSubDocuments()){
             
-            // HACK remove the subdoc count from the sliCounts to prevent it being checked directly
+            // HACK remove the subdoc count from the sliCounts to prevent it being checked directly or reprocessed
             Long count = sliCounts.remove(element);
             
             if (count != null) {
@@ -288,6 +268,30 @@ public class EdfiStats {
                 subDocCounts.put(element, count);
             }
         }
+
+        // Add count information for DENORMALIZATIONs
+        for(String element: EmbeddedDocumentRelations.getDenormalizedDocuments()){
+            // Associate the subdoc count to the destination entity and field
+            
+            // HACK remove the subdoc count from the sliCounts to prevent it being checked directly or reprocessed
+            Long count = sliCounts.remove(element);
+            
+            if (count != null) {
+                String superDoc = EmbeddedDocumentRelations.getDenormalizeToEntity(element);
+                String subDoc = EmbeddedDocumentRelations.getDenormalizedToField(element);
+                Map<String, Long> subDocCounts = superDocCounts.get(superDoc);
+                if (subDocCounts == null) {
+                    // Create the super doc entry if necessary
+                    subDocCounts = new HashMap<String, Long>();
+                    superDocCounts.put(superDoc, subDocCounts);
+                }
+                if (!subDocCounts.containsKey(subDoc)) {
+                    // Only add counts unique to the DENORMALIZATIONS map since it will NOT be accounted for by sub-doc counts above
+                    subDocCounts.put(subDoc, count);
+                }
+            }
+        }
+        
         return superDocCounts;
     }
 
