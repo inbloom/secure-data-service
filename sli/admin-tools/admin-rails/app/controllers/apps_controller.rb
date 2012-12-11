@@ -79,7 +79,8 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
-        ApplicationMailer.notify_developer(@app, @app.metaData.createdBy).deliver
+        dev_name = @app.author_first_name != nil ? @app.author_first_name : "developer"
+        ApplicationMailer.notify_developer(@app, dev_name).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -271,9 +272,9 @@ class AppsController < ApplicationController
     dev_info = APP_LDAP_CLIENT.read_user(creator_email)
     if dev_info == nil
         dev_info = Hash.new
-        names = session[:full_name].split
-        dev_info[:first] = names[0]
-        dev_info[:last] = (names[1] != nil) ? names[1] : "";
+        dev_info[:first] = session[:first_name]
+        dev_info[:last] = session[:last_name]
+        dev_info[:vendor] = session[:vendor]
     end
     dev_info[:vendor] = (dev_info.has_key?(:vendor) and dev_info[:vendor]) || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
     return dev_info

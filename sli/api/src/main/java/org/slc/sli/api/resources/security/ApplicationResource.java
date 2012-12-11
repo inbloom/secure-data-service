@@ -110,6 +110,8 @@ public class ApplicationResource extends UnversionedResource {
     public static final String LOCATION = "Location";
 
     private static final String CREATED_BY = "created_by";
+    private static final String AUTHOR_FIRST_NAME = "author_first_name";
+    private static final String AUTHOR_LAST_NAME = "author_last_name";
 
     //These fields can only be set during bootstrapping and can never be modified through the API
     private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
@@ -157,6 +159,12 @@ public class ApplicationResource extends UnversionedResource {
         newApp.put(CLIENT_ID, clientId);
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newApp.put(CREATED_BY, principal.getExternalId());
+        if (principal.getFirstName() != null) {
+            newApp.put(AUTHOR_FIRST_NAME, principal.getFirstName());
+        }
+        if (principal.getLastName() != null) {
+            newApp.put(AUTHOR_LAST_NAME, principal.getLastName());
+        }
 
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, STATUS_PENDING);
