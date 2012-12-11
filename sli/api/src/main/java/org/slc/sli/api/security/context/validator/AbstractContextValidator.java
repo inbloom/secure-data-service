@@ -43,9 +43,12 @@ import org.springframework.beans.factory.annotation.Value;
  * Abstract class that all context validators must extend.
  */
 public abstract class AbstractContextValidator implements IContextValidator {
-
+    
     @Value("${sli.security.gracePeriod}")
     private String gracePeriod;
+    
+    @Autowired
+    protected DateHelper dateHelper;
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -266,5 +269,12 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     public void setStaffEdOrgEdOrgIDNodeFilter(StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter) {
         this.staffEdOrgEdOrgIDNodeFilter = staffEdOrgEdOrgIDNodeFilter;
+    }
+
+    protected boolean areParametersValid(String correctEntityType, String inputEntityType, Set<String> ids) {
+        if (ids == null || ids.size() == 0 || !correctEntityType.equals(inputEntityType)) {
+            return false;
+        }
+        return true;
     }
 }
