@@ -57,6 +57,7 @@ public abstract class ESConnector {
      */
     private ResponseEntity<String> sendRESTCall(HttpMethod method, String url, String query, Object... uriParams) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json;charset=utf-8");
 
         // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
