@@ -39,6 +39,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  */
 public final class MongoCommander {
 
+    /**
+     * No instance should be created.
+     * All methods are static.
+     */
     private MongoCommander() { }
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
@@ -82,8 +86,7 @@ public final class MongoCommander {
                 options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
 
                 try {
-                    DBObject keys = new BasicDBObject(index.getKeys());
-                    dbConn.getCollection(index.getCollection()).createIndex(keys, options);
+                    dbConn.getCollection(index.getCollection()).createIndex(index.getKeys(), options);
                 } catch (MongoException e) {
                     LOG.error("Failed to ensure index:{}", e.getMessage());
                 }

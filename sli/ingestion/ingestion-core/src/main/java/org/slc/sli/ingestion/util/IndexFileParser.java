@@ -34,6 +34,9 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
@@ -73,11 +76,11 @@ public final class IndexFileParser {
                     br = new BufferedReader(new InputStreamReader(fstream));
                     String collectionName = null;
                     String keyJsonString;
-                    boolean unique = false;
+
                     String currentFileLine;
 
                     while ((currentFileLine = br.readLine()) != null) {
-
+                        boolean unique = false;
                         Matcher indexMatcher = ensureIndexStatement(currentFileLine);
 
                         if (indexMatcher != null) {
@@ -87,7 +90,8 @@ public final class IndexFileParser {
                                 unique = Boolean.parseBoolean(indexMatcher.group(4));
                             }
                             indexMap = parseJson(keyJsonString);
-                            indexes.add(new MongoIndex(collectionName, unique, indexMap));
+                            DBObject keyObj = new BasicDBObject(indexMap);
+                            indexes.add(new MongoIndex(collectionName, unique, keyObj));
                         }
                     }
                 }

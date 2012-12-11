@@ -1,0 +1,14 @@
+# Overrides for base_scenario properties
+studentCount: 316960
+numYears: 1
+# Number of students per section for each school type
+STUDENTS_PER_SECTION: {'elementary': 8, 'middle': 8, 'high': 8}
+AVERAGE_ELEMENTARY_SCHOOL_NUM_STUDENTS: 280
+AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS: 280
+AVERAGE_HIGH_SCHOOL_NUM_STUDENTS: 280
+AVERAGE_NUM_STUDENTS_THRESHOLD: 0.50
+
+AVERAGE_SCHOOLS_THRESHOLD: 0.20
+ASSESSMENTS_TAKEN: {grade_wide: 2}
+ASSESSMENTS_PER_GRADE: 1
+ASSESSMENT_ITEMS_PER_ASSESSMENT: {grade_wide: 1}

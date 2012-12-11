@@ -63,9 +63,8 @@ FactoryGirl.define do
   end
   
    factory :assessment_item do
-  
-  
-    initialize_with { new(52, FactoryGirl.build(:assessment) ) }
+
+    initialize_with { new(52, {:id=>"SAT II - US History", :grade=>"First grade"}) }
     identificationCode "8675309"
     itemCategory "Analytic"
     association :assessment, strategy: :build
