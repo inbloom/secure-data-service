@@ -17,12 +17,17 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
 import org.milyn.container.ExecutionContext;
@@ -76,6 +81,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
+    Mongo mongo = null;//new Mongo("localhost", 27017);
+	DB db = null;//mongo.getDB("yourdb");
+
+	// get a single collection
+	Map<String, DBCollection> collections = null;// db.getCollection("dummyColl");
+
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
      * queue by writing to data store before returning final count.
@@ -119,6 +130,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                     String type = neutralRecord.getRecordType();
                     Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : new Long(0);
                     duplicateCounts.put(type, new Long(count.longValue() + 1));
+                    outputMatchedEntities(neutralRecord, "recordLevelDelta");
                 }
             }
 
@@ -134,6 +146,27 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
         }
+    }
+
+    private void outputMatchedEntities(NeutralRecord matched, String did) throws UnknownHostException {
+    	//lazy load mongo connection
+    	if (mongo == null) {
+    		mongo = new Mongo("localhost", 27017);
+    		db = mongo.getDB("updates");
+    		collections = new HashMap<String, DBCollection>();
+    	}
+    	//lazy load collection map
+    	DBCollection collection = collections.get(matched.getRecordType());
+    	if (collection == null) {
+    		 collection = db.getCollection(matched.getRecordType());
+    		 collections.put(matched.getRecordType(), collection);
+    	}
+    	//create and insert the document
+    	BasicDBObject document = new BasicDBObject();
+		document.put("body", matched.getAttributes());
+		document.put("did", did);
+
+		collection.insert(document);
     }
 
     /**

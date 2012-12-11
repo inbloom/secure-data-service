@@ -16,9 +16,16 @@
 
 package org.slc.sli.ingestion.transformation;
 
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -82,6 +89,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     @Autowired
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
+
+    Mongo mongo = null;//new Mongo("localhost", 27017);
+	DB db = null;//mongo.getDB("yourdb");
+
+	// get a single collection
+	Map<String, DBCollection> collections = null;// db.getCollection("dummyColl");
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item) {
@@ -201,6 +214,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
 
+            try {
+            	outputMatchedEntities(entity, matched.getEntityId());
+            } catch (Exception e) {
+            	e.printStackTrace();
+            }
+
             @SuppressWarnings("unchecked")
             List<String> edOrgs = (List<String>) entity.getMetaData().get("edOrgs");
 
@@ -218,6 +237,27 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             }
             entity.getMetaData().putAll(matched.getMetaData());
         }
+    }
+
+    private void outputMatchedEntities(Entity matched, String did) throws UnknownHostException {
+    	//lazy load mongo connection
+    	if (mongo == null) {
+    		mongo = new Mongo("localhost", 27017);
+    		db = mongo.getDB("updates");
+    		collections = new HashMap<String, DBCollection>();
+    	}
+    	//lazy load collection map
+    	DBCollection collection = collections.get(matched.getType());
+    	if (collection == null) {
+    		 collection = db.getCollection(matched.getType());
+    		 collections.put(matched.getType(), collection);
+    	}
+    	//create and insert the document
+    	BasicDBObject document = new BasicDBObject();
+		document.put("body", matched.getBody());
+		document.put("did", did);
+
+		collection.insert(document);
     }
 
     /**
