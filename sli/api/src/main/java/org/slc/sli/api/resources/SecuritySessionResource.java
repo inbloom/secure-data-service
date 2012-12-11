@@ -137,6 +137,16 @@ public class SecuritySessionResource {
             sessionDetails.put("email", getUserEmail(principal));
             sessionDetails.put("rights", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
             sessionDetails.put("isAdminUser", principal.isAdminUser());
+            
+            if (principal.getFirstName() != null) {
+                sessionDetails.put("first_name", principal.getFirstName());
+            }
+            if (principal.getLastName() != null) {
+                sessionDetails.put("last_name", principal.getLastName());
+            }
+            if (principal.getVendor() != null) {
+                sessionDetails.put("vendor", principal.getVendor());
+            }
 
         } else {
             sessionDetails.put("authenticated", false);

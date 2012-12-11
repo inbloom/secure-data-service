@@ -151,26 +151,26 @@ public class RealmInitializer {
         Map<String, Object> body = createRealmBody(ADMIN_REALM_ID, adminRealmName, adminTenantId, "fakeab32-b493-999b-a6f3-sliedorg1234",
                 true, false, adminIdpId, adminRedirectEndpoint);
         
-        return insertSaml(body, true);
+        return insertSaml(body, true, false);
     }
 
     protected Map<String, Object> createDeveloperRealmBody() {
         Map<String, Object> body = createRealmBody(devUniqueId, devRealmName, "", null, false, true, devIdpId, 
                 devRedirectEndpoint);
         
-        return insertSaml(body, false);
+        return insertSaml(body, false, true);
     }
 
     protected Map<String, Object> createSandboxRealmBody() {
         Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, "", null, false, false, sandboxIdpId,
                 sandboxRedirectEndpoint);
         
-        return insertSaml(body, false);
+        return insertSaml(body, false, false);
     }
 
-    private Map<String, Object> insertSaml(Map<String, Object> body, boolean isAdminRealm) {
+    private Map<String, Object> insertSaml(Map<String, Object> body, boolean isAdminRealm, boolean isDeveloperRealm) {
         Map<String, Object> saml = new HashMap<String, Object>();
-        saml.put("field", getFields(isAdminRealm));
+        saml.put("field", getFields(isAdminRealm, isDeveloperRealm));
         body.put("saml", saml);
         
         return body;
@@ -198,7 +198,7 @@ public class RealmInitializer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private List getFields(boolean isAdminRealm) {
+    private List getFields(boolean isAdminRealm, boolean isDeveloperRealm) {
         List toReturn = new ArrayList();
         toReturn.add(createField("roles", "(.+)"));
         toReturn.add(createField("tenant", "(.+)"));
@@ -206,6 +206,12 @@ public class RealmInitializer {
         toReturn.add(createField("userName", "(.+)"));
         if (isAdminRealm) {
             toReturn.add(createField("edOrg", "(.+)"));
+        }
+        
+        if (isDeveloperRealm) {
+            toReturn.add(createField("givenName", "(.+)"));
+            toReturn.add(createField("sn", "(.+)"));
+            toReturn.add(createField("vendor", "(.+)"));
         }
         return toReturn;
     }

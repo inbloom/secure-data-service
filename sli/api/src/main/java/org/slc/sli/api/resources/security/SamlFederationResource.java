@@ -246,6 +246,13 @@ public class SamlFederationResource {
         String tenant;
         String realmTenant = (String) realm.getBody().get("tenantId");
         String samlTenant = attributes.getFirst("tenant");
+        
+        Boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
+        isAdminRealm = (isAdminRealm != null) ? isAdminRealm : Boolean.FALSE;
+        
+        Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
+        isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
+        
         if (realmTenant == null || realmTenant.length() < 1) {
             // Sandbox impersonation case: accept the tenantId from the IDP if and only if the
             // realm's tenantId is null
@@ -256,12 +263,6 @@ public class SamlFederationResource {
                         inResponseTo));
             }
         } else {
-            Object temp = realm.getBody().get("admin");
-            Boolean isAdminRealm = temp == null ? false : (Boolean) temp;
-            
-            Boolean isDevRealm = (Boolean) realm.getBody().get("admin");
-            isDevRealm = (isDevRealm == null) ? false : isDevRealm;
-            
             if (isAdminRealm || isDevRealm) {
                 if (samlTenant != null) {
                     tenant = samlTenant;
@@ -278,6 +279,12 @@ public class SamlFederationResource {
         if (userName != null) {
             principal.setName(userName);
         } else {
+            if (isAdminRealm || isDevRealm) {
+                info("set principal names to {}", new Object[]{attributes.getFirst("givenName"), attributes.getFirst("sn"), attributes.getFirst("vendor")});
+                principal.setFirstName(attributes.getFirst("givenName"));
+                principal.setLastName(attributes.getFirst("sn"));
+                principal.setVendor(attributes.getFirst("vendor"));
+            }
             principal.setName(attributes.getFirst("userName"));
         }
 
@@ -290,12 +297,6 @@ public class SamlFederationResource {
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-
-        Boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
-        isAdminRealm = (isAdminRealm != null) ? isAdminRealm : Boolean.FALSE;
-        
-        Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
-        isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
 
         if ("-133".equals(principal.getEntity().getEntityId()) && !(isAdminRealm || isDevRealm)) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we

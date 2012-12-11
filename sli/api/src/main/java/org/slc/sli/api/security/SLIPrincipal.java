@@ -49,6 +49,9 @@ public class SLIPrincipal implements Principal, Serializable {
     private List<String> roles;
     private String edOrgId;
     private boolean adminUser;
+    private String firstName;
+    private String lastName;
+    private String vendor;
     
     public String getSessionId() {
         return sessionId;
@@ -198,5 +201,29 @@ public class SLIPrincipal implements Principal, Serializable {
     
     public boolean isAdminUser() {
         return adminUser;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 }
