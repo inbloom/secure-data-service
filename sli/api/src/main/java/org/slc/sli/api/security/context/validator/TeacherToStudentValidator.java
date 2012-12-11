@@ -57,53 +57,25 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityName, Set<String> ids) {
+        if (ids.size() == 0) {
+            return false;
+        }
         boolean withSections = validatedWithSections(ids);
         boolean withCohorts = validatedWithCohorts(ids);
         boolean withPrograms = validatedWithPrograms(ids);
         return withSections || withCohorts || withPrograms;
     }
-    
-    private Set<String> getTeachersSchools() {
-        HashSet<String> toRet = new HashSet<String>();
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        basicQuery.setIncludeFields(Arrays.asList(ParameterConstants.SCHOOL_ID));
-        Iterable<Entity> schools = repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, basicQuery);
-        for (Entity school : schools) {
-            String schoolId = (String) school.getBody().get(ParameterConstants.SCHOOL_ID);
-            toRet.add(schoolId);
-        }
-        return toRet;
-    }
 
     private boolean validatedWithPrograms(Set<String> ids) {
         boolean match = false;
 
-        Set<String> teacherSchoolIds = getTeachersSchools();
         Set<String> staffProgramIds = new HashSet<String>();
         Set<String> studentProgramIds = new HashSet<String>();
-        Set<String> enabledPrograms = new HashSet<String>();
-        // Find my current association
-        for (String schoolId : teacherSchoolIds) {
 
-            NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL,
-                    schoolId));
-            Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
-            for (Entity edorg : edorgs) {
-                if (edorg.getBody().containsKey(ParameterConstants.PROGRAM_REFERENCE)) {
-                    List<String> programReferences = (List<String>) edorg.getBody().get(
-                            ParameterConstants.PROGRAM_REFERENCE);
-                    for (String programReference : programReferences) {
-                        enabledPrograms.add(programReference);
-                    }
-                }
-            }
-
-        }
         // Get my staffProgramAssociations
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL,
                 SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        addEndDateToQuery(basicQuery);
+        addEndDateToQuery(basicQuery, false);
         basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
         Iterable<Entity> staffCas = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
@@ -118,7 +90,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         for (String id : ids) {
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
                     NeutralCriteria.OPERATOR_EQUAL, id));
-            addEndDateToQuery(basicQuery);
+            addEndDateToQuery(basicQuery, false);
             Iterable<Entity> studentPrograms = repo.findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
             for (Entity studentProgram : studentPrograms) {
                 studentProgramIds.add((String) studentProgram.getBody().get(ParameterConstants.PROGRAM_ID));
@@ -145,7 +117,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                 SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
-        addEndDateToQuery(basicQuery);
+        addEndDateToQuery(basicQuery, false);
         Iterable<Entity> staffCas = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         // Look at only the SCAs for cohorts in my edorg with date/record access
         if (staffCas != null) {
@@ -163,7 +135,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
             for (Map<String, Object> cohort : cohortList) {
                 String cohortRefId = (String) cohort.get("_id");
                 if (staffCohortIds.contains(cohortRefId)) {
-                    if (!isFieldExpired(cohort, ParameterConstants.END_DATE)) {
+                    if (!isFieldExpired(cohort, ParameterConstants.END_DATE, false)) {
                         studentIds.add(student.getEntityId());
                         break;
                     }
@@ -182,7 +154,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         NeutralQuery basicQuery = new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.TEACHER_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
                         .getSLIPrincipal().getEntity().getEntityId()));
-        addEndDateToQuery(basicQuery);
+        addEndDateToQuery(basicQuery, true);
 
         Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
         if (tsas != null) {
@@ -195,7 +167,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
             Set<String> studentSections = new HashSet<String>();
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
                     NeutralCriteria.OPERATOR_EQUAL, id));
-            addEndDateToQuery(basicQuery);
+            addEndDateToQuery(basicQuery, true);
             Iterable<Entity> ssas = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, basicQuery);
             if (ssas != null) {
                 for (Entity ssa : ssas) {
