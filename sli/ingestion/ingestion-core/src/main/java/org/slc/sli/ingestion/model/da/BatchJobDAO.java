@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.ingestion.FaultType;
@@ -28,8 +29,6 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
-
-import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
  * Data access object for batch job data.
@@ -43,15 +42,6 @@ public interface BatchJobDAO {
 
     NewBatchJob findBatchJobById(String batchJobId);
 
-    /**
-     * Why is this deprecated?
-     *
-     * @param batchJobId
-     * @return
-     */
-    @Deprecated
-    List<Error> findBatchJobErrors(String batchJobId);
-
     public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit);
 
     void saveError(Error error);
@@ -59,6 +49,7 @@ public interface BatchJobDAO {
     void saveBatchJobStage(String batchJobId, Stage stage);
 
     List<Stage> getBatchJobStages(String batchJobId);
+
     /**
      * Populate a shared-resource data structure that can be used to synchronize processing
      *
@@ -104,9 +95,11 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
-    void insertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException;
-    
-    void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException;
+    void insertRecordHash(String tenantId, String recordId, String newHashValues)
+            throws DataAccessResourceFailureException;
+
+    void updateRecordHash(String tenantId, RecordHash rh, String newHashValues)
+            throws DataAccessResourceFailureException;
 
     void removeRecordHashByTenant(String tenantId);
 

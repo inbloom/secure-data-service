@@ -8,5 +8,10 @@
 	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.0.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/sli-common">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="sli-common"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
