@@ -15,39 +15,36 @@
 
 package org.slc.sli.dal.migration.config;
 
+import org.slc.sli.dal.migration.strategy.TransformStrategy;
+import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 12/10/12
- * Time: 3:04 PM
- * To change this template use File | Settings | File Templates.
+ * A list of all supported strategies and the classes that implement those strategies.
+ * 
+ * @author pghosh
+ * @author kmyers
  */
 public enum Strategy {
-    ADD("ADD"),
-    CUSTOM("CUSTOM"),
-    DEFAULT("DEFAULT");
+    
+    ADD(AddStrategy.class);
 
-    private String className;
+    private Class<? extends TransformStrategy> implementingClass;
 
-    private Strategy(String strategyType) {
-        this.className = strategyType;
+    private Strategy(Class<? extends TransformStrategy> implementingClass) {
+        this.implementingClass = implementingClass;
     }
-
-    public String getClassName() {
-        return this.className;
-    }
-
-    public static Strategy fromString(String className) {
-        if (className != null) {
-            for (Strategy strategy : Strategy.values()) {
-                if (className.equalsIgnoreCase(strategy.className)) {
-                    return strategy;
-                }
-            }
+    
+    public static TransformStrategy getNewImplementation(String strategyName) throws InstantiationException, IllegalAccessException {
+        if (strategyName == null) {
+            return null;
         }
-        return null;
-    }
-    public String toString(){
-        return this.className;
+        
+        Strategy strategy = Strategy.valueOf(strategyName);
+        
+        if (strategy == null) {
+            return null;
+        }
+        
+        return strategy.implementingClass.newInstance();
     }
 }
