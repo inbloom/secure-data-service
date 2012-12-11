@@ -42,19 +42,20 @@ describe "WorkOrderProcessor" do
 
       class Factory
         # student creation
-        attr_accessor :students, :school_associations, :assessment_associations, :section_associations
+        attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
           @school_associations = to_build.select{|a| a.kind_of? StudentSchoolAssociation}
           @assessment_associations = to_build.select{|a| a.kind_of? StudentAssessment}
           @section_associations = to_build.select{|a| a.kind_of? StudentSectionAssociation}
+          @assessment_items = to_build.select{|a| a.kind_of? StudentAssessmentItem}
         end
       end
 
     end
     let(:factory) {Factory.new}
-    before {work_order_queue.factory(factory, entity_queue)}
+    before { work_order_queue.factory(factory, entity_queue) }
 
     context 'With a simple work order' do
       let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
@@ -63,9 +64,12 @@ describe "WorkOrderProcessor" do
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001,
                                              :edOrg => ed_org, :section_factory => section_factory,
                                              :assessment_factory => AssessmentFactory.new(scenario), :scenario => scenario)}
+      let(:assessment_factory) {AssessmentFactory.new(scenario)}
+      before {
+        work_order_queue.push_work_order(work_order)
+      }
 
       it "will generate the right number of entities for the student and subsequent enrollment" do
-        work_order_queue.push_work_order(work_order)
         factory.students.should have(1).items
         factory.school_associations.select{|ssa| ssa.startYear == 2001 and ssa.startGrade == "Kindergarten"}.should have(1).items
         factory.school_associations.select{|ssa| ssa.startYear == 2002 and ssa.startGrade == "First grade"}.should have(1).items
@@ -75,7 +79,6 @@ describe "WorkOrderProcessor" do
       end
 
       it "will generate StudentSchoolAssociations with the correct information" do
-        work_order_queue.push_work_order(work_order)
         factory.school_associations.each{|a|
           a.studentId.should eq 42
           a.schoolStateOrgId.should eq "elem-0000000064"
@@ -87,7 +90,6 @@ describe "WorkOrderProcessor" do
       end
 
       it "will generate StudentSectionAssociations with the correct information" do
-        work_order_queue.push_work_order(work_order)
         factory.section_associations.each{|a|
           a.studentId.should eq 42
           a.edOrgId.should eq "elem-0000000064"
@@ -103,12 +105,17 @@ describe "WorkOrderProcessor" do
 
       it "will generate StudentAssessments with the correct related assessment" do
 
-        work_order_queue.push_work_order(work_order)
         student_assessments = factory.assessment_associations.group_by{|sa| sa.assessment.assessmentTitle }
 
-        f = AssessmentFactory.new(scenario)
-        f.grade_wide_assessments(:KINDERGARTEN, 2001).each{|a|
+        assessment_factory.grade_wide_assessments(:KINDERGARTEN, 2001).each{|a|
           student_assessments[a.assessmentTitle].should have(5).item
+        }
+      end
+
+      it "will generate the correct number of student assessment items" do
+        assessment_items = factory.assessment_items.group_by{|item| item.student_assessment}
+        factory.assessment_associations.each{|a|
+          assessment_items[a].should have(3).items
         }
       end
     end
