@@ -65,6 +65,7 @@ public class ValidatorTestHelper {
         if (parentId != null) {
             edorg.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentId);
         }
+        edorg.put("organizationCategories", Arrays.asList());
         return repo.create(EntityNames.EDUCATION_ORGANIZATION, edorg);
     }
 
@@ -199,6 +200,14 @@ public class ValidatorTestHelper {
 
     public Entity generateProgram() {
         return repo.create(EntityNames.PROGRAM, new HashMap<String, Object>());
+    }
+    
+    public Entity generateTeacher() {
+        return repo.create(EntityNames.TEACHER, new HashMap<String, Object>());
+    }
+    
+    public Entity generateStaff() {
+        return repo.create(EntityNames.STAFF, new HashMap<String, Object>());
     }
     
 

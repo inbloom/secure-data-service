@@ -57,7 +57,7 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
         
-        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
+        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate(true));
         basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
         basicQuery.addOrQuery(new NeutralQuery(endDateCriteria));
         
