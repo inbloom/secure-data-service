@@ -103,6 +103,10 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("localParentIds", localParentIds);
         dbObj.put("sourceFile", neutralRecord.getSourceFile());
         dbObj.put("locationInSourceFile", neutralRecord.getLocationInSourceFile());
+        dbObj.put("visitBeforeLineNumber", neutralRecord.getVisitBeforeLineNumber());
+        dbObj.put("visitBeforeColumnNumber", neutralRecord.getVisitBeforeColumnNumber());
+        dbObj.put("visitAfterLineNumber", neutralRecord.getVisitAfterLineNumber());
+        dbObj.put("visitAfterColumnNumber", neutralRecord.getVisitAfterColumnNumber());
         dbObj.put("association", neutralRecord.isAssociation());
 
         if (neutralRecord.getCreationTime() != 0) {
