@@ -78,7 +78,7 @@ public class AddStrategyTest {
         parameters.put(AddStrategy.FIELD_NAME, "foo");
         
         this.addStrategy.setParameters(parameters);
-        this.addStrategy.transform(this.testEntity);
+        this.addStrategy.migrate(this.testEntity);
         assertTrue(this.testEntity.getBody().containsKey("foo"));
         assertTrue(this.testEntity.getBody().get("foo") == null);
     }
@@ -90,7 +90,7 @@ public class AddStrategyTest {
         parameters.put(AddStrategy.DEFAULT_VALUE, "bar");
         
         this.addStrategy.setParameters(parameters);
-        this.addStrategy.transform(this.testEntity);
+        this.addStrategy.migrate(this.testEntity);
         
         assertTrue(this.testEntity.getBody().containsKey("foo"));
         assertTrue(this.testEntity.getBody().get("foo").equals("bar"));
@@ -104,7 +104,7 @@ public class AddStrategyTest {
         parameters.put(AddStrategy.DEFAULT_VALUE, "bar");
         
         this.addStrategy.setParameters(parameters);
-        this.addStrategy.transform(this.testEntity);
+        this.addStrategy.migrate(this.testEntity);
         
         Map<String, Object> nested = (Map<String, Object>) this.testEntity.getBody().get("nested");
         assertTrue(nested.containsKey("foo"));

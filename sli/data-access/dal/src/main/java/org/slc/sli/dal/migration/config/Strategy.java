@@ -16,7 +16,7 @@
 package org.slc.sli.dal.migration.config;
 
 import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.TransformStrategy;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
 
 /**
@@ -29,13 +29,13 @@ public enum Strategy {
     
     ADD(AddStrategy.class);
 
-    private Class<? extends TransformStrategy> implementingClass;
+    private Class<? extends MigrationStrategy> implementingClass;
 
-    private Strategy(Class<? extends TransformStrategy> implementingClass) {
+    private Strategy(Class<? extends MigrationStrategy> implementingClass) {
         this.implementingClass = implementingClass;
     }
     
-    public TransformStrategy getNewImplementation() throws MigrationException {
+    public MigrationStrategy getNewImplementation() throws MigrationException {
         try {
             return implementingClass.newInstance();
         } catch (InstantiationException e) {

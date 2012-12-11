@@ -29,7 +29,7 @@ import com.mongodb.DBObject;
 
 import org.slc.sli.dal.migration.config.Strategy;
 import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.TransformStrategy;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
@@ -65,7 +65,7 @@ public class SliSchemaVersionValidator {
     private static final String VERSION_NUMBER_FIELD = "version";
     private static final int NOT_VERSIONED_YET = 0;
     
-    private static final List<TransformStrategy> NO_STRATEGIES_DEFINED = new ArrayList<TransformStrategy>();
+    private static final List<MigrationStrategy> NO_STRATEGIES_DEFINED = new ArrayList<MigrationStrategy>();
 
     @Autowired
     protected SchemaRepository entitySchemaRepository;
@@ -79,7 +79,7 @@ public class SliSchemaVersionValidator {
 
     private Map<String, Integer> entitiesBeingUpversioned;
 
-    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap;
+    private Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap;
 
     @PostConstruct
     public void initMigration() {
@@ -157,8 +157,8 @@ public class SliSchemaVersionValidator {
 
             if (entityVersionNumber < newVersionNumber) {
 
-                for (TransformStrategy transformStrategy : getTransformStrategies(entityType, newVersionNumber)) {
-                    localEntity = transformStrategy.transform(localEntity);
+                for (MigrationStrategy migrationStrategy : getMigrationStrategies(entityType, newVersionNumber)) {
+                    localEntity = migrationStrategy.migrate(localEntity);
                 }
                 
                 localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
@@ -186,9 +186,9 @@ public class SliSchemaVersionValidator {
     /**
      * This method should be called post construct to load the strategies per entity type
      */
-    private  Map<String, Map<Integer, List<TransformStrategy>>> buildMigrationStrategyMap() {
+    private  Map<String, Map<Integer, List<MigrationStrategy>>> buildMigrationStrategyMap() {
 
-        Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
+        Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<MigrationStrategy>>>();
         
         MigrationConfig config = null;
         try {
@@ -206,7 +206,7 @@ public class SliSchemaVersionValidator {
             String entityType = entityEntry.getKey();
             Map<Integer, Map<Strategy, Map<String, Object>>> versionUpdates = entityEntry.getValue();
 
-            Map<Integer, List<TransformStrategy>> transformsForVersion = new HashMap<Integer, List<TransformStrategy>>();
+            Map<Integer, List<MigrationStrategy>> migrationsForVersion = new HashMap<Integer, List<MigrationStrategy>>();
 
             // iterate over version updates for a single entity
             for (Map.Entry<Integer, Map<Strategy, Map<String, Object>>> versionEntry : versionUpdates.entrySet()) {
@@ -214,33 +214,33 @@ public class SliSchemaVersionValidator {
                 Integer versionNumber = versionEntry.getKey();
                 Map<Strategy, Map<String, Object>> versionStrategies = versionEntry.getValue();
 
-                List<TransformStrategy> strategies = new ArrayList<TransformStrategy>();
-                transformsForVersion.put(versionNumber, strategies);
+                List<MigrationStrategy> strategies = new ArrayList<MigrationStrategy>();
+                migrationsForVersion.put(versionNumber, strategies);
 
                 // iterate over migration strategies for a single version update
                 for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategies.entrySet()) {
                     try {
-                        TransformStrategy transformStrategy = strategy.getKey().getNewImplementation();
-                        transformStrategy.setParameters(strategy.getValue());
-                        strategies.add(transformStrategy);
+                        MigrationStrategy migrationStrategy = strategy.getKey().getNewImplementation();
+                        migrationStrategy.setParameters(strategy.getValue());
+                        strategies.add(migrationStrategy);
                     } catch (MigrationException e) {
                         LOG.error("Unable to instantiate TransformStrategy: " + strategy, e);
                     }
                 }
             }
-            migrationStrategyMap.put(entityType, transformsForVersion);
+            migrationStrategyMap.put(entityType, migrationsForVersion);
         }
         
         return migrationStrategyMap;
 
     }
 
-    private List<TransformStrategy> getTransformStrategies(String entityType, int newVersionNumber) {
+    private List<MigrationStrategy> getMigrationStrategies(String entityType, int newVersionNumber) {
 
-        Map<Integer, List<TransformStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
+        Map<Integer, List<MigrationStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
 
         if (entityMigrations != null) {
-            List<TransformStrategy> strategies = entityMigrations.get(newVersionNumber);
+            List<MigrationStrategy> strategies = entityMigrations.get(newVersionNumber);
 
             if (strategies != null) {
                 return strategies;

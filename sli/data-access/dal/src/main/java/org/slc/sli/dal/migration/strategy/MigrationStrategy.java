@@ -25,14 +25,14 @@ import java.util.Map;
  * @author kmyers
  * 
  */
-public interface TransformStrategy {
+public interface MigrationStrategy {
 
     /**
      * Transforms a single entity
      * 
      * @param entity
      */
-    public Entity transform(Entity entity) throws MigrationException;
+    public Entity migrate(Entity entity) throws MigrationException;
     
     
     /**

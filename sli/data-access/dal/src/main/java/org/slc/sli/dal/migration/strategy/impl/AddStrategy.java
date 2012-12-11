@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.TransformStrategy;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -30,7 +30,7 @@ import org.slc.sli.domain.Entity;
  * @author kmyers
  */
 
-public class AddStrategy implements TransformStrategy {
+public class AddStrategy implements MigrationStrategy {
 
     public static final String FIELD_NAME = "fieldName";
     public static final String DEFAULT_VALUE = "defaultValue";
@@ -39,7 +39,7 @@ public class AddStrategy implements TransformStrategy {
     private Object defaultValue;
     
     @Override
-    public Entity transform(Entity entity) throws MigrationException {
+    public Entity migrate(Entity entity) throws MigrationException {
         try {
             PropertyUtils.setProperty(entity.getBody(), fieldName, defaultValue);
         } catch (IllegalAccessException e) {
