@@ -34,17 +34,7 @@ public enum Strategy {
         this.implementingClass = implementingClass;
     }
     
-    public static TransformStrategy getNewImplementation(String strategyName) throws InstantiationException, IllegalAccessException {
-        if (strategyName == null) {
-            return null;
-        }
-        
-        Strategy strategy = Strategy.valueOf(strategyName);
-        
-        if (strategy == null) {
-            return null;
-        }
-        
-        return strategy.implementingClass.newInstance();
+    public TransformStrategy getNewImplementation() throws InstantiationException, IllegalAccessException {
+        return implementingClass.newInstance();
     }
 }
