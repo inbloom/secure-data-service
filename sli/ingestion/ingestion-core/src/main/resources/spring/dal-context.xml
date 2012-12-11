@@ -91,12 +91,12 @@
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
+  <bean id="batchJobWriteConcernResolver" class="org.slc.sli.ingestion.model.da.BatchJobWriteConcernResolver"></bean>
+
   <bean id="batchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="ErrorMappingConverter" />
-    <property name="writeConcern">
-      <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
-    </property>
+    <property name="writeConcernResolver" ref="batchJobWriteConcernResolver" />
   </bean>
 
   <bean id="batchJobHashCacheMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
