@@ -128,7 +128,6 @@ public class SliSchemaVersionValidator {
     
     public Entity migrate(Entity entity) {
         
-        if (this.requiresMigration(entity.getType())) {
         String entityType = entity.getType();
         
         Entity localEntity = entity;
@@ -141,16 +140,16 @@ public class SliSchemaVersionValidator {
                 
                 for (TransformStrategy transformStrategy : whatever.getTransformStrategies(entityType, newVersionNumber)) {
                     localEntity = transformStrategy.transform(localEntity);
+                }
+                
                 // perform on-demand upversioning
                 //List<TransformStrategy> strategyList = migrationStrategyMap.get(entityType);
                 //for(TransformStrategy strategy: strategyList) {
                 //    strategy.transform(entity);
-                }
             }
         }
-        }
         
-        return entity;
+        return localEntity;
     }
 
     public List<Entity> migrate(List<Entity> entities) {
