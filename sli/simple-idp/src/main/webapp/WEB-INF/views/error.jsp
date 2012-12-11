@@ -53,7 +53,6 @@
                    		logger.severe( "SimpleIDP Request Error: " + obj.toString() );
 				   }
                  %>				
-				<!--  log:error "${requestScope['javax.servlet.error.message']}"/ -->
 			</div>
 		</div>
 	</div>
