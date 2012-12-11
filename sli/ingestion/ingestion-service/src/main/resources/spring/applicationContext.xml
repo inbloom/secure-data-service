@@ -5,8 +5,8 @@
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <import resource="core-applicationContext.xml" />
-  <import resource="healthcheck-dispatcher-servlet.xml" />
+  <import resource="classpath:/spring/core-applicationContext.xml" />
   <import resource="spring-security.xml" />
+  <bean id="messageSource" parent="coreMessageSource" />
 
 </beans>
