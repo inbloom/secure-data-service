@@ -32,6 +32,7 @@ import org.slc.sli.dal.migration.config.Strategy;
 import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
+import org.slc.sli.dal.repository.MongoRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
@@ -159,7 +160,7 @@ public class SliSchemaVersionValidator {
         return NOT_VERSIONED_YET;
     }
 
-    public Entity migrate(Entity entity) throws MigrationException {
+    public Entity migrate(Entity entity, MongoRepository<Entity> repo) throws MigrationException {
 
         if (entity == null) {
             return null;
@@ -175,18 +176,19 @@ public class SliSchemaVersionValidator {
 
             if (entityVersionNumber < newVersionNumber) {
 
-                for (MigrationStrategy migrationStrategy : getMigrationStrategies(entityType, newVersionNumber)) {
+                for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, newVersionNumber)) {
                     localEntity = migrationStrategy.migrate(localEntity);
                 }
                 
                 localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
+                repo.update(localEntity.getType(), localEntity);
             }
         }
 
         return localEntity;
     }
 
-    public List<Entity> migrate(List<Entity> entities) throws MigrationException {
+    public List<Entity> migrate(List<Entity> entities, MongoRepository<Entity> repo) throws MigrationException {
 
         if (entities == null) {
             return null;
@@ -195,7 +197,7 @@ public class SliSchemaVersionValidator {
         List<Entity> migratedEntities = new ArrayList<Entity>();
 
         for (Entity entity : entities) {
-            migratedEntities.add(this.migrate(entity));
+            migratedEntities.add(this.migrate(entity, repo));
         }
 
         return migratedEntities;

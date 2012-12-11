@@ -33,6 +33,7 @@ import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
+import org.slc.sli.dal.versioning.SliSchemaVersionValidator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -83,6 +84,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private SubDocAccessor subDocs;
 
     private Denormalizer denormalizer;
+    
+    @Autowired
+    private SliSchemaVersionValidator sliSchemaVersionValidator;
 
     @Override
     public void afterPropertiesSet() {
