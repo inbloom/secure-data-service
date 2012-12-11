@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.reporting;
 
 /**
- * Represents a source of the report.
+ * Enumeration of message codes for the ingestion-core module.
  *
- * @author okrook
+ * @author dduran
  *
  */
-public interface Source {
+public enum CoreMessageCode implements MessageCode {
+    ATTENDANCE_TRANSFORMER_WRNG_MSG1;
 
-    String getSource();
+    @Override
+    public String getCode() {
+        return this.name();
+    }
 
-    String getBatchJobId();
-
-    String getResourceId();
-
-    String getStageName();
 }
