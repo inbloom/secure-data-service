@@ -25,6 +25,7 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+  <import resource="base-message-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
 
