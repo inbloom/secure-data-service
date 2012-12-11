@@ -32,8 +32,8 @@ import org.slc.sli.domain.Entity;
 
 public class AddStrategy implements TransformStrategy {
 
-    private static final String FIELD_NAME = "fieldName";
-    private static final String DEFAULT_VALUE = "defaultValue";
+    public static final String FIELD_NAME = "fieldName";
+    public static final String DEFAULT_VALUE = "defaultValue";
     
     private String fieldName;
     private Object defaultValue;
@@ -41,7 +41,7 @@ public class AddStrategy implements TransformStrategy {
     @Override
     public Entity transform(Entity entity) throws MigrationException {
         try {
-            PropertyUtils.setProperty(entity, fieldName, defaultValue);
+            PropertyUtils.setProperty(entity.getBody(), fieldName, defaultValue);
         } catch (IllegalAccessException e) {
             throw new MigrationException(e);
         } catch (InvocationTargetException e) {
@@ -55,7 +55,7 @@ public class AddStrategy implements TransformStrategy {
     @Override
     public void setParameters(Map<String, Object> parameters) throws MigrationException {
         
-        if (!parameters.containsKey(FIELD_NAME)) {
+        if (parameters == null || !parameters.containsKey(FIELD_NAME)) {
             throw new MigrationException(new IllegalArgumentException("Add strategy missing required argument: fieldName"));
         }
         
