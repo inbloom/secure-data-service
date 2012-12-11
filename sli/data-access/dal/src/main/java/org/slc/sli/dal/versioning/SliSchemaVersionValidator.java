@@ -33,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
@@ -125,12 +126,17 @@ public class SliSchemaVersionValidator {
         
         String entityType = entity.getType();
         
+        Entity localEntity = entity;
+        
         if (this.entitiesBeingUpversioned.containsKey(entityType)) {
             int entityVersionNumber = this.getEntityVersionNumber(entity);
             int newVersionNumber = this.entitiesBeingUpversioned.get(entityType);
             
             if (entityVersionNumber < newVersionNumber) {
-                // perform on-demand upversioning
+                
+                for (TransformStrategy transformStrategy : whatever.getTransformStrategies(entityType, newVersionNumber)) {
+                    localEntity = transformStrategy.transform(localEntity);
+                }
             }
         }
         
