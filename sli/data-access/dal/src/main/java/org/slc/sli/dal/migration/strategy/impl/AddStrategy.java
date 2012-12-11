@@ -15,6 +15,12 @@
 
 package org.slc.sli.dal.migration.strategy.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -25,9 +31,37 @@ import org.slc.sli.domain.Entity;
  * To change this template use File | Settings | File Templates.
  */
 
-public class AddStrategy extends MigrationStrategyImpl {
+public class AddStrategy implements TransformStrategy {
+
+    private static final String FIELD_NAME = "fieldName";
+    private static final String DEFAULT_VALUE = "defaultValue";
+    
+    private String fieldName;
+    private Object defaultValue;
+    
     @Override
-    public void transform(Entity entity) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public Entity transform(Entity entity) throws MigrationException {
+        try {
+            PropertyUtils.setProperty(entity, fieldName, defaultValue);
+        } catch (IllegalAccessException e) {
+            throw new MigrationException(e);
+        } catch (InvocationTargetException e) {
+            throw new MigrationException(e);
+        } catch (NoSuchMethodException e) {
+            throw new MigrationException(e);
+        }
+        return entity;
     }
+
+    @Override
+    public void setParameters(Map<String, Object> parameters) {
+        
+        if (!parameters.containsKey(FIELD_NAME)) {
+            throw new IllegalArgumentException("Add strategy missing required argument: fieldName");
+        }
+        
+        this.fieldName = parameters.get(FIELD_NAME).toString();
+        this.defaultValue = parameters.get(DEFAULT_VALUE);
+    }
+    
 }

@@ -32,7 +32,7 @@ public interface TransformStrategy {
      * 
      * @param entity
      */
-    public Entity transform(Entity entity);
+    public Entity transform(Entity entity) throws MigrationException;
     
     
     /**
@@ -40,6 +40,6 @@ public interface TransformStrategy {
      * 
      * @param parameter
      */
-    public void setParameters(Map<String, Object> parameter);
+    public void setParameters(Map<String, Object> parameters);
 
 }
