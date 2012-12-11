@@ -95,7 +95,7 @@ public class SliSchemaVersionValidator {
      * 
      */
     private void warnForEachMissingMigrationStrategyList() {
-        for (Entry<String, Integer> entry : entityTypesBeingMigrated.entrySet()) {
+        for (Entry<String, Integer> entry : this.entityTypesBeingMigrated.entrySet()) {
             String entityType = entry.getKey();
             int newVersion = entry.getValue();
             
@@ -109,7 +109,7 @@ public class SliSchemaVersionValidator {
 
         this.entityTypesBeingMigrated = new HashMap<String, Integer>();
 
-        for (NeutralSchema neutralSchema : entitySchemaRepository.getSchemas()) {
+        for (NeutralSchema neutralSchema : this.entitySchemaRepository.getSchemas()) {
             AppInfo appInfo = neutralSchema.getAppInfo();
 
             if (neutralSchema.getType().equals("teacher")) {
@@ -122,7 +122,7 @@ public class SliSchemaVersionValidator {
                     Query query = new Query();
                     query.addCriteria(Criteria.where(ID).is(neutralSchema.getType()));
 
-                    DBObject dbObject = mongoTemplate.findOne(query, BasicDBObject.class, METADATA_COLLECTION);
+                    DBObject dbObject = this.mongoTemplate.findOne(query, BasicDBObject.class, METADATA_COLLECTION);
 
                     if (dbObject == null) {
                         Map<String, Object> objectToSave = new HashMap<String, Object>();
@@ -130,7 +130,7 @@ public class SliSchemaVersionValidator {
                         objectToSave.put(DAL_SV, 1);
                         objectToSave.put(MONGO_SV, 1);
                         objectToSave.put(SARJE, 0);
-                        mongoTemplate.insert(objectToSave, METADATA_COLLECTION);
+                        this.mongoTemplate.insert(objectToSave, METADATA_COLLECTION);
                     } else {
                         int lastKnownDalVersion = Double.valueOf(dbObject.get(DAL_SV).toString()).intValue();
 
@@ -138,10 +138,10 @@ public class SliSchemaVersionValidator {
 
                             // write a signal for the entity type to be upversioned
                             Update update = new Update().set(DAL_SV, schemaVersion).set(SARJE, 1);
-                            mongoTemplate.updateFirst(query, update, METADATA_COLLECTION);
+                            this.mongoTemplate.updateFirst(query, update, METADATA_COLLECTION);
 
                             // remember that the entity's schema is being upversioned
-                            entityTypesBeingMigrated.put(neutralSchema.getType(), schemaVersion);
+                            this.entityTypesBeingMigrated.put(neutralSchema.getType(), schemaVersion);
                         }
                     }
                 }
@@ -204,7 +204,7 @@ public class SliSchemaVersionValidator {
     /**
      * This method should be called post construct to load the strategies per entity type
      */
-    private  Map<String, Map<Integer, List<MigrationStrategy>>> buildMigrationStrategyMap() {
+    private Map<String, Map<Integer, List<MigrationStrategy>>> buildMigrationStrategyMap() {
 
         Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<MigrationStrategy>>>();
         
