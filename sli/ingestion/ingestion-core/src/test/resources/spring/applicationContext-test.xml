@@ -6,7 +6,7 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
     http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
     >
@@ -35,7 +35,6 @@
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
 
-  <import resource="core-message-context.xml" />
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
@@ -89,11 +88,19 @@
   <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator" />
   <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.SLIDbIndexValidator" />
   <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
+  
 
+  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basenames">
+      <list>
+        <value>messages</value>
+      </list>
+    </property>
+  </bean>
 
-  <bean id="messageSource" parent="coreMessageSource" />
-
-  <camelContext xmlns="http://camel.apache.org/schema/spring" />
+  <camelContext xmlns="http://camel.apache.org/schema/spring">
+    <contextScan></contextScan>
+  </camelContext>
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
@@ -140,5 +147,5 @@
     <value>assessmentFamily,false,creationTime</value>
     <value>assessmentItem,false,creationTime</value>
   </util:set>
-
+  
 </beans>
