@@ -2960,7 +2960,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseReference>
   </CourseOffering>
   <Section>
-    <UniqueSectionCode>sctn-0000100001</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3002,7 +3002,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000200002</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000002</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3044,7 +3044,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000300003</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000003</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3086,7 +3086,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000400004</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000004</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3128,7 +3128,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000500005</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000005</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3170,7 +3170,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000600006</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3212,7 +3212,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001200007</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000007</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3254,7 +3254,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001100008</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000008</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3296,7 +3296,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001000009</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000009</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3338,7 +3338,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000900010</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000010</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3380,7 +3380,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000800011</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000011</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3422,7 +3422,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001800012</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000012</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3464,7 +3464,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001700013</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000013</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3506,7 +3506,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001600014</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000014</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3548,7 +3548,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001500015</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000015</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3590,7 +3590,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0001900001</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3632,7 +3632,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002000002</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000002</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3674,7 +3674,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002100003</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000003</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3716,7 +3716,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002200004</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000004</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3758,7 +3758,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002300005</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000005</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3800,7 +3800,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002400006</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3842,7 +3842,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002500007</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000007</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3884,7 +3884,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002600008</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000008</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3926,7 +3926,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002700009</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000009</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -3968,7 +3968,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002800010</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000010</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4010,7 +4010,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0002900011</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000011</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4052,7 +4052,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003000012</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000012</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4094,7 +4094,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003900013</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000013</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4136,7 +4136,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004000014</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000014</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4178,7 +4178,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004100015</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000015</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4220,7 +4220,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004200016</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000016</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4262,7 +4262,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003500017</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000017</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4304,7 +4304,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003600018</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000018</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4346,7 +4346,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003700019</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000019</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4388,7 +4388,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003800020</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000020</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4430,7 +4430,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003100021</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000021</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4472,7 +4472,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003200022</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000022</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4514,7 +4514,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003300023</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000023</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4556,7 +4556,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0003400024</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000024</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4598,7 +4598,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005100025</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000025</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4640,7 +4640,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005200026</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000026</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4682,7 +4682,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005300027</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000027</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4724,7 +4724,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005400028</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000028</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4766,7 +4766,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004700029</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000029</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4808,7 +4808,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004800030</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000030</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4850,7 +4850,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004900031</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000031</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4892,7 +4892,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005000032</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000032</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4934,7 +4934,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004300033</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000033</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -4976,7 +4976,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004400034</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000034</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5018,7 +5018,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004500035</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000035</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5060,7 +5060,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0004600036</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000036</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5102,7 +5102,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005500001</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000001</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5144,7 +5144,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005600002</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000002</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5186,7 +5186,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005700003</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000003</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5228,7 +5228,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0005800004</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000004</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5270,7 +5270,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007500005</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000005</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5312,7 +5312,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007600006</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5354,7 +5354,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007700007</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000007</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5396,7 +5396,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007800008</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000008</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5438,7 +5438,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007100009</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000009</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5480,7 +5480,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007200010</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000010</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5522,7 +5522,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007300011</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000011</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5564,7 +5564,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0007400012</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000012</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5606,7 +5606,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009500013</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000013</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5648,7 +5648,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009600014</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000014</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5690,7 +5690,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009700015</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000015</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5732,7 +5732,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009800016</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000016</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5774,7 +5774,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009100017</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000017</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5816,7 +5816,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009200018</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000018</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5858,7 +5858,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009300019</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000019</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5900,7 +5900,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009400020</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000020</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5942,7 +5942,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0008700021</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000021</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -5984,7 +5984,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0008800022</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000022</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -6026,7 +6026,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0008900023</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000023</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
@@ -6068,7 +6068,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0009000024</UniqueSectionCode>
+    <UniqueSectionCode>sctn-0000000024</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>

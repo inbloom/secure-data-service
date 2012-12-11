@@ -69,7 +69,7 @@ class EntityFactory
 
             when StudentSectionAssociation.to_s
 
-              rval << StudentSectionAssociation.new(enrollment[:id], DataUtility.get_unique_section_id(enrollment[:sectionId], enrollment[:courseOffering]),  enrollment[:schoolId], enrollment[:startYear], enrollment[:startGrade])
+              rval << StudentSectionAssociation.new(enrollment[:id], DataUtility.get_unique_section_id(enrollment[:sectionId]),  enrollment[:schoolId], enrollment[:startYear], enrollment[:startGrade])
 
             else
               puts "unknown student enrollment work order #{enrollment}"
@@ -105,6 +105,9 @@ class EntityFactory
 
       when [TeacherSchoolAssociation]
         rval << TeacherSchoolAssociation.new(work_order[:id], work_order[:school], work_order[:assignment], work_order[:grades], work_order[:subjects])
+
+      when [TeacherSectionAssociation]
+        rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
 
       else
         puts "factory not found for #{work_order}"

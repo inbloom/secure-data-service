@@ -96,8 +96,8 @@ class DataUtility
   end
 
   # create a unique section id
-  def self.get_unique_section_id(id, offering)
-    "sctn-" + pad_id_with_zeroes(offering, 5) + pad_id_with_zeroes(id, 5)
+  def self.get_unique_section_id(id)
+    "sctn-" + pad_id_with_zeroes(id, 10)
   end
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
 
