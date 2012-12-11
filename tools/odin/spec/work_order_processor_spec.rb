@@ -32,7 +32,9 @@ require_relative '../lib/EntityCreation/entity_factory'
 require_relative '../lib/EntityCreation/work_order_processor'
 
 describe "WorkOrderProcessor" do
+  let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}}
+  let(:prng) {Random.new(config['seed'])}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
@@ -52,8 +54,8 @@ describe "WorkOrderProcessor" do
 
               when StudentSectionAssociation.to_s
 
-                create_student_section_association(enrollment[:id], DataUtility.get_unique_section_id(enrollment[:sectionId],
-                                                  enrollment[:courseOffering]),  enrollment[:schoolId], enrollment[:startYear], enrollment[:startGrade])
+                create_student_section_association(enrollment[:id], DataUtility.get_unique_section_id(enrollment[:sectionId]),  
+                                                   enrollment[:schoolId], enrollment[:startYear], enrollment[:startGrade])
 
               else
                 puts "unknown student enrollment work order #{enrollment}"
@@ -128,11 +130,11 @@ describe "WorkOrderProcessor" do
 
         work_order_queue.push_work_order(work_order)
         section_associations[2001].count.should eq 2
-        section_associations[2001][0].sectionId.should match(/sctn\-00001/)
-        section_associations[2001][1].sectionId.should match(/sctn\-00002/)
+        section_associations[2001][0].sectionId.should match(/sctn\-0000000042/)
+        section_associations[2001][1].sectionId.should match(/sctn\-0000000045/)
         section_associations[2002].count.should eq 2
-        section_associations[2002][0].sectionId.should match(/sctn\-00001/)
-        section_associations[2002][1].sectionId.should match(/sctn\-00002/)
+        section_associations[2002][0].sectionId.should match(/sctn\-0000000042/)
+        section_associations[2002][1].sectionId.should match(/sctn\-0000000045/)
       end
 
       it "will generate StudentAssessments with the correct related assessment" do
@@ -217,6 +219,8 @@ end
 
 describe "generate_work_orders" do
   let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}}
+  let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
+  let(:prng) {Random.new(config['seed'])}
 
   context "with a world with 20 students in 4 schools" do
 
@@ -226,7 +230,7 @@ describe "generate_work_orders" do
                   'middle' => [{'id' => 2, 'students' => {2011 => {:SEVENTH_GRADE => 5}, 2012 => {:EIGTH_GRADE => 5}}, 'sessions' => [{}]}],
                   'high' => [{'id' => 3, 'students' => {2011 => {:NINTH_GRADE => 5}, 2012 => {:TENTH_GRADE => 5}}, 'sessions' => [{}]}]}}
 
-    let(:work_orders) { WorkOrderProcessor.generate_work_orders(world, scenario)}
+    let(:work_orders) { WorkOrderProcessor.generate_work_orders(world, scenario, prng)}
 
     it "will create a work order for each student" do
       work_orders.count.should eq(20)
@@ -261,7 +265,7 @@ describe "generate_work_orders" do
 
     it "will lazily create work orders in finite time" do
       Timeout::timeout(5){
-        WorkOrderProcessor.generate_work_orders(world, scenario).take(100).length.should eq(100)
+        WorkOrderProcessor.generate_work_orders(world, scenario, prng).take(100).length.should eq(100)
       }
     end
   end
@@ -270,9 +274,7 @@ describe "generate_work_orders" do
     let(:world)  {{'high' => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]}].cycle}}
 
     it "will lazily create work orders in finite time" do
-      Timeout::timeout(5){
-        WorkOrderProcessor.generate_work_orders(world, scenario).take(100).length.should eq(100)
-      }
+      Timeout::timeout(5) { WorkOrderProcessor.generate_work_orders(world, scenario, prng).take(100).length.should eq(100) }
     end
   end
 end
