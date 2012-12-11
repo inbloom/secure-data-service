@@ -99,6 +99,8 @@ And I should see "InterchangeStudentDiscipline.xml disciplineIncident 2 deltas!"
 And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningObjective 70 deltas!" in the resulting batch job file
 And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningObjective 65 deltas!" in the resulting batch job file
 And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningObjective 63 deltas!" in the resulting batch job file
+# Uncomment when deltas for Attendance implemented
+# And I should see "InterchangeAttendance.xml attendance 5550 deltas!" in the resulting batch job file
 
 
 Scenario: Job report should not report deltas when SDS is ingested twice for different tenantId
@@ -152,8 +154,8 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
      | recordHash               | 112                 | t                           | Midgar                  | string               |
 
 And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
- And I post "Reingest-Hyrule.zip" file as the payload of the ingestion job for "Hyrule-NYC"
-And zip file is scp to ingestion landing zone for "Hyrule-NYC"
+And I post "Hyrule.zip" file as the payload of the ingestion job
+And zip file is scp to ingestion landing zone with name "Reingest-Hyrule.zip"
 And a batch job for file "Reingest-Hyrule.zip" is completed in database
 
 And I check to find if record is in batch job collection:
