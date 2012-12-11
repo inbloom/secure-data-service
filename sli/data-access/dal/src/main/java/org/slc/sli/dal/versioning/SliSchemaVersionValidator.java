@@ -27,6 +27,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.slc.sli.dal.migration.config.Strategy;
+import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
 import org.slc.sli.domain.Entity;
@@ -132,7 +133,7 @@ public class SliSchemaVersionValidator {
         return NOT_VERSIONED_YET;
     }
     
-    public Entity migrate(Entity entity) {
+    public Entity migrate(Entity entity) throws MigrationException {
         
         String entityType = entity.getType();
         
@@ -144,21 +145,16 @@ public class SliSchemaVersionValidator {
             
             if (entityVersionNumber < newVersionNumber) {
                 
-                    for (TransformStrategy transformStrategy : getTransformStrategies(entityType, newVersionNumber)) {
+                for (TransformStrategy transformStrategy : getTransformStrategies(entityType, newVersionNumber)) {
                     localEntity = transformStrategy.transform(localEntity);
                 }
-                
-                // perform on-demand upversioning
-                //List<TransformStrategy> strategyList = migrationStrategyMap.get(entityType);
-                //for(TransformStrategy strategy: strategyList) {
-                //    strategy.transform(entity);
             }
         }
         
         return localEntity;
     }
 
-    public List<Entity> migrate(List<Entity> entities) {
+    public List<Entity> migrate(List<Entity> entities) throws MigrationException {
 
         List<Entity> migratedEntities = new ArrayList<Entity>();
         
