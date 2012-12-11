@@ -235,7 +235,7 @@ public class SliSchemaVersionValidator {
 
     }
 
-    private List<MigrationStrategy> getMigrationStrategies(String entityType, int newVersionNumber) {
+    protected List<MigrationStrategy> getMigrationStrategies(String entityType, int newVersionNumber) {
 
         Map<Integer, List<MigrationStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
 
