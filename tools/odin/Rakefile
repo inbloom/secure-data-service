@@ -98,6 +98,15 @@ task :assessment do
   end
 end
 
+desc "Run student factory tests"
+task :student_factory do
+  RSpec::Core::RakeTask.new(:student_factory) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/work_order_processor_spec.rb'
+    t.rspec_path = 'rspec'
+  end
+end
+
 desc "Run all the specs"
 task :test do
   FileUtils.rm_rf('generated')

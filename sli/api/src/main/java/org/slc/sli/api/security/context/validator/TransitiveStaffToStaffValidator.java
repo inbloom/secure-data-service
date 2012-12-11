@@ -167,7 +167,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     
     private void injectEndDateQuery(NeutralQuery basicQuery) {
         NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE,
-                NeutralCriteria.CRITERIA_GTE, getFilterDate());
+                NeutralCriteria.CRITERIA_GTE, getFilterDate(true));
         basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE,
                 NeutralCriteria.CRITERIA_EXISTS, false)));
         basicQuery.addOrQuery(new NeutralQuery(endDateCriteria));

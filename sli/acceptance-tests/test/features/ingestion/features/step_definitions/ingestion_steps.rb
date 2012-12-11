@@ -51,6 +51,7 @@ INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
 INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
 INGESTION_RC_TENANT = PropLoader.getProps['ingestion_rc_tenant']
 INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
+INGESTION_TIMEOUT_OVERRIDE = PropLoader.getProps['ingestion_timeout_override_seconds']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
@@ -1137,7 +1138,8 @@ def dirContainsBatchJobLogs?(dir, num)
 end
 
 When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |limit|
-  @maxTimeout = limit.to_i
+  @maxTimeout = limit.to_i + INGESTION_TIMEOUT_OVERRIDE.to_i
+  puts "Waited for #{INGESTION_TIMEOUT_OVERRIDE.to_i} seconds in addition to the timeout"
 end
 
 When /^a batch job log has been created$/ do
