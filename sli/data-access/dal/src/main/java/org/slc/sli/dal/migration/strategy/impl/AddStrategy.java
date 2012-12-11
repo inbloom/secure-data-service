@@ -24,11 +24,10 @@ import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.domain.Entity;
 
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 12/10/12
- * Time: 2:54 PM
- * To change this template use File | Settings | File Templates.
+ * Supports the migration of entities by adding a new field with a default value.
+ * 
+ * @author pghosh
+ * @author kmyers
  */
 
 public class AddStrategy implements TransformStrategy {
@@ -54,10 +53,10 @@ public class AddStrategy implements TransformStrategy {
     }
 
     @Override
-    public void setParameters(Map<String, Object> parameters) {
+    public void setParameters(Map<String, Object> parameters) throws MigrationException {
         
         if (!parameters.containsKey(FIELD_NAME)) {
-            throw new IllegalArgumentException("Add strategy missing required argument: fieldName");
+            throw new MigrationException(new IllegalArgumentException("Add strategy missing required argument: fieldName"));
         }
         
         this.fieldName = parameters.get(FIELD_NAME).toString();

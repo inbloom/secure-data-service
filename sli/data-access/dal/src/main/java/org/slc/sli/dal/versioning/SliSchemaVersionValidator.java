@@ -28,6 +28,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.slc.sli.dal.migration.config.Strategy;
+import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
 import org.slc.sli.domain.Entity;
@@ -76,12 +77,20 @@ public class SliSchemaVersionValidator {
 
 
     private Map<String, Integer> entitiesBeingUpversioned;
+    
+    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    //this will use object mapper to map json to config
+    // <entityName, <versionNumber, config>>
+    private Map<String, Map<Integer, Map<Strategy, Map<String, Object>>>> entityConfig;
 
     @PostConstruct
-    public void validate() {
+    public void initMigration() {
+        this.detectMigrations();
+        this.buildMigrationStrategyMap();
+    }
+
+    private void detectMigrations() {
 
         this.entitiesBeingUpversioned = new HashMap<String, Integer>();
 
@@ -125,11 +134,6 @@ public class SliSchemaVersionValidator {
         }
     }
 
-    @PostConstruct
-    public void initMigration() {
-        buildMigrationStrategyMap();
-    }
-
     private int getEntityVersionNumber(Entity entity) {
         Map<String, Object> entityMetaData = entity.getMetaData();
 
@@ -140,7 +144,11 @@ public class SliSchemaVersionValidator {
         return NOT_VERSIONED_YET;
     }
 
-    public Entity migrate(Entity entity) {
+    public Entity migrate(Entity entity) throws MigrationException {
+        
+        if (entity == null) {
+            return null;
+        }
 
         String entityType = entity.getType();
 
@@ -153,21 +161,21 @@ public class SliSchemaVersionValidator {
             if (entityVersionNumber < newVersionNumber) {
 
                 for (TransformStrategy transformStrategy : getTransformStrategies(entityType, newVersionNumber)) {
-                    // localEntity = transformStrategy.transform(localEntity);
+                    localEntity = transformStrategy.transform(localEntity);
                 }
 
-                // perform on-demand upversioning
-                // List<TransformStrategy> strategyList = migrationStrategyMap.get(entityType);
-                // for(TransformStrategy strategy: strategyList) {
-                // strategy.transform(entity);
             }
         }
 
         return localEntity;
     }
 
-    public List<Entity> migrate(List<Entity> entities) {
+    public List<Entity> migrate(List<Entity> entities) throws MigrationException {
 
+        if (entities == null) {
+            return null;
+        }
+        
         List<Entity> migratedEntities = new ArrayList<Entity>();
 
         for (Entity entity : entities) {
@@ -176,9 +184,6 @@ public class SliSchemaVersionValidator {
 
         return migratedEntities;
     }
-
-    // <entityName, <versionNumber, [addStrategy, renameStrategy]>>
-    private Map<String, Map<Integer, List<TransformStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<TransformStrategy>>>();
 
     /**
      * This method should be called post construct to load the strategies per entity type
