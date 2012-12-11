@@ -58,8 +58,15 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-    protected String getFilterDate() {
-        return getNowMinusGracePeriod().toString(fmt);
+    protected String getFilterDate(boolean useGracePeriod) {
+        DateTime date = null;
+        if (useGracePeriod) {
+            date = getNowMinusGracePeriod();
+        } else {
+            date = DateTime.now();
+            
+        }
+        return date.toString(fmt);
     }
 
     protected DateTime getNowMinusGracePeriod() {
@@ -86,8 +93,8 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 || EntityNames.REPORT_CARD.equals(type);
     }
     
-    protected void addEndDateToQuery(NeutralQuery query) {
-        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
+    protected void addEndDateToQuery(NeutralQuery query, boolean useGracePeriod) {
+        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate(useGracePeriod));
         query.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
         query.addOrQuery(new NeutralQuery(endDateCriteria));
     }
@@ -152,11 +159,13 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isTeacher() {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-
-    protected boolean isFieldExpired(Map<String, Object> body, String fieldName) {
+    
+    protected boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         DateTime expirationDate = DateTime.now();
-        int numDays = Integer.parseInt(gracePeriod);
-        expirationDate = expirationDate.minusDays(numDays);
+        if (useGracePeriod) {
+            int numDays = Integer.parseInt(gracePeriod);
+            expirationDate = expirationDate.minusDays(numDays);
+        }
         if (body.containsKey(fieldName)) {
             String dateStringToCheck = (String) body.get(fieldName);
             DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
@@ -165,6 +174,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         return false;
     }
+    
 
     protected Repository<Entity> getRepo() {
         return this.repo;
@@ -221,17 +231,6 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return parents;
     }
 
-    /**
-     * Determines if the entity type is public.
-     *
-     * @param type Entity type.
-     * @return True if the entity is public, false otherwise.
-     */
-    protected boolean isPublic(String type) {
-        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
-                || type.equals(EntityNames.LEARNING_STANDARD)
- || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
-    }
 
     /**
      * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.

@@ -36,7 +36,7 @@ public class TransitiveStaffToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        return true;
+        return ids.size() > 0;
     }
 
 }

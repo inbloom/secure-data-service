@@ -62,7 +62,7 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
             boolean validByEdOrg = lineage.contains(edOrgId);
             boolean validByProgram = staffProgramValidator.validate(EntityNames.PROGRAM,
                     new HashSet<String>(Arrays.asList(programId)));
-            if (!(validByEdOrg || validByProgram) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+            if (!(validByEdOrg || validByProgram) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
                 return false;
             } else {
                 match = true;
