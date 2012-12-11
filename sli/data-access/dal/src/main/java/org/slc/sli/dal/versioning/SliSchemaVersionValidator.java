@@ -138,6 +138,10 @@ public class SliSchemaVersionValidator {
     
     public Entity migrate(Entity entity) throws MigrationException {
         
+        if (entity == null) {
+            return null;
+        }
+        
         String entityType = entity.getType();
         
         Entity localEntity = entity;
@@ -159,6 +163,10 @@ public class SliSchemaVersionValidator {
 
     public List<Entity> migrate(List<Entity> entities) throws MigrationException {
 
+        if (entities == null) {
+            return null;
+        }
+        
         List<Entity> migratedEntities = new ArrayList<Entity>();
         
         for (Entity entity : entities) {

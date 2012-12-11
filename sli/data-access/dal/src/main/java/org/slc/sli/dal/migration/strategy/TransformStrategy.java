@@ -40,6 +40,6 @@ public interface TransformStrategy {
      * 
      * @param parameter
      */
-    public void setParameters(Map<String, Object> parameters);
+    public void setParameters(Map<String, Object> parameters) throws MigrationException;
 
 }

@@ -53,10 +53,10 @@ public class AddStrategy implements TransformStrategy {
     }
 
     @Override
-    public void setParameters(Map<String, Object> parameters) {
+    public void setParameters(Map<String, Object> parameters) throws MigrationException {
         
         if (!parameters.containsKey(FIELD_NAME)) {
-            throw new IllegalArgumentException("Add strategy missing required argument: fieldName");
+            throw new MigrationException(new IllegalArgumentException("Add strategy missing required argument: fieldName"));
         }
         
         this.fieldName = parameters.get(FIELD_NAME).toString();

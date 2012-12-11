@@ -15,6 +15,7 @@
 
 package org.slc.sli.dal.migration.config;
 
+import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.TransformStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
 
@@ -34,7 +35,7 @@ public enum Strategy {
         this.implementingClass = implementingClass;
     }
     
-    public static TransformStrategy getNewImplementation(String strategyName) throws InstantiationException, IllegalAccessException {
+    public static TransformStrategy getNewImplementation(String strategyName) throws MigrationException {
         if (strategyName == null) {
             return null;
         }
@@ -45,6 +46,12 @@ public enum Strategy {
             return null;
         }
         
-        return strategy.implementingClass.newInstance();
+        try {
+            return strategy.implementingClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new MigrationException(e);
+        } catch (IllegalAccessException e) {
+            throw new MigrationException(e);
+        }
     }
 }
