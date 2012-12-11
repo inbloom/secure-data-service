@@ -60,7 +60,7 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             String studentId = (String) sca.getBody().get(ParameterConstants.STUDENT_ID);
-            if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+            if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
                 return false;
             } else {
                 associations.add(studentId);
