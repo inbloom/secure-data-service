@@ -49,24 +49,6 @@ describe "WorkOrderProcessor" do
           @school_associations = to_build.select{|a| a.kind_of? StudentSchoolAssociation}
           @assessment_associations = to_build.select{|a| a.kind_of? StudentAssessment}
           @section_associations = to_build.select{|a| a.kind_of? StudentSectionAssociation}
-          work_order.build.each{|a|
-            case a.class
-            when Student
-              create_student(a.id, a.birth_day_after)
-            when StudentSchoolAssociation 
-              create_student_school_association(a.id, a.school_id, a.start_year, a.start_grade)
-            when StudentAssessment 
-              create_student_assessment(a)
-            end
-          }
-        end
-        def create_student(id, birthdate)
-        end
-        def create_student_school_association(studentId, schoolId, year, grade)
-        end
-        def create_student_section_association(studentId, sectionId, edOrgId, year, grade)
-        end
-        def create_student_assessment(studentAssessment)
         end
       end
 
