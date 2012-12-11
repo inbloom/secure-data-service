@@ -20,9 +20,12 @@ require_relative '../Shared/EntityClasses/enum/GradeLevelType'
 require_relative '../Shared/EntityClasses/assessment'
 
 class AssessmentFactory
+  attr_accessor :assessments_per_grade, :item_counts
 
   def initialize(scenario)
     @scenario = scenario
+    @assessments_per_grade = @scenario['ASSESSMENTS_PER_GRADE']
+    @item_counts = @scenario['ASSESSMENT_ITEMS_PER_ASSESSMENT']
   end
 
   #get a list of assessment work orders
@@ -31,15 +34,19 @@ class AssessmentFactory
     year = opts[:year]
     section = opts[:section]
     if section.nil?
-      n = @scenario['ASSESSMENTS_PER_GRADE']
-      item_count = @scenario['ASSESSMENT_ITEMS_PER_ASSESSMENT']['grade_wide']
-      (1..n).map{ |i|
-        yielder.yield({:type=>Assessment, :id=> "#{year}-#{grade} Assessment #{i}", :year => year, :grade => grade, :itemCount=>item_count})
+      grade_wide_assessments(grade, year).each{|a|
+        yielder.yield(a)
       }
     else
       [] #TODO implement section specific assessments
     end
   end
+
+  def grade_wide_assessments(grade, year)
+    item_count = @item_counts['grade_wide']
+    (1..@assessments_per_grade).map{|i|
+      {:type=>Assessment, :id=> "#{year}-#{grade} Assessment #{i}", :year => year, :grade => grade, :itemCount=>item_count}
+      #Assessment.new("#{year}-#{grade} Assessment #{i}", year, grade, item_count)
+    }
+  end
 end
-
-

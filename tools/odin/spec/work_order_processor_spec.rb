@@ -32,12 +32,12 @@ require_relative '../lib/EntityCreation/entity_factory'
 require_relative '../lib/EntityCreation/work_order_processor'
 
 describe "WorkOrderProcessor" do
+  let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}}
   describe "#build" do
 
+    let(:entity_queue) {EntityQueue.new}
+    let(:work_order_queue) {WorkOrderQueue.new}
     before(:all) do
-      @entity_queue = EntityQueue.new
-      @work_order_queue = WorkOrderQueue.new
-      @scenario = {'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}
 
       class Factory
         # student creation
@@ -79,9 +79,9 @@ describe "WorkOrderProcessor" do
         end
       end
 
-      @factory = Factory.new
-      @work_order_queue.factory(@factory, @entity_queue)
     end
+    let(:factory) {Factory.new}
+    before {work_order_queue.factory(factory, entity_queue)}
 
     context 'With a simple work order' do
       let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
@@ -89,44 +89,44 @@ describe "WorkOrderProcessor" do
                                                 {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)}]}}
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001,
                                              :edOrg => ed_org, :section_factory => section_factory,
-                                             :assessment_factory => AssessmentFactory.new(@scenario), :scenario => @scenario).to_hash()}
+                                             :assessment_factory => AssessmentFactory.new(scenario), :scenario => scenario).to_hash()}
 
       it "will generate the right number of entities for the student and subsequent enrollment" do
-        @factory.should_receive(:create_student).with(42, Date.new(1996, 9, 1)).once
-        @factory.should_receive(:create_student_school_association).with(42, 64, 2001, :KINDERGARTEN).once
-        @factory.should_receive(:create_student_school_association).with(42, 64, 2002, :FIRST_GRADE).once
-        @factory.should_receive(:create_student_section_association).exactly(4).times
-        @factory.should_receive(:create_student_assessment).exactly(30).times
+        factory.should_receive(:create_student).with(42, Date.new(1996, 9, 1)).once
+        factory.should_receive(:create_student_school_association).with(42, 64, 2001, :KINDERGARTEN).once
+        factory.should_receive(:create_student_school_association).with(42, 64, 2002, :FIRST_GRADE).once
+        factory.should_receive(:create_student_section_association).exactly(4).times
+        factory.should_receive(:create_student_assessment).exactly(30).times
 
-        @work_order_queue.push_work_order(work_order)
+        work_order_queue.push_work_order(work_order)
 
       end
 
       it "will generate StudentSchoolAssociations with the correct information" do
         school_associations = []
-        @factory.should_receive(:create_student).with(42, Date.new(1996, 9, 1)).once
-        @factory.stub(:create_student_section_association)
-        @factory.stub(:create_student_assessment)
-        @factory.stub(:create_student_school_association) do |student, school, year, grade|
+        factory.should_receive(:create_student).with(42, Date.new(1996, 9, 1)).once
+        factory.stub(:create_student_section_association)
+        factory.stub(:create_student_assessment)
+        factory.stub(:create_student_school_association) do |student, school, year, grade|
           school_associations << StudentSchoolAssociation.new(student, school, year, grade)
           student.should eq 42
           school.should eq 64
         end
 
-        @work_order_queue.push_work_order(work_order)
+        work_order_queue.push_work_order(work_order)
         school_associations[0].startYear.should eq(2001) and school_associations[0].startGrade.should eq("Kindergarten")
         school_associations[1].startYear.should eq(2002) and school_associations[1].startGrade.should eq("First grade")
       end
 
       it "will generate StudentSectionAssociations with the correct information" do
         section_associations = {2001 => [], 2002 => []}
-        @factory.stub!(:create_student_section_association) do |student, section, school, year, grade|
+        factory.stub!(:create_student_section_association) do |student, section, school, year, grade|
           section_associations[year] << StudentSectionAssociation.new(student, section, school, year, grade)
           student.should eq 42
           school.should eq 64
         end
 
-        @work_order_queue.push_work_order(work_order)
+        work_order_queue.push_work_order(work_order)
         section_associations[2001].count.should eq 2
         section_associations[2001][0].sectionId.should match(/sctn\-00001/)
         section_associations[2001][1].sectionId.should match(/sctn\-00002/)
@@ -138,9 +138,9 @@ describe "WorkOrderProcessor" do
       it "will generate StudentAssessments with the correct related assessment" do
         student_assessments = []
 
-        @work_order_queue.push_work_order(work_order)
+        work_order_queue.push_work_order(work_order)
 
-        f = AssessmentFactory.new(@scenario)
+        f = AssessmentFactory.new(scenario)
         e = Enumerator.new { |y|
           f.gen_assessments(y, year: 2001)
           f.gen_assessments(y, year: 2002)
@@ -165,13 +165,13 @@ describe "WorkOrderProcessor" do
                                                                                    {'year' => 2005}],
                                                         'feeds_to' => [65, 66]}).to_hash}
       it "will get enrollments for each school" do
-        @factory.should_receive(:create_student).with(42, Date.new(1991, 9, 1)).once
+        factory.should_receive(:create_student).with(42, Date.new(1991, 9, 1)).once
         ssas        = []
-        @factory.stub(:create_student_school_association) do |student, school, year, grade|
+        factory.stub(:create_student_school_association) do |student, school, year, grade|
           ssas << StudentSchoolAssociation.new(student, school, year, grade)
         end
 
-        @work_order_queue.push_work_order(work_order)
+        work_order_queue.push_work_order(work_order)
 
         ssas[0].startYear.should eq(2001) and ssas[0].schoolStateOrgId.should eq('elem-0000000064')
         ssas[1].startYear.should eq(2002) and ssas[1].schoolStateOrgId.should eq('midl-0000000065')
@@ -193,20 +193,20 @@ describe "WorkOrderProcessor" do
                                                                                        {'year' => 2003},
                                                                                        {'year' => 2004}]}).to_hash}
       it "will only generate student school associations until the student has graduated" do
-        @factory.should_receive(:create_student).with(42, Date.new(1985, 9, 1)).once
+        factory.should_receive(:create_student).with(42, Date.new(1985, 9, 1)).once
         ssas        = []
-        @factory.stub(:create_student_school_association) do |student, school, year, grade|
+        factory.stub(:create_student_school_association) do |student, school, year, grade|
           ssas << StudentSchoolAssociation.new(student, school, year, grade)
         end
 
-        @work_order_queue.push_work_order(eleventh_grader)
+        work_order_queue.push_work_order(eleventh_grader)
         ssas.should have(2).items
         ssas[0].startYear.should eq(2001)
         ssas[1].startYear.should eq(2002)
         ssas = []
-        @factory.should_receive(:create_student).with(42, Date.new(1984, 9, 1)).once
+        factory.should_receive(:create_student).with(42, Date.new(1984, 9, 1)).once
 
-        @work_order_queue.push_work_order(twelfth_grader)
+        work_order_queue.push_work_order(twelfth_grader)
         ssas.should have(1).items
         ssas[0].startYear.should eq(2001)
       end
@@ -216,11 +216,9 @@ end
 
 
 describe "generate_work_orders" do
-  context "with a world with 20 students in 4 schools" do
+  let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}}
 
-    before(:all) do
-      @scenario = {'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}
-    end
+  context "with a world with 20 students in 4 schools" do
 
     let(:world) {{'seas' => [{'id' => 'sea1'}], 'leas' => [{'id' => 'lea1'}],
                   'elementary' => [{'id' => 0, 'students' => {2011 => {:KINDERGARTEN => 5}, 2012 => {:FIRST_GRADE => 5}}, 'sessions' => [{}]},
@@ -228,7 +226,7 @@ describe "generate_work_orders" do
                   'middle' => [{'id' => 2, 'students' => {2011 => {:SEVENTH_GRADE => 5}, 2012 => {:EIGTH_GRADE => 5}}, 'sessions' => [{}]}],
                   'high' => [{'id' => 3, 'students' => {2011 => {:NINTH_GRADE => 5}, 2012 => {:TENTH_GRADE => 5}}, 'sessions' => [{}]}]}}
 
-    let(:work_orders) { WorkOrderProcessor.generate_work_orders(world, @scenario)}
+    let(:work_orders) { WorkOrderProcessor.generate_work_orders(world, scenario)}
 
     it "will create a work order for each student" do
       work_orders.count.should eq(20)
@@ -259,29 +257,21 @@ describe "generate_work_orders" do
   end
 
   context "with an infinitely large school" do
-    before(:all) do
-      @scenario = {'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}
-    end
-
     let(:world)  {{'high' => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 1.0/0}}, 'sessions' => [{}]}]}}
 
     it "will lazily create work orders in finite time" do
       Timeout::timeout(5){
-        WorkOrderProcessor.generate_work_orders(world, @scenario).take(100).length.should eq(100)
+        WorkOrderProcessor.generate_work_orders(world, scenario).take(100).length.should eq(100)
       }
     end
   end
 
   context "with infinitely many schools" do
-    before(:all) do
-      @scenario = {'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}
-    end
-
     let(:world)  {{'high' => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]}].cycle}}
 
     it "will lazily create work orders in finite time" do
       Timeout::timeout(5){
-        WorkOrderProcessor.generate_work_orders(world, @scenario).take(100).length.should eq(100)
+        WorkOrderProcessor.generate_work_orders(world, scenario).take(100).length.should eq(100)
       }
     end
   end

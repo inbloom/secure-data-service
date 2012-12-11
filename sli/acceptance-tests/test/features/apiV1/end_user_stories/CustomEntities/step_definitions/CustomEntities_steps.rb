@@ -117,7 +117,7 @@ end
 
 Given /^I add a large random file with key "([^"]*)" to the object$/ do |data_key| 
   @fields = {} if !defined? @fields
-  target_size = 1024 * 1024 * 1     # target size = 1MB 
+  target_size = 1024 * 1024 * 10     # target size = 10MB 
   @random_data = (0...target_size).map { rand(255).chr }.join
   @fields[data_key] = Base64.encode64(@random_data)
 end 
