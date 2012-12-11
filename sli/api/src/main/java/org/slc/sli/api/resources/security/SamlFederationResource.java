@@ -50,10 +50,17 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -67,13 +74,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Process SAML assertions
@@ -114,7 +114,7 @@ public class SamlFederationResource {
 
     @Autowired
     private RealmHelper realmHelper;
-    
+
     @Context
     private HttpServletRequest httpServletRequest;
 
