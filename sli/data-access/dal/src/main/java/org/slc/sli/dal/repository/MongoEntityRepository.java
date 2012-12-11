@@ -318,7 +318,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
             return null;
         }
-        return super.findOne(collectionName, query);
+        return this.sliSchemaVersionValidator.migrate(super.findOne(collectionName, query), this);
     }
 
     @Override
@@ -422,7 +422,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             // return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id),
             // null);
         }
-        return super.findById(collectionName, id);
+        return this.sliSchemaVersionValidator.migrate(super.findById(collectionName, id), this);
     }
 
     @Override
@@ -450,7 +450,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
-        return super.findAll(collectionName, neutralQuery);
+        return this.sliSchemaVersionValidator.migrate(super.findAll(collectionName, neutralQuery), this);
     }
 
     @Override
@@ -520,13 +520,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collectionName).findAll(query);
         }
 
-        return findByQuery(collectionName, query);
+        return this.sliSchemaVersionValidator.migrate(findByQuery(collectionName, query), this);
     }
 
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
         FindAndModifyOptions options = new FindAndModifyOptions();
-        return template.findAndModify(query, update, options, getRecordClass(), collectionName);
+        return this.sliSchemaVersionValidator.migrate(template.findAndModify(query, update, options, getRecordClass(), collectionName), this);
     }
 }

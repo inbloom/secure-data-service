@@ -188,7 +188,7 @@ public class SliSchemaVersionValidator {
         return localEntity;
     }
 
-    public List<Entity> migrate(List<Entity> entities, MongoRepository<Entity> repo) throws MigrationException {
+    public Iterable<Entity> migrate(Iterable<Entity> entities, MongoRepository<Entity> repo) throws MigrationException {
 
         if (entities == null) {
             return null;

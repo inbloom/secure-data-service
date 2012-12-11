@@ -21,7 +21,7 @@ package org.slc.sli.dal.migration.strategy;
  * @author kmyers
  *
  */
-public class MigrationException extends Exception {
+public class MigrationException extends RuntimeException {
     
     private Exception e;
     
