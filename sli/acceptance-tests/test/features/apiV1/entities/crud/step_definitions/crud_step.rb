@@ -342,7 +342,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
        }],
        "individualPlan" => false,
        "graduationPlanType" => "Minimum",
-       "educationOrganizationId" => "92d6d5a0-852c-45f4-907a-912752831772",
+       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
        "totalCreditsRequired" => {
             "creditConversion" => 0,
             "creditType" => "Semester hour credit",
