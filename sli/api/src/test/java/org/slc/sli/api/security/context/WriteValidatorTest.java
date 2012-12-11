@@ -17,13 +17,13 @@
 
 package org.slc.sli.api.security.context;
 
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -79,7 +79,7 @@ public class WriteValidatorTest {
         repo = Mockito.mock(PagingRepositoryDelegate.class);
 
         PathSegment v1Path = Mockito.mock(PathSegment.class);
-        when(v1Path.getPath()).thenReturn(PathConstants.V1);
+        when(v1Path.getPath()).thenReturn("v1");
         PathSegment sectionPath = Mockito.mock(PathSegment.class);
         when(sectionPath.getPath()).thenReturn(ResourceNames.SECTIONS);
         PathSegment idPath = Mockito.mock(PathSegment.class);
@@ -106,6 +106,7 @@ public class WriteValidatorTest {
         when(uriInfo.getPathSegments()).thenReturn(postPath);
 
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
+        Assert.fail("should fail validation");
     }
 
     @Test
@@ -179,5 +180,4 @@ public class WriteValidatorTest {
         when(uriInfo.getPathSegments()).thenReturn(putPath);
         writeValidator.validateWriteRequest(null, uriInfo, principal);
     }
-
 }
