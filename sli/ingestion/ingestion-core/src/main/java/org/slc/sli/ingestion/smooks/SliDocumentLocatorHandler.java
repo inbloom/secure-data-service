@@ -15,19 +15,23 @@
  */
 
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.smooks;
+
+import org.xml.sax.Locator;
 
 /**
- * Represents a source of the report.
+ * Interafce defines a method to set Document Locator.
  *
- * @author okrook
+ * @author slee
  *
  */
-public interface Source {
+public interface SliDocumentLocatorHandler {
 
-    String getBatchJobId();
+    /**
+     * Method allows parser to set the locator upon parsing a document.
+     *
+     * @param locator
+     */
+    void setDocumentLocator(final Locator locator);
 
-    String getResourceId();
-
-    String getStageName();
 }

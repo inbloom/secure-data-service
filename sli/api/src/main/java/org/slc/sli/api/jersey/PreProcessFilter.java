@@ -21,24 +21,27 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
-
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.translator.URITranslator;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.validation.URLValidator;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.MongoStat;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.pdp.EndpointMutator;
-import org.slc.sli.api.validation.URLValidator;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.dal.MongoStat;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
  * Pre-request processing filter.
@@ -46,7 +49,6 @@ import org.slc.sli.validation.ValidationError;
  * Records start time of the request
  *
  * @author dkornishev
- *
  */
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
@@ -69,6 +71,12 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     private URITranslator translator;
 
+    @Autowired
+    private EdOrgHelper edOrgHelper;
+
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repo;
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
@@ -77,6 +85,8 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mongoStat.clear();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
+
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         contextValidator.validateContextToUri(request, principal);

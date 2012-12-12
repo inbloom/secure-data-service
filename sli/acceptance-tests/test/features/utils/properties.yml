@@ -29,6 +29,7 @@ ingestion_index_validation: true
 ingestion_rc_tenant: ""
 ingestion_rc_edorg: ""
 ingestion_timeout_override_seconds: 0
+activemq_host: "localhost"
 
 sif_db: "localhost"
 sif_database_name: "sli"
