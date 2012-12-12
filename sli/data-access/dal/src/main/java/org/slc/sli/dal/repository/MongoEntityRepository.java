@@ -314,7 +314,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (subDocs.isSubDoc(collectionName)) {
             List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
             if (entities != null && entities.size() > 0) {
-                return entities.get(0);
+                return this.sliSchemaVersionValidator.migrate(entities.get(0), this);
             }
             return null;
         }
@@ -418,9 +418,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).findById(id);
-            // return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id),
-            // null);
+            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findById(id), this);
         }
         return this.sliSchemaVersionValidator.migrate(super.findById(collectionName, id), this);
     }
@@ -448,7 +446,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
             this.addDefaultQueryParams(neutralQuery, collectionName);
-            return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
+            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery)), this);
         }
         return this.sliSchemaVersionValidator.migrate(super.findAll(collectionName, neutralQuery), this);
     }
@@ -517,7 +515,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         query.skip(skip).limit(max);
 
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).findAll(query);
+            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findAll(query), this);
         }
 
         return this.sliSchemaVersionValidator.migrate(findByQuery(collectionName, query), this);
