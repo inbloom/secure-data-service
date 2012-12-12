@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion.handler;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -23,6 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -93,6 +98,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Autowired
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
+
+    Mongo mongo = null;//new Mongo("localhost", 27017);
+	DB db = null;//mongo.getDB("yourdb");
+
+	// get a single collection
+	Map<String, DBCollection> collections = null;// db.getCollection("dummyColl");
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -209,6 +220,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // indexes
             LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
 
+            System.out.println("got exception" + e);
+
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
                 update(collectionName, entity, failed, errorReport);
@@ -242,6 +255,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 List<Object> keyValues = new ArrayList<Object>();
                 keyValues.add(id);
                 entity.setEntityId(id);
+                if (memory.containsKey(keyValues)) {
+                	try {
+    					outputMatchedEntities(memory.get(keyValues), "pre-match");
+    				} catch (Exception e) {
+    					e.printStackTrace();
+    				}
+                }
                 memory.put(keyValues, entity);
             }
         } else {
@@ -277,9 +297,38 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 }
 
             }
+            if (memory.containsKey(keyValues)) {
+            	try {
+					outputMatchedEntities(memory.get(keyValues), "pre-match");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            }
             memory.put(keyValues, entity);
         }
     }
+
+    private void outputMatchedEntities(Entity matched, String did) throws UnknownHostException {
+    	//lazy load mongo connection
+    	if (mongo == null) {
+    		mongo = new Mongo("localhost", 27017);
+    		db = mongo.getDB("updates");
+    		collections = new HashMap<String, DBCollection>();
+    	}
+    	//lazy load collection map
+    	DBCollection collection = collections.get(matched.getType());
+    	if (collection == null) {
+    		 collection = db.getCollection(matched.getType());
+    		 collections.put(matched.getType(), collection);
+    	}
+    	//create and insert the document
+    	BasicDBObject document = new BasicDBObject();
+		document.put("body", matched.getBody());
+		document.put("did", did);
+
+		collection.insert(document);
+    }
+
 
     private String getCollectionName(Entity entity) {
         String collectionName = null;
