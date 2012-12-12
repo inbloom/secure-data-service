@@ -26,12 +26,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class TeacherCohortValidatorTest {
+public class TeacherToCohortValidatorTest {
 
 	private static final String USER_ID = "Master of Magic";
 
 	@Resource
-	private TeacherCohortValidator val;
+	private TeacherToCohortValidator val;
 
 	@Resource
 	private ValidatorTestHelper vth;
