@@ -131,7 +131,7 @@ class AppsController < ApplicationController
     @app = App.new(params[:app])
     # Want to read the created_by on the @app, which is stamped during the created.
     # Tried @app.reload and it didn't work
-    dev_info = get_user_info(session[:email])
+    dev_info = get_user_info(session[:external_id])
     @app.vendor = dev_info[:vendor]
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
@@ -167,7 +167,7 @@ class AppsController < ApplicationController
     @app.load(params[:app])
     # Want to read the created_by on the @app, which is stamped during the created.
     # Tried @app.reload and it didn't work
-    dev_info = get_user_info(session[:email])
+    dev_info = get_user_info(session[:external_id])
     @app.vendor = dev_info[:vendor]
     @app.attributes.delete :image_url unless params[:app].include? :image_url
     @app.attributes.delete :administration_url unless params[:app].include? :administration_url
@@ -268,8 +268,8 @@ class AppsController < ApplicationController
 
   end
 
-  def get_user_info(creator_email)
-    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
+  def get_user_info(uid)
+    dev_info = APP_LDAP_CLIENT.read_user(uid)
     if dev_info == nil
         dev_info = Hash.new
         dev_info[:first] = session[:first_name]

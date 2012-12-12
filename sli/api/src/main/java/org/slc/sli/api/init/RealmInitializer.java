@@ -204,15 +204,17 @@ public class RealmInitializer {
         toReturn.add(createField("tenant", "(.+)"));
         toReturn.add(createField("userId", "(.+)"));
         toReturn.add(createField("userName", "(.+)"));
-        if (isAdminRealm) {
-            toReturn.add(createField("edOrg", "(.+)"));
-        }
         
-        if (isDeveloperRealm) {
+        if (isDeveloperRealm || isAdminRealm) {
             toReturn.add(createField("givenName", "(.+)"));
             toReturn.add(createField("sn", "(.+)"));
             toReturn.add(createField("vendor", "(.+)"));
         }
+        
+        if (isAdminRealm) {
+            toReturn.add(createField("edOrg", "(.+)"));
+        }
+        
         return toReturn;
     }
     
