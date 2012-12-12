@@ -34,7 +34,6 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
@@ -49,6 +48,12 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
@@ -78,6 +83,10 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
+
     private MessageSource messageSource;
 
     @Override
@@ -122,10 +131,11 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
-            FaultsReport errorReport = new FaultsReport();
+            Source source = new SimpleSource(newJob.getId(), cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
+            ReportStats reportStats = new SimpleReportStats(source);
 
             if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
-                if (validator.isValid(cfd, errorReport)) {
+                if (validator.isValid(cfd, databaseMessageReport, reportStats)) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
                     boolean isZipFile = false;
@@ -135,19 +145,18 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     if (!isZipFile) {
-                        LOG.info(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"));
-                        errorReport.warning(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"), this);
+                        LOG.info(MessageSourceHelper.getMessage(messageSource, CoreMessageCode.CORE_0002.getCode()));
+                        databaseMessageReport.warning(reportStats, CoreMessageCode.CORE_0002);
+
                     }
                 }
             }
 
-            BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
-
-            setExchangeHeaders(exchange, newJob, errorReport);
+            setExchangeHeaders(exchange, newJob, reportStats);
 
             setExchangeBody(exchange, batchJobId);
             if (!cf.getFile().delete()) {
-                LOG.debug("Failed to delete: " + cf.getFile().getPath());
+                LOG.debug("Failed to delete: {}", cf.getFile().getPath());
             }
 
 
@@ -172,9 +181,9 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, FaultsReport errorReport) {
-        if (errorReport.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ReportStats reportStats) {
+        if (reportStats.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.PURGE.name());

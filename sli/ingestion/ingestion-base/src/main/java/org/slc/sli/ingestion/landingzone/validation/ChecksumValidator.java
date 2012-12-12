@@ -44,7 +44,7 @@ public class ChecksumValidator extends IngestionFileValidator {
         IngestionFileEntry fe = item.getFileItem();
 
         if (StringUtils.isBlank(fe.getChecksum())) {
-            fail(callback, getFailureMessage("SL_ERR_MSG10", fe.getFileName()));
+            fail(callback, getFailureMessage("BASE_0007", fe.getFileName()));
 
             return false;
         }
@@ -63,7 +63,7 @@ public class ChecksumValidator extends IngestionFileValidator {
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
             log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            fail(callback, getFailureMessage("SL_ERR_MSG2", fe.getFileName()));
+            fail(callback, getFailureMessage("BASE_0006", fe.getFileName()));
 
             return false;
         }
@@ -80,7 +80,7 @@ public class ChecksumValidator extends IngestionFileValidator {
         IngestionFileEntry fe = item.getFileItem();
 
         if (StringUtils.isBlank(fe.getChecksum())) {
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG10, fe.getFileName());
+            error(report, reportStats, BaseMessageCode.BASE_0007, fe.getFileName());
 
             return false;
         }
@@ -99,7 +99,7 @@ public class ChecksumValidator extends IngestionFileValidator {
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
             log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG2, fe.getFileName());
+            error(report, reportStats, BaseMessageCode.BASE_0006, fe.getFileName());
 
             return false;
         }
