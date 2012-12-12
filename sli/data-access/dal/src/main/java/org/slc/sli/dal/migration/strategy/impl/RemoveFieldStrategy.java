@@ -22,25 +22,23 @@ import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
 
 /**
- * Supports the migration of entities by renaming a data field.
+ * Supports the migration of entities by removing a top level data field.
  * Will not work with nested fields.
  * 
  * @author kmyers
  */
 
-public class RenameFieldStrategy implements MigrationStrategy {
+public class RemoveFieldStrategy implements MigrationStrategy {
 
-    public static final String OLD_FIELD_NAME = "oldFieldName";
-    public static final String NEW_FIELD_NAME = "newFieldName";
+    public static final String FIELD_NAME = "fieldName";
     
-    private String oldFieldName;
-    private String newFieldName;
+    private String fieldName;
     
     @Override
     public Entity migrate(Entity entity) throws MigrationException {
         
-        entity.getBody().put(newFieldName, entity.getBody().remove(oldFieldName));
-        
+        entity.getBody().remove(fieldName);
+
         return entity;
     }
 
@@ -48,19 +46,14 @@ public class RenameFieldStrategy implements MigrationStrategy {
     public void setParameters(Map<String, Object> parameters) throws MigrationException {
 
         if (parameters == null) {
-            throw new MigrationException(new IllegalArgumentException("Rename strategy missing required arguments: "));
+            throw new MigrationException(new IllegalArgumentException("Remove strategy missing required arguments "));
         }
 
-        if (!parameters.containsKey(OLD_FIELD_NAME)) {
-            throw new MigrationException(new IllegalArgumentException("Rename strategy missing required argument: " + OLD_FIELD_NAME));
+        if (!parameters.containsKey(FIELD_NAME)) {
+            throw new MigrationException(new IllegalArgumentException("Remove strategy missing required argument: " + FIELD_NAME));
         }
 
-        if (!parameters.containsKey(NEW_FIELD_NAME)) {
-            throw new MigrationException(new IllegalArgumentException("Rename strategy missing required argument: " + NEW_FIELD_NAME));
-        }
-        
-        this.oldFieldName = parameters.get(OLD_FIELD_NAME).toString();
-        this.newFieldName = parameters.get(NEW_FIELD_NAME).toString();
+        this.fieldName = parameters.get(FIELD_NAME).toString();
     }
     
 }

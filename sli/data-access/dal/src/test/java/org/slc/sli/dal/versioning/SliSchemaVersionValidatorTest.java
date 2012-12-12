@@ -100,9 +100,11 @@ public class SliSchemaVersionValidatorTest {
         BasicDBObject studentDbObject = new BasicDBObject();
         studentDbObject.put(SliSchemaVersionValidator.ID, STUDENT);
         studentDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
+        studentDbObject.put(SliSchemaVersionValidator.MONGO_SV, new Double(0.0));
         BasicDBObject sectionDbObject = new BasicDBObject();
         sectionDbObject.put(SliSchemaVersionValidator.ID, SECTION);
         sectionDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
+        sectionDbObject.put(SliSchemaVersionValidator.MONGO_SV, new Double(0.0));
 
         final List<DBObject> findOnes = new ArrayList<DBObject>();
         findOnes.add(studentDbObject);

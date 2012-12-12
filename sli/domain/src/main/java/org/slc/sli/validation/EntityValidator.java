@@ -54,5 +54,12 @@ public interface EntityValidator {
      * @param referenceCheck
      */
     public void setReferenceCheck(String referenceCheck);
+    
+    /**
+     * 
+     * @param entity
+     * @param fullOverwrite
+     */
+    public void validateNaturalKeys(final Entity entity, boolean fullOverwrite);
 
 }

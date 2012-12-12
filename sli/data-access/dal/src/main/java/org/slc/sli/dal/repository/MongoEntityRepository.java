@@ -59,7 +59,7 @@ import org.springframework.util.Assert;
  * @author Dong Liu dliu@wgen.net
  */
 
-public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
+public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean, ValidationWithoutNaturalKeys {
 
     @Autowired
     private EntityValidator validator;
@@ -182,6 +182,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         boolean result = false;
         Entity entity = new MongoEntity(type, id, newValues, null);
         validator.validatePresent(entity);
+        validator.validateNaturalKeys(entity, false);
         keyEncoder.encodeEntityKey(entity);
         if (subDocs.isSubDoc(collectionName)) {
 
@@ -250,6 +251,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         MongoEntity entity = new MongoEntity(type, id, body, metaData);
         validator.validate(entity);
+        validator.validateNaturalKeys(entity, true);
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
@@ -379,10 +381,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
     }
+    
+    @Override
+    public boolean updateWithoutValidatingNaturalKeys(String collection, Entity entity) {
+        return this.update(collection, entity, false);
+    }
 
     @Override
     public boolean update(String collection, Entity entity) {
+        return this.update(collection, entity, true);
+    }
+
+    private boolean update(String collection, Entity entity, boolean validateNaturalKeys) {
         validator.validate(entity);
+        if (validateNaturalKeys) {
+            validator.validateNaturalKeys(entity, true);
+        }
+        
         this.updateTimestamp(entity);
 
         if (denormalizer.isDenormalizedDoc(collection)) {
@@ -392,7 +407,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collection).create(entity);
         }
 
-        return update(collection, entity, null); // body);
+        return super.update(collection, entity, null); // body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */

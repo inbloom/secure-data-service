@@ -18,6 +18,8 @@ package org.slc.sli.dal.migration.config;
 import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
 
 /**
  * A list of all supported strategies and the classes that implement those strategies.
@@ -27,7 +29,9 @@ import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
  */
 public enum Strategy {
     
-    ADD(AddStrategy.class);
+    ADD(AddStrategy.class),
+    REMOVE(RemoveFieldStrategy.class),
+    RENAME(RenameFieldStrategy.class);
 
     private Class<? extends MigrationStrategy> implementingClass;
 

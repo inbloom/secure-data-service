@@ -33,6 +33,7 @@ import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
 import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.dal.repository.ValidationWithoutNaturalKeys;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
@@ -162,7 +163,7 @@ public class SliSchemaVersionValidator {
         return NOT_VERSIONED_YET;
     }
 
-    public Entity migrate(Entity entity, MongoRepository<Entity> repo) throws MigrationException {
+    public Entity migrate(Entity entity, ValidationWithoutNaturalKeys repo) throws MigrationException {
 
         if (entity == null) {
             return null;
@@ -183,14 +184,14 @@ public class SliSchemaVersionValidator {
                 }
                 
                 localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
-                repo.update(localEntity.getType(), localEntity);
+                repo.updateWithoutValidatingNaturalKeys(localEntity.getType(), localEntity);
             }
         }
 
         return localEntity;
     }
 
-    public Iterable<Entity> migrate(Iterable<Entity> entities, MongoRepository<Entity> repo) throws MigrationException {
+    public Iterable<Entity> migrate(Iterable<Entity> entities, ValidationWithoutNaturalKeys repo) throws MigrationException {
 
         if (entities == null) {
             return null;

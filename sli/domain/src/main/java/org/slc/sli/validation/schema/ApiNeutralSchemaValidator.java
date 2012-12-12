@@ -59,26 +59,14 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
 
-    @Override
-    public boolean validate(Entity entity) throws EntityValidationException {
-        this.validateNaturalKeys(entity, INSERT_OR_UPDATE);
-        return super.validate(entity);
-    }
-
-
-    @Override
-    public boolean validatePresent(Entity entity) throws EntityValidationException {
-        this.validateNaturalKeys(entity, PATCH);
-        return super.validatePresent(entity);
-    }
-
     /**
      * Validates natural keys against a given entity
      *
      * @param entity
      * @return
      */
-    protected void validateNaturalKeys(final Entity entity, boolean clearOriginal) {
+    @Override
+    public void validateNaturalKeys(final Entity entity, boolean clearOriginal) throws NaturalKeyValidationException {
         String collectionName = entity.getType();
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
 
