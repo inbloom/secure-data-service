@@ -33,7 +33,8 @@ import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
-import org.slc.sli.dal.versioning.SliSchemaVersionValidator;
+import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntity;
+import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -85,9 +86,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private Denormalizer denormalizer;
     
-    @Autowired
-    private SliSchemaVersionValidator sliSchemaVersionValidator;
-
     @Override
     public void afterPropertiesSet() {
         setWriteConcern(writeConcern);
@@ -310,15 +308,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    @MigrateEntity
     public Entity findOne(String collectionName, Query query) {
         if (subDocs.isSubDoc(collectionName)) {
             List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
             if (entities != null && entities.size() > 0) {
-                return this.sliSchemaVersionValidator.migrate(entities.get(0), this);
+                return entities.get(0);
             }
             return null;
         }
-        return this.sliSchemaVersionValidator.migrate(super.findOne(collectionName, query), this);
+        return super.findOne(collectionName, query);
     }
 
     @Override
@@ -416,11 +415,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    @MigrateEntity
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findById(id), this);
+            return subDocs.subDoc(collectionName).findById(id);
         }
-        return this.sliSchemaVersionValidator.migrate(super.findById(collectionName, id), this);
+        return super.findById(collectionName, id);
     }
 
     @Override
@@ -443,12 +443,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    @MigrateEntityCollection
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
             this.addDefaultQueryParams(neutralQuery, collectionName);
-            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery)), this);
+            return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
-        return this.sliSchemaVersionValidator.migrate(super.findAll(collectionName, neutralQuery), this);
+        return super.findAll(collectionName, neutralQuery);
     }
 
     @Override
@@ -506,6 +507,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      */
     @Override
     @Deprecated
+    @MigrateEntityCollection
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
 
         if (query == null) {
@@ -515,16 +517,17 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         query.skip(skip).limit(max);
 
         if (subDocs.isSubDoc(collectionName)) {
-            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findAll(query), this);
+            return subDocs.subDoc(collectionName).findAll(query);
         }
 
-        return this.sliSchemaVersionValidator.migrate(findByQuery(collectionName, query), this);
+        return findByQuery(collectionName, query);
     }
 
     @Override
+    @MigrateEntity
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
         FindAndModifyOptions options = new FindAndModifyOptions();
-        return this.sliSchemaVersionValidator.migrate(template.findAndModify(query, update, options, getRecordClass(), collectionName), this);
+        return template.findAndModify(query, update, options, getRecordClass(), collectionName);
     }
 }
