@@ -313,7 +313,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (subDocs.isSubDoc(collectionName)) {
             List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
             if (entities != null && entities.size() > 0) {
-                return this.sliSchemaVersionValidator.migrate(entities.get(0), this);
+                return entities.get(0);
             }
             return null;
         }
@@ -418,7 +418,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @MigrateEntity
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findById(id), this);
+            return subDocs.subDoc(collectionName).findById(id);
         }
         return super.findById(collectionName, id);
     }
@@ -447,7 +447,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
             this.addDefaultQueryParams(neutralQuery, collectionName);
-            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery)), this);
+            return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
         return super.findAll(collectionName, neutralQuery);
     }
@@ -517,7 +517,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         query.skip(skip).limit(max);
 
         if (subDocs.isSubDoc(collectionName)) {
-            return this.sliSchemaVersionValidator.migrate(subDocs.subDoc(collectionName).findAll(query), this);
+            return subDocs.subDoc(collectionName).findAll(query);
         }
 
         return findByQuery(collectionName, query);
