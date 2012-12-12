@@ -74,7 +74,6 @@
   <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.SLIDbIndexValidator" />
   <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
 
-  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
