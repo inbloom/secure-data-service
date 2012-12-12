@@ -23,9 +23,9 @@ class AssessmentItem < BaseEntity
                 :assessmentTitle, :assessment, :gradeLevelAssessed
   def initialize(id, assessment)
     @id = id
-    @assessment = assessment[:id]
-    @assessmentTitle =assessment[:id]
-    @gradeLevelAssessed = assessment[:grade]
+    @assessment = assessment.id
+    @assessmentTitle =assessment.id
+    @gradeLevelAssessed = assessment.gradeLevelAssessed
     @identificationCode = "#{@assessmentTitle}##{id}"
     @itemCategory = "True-False"
     @maxRawScore = 10

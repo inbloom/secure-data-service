@@ -45,12 +45,12 @@ class TestApprovalEngine < Test::Unit::TestCase
   end
 
   def regular_workflow(is_sandbox)
-    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Sandbox,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=LocalNew,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ProductionTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
+    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{", false)
+    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Sandbox,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{", false)
+    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=LocalNew,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{", false)
+    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ProductionTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{", false)
+    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{", false)
+    #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{", false)
     ApprovalEngine.init(@ldap, nil, is_sandbox)
     @ldap.get_user_groups(@jd_email).each do |g|
       @ldap.remove_user_group(@jd_email, g)

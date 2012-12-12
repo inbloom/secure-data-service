@@ -85,6 +85,38 @@
 		value for that profile. It is up to individual projects to identify resources
 		required per profile. -->
     <profiles>
+        <profile>
+            <id>with-emma</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>emma-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <version>1.0-alpha-3</version>
+                        <executions>
+                            <execution>
+                                <id>instrument</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>instrument</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/</outputDirectory>
+                                    <verbose>true</verbose>
+                                    <filters>
+                                        <!--from ingestion-->
+                                        <filter>-org.slc.sli.aspect.LoggerCarrierAspect</filter>
+                                        <!--from simple-idp-->
+                                        <filter>-org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect</filter>
+                                    </filters>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- A local dev profile -->
         <profile>
             <id>local</id>

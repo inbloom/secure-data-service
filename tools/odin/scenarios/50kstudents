@@ -1,0 +1,5 @@
+# Overrides for base_scenario properties
+studentCount: 50000
+numYears: 1
+ASSESSMENTS_TAKEN: {grade_wide: 1}
+ASSESSMENTS_PER_GRADE: 1

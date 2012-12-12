@@ -35,6 +35,11 @@ public class SimpleEntity implements Entity {
     private Map<String, Object> metaData;
     private long recordNumber;
     private String sourceFile;
+    private int visitBeforeLineNumber;
+    private int visitBeforeColumnNumber;
+    private int visitAfterLineNumber;
+    private int visitAfterColumnNumber;
+
 
     @Override
     public String getType() {
@@ -78,6 +83,38 @@ public class SimpleEntity implements Entity {
 
     public void setRecordNumber(long recordNumber) {
         this.recordNumber = recordNumber;
+    }
+
+    public int getVisitBeforeLineNumber() {
+        return visitBeforeLineNumber;
+    }
+
+    public void setVisitBeforeLineNumber(int visitBeforeLineNumber) {
+        this.visitBeforeLineNumber = visitBeforeLineNumber;
+    }
+
+    public int getVisitBeforeColumnNumber() {
+        return visitBeforeColumnNumber;
+    }
+
+    public void setVisitBeforeColumnNumber(int visitBeforeColumnNumber) {
+        this.visitBeforeColumnNumber = visitBeforeColumnNumber;
+    }
+
+    public int getVisitAfterLineNumber() {
+        return visitAfterLineNumber;
+    }
+
+    public void setVisitAfterLineNumber(int visitAfterLineNumber) {
+        this.visitAfterLineNumber = visitAfterLineNumber;
+    }
+
+    public int getVisitAfterColumnNumber() {
+        return visitAfterColumnNumber;
+    }
+
+    public void setVisitAfterColumnNumber(int visitAfterColumnNumber) {
+        this.visitAfterColumnNumber = visitAfterColumnNumber;
     }
 
     @Override

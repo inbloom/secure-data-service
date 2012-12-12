@@ -91,9 +91,17 @@ public final class SliDeltaManager {
         //    to neutral record fields here which are based on SLI-Ed-Fi.
         Map<String, String> naturalKeys = new HashMap<String, String>();
 
-        NeutralRecord neutralRecordResolved = (NeutralRecord) n.clone();
-        Entity entity = new NeutralRecordEntity(neutralRecordResolved);
-        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
+        NeutralRecord neutralRecordResolved = null;
+
+        if ("attendance".equals(n.getRecordType())) {
+            // HACK didResolver requires transformed entities to be transformed so use the unresolved references
+            // to calculate record delta hash dId
+            neutralRecordResolved = n;
+        } else {
+            neutralRecordResolved = (NeutralRecord) n.clone();
+            Entity entity = new NeutralRecordEntity(neutralRecordResolved);
+            didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
+        }
 
         // Calculate DiD using natural key values (that are references) in their Did form
         try {

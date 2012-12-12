@@ -2,23 +2,25 @@ require 'ldapstorage'
 
 
 if (ARGV.length < 8)
-  puts "usage: ldap_host ldap_port ldap_base ldap_admin_user ldap_pass number_to_create offset group ..."
+  puts "usage: ldap_host ldap_port use_ssl ldap_base ldap_admin_user ldap_pass number_to_create offset group ..."
+  puts "       use_ssl = {true | false}"
   exit(1)
 end
 
 ldap_host = ARGV[0]
 ldap_port = ARGV[1].to_i
-ldap_base = ARGV[2]
-ldap_user = ARGV[3]
-ldap_pass = ARGV[4]
+use_ssl = (ARGV[2] == "true")
+ldap_base = ARGV[3]
+ldap_user = ARGV[4]
+ldap_pass = ARGV[5]
 
-count = ARGV[5].to_i
-offset = ARGV[6].to_i
+count = ARGV[6].to_i
+offset = ARGV[7].to_i
 
 groups = []
-ARGV[7..-1].each {|g| groups << g}
+ARGV[8..-1].each {|g| groups << g}
 
-ldap_storage = LDAPStorage.new(ldap_host, ldap_port, ldap_base, ldap_user, ldap_pass)
+ldap_storage = LDAPStorage.new(ldap_host, ldap_port, ldap_base, ldap_user, ldap_pass, use_ssl)
 
 user = {}
 user[:first] = 'First'

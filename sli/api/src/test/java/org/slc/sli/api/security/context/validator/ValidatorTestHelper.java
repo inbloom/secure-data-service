@@ -25,9 +25,12 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.mockito.Mockito;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,6 +45,9 @@ public class ValidatorTestHelper {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
+    @Autowired
+    private SecurityContextInjector injector;
 
     public static final String STAFF_ID = "1";
     public static final String ED_ORG_ID = "111";
@@ -65,14 +71,19 @@ public class ValidatorTestHelper {
         if (parentId != null) {
             edorg.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentId);
         }
+        edorg.put("organizationCategories", Arrays.asList());
         return repo.create(EntityNames.EDUCATION_ORGANIZATION, edorg);
     }
 
     public Entity generateSection(String edorgId) {
+        return generateSection(edorgId, null);
+    }
+    
+    public Entity generateSection(String edorgId, String sessionId) {
         Map<String, Object> section = new HashMap<String, Object>();
         section.put(ParameterConstants.SCHOOL_ID, edorgId);
+        section.put(ParameterConstants.SESSION_ID, sessionId);
         return repo.create(EntityNames.SECTION, section);
-
     }
 
     public void generateSSA(String studentId, String sectionId, boolean isExpired) {
@@ -97,12 +108,12 @@ public class ValidatorTestHelper {
         repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
     }
 
-    public void generateTSA(String teacherId, String sectionId, boolean isExpired) {
+    public Entity generateTSA(String teacherId, String sectionId, boolean isExpired) {
         Map<String, Object> tsaBody = new HashMap<String, Object>();
         tsaBody.put(ParameterConstants.TEACHER_ID, teacherId);
         tsaBody.put(ParameterConstants.SECTION_ID, sectionId);
         expireAssociation(isExpired, tsaBody);
-        repo.create(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
+        return repo.create(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
     }
 
     public Entity generateCohort(String edOrgId) {
@@ -201,6 +212,14 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.PROGRAM, new HashMap<String, Object>());
     }
     
+    public Entity generateTeacher() {
+        return repo.create(EntityNames.TEACHER, new HashMap<String, Object>());
+    }
+    
+    public Entity generateStaff() {
+        return repo.create(EntityNames.STAFF, new HashMap<String, Object>());
+    }
+    
 
     public Entity generateStaffProgram(String teacherId, String programId, boolean isExpired, boolean studentAccess) {
         Map<String, Object> staffProgram = new HashMap<String, Object>();
@@ -247,6 +266,12 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.SESSION, session);
     }
     
+    public Entity generateCourseOffering(String schoolId) {
+        Map<String, Object> courseOffering = new HashMap<String, Object>();
+        courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
+        return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
+    }
+
     public Entity generateGradingPeriod() {
         return repo.create(EntityNames.GRADING_PERIOD, new HashMap<String, Object>());
     }
@@ -261,6 +286,17 @@ public class ValidatorTestHelper {
         Map<String, Object> gradPlan = new HashMap<String, Object>();
         gradPlan.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
         return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, gradPlan);
+    }
+
+    protected void setUpTeacherContext() {
+        String user = "fake staff";
+        String fullName = "Fake Staff";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
+        
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("teacher");
+        Mockito.when(entity.getEntityId()).thenReturn(STAFF_ID);
+        injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, ED_ORG_ID);
     }
 
 }

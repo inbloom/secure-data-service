@@ -9,8 +9,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	   <!-- location of spring xml files -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/applicationContext.xml,
-        /WEB-INF/spring-security.xml</param-value>
+        <param-value>classpath:spring/applicationContext.xml</param-value>
     </context-param>
 
 

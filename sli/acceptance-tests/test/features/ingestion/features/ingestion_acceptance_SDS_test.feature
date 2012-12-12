@@ -92,7 +92,7 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 95    |
         | disciplineAction            | 2     |
         | disciplineIncident          | 2     |
-        | educationOrganization       | 5     |
+        | educationOrganization       | 6     |
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | gradingPeriod               | 17    |
@@ -178,13 +178,13 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessment | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4262 records." in the resulting batch job file
+    And I should see "Processed 4263 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 108" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 108" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 109" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 109" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
@@ -337,7 +337,7 @@ And I check to find if record is in collection:
      | staffCohortAssociation      | 1                   | body.beginDate              | 2011-07-01              | string               |
      | staffCohortAssociation      | 1                   | body.endDate                | 2012-02-15              | string               |
 And I check to find if record is in collection:
-     | collectionName                          | expectedRecordCount | searchParameter                     | searchValue          | searchType           |
+     | collectionName                | expectedRecordCount | searchParameter                     | searchValue          | searchType           |
      | student | 2                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Perpetrator          | string               |
      | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Witness              | string               |
      | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Victim               | string               |
@@ -534,7 +534,8 @@ Scenario: Verify references were resolved correctly
   	| disciplineAction                     | 9c4d62d9af758b3b7124836ffc75afd98a858c6b_id 											 | body.assignmentSchoolId              		 | educationOrganization 					  |
     | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id 											 | body.responsibilitySchoolId          		 | educationOrganization 					  |
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id 											 | body.schoolId                        		 | educationOrganization 					  |
-    | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                                        	 | body.parentEducationAgencyReference         	 | educationOrganization 					  |
+    | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                       | body.parentEducationAgencyReference         | educationOrganization 					  |
+	| educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                       | body.localEducationAgencyReference         | educationOrganization 					  |
 	| educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id 											 | body.parentEducationAgencyReference      	 | educationOrganization 					  |
    	| gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id 											 | body.gradingPeriodIdentity.schoolId      	 | educationOrganization 					  |
    	| graduationPlan                       | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
@@ -609,7 +610,6 @@ Scenario: Verify references were resolved correctly
 	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| grade                           | 3f8df929951a9ea94709be3aeef49a91c5addea9_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
-
 	
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
@@ -626,7 +626,7 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 96    |
         | disciplineAction            | 2     |
         | disciplineIncident          | 2     |
-        | educationOrganization       | 7     |
+        | educationOrganization       | 8     |
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | parent                      | 9     |
@@ -1015,7 +1015,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-
+  
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
