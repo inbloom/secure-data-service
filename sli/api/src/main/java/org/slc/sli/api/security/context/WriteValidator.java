@@ -141,7 +141,9 @@ public class WriteValidator {
             String id = (String) entityBody.get(validation.getValidationReferenceName());
             if (id != null) {
                 final Entity entity = repo.findById(definition.getStoredCollectionName(), id);
-                isValid = isEntityValidForEdOrgWrite(entity.getBody(), definition.getType(), principal);
+                if (entity != null) {
+                    isValid = isEntityValidForEdOrgWrite(entity.getBody(), definition.getType(), principal);
+                }
             }
         }
         return isValid;
