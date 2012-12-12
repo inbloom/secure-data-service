@@ -36,7 +36,7 @@ Given /^LDAP server has been setup and running$/ do
   @email = "devldapuser"+Socket.gethostname+"@slidev.org"
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
 end
 
 Given /^there are accounts in requests pending in the system$/ do

@@ -126,8 +126,25 @@ Scenario: Traverse from parent education organization through child education or
        And I should receive a link named "getSessions"
     When I navigate to GET the link named "getSessions"
     Then I should receive a return code of 200
-       And I should receive zero entities
-
+         And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET the link named "getCourseOfferings"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourse"
+    When I navigate to GET the link named "getCourse"
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET the link named "getCourseOfferings"
+    Then I should receive a return code of 200
+        And I should receive a collection link named "getSections"
+    When I navigate to GET the link named "getSections"
+    Then I should receive a return code of 200
+        And I should receive zero entities
   When I navigate to GET "/v1/sections/<'SECTION' ID>/teacherSectionAssociations"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
@@ -157,7 +174,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET the link named "getSessions"
     Then I should receive a return code of 200
          And in an entity, I should receive a link named "self"
-    When I navigate to GET the link named "self"
+    When I navigate to GET the "second" link named "self"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings"
     When I navigate to GET the link named "getCourseOfferings"

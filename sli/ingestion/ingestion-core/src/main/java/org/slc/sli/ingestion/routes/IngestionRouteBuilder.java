@@ -20,7 +20,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
-import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,14 +35,12 @@ import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
-import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
@@ -76,9 +73,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private ControlFileProcessor ctlFileProcessor;
 
     @Autowired
-    private EdFiProcessor edFiProcessor;
-
-    @Autowired
     private ConcurrentEdFiProcessor concurrentEdFiProcessor;
 
     @Autowired
@@ -89,9 +83,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private TransformationProcessor transformationProcessor;
-
-    @Autowired
-    private XmlFileProcessor xmlFileProcessor;
 
     @Autowired
     private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;
@@ -119,12 +110,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private IndexValidator indexValidator;
-
-    @Value("${sli.ingestion.processor.edfi}")
-    private String edfiProcessorMode;
-
-    @Value("${sli.ingestion.processor.xml}")
-    private String xmlProcessorMode;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -334,16 +319,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     private void buildExtractionRoutes(String workItemQueueUri) {
 
-        Processor edfiProcessorToUse = edFiProcessor;
-        if ("concurrent".equals(edfiProcessorMode)) {
-            edfiProcessorToUse = concurrentEdFiProcessor;
-        }
-
-        Processor xmlFileProcessorToUse = xmlFileProcessor;
-        if ("concurrent".equals(xmlProcessorMode)) {
-            xmlFileProcessorToUse = concurrentXmlFileProcessor;
-        }
-
         // routeId: extraction
         from(workItemQueueUri).routeId("extraction").choice()
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.ERROR.name()))
@@ -358,12 +333,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(purgeProcessor).to("direct:stop")
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + xmlProcessorMode + "XmlFileProcessor.")
-                .process(xmlFileProcessorToUse).to(workItemQueueUri)
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentXmlFileProcessor.")
+                .process(concurrentXmlFileProcessor).to(workItemQueueUri)
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + edfiProcessorMode + "EdfiProcessor.")
-                .process(edfiProcessorToUse).to("direct:postExtract");
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentEdfiProcessor.")
+                .process(concurrentEdFiProcessor).to("direct:postExtract");
 
         // routeId: assembledJobs
         from("direct:assembledJobs").routeId("assembledJobs").choice().when(header(HAS_ERRORS).isEqualTo(true))
