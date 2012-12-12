@@ -1,0 +1,21 @@
+desc "Clean"
+task :clean do
+  current_dir = File.dirname(__FILE__)
+  if Dir.exists? "#{current_dir}/result"
+    FileUtils.remove_dir("#{current_dir}/result")
+  end
+end
+
+desc "Run Load Tests"
+task :runLoadTests do
+  if ENV["JMETER_HOME"].nil?
+    puts <<EOF
+Please set environment variable JMETER_HOME to your JMeter root. For example,
+  export JMETER_HOME="/opt/apache-jmeter"
+EOF
+  else
+    ruby "jmeter_runner.rb #{ENV['JMETER_HOME']}"
+  end
+end
+
+task :default =>  'runLoadTests'
