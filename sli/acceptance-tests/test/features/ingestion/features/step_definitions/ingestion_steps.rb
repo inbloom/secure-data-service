@@ -53,6 +53,8 @@ INGESTION_RC_TENANT = PropLoader.getProps['ingestion_rc_tenant']
 INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
 INGESTION_TIMEOUT_OVERRIDE = PropLoader.getProps['ingestion_timeout_override_seconds']
 
+ACTIVEMQ_HOST = PropLoader.getProps['activemq_host']
+
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
@@ -1371,7 +1373,8 @@ def scpFileToLandingZone(filename)
     FileUtils.cp @source_path, @destination_path
   end
 
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end
@@ -1394,7 +1397,8 @@ def scpFileToLandingZoneWithNewName(filename, dest_file_name)
     FileUtils.cp @source_path, @destination_path
   end
 
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end
@@ -1416,7 +1420,8 @@ def scpFileToParallelLandingZone(lz, filename)
     FileUtils.cp @source_path, @destination_path
   end
 
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end

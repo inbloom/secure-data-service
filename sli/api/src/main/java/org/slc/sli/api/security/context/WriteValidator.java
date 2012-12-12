@@ -46,6 +46,13 @@ public class WriteValidator {
             put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "educationOrganizationId");
             put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "schoolId");
         }};
+
+        // STUDENT_SECTION_ASSOCIATION, SECTION_ID, SECTION
+        // STUDENT_GRADEBOOK_ENTRY, "gradebookEntryId", GRADEBOOK_ENTRY
+        // GRADEBOOK_ENTRY, SECTION_ID, SECTION
+        // COURSE_TRANSCRIPT, COURSE_ID, COURSE
+        // DISCIPLINE_ACTION
+
     }
 
 
@@ -63,7 +70,7 @@ public class WriteValidator {
         int RESOURCE_SEGMENT_INDEX = 1;
         int VERSION_INDEX = 0;
         if (uriInfo.getPathSegments().size() > RESOURCE_SEGMENT_INDEX
-                && uriInfo.getPathSegments().get(VERSION_INDEX).equals(PathConstants.V1)) {
+                && uriInfo.getPathSegments().get(VERSION_INDEX).getPath().equals(PathConstants.V1)) {
 
             String resourceName = uriInfo.getPathSegments().get(RESOURCE_SEGMENT_INDEX).getPath();
             EntityDefinition def = store.lookupByResourceName(resourceName);

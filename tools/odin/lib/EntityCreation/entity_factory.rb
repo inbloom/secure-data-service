@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 class EntityFactory
 
   def initialize(prnd)
@@ -22,98 +23,91 @@ class EntityFactory
   end
 
   def create(work_order)
-    type = work_order[:type]
+    if work_order.kind_of? Hash then
+      type = work_order[:type]
 
-    rval = []
+      rval = []
 
-    #
-    # Refactor this so that each type can construct itself given a work order. Would clean this up considerably.
-    #
+      #
+      # Refactor this so that each type can construct itself given a work order. Would clean this up considerably.
+      #
 
-    case [type]
-      when [SeaEducationOrganization]
-        rval << SeaEducationOrganization.new(work_order[:id], @prnd)
+      case [type]
+        when [SeaEducationOrganization]
+          rval << SeaEducationOrganization.new(work_order[:id], @prnd)
 
-      when [LeaEducationOrganization]
-        rval << LeaEducationOrganization.new(work_order[:id], work_order[:parent], @prnd)
+        when [LeaEducationOrganization]
+          rval << LeaEducationOrganization.new(work_order[:id], work_order[:parent], @prnd)
 
-      when [SchoolEducationOrganization]
-        rval << SchoolEducationOrganization.new(work_order[:id], work_order[:parent], work_order[:classification])
+        when [SchoolEducationOrganization]
+          rval << SchoolEducationOrganization.new(work_order[:id], work_order[:parent], work_order[:classification])
 
-      when [Session]
-        rval << Session.new(work_order[:name], work_order[:year], work_order[:term], work_order[:interval], work_order[:edOrg], work_order[:gradingPeriods])
+        when [Session]
+          rval << Session.new(work_order[:name], work_order[:year], work_order[:term], work_order[:interval], work_order[:edOrg], work_order[:gradingPeriods])
 
-      when [GradingPeriod]
-        rval << GradingPeriod.new(work_order[:period_type], work_order[:year], work_order[:interval], work_order[:edOrg], work_order[:calendarDates])
+        when [GradingPeriod]
+          rval << GradingPeriod.new(work_order[:period_type], work_order[:year], work_order[:interval], work_order[:edOrg], work_order[:calendarDates])
 
-      when [CalendarDate]
-        rval << CalendarDate.new(work_order[:date], work_order[:event], work_order[:edOrgId])
+        when [CalendarDate]
+          rval << CalendarDate.new(work_order[:date], work_order[:event], work_order[:edOrgId])
 
-      when [CourseOffering]
-        rval << CourseOffering.new(work_order[:id], work_order[:title], work_order[:edOrgId], work_order[:session], work_order[:course])
+        when [CourseOffering]
+          rval << CourseOffering.new(work_order[:id], work_order[:title], work_order[:edOrgId], work_order[:session], work_order[:course])
 
-      when [Course]
-        rval << Course.new(work_order[:id], work_order[:title], work_order[:edOrgId])
+        when [Course]
+          rval << Course.new(work_order[:id], work_order[:title], work_order[:edOrgId])
 
-      when [Section]
-        rval << Section.new(work_order[:id], work_order[:edOrg], work_order[:offering])
+        when [Section]
+          rval << Section.new(work_order[:id], work_order[:edOrg], work_order[:offering])
 
-      when [Student]
-        rval << Student.new(work_order[:id], work_order[:birth_day_after])
-        work_order[:enrollment].each do |enrollment|
-          type = enrollment[:type].to_s
-          case type
-            when StudentSchoolAssociation.to_s
+        when [AssessmentItem]
+          rval << AssessmentItem.new(work_order[:id], work_order[:assessment])
 
-              rval. << StudentSchoolAssociation.new(enrollment[:id], enrollment[:schoolId], enrollment[:startYear], enrollment[:startGrade])
+        when [Assessment]
+          rval << Assessment.new(work_order[:id], work_order[:year], work_order[:grade], work_order[:itemCount], work_order[:family])
 
-            when StudentSectionAssociation.to_s
+        when [AssessmentFamily]
+          rval << AssessmentFamily.new(work_order[:id], work_order[:year], work_order[:parent])
 
-              rval << StudentSectionAssociation.new(enrollment[:id], DataUtility.get_unique_section_id(enrollment[:sectionId]),  enrollment[:schoolId], enrollment[:startYear], enrollment[:startGrade])
+        when [Staff]
+          rval << Staff.new(work_order[:id], work_order[:year], work_order[:name])
 
-            else
-              puts "unknown student enrollment work order #{enrollment}"
-          end
-        end
-        work_order[:assessment].each do |assessment|
-          type = assessment[:type].to_s
-          case type
-            when StudentAssessment.to_s
-              rval. << StudentAssessment.new(assessment[:id], Assessment.new(assessment[:assessment][:id], assessment[:assessment][:year], assessment[:assessment][:grade], assessment[:assessment][:itemCount], assessment[:assessment][:family]), assessment[:date], assessment[:rand])
-            else
-              puts "unknown student work order #{enrollment}"
-          end
-        end
+        when [StaffEducationOrgAssignmentAssociation]
+          rval << StaffEducationOrgAssignmentAssociation.new(work_order[:id], work_order[:edOrg], work_order[:classification], work_order[:title],
+                                                             work_order[:beginDate], work_order[:endDate])
 
-      when [AssessmentItem]
-        rval << AssessmentItem.new(work_order[:id], work_order[:assessment])
+        when [Teacher]
+          rval << Teacher.new(work_order[:id], work_order[:year], work_order[:name])
 
-      when [Assessment]
-        rval << Assessment.new(work_order[:id], work_order[:year], work_order[:grade], work_order[:itemCount], work_order[:family])
+        when [TeacherSchoolAssociation]
+          rval << TeacherSchoolAssociation.new(work_order[:id], work_order[:school], work_order[:assignment], work_order[:grades], work_order[:subjects])
 
-      when [AssessmentFamily]
-        rval << AssessmentFamily.new(work_order[:id], work_order[:year], work_order[:parent])
+        when [AssessmentFamily]
+          rval << AssessmentFamily.new(work_order[:id], work_order[:year], work_order[:parent])
 
-      when [Staff]
-        rval << Staff.new(work_order[:id], work_order[:year], work_order[:name])
+        when [Staff]
+          rval << Staff.new(work_order[:id], work_order[:year], work_order[:name])
 
-      when [StaffEducationOrgAssignmentAssociation]
-        rval << StaffEducationOrgAssignmentAssociation.new(work_order[:id], work_order[:edOrg], work_order[:classification], work_order[:title], work_order[:beginDate], work_order[:endDate])
+        when [StaffEducationOrgAssignmentAssociation]
+          rval << StaffEducationOrgAssignmentAssociation.new(work_order[:id], work_order[:edOrg], work_order[:classification], work_order[:title], work_order[:beginDate], work_order[:endDate])
 
-      when [Teacher]
-        rval << Teacher.new(work_order[:id], work_order[:year], work_order[:name])
+        when [Teacher]
+          rval << Teacher.new(work_order[:id], work_order[:year], work_order[:name])
 
-      when [TeacherSchoolAssociation]
-        rval << TeacherSchoolAssociation.new(work_order[:id], work_order[:school], work_order[:assignment], work_order[:grades], work_order[:subjects])
+        when [TeacherSchoolAssociation]
+          rval << TeacherSchoolAssociation.new(work_order[:id], work_order[:school], work_order[:assignment], work_order[:grades], work_order[:subjects])
 
-      when [TeacherSectionAssociation]
-        rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
+        when [TeacherSectionAssociation]
+          rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
 
-      else
-        puts "factory not found for #{work_order}"
+        else
+          puts "factory not found for #{work_order}"
+      end
+      rval
+    else
+      work_order.build
     end
 
-    rval
   end
 
 end

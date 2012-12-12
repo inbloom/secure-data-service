@@ -51,3 +51,12 @@ MAX_SECTIONS_PER_TEACHER: {'elementary': 1, 'middle': 3, 'high': 5}
 ASSESSMENTS_TAKEN: {grade_wide: 3}
 ASSESSMENTS_PER_GRADE: 2
 ASSESSMENT_ITEMS_PER_ASSESSMENT: {grade_wide: 4}
+
+#Graduation plans
+GRADUATION_PLANS: 
+  {"Distinguished": 
+    {"English Language and Literature": 12, "Mathematics": 15, "Science": 15, "Social Sciences and History": 12}, 
+   "Minimum": 
+    {"English Language and Literature": 9, "Mathematics": 9, "Science": 9, "Social Sciences and History": 9}, 
+   "Standard": 
+    {"English Language and Literature": 12, "Mathematics": 12, "Science": 12, "Social Sciences and History": 12}} 

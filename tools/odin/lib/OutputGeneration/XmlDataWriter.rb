@@ -101,7 +101,7 @@ class XmlDataWriter < DataWriter
       end
 
       if found == false
-        puts "<<<< #{entity} writer not registered."
+        puts "<<<< #{entity}: writer not registered for type #{entity.class}"
         exit -1
       end
 

@@ -45,7 +45,7 @@ class SectionWorkOrderFactory
   def generate_sections_with_teachers(ed_org, ed_org_type, yielder = [])
     school_id    = DataUtility.get_school_id(ed_org['id'], ed_org_type.to_sym)
     ed_org_index = @world[ed_org_type].index(ed_org) if @world[ed_org_type].nil? == false and @world[ed_org_type].size > 0
-    
+
     @world[ed_org_type][ed_org_index]['sections'] = {}
     unless ed_org['students'].nil?
       teachers = []
@@ -138,10 +138,8 @@ class SectionWorkOrderFactory
           # use course offering to create teacher school association
           @teacher_unique_state_id += 1
           ed_org_id                = offering['ed_org_id']
-          teacher                  = create_teacher(type, DataUtility.get_teacher_unique_state_id(@teacher_unique_state_id), offering['grade'])
-          
-          @log.info "creating teacher: #{teacher['id']} with num_sections: #{teacher['num_sections']} at school: #{ed_org_id}"
-          added_teacher = push_new_teacher_into_world(teacher, ed_org_id, type)
+          teacher                  = create_teacher(type, DataUtility.get_teacher_unique_state_id(@teacher_unique_state_id), offering['grade'])          
+          added_teacher            = push_new_teacher_into_world(teacher, ed_org_id, type)
           @log.warn "Failed to push teacher with id: #{teacher['id']} into world" if !added_teacher
         end
 
