@@ -9,7 +9,6 @@ DEFAULT_REMOTE_COMMAND_PORT=10024
 
 SEARCH_INDEXER_OPT=""
 SEARCH_INDEXER_COMMAND_OPTIONS=""
-SYSTEM_PROPERTIES_LOCK_DIR=""
 
 CHECK_SLI_CONF=0
 CHECK_KEYSTORE=0
@@ -127,10 +126,6 @@ function isJavaReady {
          return 0
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF} -D${SLI_ENCRYPTION_KEYSTORE}=${CHECK_KEYSTORE}"
-      if [ -z ${SYSTEM_PROPERTIES_LOCK_DIR:=""} ]; then
-         SYSTEM_PROPERTIES_LOCK_DIR=`grep sli.search.indexer.dir.data ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
-         SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Dlock.dir=${SYSTEM_PROPERTIES_LOCK_DIR}"
-      fi
       if [ -n ${DEFAULT_MAX_MEMORY:=""} ]; then
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Xmx${DEFAULT_MAX_MEMORY}"
       fi
