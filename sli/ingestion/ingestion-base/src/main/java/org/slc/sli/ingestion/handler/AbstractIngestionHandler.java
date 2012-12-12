@@ -19,6 +19,8 @@ package org.slc.sli.ingestion.handler;
 import java.util.List;
 
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
@@ -56,6 +58,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
         }
     };
 
+    // TODO: switch this to use new interface methods once everything is migrated over.
     @Override
     public O handle(T item) {
 
@@ -104,5 +107,58 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     public void setPostValidators(List<Validator<T>> postValidators) {
         this.postValidators = postValidators;
+    }
+
+    /////// NEW INTERFACE METHODS ///////
+
+    protected abstract O doHandling(T item, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus);
+
+    protected abstract List<O> doHandling(List<T> items, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus);
+
+    void pre(T item, AbstractMessageReport report, ReportStats reportStats) {
+        if (preValidators != null) {
+            for (Validator<T> validator : preValidators) {
+                validator.isValid(item, report, reportStats);
+            }
+        }
+    };
+
+    void post(T item, AbstractMessageReport report, ReportStats reportStats) {
+        if (postValidators != null) {
+            for (Validator<T> validator : postValidators) {
+                validator.isValid(item, report, reportStats);
+            }
+        }
+    };
+
+    @Override
+    public O handle(T item, AbstractMessageReport report, ReportStats reportStats) {
+        return handle(item, report, reportStats, new FileProcessStatus());
+    }
+
+    public O handle(T item, AbstractMessageReport report, ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        O o = null;
+        pre(item, report, reportStats);
+        if (!reportStats.hasErrors()) {
+            o = doHandling(item, report, reportStats, fileProcessStatus);
+            post(item, report, reportStats);
+        }
+        return o;
+    }
+
+    @Override
+    public List<O> handle(List<T> items,AbstractMessageReport report, ReportStats reportStats) {
+        return handle(items, report, reportStats, new FileProcessStatus());
+    }
+
+    public List<O> handle(List<T> items, AbstractMessageReport report, ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        // TODO: add pre and post validation that will iterate through the list and perform
+        // appropriate validations
+        if (!reportStats.hasErrors()) {
+            return doHandling(items, report, reportStats, fileProcessStatus);
+        }
+        return null;
     }
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+  <context:component-scan base-package="org.slc.sli">
+    <context:exclude-filter type="regex" expression=".*AvroEntityValidator" />
+    <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
+  </context:component-scan>
+  <context:annotation-config />
+
+  <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
+
+  <bean id="commonProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="ignoreResourceNotFound" value="true" />
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+    <property name="locations">
+      <list>
+        <value>file:${sli.conf}</value>
+        <value>classpath:ingestion.properties</value>
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- Main application context, contains all other contexts in /spring -->
+  <import resource="activemq-context.xml" />
+  <import resource="smooks-context.xml" />
+  <import resource="camel-context.xml" />
+  <import resource="persistence-context.xml" />
+  <import resource="processor-context.xml" />
+  <import resource="classpath:/spring/base-applicationContext.xml" />
+  <import resource="idRefResolution-context.xml" />
+  <import resource="recordLvlHash-context.xml" />
+  <import resource="tenantdb-context.xml" />
+  <import resource="core-message-context.xml" />
+
+  <!-- Include resources from DAL -->
+  <import resource="classpath:/spring/db.xml" />
+  <import resource="classpath:/spring/validation.xml" />
+  <import resource="dal-context.xml" />
+
+  <aop:aspectj-autoproxy />
+  <bean id="ingestionSecurityLoggingAspect" class="org.slc.sli.aspect.LoggerCarrierAspect" />
+
+  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA">
+    <property name="entityRepository" ref="mongoEntityRepository" />
+  </bean>
+
+  <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
+    <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
+    <property name="tenantRecordResourcePaths">
+      <list>
+        <value>classpath:tenants/tenant_Midgar.json</value>
+        <value>classpath:tenants/tenant_Hyrule.json</value>
+        <value>classpath:tenants/tenant_1.json</value>
+        <value>classpath:tenants/tenant_2.json</value>
+        <value>classpath:tenants/tenant_3.json</value>
+        <value>classpath:tenants/tenant_4.json</value>
+        <value>classpath:tenants/tenant_5.json</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+
+  <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
+  <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator" />
+  <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.SLIDbIndexValidator" />
+  <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
+
+  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
+
+  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
+    <property name="transformer" ref="smooksEdFi2SLITransformer" />
+    <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
+    <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
+    <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
+    <property name="recordLvlHashNeutralRecordTypes" ref="recordLvlHashNeutralRecordTypes" />
+  </bean>
+
+  <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
+  <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
+
+  <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
+    <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
+  </bean>
+
+    <bean id="stageTrackingAspect" class="org.slc.sli.ingestion.aspect.StageTrackingAspect"
+       factory-method="aspectOf">
+  </bean>
+
+</beans>
+
+

@@ -145,7 +145,7 @@ public class SmooksCallable implements Callable<Boolean> {
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
+        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
@@ -163,27 +163,20 @@ public class SmooksCallable implements Callable<Boolean> {
         }
     }
 
-    private void populateRecordCountsFromSmooks(Smooks smooks, FileProcessStatus fileProcessStatus,
+    private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
             IngestionFileEntry ingestionFileEntry) {
-        try {
-            Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
-            f.setAccessible(true);
-            VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
-            ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
-            SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0).getContentHandler();
 
-            int recordsPersisted = visitAfter.getRecordsPerisisted();
-            Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+        SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
 
-            fileProcessStatus.setTotalRecordCount(recordsPersisted);
-            fileProcessStatus.setDuplicateCounts(duplicateCounts);
+        int recordsPersisted = visitAfter.getRecordsPerisisted();
+        Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
 
-            LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
-                    ingestionFileEntry.getFileName());
+        fileProcessStatus.setTotalRecordCount(recordsPersisted);
+        fileProcessStatus.setDuplicateCounts(duplicateCounts);
 
-        } catch (Exception e) {
-            LOG.error("Error accessing visitor list in smooks", e);
-        }
+        LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                ingestionFileEntry.getFileName());
+
     }
 
     private int processMetrics(Metrics metrics, FileProcessStatus fileProcessStatus) {

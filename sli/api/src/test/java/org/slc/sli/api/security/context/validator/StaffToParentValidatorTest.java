@@ -65,6 +65,10 @@ public class StaffToParentValidatorTest {
     @Autowired
     private SecurityContextInjector injector;
     
+    
+    @Autowired
+    private ValidatorTestHelper helper;
+    
     Entity staff1 = null;   //associated to LEA
     Entity staff2 = null;   //associated to school1
     Entity staff3 = null;   //associated to school2
@@ -92,16 +96,9 @@ public class StaffToParentValidatorTest {
         repo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, null);
         repo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, null);
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff1");
-        staff1 = repo.create("staff", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff2");
-        staff2 = repo.create("staff", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff3");
-        staff3 = repo.create("staff", body);
+        staff1 = helper.generateStaff();
+        staff2 = helper.generateStaff();
+        staff3 = helper.generateStaff();
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
@@ -117,20 +114,9 @@ public class StaffToParentValidatorTest {
         body.put("parentEducationAgencyReference", lea1.getEntityId());
         school2 = repo.create("educationOrganization", body);
 
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", lea1.getEntityId());
-        body.put("staffReference", staff1.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
-        
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school1.getEntityId());
-        body.put("staffReference", staff2.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
-        
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school2.getEntityId());
-        body.put("staffReference", staff3.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
+        helper.generateStaffEdorg(staff1.getEntityId(), lea1.getEntityId(), false);
+        helper.generateStaffEdorg(staff2.getEntityId(), school1.getEntityId(), false);
+        helper.generateStaffEdorg(staff3.getEntityId(), school2.getEntityId(), false);
         
         body = new HashMap<String, Object>();
         student1 = repo.create("student", body);

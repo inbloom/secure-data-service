@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -71,6 +73,12 @@ public class ChecksumValidator extends IngestionFileValidator {
 
     protected boolean checksumsMatch(String actualMd5Hex, String recordedMd5Hex) {
         return !StringUtils.isBlank(actualMd5Hex) && actualMd5Hex.equalsIgnoreCase(recordedMd5Hex);
+    }
+
+    @Override
+    public boolean isValid(FileEntryDescriptor object, AbstractMessageReport report, ReportStats reportStats) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

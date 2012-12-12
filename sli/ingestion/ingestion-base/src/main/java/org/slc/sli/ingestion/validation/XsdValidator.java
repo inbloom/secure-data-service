@@ -41,6 +41,8 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -106,6 +108,12 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     public void setXsd(Map<String, Resource> xsd) {
         this.xsd = xsd;
+    }
+
+    @Override
+    public boolean isValid(IngestionFileEntry object, AbstractMessageReport report, ReportStats reportStats) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

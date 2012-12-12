@@ -32,6 +32,8 @@ import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -68,7 +70,12 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
                 done = true;
 
                 // Find manifest (ctl file)
-                return ZipFileUtil.findCtlFile(dir);
+                File ctlFile = ZipFileUtil.findCtlFile(dir);
+                if (ctlFile == null) {
+                    String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG20");
+                    errorReport.error(message, this);
+                }
+                return ctlFile;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
@@ -114,5 +121,19 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     @Override
     protected List<File> doHandling(List<File> items, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         throw new NotImplementedException("Processing of multiple zip files is not currently supported.");
+    }
+
+    @Override
+    protected File doHandling(File item, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected List<File> doHandling(List<File> items, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
