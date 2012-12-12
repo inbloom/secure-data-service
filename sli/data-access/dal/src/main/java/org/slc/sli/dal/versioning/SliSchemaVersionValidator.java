@@ -134,13 +134,15 @@ public class SliSchemaVersionValidator {
                         this.mongoTemplate.insert(objectToSave, METADATA_COLLECTION);
                     } else {
                         int lastKnownDalVersion = Double.valueOf(dbObject.get(DAL_SV).toString()).intValue();
+                        int currentMongoVersion = Double.valueOf(dbObject.get(MONGO_SV).toString()).intValue();
 
                         if (lastKnownDalVersion < schemaVersion) {
-
                             // write a signal for the entity type to be upversioned
                             Update update = new Update().set(DAL_SV, schemaVersion).set(SARJE, 1);
                             this.mongoTemplate.updateFirst(query, update, METADATA_COLLECTION);
-
+                        }
+                        
+                        if (currentMongoVersion < schemaVersion) {
                             // remember that the entity's schema is being upversioned
                             this.entityTypesBeingMigrated.put(neutralSchema.getType(), schemaVersion);
                         }
