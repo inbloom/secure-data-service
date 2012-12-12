@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class TeacherCohortValidator extends AbstractContextValidator {
+public class TeacherToCohortValidator extends AbstractContextValidator {
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
