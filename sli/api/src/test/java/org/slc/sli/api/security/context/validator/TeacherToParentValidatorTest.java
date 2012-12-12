@@ -54,10 +54,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @Component
-public class StaffToParentValidatorTest {
+public class TeacherToParentValidatorTest {
     
     @Autowired
-    private StaffToParentValidator validator;
+    private TeacherToParentValidator validator;
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -65,13 +65,11 @@ public class StaffToParentValidatorTest {
     @Autowired
     private SecurityContextInjector injector;
     
-    
     @Autowired
     private ValidatorTestHelper helper;
     
-    Entity staff1 = null;   //associated to LEA
-    Entity staff2 = null;   //associated to school1
-    Entity staff3 = null;   //associated to school2
+    Entity teacher2 = null;   //associated to school1
+    Entity teacher3 = null;   //associated to school2
     Entity student1 = null;   //associated to school1
     Entity student2 = null;   //associated to school2
 
@@ -96,9 +94,9 @@ public class StaffToParentValidatorTest {
         repo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, null);
         repo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, null);
         Map<String, Object> body = new HashMap<String, Object>();
-        staff1 = helper.generateStaff();
-        staff2 = helper.generateStaff();
-        staff3 = helper.generateStaff();
+        
+        teacher2 = helper.generateTeacher();
+        teacher3 = helper.generateTeacher();
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
@@ -114,9 +112,9 @@ public class StaffToParentValidatorTest {
         body.put("parentEducationAgencyReference", lea1.getEntityId());
         school2 = repo.create("educationOrganization", body);
 
-        helper.generateStaffEdorg(staff1.getEntityId(), lea1.getEntityId(), false);
-        helper.generateStaffEdorg(staff2.getEntityId(), school1.getEntityId(), false);
-        helper.generateStaffEdorg(staff3.getEntityId(), school2.getEntityId(), false);
+        helper.generateTeacherSchool(teacher2.getEntityId(), school1.getEntityId());
+        
+        helper.generateTeacherSchool(teacher3.getEntityId(), school2.getEntityId());
         
         body = new HashMap<String, Object>();
         student1 = repo.create("student", body);
@@ -156,6 +154,14 @@ public class StaffToParentValidatorTest {
         body.put("parentId", parent2.getEntityId());
         body.put("studentId", student2.getEntityId());
         repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
+        
+        Entity prog1 = helper.generateProgram();
+        helper.generateStudentProgram(student1.getEntityId(), prog1.getEntityId(), false);
+        helper.generateStaffProgram(teacher2.getEntityId(), prog1.getEntityId(), false, true);
+        
+        Entity prog2 = helper.generateProgram();
+        helper.generateStudentProgram(student2.getEntityId(), prog2.getEntityId(), false);
+        helper.generateStaffProgram(teacher3.getEntityId(), prog2.getEntityId(), false, true);
       
     }
     
@@ -168,49 +174,40 @@ public class StaffToParentValidatorTest {
     }
     
     @Test
-    public void testCanValidateAsStaff() {
-        setupCurrentUser(staff1);
+    public void testCanValidateAsTeacher() {
+        setupCurrentUser(teacher2);
         Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.PARENT, false));
         Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.PARENT, true));
         Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.ADMIN_DELEGATION, false));
     }
-       
-    @Test
-    public void testValidAssociationsForStaff1() {
-        setupCurrentUser(staff1);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(
-                Arrays.asList(parent1.getEntityId(), parent2.getEntityId()))));
-    }
     
     @Test
-    public void testValidAssociationsForStaff2() {
-        setupCurrentUser(staff2);
+    public void testValidAssociationsForTeacher2() {
+        setupCurrentUser(teacher2);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
     }
     
     @Test
-    public void testInvalidAssociationsForStaff2() {
-        setupCurrentUser(staff2);
+    public void testInvalidAssociationsForTeacher2() {
+        setupCurrentUser(teacher2);
         Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
     }
     
     @Test
-    public void testValidAssociationsForStaff3() {
-        setupCurrentUser(staff3);
+    public void testValidAssociationsForTeacher3() {
+        setupCurrentUser(teacher3);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
     }
     
     @Test
-    public void testInvalidAssociationsForStaff3() {
-        setupCurrentUser(staff3);
+    public void testInvalidAssociationsForTeacher3() {
+        setupCurrentUser(teacher3);
         Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
     }
     
     @Test
     public void testInvalidAssociations() {
-        setupCurrentUser(staff2);
+        setupCurrentUser(teacher2);
         Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
         Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>()));
     }
