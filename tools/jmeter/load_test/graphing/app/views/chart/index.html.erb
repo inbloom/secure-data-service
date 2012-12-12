@@ -1,1 +1,6 @@
-<%= high_chart("my_id", @test) %>
+<% i = 0 %>
+<% @charts.each do |chart| %>
+    <%= high_chart("test#{i}", chart) %>
+    <% i = i + 1 %>
+    <hr/>
+<% end %>

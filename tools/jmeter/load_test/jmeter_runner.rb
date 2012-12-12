@@ -1,4 +1,15 @@
 require 'nokogiri'
+require 'json'
+
+JMETER_EXEC = "#{ARGV[0]}/bin/jmeter"
+RUNNER_HOME = File.dirname(__FILE__)
+CONFIG_HOME = "#{RUNNER_HOME}/.."
+JMETER_PROP = "#{CONFIG_HOME}/local.properties"
+RESULT_DIR = "#{RUNNER_HOME}/result"
+RESULT_JSON_FILE = "#{RESULT_DIR}/result.json"
+JTL_FILE_PREFIX = "test"
+TOTAL_LABEL = "total"
+MAX_AVG_ELAPSED_TIME = 30000
 
 class Sample
   attr_accessor :elapsed_time, :latency, :timestamp, :success_flag, :label, :response_code, :response_message,
@@ -24,61 +35,82 @@ class Sample
   end
 end
 
-JMETER_EXEC = "/Users/joechung/apache-jmeter-2.8/bin/jmeter"
-JMETER_PROP = "/Users/joechung/gitrepo/sli/tools/jmeter/joe_local.properties"
-JMETER_JMX = "/Users/joechung/gitrepo/sli/tools/jmeter/single-student.jmx"
-RESULT_DIR = "/Users/joechung/gitrepo/sli/tools/jmeter/result"
+def run_jmeter(jmx_file, jtl_file, thread_count)
+  File.delete(jtl_file) if File.exist? jtl_file
+  command = "#{JMETER_EXEC} -n -q #{JMETER_PROP} -t #{jmx_file} -l #{jtl_file} -Jthreads=#{thread_count} -Jloops=1"
 
-def clear_dir
-  if File.directory? RESULT_DIR
-    Dir.foreach(RESULT_DIR) {|f| fn = File.join(RESULT_DIR, f); File.delete(fn) if f != '.' && f != '..'}
-  end
-end
-
-def run_jmeter(filename, threads)
-  fullpath = File.join(RESULT_DIR, filename)
-  File.delete(fullpath) if File.exist? fullpath
-
-  pid = Process.spawn("#{JMETER_EXEC} -n -q #{JMETER_PROP} -t #{JMETER_JMX} -l #{fullpath} -Jthreads=#{threads}")
+  p "Spawning process command: #{command}"
+  pid = Process.spawn(command)
   Process.wait(pid)
 end
 
-def get_results(filename)
-  fullpath = File.join(RESULT_DIR, filename)
-  doc = Nokogiri.XML(File.open(fullpath, 'rb'))
+def build_scenario_result(thread_count, jtl_file)
+  # parse JTL files
+  label_to_sample_array = {}
+  File.open(jtl_file, 'rb') do |file|
+    doc = Nokogiri.XML(file)
+    doc.css('httpSample').each do |sample|
+      sample = Sample.new(sample)
+      label_to_sample_array[sample.label] = [] if label_to_sample_array[sample.label].nil?
+      label_to_sample_array[sample.label] << sample
+    end
+  end
 
+  # ignore login requests
+  label_to_sample_array.reject! do |key, value|
+    key.include?("/api/oauth/sso") || ["/api/oauth/sso", "simple-idp", "IDP Login HTTP Request", "/api/rest/saml/sso/post", "/api/oauth/token"].include?(key)
+  end
+
+  scenario_result = {}
+  average_total = 0
+  label_to_sample_array.each do |label, samples|
+    total_elapsed_time = 0
+    samples.each do |sample|
+      total_elapsed_time += sample.elapsed_time
+    end
+    scenario_result[label] = (total_elapsed_time * 1.0 / thread_count).ceil
+    average_total += scenario_result[label]
+  end
+  scenario_result[TOTAL_LABEL] = average_total
+  scenario_result
+end
+
+def collect_all_data(config_dir, result_dir)
+  Dir.mkdir(result_dir) unless Dir.exists?(result_dir)
+  Dir.foreach(config_dir) do |file|
+    if match_index = file =~ /[.]jmx$/
+      full_path = File.join(result_dir, file[0..(match_index - 1)])
+      Dir.mkdir(full_path) unless Dir.exists?(full_path)
+      (0..20).each do |n|
+        thread_count = 2 ** n
+        jtl_file = File.join(full_path, "#{JTL_FILE_PREFIX}#{thread_count}.jtl")
+        run_jmeter(File.join(config_dir, file), jtl_file, thread_count) unless File.exists?(jtl_file)
+        break if build_scenario_result(thread_count, jtl_file)[TOTAL_LABEL] > MAX_AVG_ELAPSED_TIME
+      end
+    end
+  end
+end
+
+def aggregate_all_result(result_dir)
   results = {}
-  doc.css('httpSample').each do |sample|
-    sample = Sample.new(sample)
-    results[sample.label] = [] if results[sample.label].nil?
-    results[sample.label] << sample
+  Dir.foreach(result_dir) do |scenario_folder|
+    unless [".", "..", "oauth"].include? scenario_folder
+      path = File.join(RESULT_DIR, scenario_folder)
+      if File.directory? path
+        results[scenario_folder] = {}
+        Dir.foreach(path) do |jtl_file|
+          if match_index = jtl_file.match(/test([0-9]+)[.]jtl$/)
+            thread_count = match_index[1].to_i
+            results[scenario_folder][thread_count] = build_scenario_result(thread_count, File.join(path, jtl_file))
+          end
+        end
+      end
+    end
   end
   results
 end
 
-#10.times do |x|
-#  n_threads = x * 10
-#  run_jmeter("test#{n_threads}", n_threads)
-#end
-
-results = {}
-(1..10).each do |n|
-  threads = n * 5
-  samples = get_results("test#{threads}")["Get student by ID"]
-  results[:categories] = [] if results[:categories].nil?
-  results[:min] = [] if results[:min].nil?
-  results[:median] = [] if results[:median].nil?
-  results[:max] = [] if results[:max].nil?
-  results[:categories] << threads
-  samples.sort! {|x,y| x.elapsed_time <=> y.elapsed_time}
-  results[:min] << samples[0].elapsed_time
-  results[:median] << samples[samples.size/2].elapsed_time
-  results[:max] << samples[-1].elapsed_time
-  #get_results("test#{threads}").each do |label, samples|
-  #  samples.sort! {|x,y| x.elapsed_time <=> y.elapsed_time}
-  #
-  #  p "#{label} [#{samples[0].elapsed_time}, #{samples[samples.size/2].elapsed_time}, #{samples[-1].elapsed_time}]"
-  #end
+collect_all_data(CONFIG_HOME, RESULT_DIR)
+File.open(RESULT_JSON_FILE, "w") do |f|
+  f.write(aggregate_all_result(RESULT_DIR).to_json)
 end
-
-p results

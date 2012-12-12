@@ -160,7 +160,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
     else
       puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
     end
-  end
+  endile
 
 end
 
