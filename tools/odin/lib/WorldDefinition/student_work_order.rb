@@ -80,7 +80,7 @@ class StudentWorkOrder
           schools = schools.drop(1)
         end
         generated += generate_enrollment(schools[0], curr_type, year, grade, session)
-        generated += generate_grade_wide_assessments(grade, session)
+        generated += generate_grade_wide_assessment_info(grade, session)
       end
     }
     generated
@@ -105,7 +105,13 @@ class StudentWorkOrder
     rval
   end
 
-  def generate_grade_wide_assessments(grade, session)
+  def generate_grade_wide_assessment_info(grade, session)
+    student_assessments = grade_wide_student_assessments(grade, session)
+    student_assessment_items = generate_student_assessment_items(student_assessments)
+    student_assessments + student_assessment_items
+  end
+
+  def grade_wide_student_assessments(grade, session)
     unless @assessment_factory.nil?
       times_taken = @scenario['ASSESSMENTS_TAKEN']['grade_wide']
 
@@ -120,6 +126,14 @@ class StudentWorkOrder
         end
       }.flatten
     end or []
+  end
+
+  def generate_student_assessment_items(student_assessments)
+    student_assessments.map{|sa|
+      sa.assessment.assessment_items.map{|item|
+        StudentAssessmentItem.new(sa.studentId.odd?, sa, item)
+      }
+    }.flatten
   end
 
   def find_age(grade)
