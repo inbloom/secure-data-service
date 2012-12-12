@@ -468,25 +468,6 @@ task :fullSuite => [
   end
 end
 
-# Run a whole series of acceptance and integration tests
-desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests for Emma"
-task :fullSuiteForEmma => [
-  :apiAndSecurityTests,
-  :ingestionEmmaTests,
-  :localDashboardTests,
-  :integrationTests,
-  :JavaSDKTests,
-  :sandboxTests,
-  :apiSeleniumTests] do
-
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
@@ -777,19 +758,6 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["dashboardSdsTests"].invoke
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run Integration Acceptance Tests for EMMA"
-task :integrationEmmaTests => [] do
-  Rake::Task["ingestionAcceptanceSdsTest"].execute
-  #Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
