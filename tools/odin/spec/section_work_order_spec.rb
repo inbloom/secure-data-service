@@ -18,8 +18,9 @@ limitations under the License.
 =end
 
 require 'timeout'
-require_relative '../lib/WorldDefinition/section_work_order.rb'
-require_relative 'spec_helper.rb'
+
+require_relative 'spec_helper'
+require_relative '../lib/WorldDefinition/section_work_order'
 
 # specifications for the section work order factory
 describe "SectionWorkOrderFactory" do
@@ -28,13 +29,19 @@ describe "SectionWorkOrderFactory" do
     before(:all) do
       config = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
       scenario = {'STUDENTS_PER_SECTION' => {'high' => 10}, 'MAX_SECTIONS_PER_TEACHER' => {'high' => 5}}
-      offerings = [{'id' => 1, 'grade' => :NINTH_GRADE}, {'id' => 2, 'grade' => :TENTH_GRADE}, {'id' => 3, 'grade' => :TENTH_GRADE}]
+      
+      offerings = [{'id' => 1, 'grade' => :NINTH_GRADE, 'ed_org_id'=>'high-0000000042'}, 
+        {'id' => 2, 'grade' => :TENTH_GRADE, 'ed_org_id'=>'high-0000000042'}, 
+        {'id' => 3, 'grade' => :TENTH_GRADE, 'ed_org_id'=>'high-0000000042'}]
+      
       @ed_org = {'id' => 42, 'students' => {2001 => {:NINTH_GRADE => 30, :TENTH_GRADE => 0}, 2002 => {:NINTH_GRADE => 0, :TENTH_GRADE => 30}},
                              'offerings' => {2001 => offerings, 2002 => offerings},
                              'teachers' => []}
-      world = {'high' => [@ed_org]}
+      
+      world = { "high" => [@ed_org] }
       prng = Random.new(config['seed'])
       @factory = SectionWorkOrderFactory.new(world, scenario, prng)
+      @factory.generate_sections_with_teachers(@ed_org, "high")
     end
 
     after(:all) do
@@ -42,19 +49,20 @@ describe "SectionWorkOrderFactory" do
     end
 
     it "will return enough sections so that each student can take it" do
-      ninth_grade_sections = @factory.sections(@ed_org, 'high', 2001, :NINTH_GRADE)
-      ninth_grade_sections[{'id' => 1, 'grade' => :NINTH_GRADE}].count.should eq 3
-      tenth_grade_sections = @factory.sections(@ed_org, 'high', 2002, :TENTH_GRADE)
-      tenth_grade_sections[{'id' => 2, 'grade' => :TENTH_GRADE}].count.should eq 3
-      tenth_grade_sections[{'id' => 3, 'grade' => :TENTH_GRADE}].count.should eq 3
+      ninth_grade_sections = @factory.sections(@ed_org['id'], "high", 2001, :NINTH_GRADE)
+      ninth_grade_sections[1].count.should eq 3
+      
+      tenth_grade_sections = @factory.sections(@ed_org['id'], 'high', 2002, :TENTH_GRADE)
+      tenth_grade_sections[2].count.should eq 3
+      tenth_grade_sections[3].count.should eq 3
     end
 
     it "will return no sections when there are no available students" do
-      ninth_grade_sections = @factory.sections(@ed_org, 'high', 2002, :NINTH_GRADE)
-      ninth_grade_sections[{'id' => 1, 'grade' => :NINTH_GRADE}].should be_nil
-      tenth_grade_sections = @factory.sections(@ed_org, 'high', 2001, :TENTH_GRADE)
-      tenth_grade_sections[{'id' => 2, 'grade' => :TENTH_GRADE}].should be_nil
-      tenth_grade_sections[{'id' => 3, 'grade' => :TENTH_GRADE}].should be_nil
+      ninth_grade_sections = @factory.sections(@ed_org['id'], 'high', 2002, :NINTH_GRADE)
+      ninth_grade_sections.should be_empty
+      
+      tenth_grade_sections = @factory.sections(@ed_org['id'], 'high', 2001, :TENTH_GRADE)
+      tenth_grade_sections.should be_empty
     end
 
   end

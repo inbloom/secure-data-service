@@ -102,8 +102,10 @@ class StudentWorkOrder
     unless sections.nil?
       #generate a section for each available course offering
       sections.each{|course_offering, available_sections|
-        section = available_sections.to_a[id % available_sections.count]
-        rval << {:type=>StudentSectionAssociation, :id=>@id, :sectionId=>section, :courseOffering => course_offering['id'],
+      #sections.each{ |section|
+        #puts "available sections for student #{@id} --> #{available_sections}"
+        section = available_sections[id % available_sections.count]
+        rval << {:type=>StudentSectionAssociation, :id=>@id, :sectionId=>section, :courseOffering => course_offering,
                  :schoolId=>school_id, :startYear=>start_year, :startGrade=>start_grade}
       }
     end

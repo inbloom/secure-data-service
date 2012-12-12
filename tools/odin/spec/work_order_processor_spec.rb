@@ -261,17 +261,15 @@ describe "generate_work_orders" do
   end
 
   context "with an infinitely large school" do
-    let(:world)  {{'high' => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 1.0/0}}, 'sessions' => [{}]}]}}
+    let(:world)  { {"high" => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 1.0/0}}, 'sessions' => [{}]}]} }
 
     it "will lazily create work orders in finite time" do
-      Timeout::timeout(5){
-        WorkOrderProcessor.generate_work_orders(world, scenario, prng).take(100).length.should eq(100)
-      }
+      Timeout::timeout(5) { WorkOrderProcessor.generate_work_orders(world, scenario, prng).take(100).length.should eq(100) }
     end
   end
 
   context "with infinitely many schools" do
-    let(:world)  {{'high' => [{'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]}].cycle}}
+    let(:world)  {{ "high" => Array.new(100000) {|school| {'id' => "Zeno High", 'students' => {2001 => {:KINDERGARTEN => 5}}, 'sessions' => [{}]}} }}
 
     it "will lazily create work orders in finite time" do
       Timeout::timeout(5) { WorkOrderProcessor.generate_work_orders(world, scenario, prng).take(100).length.should eq(100) }

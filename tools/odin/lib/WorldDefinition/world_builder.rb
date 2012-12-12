@@ -185,6 +185,8 @@ class WorldBuilder
       end
     end
     @breakdown = new_breakdown
+    #puts "breakdown: #{@breakdown}"
+    #puts "new breakdown: #{new_breakdown}"
   end
 
   # uses the total number of students, as well as range of [min, max] to compute students at a school of type 'tag', and then
@@ -874,7 +876,7 @@ class WorldBuilder
             @world[type][ed_org_index]["teachers"][teacher_index]["subjects"] = subjects
           end
 
-          @log.info "creating teacher from staff catalog: #{teacher} at ed org: #{ed_org_id}"
+          @log.info "creating teacher from catalog: #{teacher} at ed org: #{ed_org_id}"
           @queue.push_work_order({:type=>Teacher, :id=>teacher["id"], :year=>year_of, :name=>teacher["name"]})
           @queue.push_work_order({:type=>TeacherSchoolAssociation, :id=>teacher["id"], :school=>ed_org_id,
                                   :assignment=>:REGULAR_EDUCATION, :grades=>grades, :subjects=>subjects})
@@ -971,9 +973,7 @@ class WorldBuilder
       if holidays.include?(date)
         calendar_dates << {"date" => date, "event" => :HOLIDAY, "ed_org_id" => ed_org_id}
       else
-        if date.wday != 0 and date.wday != 6
-          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id}
-        end
+        calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id} if date.wday != 0 and date.wday != 6
       end
     end
     calendar_dates
@@ -1051,14 +1051,23 @@ class WorldBuilder
   def generate_student_work_orders
     section_factory = SectionWorkOrderFactory.new(@world, @scenarioYAML, @prng)
     student_factory = StudentWorkOrderFactory.new(@world, @scenarioYAML, section_factory)
-    Enumerator.new do |y|
-      @world.each{|type, edOrgs|
-        edOrgs.each{|edOrg|
-          section_factory.generate_sections_with_teachers(edOrg, type, y)
-          student_factory.generate_work_orders(edOrg, y)
-        }
-      }
+    Enumerator.new do |yielder|
+      # needs to be in this order for boundary students
+      # -> if an elementary school student graduates to middle school, we need to guarantee that the
+      #    infrastructure for the middle school exists (same for middle -> high school graduation)
+      create_work_orders_using_factories(section_factory, student_factory, "high", yielder)
+      create_work_orders_using_factories(section_factory, student_factory, "middle", yielder)
+      create_work_orders_using_factories(section_factory, student_factory, "elementary", yielder)
     end
+  end
+
+  # uses the specified section factory and student factory to create sections for 
+  # education organizations of specified 'type'
+  def create_work_orders_using_factories(section_factory, student_factory, type, yielder)
+    @world[type].each { |school|
+      section_factory.generate_sections_with_teachers(school, type, yielder)
+      student_factory.generate_work_orders(school, yielder)
+    }
   end
 
   def create_student_and_enrollment_work_orders
