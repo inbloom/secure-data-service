@@ -1,0 +1,12 @@
+{
+    "entities":{
+        "student": {
+            "2": {
+                "ADD": {
+                    "fieldName": "favoriteNumber",
+                    "defaultValue": "11"
+                }            
+            }
+        }
+    }
+}
