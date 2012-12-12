@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.reporting;
 
-
 /**
  * Enumeration of message codes for the ingestion-base module.
  *
@@ -25,7 +24,7 @@ package org.slc.sli.ingestion.reporting;
  */
 public enum BaseMessageCode implements MessageCode {
 
-    SL_ERR_MSG1, SL_ERR_MSG2;
+    SL_ERR_MSG1, SL_ERR_MSG2, SL_ERR_MSG3, SL_ERR_MSG8, SL_ERR_MSG9, SL_ERR_MSG14;
 
     @Override
     public String getCode() {
