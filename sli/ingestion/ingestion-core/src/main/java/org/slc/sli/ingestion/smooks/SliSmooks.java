@@ -48,7 +48,7 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 /**
- * To implement the missing <code>setDocumentLocator</code> method in the 
+ * To implement the missing <code>setDocumentLocator</code> method in the
  * smooks package, four smooks-related classes are extended/replaced, namely:
  * <ol>
  * <li>{@linkplain org.slc.sli.ingestion.smooks.SliSmooks} which extends
@@ -63,33 +63,33 @@ import org.xml.sax.SAXException;
  * <p>
  * Why so many classes? It is because the smooks package is a monolithic design, where
  * <p>
- * {@linkplain org.milyn.Smooks#_filter} creates a 
- * {@linkplain org.milyn.delivery.sax.SmooksSAXFilter} (via 
+ * {@linkplain org.milyn.Smooks#_filter} creates a
+ * {@linkplain org.milyn.delivery.sax.SmooksSAXFilter} (via
  * <code>deliveryConfig.newFilter(executionContext))</code>, and
  * <p>
  * {@linkplain org.milyn.delivery.sax.SmooksSAXFilter#SmooksSAXFilter} instantiate a private
  * {@linkplain org.milyn.delivery.sax.SAXParser}, and
  * <p>
- * {@linkplain org.milyn.delivery.sax.SAXParser#parse} create a 
+ * {@linkplain org.milyn.delivery.sax.SAXParser#parse} create a
  * {@linkplain org.milyn.delivery.sax.SAXHandler} which implements
  * a no-op <code>{@linkplain org.xml.sax.helpers.DefaultHandler#setDocumentLocator}</code>.
  * <p>
  * This <code>SliSmooks</code> class extends  {@linkplain org.milyn.Smooks} and
  * implements {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler}.
  * It keeps a <code>sliVisitorConfigMap</code> and uses the map to
- * call the visitors' 
+ * call the visitors'
  * <code>{@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator}</code> method.
  * <p>
  * Below are the funcionality this class provides beyond <code>Smooks</code>:
  * <ol>
- * <li>In <code>{@linkplain #addVisitor(Visitor, String, String)</code>, it adds the visitor into 
+ * <li>In <code>{@linkplain #addVisitor(Visitor, String, String)</code>, it adds the visitor into
  * <code>sliVisitorConfigMap</code> before calling super's method.</li>
- * <li>In <code>{@linkplain #_filter}</code>, it creates a 
+ * <li>In <code>{@linkplain #_filter}</code>, it creates a
  * {@linkplain SliSmooksSAXFilter} (instead of SmooksSAXFilter)</li>
  * <li>It implements {@linkplain #setDocumentLocator}</li>
  * <li>It implements {@linkplain #getFirstSmooksEdFiVisitor}</li>
  * </ol>
- * 
+ *
  *
  * @author slee
  *
@@ -193,7 +193,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
     }
 
     /**
-     * Same as in {@linkplain org.milyn.Smooks} except 
+     * Same as in {@linkplain org.milyn.Smooks} except
      * at the line where new SliSmooksSAXFilter is used to replace deliveryConfig.newFilter.
      *
      * @param executionContext
@@ -213,7 +213,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
                 ContentDeliveryConfig deliveryConfig = executionContext.getDeliveryConfig();
 
                 if (results != null && results.length == 1 && results[0] != null) {
-                    FilterBypass filterBypass = deliveryConfig.getFilterBypass();                
+                    FilterBypass filterBypass = deliveryConfig.getFilterBypass();
                     if (filterBypass != null && filterBypass.bypass(executionContext, source, results[0])) {
                         // We're done... a filter bypass was applied...
                         if (logger.isDebugEnabled()) {
@@ -285,7 +285,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      *
      * @return SmooksEdFiVisitor
      */
-    public SmooksEdFiVisitor getFirstSmooksEdFiVisitor() {
+    public final SmooksEdFiVisitor getFirstSmooksEdFiVisitor() {
         return sliVisitorConfigMap!= null ? sliVisitorConfigMap.get(0) : null;
     }
 
