@@ -4,5 +4,6 @@
 
 desc "Run Schema Versioning Tests"
 task :versioningTests do
-  runTests("test/features/versioning/versioning.feature")
+  	Rake::Task["importSandboxData"].execute
+  	runTests("test/features/versioning/versioning.feature")
 end

@@ -21,3 +21,10 @@ Feature: Entity versioning and migration strategies
     And "SARJE" field is "1" for all records
     And "mongo_sv" field is "1" for all records
     And "dal_sv" field is "999999" for all records
+
+  @DB_MIGRATION_AFTER_UPVERSIONING
+  Scenario: API requests for an student get transformed using the test transformation
+    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    And format "application/vnd.slc+json"  
+    When I navigate to GET "/<STUDENT URI>/<'Preston Muchow' ID>"
+    Then "favoriteFood" should be "ice cream"
