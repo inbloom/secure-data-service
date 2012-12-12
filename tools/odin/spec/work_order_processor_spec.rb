@@ -42,7 +42,8 @@ describe "WorkOrderProcessor" do
 
       class Factory
         # student creation
-        attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items
+        attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
+          :parents, :parent_associations
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -50,6 +51,8 @@ describe "WorkOrderProcessor" do
           @assessment_associations = to_build.select{|a| a.kind_of? StudentAssessment}
           @section_associations = to_build.select{|a| a.kind_of? StudentSectionAssociation}
           @assessment_items = to_build.select{|a| a.kind_of? StudentAssessmentItem}
+          @parents = to_build.select{|a| a.kind_of? Parent}
+          @parent_associations = to_build.select{|a| a.kind_of? StudentParentAssociation}
         end
       end
 
@@ -75,7 +78,11 @@ describe "WorkOrderProcessor" do
         factory.school_associations.select{|ssa| ssa.startYear == 2002 and ssa.startGrade == "First grade"}.should have(1).items
         factory.section_associations.should have(4).items
         factory.assessment_associations.should have(30).items
+      end
 
+      it "will generate the right number of parents and student parent associations" do
+        factory.parents.should have(2).items
+        factory.parent_associations.should have(2).items
       end
 
       it "will generate StudentSchoolAssociations with the correct information" do

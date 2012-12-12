@@ -81,7 +81,7 @@ Then I should see following map of entry counts in the corresponding collections
      | graduationPlan                           |                  3|
      | learningObjective                        |                  0|
      | learningStandard                         |                  0|
-     | parent                                   |                  0|
+     | parent                                   |                 20|
      | program                                  |                  0|
      | reportCard                               |                  0|
      | schoolSessionAssociation                 |                  0|
@@ -101,7 +101,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
-     | studentParentAssociation                 |                  0|
+     | studentParentAssociation                 |                 20|
      | studentProgramAssociation                |                  0|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 1977 records." in the resulting batch job file
+    And I should see "Processed 2017 records." in the resulting batch job file
     And I should not see an error log file created
 	  And I should not see a warning log file created
 
@@ -154,6 +154,8 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 5                   | schools.edOrgs                           | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id   | string               |   
      | student                     | 3                   | schools.edOrgs                           | a13489364c2eb015c219172d561c62350f0453f3_id   | string               |   
      | student                     | 10                  | schools.edOrgs                           | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |   
+     | student                     | 1                   | _id                                      | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
+     | studentParentAssociation    | 2                   | body.studentId                           | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
   When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"

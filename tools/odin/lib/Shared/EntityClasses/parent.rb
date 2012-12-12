@@ -25,7 +25,7 @@ class Parent < BaseEntity
                 :email, :loginId, :address, :city, :state, :postalCode
 
   def initialize(kid, type)
-    @id = "#{kid.id}-#{type.to_s}"
+    @id = Parent.parentId(kid, type)
     @kid = kid
     @rand = @kid.rand
     @type = type
@@ -47,4 +47,7 @@ class Parent < BaseEntity
     @postalCode = @kid.postalCode
   end
 
+  def self.parentId(kid, type)
+    "#{kid.id}-#{type.to_s}"
+  end
 end

@@ -45,8 +45,7 @@ FactoryGirl.define do
   end
 
   factory :studentParentAssociation do
-    rand = Random.new(42)
-    initialize_with { new(52, 42, rand) }
+    initialize_with { new(FactoryGirl.build(:student), :dad) }
     primaryContactStatus true
   end
   
