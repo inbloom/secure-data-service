@@ -13,6 +13,11 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud_auto")
 end
 
+task :crudAutoTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud_auto")
+end
+
 task :apiV1AssociationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/crud/assoc_crud.feature")

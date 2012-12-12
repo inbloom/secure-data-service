@@ -28,6 +28,7 @@ require 'rest-client'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
+ACTIVEMQ_HOST = PropLoader.getProps['activemq_host']
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 module NoLandingZone
@@ -115,8 +116,8 @@ def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_passwor
 
   if @local_lz
     FileUtils.cp srcPath, destPath
-    puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}"
-    runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}")
+    puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath} #{ACTIVEMQ_HOST}"
+    runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath} #{ACTIVEMQ_HOST}")
   else
     begin
       puts "lz_server_url = " + lz_server_url

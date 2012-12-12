@@ -17,18 +17,36 @@
 package org.slc.sli.ingestion.reporting;
 
 /**
- * Enumeration of message codes for the ingestion-base module.
  *
- * @author dduran
+ * @author npandey
  *
  */
-public enum BaseMessageCode implements MessageCode {
 
-    SL_ERR_MSG1, SL_ERR_MSG2, SL_ERR_MSG3, SL_ERR_MSG8, SL_ERR_MSG9, SL_ERR_MSG14;
+public class SimpleSource implements Source {
+
+    private String batchJobId;
+    private String resourceId;
+    private String stageName;
+
+    public SimpleSource(String batchJobId, String resourceId, String stageName) {
+        this.batchJobId = batchJobId;
+        this.resourceId = resourceId;
+        this.stageName = stageName;
+    }
 
     @Override
-    public String getCode() {
-        return this.name();
+    public String getBatchJobId() {
+        return batchJobId;
+    }
+
+    @Override
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    @Override
+    public String getStageName() {
+        return stageName;
     }
 
 }

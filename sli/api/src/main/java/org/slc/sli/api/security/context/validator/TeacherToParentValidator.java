@@ -14,30 +14,32 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates the context of a teacher member to see the requested set of parent
+ * entities. Returns true if the teacher member can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
 @Component
-public class DummyMessageReport extends AbstractMessageReport {
+public class TeacherToParentValidator extends AbstractParentValidator {
+    
+    @Autowired
+    TeacherToStudentValidator studentVal;
 
     @Override
-    public void error(ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incError();
-        }
-
-        // System.out.println(getMessage(code, args));
+    protected String getToType() {
+        return EntityNames.TEACHER;
     }
 
     @Override
-    public void warning(ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incWarning();
-        }
-
-        // System.out.println(getMessage(code, args));
+    protected IContextValidator getStudentValidator() {
+        return studentVal;
     }
+
 }

@@ -28,6 +28,7 @@ ingestion_log_directory: "../ingestion/ingestion-service/target/ingestion/logs/"
 ingestion_index_validation: true
 ingestion_rc_tenant: ""
 ingestion_rc_edorg: ""
+activemq_host: "localhost"
 ingestion_timeout_override_seconds: 0
 
 sif_db: "localhost"
