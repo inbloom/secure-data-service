@@ -97,16 +97,8 @@ describe "WorldBuilder" do
         @queue.count(StaffEducationOrgAssignmentAssociation).should eq(102)
       end
 
-      context "assessment metadata interchange" do
-        it "will contain 2 assessments for each grade for each year" do
-          @queue.count(Assessment).should eq(78)
-        end
-        it "will contain for each year an assessment family for each grade, and one global assessment family" do
-          @queue.count(AssessmentFamily).should eq(42)
-        end
-        it "will contain 4 assessment items for each assessment" do
-          @queue.count(AssessmentItem).should eq(312)
-        end
+      it "grade wide assessment work orders will be created for each grade and year" do
+        @queue.count(GradeWideAssessmentWorkOrder).should eq(39)
       end
     end
   end
@@ -184,17 +176,8 @@ describe "WorldBuilder" do
       it "staff association interchange will contain the correct number of staff education organization assignment associations" do
         @queue.count(StaffEducationOrgAssignmentAssociation).should eq(169)
       end
-      context "assessment metadata interchange" do
-        it "will contain 2 assessments for each grade for each year" do
-          @queue.count(Assessment).should eq(26)
-        end
-
-        it "will contain an assessment family for each grade, and one global assessment family" do
-          @queue.count(AssessmentFamily).should eq(14)
-        end
-        it "will contain 4 assessment items for each assessment" do
-          @queue.count(AssessmentItem).should eq(104)
-        end
+      it "grade wide assessment work orders will be created for each grade and year" do
+        @queue.count(GradeWideAssessmentWorkOrder).should eq(13)
       end
     end
   end

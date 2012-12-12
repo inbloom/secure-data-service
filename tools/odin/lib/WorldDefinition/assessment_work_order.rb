@@ -30,7 +30,7 @@ class AssessmentFactory
 
   #get a list of assessment work orders
   def gen_assessments(yielder, opts = {})
-    grade = GradeLevelType.get((opts[:grade] or :UNGRADED))
+    grade = (opts[:grade] or :UNGRADED)
     year = opts[:year]
     section = opts[:section]
     if section.nil?
@@ -42,11 +42,35 @@ class AssessmentFactory
     end
   end
 
-  def grade_wide_assessments(grade, year)
+  def grade_wide_assessments(grade, year, family = nil)
     item_count = @item_counts['grade_wide']
     (1..@assessments_per_grade).map{|i|
-      {:type=>Assessment, :id=> "#{year}-#{grade} Assessment #{i}", :year => year, :grade => grade, :itemCount=>item_count}
-      #Assessment.new("#{year}-#{grade} Assessment #{i}", year, grade, item_count)
+      Assessment.new("#{year}-#{GradeLevelType.get(grade)} Assessment #{i}", year, grade, item_count, family)
     }
+  end
+
+end
+
+class GradeWideAssessmentWorkOrder
+
+  def initialize(grade, year, gen_parent, factory)
+    @grade = grade
+    @year = year
+    @factory = factory
+    @parent_family = AssessmentFamily.new("#{year} Standard", year)
+    @gen_parent = gen_parent
+  end
+
+  def build
+    generated = []
+    generated << @parent_family if @gen_parent
+    family = AssessmentFamily.new("#{@year} #{GradeLevelType.get @grade} Standard", @year, @parent_family)
+    generated << family
+    assessments = @factory.grade_wide_assessments(@grade, @year, family)
+    generated += assessments
+    assessments.each{|assessment|
+      generated += assessment.assessment_items
+    }
+    generated
   end
 end

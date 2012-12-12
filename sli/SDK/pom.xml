@@ -186,5 +186,36 @@
       </plugin>
     </plugins>
   </build>
-
+    <profiles>
+        <profile>
+            <id>with-emma</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>emma-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <version>1.0-alpha-3</version>
+                        <executions>
+                            <execution>
+                                <id>instrument</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>instrument</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/</outputDirectory>
+                                    <verbose>true</verbose>
+                                    <filters>
+                                        <filter>-org.slc.sli.aspect.*</filter>
+                                        <filter>-org.slc.sli.sandbox.idp.aspect.*</filter>
+                                    </filters>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
