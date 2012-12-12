@@ -14,20 +14,39 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.reporting;
 
 /**
- * Represents a source of the report.
  *
- * @author okrook
+ * @author npandey
  *
  */
-public interface Source {
 
-    String getBatchJobId();
+public class SimpleSource implements Source {
 
-    String getResourceId();
+    private String batchJobId;
+    private String resourceId;
+    private String stageName;
 
-    String getStageName();
+    public SimpleSource(String batchJobId, String resourceId, String stageName) {
+        this.batchJobId = batchJobId;
+        this.resourceId = resourceId;
+        this.stageName = stageName;
+    }
+
+    @Override
+    public String getBatchJobId() {
+        return batchJobId;
+    }
+
+    @Override
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    @Override
+    public String getStageName() {
+        return stageName;
+    }
+
 }

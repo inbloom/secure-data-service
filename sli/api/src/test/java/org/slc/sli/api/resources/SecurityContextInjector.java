@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.mockito.Mockito;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
@@ -266,6 +267,19 @@ public class SecurityContextInjector {
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
 
         Entity entity = Mockito.mock(Entity.class);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setRoles(roles);
+        setSecurityContext(principal);
+    }
+    
+    public void setEducatorContext(String userId) {
+        String user = "educator";
+        String fullName = "Educator";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn(EntityNames.TEACHER);
+        Mockito.when(entity.getEntityId()).thenReturn(userId);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setRoles(roles);
         setSecurityContext(principal);
