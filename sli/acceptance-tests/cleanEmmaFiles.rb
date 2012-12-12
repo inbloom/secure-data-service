@@ -13,7 +13,19 @@ begin
     rescue Exception => e
     end
     begin
+        FileUtils.rm_rf('../acceptance_tests/')
+    rescue Exception => e
+    end
+    begin
+        FileUtils.rm_rf('../combined_tests/')
+    rescue Exception => e
+    end
+    begin
         File.delete("../../coverage.ec")
+    rescue Exception => e
+    end
+    begin
+        File.delete("./coverage.ec")
     rescue Exception => e
     end
 end
