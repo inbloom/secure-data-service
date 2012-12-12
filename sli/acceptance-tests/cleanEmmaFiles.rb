@@ -12,4 +12,8 @@ begin
         FileUtils.rm_rf('../unit_tests/')
      rescue Exception => e
      end
+     begin
+        File.delete("../../coverage.ec")
+     rescue Exception => e
+     end
 end
