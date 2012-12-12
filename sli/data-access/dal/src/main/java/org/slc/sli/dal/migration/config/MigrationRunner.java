@@ -22,11 +22,17 @@ import java.lang.annotation.Target;
 @Aspect
 public class MigrationRunner {
 
-    @Autowired
     private SliSchemaVersionValidator sliSchemaVersionValidator;
 
-    @Autowired
     private MongoEntityRepository repository;
+
+    public void setSliSchemaVersionValidator(SliSchemaVersionValidator sliSchemaVersionValidator) {
+        this.sliSchemaVersionValidator = sliSchemaVersionValidator;
+    }
+
+    public void setRepository(MongoEntityRepository repository) {
+        this.repository = repository;
+    }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
@@ -42,13 +48,21 @@ public class MigrationRunner {
     public Object migrateEntiy(final ProceedingJoinPoint proceedingJoinPoint, final MigrateEntity annotation) throws Throwable {
         Object obj = proceedingJoinPoint.proceed();
 
-        return sliSchemaVersionValidator.migrate((Entity) obj, repository);
+        if (sliSchemaVersionValidator != null) {
+            return sliSchemaVersionValidator.migrate((Entity) obj, repository);
+        } else {
+            return obj;
+        }
     }
 
     @Around(value = "@annotation(annotation)")
     public Object migrateEntiyCollection(final ProceedingJoinPoint proceedingJoinPoint, final MigrateEntityCollection annotation) throws Throwable {
         Object obj = proceedingJoinPoint.proceed();
 
-        return sliSchemaVersionValidator.migrate((Iterable<Entity>) obj, repository);
+        if (sliSchemaVersionValidator != null) {
+            return sliSchemaVersionValidator.migrate((Iterable<Entity>) obj, repository);
+        } else {
+            return obj;
+        }
     }
 }

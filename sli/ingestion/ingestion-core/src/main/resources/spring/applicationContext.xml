@@ -27,6 +27,9 @@
     </property>
   </bean>
 
+  <!-- DAL resources -->
+  <import resource="classpath:/spring/db.xml" />
+  <import resource="classpath:/spring/validation.xml" />
 
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="activemq-context.xml" />
@@ -40,8 +43,6 @@
   <import resource="tenantdb-context.xml" />
 
   <!-- Include resources from DAL -->
-  <import resource="classpath:/spring/db.xml" />
-  <import resource="classpath:/spring/validation.xml" />
   <import resource="dal-context.xml" />
 
   <aop:aspectj-autoproxy />

@@ -87,9 +87,6 @@
   <bean id="mongoTrackingAspect" class="org.slc.sli.dal.aspect.MongoTrackingAspect" factory-method="aspectOf">
   </bean>
 
-  <bean id="migrationRunner" class="org.slc.sli.dal.migration.config.MigrationRunner" factory-method="aspectOf">
-  </bean>
-
   <bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
 
   <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" />
@@ -114,6 +111,12 @@
       </map>
     </property>
   </bean>
+
+  <bean id="migrationRunner" class="org.slc.sli.dal.migration.config.MigrationRunner" factory-method="aspectOf">
+    <property name="sliSchemaVersionValidator" ref="sliSchemaVersionValidator" />
+    <property name="repository" ref="mongoEntityRepository" />
+  </bean>
+
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
 
