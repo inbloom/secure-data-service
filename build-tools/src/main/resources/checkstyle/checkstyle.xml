@@ -5,18 +5,12 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: SLI
-    Description:
-SLI Checkstyle configuration.
+    Checkstyle-Configuration: SLI Check
+    Description: none
 -->
 <module name="Checker">
   <property name="severity" value="warning"/>
-    
-  <module name="RegexpHeader">
-    <property name="header" value="^/\*$\n^ \* Copyright \d\d\d\d Shared Learning Collaborative, LLC$\n^ \*$\n^ \* Licensed under the Apache License, Version 2.0 \(the &quot;License&quot;\);$\n^ \* you may not use this file except in compliance with the License.$\n^ \* You may obtain a copy of the License at$\n^ \*$\n^ \* http://www.apache.org/licenses/LICENSE-2.0$\n^ \*$\n^ \* Unless required by applicable law or agreed to in writing, software$\n^ \* distributed under the License is distributed on an &quot;AS IS&quot; BASIS,$\n^ \* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.$\n^ \* See the License for the specific language governing permissions and$\n^ \* limitations under the License.$\n^ \*/$" />
-  </module>
   <module name="TreeWalker">
-
     <module name="JavadocType">
       <property name="scope" value="package"/>
     </module>
@@ -61,7 +55,9 @@ SLI Checkstyle configuration.
     </module>
     <module name="LeftCurly"/>
     <module name="RightCurly"/>
-    <module name="DoubleCheckedLocking"/>
+    <module name="DoubleCheckedLocking">
+      <property name="severity" value="warning"/>
+    </module>
     <module name="EmptyStatement"/>
     <module name="EqualsHashCode"/>
     <module name="InnerAssignment"/>
@@ -88,9 +84,9 @@ SLI Checkstyle configuration.
     </module>
     <module name="Regexp">
       <property name="format" value="(debug\().*\+"/>
+      <property name="message" value="String concatenation within a debug statement"/>
       <property name="illegalPattern" value="true"/>
       <property name="ignoreComments" value="true"/>
-      <property name="message" value="String concatenation within a debug statement"/>
     </module>
     <module name="IllegalCatch"/>
     <module name="ModifiedControlVariable">
@@ -104,6 +100,9 @@ SLI Checkstyle configuration.
       <property name="severity" value="error"/>
       <property name="url" value="https://git.slidev.org/sli/sli/blobs/raw/master/build-tools/src/main/resources/checkstyle/import-control.xml"/>
     </module>
+  </module>
+  <module name="RegexpHeader">
+    <property name="header" value="^/\*$\n^ \* Copyright \d\d\d\d Shared Learning Collaborative, LLC$\n^ \*$\n^ \* Licensed under the Apache License, Version 2.0 \(the &quot;License&quot;\);$\n^ \* you may not use this file except in compliance with the License.$\n^ \* You may obtain a copy of the License at$\n^ \*$\n^ \* http://www.apache.org/licenses/LICENSE-2.0$\n^ \*$\n^ \* Unless required by applicable law or agreed to in writing, software$\n^ \* distributed under the License is distributed on an &quot;AS IS&quot; BASIS,$\n^ \* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.$\n^ \* See the License for the specific language governing permissions and$\n^ \* limitations under the License.$\n^ \*/$"/>
   </module>
   <module name="FileTabCharacter"/>
 </module>
