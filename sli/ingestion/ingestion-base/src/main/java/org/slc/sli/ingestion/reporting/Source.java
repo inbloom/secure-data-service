@@ -24,5 +24,12 @@ package org.slc.sli.ingestion.reporting;
  *
  */
 public interface Source {
+
     String getSource();
+
+    String getBatchJobId();
+
+    String getResourceId();
+
+    String getStageName();
 }
