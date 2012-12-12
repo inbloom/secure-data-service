@@ -33,6 +33,9 @@ public class MongoIndex {
         this.keys = keys;
     }
 
+    /**
+     * constructor has been provided
+     */
     public MongoIndex() {
 
     }

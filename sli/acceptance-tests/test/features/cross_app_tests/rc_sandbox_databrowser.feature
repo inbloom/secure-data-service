@@ -41,7 +41,7 @@ Feature: Data Browser
     Then I should be on the detailed page for an SEA
     When I click on the "GetFeederEducationOrganizations" link
     Then I should be on the detailed page for an LEA
-    When I click on the logout link 
+    Then I log out of Databrowser 
     And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
@@ -61,16 +61,16 @@ Feature: Data Browser
     Then I am redirected to the associations list page
     And I see a table displaying the associations in a list
     And those names include the IDs of both "ProgramId" and "StaffId" in the association
-    When I click on the row containing "6ed3d037757c272d3aed577c213000b186cd21b3_id"
+    When I click on the row containing "2012-02-15"
     Then the row expands below listing the rest of the attributes for the item
-    When I click on the row containing "6ed3d037757c272d3aed577c213000b186cd21b3_id"
+    When I click on the row containing "2012-02-15"
     Then the row collapses hiding the additional attributes
     When I click and go back to Home
     And I have navigated to the "GetStaffProgramAssociations" page of the Data Browser
-    When I click on the row containing "6ed3d037757c272d3aed577c213000b186cd21b3_id"
+    When I click on the row containing "2012-02-15"
     And I click on the "Me" of any of the associating entities
-    Then I am redirected to a page that page lists all of the "6ed3d037757c272d3aed577c213000b186cd21b3_id" entity's fields
-    When I click on the logout link 
+    Then I am redirected to a page that page lists all of the "2012-02-15" entity's fields
+    Then I log out of Databrowser 
     And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"
@@ -108,9 +108,9 @@ Feature: Data Browser
     Then I should see the text "Amy"
     And I should see the text "Kopel"
     # Search for something I don't have access to
-    When I search for the identifier "<MATT SOLLARS UNIQUE ID>" in "students"
+    When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
     Then I see a "There were no entries matching your search" alert box
-    When I click on the logout link
+    Then I log out of Databrowser
     And I navigate to the Portal home page
     Then I will be redirected to realm selector web page
     When I click on the "Sandbox" realm in "Sandbox"

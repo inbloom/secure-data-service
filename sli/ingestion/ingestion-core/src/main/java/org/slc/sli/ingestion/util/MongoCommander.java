@@ -39,6 +39,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  */
 public final class MongoCommander {
 
+    /**
+     * No instance should be created.
+     * All methods are static.
+     */
     private MongoCommander() { }
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);

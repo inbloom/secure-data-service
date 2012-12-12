@@ -44,7 +44,6 @@ describe 'EnrollmentGenerator' do
 
   describe '--> creating student section association' do
     it 'will write a StudentSectionAssociation to ed-fi xml interchange' do
-      puts "<<< #{@student_enrollment}"
       @student_enrollment.match('<StudentUniqueStateId>43</StudentUniqueStateId>').should_not be_nil
       @student_enrollment.match('<StateOrganizationId>elem-0000000065</StateOrganizationId>').should_not be_nil
       @student_enrollment.match('<BeginDate>2005-09-01</BeginDate>').should_not be_nil

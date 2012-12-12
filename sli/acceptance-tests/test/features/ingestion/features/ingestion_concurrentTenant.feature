@@ -60,7 +60,7 @@ When zip files are scped to the ingestion landing zone
         | courseOffering              | 103   |
         | disciplineAction            | 3     |
         | disciplineIncident          | 4     |
-        | educationOrganization       | 12    |
+        | educationOrganization       | 13    |
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | gradingPeriod               | 23    |
