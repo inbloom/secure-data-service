@@ -50,6 +50,7 @@ public class GenericContextValidator implements IContextValidator {
     private static final List<String> IGNORE_LIST = Arrays.asList(
             EntityNames.ATTENDANCE,
             EntityNames.COURSE_TRANSCRIPT,
+            EntityNames.COHORT,
             EntityNames.EDUCATION_ORGANIZATION,
             EntityNames.DISCIPLINE_ACTION,
             EntityNames.STUDENT_ACADEMIC_RECORD,
