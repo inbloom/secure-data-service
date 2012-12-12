@@ -194,9 +194,7 @@
         { "path": "/{id}/graduationPlans" },
         { 
           "path": "/{id}/cohorts",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /educationOrganizations/{id}/cohorts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /teachers/{id}/staffCohortAssociations/cohorts (for teachers) instead. This URI is used internally instead of /educationOrganizations/{id}/cohorts, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /educationOrganizations/{id}/cohorts."
         },
         { "path": "/{id}/educationOrganizations" },
         { "path": "/{id}/schools" },
@@ -223,69 +221,47 @@
         { "path": "/{id}/teacherSchoolAssociations/teachers" },
         { 
           "path": "/{id}/teacherSchoolAssociations/teachers/teacherSectionAssociations",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/teacherSchoolAssociations/teachers/teacherSectionAssociations, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /teachers/{id}/teacherSectionAssociations (for teachers) instead. This URI is used internally instead of /schools/{id}/teacherSchoolAssociations/teachers/teacherSectionAssociations, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /teachers/{id}/teacherSectionAssociations."
         },
         { 
           "path": "/{id}/studentSchoolAssociations",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentSchoolAssociations (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students/studentSchoolAssociations."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/attendances",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/attendances, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/attendances (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/attendances, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /schools/{id}/studentSchoolAssociations/students/attendances."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/courseTranscripts",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/courseTranscripts (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/courseTranscripts, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students/courseTranscripts."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/reportCards",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/reportCards, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/reportCards (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/reportCards, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students/reportCards."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/studentAcademicRecords",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentAcademicRecords, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentAcademicRecords (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentAcademicRecords, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students/studentAcademicRecords."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/studentAssessments",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentAssessments, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentAssessments (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentAssessments, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students/studentAssessments."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/studentGradebookEntries",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentGradebookEntries, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentGradebookEntries (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentGradebookEntries, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students/studentGradebookEntries."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/studentParentAssociations",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentParentAssociations, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentParentAssociations (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentParentAssociations, and will still be available after the deprecation period ends." 
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/students/studentParentAssociations." 
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/studentParentAssociations/parents",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentParentAssociations/parents, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/%s/studentSectionAssociations/students/studentParentAssociations/parents (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentParentAssociations/parents, and will still be available after the deprecation period ends."           
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/%s/studentSectionAssociations/students/studentParentAssociations/parents."
         },
         { "path": "/{id}/courseOfferings" },
         { "path": "/{id}/courses" },
@@ -293,34 +269,24 @@
         { "path": "/{id}/sessions/gradingPeriods" },
         { 
           "path": "/{id}/sections",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/sections, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /teachers/{id}/teacherSectionAssociations/sections (for teachers) instead. This URI is used internally instead of /schools/{id}/sections, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /teachers/{id}/teacherSectionAssociations/sections."
         },
         { 
           "path": "/{id}/sections/gradebookEntries",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/sections/gradebookEntries, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/gradebookEntries (for teachers) instead. This URI is used internally instead of /schools/{id}/sections/gradebookEntries, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /schools/{id}/sections/gradebookEntries."
          },
         { "path": "/{id}/graduationPlans" },
         { 
           "path": "/{id}/sections/studentSectionAssociations",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/sections/studentSectionAssociations, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations (for teachers) instead. This URI is used internally instead of /schools/{id}/sections/studentSectionAssociations, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations."
         },
         { 
           "path": "/{id}/sections/studentSectionAssociations/grades",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/sections/studentSectionAssociations/grades, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/grades (for teachers) instead. This URI is used internally instead of /schools/{id}/sections/studentSectionAssociations/grades, and will still be available after the deprecation period ends." 
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/grades." 
         },
         { 
           "path": "/{id}/sections/studentSectionAssociations/studentCompetencies",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/sections/studentSectionAssociations/studentCompetencies, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/studentCompetencies (for teachers) instead. This URI is used internally instead of /schools/{id}/sections/studentSectionAssociations/studentCompetencies, and will still be available after the deprecation period ends."
+          "doc": "A change has been made to this URI for teachers, but the URI remains the same for staff. Since teachers do not have complete access to all the data in their schools, for teachers, this URI is rewritten as /sections/{id}/studentSectionAssociations/studentCompetencies."
         }
       ]
     },
