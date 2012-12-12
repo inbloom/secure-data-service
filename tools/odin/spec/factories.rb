@@ -29,7 +29,7 @@ FactoryGirl.define do
   end
 
   factory :parent do
-    initialize_with { new(52, Date.new(1980, 10, 2)) }
+    initialize_with { new(FactoryGirl.build(:student), :dad) }
     sex "Male"
     firstName "James"
     lastName "Snow"
