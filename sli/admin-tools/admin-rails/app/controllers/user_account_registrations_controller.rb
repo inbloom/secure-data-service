@@ -23,6 +23,7 @@ class UserAccountRegistrationsController < ApplicationController
   include ReCaptcha::AppHelper
 
   skip_before_filter :handle_oauth
+  before_filter :enabled_only_in_sandbox
   before_filter :check_for_cancel, :only => [:create, :update]
 
   # GET /user_account_registrations/new
@@ -126,4 +127,9 @@ class UserAccountRegistrationsController < ApplicationController
     end
   end
 
+  def enabled_only_in_sandbox
+    unless APP_CONFIG['is_sandbox']
+      redirect_to APP_CONFIG['app_dev_documentation_link']
+    end
+  end
 end

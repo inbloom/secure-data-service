@@ -79,7 +79,7 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
-        dev_name = @app.author_first_name != nil ? @app.author_first_name : "developer"
+        dev_name = @app.author_first_name != nil ? @app.author_first_name : @app.metaData.createdBy
         ApplicationMailer.notify_developer(@app, dev_name).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
