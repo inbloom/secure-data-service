@@ -17,9 +17,12 @@
 package org.slc.sli.validation.schema;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,16 +187,42 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
             return;
         }
         NeutralQuery neutralQuery = new NeutralQuery();
-        Map<String, Object> newEntityBody = entity.getBody();
         for (Entry<String, Boolean> keyField : naturalKeyFields.entrySet()) {
             neutralQuery.addCriteria(new NeutralCriteria(keyField.getKey(), NeutralCriteria.OPERATOR_EQUAL,
-                    newEntityBody.get(keyField.getKey())));
+                    getValue(keyField.getKey(), entity.getBody())));
         }
 
         Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
         if (existingEntity != null) {
             throw new NaturalKeyValidationException(entity.getType(), new ArrayList<String>(naturalKeyFields.keySet()));
         }
+    }
+
+    /**
+     * Iterates a dot delimited path and returns the value from an string object map
+     * @param path
+     * @param data
+     * @return
+     */
+    protected Object getValue(String path, Map<String, Object> data) {
+
+        Object retValue = null;
+        Map<?, ?> values = new HashMap<String, Object>(data);
+        String[] keys = path.split("\\.");
+
+        for (String key : keys) {
+            Object value = values.get(key);
+
+            if (Map.class.isInstance(value)) {
+                values = (Map<?, ?>) value;
+                retValue = value;
+            } else {
+                retValue = value;
+                break;
+            }
+        }
+
+        return retValue;
     }
 
 }

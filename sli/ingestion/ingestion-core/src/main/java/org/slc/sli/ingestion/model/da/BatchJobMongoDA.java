@@ -42,7 +42,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
@@ -127,13 +126,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public NewBatchJob findBatchJobById(String batchJobId) {
         return batchJobMongoTemplate.findOne(query(where("_id").is(batchJobId)), NewBatchJob.class);
-    }
-
-    @Override
-    public List<Error> findBatchJobErrors(String jobId) {
-        List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class,
-                BATCHJOB_ERROR_COLLECTION);
-        return errors;
     }
 
     public NewBatchJob findLatestBatchJob() {
@@ -506,8 +498,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
         rh.setUpdated(System.currentTimeMillis());
         rh.setVersion(rh.getVersion() + 1);
         // Detect tenant collision - should never occur since tenantId is in the hash
-        if ( ! rh.getTenantId().equals(tenantId) )
-        	throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.getTenantId() + "', input data has '" + tenantId + "' for entity ID '" + rh.getId() + "'");
+        if ( ! rh.getTenantId().equals(tenantId) ) {
+            throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.getTenantId() + "', input data has '" + tenantId + "' for entity ID '" + rh.getId() + "'");
+        }
         this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh.getId()).getQueryObject(), new BasicDBObject(rh.toKVMap()));
     }
 

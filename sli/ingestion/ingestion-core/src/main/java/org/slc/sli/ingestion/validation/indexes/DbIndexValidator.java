@@ -28,7 +28,6 @@ import com.mongodb.DBObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.util.IndexFileParser;
 import org.slc.sli.ingestion.util.MongoIndex;
 
 /**
@@ -38,8 +37,9 @@ import org.slc.sli.ingestion.util.MongoIndex;
  */
 
 public abstract class DbIndexValidator {
-    private Map<String, List<HashMap<String, Object>>> indexCache = new HashMap<String, List<HashMap<String, Object>>>();
-    private Logger log = LoggerFactory.getLogger(DbIndexValidator.class);
+    private Map<String, List<MongoIndex>> indexCache = new HashMap<String, List<MongoIndex>>();
+
+    final static private Logger log = LoggerFactory.getLogger(DbIndexValidator.class);
 
     protected abstract List<MongoIndex> parseFile(String indexFile);
 
@@ -51,12 +51,17 @@ public abstract class DbIndexValidator {
             if (database.collectionExists(collectionName)) {
                 DBCollection collection = database.getCollection(collectionName);
                 List<DBObject> indexList = collection.getIndexInfo();
-                List<HashMap<String, Object>> indices = new ArrayList<HashMap<String, Object>>();
+                List<MongoIndex> indexFromDb = new ArrayList<MongoIndex>();
                 for (DBObject dbObject : indexList) {
-                    Object object = dbObject.get("key");
-                    indices.add((HashMap<String, Object>) IndexFileParser.parseJson(object.toString()));
+                    DBObject keyObj = (DBObject) dbObject.get("key");
+                    Object uniqueField = dbObject.get("unique");
+                    boolean unique = false;
+                    if (uniqueField != null) {
+                        unique = Boolean.parseBoolean(uniqueField.toString());
+                    }
+                    indexFromDb.add(new MongoIndex(collectionName, unique, keyObj));
                 }
-                indexCache.put(collectionName, indices);
+                indexCache.put(collectionName, indexFromDb);
             }
         }
     }
@@ -70,26 +75,29 @@ public abstract class DbIndexValidator {
 
         Map<String, Object> indexMap = index.getKeys().toMap();
         if (indexCache.containsKey(collectionName)) {
-            List<HashMap<String, Object>> indices = indexCache.get(collectionName);
+            List<MongoIndex> indices = indexCache.get(collectionName);
 
             boolean indexMatch = false;
-            for (Map<String, Object> indexMapFromCache : indices) {
-                if (indexMapFromCache.size() != indexMap.size()) {
+            for (MongoIndex indexFromCache : indices) {
+                Map<String, Object> keysFromCache = indexFromCache.getKeys().toMap();
+                if (keysFromCache.size() != indexMap.size()) {
                     continue;
                 }
 
-                for (Map.Entry<String, Object> indexCacheEntry : indexMapFromCache.entrySet()) {
+                for (Map.Entry<String, Object> indexCacheEntry : keysFromCache.entrySet()) {
                     if (!indexMap.containsKey(indexCacheEntry.getKey())) {
                         indexMatch = false;
                         break;
                     }
 
-                    // UN: The value in DB is either saved as a double or integer
-                    // (nondeterministic), so I
-                    // need to compare it with both double as well as integer and verify that
-                    // the
-                    // index
-                    // does not match.
+                    if (index.isUnique() != indexFromCache.isUnique()) {
+                        indexMatch = false;
+                        break;
+                    }
+
+                    // The value in DB is either saved as a double or integer (nondeterministic),
+                    // compare with both double as well as integer and verify that the index does
+                    // not match.
                     double indexMapDoubleValue = Double.valueOf(indexMap.get(indexCacheEntry.getKey()).toString());
                     if (!indexCacheEntry.getValue().equals(indexMapDoubleValue)
                             && !indexCacheEntry.getValue().equals(indexMap.get(indexCacheEntry.getKey()))) {
@@ -100,18 +108,44 @@ public abstract class DbIndexValidator {
                     }
                 }
                 if (indexMatch) {
-                    log.info("{} : Index verified: {}", database.getName() + "." + collectionName, index.getKeys().toString());
+                    logInfo("Index verified: " + collectionName + " " + index.getKeys().toString() +
+                            ", unique:" + index.isUnique());
                     break;
                 }
             }
 
-            if (!indexMatch){
-                log.error("{} : Index missing: {}", database.getName() + "." + collectionName, index.getKeys().toString());
+            if (!indexMatch) {
+                logError("Index missing: " + collectionName + " " + index.getKeys().toString() +
+                        ", unique:" + index.isUnique());
             }
         } else {
-            log.error("{} : Index missing: {}", database.getName() + "." + collectionName, index.getKeys().toString());
+            logError("Index missing: " + collectionName + " " + index.getKeys().toString() +
+                    ", unique:" + index.isUnique());
         }
     }
 
+    protected void logError(String message) {
+        log.error(message);
+    }
+
+    protected void logInfo(String message) {
+        log.info(message);
+    }
+
+    /**
+     * @return the indexCache
+     */
+    public Map<String, List<MongoIndex>> getIndexCache() {
+        return indexCache;
+    }
+
+    /**
+     * @param indexCache the indexCache to set
+     */
+    public void setIndexCache(Map<String, List<MongoIndex>> indexCache) {
+        this.indexCache = indexCache;
+    }
+
     public abstract void verifyIndexes();
+
 }
