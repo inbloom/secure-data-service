@@ -15,6 +15,21 @@
  */
 package org.slc.sli.api.resources.generic;
 
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.CustomEntityResource;
+import org.slc.sli.api.security.context.WriteValidator;
+import org.slc.sli.api.util.PATCH;
+import org.slc.sli.api.util.SecurityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,19 +39,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
-import org.slc.sli.api.constants.PathConstants;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.representation.ServiceResponse;
-import org.slc.sli.api.resources.generic.util.ResourceMethod;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CustomEntityResource;
-import org.slc.sli.api.util.PATCH;
 
 
 /**
@@ -53,6 +55,9 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     private ResourceTemplate onePartTemplate;
     private ResourceTemplate twoPartTemplate;
     private String version;
+
+    @Autowired
+    private WriteValidator writeValidator;
 
     public DefaultResource() {
         this.setOnePartTemplate(ResourceTemplate.ONE_PART);
@@ -74,6 +79,8 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     @POST
     public Response post(final EntityBody entityBody,
                          @Context final UriInfo uriInfo) {
+
+        writeValidator.validateWriteRequest(entityBody, uriInfo, SecurityUtil.getSLIPrincipal());
 
         return defaultResponseBuilder.build(uriInfo, onePartTemplate, ResourceMethod.POST, new ResourceLogic() {
             @Override
@@ -109,6 +116,8 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
                         final EntityBody entityBody,
                         @Context final UriInfo uriInfo) {
 
+        writeValidator.validateWriteRequest(entityBody, uriInfo, SecurityUtil.getSLIPrincipal());
+
         return defaultResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.PUT, new ResourceLogic() {
 
             @Override
@@ -124,6 +133,8 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     @Path("{id}")
     public Response delete(@PathParam("id") final String id,
                            @Context final UriInfo uriInfo) {
+
+        writeValidator.validateWriteRequest(null, uriInfo, SecurityUtil.getSLIPrincipal());
 
         return defaultResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.DELETE, new ResourceLogic() {
             @Override
@@ -141,6 +152,8 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     public Response patch(@PathParam("id") final String id,
                           final EntityBody entityBody,
                           @Context final UriInfo uriInfo) {
+
+        writeValidator.validateWriteRequest(entityBody, uriInfo, SecurityUtil.getSLIPrincipal());
 
         return defaultResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.PATCH, new ResourceLogic() {
 
