@@ -41,7 +41,7 @@ class StudentWorkOrderFactory
           yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade, 
                                              initial_year: initial_year, edOrg: edOrg,
                                              section_factory: @section_factory,
-                                             assessment_factory: @assessment_factory).to_hash
+                                             assessment_factory: @assessment_factory)
         }
       }
     end
@@ -65,10 +65,10 @@ class StudentWorkOrder
     @assessment_factory = opts[:assessment_factory]
     @enrollment = []
     @assessment = []
-    build()
   end
 
   def build
+    generated = [Student.new(@id, @birth_day_after)]
     schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
     curr_type = GradeLevelType.school_type(@initial_grade)
     @edOrg['sessions'].each{ |session|
@@ -79,53 +79,61 @@ class StudentWorkOrder
           curr_type = GradeLevelType.school_type(grade)
           schools = schools.drop(1)
         end
-        @enrollment.concat generate_enrollment(schools[0], curr_type, year, grade, session)
-        @assessment.concat generate_grade_wide_assessments(grade, session)
+        generated += generate_enrollment(schools[0], curr_type, year, grade, session)
+        generated += generate_grade_wide_assessment_info(grade, session)
       end
     }
-  end
-
-  def to_hash
-    hash = {:type=>Student}
-    instance_variables.each {|var| hash[var.to_s.delete("@").to_sym] = instance_variable_get(var) }
-    hash
+    generated
   end
 
   private
 
   def generate_enrollment(school_id, type, start_year, start_grade, session)
     rval = []
-    rval << {:type=>StudentSchoolAssociation, :id=>@id, :schoolId=>school_id, :startYear=>start_year, :startGrade=>start_grade}
+    rval << StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
     unless @section_factory.nil?
       sections = @section_factory.sections(school_id, type.to_s, start_year, start_grade)
-
-    unless sections.nil?
+      unless sections.nil?
         #generate a section for each available course offering
         sections.each{|course_offering, available_sections|
           section = available_sections.to_a[id % available_sections.count]
-          rval << {:type=>StudentSectionAssociation, :id=>@id, :sectionId=>section, :courseOffering => course_offering['id'],
-                   :schoolId=>school_id, :startYear=>start_year, :startGrade=>start_grade}
+          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section, course_offering['id']),
+                                                school_id, start_year, start_grade)
         }
       end
     end
     rval
   end
 
-  def generate_grade_wide_assessments(grade, session)
+  def generate_grade_wide_assessment_info(grade, session)
+    student_assessments = grade_wide_student_assessments(grade, session)
+    student_assessment_items = generate_student_assessment_items(student_assessments)
+    student_assessments + student_assessment_items
+  end
+
+  def grade_wide_student_assessments(grade, session)
     unless @assessment_factory.nil?
       times_taken = @scenario['ASSESSMENTS_TAKEN']['grade_wide']
 
-      @assessment_factory.grade_wide_assessments(GradeLevelType.get(grade), session['year']).map{ |assessment|
+      @assessment_factory.grade_wide_assessments(grade, session['year']).map{ |assessment|
         #TODO this is going to be a busy first couple of days of school, might want to spread them out
         if session.nil? == false && session['interval'].nil? == false
           start_date = session['interval'].get_begin_date + 1
           end_date = start_date + times_taken -1
-          (start_date..end_date).map{ |d|
-            {:type=>StudentAssessment, :id=>@id, :assessment=>assessment, :date=>d, :rand=>@rand}
+          (start_date..end_date).map{ |date|
+            StudentAssessment.new(@id, assessment, date, @rand)
           }
         end
       }.flatten
     end or []
+  end
+
+  def generate_student_assessment_items(student_assessments)
+    student_assessments.map{|sa|
+      sa.assessment.assessment_items.map{|item|
+        StudentAssessmentItem.new(sa.studentId.odd?, sa, item)
+      }
+    }.flatten
   end
 
   def find_age(grade)

@@ -68,7 +68,12 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
                 done = true;
 
                 // Find manifest (ctl file)
-                return ZipFileUtil.findCtlFile(dir);
+                File ctlFile = ZipFileUtil.findCtlFile(dir);
+                if (ctlFile == null) {
+                    String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG20");
+                    errorReport.error(message, this);
+                }
+                return ctlFile;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
