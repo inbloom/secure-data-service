@@ -106,6 +106,7 @@
                                     <verbose>true</verbose>
                                     <filters>
                                         <filter>-org.slc.sli.aspect.*</filter>
+                                        <filter>-org.slc.sli.sandbox.idp.aspect.*</filter>
                                     </filters>
                                 </configuration>
                             </execution>
@@ -610,6 +611,11 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>1.6.11</version>
+        </dependency>
+        <dependency>
+            <groupId>emma</groupId>
+            <artifactId>emma</artifactId>
+            <version>2.1.5320</version>
         </dependency>
     </dependencies>
     <build>
