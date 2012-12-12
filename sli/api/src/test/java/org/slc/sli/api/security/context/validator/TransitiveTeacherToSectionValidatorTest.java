@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,7 +62,7 @@ public class TransitiveTeacherToSectionValidatorTest {
     PagingRepositoryDelegate<Entity> repo;
     
     private TeacherToSectionValidator mockSectionValidator;
-    private TeacherToStudentValidator mockStudentValidator;
+    private StudentValidatorHelper mockStudentValidator;
 
     Set<String> sectionIds;
     Set<String> studentIds;
@@ -73,8 +74,8 @@ public class TransitiveTeacherToSectionValidatorTest {
         sectionIds = new HashSet<String>();
         studentIds = new HashSet<String>();
         mockSectionValidator = Mockito.mock(TeacherToSectionValidator.class);
-        mockStudentValidator = Mockito.mock(TeacherToStudentValidator.class);
-        validator.setStudentValidator(mockStudentValidator);
+        mockStudentValidator = Mockito.mock(StudentValidatorHelper.class);
+        validator.setStudentHelper(mockStudentValidator);
         validator.setSectionValidator(mockSectionValidator);
     }
     
@@ -107,13 +108,13 @@ public class TransitiveTeacherToSectionValidatorTest {
         Entity section = helper.generateSection(helper.ED_ORG_ID);
         sectionIds.add(section.getEntityId());
         // Directly associated
-        Mockito.when(mockStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
+        Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
         Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(true);
         assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
         // Via Student
         helper.generateSSA("BERP", section.getEntityId(), false);
         studentIds.add("BERP");
-        Mockito.when(mockStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
         Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
         assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
     }
@@ -123,7 +124,7 @@ public class TransitiveTeacherToSectionValidatorTest {
         Entity section = helper.generateSection(helper.ED_ORG_ID);
         helper.generateSSA("BERP", section.getEntityId(), true);
         studentIds.add("BERP");
-        Mockito.when(mockStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
         Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(true);
         assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
     }
@@ -133,19 +134,14 @@ public class TransitiveTeacherToSectionValidatorTest {
         Entity section = helper.generateSection(helper.ED_ORG_ID);
         sectionIds.add(section.getEntityId());
         // Directly associated
-        Mockito.when(mockStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
+        Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
         Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
         assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
         // Via Student
         helper.generateSSA("BERP", section.getEntityId(), false);
         studentIds.add("BERP");
-        Mockito.when(mockStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
+        Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>());
         Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
         assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
-    }
-    
-    @Test
-    public void testValidateIntersectionRules() {
-        
     }
 }

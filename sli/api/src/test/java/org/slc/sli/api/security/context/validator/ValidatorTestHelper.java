@@ -266,6 +266,12 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.SESSION, session);
     }
     
+    public Entity generateCourseOffering(String schoolId) {
+        Map<String, Object> courseOffering = new HashMap<String, Object>();
+        courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
+        return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
+    }
+
     public Entity generateGradingPeriod() {
         return repo.create(EntityNames.GRADING_PERIOD, new HashMap<String, Object>());
     }

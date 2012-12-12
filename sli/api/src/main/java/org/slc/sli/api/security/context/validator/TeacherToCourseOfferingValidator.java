@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Validate's teacher's context to course offering by looking at sections and sessions.
+ * Validate's teacher's context to course offering by looking your edorg lineage.
  * 
  * 
  */
@@ -38,16 +38,10 @@ public class TeacherToCourseOfferingValidator extends AbstractContextValidator {
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
-    @Autowired
-    private TeacherToSectionValidator sectionValidator;
-    
-    @Autowired
-    private TeacherToSessionValidator sessionValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.COURSE_OFFERING.equals(entityType) && !isTransitive;
+        return !isStaff() && EntityNames.COURSE_OFFERING.equals(entityType) && !isTransitive;
     }
     
     @Override
@@ -55,22 +49,18 @@ public class TeacherToCourseOfferingValidator extends AbstractContextValidator {
         if (!areParametersValid(EntityNames.COURSE_OFFERING, entityType, ids)) {
             return false;
         }
+        Set<String> edorgs = getTeacherEdorgLineage();
         Set<String> validIds = new HashSet<String>();
         // Validate each ID by either section or session
-        for (String id : ids) {
-            NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.COURSE_OFFERING_ID,
-                    NeutralCriteria.OPERATOR_EQUAL, id));
-            Set<String> sessionIds = (Set) repo.findAllIds(EntityNames.SESSION, basicQuery);
-            
-            Set<String> sectionIds = (Set) repo.findAllIds(EntityNames.SECTION, basicQuery);
-            
-            if (sessionValidator.validate(EntityNames.SESSION, sessionIds)
-                    || sectionValidator.validate(EntityNames.SECTION, sectionIds)) {
-                validIds.add(id);
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                NeutralCriteria.CRITERIA_IN, ids));
+        Iterable<Entity> cos = repo.findAll(EntityNames.COURSE_OFFERING, basicQuery);
+        for (Entity co : cos) {
+            if (edorgs.contains((String) co.getBody().get(ParameterConstants.SCHOOL_ID))) {
+                validIds.add(co.getEntityId());
             }
-
         }
+
         return ids.size() == validIds.size();
     }
-    
 }

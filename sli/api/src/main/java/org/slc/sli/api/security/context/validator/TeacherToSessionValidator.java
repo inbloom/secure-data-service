@@ -16,7 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,22 +29,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Validates the sessions you can directly see by looking at the sections you
- * can see.
+ * Validates the sessions you can directly see by looking at the edorgs you
+ * are associated with and their lineage.
  * 
  */
 @Component
 public class TeacherToSessionValidator extends AbstractContextValidator {
     
-    @Autowired
-    private TeacherToSectionValidator sectionValidator;
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
+    @Autowired PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.SESSION.equals(entityType) && !isTransitive;
+        return !isStaff() && EntityNames.SESSION.equals(entityType) && !isTransitive;
     }
     
     @Override
@@ -53,18 +48,19 @@ public class TeacherToSessionValidator extends AbstractContextValidator {
         if (!areParametersValid(EntityNames.SESSION, entityType, ids)) {
             return false;
         }
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.SESSION_ID,
-                NeutralCriteria.CRITERIA_IN, ids));
-        return sectionValidator.validate(EntityNames.SECTION,
-                new HashSet<String>((Collection<? extends String>) repo.findAllIds(EntityNames.SECTION, basicQuery)));
+        NeutralQuery basicQuery;
+        Set<String> edorgs = getTeacherEdorgLineage();
+        
+        basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
+        Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, basicQuery);
+        Set<String> sessionIds = new HashSet<String>();
+        for(Entity session : sessions) {
+            if (edorgs.contains(session.getBody().get(ParameterConstants.SCHOOL_ID))) {
+                sessionIds.add(session.getEntityId());
+            }
+        }
+        return sessionIds.size() == ids.size();
     }
     
-    /**
-     * @param sectionValidator
-     *            the sectionValidator to set
-     */
-    public void setSectionValidator(TeacherToSectionValidator sectionValidator) {
-        this.sectionValidator = sectionValidator;
-    }
     
 }

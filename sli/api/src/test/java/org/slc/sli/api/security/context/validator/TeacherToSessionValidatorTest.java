@@ -27,7 +27,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -58,24 +57,20 @@ public class TeacherToSessionValidatorTest {
     @Autowired
     ValidatorTestHelper helper;
     
-    private TeacherToSectionValidator mockSectionValidator;
     private Set<String> sessionIds;
-    private Set<String> sectionIds;
 
     @Before
     public void setUp() throws Exception {
         helper.setUpTeacherContext();
         
-        mockSectionValidator = Mockito.mock(TeacherToSectionValidator.class);
-        validator.setSectionValidator(mockSectionValidator);
         sessionIds = new HashSet<String>();
-        sectionIds = new HashSet<String>();
     }
     
     @After
     public void tearDown() throws Exception {
-        repo.deleteAll(EntityNames.SECTION, new NeutralQuery());
         repo.deleteAll(EntityNames.SESSION, new NeutralQuery());
+        repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
+        repo.deleteAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new NeutralQuery());
         SecurityContextHolder.clearContext();
     }
     
@@ -96,33 +91,48 @@ public class TeacherToSessionValidatorTest {
     
     @Test
     public void testCanValidateSingleSession() {
-        Entity session = helper.generateSession(helper.ED_ORG_ID, null);
-        sectionIds.add(helper.generateSection(helper.ED_ORG_ID, session.getEntityId()).getEntityId());
+        Entity edorg = helper.generateEdorgWithParent(null);
+        helper.generateTeacherSchool(helper.STAFF_ID, edorg.getEntityId());
+        Entity session = helper.generateSession(edorg.getEntityId(), null);
         sessionIds.add(session.getEntityId());
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(true);
         assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
     }
     
     @Test
     public void testCanNotValidateInvalidSession() {
-        Entity session = helper.generateSession(helper.ED_ORG_ID, null);
-        sectionIds.add(helper.generateSection(helper.ED_ORG_ID, null).getEntityId());
+        Entity edorg = helper.generateEdorgWithParent(null);
+        helper.generateTeacherSchool(helper.STAFF_ID, edorg.getEntityId());
+        Entity session = helper.generateSession("MERP", null);
         sessionIds.add(session.getEntityId());
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
         assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
     }
     
     @Test
+    public void testCanSeeSessionInHeirarchy() {
+        Entity lea = helper.generateEdorgWithParent(null);
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        helper.generateTeacherSchool(helper.STAFF_ID, school.getEntityId());
+        Entity session = helper.generateSession(lea.getEntityId(), null);
+        sessionIds.add(session.getEntityId());
+        assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
+    }
+    
+    @Test
     public void testValidateIntersectionRules() {
+        Entity school = helper.generateEdorgWithParent(null);
+        helper.generateTeacherSchool(helper.STAFF_ID, school.getEntityId());
         for (int i = 0; i < 10; ++i) {
-            Entity session = helper.generateSession(helper.ED_ORG_ID, null);
-            sectionIds.add(helper.generateSection(helper.ED_ORG_ID, session.getEntityId()).getEntityId());
+            Entity session = helper.generateSession(school.getEntityId(), null);
             sessionIds.add(session.getEntityId());
         }
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(true);
         assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
-        sectionIds.add(helper.generateSection(helper.ED_ORG_ID, "BOOP").getEntityId());
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
+        // Disconnected session
+        school = helper.generateEdorgWithParent(null);
+        Entity session = helper.generateSession(school.getEntityId(), null);
+        sessionIds.add(session.getEntityId());
         assertFalse(validator.validate(EntityNames.SESSION, sessionIds));
+        // Reconnected session
+        helper.generateTeacherSchool(helper.STAFF_ID, school.getEntityId());
+        assertTrue(validator.validate(EntityNames.SESSION, sessionIds));
     }
 }

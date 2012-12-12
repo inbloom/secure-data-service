@@ -17,7 +17,6 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -38,16 +37,16 @@ import org.springframework.stereotype.Component;
 public class TransitiveTeacherToSectionValidator extends AbstractContextValidator {
     @Autowired
     private TeacherToSectionValidator sectionValidator;
-    
-    @Autowired
-    private TeacherToStudentValidator studentValidator;
-    
+
     @Autowired
     PagingRepositoryDelegate<Entity> repo;
+    
+    @Autowired
+    private StudentValidatorHelper studentHelper;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.SECTION.equals(entityType) && isTransitive;
+        return !isStaff() && EntityNames.SECTION.equals(entityType) && isTransitive;
     }
     
     @Override
@@ -55,18 +54,36 @@ public class TransitiveTeacherToSectionValidator extends AbstractContextValidato
         if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
             return false;
         }
+        Set<String> validSections = new HashSet<String>();
+        Set<String> myStudentIds = new HashSet<String>(studentHelper.getStudentIds());
         Set<String> studentIds = new HashSet<String>();
         for (String id : ids) {
             NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID, NeutralCriteria.OPERATOR_EQUAL, id));
-            List<Entity> ssas = (List) repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, basicQuery);
-            boolean studentValid = false;
+            Iterable<Entity> ssas = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, basicQuery);
             for(Entity ssa : ssas) {
-                if(isFieldExpired(ssa.getBody(), ParameterConstants.END_DATE)) {
-                   continue 
+                if (isFieldExpired(ssa.getBody(), ParameterConstants.END_DATE, true)) {
+                    continue;
+                } else {
+                    studentIds.add((String) ssa.getBody().get(ParameterConstants.STUDENT_ID));
                 }
             }
+            boolean isStudentOk = false;
+            for (String studentId : studentIds) {
+                if (myStudentIds.contains(studentId)) {
+                    isStudentOk = true;
+                    break;
+                }
+            }
+            Set<String> sectionId = new HashSet<String>();
+            sectionId.add(id);
+            if (isStudentOk || sectionValidator.validate(EntityNames.SECTION, sectionId)) {
+                validSections.add(id);
+            } else {
+                return false;
+            }
+            studentIds.clear();
         }
-        return false;
+        return validSections.size() == ids.size();
     }
     
     /**
@@ -78,11 +95,12 @@ public class TransitiveTeacherToSectionValidator extends AbstractContextValidato
     }
     
     /**
-     * @param studentValidator
-     *            the studentValidator to set
+     * @param studentHelper
+     *            the studentHelper to set
      */
-    public void setStudentValidator(TeacherToStudentValidator studentValidator) {
-        this.studentValidator = studentValidator;
+    public void setStudentHelper(StudentValidatorHelper studentHelper) {
+        this.studentHelper = studentHelper;
     }
     
+
 }

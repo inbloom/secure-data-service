@@ -27,6 +27,7 @@ import java.util.TreeSet;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -39,7 +40,15 @@ import org.springframework.stereotype.Component;
 public class StudentValidatorHelper {
     
     @Autowired
+    private DateHelper dateHelper;
+    
+    @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    
+    @Autowired
+    private AssociativeContextHelper helper;
+
+    private static final String COHORT_REF = "cohort";
 
     public List<String> getStudentIds() {
         Entity principal = SecurityUtil.getSLIPrincipal().getEntity();
@@ -60,9 +69,7 @@ public class StudentValidatorHelper {
         Iterable<Entity> teacherSectionAssociations = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, query);
         
         for (Entity assoc : teacherSectionAssociations) {
-            String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty()
-                    || (dateFilter.isFirstDateBeforeSecondDate(getSectionGraceDate(), endDate))) {
+            if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
@@ -96,9 +103,7 @@ public class StudentValidatorHelper {
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentSectionAssociations) {
-            String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty()
-                    || dateFilter.isFirstDateBeforeSecondDate(getSectionGraceDate(), endDate)) {
+            if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
@@ -113,31 +118,29 @@ public class StudentValidatorHelper {
     private List<String> findAccessibleThroughProgram(Entity principal) {
         
         // teacher -> staffProgramAssociation
-        Iterable<Entity> staffProgramAssociations = helper.getReferenceEntities(EntityNames.STAFF_PROGRAM_ASSOCIATION,
-                ParameterConstants.STAFF_ID, Arrays.asList(principal.getEntityId()));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
+                NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
+        Iterable<Entity> staffProgramAssociations = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, query);
         
         // filter on end_date to get list of programIds
         List<String> programIds = new ArrayList<String>();
-        final String currentDate = dateFilter.getCurrentDate();
         for (Entity assoc : staffProgramAssociations) {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
-                String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-                if (endDate == null || endDate.isEmpty()
-                        || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
+                if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, false)) {
                     programIds.add((String) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
                 }
             }
         }
         
         // program -> studentProgramAssociation
-        Iterable<Entity> studentProgramAssociations = helper.getReferenceEntities(
-                EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID, programIds);
+        query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN,
+                programIds));
+        Iterable<Entity> studentProgramAssociations = repo.findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
         
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentProgramAssociations) {
-            String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
+            if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, false)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
@@ -152,17 +155,14 @@ public class StudentValidatorHelper {
     private List<String> findAccessibleThroughCohort(Entity principal) {
         
         // teacher -> staffCohortAssociation
-        Iterable<Entity> staffCohortAssociations = helper.getReferenceEntities(EntityNames.STAFF_COHORT_ASSOCIATION,
-                ParameterConstants.STAFF_ID, Arrays.asList(principal.getEntityId()));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
+                NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
+        Iterable<Entity> staffCohortAssociations = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, query);
         
-        // filter on end_date to get list of cohortIds
-        final String currentDate = dateFilter.getCurrentDate();
         List<String> cohortIds = new ArrayList<String>();
         for (Entity assoc : staffCohortAssociations) {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
-                String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-                if (endDate == null || endDate.isEmpty()
-                        || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
+                if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, false)) {
                     cohortIds.add((String) assoc.getBody().get(ParameterConstants.COHORT_ID));
                 }
             }
@@ -177,11 +177,9 @@ public class StudentValidatorHelper {
         for (Entity student : studentList) {
             List<Map<String, Object>> cohortList = student.getDenormalizedData().get(COHORT_REF);
             for (Map<String, Object> cohort : cohortList) {
-                String endDate = (String) cohort.get(ParameterConstants.END_DATE);
                 String cohortRefId = (String) cohort.get("_id");
                 if ((cohortIds.contains(cohortRefId))
-                        && (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate,
-                                endDate))) {
+                        && !dateHelper.isFieldExpired(cohort, ParameterConstants.END_DATE, false)) {
                     studentIds.add(student.getEntityId());
                     break;
                 }
