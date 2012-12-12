@@ -42,7 +42,7 @@ public class FileTypeValidator extends IngestionFileValidator {
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
-            fail(callback, getFailureMessage("SL_ERR_MSG1", entry.getFileName(), "type"));
+            fail(callback, getFailureMessage("BASE_0005", entry.getFileName(), "type"));
 
             return false;
         }
@@ -81,7 +81,7 @@ public class FileTypeValidator extends IngestionFileValidator {
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG1, entry.getFileName(), "type");
+            error(report, reportStats, BaseMessageCode.BASE_0005, entry.getFileName(), "type");
 
             return false;
         }

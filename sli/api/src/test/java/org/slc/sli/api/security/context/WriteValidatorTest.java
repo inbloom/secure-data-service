@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.security.context;
 
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +42,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -71,6 +74,16 @@ public class WriteValidatorTest {
     private Entity existingSection;
 
 
+    private List<PathSegment> createPathSegmentsFromStrings(String... segments) {
+        List<PathSegment> pathSegments = new ArrayList<PathSegment>();
+        for (String segment : segments) {
+            PathSegment pathSegment = Mockito.mock(PathSegment.class);
+            when(pathSegment.getPath()).thenReturn(segment);
+            pathSegments.add(pathSegment);
+        }
+        return pathSegments;
+    }
+
     @SuppressWarnings("unchecked")
 	@Before
     public void setUp() {
@@ -85,8 +98,8 @@ public class WriteValidatorTest {
         PathSegment idPath = Mockito.mock(PathSegment.class);
         when(idPath.getPath()).thenReturn(SECTION_ID);
 
-        postPath = Arrays.asList(v1Path, sectionPath);
-        putPath = Arrays.asList(v1Path, sectionPath, idPath);
+        postPath = createPathSegmentsFromStrings(PathConstants.V1, ResourceNames.SECTIONS);
+        putPath = createPathSegmentsFromStrings(PathConstants.V1, ResourceNames.SECTIONS, SECTION_ID);
 
         EntityBody entityBody = new EntityBody();
         existingSection = new MongoEntity(EntityNames.SECTION, SECTION_ID, entityBody, null);
@@ -178,6 +191,32 @@ public class WriteValidatorTest {
         when(repo.findById(EntityNames.SECTION, SECTION_ID)).thenReturn(null);
         when(uriInfo.getPathSegments()).thenReturn(putPath);
         writeValidator.validateWriteRequest(null, uriInfo, principal);
+    }
+
+    @Test
+    public void testComplex() {
+        existingSection.getBody().put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
+        String GRADEBOOK_ID = "gradebook-id";
+
+        Entity gradebookEntity = new MongoEntity(EntityNames.GRADEBOOK_ENTRY, GRADEBOOK_ID, new HashMap<String, Object>(), null);
+        gradebookEntity.getBody().put(ParameterConstants.SECTION_ID, SECTION_ID);
+        when(repo.findById(EntityNames.GRADEBOOK_ENTRY, GRADEBOOK_ID)).thenReturn(gradebookEntity);
+
+        final List<PathSegment> path = createPathSegmentsFromStrings(PathConstants.V1, ResourceNames.GRADEBOOK_ENTRIES, GRADEBOOK_ID);
+        when(uriInfo.getPathSegments()).thenReturn(path);
+        writeValidator.validateWriteRequest(null, uriInfo, principal); // should pass
+
+        {
+            existingSection.getBody().put(ParameterConstants.SCHOOL_ID, UN_ASSOCIATED_ED_ORG);
+            boolean threw = false;
+            try {
+                writeValidator.validateWriteRequest(null, uriInfo, principal);
+            } catch (AccessDeniedException e) {
+                threw = true;
+            }
+            Assert.assertTrue("should fail validation and throw error", threw);
+        }
+
     }
 
 }

@@ -46,7 +46,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
-            fail(callback, getFailureMessage("SL_ERR_MSG9"));
+            fail(callback, getFailureMessage("BASE_0003"));
             return false;
         }
 
@@ -54,13 +54,13 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         for (IngestionFileEntry entry : entries) {
 
             if (hasPathInName(entry.getFileName())) {
-                fail(callback, getFailureMessage("SL_ERR_MSG14", entry.getFileName()));
+                fail(callback, getFailureMessage("BASE_0004", entry.getFileName()));
                 isValid = false;
             } else {
 
                 File file = item.getLandingZone().getFile(entry.getFileName());
                 if (file == null) {
-                    fail(callback, getFailureMessage("SL_ERR_MSG3", entry.getFileName()));
+                    fail(callback, getFailureMessage("BASE_0001", entry.getFileName()));
                     isValid = false;
                 } else {
                     entry.setFile(file);
@@ -77,7 +77,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
         if (!isValid && !callback.hasErrors()) {
-            fail(callback, getFailureMessage("SL_ERR_MSG8"));
+            fail(callback, getFailureMessage("BASE_0002"));
             return false;
         }
 
@@ -114,7 +114,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
 
         if (entries.size() < 1) {
 
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG9);
+            error(report, reportStats, BaseMessageCode.BASE_0003);
 
             return false;
         }
@@ -123,13 +123,13 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         for (IngestionFileEntry entry : entries) {
 
             if (hasPathInName(entry.getFileName())) {
-                error(report, reportStats, BaseMessageCode.SL_ERR_MSG14, entry.getFileName());
+                error(report, reportStats, BaseMessageCode.BASE_0004, entry.getFileName());
                 isValid = false;
             } else {
 
                 File file = item.getLandingZone().getFile(entry.getFileName());
                 if (file == null) {
-                    error(report, reportStats, BaseMessageCode.SL_ERR_MSG3, entry.getFileName());
+                    error(report, reportStats, BaseMessageCode.BASE_0001, entry.getFileName());
                     isValid = false;
                 } else {
                     entry.setFile(file);
@@ -146,7 +146,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
         if (!isValid && !reportStats.hasErrors()) {
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG8);
+            error(report, reportStats, BaseMessageCode.BASE_0002);
             return false;
         }
 
