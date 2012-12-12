@@ -1,0 +1,22 @@
+{{#entity}}
+  <GraduationPlan>
+    <GraduationPlanType>{{type}}</GraduationPlanType>
+    <IndividualPlan>{{individual}}</IndividualPlan>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>{{total_credits}}</Credit>
+    </TotalCreditsRequired>
+    {{#subjects}}
+    <CreditsBySubject>
+      <SubjectArea>{{subject}}</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>{{credits}}</Credit>
+      </Credits>
+    </CreditsBySubject>
+    {{/subjects}}
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+{{/entity}}

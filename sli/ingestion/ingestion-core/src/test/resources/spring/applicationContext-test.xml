@@ -111,8 +111,6 @@
     </property>
   </bean>
 
-  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
-
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
     <property name="messageSource" ref="messageSource" />

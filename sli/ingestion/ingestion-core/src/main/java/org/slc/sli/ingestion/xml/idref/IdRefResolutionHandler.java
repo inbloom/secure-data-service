@@ -57,6 +57,8 @@ import org.slc.sli.ingestion.cache.BucketCache;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
@@ -672,6 +674,20 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
     }

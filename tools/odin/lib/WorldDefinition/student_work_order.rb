@@ -18,6 +18,7 @@ limitations under the License.
 
 require_relative './assessment_work_order'
 require_relative '../Shared/EntityClasses/studentAssessment'
+require_relative 'graduation_plan_factory'
 
 # student work order factory creates student work orders
 class StudentWorkOrderFactory
@@ -27,6 +28,8 @@ class StudentWorkOrderFactory
     @section_factory = section_factory
     @next_id = 0
     @assessment_factory = AssessmentFactory.new(@scenario)
+    sea = world['seas'][0] unless world['seas'].nil?
+    @graduation_plans = GraduationPlanFactory.new(sea['id'], @scenario).build unless sea.nil?
   end
 
   def generate_work_orders(edOrg, yielder)
@@ -41,7 +44,8 @@ class StudentWorkOrderFactory
           yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade, 
                                              initial_year: initial_year, edOrg: edOrg,
                                              section_factory: @section_factory,
-                                             assessment_factory: @assessment_factory)
+                                             assessment_factory: @assessment_factory,
+                                             graduation_plans: @graduation_plans)
         }
       }
     end
@@ -63,6 +67,7 @@ class StudentWorkOrder
     @section_factory = opts[:section_factory]
     @scenario = opts[:scenario]
     @assessment_factory = opts[:assessment_factory]
+    @graduation_plans = opts[:graduation_plans]
     @enrollment = []
     @assessment = []
   end
@@ -90,7 +95,7 @@ class StudentWorkOrder
 
   def generate_enrollment(school_id, type, start_year, start_grade, session)
     rval = []
-    rval << StudentSchoolAssociation.new(@id, school_id, start_year, start_grade)
+    rval << StudentSchoolAssociation.new(@id, school_id, start_year, start_grade, graduation_plan(type))
     unless @section_factory.nil?
       sections = @section_factory.sections(school_id, type.to_s, start_year, start_grade)
       unless sections.nil?
@@ -103,6 +108,12 @@ class StudentWorkOrder
       end
     end
     rval
+  end
+
+  def graduation_plan(school_type)
+    if school_type == :high
+      @graduation_plans[@id % @graduation_plans.size] unless @graduation_plans.nil?
+    end
   end
 
   def generate_grade_wide_assessment_info(grade, session)

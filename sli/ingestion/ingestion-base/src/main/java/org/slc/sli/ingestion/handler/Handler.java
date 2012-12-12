@@ -18,6 +18,8 @@ package org.slc.sli.ingestion.handler;
 
 import java.util.List;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -62,5 +64,9 @@ public interface Handler<T, O> {
      * @return list of objects defined in concrete implementation
      */
     List<O> handle(List<T> items, ErrorReport errorReport);
+
+    O handle(T item, AbstractMessageReport report, ReportStats reportStats);
+
+    List<O> handle(List<T> items, AbstractMessageReport report, ReportStats reportStats);
 
 }

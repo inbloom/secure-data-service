@@ -37,7 +37,16 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    public void error(Source source, MessageCode code, Object... args) {
+    public void error(ReportStats reportStats, MessageCode code, Object... args) {
+
+        if (reportStats != null) {
+            reportStats.incError();
+        }
+
+        error(reportStats.getSource(), code, args);
+    }
+
+    private void error(Source source, MessageCode code, Object... args) {
 
         String message = getMessage(code, args);
 
@@ -50,35 +59,25 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     }
 
     @Override
-    public void error(Source source, ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incError();
-        }
-
-        error(source, code, args);
-    }
-
-    @Override
-    public void warning(Source source, MessageCode code, Object... args) {
-
-        String message = getMessage(code, args);
-
-        String recordIdentifier = null;
-        Error error = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
-                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), recordIdentifier,
-                FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(), message);
-
-        batchJobDAO.saveError(error);
-    }
-
-    @Override
-    public void warning(Source source, ReportStats reportStats, MessageCode code, Object... args) {
+    public void warning(ReportStats reportStats, MessageCode code, Object... args) {
 
         if (reportStats != null) {
             reportStats.incWarning();
         }
 
-        warning(source, code, args);
+        warning(reportStats.getSource(), code, args);
     }
+
+    private void warning(Source source, MessageCode code, Object... args) {
+
+        String message = getMessage(code, args);
+
+        String recordIdentifier = null;
+        Error warning = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
+                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), recordIdentifier,
+                FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(), message);
+
+        batchJobDAO.saveError(warning);
+    }
+
 }

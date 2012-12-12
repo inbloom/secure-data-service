@@ -44,8 +44,6 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
-import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -54,18 +52,22 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -93,6 +95,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Autowired
     private TenantDA tenantDA;
 
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
+
     private MessageSource messageSource;
 
     /**
@@ -110,20 +115,24 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         String controlFileName = "control_file";
 
-        FaultsReport errorReport = new FaultsReport();
+        ReportStats reportStats = null;
 
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         NewBatchJob newBatchJob = null;
         File fileForControlFile = null;
         ControlFileDescriptor controlFileDescriptor = null;
+        Source source = null;
 
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
+            source = new SimpleSource(batchJobId, controlFileName, BatchJobStageType.CONTROL_FILE_PREPROCESSOR.toString());
+            reportStats = new SimpleReportStats(source);
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
             createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
+
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
@@ -134,37 +143,35 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                 auditSecurityEvent(controlFile);
 
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, CoreMessageCode.CORE_0001.getCode()));
+                databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0001);
             }
 
 
-            setExchangeHeaders(exchange, newBatchJob, errorReport);
+            setExchangeHeaders(exchange, newBatchJob, reportStats);
 
-            setExchangeBody(exchange, controlFileDescriptor, errorReport, newBatchJob.getId());
+            setExchangeBody(exchange, controlFileDescriptor, reportStats, newBatchJob.getId());
 
         } catch (SubmissionLevelException exception) {
             String id = "null";
             if (newBatchJob != null) {
                 id = newBatchJob.getId();
                 if (newBatchJob.getResourceEntries().size() == 0) {
-                    LOG.info(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"));
-                    errorReport.warning(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"), this);
+                    LOG.info(MessageSourceHelper.getMessage(messageSource, CoreMessageCode.CORE_0002.getCode()));
+                    databaseMessageReport.warning(reportStats, CoreMessageCode.CORE_0002);
                 }
             }
-            handleExceptions(exchange, id, exception, controlFileName);
+            handleExceptions(exchange, id, exception, reportStats);
         } catch (Exception exception) {
             String id = "null";
             if (newBatchJob != null) {
                 id = newBatchJob.getId();
             }
-            handleExceptions(exchange, id, exception, controlFileName);
+            handleExceptions(exchange, id, exception, reportStats);
         } finally {
             if (newBatchJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
                 batchJobDAO.saveBatchJob(newBatchJob);
-                BatchJobUtils.writeErrorsWithDAO(newBatchJob.getId(), fileForControlFile.getName(), BATCH_JOB_STAGE,
-                        errorReport, batchJobDAO);
             }
         }
     }
@@ -210,8 +217,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     }
 
     private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
-            ErrorReport errorReport, String batchJobId) {
-        if (!errorReport.hasErrors() && controlFileDescriptor != null) {
+            ReportStats reportStats, String batchJobId) {
+        if (!reportStats.hasErrors() && controlFileDescriptor != null) {
             exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
         } else {
             WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
@@ -267,15 +274,14 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      *            Exception thrown during control file parsing.
      * @param controlFileName
      */
-    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, String controlFileName) {
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, controlFileName, BATCH_JOB_STAGE.getName(), null,
-                    null, null, FaultType.TYPE_ERROR.getName(), null, exception.getMessage());
-            batchJobDAO.saveError(error);
+
+            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0003, exception.getMessage());
 
             // TODO: we should be creating WorkNote at the very first point of processing.
             // this will require some routing changes
@@ -284,10 +290,10 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ErrorReport errorReport) {
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ReportStats reportStats) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
-        if (errorReport.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+        if (reportStats.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());

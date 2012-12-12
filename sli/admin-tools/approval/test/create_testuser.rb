@@ -43,6 +43,6 @@ User_info = {
     :edorg      => 'IL-DAYBREAK'
 }
 
-ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=SLIAdmin,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=SLIAdmin,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{", false)
 ldap.create_user(User_info)
 ldap.add_user_group(Jd_email, "Application Developer")

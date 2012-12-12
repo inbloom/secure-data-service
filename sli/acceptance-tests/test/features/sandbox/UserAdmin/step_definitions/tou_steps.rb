@@ -4,7 +4,7 @@ require_relative '../../../admintools/step_definitions/reset_change_password.rb'
 $user_email = "jraynor@#{Socket.gethostname}"
 $ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
                         PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                        PropLoader.getProps['ldap_admin_pass'])
+                        PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
 
 Given /^I have an account of (.*) in (.*) status$/ do |role, tou_status|
   status = (tou_status == "TOU not set") ? "submitted" : "approved"
