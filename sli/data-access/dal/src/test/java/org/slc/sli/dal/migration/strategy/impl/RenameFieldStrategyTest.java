@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.domain.Entity;
@@ -100,7 +99,6 @@ public class RenameFieldStrategyTest {
         assertFalse(this.testEntity.getBody().containsKey("foo"));
     }
 
-    @Ignore
     @Test
     public void testSimpleRenameWithFieldPresent() throws MigrationException {
         Object testData = "testString";
@@ -116,25 +114,5 @@ public class RenameFieldStrategyTest {
         assertTrue(this.testEntity.getBody().containsKey("bar"));
         assertTrue(this.testEntity.getBody().get("bar").equals(testData));
         assertFalse(this.testEntity.getBody().containsKey("foo"));
-    }
-
-    @Ignore
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testNestedRenameWithFieldPresent() throws MigrationException {
-        Object testData = "testString";
-        
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(RenameFieldStrategy.OLD_FIELD_NAME, "nested.foo");
-        parameters.put(RenameFieldStrategy.NEW_FIELD_NAME, "nested.bar");
-        Map<String, Object> nested = (Map<String, Object>) this.testEntity.getBody().get("nested");
-        nested.put("foo", testData);
-        
-        this.addStrategy.setParameters(parameters);
-        this.addStrategy.migrate(this.testEntity);
-        
-        assertTrue(nested.containsKey("bar"));
-        assertTrue(nested.get("bar").equals(testData));
-        assertFalse(nested.containsKey("foo"));
     }
 }

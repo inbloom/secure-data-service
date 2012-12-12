@@ -15,16 +15,15 @@
 
 package org.slc.sli.dal.migration.strategy.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
 
 /**
- * Supports the migration of entities by renaming a data field.
+ * Supports the migration of entities by renaming a top level data field.
+ * Will not work with nested fields.
  * 
  * @author kmyers
  */
@@ -40,16 +39,8 @@ public class RenameFieldStrategy implements MigrationStrategy {
     @Override
     public Entity migrate(Entity entity) throws MigrationException {
         
-        try {
-            Object fieldValue = PropertyUtils.getNestedProperty(entity.getBody(), oldFieldName);
-            PropertyUtils.setProperty(entity.getBody(), newFieldName, fieldValue);
-        } catch (IllegalAccessException e) {
-            throw new MigrationException(e);
-        } catch (InvocationTargetException e) {
-            throw new MigrationException(e);
-        } catch (NoSuchMethodException e) {
-            throw new MigrationException(e);
-        }
+        entity.getBody().put(newFieldName, entity.getBody().remove(oldFieldName));
+
         return entity;
     }
 
