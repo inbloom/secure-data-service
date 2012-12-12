@@ -1,12 +1,5 @@
 {
     "entities":{
-        "student": {
-            "2": {
-                "ADD": {
-                    "fieldName": "foo",
-                    "defaultValue": "bar"
-                }            
-            }
-        }
+    	
     }
 }

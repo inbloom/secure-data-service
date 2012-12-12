@@ -1,7 +1,7 @@
 {
     "entities":{
         "student": {
-            "2": {
+            "999999": {
                 "ADD": {
                     "fieldName": "favoriteColor",
                     "defaultValue": "yellow"
