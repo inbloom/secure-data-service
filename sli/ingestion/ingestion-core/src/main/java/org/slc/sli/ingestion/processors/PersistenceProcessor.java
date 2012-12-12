@@ -602,33 +602,54 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
 
+        /*
+         * metaData: {
+         *     ...
+         *     "rhData": [ {"rhId": <blahId0>, "rhHash": <blahHash0>}, {"rhId": <blahId1>, "rhHash": <blahHash1>}, ... ],
+         *     "rhTenantId": <tenantId>
+         * }
+         */
         if (!recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
             return;
         }
 
-        Object rhHashObj = nr.getMetaDataByName("rhHash");
-        Object rhIdObj = nr.getMetaDataByName("rhId");
+        // TODO define field names as constants and use them in SliDeltaManager, Transformers, and here
         Object rhTenantIdObj = nr.getMetaDataByName("rhTenantId");
+        Object rhDataObj = nr.getMetaDataByName("rhData");
 
         // Make sure complete metadata is present
-        if (null == rhHashObj || null == rhIdObj || null == rhTenantIdObj) {
-            return;
-        }
-        String newHashValues = rhHashObj.toString();
-        if (newHashValues == null) {
+        if (null == rhDataObj || null == rhTenantIdObj) {
             return;
         }
 
-        String recordId = rhIdObj.toString();
         String tenantId = rhTenantIdObj.toString();
+        List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
 
-        // Consider DE2002, removing a query per record vs. tracking version
-        RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
-        if (rh == null) {
-            batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
-        } else {
-            batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+        for (Map<String, Object> rhDataElement : rhData) {
+
+            Object rhHashObj = rhDataElement.get("rhHash");
+            Object rhIdObj = rhDataElement.get("rhId");
+
+            // Make sure complete metadata is present
+            if (null == rhHashObj || null == rhIdObj) {
+                return;
+            }
+            String newHashValues = rhHashObj.toString();
+            if (newHashValues == null) {
+                return;
+            }
+
+            String recordId = rhIdObj.toString();
+
+            // Consider DE2002, removing a query per record vs. tracking version
+            RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+            if (rh == null) {
+                batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
+            } else {
+                batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+            }
         }
+
     }
 
 }
