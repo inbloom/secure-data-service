@@ -16,15 +16,21 @@ limitations under the License.
 
 =end
 
+require_relative '../Shared/EntityClasses/graduation_plan'
 
-testdir = File.dirname(__FILE__)
-$LOAD_PATH << testdir + "/../lib"
-require 'approval'
+class GraduationPlanFactory
+  def initialize(ed_org_id, scenario)
+    @ed_org_id = ed_org_id
+    @scenario = scenario
+  end
 
+  def build
+    plans = @scenario["GRADUATION_PLANS"]
+    unless plans.nil?
+      plans.map{|plan_type, credits_by_subject|
+        GraduationPlan.new(plan_type, credits_by_subject, @ed_org_id)
+      }
+    end or []
+  end
 
-ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{", true)
-
-username = "ychen"
-password = "yC12345!"
-
-puts "AUTH result: #{ldap.authenticate(username, password)}"
+end

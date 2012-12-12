@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+
+package org.slc.sli.ingestion.smooks;
+
+import org.xml.sax.Locator;
 
 /**
- * Enumeration of message codes for the ingestion-base module.
+ * Interafce defines a method to set Document Locator.
  *
- * @author dduran
+ * @author slee
  *
  */
-public enum BaseMessageCode implements MessageCode {
+public interface SliDocumentLocatorHandler {
 
-    SL_ERR_MSG1, SL_ERR_MSG2, SL_ERR_MSG3, SL_ERR_MSG8, SL_ERR_MSG9, SL_ERR_MSG14;
-
-    @Override
-    public String getCode() {
-        return this.name();
-    }
+    /**
+     * Method allows parser to set the locator upon parsing a document.
+     *
+     * @param locator
+     */
+    void setDocumentLocator(final Locator locator);
 
 }

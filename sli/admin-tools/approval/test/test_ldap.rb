@@ -65,10 +65,11 @@ class TestLdap < Test::Unit::TestCase
   Email5 = "pig_cat_cow_porcupine"
 
   def setup
-    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+    # set up a connection without 
+    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{", false)
     @password_policy = false
 
-    #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=DevTest,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
+    #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=DevTest,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{", true)
     #@password_policy = true 
 
     @ldap.delete_user(Jd_email)

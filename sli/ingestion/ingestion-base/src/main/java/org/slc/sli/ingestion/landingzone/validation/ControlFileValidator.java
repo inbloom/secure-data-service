@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.File;
@@ -24,6 +23,9 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -102,6 +104,63 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
 
     public void setIngestionFileValidators(List<IngestionFileValidator> ingestionFileValidators) {
         this.ingestionFileValidators = ingestionFileValidators;
+    }
+
+    @Override
+    public boolean isValid(ControlFileDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+        ControlFile controlFile = item.getFileItem();
+
+        List<IngestionFileEntry> entries = controlFile.getFileEntries();
+
+        if (entries.size() < 1) {
+
+            error(report, reportStats, BaseMessageCode.SL_ERR_MSG9);
+
+            return false;
+        }
+
+        boolean isValid = true;
+        for (IngestionFileEntry entry : entries) {
+
+            if (hasPathInName(entry.getFileName())) {
+                error(report, reportStats, BaseMessageCode.SL_ERR_MSG14, entry.getFileName());
+                isValid = false;
+            } else {
+
+                File file = item.getLandingZone().getFile(entry.getFileName());
+                if (file == null) {
+                    error(report, reportStats, BaseMessageCode.SL_ERR_MSG3, entry.getFileName());
+                    isValid = false;
+                } else {
+                    entry.setFile(file);
+
+                    if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), report, reportStats)) {
+                        // remove the file from the entry since it did not pass the validation
+                        entry.setFile(null);
+                        isValid = false;
+                    }
+                }
+            }
+        }
+        // If all the entries failed and we haven't logged an error yet
+        // then this is a case of 'no valid files in control file'
+        // (i.e., SL_ERR_MSG8)
+        if (!isValid && !reportStats.hasErrors()) {
+            error(report, reportStats, BaseMessageCode.SL_ERR_MSG8);
+            return false;
+        }
+
+        return isValid;
+    }
+
+    protected boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+        for (IngestionFileValidator validator : ingestionFileValidators) {
+            if (!validator.isValid(item, report, reportStats)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

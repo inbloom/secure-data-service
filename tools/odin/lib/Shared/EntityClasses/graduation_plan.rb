@@ -1,3 +1,4 @@
+
 =begin
 
 Copyright 2012 Shared Learning Collaborative, LLC
@@ -16,15 +17,15 @@ limitations under the License.
 
 =end
 
-
-testdir = File.dirname(__FILE__)
-$LOAD_PATH << testdir + "/../lib"
-require 'approval'
-
-
-ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{", true)
-
-username = "ychen"
-password = "yC12345!"
-
-puts "AUTH result: #{ldap.authenticate(username, password)}"
+require_relative 'baseEntity'
+class GraduationPlan < BaseEntity
+  attr_accessor :type, :individual, :total_credits, :subjects, :ed_org_id
+  
+  def initialize(type, credits_by_subject, edOrgId)
+    @type = type
+    @individual = false
+    @subjects = credits_by_subject.map{|subject, credits| {subject: subject, credits: credits}}
+    @total_credits = credits_by_subject.values.inject(:+)
+    @ed_org_id = edOrgId
+  end
+end

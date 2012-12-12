@@ -22,12 +22,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Validator for EdFi xml ingestion files.
@@ -79,6 +82,12 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
         }
 
         return isEmpty;
+    }
+
+    @Override
+    public boolean isValid(IngestionFileEntry object, AbstractMessageReport report, ReportStats reportStats) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

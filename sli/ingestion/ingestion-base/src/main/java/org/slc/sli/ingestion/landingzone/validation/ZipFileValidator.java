@@ -31,6 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -146,6 +148,12 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             return true;
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean isValid(File object, AbstractMessageReport report, ReportStats reportStats) {
+        // TODO Auto-generated method stub
         return false;
     }
 }
