@@ -106,6 +106,7 @@
                                     <verbose>true</verbose>
                                     <filters>
                                         <filter>-org.slc.sli.aspect.*</filter>
+                                        <filter>-org.slc.sli.sandbox.idp.aspect.*</filter>
                                     </filters>
                                 </configuration>
                             </execution>

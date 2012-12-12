@@ -13,6 +13,7 @@ ingestion_db: "localhost"
 ingestion_database_name: "sli"
 ingestion_batchjob_db: "localhost"
 ingestion_batchjob_database_name: "ingestion_batch_job"
+ingestion_batchjob_db_port: 27017
 lz_server_url: "picard-lz.slidev.org"
 lz_sftp_port: "443"
 ingestion_server_url: "devpantheon.slidev.org"
@@ -28,6 +29,7 @@ ingestion_index_validation: true
 ingestion_rc_tenant: ""
 ingestion_rc_edorg: ""
 activemq_host: "localhost"
+ingestion_timeout_override_seconds: 0
 
 sif_db: "localhost"
 sif_database_name: "sli"

@@ -21,9 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.TreeSet;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -33,6 +31,8 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Contains helper methods for traversing the edorg hierarchy.
@@ -149,7 +149,7 @@ public class EdOrgHelper {
         List<String> ids = new ArrayList<String>();
         if (isTeacher(principal)) {
             ids.addAll(helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)));
-        } else {
+        } else if (isStaff(principal)) {
             ids.addAll(helper.findAccessible(principal,
                     Arrays.asList(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)));
         }
@@ -206,6 +206,17 @@ public class EdOrgHelper {
         }
 
         return schools;
+    }
+    
+    public List<String> getSubEdOrgHierarchy(Entity principal) {
+    	List<String> result = new ArrayList<String>();
+    	List<String> directEdOrgs = getDirectEdOrgAssociations(principal);
+        if (!directEdOrgs.isEmpty()) {
+            result.addAll(directEdOrgs);
+            result.addAll(getChildEdOrgs(new TreeSet<String>(directEdOrgs)));
+        }
+        return result;
+    	
     }
 
     /**
@@ -286,6 +297,10 @@ public class EdOrgHelper {
 
     private boolean isTeacher(Entity principal) {
         return principal.getType().equals(EntityNames.TEACHER);
+    }
+
+    private boolean isStaff(Entity principal) {
+        return principal.getType().equals(EntityNames.STAFF);
     }
 
 }
