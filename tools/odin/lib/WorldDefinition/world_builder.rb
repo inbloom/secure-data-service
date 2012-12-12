@@ -28,6 +28,7 @@ require_relative '../Shared/date_utility.rb'
 require_relative 'assessment_work_order.rb'
 require_relative 'student_work_order.rb'
 require_relative 'section_work_order.rb'
+require_relative 'graduation_plan_factory.rb'
 
 # World Builder
 # -> intent is to create 'scaffolding' that represents a detailed, time-sensitive view of the world
@@ -328,6 +329,7 @@ class WorldBuilder
     #edOrg["programs"] = []
     @world["seas"]  << {"id" => state_id, "courses" => create_courses, "staff" => create_staff_for_state_education_agency(members)}
     @world["leas"].each { |edOrg| edOrg["parent"] = state_id }
+    @queue.push_work_order GraduationPlanFactory.new(state_id, @scenarioYAML)
   end
 
   # creates staff members at the state education agency level
@@ -1130,25 +1132,22 @@ class WorldBuilder
     factory = AssessmentFactory.new(@scenarioYAML)
     Enumerator.new do |y|
       (begin_year..(begin_year + num_years -1)).each{|year|
-        @queue.push_work_order({:type=>AssessmentFamily, :id=>"#{year} Standard", :year=>year})
+        gen_parent = true
         GradeLevelType.get_ordered_grades.each{|grade|
-          @queue.push_work_order({:type=>AssessmentFamily, :id=>"#{year} #{GradeLevelType.get grade} Standard", :year=>year, :parent=>"#{year} Standard"})
-          factory.gen_assessments(y, grade: grade, year: year).each {|assessment|
-            assessment
-          }
+          @queue.push_work_order GradeWideAssessmentWorkOrder.new(grade, year, gen_parent, factory)
+          gen_parent = false
+        }
       }
-    }
     end
   end
 
   def create_assessments(begin_year, num_years)
-    generate_assessment_work_orders(begin_year, num_years).each do |work_order|
-      work_order[:family] = "#{work_order[:year]} #{work_order[:grade]} Standard"
-      item_count = work_order[:itemCount]
-      @queue.push_work_order(work_order)
-      for i in 1..item_count
-        @queue.push_work_order({:type=>AssessmentItem, :id=>i, :assessment=>work_order})
-      end
+    generate_assessment_work_orders(begin_year, num_years).each do |assessment|
+      assessment.assessmentFamilyReference = "#{assessment.year_of} #{assessment.gradeLevelAssessed} Standard"
+      @queue.push_work_order(assessment)
+      assessment.assessment_items.each{ |ai| 
+        @queue.push_work_order(ai)
+      }
     end
   end
 end

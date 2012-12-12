@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.IOException;
@@ -25,6 +24,9 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -42,7 +44,7 @@ public class ChecksumValidator extends IngestionFileValidator {
         IngestionFileEntry fe = item.getFileItem();
 
         if (StringUtils.isBlank(fe.getChecksum())) {
-            fail(callback, getFailureMessage("SL_ERR_MSG10", fe.getFileName()));
+            fail(callback, getFailureMessage("BASE_0007", fe.getFileName()));
 
             return false;
         }
@@ -61,7 +63,7 @@ public class ChecksumValidator extends IngestionFileValidator {
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
             log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            fail(callback, getFailureMessage("SL_ERR_MSG2", fe.getFileName()));
+            fail(callback, getFailureMessage("BASE_0006", fe.getFileName()));
 
             return false;
         }
@@ -71,6 +73,38 @@ public class ChecksumValidator extends IngestionFileValidator {
 
     protected boolean checksumsMatch(String actualMd5Hex, String recordedMd5Hex) {
         return !StringUtils.isBlank(actualMd5Hex) && actualMd5Hex.equalsIgnoreCase(recordedMd5Hex);
+    }
+
+    @Override
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+        IngestionFileEntry fe = item.getFileItem();
+
+        if (StringUtils.isBlank(fe.getChecksum())) {
+            error(report, reportStats, BaseMessageCode.BASE_0007, fe.getFileName());
+
+            return false;
+        }
+
+        String actualMd5Hex;
+
+        try {
+            // and the attributes match
+            actualMd5Hex = item.getLandingZone().getMd5Hex(fe.getFile());
+        } catch (IOException e) {
+            actualMd5Hex = null;
+        }
+
+        if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
+
+            String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
+            log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
+
+            error(report, reportStats, BaseMessageCode.BASE_0006, fe.getFileName());
+
+            return false;
+        }
+
+        return true;
     }
 
 }

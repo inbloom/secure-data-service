@@ -68,7 +68,8 @@ class WorkOrderQueue
   def count(work_order_type)
     count = 0
     @work_orders.each do |order|
-      if order[:type].to_s == work_order_type.to_s
+      if (order.kind_of? work_order_type) or 
+        (order.kind_of? Hash and order[:type].to_s == work_order_type.to_s)
         count += 1
       end
     end

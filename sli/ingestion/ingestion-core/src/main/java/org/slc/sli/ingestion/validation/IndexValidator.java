@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.indexes.DbIndexValidator;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -44,10 +46,23 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     @Autowired
     private DbIndexValidator batchJobDbIndexValidator;
 
-
     @Override
     public boolean isValid(Object object, ErrorReport callback) {
 
+        verifyIndexes();
+
+        return true;
+    }
+
+    @Override
+    public boolean isValid(Object object, AbstractMessageReport report, ReportStats reportStats) {
+
+        verifyIndexes();
+
+        return true;
+    }
+
+    private void verifyIndexes() {
         LOG.info("Validating indexes for sli database....");
         sliDbIndexValidator.verifyIndexes();
 
@@ -56,8 +71,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
 
         LOG.info("Validating indexes for tenant databases....");
         tenantDBIndexValidator.verifyIndexes();
-
-        return true;
     }
 
 }

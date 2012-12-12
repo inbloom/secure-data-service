@@ -28,18 +28,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
-import org.slc.sli.domain.Entity;
 
 /**
  * Resolves Teachers context to Students. Finds accessible students through section, program, and cohort associations.
@@ -62,6 +61,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
     private static final String FROM_ENTITY = "teacher";
     private static final String TO_ENTITY = "student";
     private static final String COHORT_REF = "cohort";
+
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;

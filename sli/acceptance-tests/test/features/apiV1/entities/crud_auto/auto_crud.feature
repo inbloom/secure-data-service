@@ -1,4 +1,4 @@
-@smoke @RALLY_US209 @RALLY_DE87
+@wip @smoke @RALLY_US209 @RALLY_DE87
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.

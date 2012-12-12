@@ -54,7 +54,7 @@ public class SliSmooksFactory {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
-    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) throws IOException, SAXException {
+    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
@@ -69,10 +69,10 @@ public class SliSmooksFactory {
         }
     }
 
-    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, ErrorReport errorReport, String batchJobId,
+    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, ErrorReport errorReport, String batchJobId,
             IngestionFileEntry fe) throws IOException, SAXException {
 
-        Smooks smooks = new SliSmooks(sliSmooksConfig.getConfigFileName());
+        SliSmooks smooks = new SliSmooks(sliSmooksConfig.getConfigFileName());
 
         // based on target selectors for this file type, add visitors
         List<String> targetSelectorList = sliSmooksConfig.getTargetSelectors();
@@ -80,7 +80,6 @@ public class SliSmooksFactory {
 
             // just one visitor instance that can be added with multiple target selectors
             SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport, fe);
-            smooksEdFiVisitor.setSliSmooks((SliSmooks)smooks);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);

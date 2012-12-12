@@ -59,7 +59,7 @@
       		</div><!-- end span2 -->
       		<div class="span8">
       			<h1>Shared Learning Collaborative</h1>
-      			<h2>${subTitle}</h2>
+      			<h2>${fn:escapeXml(subTitle)}</h2>
       		</div><!-- end span7 -->
       	</div><!-- end row -->
       </div><!-- end hero-unit -->
