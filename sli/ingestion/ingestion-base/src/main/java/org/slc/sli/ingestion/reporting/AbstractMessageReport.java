@@ -29,46 +29,19 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
 
     protected MessageSource messageSource;
 
-    /**
-     * Reports a message as an error.
-     *
-     * @param source
-     *            Source of the report
-     * @param code
-     *            message defined by a code
-     * @param args
-     *            additional arguments for the message
-     */
-    public void error(Source source, MessageCode code, Object... args) {
-        // implement
-    }
 
     /**
      * Reports an message as an error and updates the wider-scope error state in the provided
      * reportStats.
      *
-     * @param source
-     *            Source of the report
      * @param reportStats
-     *            wider-scope error state to be updated
+     *            statistics state and source
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
      */
-    public void error(Source source, ReportStats reportStats, MessageCode code, Object... args) {
-        // implement
-    }
-
-    /**
-     * Reports a message as a warning.
-     *
-     * @param source
-     *            Source of the report
-     * @param code
-     *            message defined by a code
-     */
-    public void warning(Source source, MessageCode code, Object... args) {
+    public void error(ReportStats reportStats, MessageCode code, Object... args) {
         // implement
     }
 
@@ -76,16 +49,14 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * Reports an message as a warning and updates the wider-scope warning state in the provided
      * reportStats.
      *
-     * @param source
-     *            Source of the report
      * @param reportStats
-     *            wider-scope warning state to be updated
+     *           statistics state and source
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
      */
-    public void warning(Source source, ReportStats reportStats, MessageCode code, Object... args) {
+    public void warning(ReportStats reportStats, MessageCode code, Object... args) {
         // implement
     }
 

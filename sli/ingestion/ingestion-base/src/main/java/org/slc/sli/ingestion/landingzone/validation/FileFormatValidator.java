@@ -20,6 +20,9 @@ package org.slc.sli.ingestion.landingzone.validation;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -33,6 +36,18 @@ public class FileFormatValidator extends IngestionFileValidator {
         FileFormat format = entry.getFileFormat();
         if (format == null) {
             fail(callback, getFailureMessage("SL_ERR_MSG1", entry.getFileName(), "format"));
+
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+        IngestionFileEntry entry = item.getFileItem();
+        FileFormat format = entry.getFileFormat();
+        if (format == null) {
+            error(report, reportStats, BaseMessageCode.SL_ERR_MSG1, entry.getFileName(), "format");
 
             return false;
         }

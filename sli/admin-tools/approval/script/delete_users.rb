@@ -2,21 +2,20 @@ require 'ldapstorage'
 
 
 if (ARGV.length < 6)
-  puts "usage: ldap_host ldap_port ldap_base ldap_admin_user ldap_pass uid_wildcard"
+  puts "usage: ldap_host ldap_port use_ssl ldap_base ldap_admin_user ldap_pass uid_wildcard"
+  puts "       use_ssl = {true | false}"
   exit(1)
 end
 
 ldap_host = ARGV[0]
 ldap_port = ARGV[1].to_i
-ldap_base = ARGV[2]
-ldap_user = ARGV[3]
-ldap_pass = ARGV[4]
+use_ssl = (ARGV[2] == "true")
+ldap_base = ARGV[3]
+ldap_user = ARGV[4]
+ldap_pass = ARGV[5]
+wildcard = ARGV[6]
 
-wildcard = ARGV[5]
-
-ldap_storage = LDAPStorage.new(ldap_host, ldap_port, ldap_base, ldap_user, ldap_pass)
-
-
+ldap_storage = LDAPStorage.new(ldap_host, ldap_port, ldap_base, ldap_user, ldap_pass, use_ssl)
 
 users = ldap_storage.search_users_raw(wildcard)
 

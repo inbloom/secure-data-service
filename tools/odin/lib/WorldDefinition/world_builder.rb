@@ -28,6 +28,7 @@ require_relative '../Shared/date_utility.rb'
 require_relative 'assessment_work_order.rb'
 require_relative 'student_work_order.rb'
 require_relative 'section_work_order.rb'
+require_relative 'graduation_plan_factory.rb'
 
 # World Builder
 # -> intent is to create 'scaffolding' that represents a detailed, time-sensitive view of the world
@@ -328,6 +329,7 @@ class WorldBuilder
     #edOrg["programs"] = []
     @world["seas"]  << {"id" => state_id, "courses" => create_courses, "staff" => create_staff_for_state_education_agency(members)}
     @world["leas"].each { |edOrg| edOrg["parent"] = state_id }
+    @queue.push_work_order GraduationPlanFactory.new(state_id, @scenarioYAML)
   end
 
   # creates staff members at the state education agency level

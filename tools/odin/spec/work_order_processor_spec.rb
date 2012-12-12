@@ -127,11 +127,13 @@ describe "WorkOrderProcessor" do
                                                                                    {'year' => 2003},
                                                                                    {'year' => 2004},
                                                                                    {'year' => 2005}],
-                                                        'feeds_to' => [65, 66]})}
-      it "will get enrollments for each school" do
-
+                                                        'feeds_to' => [65, 66]},
+                                                        :graduation_plans => 
+                                                          [GraduationPlan.new("Standard", {'Math'=> 12}, "state-id")])}
+      before {
         work_order_queue.push_work_order(work_order)
-
+      }
+      it "will get enrollments for each school" do
         factory.students.should have(1).items
         factory.school_associations[0].startYear.should eq(2001)
         factory.school_associations[0].schoolStateOrgId.should eq('elem-0000000064')
@@ -143,6 +145,14 @@ describe "WorkOrderProcessor" do
         factory.school_associations[3].schoolStateOrgId.should eq('midl-0000000065')
         factory.school_associations[4].startYear.should eq(2005)
         factory.school_associations[4].schoolStateOrgId.should eq('high-0000000066')
+      end
+
+      it "will put graduation plans on the school association iff the school is a high school" do
+        factory.school_associations[0].gradPlan.should be_nil
+        factory.school_associations[1].gradPlan.should be_nil
+        factory.school_associations[2].gradPlan.should be_nil
+        factory.school_associations[3].gradPlan.should be_nil
+        factory.school_associations[4].gradPlan.should_not be_nil
       end
     end
 

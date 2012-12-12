@@ -18,17 +18,17 @@ package org.slc.sli.ingestion.reporting;
 
 public final class SimpleReportStats implements ReportStats {
 
-    private final String context;
+    private final Source source;
     private long errorCount = 0L;
     private long warningCount = 0L;
 
-    public SimpleReportStats(String context) {
-        this.context = context;
+    public SimpleReportStats(Source source) {
+        this.source = source;
     }
 
     @Override
-    public String getContext() {
-        return context;
+    public Source getSource() {
+        return source;
     }
 
     @Override
