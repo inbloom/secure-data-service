@@ -16,33 +16,25 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Validates the context of a staff member to see the requested set of parent
- * entities. Returns true if the staff member can see ALL of the entities, and false otherwise.
+ * Validates the context of a teacher member to see the requested set of parent
+ * entities. Returns true if the teacher member can see ALL of the entities, and false otherwise.
  *
  * @author mabernathy
  */
 @Component
-public class StaffToParentValidator extends AbstractParentValidator {
+public class TeacherToParentValidator extends AbstractParentValidator {
     
     @Autowired
-    StaffToStudentValidator studentVal;
+    TeacherToStudentValidator studentVal;
 
     @Override
     protected String getToType() {
-        return EntityNames.STAFF;
+        return EntityNames.TEACHER;
     }
 
     @Override
