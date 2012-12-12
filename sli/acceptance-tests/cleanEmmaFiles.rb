@@ -1,4 +1,5 @@
 begin
+    require 'fileutils'
     begin
         File.delete("../ingestion/ingestion-validation/target/OfflineValidationTool/ingestion-validation/coverage.ec")
     rescue Exception => e
