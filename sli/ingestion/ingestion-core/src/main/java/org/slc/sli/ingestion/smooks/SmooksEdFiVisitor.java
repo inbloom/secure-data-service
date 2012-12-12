@@ -53,7 +53,7 @@ import com.mongodb.MongoException;
  *
  */
 @StreamResultWriter
-public final class SmooksEdFiVisitor implements SAXElementVisitor {
+public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLocatorHandler {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
@@ -77,8 +77,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
-    private SliSmooks sliSmooks;
-    
+    private Locator locator;
+
     private int visitBeforeLineNumber;
     private int visitBeforeColumnNumber;
     private int visitAfterLineNumber;
@@ -111,22 +111,18 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             IngestionFileEntry fe) {
         return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
     }
-    
-    public void setSliSmooks(SliSmooks sliSmooks) {
-        this.sliSmooks = sliSmooks;
-    }
-    
-    private Locator getDocumentLocator() {
-        return sliSmooks==null ? null : sliSmooks.getDocumentLocator();
+
+    @Override
+    public void setDocumentLocator(Locator locator) {
+        this.locator = locator;
     }
 
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
-        Locator locator = getDocumentLocator();
         visitAfterLineNumber = locator==null ? -1 : locator.getLineNumber();
         visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
-        
+
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
@@ -213,7 +209,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             this.occurences.put(neutralRecord.getRecordType(), FIRST_INSTANCE);
             neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
-        
+
         neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
         neutralRecord.setVisitBeforeColumnNumber(visitBeforeColumnNumber);
         neutralRecord.setVisitAfterLineNumber(visitAfterLineNumber);
@@ -253,11 +249,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        Locator locator = getDocumentLocator();
         visitBeforeLineNumber = locator==null ? -1 : locator.getLineNumber();
         visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
     }
-    
+
     @Override
     public void onChildElement(SAXElement element, SAXElement childElement, ExecutionContext executionContext) {
         // nothing
@@ -276,6 +271,5 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
         this.duplicateCounts = duplicateCounts;
     }
-
 
 }

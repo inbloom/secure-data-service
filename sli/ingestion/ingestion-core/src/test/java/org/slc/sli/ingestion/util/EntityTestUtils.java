@@ -83,7 +83,6 @@ public class EntityTestUtils {
 
         SliSmooks smooks = new SliSmooks(smooksConfig);
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport, null);
-        smooksEdFiVisitor.setSliSmooks(smooks);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
 
         smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
@@ -103,7 +102,7 @@ public class EntityTestUtils {
 
         return entityList;
     }
-    
+
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
 
         Entity e = mock(Entity.class);
@@ -131,7 +130,7 @@ public class EntityTestUtils {
      *            The Object value we will assertEquals against
      */
     @SuppressWarnings("rawtypes")
-    public static void assertObjectInMapEquals(Map map, String key, Object expectedValue) {
+    public static void assertObjectInMapEquals(final Map map, final String key, final Object expectedValue) {
         assertEquals("Object value in map does not match expected.", expectedValue, map.get(key));
     }
 
@@ -162,6 +161,27 @@ public class EntityTestUtils {
             neutralRecord = records.get(0);
         }
         return neutralRecord;
+    }
+
+    /**
+     * 
+     * @param smooksXmlConfigFilePath
+     * @param targetSelector
+     * @param testData
+     * @param recordLevelDeltaEnabledEntityNames
+     * @param didGeneratorStrategy
+     * @param didResolver
+     * @return
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static List<NeutralRecord> smooksGetNeutralRecords(String smooksXmlConfigFilePath, String targetSelector,
+            String testData, Set<String> recordLevelDeltaEnabledEntityNames,
+            DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver) throws IOException, SAXException {
+        ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
+
+        return EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
+                targetSelector, recordLevelDeltaEnabledEntityNames, didGeneratorStrategy, didResolver);
     }
 
     @SuppressWarnings("unchecked")

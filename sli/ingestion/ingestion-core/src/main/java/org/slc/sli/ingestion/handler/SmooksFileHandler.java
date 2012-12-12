@@ -42,6 +42,7 @@ import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -85,36 +86,19 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
+        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
+            SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
 
-            try {
-                final Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
-                AccessController.doPrivileged(
-                    new PrivilegedAction<Object>() {
-                        public Object run() {
-                            f.setAccessible(true);
-                            return null;
-                        }
-                    }
-                );
-                VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
-                ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
-                SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0)
-                        .getContentHandler();
+            int recordsPersisted = visitAfter.getRecordsPerisisted();
+            fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
-                int recordsPersisted = visitAfter.getRecordsPerisisted();
-                fileProcessStatus.setTotalRecordCount(recordsPersisted);
-
-                LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
-                        ingestionFileEntry.getFileName());
-            } catch (Exception e) {
-                LOG.error("Error accessing visitor list in smooks", e);
-            }
+            LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                    ingestionFileEntry.getFileName());
         } catch (SmooksException se) {
             LOG.error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);

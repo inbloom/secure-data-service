@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.smooks;
 
 import java.io.Writer;
@@ -6,24 +22,60 @@ import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.SmooksContentHandler;
 import org.milyn.delivery.sax.SAXHandler;
 import org.xml.sax.Locator;
+/**
+ * This class extends {@linkplain org.milyn.delivery.sax.SAXHandler} and implements 
+ * a concrete {@linkplain #setDocumentLocator(Locator)} method.
+ * <p>
+ * In its constructor, a 
+ * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler handler}
+ * is injected in order to provide a callback to 
+ * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator(Locator)}.
+ *
+ * @author slee
+ *
+ */
+public class SliSAXHandler extends SAXHandler {
+    /**
+     * handler where the locator shall be handled.
+     */
+    private SliDocumentLocatorHandler handler;
 
-public class SliSAXHandler extends SAXHandler
-{
-    private Locator locator;
-
-    public SliSAXHandler(ExecutionContext executionContext, Writer writer) {
+    /**
+     * Constructor.
+     *
+     * @param executionContext
+     * @param writer
+     */
+    public SliSAXHandler(final ExecutionContext executionContext, final Writer writer,
+            final SliDocumentLocatorHandler handler) {
         super(executionContext, writer);
+        this.handler = handler;
     }
 
-    public SliSAXHandler(ExecutionContext executionContext, Writer writer, SmooksContentHandler parentContentHandler) {
+    /**
+     * Constructor.
+     *
+     * @param executionContext
+     * @param writer
+     * @param parentContentHandler
+     * @param handler
+     */
+    public SliSAXHandler(final ExecutionContext executionContext,
+            final Writer writer, final SmooksContentHandler parentContentHandler,
+            final SliDocumentLocatorHandler handler) {
         super(executionContext, writer, parentContentHandler);
+        this.handler = handler;
     }
 
-    public void setDocumentLocator (Locator locator) {
-        this.locator = locator;
+    /**
+     * Method allows parser to set the locator before parsing a document.
+     *
+     * @param locator
+     */
+    public final void setDocumentLocator(final Locator locator) {
+        if (handler != null) {
+            handler.setDocumentLocator(locator);
+        }
     }
-    
-    public Locator getDocumentLocator() {
-        return locator;
-    }
+
 }
