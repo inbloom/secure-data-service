@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.UriInfo;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,12 +27,40 @@ import java.util.Map;
 public class WriteValidator {
 
     private HashMap<String, String> ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION;
+    private List<ComplexValidation> complexValidationList;
+    private Map<String, ComplexValidation> complexValidationMap;
+
 
     @Autowired
     private EntityDefinitionStore store;
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
+    private class ComplexValidation {
+        private String entityType;
+        private String validationReferenceName;
+        private String validationReferenceType;
+
+        public ComplexValidation(String entityType, String validationReferenceName, String validationReferenceType) {
+            this.entityType = entityType;
+            this.validationReferenceName = validationReferenceName;
+            this.validationReferenceType = validationReferenceType;
+        }
+
+        public String getEntityType() {
+            return entityType;
+        }
+
+        public String getValidationReferenceName() {
+            return validationReferenceName;
+        }
+
+        public String getValidationReferenceType() {
+            return validationReferenceType;
+        }
+    }
+
 
     @PostConstruct
     private void init() {
@@ -47,11 +77,18 @@ public class WriteValidator {
             put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "schoolId");
         }};
 
-        // STUDENT_SECTION_ASSOCIATION, SECTION_ID, SECTION
-        // STUDENT_GRADEBOOK_ENTRY, "gradebookEntryId", GRADEBOOK_ENTRY
-        // GRADEBOOK_ENTRY, SECTION_ID, SECTION
-        // COURSE_TRANSCRIPT, COURSE_ID, COURSE
-        // DISCIPLINE_ACTION
+        complexValidationList = Arrays.asList(
+                new ComplexValidation(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.SECTION_ID, EntityNames.SECTION),
+                new ComplexValidation(EntityNames.STUDENT_GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID, EntityNames.GRADEBOOK_ENTRY),
+                new ComplexValidation(EntityNames.GRADEBOOK_ENTRY, ParameterConstants.SECTION_ID, EntityNames.SECTION),
+                new ComplexValidation(EntityNames.COURSE_TRANSCRIPT, ParameterConstants.COURSE_ID, EntityNames.COURSE),
+                new ComplexValidation(EntityNames.DISCIPLINE_ACTION, ParameterConstants.DISCIPLINE_INCIDENT_ID, EntityNames.DISCIPLINE_INCIDENT)
+        );
+
+        complexValidationMap = new HashMap<String, ComplexValidation>();
+        for (ComplexValidation validationRule: complexValidationList) {
+            complexValidationMap.put(validationRule.getEntityType(), validationRule);
+        }
 
     }
 
@@ -98,6 +135,14 @@ public class WriteValidator {
         if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType) != null) {
             String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType));
             isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
+        } else if (complexValidationMap.containsKey(entityType)) {
+            ComplexValidation validation = complexValidationMap.get(entityType);
+            EntityDefinition definition = store.lookupByEntityType(validation.getValidationReferenceType());
+            String id = (String) entityBody.get(validation.getValidationReferenceName());
+            if (id != null) {
+                final Entity entity = repo.findById(definition.getStoredCollectionName(), id);
+                isValid = isEntityValidForEdOrgWrite(entity.getBody(), definition.getType(), principal);
+            }
         }
         return isValid;
     }
