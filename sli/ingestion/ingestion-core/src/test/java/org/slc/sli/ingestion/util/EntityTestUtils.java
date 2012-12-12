@@ -164,7 +164,7 @@ public class EntityTestUtils {
     }
 
     /**
-     * 
+     *
      * @param smooksXmlConfigFilePath
      * @param targetSelector
      * @param testData

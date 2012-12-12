@@ -34,14 +34,14 @@ import org.xml.sax.XMLReader;
 
 /**
  * This class replaces {@linkplain org.milyn.delivery.sax.SAXParser parser} and
- * provides the identical function except it instantiates a 
+ * provides the identical function except it instantiates a
  * {@linkplain org.slc.sli.ingestion.smooks.SliSAXHandler saxHandler} instead of
  * a {@linkplain org.milyn.delivery.sax.SAXHandler saxHandler} in the
- * {@linkplain org.milyn.delivery.sax.SAXParser parser}. 
+ * {@linkplain org.milyn.delivery.sax.SAXParser parser}.
  * <p>
- * In its constructor, a 
+ * In its constructor, a
  * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler handler}
- * is injected in order to provide a callback to 
+ * is injected in order to provide a callback to
  * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator(Locator)}.
  *
  * @author slee
@@ -72,8 +72,8 @@ public class SliSAXParser extends AbstractParser {
     }
 
     /**
-     * Same as in {@linkplain org.milyn.delivery.sax.SAXParser parser} except 
-     * at the beginning we force a nullcheck of executionContext and 
+     * Same as in {@linkplain org.milyn.delivery.sax.SAXParser parser} except
+     * at the beginning we force a nullcheck of executionContext and
      * at the line where new SliSAXHandler is used to replace new SAXHandler.
      *
      * @param source

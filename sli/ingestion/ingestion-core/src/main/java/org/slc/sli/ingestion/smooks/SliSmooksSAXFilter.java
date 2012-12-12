@@ -39,14 +39,14 @@ import org.xml.sax.Locator;
 
 /**
  * This class replaces {@linkplain org.milyn.delivery.sax.SmooksSAXFilter filter} and
- * provides the identical function except it instantiates a 
+ * provides the identical function except it instantiates a
  * {@linkplain org.slc.sli.ingestion.smooks.SliSAXParser parser} instead of
  * a {@linkplain org.milyn.delivery.sax.SAXParser parser} in the original
  * {@linkplain org.milyn.delivery.sax.SmooksSAXFilter filter}.
  * <p>
- * In its constructor, a 
+ * In its constructor, a
  * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler handler}
- * is injected in order to provide a callback to 
+ * is injected in order to provide a callback to
  * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator(Locator)}.
  *
  * @author slee
@@ -108,7 +108,7 @@ public class SliSmooksSAXFilter extends Filter {
                 if (e.isTerminateBefore()) {
                     logger.debug("Terminated filtering on visitBefore of element '" + SAXUtil.getXPath(e.getElement()) + "'.");
                 } else {
-                    logger.debug("Terminated filtering on visitAfter of element '" + SAXUtil.getXPath(e.getElement()) + "'.");                  
+                    logger.debug("Terminated filtering on visitAfter of element '" + SAXUtil.getXPath(e.getElement()) + "'.");
                 }
             }
         } catch (Exception e) {
