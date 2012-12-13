@@ -24,34 +24,13 @@ public class DummyMessageReport extends AbstractMessageReport {
     @Override
     public void reportError(ReportStats reportStats, MessageCode code, Object... args) {
 
-        if (reportStats != null) {
-            reportStats.incError();
-        }
-
         // report error
     }
 
     @Override
     public void reportWarning(ReportStats reportStats, MessageCode code, Object... args) {
 
-        if (reportStats != null) {
-            reportStats.incWarning();
-        }
-
         // report warning
     }
 
-    @Override
-    protected void logError(MessageCode code, Object... args) {
-
-        // log error
-
-    }
-
-    @Override
-    protected void logWarning(MessageCode code, Object... args) {
-
-        // log warning
-
-    }
 }
