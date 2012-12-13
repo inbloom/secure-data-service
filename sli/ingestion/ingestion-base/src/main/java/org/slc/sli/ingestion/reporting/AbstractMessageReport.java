@@ -44,10 +44,10 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
 
         logError(code, args);
 
-        if (reportStats != null) {
+        if (reportStats != null && reportStats.getSource() != null) {
             reportStats.incError();
+            reportError(reportStats, code, args);
         }
-        reportError(reportStats, code, args);
     }
 
     /**
@@ -65,10 +65,10 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
 
         logWarning(code, args);
 
-        if (reportStats != null) {
+        if (reportStats != null && reportStats.getSource() != null) {
             reportStats.incWarning();
+            reportWarning(reportStats, code, args);
         }
-        reportWarning(reportStats, code, args);
     }
 
     /**

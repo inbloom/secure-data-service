@@ -1886,7 +1886,6 @@
     <jb:wiring property="scoreResults" beanIdRef="scoreResultsArray" />
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
-    <jb:value property="xmlId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
   </jb:bean>
 
   <jb:bean beanId="SLC-StudentAssessment_Attributes_SLC-StudentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference">
@@ -2971,7 +2970,7 @@
     <!--
     <jb:wiring property="StateOrganizationId" beanIdRef="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity_StateOrganizationIdArray" />
     <jb:wiring property="EducationOrgIdentificationCode" beanIdRef="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity_EducationOrgIdentificationCodeArray" />
- 	-->
+     -->
   </jb:bean>
 
   <jb:bean beanId="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity_StateOrganizationIdArray"
@@ -3632,7 +3631,7 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
            createOnElement="InterchangeStudentGrade/Grade">
     <jb:expression property="recordType">'grade'</jb:expression>
-	<jb:wiring property="metaData" beanIdRef="gradeMetaData" />
+    <jb:wiring property="metaData" beanIdRef="gradeMetaData" />
     <jb:wiring property="attributes" beanIdRef="gradeAttributes" />
   </jb:bean>
 
@@ -3819,7 +3818,7 @@
              createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
         <jb:value property="date" data="Date" />
         <jb:value property="calendarEvent" data="CalendarEvent" />
-		<jb:wiring beanIdRef="SLC-CalendarDate_Attributes_SLC-EducationalOrgReferenceType" property="EducationOrgReference"/>
+        <jb:wiring beanIdRef="SLC-CalendarDate_Attributes_SLC-EducationalOrgReferenceType" property="EducationOrgReference"/>
   </jb:bean>
 
   <!-- calendarDate supporting objects: EducationOrgReference -->
