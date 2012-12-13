@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
     <!-- GradebookEntry objects for linda.kim's class -->
     <GradebookEntry id="GBE-8th_Grade_English-1">
         <GradebookEntryType>Assignment</GradebookEntryType>
@@ -122,6 +122,7 @@
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
+    <!-- Commented out as a wip because ref is no longer supported
     <ReportCard>
         <StudentCompetencyReference ref="SC-GR3-800000025-1"/>
         <GPAGivenGradingPeriod>1.1</GPAGivenGradingPeriod>
@@ -130,10 +131,10 @@
             <StudentIdentity>
                 <StudentUniqueStateId>800000025</StudentUniqueStateId>
             </StudentIdentity>
-        </StudentReference>
+        </StudentReference-->
         <!-- id does not exist in this file-->
         <!-- GradingPeriodReference ref="GRDP_20070527"/-->
-        <GradingPeriodReference>
+        <!--GradingPeriodReference>
             <GradingPeriodIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -145,5 +146,5 @@
                 <SchoolYear>2010-2011</SchoolYear>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-    </ReportCard>
+    </ReportCard-->
 </InterchangeStudentGrade>

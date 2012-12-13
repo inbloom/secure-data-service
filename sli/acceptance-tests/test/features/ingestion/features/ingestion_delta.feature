@@ -99,6 +99,13 @@ And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningObjectiv
 And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningObjective 65 deltas!" in the resulting batch job file
 And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningObjective 63 deltas!" in the resulting batch job file
 And I should see "InterchangeAttendance.xml attendance 5550 deltas!" in the resulting batch job file
+And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
+And zip file is scp to ingestion landing zone with name "StoriedDataSet_IL_Daybreak_Deltas.zip"
+And a batch job for file "StoriedDataSet_IL_Daybreak_Deltas.zip" is completed in database
+And I should see "InterchangeAttendance.xml attendance 2 deltas!" in the resulting batch job file
+ And I check to find if record is in collection:
+    | collectionName              | expectedRecordCount | searchParameter                                 | searchValue       |
+    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason| test for 100000000|
 
 
 Scenario: Job report should not report deltas when SDS is ingested twice for different tenantId
