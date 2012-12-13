@@ -227,6 +227,8 @@ Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
 end
 
 When /^I navigate to GET the link named "([^"]*)"$/ do |arg1|
+  #Try to make test more deterministic by using ordered search
+  @the_link = @the_link.sort
   @the_link.each { |link|
     restHttpGetAbs(link)
     @result = JSON.parse(@res.body)
