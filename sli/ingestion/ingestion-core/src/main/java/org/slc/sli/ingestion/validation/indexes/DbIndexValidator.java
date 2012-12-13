@@ -39,7 +39,7 @@ import org.slc.sli.ingestion.util.MongoIndex;
 public abstract class DbIndexValidator {
     private Map<String, List<MongoIndex>> indexCache = new HashMap<String, List<MongoIndex>>();
 
-    private Logger log = LoggerFactory.getLogger(DbIndexValidator.class);
+    final static private Logger log = LoggerFactory.getLogger(DbIndexValidator.class);
 
     protected abstract List<MongoIndex> parseFile(String indexFile);
 
@@ -108,21 +108,44 @@ public abstract class DbIndexValidator {
                     }
                 }
                 if (indexMatch) {
-                    log.info("Index verified: {}, unique:{}", collectionName + " " + index.getKeys().toString(),
-                            index.isUnique());
+                    logInfo("Index verified: " + collectionName + " " + index.getKeys().toString() +
+                            ", unique:" + index.isUnique());
                     break;
                 }
             }
 
             if (!indexMatch) {
-                log.error("Index missing: {}, unique:{}", collectionName + " " + index.getKeys().toString(),
-                        index.isUnique());
+                logError("Index missing: " + collectionName + " " + index.getKeys().toString() +
+                        ", unique:" + index.isUnique());
             }
         } else {
-            log.error("Index missing: {}, unique:{}", collectionName + " " + index.getKeys().toString(),
-                    index.isUnique());
+            logError("Index missing: " + collectionName + " " + index.getKeys().toString() +
+                    ", unique:" + index.isUnique());
         }
     }
 
+    protected void logError(String message) {
+        log.error(message);
+    }
+
+    protected void logInfo(String message) {
+        log.info(message);
+    }
+
+    /**
+     * @return the indexCache
+     */
+    public Map<String, List<MongoIndex>> getIndexCache() {
+        return indexCache;
+    }
+
+    /**
+     * @param indexCache the indexCache to set
+     */
+    public void setIndexCache(Map<String, List<MongoIndex>> indexCache) {
+        this.indexCache = indexCache;
+    }
+
     public abstract void verifyIndexes();
+
 }

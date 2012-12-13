@@ -207,9 +207,7 @@ class DateUtility
     
     num_dates = end_date - start_date
     days_between_events = (num_dates / num_events).ceil
-    if days_between_events == 0 
-      days_between_events = 1
-    end
+    days_between_events = 1 if days_between_events == 0 
 
     # iterate from start to end date using 'days_between_events'
     (start_date..end_date).step(days_between_events) do |date|

@@ -35,40 +35,19 @@ import org.springframework.stereotype.Component;
  * @author mabernathy
  */
 @Component
-public class StaffToParentValidator extends AbstractContextValidator {
+public class StaffToParentValidator extends AbstractParentValidator {
     
     @Autowired
     StaffToStudentValidator studentVal;
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
-    public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.PARENT.equals(entityType) && isStaff();
+    protected String getToType() {
+        return EntityNames.STAFF;
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> parentIds) {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("parentId", NeutralCriteria.CRITERIA_IN, parentIds));
-        basicQuery.setIncludeFields(Arrays.asList("studentId", "parentId"));
-        Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, basicQuery);
-
-        Set<String> parentIdsFound = new HashSet<String>();
-          
-        Set<String> studentList = new HashSet<String>();
-        
-        for (Entity assoc : assocs) {
-            String studentId = (String) assoc.getBody().get("studentId");
-            String parentId = (String) assoc.getBody().get("parentId");
-            studentList.add(studentId);
-            parentIdsFound.add(parentId);
-        }
-
-        if (parentIdsFound.size() < parentIds.size()) {
-            return false;
-        }
-        return studentVal.validate(EntityNames.STUDENT, studentList);
+    protected IContextValidator getStudentValidator() {
+        return studentVal;
     }
 
 }

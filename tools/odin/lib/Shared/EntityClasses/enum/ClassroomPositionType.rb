@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of classroom positions held by teachers. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="ClassroomPositionType">
 #   <xs:annotation>
@@ -35,4 +37,16 @@ class ClassroomPositionType
   ClassroomPositionType.define :SUBSTITUTE_TEACHER, "Substitute Teacher"
   ClassroomPositionType.define :SUPPORT_TEACHER, "Support Teacher"
   ClassroomPositionType.define :TEACHER_OF_RECORD, "Teacher of Record"
+
+  # translates the specified Symbol into the String representation of a classroom position type
+  # -> returns nil if the Symbol doesn't exist
+  def self.to_string(key)
+    const_get(key)
+  end
+
+  # translates the specified String representation of a classroom position type into a Symbol
+  # -> returns nil if the String representation doesn't map to a Symbol
+  def self.to_symbol(value)
+    get_key(value)
+  end
 end

@@ -22,10 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.milyn.Smooks;
-import org.milyn.delivery.Visitor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -35,6 +31,8 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.xml.sax.SAXException;
 
 /**
  * Factory class for Smooks
@@ -56,7 +54,7 @@ public class SliSmooksFactory {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
-    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) throws IOException, SAXException {
+    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
@@ -71,17 +69,17 @@ public class SliSmooksFactory {
         }
     }
 
-    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, ErrorReport errorReport, String batchJobId,
+    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, ErrorReport errorReport, String batchJobId,
             IngestionFileEntry fe) throws IOException, SAXException {
 
-        Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
+        SliSmooks smooks = new SliSmooks(sliSmooksConfig.getConfigFileName());
 
         // based on target selectors for this file type, add visitors
         List<String> targetSelectorList = sliSmooksConfig.getTargetSelectors();
         if (targetSelectorList != null) {
 
             // just one visitor instance that can be added with multiple target selectors
-            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport, fe);
+            SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport, fe);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);

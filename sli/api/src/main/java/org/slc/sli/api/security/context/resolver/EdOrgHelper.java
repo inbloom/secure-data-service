@@ -16,25 +16,20 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.*;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.validator.DateHelper;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Contains helper methods for traversing the edorg hierarchy.
@@ -60,6 +55,9 @@ public class EdOrgHelper {
 
     @Autowired
     private AssociativeContextHelper helper;
+
+    @Autowired
+    protected DateHelper dateHelper;
 
     @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
@@ -154,7 +152,7 @@ public class EdOrgHelper {
         List<String> ids = new ArrayList<String>();
         if (isTeacher(principal)) {
             ids.addAll(helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)));
-        } else {
+        } else if (isStaff(principal)) {
             ids.addAll(helper.findAccessible(principal,
                     Arrays.asList(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)));
         }
@@ -211,6 +209,17 @@ public class EdOrgHelper {
 
         return schools;
     }
+    
+    public List<String> getSubEdOrgHierarchy(Entity principal) {
+    	List<String> result = new ArrayList<String>();
+    	List<String> directEdOrgs = getDirectEdOrgAssociations(principal);
+        if (!directEdOrgs.isEmpty()) {
+            result.addAll(directEdOrgs);
+            result.addAll(getChildEdOrgs(new TreeSet<String>(directEdOrgs)));
+        }
+        return result;
+    	
+    }
 
     /**
      * Recursively returns the list of all child edorgs
@@ -265,44 +274,50 @@ public class EdOrgHelper {
      * @return
      */
     public Collection<String> getUserEdOrgs(Entity principal) {
-        return (isTeacher(principal)) ? getDirectSchools(principal) : getStaffEdOrgLineage(principal);
+        return (isTeacher(principal)) ? getDirectSchools(principal) : getStaffEdOrgLineage();
     }
 
-     /**
-     * Go through staffEdorgAssociations that are current and get the descendant
-     * edorgs
+    /**
+     * Will go through staffEdorgAssociations that are current and get the descendant
+     * edorgs that you have.
      *
      * @return a set of the edorgs you are associated to and their children.
      */
-    public Set<String> getStaffEdOrgLineage(Entity principal) {
-        Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs(principal);
+    public Set<String> getStaffEdOrgLineage() {
+        Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs();
+        return getEdorgDescendents(edOrgLineage);
+    }
+
+    public Set<String> getEdorgDescendents(Set<String> edOrgLineage) {
         edOrgLineage.addAll(getChildEdOrgs(edOrgLineage));
         return edOrgLineage;
     }
 
     /**
      * Get current ed-org associations for a staff member
-     * @param principal
      * @return
      */
-    public Set<String> getStaffCurrentAssociatedEdOrgs(Entity principal) {
-        // get all staff ed-org associations
+    public Set<String> getStaffCurrentAssociatedEdOrgs() {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         Iterable<Entity> staffEdOrgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         List<Entity> staffEdOrgAssociations = new LinkedList<Entity>();
         if (staffEdOrgs != null) {
             for (Entity staffEdOrg : staffEdOrgs) {
-                staffEdOrgAssociations.add(staffEdOrg);
+                if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE, false)) {
+                    staffEdOrgAssociations.add(staffEdOrg);
+                }
             }
         }
-        // filter for only current associations
-        List<Entity> currentStaffEdOrgAssociations = staffEdOrgEdOrgIDNodeFilter.filterEntities(staffEdOrgAssociations, null);
         Set<String> edOrgIds = new HashSet<String>();
-        for (Entity association : currentStaffEdOrgAssociations) {
+        for (Entity association : staffEdOrgAssociations) {
             edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
         }
         return edOrgIds;
+    }
+
+    public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
+        return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
 
     @SuppressWarnings("unchecked")
@@ -337,6 +352,10 @@ public class EdOrgHelper {
 
     private boolean isTeacher(Entity principal) {
         return principal.getType().equals(EntityNames.TEACHER);
+    }
+
+    private boolean isStaff(Entity principal) {
+        return principal.getType().equals(EntityNames.STAFF);
     }
 
 }

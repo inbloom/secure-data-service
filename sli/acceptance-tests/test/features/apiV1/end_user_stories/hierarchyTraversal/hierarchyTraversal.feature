@@ -175,7 +175,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET the link named "getSessions"
     Then I should receive a return code of 200
          And in an entity, I should receive a link named "self"
-    When I navigate to GET the link named "self"
+    When I navigate to GET the "second" link named "self"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings"
     When I navigate to GET the link named "getCourseOfferings"

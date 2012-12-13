@@ -15,6 +15,11 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud_auto")
 end
 
+task :crudAutoTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud_auto")
+end
+
 task :apiV1AssociationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/crud/assoc_crud.feature")
@@ -89,6 +94,12 @@ desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences/directReferences.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences/directReferences_teacher.feature")
+end
+
+desc "Run V1 Direct References Teacher Tests"
+task :v1DirectReferencesTeacherTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences/directReferences_teacher.feature")
 end

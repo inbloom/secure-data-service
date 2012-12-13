@@ -25,8 +25,11 @@ ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingesti
 ingestion_healthcheck_url: "http://local.slidev.org:8000/ingestion-service/healthcheck"
 ingestion_properties_file: "../config/properties/sli.properties"
 ingestion_log_directory: "../ingestion/ingestion-service/target/ingestion/logs/"
+ingestion_index_validation: true
 ingestion_rc_tenant: ""
 ingestion_rc_edorg: ""
+ingestion_timeout_override_seconds: 0
+activemq_host: "localhost"
 
 sif_db: "localhost"
 sif_database_name: "sli"
@@ -47,6 +50,7 @@ simpleIDP_realm_suffix: "Local"
 
 ldap_hostname: ldap.slidev.org
 ldap_port: 389
+ldap_use_ssl: false
 ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
 ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{

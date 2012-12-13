@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.validation;
+
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  * Abstract validator.
@@ -25,18 +28,55 @@ package org.slc.sli.ingestion.validation;
  */
 public abstract class SimpleValidator<T> implements Validator<T> {
 
-    @Override
-    public abstract boolean isValid(T object, ErrorReport callback);
-
     /**
      * Helper to report a validation failure.
      *
-     * @param report Validation report callback
-     * @param message Validation message
+     * @param report
+     *            Validation report callback
+     * @param message
+     *            Validation message
      */
     protected void fail(ErrorReport report, String message) {
         if (report != null) {
             report.error(message, this);
+        }
+    }
+
+    /**
+     * Helper to report errors.
+     *
+     * @param report
+     *            report implementation for tracking and persisting errors.
+     * @param reportStats
+     *            statistics to be updated
+     * @param code
+     *            code associated with this error.
+     * @param args
+     *            optional arguments for substitution into message.
+     */
+    protected void error(AbstractMessageReport report, ReportStats reportStats, MessageCode code, Object... args) {
+        if (report != null) {
+            report.error(reportStats, code, args);
+            reportStats.incError();
+        }
+    }
+
+    /**
+     * Helper to report warnings.
+     *
+     * @param report
+     *            report implementation for tracking and persisting warnings.
+     * @param reportStats
+     *            statistics to be updated
+     * @param code
+     *            code associated with this warning.
+     * @param args
+     *            optional arguments for substitution into message.
+     */
+    protected void warn(AbstractMessageReport report, ReportStats reportStats, MessageCode code, Object... args) {
+        if (report != null) {
+            report.warning(reportStats, code, args);
+            reportStats.incWarning();
         }
     }
 

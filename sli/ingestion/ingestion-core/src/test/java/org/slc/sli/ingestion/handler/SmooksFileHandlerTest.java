@@ -39,7 +39,9 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
+import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -125,7 +127,7 @@ public class SmooksFileHandlerTest {
 
     @Test
     public void testXsdPreValidation() throws IOException, SAXException, NoSuchFieldException {
-        Smooks smooks = Mockito.mock(Smooks.class);
+        SliSmooks smooks = Mockito.mock(SliSmooks.class);
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
         Mockito.when(
                 factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(ErrorReport.class))).thenReturn(smooks);
@@ -136,6 +138,10 @@ public class SmooksFileHandlerTest {
                 xmlFile.getAbsolutePath(), "", lz.getLZId());
         ife.setFile(xmlFile);
         ErrorReport errorReport = Mockito.mock(ErrorReport.class);
+
+        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance("", "", errorReport, ife);
+        Mockito.when(
+                smooks.getFirstSmooksEdFiVisitor()).thenReturn(visitor);
 
         smooksFileHandler.handle(ife, errorReport);
         Mockito.verify(errorReport, Mockito.never()).error(Mockito.anyString(), Mockito.anyObject());

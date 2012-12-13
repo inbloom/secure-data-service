@@ -52,7 +52,7 @@ class BaseEntity
   end
 
   def bit_choose()
-    rand(2) == 1
+    @rand.rand(2) == 1
   end
 
 end
