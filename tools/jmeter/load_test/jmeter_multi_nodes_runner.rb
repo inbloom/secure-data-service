@@ -2,15 +2,15 @@ require 'nokogiri'
 require 'json'
 
 JMETER_EXEC = "#{ARGV[0]}/bin/jmeter"
-RUNNER_HOME = File.dirname(__FILE__)
-CONFIG_HOME = "#{RUNNER_HOME}/.."
+RUNNER_HOME = File.dirname(File.absolute_path(__FILE__))
+CONFIG_HOME = "#{RUNNER_HOME.split('/')[0..-2].join('/')}"
 JMETER_PROP = "#{CONFIG_HOME}/local.properties"
 RESULT_DIR = "#{RUNNER_HOME}/result"
 RESULT_JSON_FILE = "#{RESULT_DIR}/result.json"
 JTL_FILE_PREFIX = "test"
 TOTAL_LABEL = "total"
 MAX_AVG_ELAPSED_TIME = 30000
-REMOTE_SERVERS = ["localhost","192.168.0.9"]
+REMOTE_SERVERS = ["localhost"]
 class Sample
   attr_accessor :elapsed_time, :latency, :timestamp, :success_flag, :label, :response_code, :response_message,
                 :thread_name, :data_type, :bytes
@@ -37,7 +37,7 @@ end
 
 def run_jmeter(jmx_file, jtl_file, thread_count)
   File.delete(jtl_file) if File.exist? jtl_file
-  command = "#{JMETER_EXEC} -n -G#{JMETER_PROP} -t #{jmx_file} -l #{jtl_file} -Gthreads=#{thread_count} -Gloops=1 -R #{REMOTE_SERVERS.join(',')}"
+  command = "#{JMETER_EXEC} -n -t #{jmx_file} -G #{JMETER_PROP}  -l #{jtl_file} -Gthreads=#{thread_count} -Gloops=1 -R #{REMOTE_SERVERS.join(',')}"
 
   p "Spawning process command: #{command}"
   pid = Process.spawn(command)
