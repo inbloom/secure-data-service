@@ -206,6 +206,7 @@ end
 if __FILE__ == $PROGRAM_NAME
   if ARGV.size != 2
     puts "Usage: ruby #{$PROGRAM_NAME} <data directory> <ID replacement directory>"
+    exit
   end
 
   directory = ARGV[0]
