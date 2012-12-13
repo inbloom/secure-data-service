@@ -40,11 +40,13 @@ class DataUtility
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------
   # create state education agency's state organization id
   def self.get_state_education_agency_id(id)
+    return id if id.kind_of? String
     "stte-" + pad_id_with_zeroes(id, 10)
   end
 
   # create local education agency's state organization id
   def self.get_local_education_agency_id(id)
+    return id if id.kind_of? String
     "locl-" + pad_id_with_zeroes(id, 10)
   end
 
@@ -94,10 +96,18 @@ class DataUtility
   end
 
   # create a unique section id
-  def self.get_unique_section_id(id, offering)
-    "sctn-" + pad_id_with_zeroes(offering, 5) + pad_id_with_zeroes(id, 5)
+  def self.get_unique_section_id(id)
+    "sctn-" + pad_id_with_zeroes(id, 10)
   end
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
+  #-----------   INTERCHANGE: STUDENT PROGRAM   -----------
+
+  # create a program id
+  def self.get_program_id(id)
+    "prgm-" + pad_id_with_zeroes(id, 10)
+  end
+
+  #-----------   INTERCHANGE: STUDENT PROGRAM   -----------
 
   # returns a randomly selected grade for the specified school 'type'
   def self.get_random_grade_for_type(prng, type)
@@ -131,11 +141,9 @@ class DataUtility
   # create the id for the school based on the given type
   def self.get_school_id(id, type)
     return id if id.kind_of? String
-    case type
-    when :elementary then get_elementary_school_id id
-    when :middle then get_middle_school_id id
-    when :high then get_high_school_id id
-    end
+    return get_elementary_school_id id if type == :elementary || type == "elementary"
+    return get_middle_school_id id if type == :middle || type == "middle"
+    return get_high_school_id id if type == :high || type == "high"
   end
 
   def self.pad_id_with_zeroes(id, num_zeroes)

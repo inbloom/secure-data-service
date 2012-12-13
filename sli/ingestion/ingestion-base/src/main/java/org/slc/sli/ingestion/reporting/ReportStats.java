@@ -25,10 +25,11 @@ package org.slc.sli.ingestion.reporting;
 public interface ReportStats {
 
     /**
+     * The source that the stats correspond to.
      *
-     * @return String description of the context scope;
+     * @return Source object
      */
-    String getContext();
+    Source getSource();
 
     /**
      * Increase the error count by one.

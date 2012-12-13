@@ -23,7 +23,8 @@ package org.slc.sli.ingestion.reporting;
  *
  */
 public enum CoreMessageCode implements MessageCode {
-    ATTENDANCE_TRANSFORMER_WRNG_MSG1;
+    ATTENDANCE_TRANSFORMER_WRNG_MSG1,
+    CORE_0001, CORE_0002, CORE_0003, CORE_0014;
 
     @Override
     public String getCode() {

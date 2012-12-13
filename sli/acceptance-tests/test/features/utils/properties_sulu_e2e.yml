@@ -50,6 +50,7 @@ simpleIDP_realm_suffix: "Local"
 
 ldap_hostname: localhost #local.slidev.org
 ldap_port: 1636
+ldap_use_ssl: true
 ldap_base: "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org"
 ldap_admin_user: cn=Admin,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{

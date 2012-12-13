@@ -37,7 +37,7 @@ end
 Given /^I am a SLC Admin "([^"]*)" from the "([^"]*)" hosted directory logging in for the first time$/ do |arg1, arg2|
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
   @ldap.delete_user_attribute(arg1, :emailtoken)
 end
 
@@ -52,7 +52,7 @@ end
 When /^I visit the link sent to "(.*?)"$/ do |arg1|
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
   user = @ldap.read_user(arg1)
   resetKey = user[:resetKey].split("@")[0]
   @driver.get(PropLoader.getProps['admintools_server_url'] + "/resetPassword?key=" + resetKey)

@@ -54,8 +54,15 @@ class EducationalEnvironmentType
   EducationalEnvironmentType.define :SELF_STUDY, "Self-study"
   EducationalEnvironmentType.define :SHOP, "Shop"
 
-  # returns the ed-fi compliant string representation for an educational environment type
-  def self.to_string(type)
+  # translates the specified Symbol into the ed-fi compliant String representation of the educational environment type
+  # -> returns nil if the Symbol doesn't exist
+  def self.get(key)
     const_get(key)
+  end
+
+  # translates the specified String representation of the education environment type into a Symbol
+  # -> returns nil if the String representation doesn't map to a Symbol
+  def self.to_symbol(value)
+    get_key(value)
   end
 end

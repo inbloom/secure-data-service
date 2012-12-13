@@ -25,6 +25,7 @@ sandbox: &sandbox
 ldap_default: &ldap_default
     ldap_host: ldap.slidev.org
     ldap_port: 389
+    ldap_use_ssl: false
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: 59bdc807a0b83b9ad8bab0e5ba8a6ed5
 
