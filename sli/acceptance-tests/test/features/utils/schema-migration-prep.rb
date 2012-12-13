@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'json'
+require 'active_support/core_ext/hash/deep_merge'
 
 if (ARGV.size != 3)
   puts " How to use... "
@@ -24,67 +25,90 @@ if (ARGV.size != 3)
   exit
 end
 
-# Modify schema
 
-schemaFilename = ARGV[0]
-
-xsd = File.read(schemaFilename)
-upversioned_xsd = xsd.gsub(%r{<sli:schemaVersion>\d*</sli:schemaVersion>}, '<sli:schemaVersion>999999</sli:schemaVersion>')
-
-# add new field to EducationOrganization
-insert_index = upversioned_xsd.index("<xs:element minOccurs=\"0\" name=\"teacherUniqueStateId\"")
-
-new_schema_field = "<xs:element name=\"favoriteSubject\" type=\"xs:string\"/>\n"
-upversioned_xsd.insert(insert_index,new_schema_field)
-
-
-File.open(schemaFilename, 'w') {|f| f.write(upversioned_xsd)}
-
-
-
-# Modify migration configuration
-
-src_migration_config_filename = ARGV[1]
-dst_migration_config_filename = ARGV[2]
-
-src_migration_config = File.read(src_migration_config_filename)
-dst_migration_config = File.read(dst_migration_config_filename)
-
-src_hash = JSON.parse src_migration_config
-dst_hash = JSON.parse dst_migration_config
-
-ENTITIES = "entities"
-
-src_hash[ENTITIES].each_pair do |entity_name,version_update|
-
-	if(dst_hash[ENTITIES].nil?)
-		dst_hash[ENTITIES] = Hash.new
-	end
-
-	if (!dst_hash[ENTITIES].has_key? (entity_name))
-		dst_hash[ENTITIES][entity_name] = Hash.new
-	end
-
-	version_update.each_pair do |version_number,migration|
-		dst_hash[ENTITIES][entity_name][version_number] = migration
-	end
+def main
+	modify_complex_types_schema()
+	merge_migration_config()
 end
 
-new_dst_json = dst_hash.to_json
+
+def modify_complex_types_schema
+	schemaFilename = ARGV[0]
+	xsd = File.read(schemaFilename)
+
+	xsd = update_version_numbers(xsd)
+	xsd = add_new_field(xsd)
+	xsd = remove_field(xsd)
+	xsd = rename_field(xsd)
+
+	File.open(schemaFilename, 'w') {|f| f.write(xsd)}
+end
 
 
-File.open(dst_migration_config_filename, 'w') {|f| f.write(new_dst_json)}
+
+def update_version_numbers(xsd)
+	# replace existing version numbers with 999999
+	upversioned_xsd = xsd.gsub(%r{<sli:schemaVersion>\d*</sli:schemaVersion>}, '<sli:schemaVersion>999999</sli:schemaVersion>')
+	return upversioned_xsd
+end
+
+
+def add_new_field(xsd)
+	# add new field to staff
+	insert_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ")
+
+	new_schema_field = "<xs:element name=\"favoriteSubject\" type=\"xs:string\"/>\n"
+	xsd.insert(insert_index,new_schema_field)
+	return xsd
+end
+
+
+def remove_field(xsd)
+
+	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ") 
+	begin_index = xsd.index("<xs:element name=\"sex\"",entity_index)
+	end_index = xsd.index("</xs:element>",begin_index) + "</xs:element>".length - 1
+
+	xsd.slice!(begin_index..end_index)
+
+	return xsd
+end
+
+
+def rename_field(xsd)
+
+	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ")
+	begin_index = xsd.index("\"name\"",entity_index)
+
+	xsd[begin_index+1..begin_index+4] = "nameData"
+
+	return xsd
+end
+
+
+def merge_migration_config()
+	# Modify migration configuration
+
+	src_migration_config_filename = ARGV[1]
+	dst_migration_config_filename = ARGV[2]
+
+	src_migration_config = File.read(src_migration_config_filename)
+	dst_migration_config = File.read(dst_migration_config_filename)
+
+	src_hash = JSON.parse src_migration_config
+	dst_hash = JSON.parse dst_migration_config
+
+	combined_hash = src_hash.deep_merge(dst_hash)
+	
+	new_dst_json = combined_hash.to_json
+
+	File.open(dst_migration_config_filename, 'w') {|f| f.write(new_dst_json)}
+end
 
 
 
 
-
-
-
-
-
-
-
-
+# execute main 
+main()
 
 

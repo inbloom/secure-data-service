@@ -24,7 +24,10 @@ Feature: Entity versioning and migration strategies
 
   @DB_MIGRATION_AFTER_UPVERSIONING
   Scenario: API requests for an student get transformed using the test transformation
-    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/vnd.slc+json"  
-    When I navigate to GET "/<STUDENT URI>/<'Preston Muchow' ID>"
-    Then "favoriteFood" should be "ice cream"
+    When I navigate to GET "/<STAFF URI>/<'Rick Rogers' ID>"
+    Then "favoriteSubject" should be "Math"
+    And "sex" should not exist
+    And "name" should not exist
+    And "nameData" should exist

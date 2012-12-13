@@ -1,12 +1,44 @@
 {
     "entities":{
-        "teacher": {
-            "999999": {
+        "staff": {
+            "999999": [
+            {
                 "ADD": {
                     "fieldName": "favoriteSubject",
                     "defaultValue": "Math"
                 }            
-            }
+            },
+            {
+                "REMOVE": {
+                    "fieldName": "sex"
+                }
+            },
+            {
+                "RENAME": {
+                    "oldFieldName": "name",
+                    "newFieldName": "nameData"
+                }
+            }]
+        },
+        "teacher": {
+            "999999": [
+            {
+                "ADD": {
+                    "fieldName": "favoriteSubject",
+                    "defaultValue": "Math"
+                }            
+            },
+            {
+                "REMOVE": {
+                    "fieldName": "sex"
+                }
+            },
+            {
+                "RENAME": {
+                    "oldFieldName": "name",
+                    "newFieldName": "nameData"
+                }
+            }]
         }
     }
 }
