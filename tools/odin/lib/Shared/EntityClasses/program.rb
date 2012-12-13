@@ -31,6 +31,6 @@ class Program < BaseEntity
     @rand = prng
     @type = choose(ProgramType.all)
     @sponsor = choose(ProgramSponsorType.all)
-    @services = ["Service for Program " + id]
+    @services = ["Service for Program " + id.to_s]
   end
 end
