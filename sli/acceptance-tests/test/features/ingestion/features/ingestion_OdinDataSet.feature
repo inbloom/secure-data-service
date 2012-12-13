@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                 21|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 2106 records." in the resulting batch job file
+    And I should see "Processed 2146 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -170,4 +170,4 @@ Scenario: Verify entities in student school association were ingested correctly
     And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
      | graduationPlan              | 1                   | _id                                      | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
-     | studentSchoolAssociation    | 3                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+     | studentSchoolAssociation    | 5                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
