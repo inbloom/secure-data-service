@@ -65,25 +65,25 @@ end
 
 def remove_field(xsd)
 
-#<xs:element name="sex" type="sexType">
-#				<xs:annotation>
-#					<xs:documentation>A person's gender.</xs:documentation>
-#					<xs:appinfo>
-#						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-#						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-#					</xs:appinfo>
-#				</xs:annotation>
-#			</xs:element>
+	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ") 
+	begin_index = xsd.index("<xs:element name=\"sex\"",entity_index)
+	end_index = xsd.index("</xs:element>",begin_index) + "</xs:element>".length - 1
 
+	xsd.slice!(begin_index..end_index)
 
 	return xsd
 end
 
 
 def rename_field(xsd)
+
+	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ")
+	begin_index = xsd.index("\"name\"",entity_index)
+
+	xsd[begin_index+1..begin_index+4] = "nameData"
+
 	return xsd
 end
-
 
 
 def merge_migration_config()

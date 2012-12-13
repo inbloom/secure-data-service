@@ -21,7 +21,7 @@ require 'mongo'
 require 'rest-client'
 require 'rexml/document'
 include REXML
-require_relative '../utils/api_utils.rb'
+require_relative '../../apiV1/utils/api_utils.rb'
 require_relative '../../utils/sli_utils.rb'
 
 
@@ -33,9 +33,8 @@ require_relative '../../utils/sli_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  id = "students"                                   if human_readable_id == "STUDENT URI"
-  
-  id = "0636ffd6-ad7d-4401-8de9-40538cf696c8" if human_readable_id == "'Preston Muchow' ID"
+  id = "staff"                                   if human_readable_id == "STAFF URI"
+  id = "85585b27-5368-4f10-a331-3abcaf3a3f4c"    if human_readable_id == "'Rick Rogers' ID"
     
   #return the translated value
   id
@@ -100,6 +99,21 @@ Then /^"([^\"]*)" field is "([^\"]*)" for all records$/ do |field, value|
   end
 end
 
+Then /^"([^\"]*)" should exist$/ do |arg1|
+  @result = @res if !defined? @result
+
+  assert(@result.has_key?(arg1), "Expected '#{arg1}' field should exist")
+end
+
+Then /^"([^\"]*)" should not exist$/ do |arg1|
+  @result = @res if !defined? @result
+
+  assert(@result.has_key?(arg1) == false, "Expected '#{arg1}' field should not exist")
+end
+
+
+
+
 ###############################################################################
 # AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER
 ###############################################################################
@@ -107,3 +121,9 @@ end
 After do
   @conn.close if !@conn.nil?
 end
+
+
+
+
+
+
