@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.BufferedInputStream;
@@ -32,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
@@ -101,8 +101,10 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 return false;
 
             } catch (FileNotFoundException ex) {
-                // DE1618 Gluster may have lost track of the file, or it has been deleted from under us
-                String message = zipFile.getAbsolutePath() + " cannot be found. If the file is not processed, please resubmit.";
+                // DE1618 Gluster may have lost track of the file, or it has been deleted from under
+                // us
+                String message = zipFile.getAbsolutePath()
+                        + " cannot be found. If the file is not processed, please resubmit.";
                 LOG.error(message, ex);
                 fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
                 done = true;
@@ -127,7 +129,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                     }
                 }
             } finally {
-               IOUtils.closeQuietly(zis);
+                IOUtils.closeQuietly(zis);
                 IOUtils.closeQuietly(fis);
             }
         }
@@ -141,9 +143,9 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             return true;
         }
 
-
-        //UN: This check is to ensure that any zipping utility which does not pack a directory entry
-        //    is verified by checking for a filename with '/'. Example: Windows Zipping Tool.
+        // UN: This check is to ensure that any zipping utility which does not pack a directory
+        // entry
+        // is verified by checking for a filename with '/'. Example: Windows Zipping Tool.
         if (zipEntry.getName().contains("/")) {
             return true;
         }
@@ -152,8 +154,84 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
     }
 
     @Override
-    public boolean isValid(File object, AbstractMessageReport report, ReportStats reportStats) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats) {
+        FileInputStream fis = null;
+        ZipArchiveInputStream zis = null;
+
+        boolean isValid = false;
+
+        boolean done = false;
+        long clockTimeout = System.currentTimeMillis() + zipfileTimeout;
+
+        LOG.info("Validating " + zipFile.getAbsolutePath());
+
+        while (!done) {
+
+            try {
+                fis = new FileInputStream(zipFile);
+                zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
+
+                ArchiveEntry ze;
+
+                while ((ze = zis.getNextEntry()) != null) {
+
+                    if (isDirectory(ze)) {
+                        error(report, reportStats, BaseMessageCode.SL_ERR_MSG15, zipFile.getName());
+                        return false;
+                    }
+
+                    if (ze.getName().endsWith(".ctl")) {
+                        isValid = true;
+                    }
+                }
+
+                // no manifest (.ctl file) found in the zip file
+                if (!isValid) {
+                    error(report, reportStats, BaseMessageCode.SL_ERR_MSG5, zipFile.getName());
+                }
+
+                done = true;
+
+            } catch (UnsupportedZipFeatureException ex) {
+                // Unsupported compression method
+                error(report, reportStats, BaseMessageCode.SL_ERR_MSG18, zipFile.getName());
+                done = true;
+                return false;
+
+            } catch (FileNotFoundException ex) {
+                // DE1618 Gluster may have lost track of the file, or it has been deleted from under
+                // us
+                String message = zipFile.getAbsolutePath()
+                        + " cannot be found. If the file is not processed, please resubmit.";
+                LOG.error(message, ex);
+                error(report, reportStats, BaseMessageCode.SL_ERR_MSG4, zipFile.getName());
+                done = true;
+                return false;
+
+            } catch (IOException ex) {
+                LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
+                ex.printStackTrace();
+                if (System.currentTimeMillis() >= clockTimeout) {
+                    // error reading zip file
+                    error(report, reportStats, BaseMessageCode.SL_ERR_MSG4, zipFile.getName());
+                    LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
+                    done = true;
+                    return false;
+                } else {
+                    try {
+                        LOG.info("Waiting for " + zipFile.getAbsolutePath() + "to move.");
+                        Thread.sleep(zipfilePollInterval);
+                    } catch (InterruptedException e) {
+                        // Restore the interrupted status
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            } finally {
+                IOUtils.closeQuietly(zis);
+                IOUtils.closeQuietly(fis);
+            }
+        }
+
+        return isValid;
     }
 }

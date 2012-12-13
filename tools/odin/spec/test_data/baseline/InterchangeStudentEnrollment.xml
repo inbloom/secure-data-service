@@ -117,11 +117,21 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>
@@ -131,394 +141,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>First grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>
     <StudentIdentity>
       <StudentUniqueStateId>1</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Second grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>First grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Second grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Third grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Second grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Third grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Third grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2003-09-01</EntryDate>
-    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2001-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2002-09-01</EntryDate>
-    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-   <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SchoolReference>
@@ -528,6 +170,424 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Distinguished</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Third grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Third grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Third grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2001-09-01</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2003-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
 <StudentSectionAssociation>
     <StudentReference>
@@ -539,10 +599,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000100001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000001</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -557,10 +617,64 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000800001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000002</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000003</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000004</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000005</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -575,10 +689,118 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001500001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000007</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000008</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000013</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000014</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000015</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000016</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -593,10 +815,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000200001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000025</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -611,10 +833,64 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000900001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000026</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000027</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000028</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000041</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -629,10 +905,118 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001600001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000042</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000043</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000044</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000049</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000050</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000051</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000052</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -647,10 +1031,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000300001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000029</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -665,10 +1049,64 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001000001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000030</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000031</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000032</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000037</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -683,10 +1121,118 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001700001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000038</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000039</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000040</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000021</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000022</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000023</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000024</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -701,10 +1247,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000400001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000033</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -719,10 +1265,64 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001100001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000034</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000035</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000036</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2001-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000009</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -737,10 +1337,118 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001800001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000010</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000011</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000012</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2002-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000017</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000018</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000019</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000020</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -758,7 +1466,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000500001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000061</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -776,7 +1484,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001200001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000071</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -791,64 +1499,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004300001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004400001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004500001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004600001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000075</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -866,7 +1520,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0000600001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000062</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -881,10 +1535,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003100001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000070</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -899,118 +1553,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003200001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003300001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003400001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004700001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004800001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004900001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005000001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000074</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -1025,10 +1571,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0001900001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000063</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -1043,64 +1589,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002000001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002100001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002200001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003500001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000069</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -1115,118 +1607,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003600001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003700001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003800001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005100001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005200001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005300001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>7</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005400001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000073</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -1241,10 +1625,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002300001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000064</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -1259,64 +1643,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002400001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002500001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002600001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003900001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000068</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -1331,64 +1661,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004000001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004100001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0004200001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0008700001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000072</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -1396,53 +1672,53 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0008800001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000065</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
+    <BeginDate>2001-09-01</BeginDate>
 </StudentSectionAssociation>
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0008900001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000067</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
+    <BeginDate>2002-09-01</BeginDate>
 </StudentSectionAssociation>
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009000001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000057</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -1460,10 +1736,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002700001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000058</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
+    <BeginDate>2003-09-01</BeginDate>
 </StudentSectionAssociation>
 <StudentSectionAssociation>
     <StudentReference>
@@ -1478,10 +1754,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002800001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000059</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
+    <BeginDate>2003-09-01</BeginDate>
 </StudentSectionAssociation>
 <StudentSectionAssociation>
     <StudentReference>
@@ -1496,7 +1772,25 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0002900001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000060</UniqueSectionCode>
+    </SectionIdentity>
+  </SectionReference>
+    <BeginDate>2003-09-01</BeginDate>
+</StudentSectionAssociation>
+<StudentSectionAssociation>
+    <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+    <SectionReference>
+    <SectionIdentity>
+      <EducationalOrgReference>
+        <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationalOrgReference>
+      <UniqueSectionCode>sctn-0000000066</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2001-09-01</BeginDate>
@@ -1504,7 +1798,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
@@ -1514,25 +1808,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0003000001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007100001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000045</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -1540,17 +1816,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007200001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000046</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -1558,17 +1834,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007300001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000047</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -1576,17 +1852,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007400001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000048</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2002-09-01</BeginDate>
@@ -1594,71 +1870,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 <StudentSectionAssociation>
     <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
     <SectionReference>
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009100001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009200001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009300001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>9</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009400001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000053</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -1673,154 +1895,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005500001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005600001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005700001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0005800001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2001-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007500001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007600001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007700001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0007800001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2002-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009500001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000054</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -1835,10 +1913,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009600001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000055</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>
@@ -1853,28 +1931,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SectionIdentity>
       <EducationalOrgReference>
         <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009700001</UniqueSectionCode>
-    </SectionIdentity>
-  </SectionReference>
-    <BeginDate>2003-09-01</BeginDate>
-</StudentSectionAssociation>
-<StudentSectionAssociation>
-    <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-    <SectionReference>
-    <SectionIdentity>
-      <EducationalOrgReference>
-        <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationalOrgReference>
-      <UniqueSectionCode>sctn-0009800001</UniqueSectionCode>
+      <UniqueSectionCode>sctn-0000000056</UniqueSectionCode>
     </SectionIdentity>
   </SectionReference>
     <BeginDate>2003-09-01</BeginDate>

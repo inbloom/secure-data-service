@@ -21,9 +21,9 @@ require_relative 'enum/GradeLevelType'
 require_relative '../data_utility'
 
 class StudentSchoolAssociation < BaseEntity
-  attr_accessor :studentId, :schoolStateOrgId, :startYear, :startGrade
+  attr_accessor :studentId, :schoolStateOrgId, :startYear, :startGrade, :gradPlan
 
-  def initialize(studentId, schoolId, startYear, grade)
+  def initialize(studentId, schoolId, startYear, grade, gradPlan = nil)
 
     if startYear.nil?
       exit -1
@@ -37,6 +37,7 @@ class StudentSchoolAssociation < BaseEntity
     @schoolStateOrgId = DataUtility.get_school_id(schoolId, GradeLevelType.school_type(grade))
     @startYear = startYear
     @startGrade = GradeLevelType.get(grade)
+    @gradPlan = gradPlan
   end
   
 end
