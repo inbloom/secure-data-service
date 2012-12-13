@@ -21,6 +21,8 @@ limitations under the License.
 # RUN JMETER TESTS
 ###############################################################################
 
+require 'xml'
+
 JMETER_PATH = "../../../../../../tools/jmeter/"
 PROPERTIES_FILE = "local.properties"
 
@@ -39,4 +41,28 @@ def runTest(testName)
   	jMeterCommand = "jmeter -n -t " + jmxFileName + " -q " + propertiesFileName
   	puts "executing: " + jMeterCommand
   	system jMeterCommand
+	parseJtlForRC(testName)
+end
+
+def parseJtlForRC(testName)
+	rcMap = {}
+	fileName = testName + ".jtl"
+	doc = loadXML(fileName)
+	doc.find('//httpSample').each do |sample|
+    	label = sample.attributes["lb"]
+    	rc = sample.attributes["rc"]
+    	rcMap[label] = rc
+    	#sample.attributes.each do |attribute|
+    	#	puts attribute.name + " : " + attribute.value
+    	#end
+    	puts label + " : " + rc
+  	end
+  	rcMap
+end
+
+def loadXML(fileName)
+	xml = File.read(fileName)
+	parser = XML::Parser.new
+	parser.string = xml
+	parser.parse
 end
