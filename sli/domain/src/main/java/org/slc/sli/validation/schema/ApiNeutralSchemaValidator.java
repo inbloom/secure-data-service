@@ -17,12 +17,9 @@
 package org.slc.sli.validation.schema;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +32,6 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 
@@ -53,9 +49,6 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
 
     private static final DeterministicUUIDGeneratorStrategy DETERMINISTIC_UUID_GENERATOR = new DeterministicUUIDGeneratorStrategy();
 
-    private static final boolean INSERT_OR_UPDATE = true;
-    private static final boolean PATCH = false;
-
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
 
@@ -63,10 +56,11 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
      * Validates natural keys against a given entity
      *
      * @param entity
+     * @param overWrite whether this operation is a complete write or overwrite (ie not a partial PATCH)
      * @return
      */
     @Override
-    public void validateNaturalKeys(final Entity entity, boolean clearOriginal) throws NaturalKeyValidationException {
+    public void validateNaturalKeys(final Entity entity, boolean overWrite) throws NaturalKeyValidationException {
         String collectionName = entity.getType();
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
 
@@ -100,7 +94,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
 
                 Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
                 if (existingEntity != null) {
-                    this.validateNaturalKeysUnchanged(existingEntity, entity, naturalKeyFields, clearOriginal);
+                    this.validateNaturalKeysUnchanged(existingEntity, entity, naturalKeyFields, overWrite);
                 }
             } else {
                 this.validateNaturalKeyDoesNotConflictWithExistingDocument(entity, collectionName, naturalKeyFields);

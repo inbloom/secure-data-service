@@ -129,9 +129,9 @@ public class SliSchemaVersionValidator {
                     if (dbObject == null) {
                         Map<String, Object> objectToSave = new HashMap<String, Object>();
                         objectToSave.put(ID, neutralSchema.getType());
-                        objectToSave.put(DAL_SV, 1);
-                        objectToSave.put(MONGO_SV, 1);
-                        objectToSave.put(SARJE, 0);
+                        objectToSave.put(DAL_SV, schemaVersion);
+                        objectToSave.put(MONGO_SV, schemaVersion - 1);
+                        objectToSave.put(SARJE, 1);
                         this.mongoTemplate.insert(objectToSave, METADATA_COLLECTION);
                     } else {
                         int lastKnownDalVersion = Double.valueOf(dbObject.get(DAL_SV).toString()).intValue();
