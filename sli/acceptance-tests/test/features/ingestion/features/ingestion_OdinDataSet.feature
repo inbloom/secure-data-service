@@ -2,7 +2,7 @@
 Feature: Odin Data Set Ingestion Correctness and Fidelity
 
 Background: I have a landing zone route configured
-Given I am using odin data store
+Given I am using odin data store 
 
 Scenario: Post Odin Sample Data Set
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -156,11 +156,40 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 3                   | schools.edOrgs                           | a13489364c2eb015c219172d561c62350f0453f3_id   | string               |   
      | student                     | 10                  | schools.edOrgs                           | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |   
 
-Scenario: Verify entities in specific student document ingested correctly: Populated Database
-  When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"
-    Then the student entity body.race should be "White"
-    And the student entity body.limitedEnglishProficiency should be "NotLimited"
-    And the student entity body.schoolFoodServicesEligibility should be "Reduced price"  
-    And the student entity schools.entryGradeLevel should be "Kindergarten"
-    And the student entity schools.entryGradeLevel should be "First grade" 
-    And the student entity schools.entryGradeLevel should be "Second grade" 
+Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database
+  When I can find a "staff" with "body.teacherUniqueStateId" "rbraverman" in tenant db "Midgar"
+    Then the "staff" entity "type" should be "teacher"
+    And the "staff" entity "body.race" should be "White"
+    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+    And the "staff" entity "body.sex" should be "Female"  
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "No Degree"
+    And the "staff" entity "body.birthDate" should be "1981-02-07" 
+
+Scenario: Verify specific staff document for Charles Gray ingested correctly: Populated Database
+  When I can find a "staff" with "body.teacherUniqueStateId" "cgray" in tenant db "Midgar"
+    Then the "staff" entity "type" should be "teacher"
+    And the "staff" entity "body.race" should be "White"
+    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+    And the "staff" entity "body.sex" should be "Male"  
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Bachelor's" 
+    And the "staff" entity "body.birthDate" should be "1983-11-09" 
+
+Scenario: Verify specific staff document for Linda Kim ingested correctly: Populated Database
+  When I can find a "staff" with "body.teacherUniqueStateId" "linda.kim" in tenant db "Midgar"
+    Then the "staff" entity "type" should be "teacher"
+    And the "staff" entity "body.race" should be "White"
+    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+    And the "staff" entity "body.sex" should be "Female"  
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Master's" 
+    And the "staff" entity "body.birthDate" should be "1966-01-14" 
+
+Scenario: Verify superdoc studentSchoolAssociation for specific _id ingested correctly: Populated Database
+  #When I can find a "studentSchoolAssociation" with "_id" "bbe01f0a3de4e1b35d86397a26ddd0007fd8296a_id" in tenant db "Midgar"
+  When Examining the "studentSchoolAssociation" collection references
+    Then "studentSchoolAssociation" references "educationOrganization" "_id" with "body.schoolId"
+    And "studentSchoolAssociation" references "student" "_id" with "body.studentId"
+    And "studentSchoolAssociation" references "student" "schools._id" with "body.schoolId"
+    And "studentSchoolAssociation" references "student" "schools.entryDate" with "body.entryDate"
+    And "studentSchoolAssociation" references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
+
+
