@@ -144,6 +144,9 @@ Before do
         end
       end
 
+      if path.start_with?("c:")
+        path = path.sub("c:", "C:");
+      end
 
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
