@@ -11,7 +11,7 @@ Feature: Entity versioning and migration strategies
   @DB_MIGRATION_AFTER_API_STARTS
   Scenario: Check that after starting the API, documents exist in the collection
     Then there should be 41 records in the "metaData" collection
-    And "SARJE" field is "1" for all records
+    And "SARJE" field is "0" for all records
     And "mongo_sv" field is "1" for all records
     And "dal_sv" field is "1" for all records
 
