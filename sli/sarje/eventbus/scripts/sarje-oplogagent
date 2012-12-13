@@ -18,7 +18,7 @@ DAEMON_CONFIG="$SARJE_HOME/conf/minislirp-oplogagent-1-config.yml"
 DAEMON="$SARJE_HOME/oplogagent_daemon.rb"
 
 PIDFILE=$SARJE_HOME/run/oplogagent.pid
-LOG_FILE=$SARJE_HOME/log/oplogagent.pid
+LOG_FILE=$SARJE_HOME/log/oplogagent.log
 RETVAL=0
 
 # If the daemon is not there, then exit.
