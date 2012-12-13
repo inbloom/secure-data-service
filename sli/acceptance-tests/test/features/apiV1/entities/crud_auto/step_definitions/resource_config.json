@@ -276,6 +276,7 @@
       "organizationCategories": [
         "State Education Agency"
       ],
+      "parentEducationAgencyReference": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "stateOrganizationId": "SomeUniqueSchoolDistrict-2422883",
       "nameOfInstitution": "Gotham City School District",
       "address": [

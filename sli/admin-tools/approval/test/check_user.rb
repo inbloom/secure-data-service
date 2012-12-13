@@ -57,7 +57,7 @@ if __FILE__ == $0
 
   config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
   puts "BASE: #{config['ldap_base']}"
-  ldap = LDAPStorage.new(config['ldap_host'], config['ldap_port'], config['ldap_base'], config['ldap_user'], config['ldap_pass'])
+  ldap = LDAPStorage.new(config['ldap_host'], config['ldap_port'], config['ldap_base'], config['ldap_user'], config['ldap_pass'], false)
 
   users = ldap.read_users
   puts "-------------------------------"

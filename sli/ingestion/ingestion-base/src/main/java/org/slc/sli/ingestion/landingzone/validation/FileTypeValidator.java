@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -42,12 +42,12 @@ public class FileTypeValidator extends IngestionFileValidator {
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
-            fail(callback, getFailureMessage("SL_ERR_MSG1", entry.getFileName(), "type"));
+            fail(callback, getFailureMessage("BASE_0005", entry.getFileName(), "type"));
 
             return false;
         }
 
-        if (isNotXMLFile(entry, callback)) {
+        if (isNotXMLFile(entry)) {
             return false;
         }
 
@@ -55,15 +55,15 @@ public class FileTypeValidator extends IngestionFileValidator {
     }
 
     /**
-     * This will assume it is an XML file to begin with.  It checks by simply looking
-     * at the file extension.  If the data inside the file is incorrect, it is caught
-     * further downstream as malformed XML.  There is already an acceptance test
+     * This will assume it is an XML file to begin with. It checks by simply looking
+     * at the file extension. If the data inside the file is incorrect, it is caught
+     * further downstream as malformed XML. There is already an acceptance test
      * covering this.
+     *
      * @param fileEntry
-     * @param errorReport
      * @return
      */
-    private boolean isNotXMLFile(IngestionFileEntry fileEntry, ErrorReport errorReport) {
+    private boolean isNotXMLFile(IngestionFileEntry fileEntry) {
         boolean isNotXML = false;
 
         String fileExtension = fileEntry.getFileName().substring(fileEntry.getFileName().lastIndexOf(".") + 1);
@@ -76,9 +76,21 @@ public class FileTypeValidator extends IngestionFileValidator {
     }
 
     @Override
-    public boolean isValid(FileEntryDescriptor object, AbstractMessageReport report, ReportStats reportStats) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+        IngestionFileEntry entry = item.getFileItem();
+        FileType fileType = entry.getFileType();
+
+        if (fileType == null) {
+            error(report, reportStats, BaseMessageCode.BASE_0005, entry.getFileName(), "type");
+
+            return false;
+        }
+
+        if (isNotXMLFile(entry)) {
+            return false;
+        }
+
+        return true;
     }
 
 }

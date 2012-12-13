@@ -1,0 +1,18 @@
+<h3>CI Node Health Check</h3>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>CI Node</th>
+			<th>Number of Failures</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @hosts.each { |host| %>
+		<tr>
+			<td><%=host[:name]%></td>
+			<td><%=host[:count]%></td>
+		</tr>
+	<% } %>
+	</tbody>
+</table>

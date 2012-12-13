@@ -285,7 +285,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      *
      * @return SmooksEdFiVisitor
      */
-    public final SmooksEdFiVisitor getFirstSmooksEdFiVisitor() {
+    public SmooksEdFiVisitor getFirstSmooksEdFiVisitor() {
         return sliVisitorConfigMap!= null ? sliVisitorConfigMap.get(0) : null;
     }
 

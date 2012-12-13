@@ -20,20 +20,12 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
-import org.milyn.Smooks;
 import org.milyn.SmooksException;
-import org.milyn.delivery.ContentHandlerConfigMapTable;
-import org.milyn.delivery.VisitorConfigMap;
-import org.milyn.delivery.sax.SAXVisitAfter;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +34,8 @@ import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -110,6 +104,20 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
+        return null;
+    }
+
+    @Override
+    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

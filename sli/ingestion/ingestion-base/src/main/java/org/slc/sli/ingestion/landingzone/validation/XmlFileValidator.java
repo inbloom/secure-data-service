@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.BufferedReader;
@@ -27,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -85,9 +85,46 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
     }
 
     @Override
-    public boolean isValid(IngestionFileEntry object, AbstractMessageReport report, ReportStats reportStats) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isValid(IngestionFileEntry fileEntry, AbstractMessageReport report, ReportStats reportStats) {
+        LOG.debug("validating xml...");
+
+        if (isEmptyOrUnreadable(fileEntry, report, reportStats)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isEmptyOrUnreadable(IngestionFileEntry fileEntry, AbstractMessageReport report,
+            ReportStats reportStats) {
+        boolean isEmpty = false;
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new FileReader(fileEntry.getFile()));
+            if (br.read() == -1) {
+                error(report, reportStats, BaseMessageCode.SL_ERR_MSG13, fileEntry.getFileName());
+                isEmpty = true;
+            }
+        } catch (FileNotFoundException e) {
+            LOG.error("File not found: " + fileEntry.getFileName(), e);
+            error(report, reportStats, BaseMessageCode.SL_ERR_MSG11, fileEntry.getFileName());
+            isEmpty = true;
+        } catch (IOException e) {
+            LOG.error("Problem reading file: " + fileEntry.getFileName());
+            error(report, reportStats, BaseMessageCode.SL_ERR_MSG12, fileEntry.getFileName());
+            isEmpty = true;
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                LogUtil.error(LOG, "Error closing buffered reader", e);
+            }
+        }
+
+        return isEmpty;
     }
 
 }
