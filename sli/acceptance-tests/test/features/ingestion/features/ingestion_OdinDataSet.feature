@@ -79,7 +79,7 @@ Then I should see following map of entry counts in the corresponding collections
      | grade                                    |                  0|
      | gradebookEntry                           |                  0|
      | gradingPeriod                            |                  6|
-     | graduationPlan                           |                  0|
+     | graduationPlan                           |                  3|
      | learningObjective                        |                  0|
      | learningStandard                         |                  0|
      | parent                                   |                  0|
@@ -91,9 +91,9 @@ Then I should see following map of entry counts in the corresponding collections
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 52|
+     | staff                                    |                 70|
      | staffCohortAssociation                   |                  0|
-     | staffEducationOrganizationAssociation    |                156|
+     | staffEducationOrganizationAssociation    |                168|
      | staffProgramAssociation                  |                  0|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
@@ -108,11 +108,11 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
-     | teacherSchoolAssociation                 |                  3|
-     | teacherSectionAssociation                |                  0|
-    And I should see "Processed 1974 records." in the resulting batch job file
+     | teacherSchoolAssociation                 |                 21|
+     | teacherSectionAssociation                |                 75|
+    And I should see "Processed 2106 records." in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
 
 Scenario: Verify entities in education organization calendar were ingested correctly: Populated Database
     And I check to find if record is in collection:
