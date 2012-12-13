@@ -172,65 +172,32 @@ public class PersistenceProcessorTest {
     public void testRecordHashIngestedforSimpleEntity() {
     	NeutralRecord originalRecord = createBaseNeutralRecord("simple");
     	
-    	Object rhTenantIdObj = originalRecord.getMetaDataByName("rhTenantId");   	
-    	List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");    	
-    	Map<String, Object> rhdata = rhData.get(0);
-    	
-    	Object rhId = rhdata.get("rhId");
-    	Object rhhash = rhdata.get("rhHash");
-
-    	String newHashValues = rhhash.toString();   	
-    	String recordId = rhId.toString();   	
-    	String tenantId = rhTenantIdObj.toString();
-        
-        RecordHash hash = createRecordHash(tenantId+newHashValues);
+    	Object rhTenantIdObj = originalRecord.getMetaDataByName("rhTenantId");   
     
-//    	doNothing().when(processor.batchJobDAO).insertRecordHash(tenantId, recordId, newHashValues);
-
-    	testRecordHashIngested(originalRecord, newHashValues, recordId,
-				tenantId, hash, 1);
+    	testRecordHashIngested(originalRecord,  1);
     }
 
     @Test
     public void testRecordHashIngestedforTransformedEntity() {
-    	NeutralRecord originalRecord = createBaseNeutralRecord("transformed");
-    	
-    	Object rhTenantIdObj = originalRecord.getMetaDataByName("rhTenantId");   	
-    	List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");    	
-    	
-		for (int i = 0; i < rhData.size(); i++) {
-			Map<String, Object> rhdata = rhData.get(i);
-			Object rhId = rhdata.get("rhId");
-			Object rhhash = rhdata.get("rhHash");
-
-			String newHashValues = rhhash.toString();
-			String recordId = rhId.toString();
-			String tenantId = rhTenantIdObj.toString();
-
-			RecordHash hash = createRecordHash(tenantId + newHashValues);
-
-			testRecordHashIngested(originalRecord, newHashValues, recordId,
-					tenantId, hash, rhData.size());
-		}
+		NeutralRecord originalRecord = createBaseNeutralRecord("transformed");
+		List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
+		testRecordHashIngested(originalRecord, rhData.size());
     }
 
-	private void testRecordHashIngested(NeutralRecord originalRecord,
-			String newHashValues, String recordId, String tenantId,
-			RecordHash hash, int count) {
+	private void testRecordHashIngested(NeutralRecord originalRecord, int count) {
 		recordHashTestPreConfiguration();
-    
-//    	doNothing().when(processor.batchJobDAO).insertRecordHash(tenantId, recordId, newHashValues);
-
-      	when(processor.getBatchJobDAO().findRecordHash(tenantId, recordId)).thenReturn(null);
+		
+      	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(null);
     	processor.upsertRecordHash(originalRecord); 	
-    	verify(processor.getBatchJobDAO(), times(count)).findRecordHash(tenantId, recordId);
-    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(tenantId, recordId, newHashValues);
+    	verify(processor.getBatchJobDAO(), times(count)).findRecordHash(any(String.class), any(String.class));
+    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class), any(String.class));
     	
-    	when(processor.getBatchJobDAO().findRecordHash(tenantId, recordId)).thenReturn(hash);
+    	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(createRecordHash("hash"));
     	processor.upsertRecordHash(originalRecord);
-    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(tenantId, hash, newHashValues);
+    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(String.class), any(RecordHash.class), any(String.class));
 	}
 
+	
 	private void recordHashTestPreConfiguration() {
 		BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
         processor.setBatchJobDAO(batchJobDAO);
@@ -240,14 +207,12 @@ public class PersistenceProcessorTest {
     	processor.setRecordLvlHashNeutralRecordTypes(recordTypes);
 	}
     
-
     private RecordHash createRecordHash(String rHash) {
         RecordHash hash = new RecordHash();
         hash.setId("RECORD_ID");
         hash.setHash(rHash);
         hash.setCreated(12345);
         hash.setUpdated(23456);
-        hash.setTenantId("tenantId");
         return hash;
     }
     
