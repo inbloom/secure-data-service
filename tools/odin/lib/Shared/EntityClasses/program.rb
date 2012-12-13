@@ -26,11 +26,22 @@ class Program < BaseEntity
   
   attr_accessor :id, :type, :sponsor, :services
 
-  def initialize(id, prng)
+  def initialize(prng, id, type = nil, sponsor = nil)
     @id   = DataUtility.get_program_id(id)
     @rand = prng
-    @type = choose(ProgramType.all)
-    @sponsor = choose(ProgramSponsorType.all)
+
+    if type.nil? 
+      @type = ProgramType.to_string(choose(ProgramType.all))
+    else
+      @type = ProgramType.to_string(type)
+    end
+    
+    if sponsor.nil?
+      @sponsor = ProgramSponsorType.to_string(choose(ProgramSponsorType.all))
+    else
+      @sponsor = ProgramSponsorType.to_string(sponsor)
+    end
+    
     @services = ["Service for Program " + id.to_s]
   end
 end
