@@ -462,6 +462,9 @@ task :loadDefaultIngestionTenants do
         "type" => "tenant",
         "body" => JSON.parse(IO.read("#{tenant_doc_dir}/#{file}"))
       }
+      doc["body"]["landingZone"].each do |lz|
+        lz["path"] = lz["path"].gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+      end
       tenants << doc
     end
     tenants
@@ -494,7 +497,10 @@ task :loadDefaultIngestionTenants do
       lz_path = lz["path"]
       Dir.mkdir(parent_lz_path) if !Dir.exists?(parent_lz_path)
       Dir.chdir(parent_lz_path) do
-        new_path = Dir.getwd
+        new_path = Dir.getwd.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+	if new_path.start_with?("c:")
+	  new_path = new_path.sub("c:", "C:");
+	end
         lz["path"].replace(lz_path.gsub(lzpath_placeholder, new_path))
         Dir.mkdir(lz["path"]) if !Dir.exists?(lz["path"])
       end

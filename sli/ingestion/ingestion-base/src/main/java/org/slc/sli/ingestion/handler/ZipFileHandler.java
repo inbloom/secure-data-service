@@ -33,6 +33,7 @@ import org.springframework.context.MessageSourceAware;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -72,14 +73,14 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
                 // Find manifest (ctl file)
                 File ctlFile = ZipFileUtil.findCtlFile(dir);
                 if (ctlFile == null) {
-                    String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG20");
+                    String message = MessageSourceHelper.getMessage(messageSource, "BASE_0012");
                     errorReport.error(message, this);
                 }
                 return ctlFile;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG18", zipFile.getName());
+                String message = MessageSourceHelper.getMessage(messageSource, "BASE_0011", zipFile.getName());
                 LOG.error(message, ex);
                 errorReport.error(message, this);
                 done = true;
@@ -87,14 +88,14 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
             } catch (FileNotFoundException ex) {
                 // DE1618 Gluster may have lost track of the file, or it has been deleted from under us so give up
                 LOG.info(zipFile.getAbsolutePath() + " cannot be found. If the file was not processed by another ingestion service, please resubmit.", ex);
-                String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
+                String message = MessageSourceHelper.getMessage(messageSource, "BASE_0008", zipFile.getName());
                 errorReport.error(message, this);
                 done = true;
 
             } catch (IOException ex) {
 
                 if (System.currentTimeMillis() >= clockTimeout) {
-                    String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
+                    String message = MessageSourceHelper.getMessage(messageSource, "BASE_0008", zipFile.getName());
                     LOG.error(message, ex);
                     errorReport.error(message, this);
                     done = true;
@@ -123,10 +124,59 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
         throw new NotImplementedException("Processing of multiple zip files is not currently supported.");
     }
 
+    File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats) {
+        return doHandling(zipFile, report, reportStats, null);
+    }
+
     @Override
-    protected File doHandling(File item, AbstractMessageReport report, ReportStats reportStats,
+    protected File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
+
+        boolean done = false;
+        long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
+
+        while (!done) {
+
+            try {
+                File dir = ZipFileUtil.extract(zipFile);
+                LOG.info("Extracted zip file to {}", dir.getAbsolutePath());
+                done = true;
+
+                // Find manifest (ctl file)
+                File ctlFile = ZipFileUtil.findCtlFile(dir);
+                if (ctlFile == null) {
+                    report.error(reportStats, BaseMessageCode.BASE_0012);
+                }
+                return ctlFile;
+
+            } catch (UnsupportedZipFeatureException ex) {
+                // Unsupported compression method
+                report.error(reportStats, BaseMessageCode.BASE_0011);
+                done = true;
+
+            } catch (FileNotFoundException ex) {
+                // DE1618 Gluster may have lost track of the file, or it has been deleted from under us so give up
+                LOG.info(zipFile.getAbsolutePath() + " cannot be found. If the file was not processed by another ingestion service, please resubmit.", ex);
+                report.error(reportStats, BaseMessageCode.BASE_0008);
+                done = true;
+
+            } catch (IOException ex) {
+
+                if (System.currentTimeMillis() >= clockTimeout) {
+                    report.error(reportStats, BaseMessageCode.BASE_0008);
+                    done = true;
+                } else {
+                    try {
+                        LOG.info("Waiting for " + zipFile.getAbsolutePath() + "to move in handler.");
+                        Thread.sleep(zipfileCompletionPollInterval);
+                    } catch (InterruptedException e) {
+                        // Restore the interrupted status
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+
         return null;
     }
 

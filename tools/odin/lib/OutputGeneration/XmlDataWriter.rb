@@ -18,6 +18,7 @@ limitations under the License.
 
 require 'logger'
 
+require_relative "XML/cohortGenerator.rb"
 require_relative "XML/studentParentGenerator.rb"
 require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
@@ -63,6 +64,7 @@ class XmlDataWriter < DataWriter
     @writers << EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
     @writers << StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
+    @writers << CohortGenerator.new(@yaml, initialize_interchange(directory, "StudentCohort"))
     
     # enable entities to be written
     # -> writes header and starts reporting
