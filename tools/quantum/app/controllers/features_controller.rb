@@ -12,4 +12,7 @@ class FeaturesController < ApplicationController
 		end
 	end
 
+	def show
+		this.index()
+	end
 end
