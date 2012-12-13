@@ -26,7 +26,7 @@ public enum CoreMessageCode implements MessageCode {
     ATTENDANCE_TRANSFORMER_WRNG_MSG1,
     CORE_0001,
     CORE_0002,
-    CORE_0003;
+    CORE_0003, IDREF_WRNG_MS2, IDREF_WRNG_MSG5, IDREF_WRNG_MSG4, IDREF_WRNG_MSG3, IDREF_WRNG_MS1, IDREF_ERR_MS1;
 
     @Override
     public String getCode() {

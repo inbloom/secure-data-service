@@ -48,8 +48,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.util.StopWatch;
 
 import org.slc.sli.ingestion.FileProcessStatus;
@@ -58,18 +56,17 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * @author okrook
  *
  */
-public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> implements
-        MessageSourceAware {
+public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
     public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
     private static final QName ID_ATTR = new QName("id");
@@ -86,7 +83,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
     private Set<String> idReferenceInterchanges;
-    private MessageSource messageSource;
 
     private String namespace;
     private String batchJobId;
@@ -98,6 +94,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
+        return null;
+    }
+
+    @Override
+    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
 
         if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
             LOG.info("Not resolving id-references for file: {} (type: {})", fileEntry.getFileName(), fileEntry
@@ -108,32 +110,32 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         File file = fileEntry.getFile();
 
-        file = process(file, errorReport);
+        file = process(file, report, reportStats);
 
         fileEntry.setFile(file);
 
         return fileEntry;
     }
 
-    protected File process(File xml, ErrorReport errorReport) {
+    protected File process(File xml, AbstractMessageReport report, ReportStats reportStats) {
         bucketCache.flushBucket(namespace);
         namespace = batchJobId + "_" + xml.getName() + "_pass_" + (++passCount);
 
         StopWatch sw = new StopWatch("Processing " + xml.getName());
 
         sw.start("Find IDRefs to resolve");
-        Set<String> referencedIds = findIDRefsToResolve(xml, errorReport);
+        Set<String> referencedIds = findIDRefsToResolve(xml, report, reportStats);
         sw.stop();
 
         if (!referencedIds.isEmpty()) {
 
             File semiResolvedXml = null;
             sw.start("Find matching entities");
-            findAndCacheEntityXmlForIds(referencedIds, xml, errorReport);
+            findAndCacheEntityXmlForIds(referencedIds, xml, report, reportStats);
             sw.stop();
 
             sw.start("Resolve IDRefs");
-            semiResolvedXml = resolveIdRefs(xml, errorReport);
+            semiResolvedXml = resolveIdRefs(xml, report, reportStats);
             sw.stop();
 
             if (LOG.isDebugEnabled()) {
@@ -144,13 +146,14 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             if (semiResolvedXml != null) {
                 FileUtils.renameFile(semiResolvedXml, xml);
-                return process(xml, errorReport);
+                return process(xml, report, reportStats);
             }
         }
         return xml;
     }
 
-    protected Set<String> findIDRefsToResolve(final File xml, final ErrorReport errorReport) {
+    protected Set<String> findIDRefsToResolve(final File xml, final AbstractMessageReport report,
+            final ReportStats reportStats) {
         final Set<String> idRefs = new HashSet<String>();
 
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
@@ -169,10 +172,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null
                             && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
-                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
-                            errorReport.warning(
-                                    MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
-                                    IdRefResolutionHandler.class);
+                            report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MS2, currentXPath);
                         }
                         return false;
                     }
@@ -201,13 +201,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         };
 
-        browse(xml, collectIdRefsToResolve, errorReport);
+        browse(xml, collectIdRefsToResolve, report, reportStats);
 
         return idRefs;
     }
 
     protected void findAndCacheEntityXmlForIds(final Set<String> idsToResolve, final File xml,
-            final ErrorReport errorReport) {
+            final AbstractMessageReport report, final ReportStats reportStats) {
 
         XmlEventVisitor collectRefContent = new XmlEventVisitor() {
 
@@ -227,7 +227,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String id = xmlEvent.asStartElement().getAttributeByName(ID_ATTR).getValue();
-                String content = getXmlContentForId(xmlEvent, eventReader, errorReport);
+                String content = getXmlContentForId(xmlEvent, eventReader, report, reportStats);
                 bucketCache.addToBucket(namespace, id, new TransformableXmlString(content, false));
             }
 
@@ -236,11 +236,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 return !idsToResolve.isEmpty();
             }
         };
-        browse(xml, collectRefContent, errorReport);
+        browse(xml, collectRefContent, report, reportStats);
     }
 
     private String getXmlContentForId(XMLEvent xmlEvent, XMLEventReader eventReader,
-            final ErrorReport errorReport) {
+            final AbstractMessageReport report, final ReportStats reportStats) {
 
         String xmlSnippetString = null;
         XMLEventWriter writer = null;
@@ -290,8 +290,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
 
-                                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG5",
-                                        ref.getValue()), IdRefResolutionHandler.class);
+                                report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MSG5, ref.getValue());
                             }
                         }
                     } else if (theXmlEvent.isEndElement()) {
@@ -361,7 +360,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return xmlSnippetString;
     }
 
-    protected File resolveIdRefs(final File xml, final ErrorReport errorReport) {
+    protected File resolveIdRefs(final File xml, final AbstractMessageReport report, final ReportStats reportStats) {
         File newXml = null;
 
         BufferedOutputStream out = null;
@@ -415,22 +414,17 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                     if (id != null && id.getValue().equals(ref.getValue())) {
                                         newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                        errorReport.warning(
-                                                MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG4",
-                                                        ref.getValue()), IdRefResolutionHandler.class);
+                                        report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MSG4, ref.getValue());
                                     } else {
 
                                         contentToAdd = resolveRefs(getCurrentXPath(parents),
-                                                (TransformableXmlString) cacheLookupObject, ref.getValue(), errorReport);
+                                                (TransformableXmlString) cacheLookupObject, ref.getValue(), report,
+                                                reportStats);
                                     }
                                 } else {
                                     // unable to resolve reference, no matching id for ref
                                     if (isSupportedRef(getCurrentXPath(parents))) {
-                                        LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
-
-                                        errorReport.warning(
-                                                MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3",
-                                                        ref.getValue()), IdRefResolutionHandler.class);
+                                        report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MSG3, ref.getValue());
                                     }
                                 }
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
@@ -462,7 +456,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 }
 
                 private String resolveRefs(String currentXPath, TransformableXmlString cachedContent, String id,
-                        ErrorReport errorReport) {
+                        AbstractMessageReport report, ReportStats reportStats) {
 
                     String transformedContent = cachedContent.string;
                     ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
@@ -474,9 +468,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         // it.
                         transformedContent = rrs.resolve(currentXPath, cachedContent.string);
                         if (transformedContent == null) {
-                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id));
-                            errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id),
-                                    IdRefResolutionHandler.class);
+                            report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MS1, id);
                         } else {
                             bucketCache
                                     .addToBucket(namespace, id, new TransformableXmlString(transformedContent, true));
@@ -487,7 +479,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 }
             };
 
-            browse(xml, replaceRefContent, errorReport);
+            browse(xml, replaceRefContent, report, reportStats);
 
             writer.flush();
 
@@ -497,9 +489,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
 
-            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
-                    IdRefResolutionHandler.class);
+            report.error(reportStats, CoreMessageCode.IDREF_ERR_MS1, xml.getName());
         } finally {
             closeResources(writer, out);
         }
@@ -507,7 +497,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return newXml;
     }
 
-    private void browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {
+    private void browse(final File xml, XmlEventVisitor browser, AbstractMessageReport report, ReportStats reportStats) {
         BufferedInputStream xmlStream = null;
         XMLEventReader eventReader = null;
         try {
@@ -518,9 +508,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(eventReader, browser);
 
         } catch (Exception e) {
-            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
-                    IdRefResolutionHandler.class);
+            report.error(reportStats, CoreMessageCode.IDREF_ERR_MS1, xml.getName());
         } finally {
             if (eventReader != null) {
                 try {
@@ -600,7 +588,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             try {
                 writer.close();
             } catch (XMLStreamException e) {
-//                writer = null;  // This is bad in Java, so it's commented out!
+                // writer = null; // This is bad in Java, so it's commented out!
                 ;  // Do nothing.
             }
         }
@@ -637,11 +625,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return false;
     }
 
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
-
     public Map<String, ReferenceResolutionStrategy> getSupportedResolvers() {
         return supportedResolvers;
     }
@@ -674,13 +657,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
     }
