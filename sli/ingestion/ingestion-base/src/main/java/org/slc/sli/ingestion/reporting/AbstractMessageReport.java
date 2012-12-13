@@ -30,63 +30,45 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     protected MessageSource messageSource;
 
     /**
-     * Reports a message as an error.
-     *
-     * @param source
-     *            Source of the report
-     * @param code
-     *            message defined by a code
-     * @param args
-     *            additional arguments for the message
-     */
-    public void error(Source source, MessageCode code, Object... args) {
-        // implement
-    }
-
-    /**
      * Reports an message as an error and updates the wider-scope error state in the provided
-     * reportStats.
+     * reportStats. Will also log the error message if the implementation supports logging.
      *
-     * @param source
-     *            Source of the report
      * @param reportStats
-     *            wider-scope error state to be updated
+     *            statistics state and source
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
      */
-    public void error(Source source, ReportStats reportStats, MessageCode code, Object... args) {
-        // implement
-    }
+    public void error(ReportStats reportStats, MessageCode code, Object... args) {
 
-    /**
-     * Reports a message as a warning.
-     *
-     * @param source
-     *            Source of the report
-     * @param code
-     *            message defined by a code
-     */
-    public void warning(Source source, MessageCode code, Object... args) {
-        // implement
+        logError(code, args);
+
+        if (reportStats != null) {
+            reportStats.incError();
+        }
+        reportError(reportStats, code, args);
     }
 
     /**
      * Reports an message as a warning and updates the wider-scope warning state in the provided
-     * reportStats.
+     * reportStats. Will also log the warning message if the implementation supports logging.
      *
-     * @param source
-     *            Source of the report
      * @param reportStats
-     *            wider-scope warning state to be updated
+     *            statistics state and source
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
      */
-    public void warning(Source source, ReportStats reportStats, MessageCode code, Object... args) {
-        // implement
+    public void warning(ReportStats reportStats, MessageCode code, Object... args) {
+
+        logWarning(code, args);
+
+        if (reportStats != null) {
+            reportStats.incWarning();
+        }
+        reportWarning(reportStats, code, args);
     }
 
     /**
@@ -101,6 +83,14 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     protected String getMessage(MessageCode code, Object... args) {
         return messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
     }
+
+    protected abstract void reportError(ReportStats reportStats, MessageCode code, Object... args);
+
+    protected abstract void reportWarning(ReportStats reportStats, MessageCode code, Object... args);
+
+    protected abstract void logError(MessageCode code, Object... args);
+
+    protected abstract void logWarning(MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

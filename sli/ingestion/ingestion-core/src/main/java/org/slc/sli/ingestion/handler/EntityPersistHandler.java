@@ -40,6 +40,8 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
@@ -56,12 +58,12 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
 /**
  * Handles the persisting of Entity objects
- * 
+ *
  * @author dduran
  *         Modified by Thomas Shewchuk (PI3 US811)
  *         - 2/1/2010 Added record DB lookup and update capabilities, and support for association
  *         entities.
- * 
+ *
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
 
@@ -122,7 +124,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     /**
      * Persist entity in the data store.
-     * 
+     *
      * @param entity
      *            Entity to be persisted
      * @return Persisted entity
@@ -312,7 +314,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     /**
      * Generic warning reporting function.
-     * 
+     *
      * @param warningMessage
      *            Warning message reported by entity.
      * @param entity
@@ -353,5 +355,19 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put("created", now);
         entity.getMetaData().put("updated", now);
+    }
+
+    @Override
+    protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected List<Entity> doHandling(List<SimpleEntity> items, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

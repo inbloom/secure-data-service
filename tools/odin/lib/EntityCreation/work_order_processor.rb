@@ -25,13 +25,13 @@ require_relative '../WorldDefinition/section_work_order'
 class WorkOrderProcessor
 
   # uses the snapshot of the 'world' to generate student work orders
-  def self.generate_work_orders(world, scenario)
-    section_factory = SectionWorkOrderFactory.new(world, scenario)
+  def self.generate_work_orders(world, scenario, prng)
+    section_factory = SectionWorkOrderFactory.new(world, scenario, prng)
     student_factory = StudentWorkOrderFactory.new(world, scenario, section_factory)
     Enumerator.new do |y|
       world.each{|type, edOrgs|
         edOrgs.each{|edOrg|
-          section_factory.gen_sections(edOrg, type, y)
+          section_factory.generate_sections_with_teachers(edOrg, type, y)
           student_factory.generate_work_orders(edOrg, y)
         }
       }

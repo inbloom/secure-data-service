@@ -22,23 +22,16 @@ package org.slc.sli.ingestion.reporting;
  *
  */
 
-public class SimpleSource implements Source{
+public class SimpleSource implements Source {
 
-    private String source;
     private String batchJobId;
     private String resourceId;
     private String stageName;
 
-    public SimpleSource(String source, String batchJobId, String resourceId, String stageName) {
-        this.source = source;
+    public SimpleSource(String batchJobId, String resourceId, String stageName) {
         this.batchJobId = batchJobId;
         this.resourceId = resourceId;
         this.stageName = stageName;
-    }
-
-    @Override
-    public String getSource() {
-        return source;
     }
 
     @Override
