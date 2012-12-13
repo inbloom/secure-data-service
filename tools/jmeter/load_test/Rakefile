@@ -8,14 +8,28 @@ end
 
 desc "Run Load Tests"
 task :runLoadTests do
+  if verify_env
+    ruby "jmeter_runner.rb #{ENV['JMETER_HOME']}"
+  end
+end
+
+desc "Run Multiple Jmeter Nodes Load Tests"
+task :runMultiNodesTests do
+  if verify_env
+    ruby "jmeter_multi_nodes_runner.rb #{ENV['JMETER_HOME']}"
+  end
+end
+
+task :default =>  'runLoadTests'
+
+def verify_env
   if ENV["JMETER_HOME"].nil?
     puts <<EOF
 Please set environment variable JMETER_HOME to your JMeter root. For example,
   export JMETER_HOME="/opt/apache-jmeter"
 EOF
+  return false
   else
-    ruby "jmeter_runner.rb #{ENV['JMETER_HOME']}"
+  return true
   end
 end
-
-task :default =>  'runLoadTests'

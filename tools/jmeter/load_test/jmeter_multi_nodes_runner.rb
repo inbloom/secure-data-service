@@ -1,5 +1,16 @@
 require 'nokogiri'
+require 'json'
 
+JMETER_EXEC = "#{ARGV[0]}/bin/jmeter"
+RUNNER_HOME = File.dirname(__FILE__)
+CONFIG_HOME = "#{RUNNER_HOME}/.."
+JMETER_PROP = "#{CONFIG_HOME}/local.properties"
+RESULT_DIR = "#{RUNNER_HOME}/result"
+RESULT_JSON_FILE = "#{RESULT_DIR}/result.json"
+JTL_FILE_PREFIX = "test"
+TOTAL_LABEL = "total"
+MAX_AVG_ELAPSED_TIME = 30000
+REMOTE_SERVERS = ["localhost","192.168.0.9"]
 class Sample
   attr_accessor :elapsed_time, :latency, :timestamp, :success_flag, :label, :response_code, :response_message,
                 :thread_name, :data_type, :bytes
@@ -24,107 +35,82 @@ class Sample
   end
 end
 
-JMETER_EXEC = "/usr/local/Cellar/jmeter/2.8/bin/jmeter"
-JMETER_PROP = "/Users/dliu/sli_home/sli/tools/jmeter/local.properties"
-JMETER_JMX_DIR = "/Users/dliu/sli_home/sli/tools/jmeter"
-JMETER_JMXS = ["list-attendance.jmx","list-grades.jmx","list-sections.jmx","list-students.jmx","single-student.jmx","update-attendance.jmx","update-gradebooks.jmx"]
-RESULT_DIR = "/Users/dliu/sli_home/sli/tools/jmeter/result"
-REMOTE_SERVERS = ["localhost","10.71.1.45"]
-RUN_NUMBERS = 20
-CUT_OFF_TIME = 100000
-LOGIN_THREAD = "Login 1-1"
-REPORT_FILE = "test_report"
+def run_jmeter(jmx_file, jtl_file, thread_count)
+  File.delete(jtl_file) if File.exist? jtl_file
+  command = "#{JMETER_EXEC} -n -G#{JMETER_PROP} -t #{jmx_file} -l #{jtl_file} -Gthreads=#{thread_count} -Gloops=1 -R #{REMOTE_SERVERS.join(',')}"
 
-def clear_dir
-  if File.directory? RESULT_DIR
-    Dir.foreach(RESULT_DIR) {|f| fn = File.join(RESULT_DIR, f); File.delete(fn) if f != '.' && f != '..'}
-  end
-end
-
-def run_jmeter(jmx_file,result_file, threads)
-  result_fullpath = File.join(RESULT_DIR, result_file)
-  File.delete(result_fullpath) if File.exist? result_fullpath
-
-  jmx_fullpath = File.join(JMETER_JMX_DIR,jmx_file)
-  puts REMOTE_SERVERS.join(',')
-  pid = Process.spawn("#{JMETER_EXEC} -n -G #{JMETER_PROP} -t #{jmx_fullpath} -l #{result_fullpath} -Gthreads=#{threads} -Gloops=1 -R #{REMOTE_SERVERS.join(',')}")
+  p "Spawning process command: #{command}"
+  pid = Process.spawn(command)
   Process.wait(pid)
 end
 
-def get_results(filename)
-  fullpath = File.join(RESULT_DIR, filename)
-  doc = Nokogiri.XML(File.open(fullpath, 'rb'))
+def build_scenario_result(thread_count, jtl_file)
+  # parse JTL files
+  label_to_sample_array = {}
+  File.open(jtl_file, 'rb') do |file|
+    doc = Nokogiri.XML(file)
+    doc.css('httpSample').each do |sample|
+      sample = Sample.new(sample)
+      label_to_sample_array[sample.label] = [] if label_to_sample_array[sample.label].nil?
+      label_to_sample_array[sample.label] << sample
+    end
+  end
 
+  # ignore login requests
+  label_to_sample_array.reject! do |key, value|
+    key.include?("/api/oauth/sso") || ["/api/oauth/sso", "simple-idp", "IDP Login HTTP Request", "/api/rest/saml/sso/post", "/api/oauth/token"].include?(key)
+  end
+
+  scenario_result = {}
+  average_total = 0
+  label_to_sample_array.each do |label, samples|
+    total_elapsed_time = 0
+    samples.each do |sample|
+      total_elapsed_time += sample.elapsed_time
+    end
+    scenario_result[label] = (total_elapsed_time * 1.0 / thread_count / REMOTE_SERVERS.size).ceil
+    average_total += scenario_result[label]
+  end
+  scenario_result[TOTAL_LABEL] = average_total
+  scenario_result
+end
+
+def collect_all_data(config_dir, result_dir)
+  Dir.mkdir(result_dir) unless Dir.exists?(result_dir)
+  Dir.foreach(config_dir) do |file|
+    if match_index = file =~ /[.]jmx$/
+      full_path = File.join(result_dir, file[0..(match_index - 1)])
+      Dir.mkdir(full_path) unless Dir.exists?(full_path)
+      (0..20).each do |n|
+        thread_count = 2 ** n
+        jtl_file = File.join(full_path, "#{JTL_FILE_PREFIX}#{thread_count}.jtl")
+        run_jmeter(File.join(config_dir, file), jtl_file, thread_count) unless File.exists?(jtl_file)
+        break if build_scenario_result(thread_count, jtl_file)[TOTAL_LABEL] > MAX_AVG_ELAPSED_TIME
+      end
+    end
+  end
+end
+
+def aggregate_all_result(result_dir)
   results = {}
-  doc.css('httpSample').each do |sample|
-    sample = Sample.new(sample)
-    results[sample.thread_name] = [] if results[sample.thread_name].nil?
-    results[sample.thread_name] << sample
+  Dir.foreach(result_dir) do |scenario_folder|
+    unless [".", "..", "oauth"].include? scenario_folder
+      path = File.join(RESULT_DIR, scenario_folder)
+      if File.directory? path
+        results[scenario_folder] = {}
+        Dir.foreach(path) do |jtl_file|
+          if match_index = jtl_file.match(/test([0-9]+)[.]jtl$/)
+            thread_count = match_index[1].to_i
+            results[scenario_folder][thread_count] = build_scenario_result(thread_count, File.join(path, jtl_file))
+          end
+        end
+      end
+    end
   end
   results
 end
 
-def get_login_time(samples)
-login_samples = samples[LOGIN_THREAD]
-login_time = 0
-login_samples.each do |sample|
-  login_time += sample.elapsed_time
+collect_all_data(CONFIG_HOME, RESULT_DIR)
+File.open(RESULT_JSON_FILE, "w") do |f|
+  f.write(aggregate_all_result(RESULT_DIR).to_json)
 end
-login_time
-end
-
-def write_report(results,report_file_name)
-report_fullpath = File.join(RESULT_DIR, report_file_name)
-File.delete(report_fullpath) if File.exist? report_fullpath
-File.open(report_fullpath, "w") do |f|
-results.each do |key,value| 
-f.printf "%20s\n", key
-f.printf "%15s %25s\n", "threads/users", "average resp time(ms)"
-value.each do |threads, resp_time|
-f.printf "%15s %25s\n", threads, resp_time
-end
-end
-end
-
-
-end
-
- clear_dir
- results = {}
- JMETER_JMXS.each do |jmx_file|
- (1..RUN_NUMBERS).each do |n|
-  threads = 2 ** n
-  user_case = jmx_file.gsub('.jmx','')
-  run_jmeter(jmx_file,user_case + threads.to_s, threads)
-
-  samples = get_results(user_case + threads.to_s)
-#  login_time = get_login_time(samples)
-  results[user_case] = {} if results[user_case].nil?
-  total_time = 0
-  samples.each do |thread,req_samples|
-  if thread != LOGIN_THREAD
-  req_samples.each do |sample|
-  total_time +=sample.elapsed_time
-  end
-  end
-  end
-#  average_resp_time = login_time + total_time/threads
-  average_resp_time = 0
-  average_resp_time = total_time/threads/REMOTE_SERVERS.size if REMOTE_SERVERS.size >0
-  results[user_case] = results[user_case].merge({threads => average_resp_time})
-  if average_resp_time > CUT_OFF_TIME || average_resp_time == 0
-  break
-  end
-  #get_results("test#{threads}").each do |label, samples|
-  #  samples.sort! {|x,y| x.elapsed_time <=> y.elapsed_time}
-  #
-  #  p "#{label} [#{samples[0].elapsed_time}, #{samples[samples.size/2].elapsed_time}, #{samples[-1].elapsed_time}]"
-  #end
-end
-
- results.each do |key,value|
- p key
- p value
- end
- end
- write_report(results,REPORT_FILE)
