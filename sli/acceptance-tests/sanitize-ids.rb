@@ -30,40 +30,42 @@ def sanitize parent
   parent_id = parent[$UNDER_ID]
   parent_type = parent[$TYPE]
 
-  # add _id to end of parentId, if necessary
-  if !parent_id.end_with? $UNDER_ID
-    new_parent_id = "#{parent_id}#{$UNDER_ID}"
-    add_replacement(parent_id, new_parent_id)
-    parent[$UNDER_ID] = new_parent_id
+  if $embeds.include? parent_type
+    # add _id to end of parentId, if necessary
+    if !parent_id.end_with? $UNDER_ID
+      new_parent_id = "#{parent_id}#{$UNDER_ID}"
+      add_replacement(parent_id, new_parent_id)
+      parent[$UNDER_ID] = new_parent_id
+    end
+
+    # ensure embedded entity _id's are good
+    parent.each do |key, value|
+      if is_embedded_type(parent_type, key, value)
+        #for each embedded entity
+        value.each do |embedded_entity|
+          #extract embedded entity ID
+          ee_id = embedded_entity[$UNDER_ID]
+
+          if !id_starts_with_parent_id(ee_id, parent_id)
+            #if parent_id not present in embedded
+            ee_id = "#{parent_id}#{ee_id}"
+          end
+
+          #ensure ee_id ends with '_id'
+          ee_id = "#{ee_id}#{$UNDER_ID}" if !ee_id.end_with? $UNDER_ID
+
+          #replace parent_id with $replacements[parent_id]
+          ee_id = do_replacement(ee_id, parent_id)
+
+          #update embedded entity ID
+          if ee_id != embedded_entity[$UNDER_ID]
+            add_replacement(embedded_entity[$UNDER_ID], ee_id)
+            embedded_entity[$UNDER_ID] = ee_id
+          end
+        end #embedded_entity iteration
+      end #embedded key
+    end #key,value iteration
   end
-
-  # ensure embedded entity _id's are good
-  parent.each do |key, value|
-    if is_embedded_type(parent_type, key, value)
-      #for each embedded entity
-      value.each do |embedded_entity|
-        #extract embedded entity ID
-        ee_id = embedded_entity[$UNDER_ID]
-
-        if !id_starts_with_parent_id(ee_id, parent_id)
-          #if parent_id not present in embedded
-          ee_id = "#{parent_id}#{ee_id}"
-        end
-
-        #ensure ee_id ends with '_id'
-        ee_id = "#{ee_id}#{$UNDER_ID}" if !ee_id.end_with? $UNDER_ID
-
-        #replace parent_id with $replacements[parent_id]
-        ee_id = do_replacement(ee_id, parent_id)
-
-        #update embedded entity ID
-        if ee_id != embedded_entity[$UNDER_ID]
-          add_replacement(embedded_entity[$UNDER_ID], ee_id)
-          embedded_entity[$UNDER_ID] = ee_id
-        end
-      end #embedded_entity iteration
-    end #embedded key
-  end #key,value iteration
 
   #remove padding, if present
   if parent.include? $PADDING
