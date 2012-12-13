@@ -1,6 +1,5 @@
 @RALLY_US4816
 Feature: Odin Data Set Ingestion Correctness and Fidelity
-
 Background: I have a landing zone route configured
 Given I am using odin data store 
 
@@ -79,10 +78,10 @@ Then I should see following map of entry counts in the corresponding collections
      | grade                                    |                  0|
      | gradebookEntry                           |                  0|
      | gradingPeriod                            |                  6|
-     | graduationPlan                           |                  0|
+     | graduationPlan                           |                  3|
      | learningObjective                        |                  0|
      | learningStandard                         |                  0|
-     | parent                                   |                  0|
+     | parent                                   |                 20|
      | program                                  |                  0|
      | reportCard                               |                  0|
      | schoolSessionAssociation                 |                  0|
@@ -91,9 +90,9 @@ Then I should see following map of entry counts in the corresponding collections
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 52|
+     | staff                                    |                 70|
      | staffCohortAssociation                   |                  0|
-     | staffEducationOrganizationAssociation    |                156|
+     | staffEducationOrganizationAssociation    |                168|
      | staffProgramAssociation                  |                  0|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
@@ -102,17 +101,17 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
-     | studentParentAssociation                 |                  0|
+     | studentParentAssociation                 |                 20|
      | studentProgramAssociation                |                  0|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
-     | teacherSchoolAssociation                 |                  3|
-     | teacherSectionAssociation                |                  0|
-    And I should see "Processed 1974 records." in the resulting batch job file
+     | teacherSchoolAssociation                 |                 21|
+     | teacherSectionAssociation                |                 75|
+    And I should see "Processed 2146 records." in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
 
 Scenario: Verify entities in education organization calendar were ingested correctly: Populated Database
     And I check to find if record is in collection:
@@ -155,6 +154,8 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 5                   | schools.edOrgs                           | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id   | string               |   
      | student                     | 3                   | schools.edOrgs                           | a13489364c2eb015c219172d561c62350f0453f3_id   | string               |   
      | student                     | 10                  | schools.edOrgs                           | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |   
+     | student                     | 1                   | _id                                      | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
+     | studentParentAssociation    | 2                   | body.studentId                           | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
 
 Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "rbraverman" in tenant db "Midgar"
@@ -192,4 +193,18 @@ Scenario: Verify superdoc studentSchoolAssociation for specific _id ingested cor
     And "studentSchoolAssociation" references "student" "schools.entryDate" with "body.entryDate"
     And "studentSchoolAssociation" references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
 
+Scenario: Verify entities in specific student document ingested correctly: Populated Database
+  When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"
+    Then the student entity body.race should be "White"
+    And the student entity body.limitedEnglishProficiency should be "NotLimited"
+    And the student entity body.schoolFoodServicesEligibility should be "Reduced price"  
+    And the student entity schools.entryGradeLevel should be "Kindergarten"
+    And the student entity schools.entryGradeLevel should be "First grade" 
+    And the student entity schools.entryGradeLevel should be "Second grade" 
+
+Scenario: Verify entities in student school association were ingested correctly
+    And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
+     | graduationPlan              | 1                   | _id                                      | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+     | studentSchoolAssociation    | 5                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
 

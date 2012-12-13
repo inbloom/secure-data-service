@@ -21,6 +21,7 @@ require 'selenium-webdriver'
 
 When /^I click on student "([^"]*)"$/ do |name|
   clickOnStudent(name)
+  sleep(6)
 end
 
 When /^I view its student profile$/ do

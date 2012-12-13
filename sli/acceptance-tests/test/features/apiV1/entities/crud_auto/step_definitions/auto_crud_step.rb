@@ -137,8 +137,18 @@ end
 
 def resources
   config_path = File.expand_path("../../../../../../../../api/src/main/resources/wadl/v1_resources.json", __FILE__)
-  v1_resources = JSON.parse(File.read(config_path))['resources']
-  get_resource_paths v1_resources
+  namespaces = JSON.parse(File.read(config_path))
+
+  full_paths = []
+
+  namespaces.each do |namespace|
+      v1_resources = namespace['resources']
+      paths = get_resource_paths v1_resources
+
+      full_paths.concat(paths)
+  end
+
+  full_paths
 end
 
 def get_resource_paths resources, base = ""
@@ -154,6 +164,7 @@ def get_resource_paths resources, base = ""
   end
   paths
 end
+
 def post_resource resource
   resource_type = get_resource_type resource
   steps %Q{

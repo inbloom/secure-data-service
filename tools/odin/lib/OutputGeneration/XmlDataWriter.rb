@@ -65,11 +65,8 @@ class XmlDataWriter < DataWriter
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
     
     # enable entities to be written
-    # -> writes header
-    # -> starts reporting
-    @writers.each do |writer|
-      writer.start
-    end
+    # -> writes header and starts reporting
+    @writers.each { |writer| writer.start }
   end
 
   # initializes interchange of specified 'type' in 'directory'
@@ -80,13 +77,12 @@ class XmlDataWriter < DataWriter
   # flush all queued entities from event-based interchange generators, then
   # close file handles
   def finalize
-    @writers.each do |writer|
-      writer.finalize
-    end
+    @writers.each { |writer| writer.finalize }    
     display_entity_counts
   end
 
   def write_one_entity(entity)
+    initialize_entity(entity.class)
 
     if entity.is_a?(Array)
       entity.each do |e|
@@ -105,13 +101,12 @@ class XmlDataWriter < DataWriter
       end
 
       if found == false
-        puts "<<<< #{entity} writer not registered."
+        puts "<<<< #{entity}: writer not registered for type #{entity.class}"
         exit -1
       end
 
       increment_count(entity)
     end
-
   end
 
   def << (entity)

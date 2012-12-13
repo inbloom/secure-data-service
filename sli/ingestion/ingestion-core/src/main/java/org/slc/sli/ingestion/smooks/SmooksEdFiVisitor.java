@@ -23,20 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.MongoException;
-
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
-import org.springframework.data.mongodb.UncategorizedMongoDbException;
-
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
@@ -45,6 +36,15 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
+import org.xml.sax.Locator;
+
+import com.mongodb.MongoException;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -53,7 +53,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 @StreamResultWriter
-public final class SmooksEdFiVisitor implements SAXElementVisitor {
+public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLocatorHandler {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
@@ -77,6 +77,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
+    private Locator locator;
+
+    private int visitBeforeLineNumber;
+    private int visitBeforeColumnNumber;
+    private int visitAfterLineNumber;
+    private int visitAfterColumnNumber;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -107,7 +113,15 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     }
 
     @Override
+    public void setDocumentLocator(Locator locator) {
+        this.locator = locator;
+    }
+
+    @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
+
+        visitAfterLineNumber = locator==null ? -1 : locator.getLineNumber();
+        visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();
 
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
@@ -196,6 +210,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
 
+        neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
+        neutralRecord.setVisitBeforeColumnNumber(visitBeforeColumnNumber);
+        neutralRecord.setVisitAfterLineNumber(visitAfterLineNumber);
+        neutralRecord.setVisitAfterColumnNumber(visitAfterColumnNumber);
+
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
         // files)
         neutralRecord.setAttributes(NeutralRecordUtils.decodeAndTrimXmlStrings(neutralRecord.getAttributes()));
@@ -230,7 +249,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        // nothing
+        visitBeforeLineNumber = locator==null ? -1 : locator.getLineNumber();
+        visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();
     }
 
     @Override
@@ -251,6 +271,5 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
         this.duplicateCounts = duplicateCounts;
     }
-
 
 }

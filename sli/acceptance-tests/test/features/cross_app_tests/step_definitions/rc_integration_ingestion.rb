@@ -28,10 +28,11 @@ require 'rest-client'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
+ACTIVEMQ_HOST = PropLoader.getProps['activemq_host']
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 module NoLandingZone
-    @hasNoLandingZone = false;
+  @hasNoLandingZone = false;
 end
 
 World(NoLandingZone)
@@ -68,7 +69,7 @@ def processPayloadFile(file_name)
   ctl_template = nil
   Dir.foreach(zip_dir) do |file|
     if /.*.ctl$/.match file
-    ctl_template = file
+      ctl_template = file
     end
   end
 
@@ -77,13 +78,13 @@ def processPayloadFile(file_name)
   File.open(zip_dir + ctl_template, "r") do |ctl_file|
     ctl_file.each_line do |line|
       if line.chomp.length == 0
-      next
+        next
       end
       entries = line.chomp.split ","
       if entries.length < 3
         puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
-      new_ctl_file.puts line.chomp
-      next
+        new_ctl_file.puts line.chomp
+        next
       end
       payload_file = entries[2]
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
@@ -110,28 +111,48 @@ end
 ############################################################
 
 def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
+  puts "srcPath = " + srcPath
+  puts "destPath = " + destPath
+
   if @local_lz
     FileUtils.cp srcPath, destPath
-    puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}"
-    runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}")
+    puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath} #{ACTIVEMQ_HOST}"
+    runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath} #{ACTIVEMQ_HOST}")
   else
-    Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
+    begin
+      puts "lz_server_url = " + lz_server_url
+      puts "lz_username = " + lz_username
+      puts "lz_password = " + lz_password 
+      puts "lz_port_number = " + lz_port_number.to_s
+    
+      Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
+        #puts "clearing lz for old log files"
+        clear_remote_lz(sftp)
         puts "attempting to remote copy " + srcPath + " to " + destPath
         sftp.upload!(srcPath, destPath)
+      end
+    rescue Exception => e
+      e.backtrace.inspect
     end
   end
 end
 
 def lzContainsFile(pattern, landingZone, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
   puts "lzContainsFiles(" + pattern + " , " + landingZone + ")"
+  puts "pattern = " + pattern
+  puts "landingZone = " + landingZone
 
   if @local_lz
     !Dir["#{landingZone + pattern}"].empty?
   else
+    puts "lz_server_url = " + lz_server_url
+    puts "lz_username = " + lz_username
+    puts "lz_password = " + lz_password
+    puts "lz_port_number = " + lz_port_number.to_s
     Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
-        sftp.dir.glob(landingZone, pattern) do |entry|
-            return true
-        end
+      sftp.dir.glob(landingZone, pattern) do |entry|
+        return true
+      end
     end
     return false
   end
@@ -139,6 +160,9 @@ end
 
 def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
   puts "fileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
+  puts "prefix = " + prefix
+  puts "message = " + message
+  puts "landingZone = " + landingZone
 
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
@@ -150,20 +174,28 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
     end
     return false
   else
+    puts "lz_server_url = " + lz_server_url
+    puts "lz_username = " + lz_username
+    puts "lz_password = " + lz_password
+    puts "lz_port_number = " + lz_port_number.to_s
     Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
-        sftp.dir.glob(landingZone, prefix + "*") do |entry|
-            entryPath = File.join(landingZone, entry.name)
-            puts "found file " + entryPath
+      sftp.dir.glob(landingZone, prefix + "*") do |entry|
+        next if entry.name == '.' or entry.name == '..'
+        entryPath = File.join(landingZone, entry.name)
 
-            #download file contents to a string
-            file_contents = sftp.download!(entryPath)
+        if !sftp.stat!(entryPath).directory?
+          puts "found file " + entryPath
 
-            #check file contents for message
-            if (file_contents.rindex(message) != nil)
-                puts "Found message " + message
-                return true
-            end
+          #download file contents to a string
+          file_contents = sftp.download!(entryPath)
+
+          #check file contents for message
+          if (file_contents.rindex(message) != nil)
+            puts "Found message " + message
+            return true
+          end
         end
+      end
     end
     return false
   end
@@ -173,6 +205,16 @@ def clear_local_lz
   Dir.foreach(@landing_zone_path) do |file|
     if (/.*.log$/.match file) || (/.done$/.match file)
       FileUtils.rm_rf @landing_zone_path+file
+    end
+  end
+end
+
+def clear_remote_lz(sftp)
+  sftp.dir.foreach(@landing_zone_path) do |entry|
+    next if entry.name == '.' or entry.name == '..'
+    entryPath = File.join(@landing_zone_path, entry.name)
+    if !sftp.stat!(entryPath).directory?
+      sftp.remove!(entryPath)
     end
   end
 end
@@ -194,9 +236,9 @@ Given /^I have a local configured landing zone for my tenant$/ do
   db = conn.db(db_name)
 
   if (@mode == "SANDBOX")
-   @tenant_name = PropLoader.getProps['sandbox_tenant']
+    @tenant_name = PropLoader.getProps['sandbox_tenant']
   else
-   @tenant_name = PropLoader.getProps['tenant']
+    @tenant_name = PropLoader.getProps['tenant']
   end
 
   tenants = db.collection("tenant").find("body.tenantId" => @tenant_name).to_a
@@ -261,17 +303,24 @@ Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg
 end
 
 Given /^a landing zone$/ do
-  if RUN_ON_RC
+  if RUN_ON_RC && (@mode == "SANDBOX")
     steps %Q{
         Given I am using local data store
         And I am using default landing zone
-        And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE PORT>"
-
-  }
+        And I am using the tenant "<SANDBOX_TENANT>"
+        And I use the landingzone user name "<DEVELOPER_SB_EMAIL>" and password "<DEVELOPER_SB_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
+    }
+  elsif RUN_ON_RC
+    steps %Q{
+        Given I am using local data store
+        And I am using default landing zone
+        And I am using the tenant "<TENANT>"
+        And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
+    }
   else
     steps %Q{
         Given I am using local data store
         And I have a local configured landing zone for my tenant
-  }
+    }
   end
 end

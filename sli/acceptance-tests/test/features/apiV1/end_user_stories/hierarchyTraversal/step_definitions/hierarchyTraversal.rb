@@ -101,6 +101,10 @@ end
 When /^I navigate to GET the "([^"]*)" link named "([^"]*)"$/ do |arg1, arg2|
   puts @the_link.count
   case arg1
+  when /fifth/
+    @the_link = @the_link[4]
+  when /fourth/
+    @the_link = @the_link[3]
   when /third/
     @the_link = @the_link[2]
   when /second/
@@ -118,8 +122,16 @@ Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
 end
 
+Then /^I should receive (\d+) entities$/ do |arg1|
+  if arg1.to_i == 0
+    assert(@result.empty?, "Expected zero entities, received #{@result.size}")
+  else
+    assert(@result.size == arg1.to_i, "Expected #{arg1} entities, recieved #{@result.size()}")
+  end
+end
+
 And /^I should receive zero entities$/ do
-  assert(@result.empty?, "Expected zero entities, recieved #{@result.size()}")
+  step "I should receive 0 entities"
 end
 
 When /^I navigate to GET the link named "(.*?)" with "(.*?)" of "(.*?)"$/ do |linkName, key, value|
