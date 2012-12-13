@@ -106,6 +106,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private MessageSource messageSource;
 
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+    	this.batchJobDAO = batchJobDAO;
+    }
+    
+    public BatchJobDAO getBatchJobDAO()
+    {
+    	return this.batchJobDAO;
+    }
+    
     // Paths for id field and ref fields for self-referencing entities (for DE1950)
     // TODO: make it work for entities with multiple field keys.
     // TODO: make it configurable. From schema, maybe.
@@ -600,7 +609,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-    private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
+    void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
 
         /*
          * metaData: {
