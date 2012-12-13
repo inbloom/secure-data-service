@@ -7,11 +7,8 @@ logger_level: WARN
 # Node-id that is prefixed to the hostname. This is valuable in determine  
 node_id: oplogagent-1-
 
-# ActiveMQ host that runs the STOMP protocol to use as the message broker.  
-messaging_host: 127.0.0.1
-
-# Port of the ActiveMQ server  
-messaging_port: 61613
+# url of ActiveMQ running STOMP protocol used as message broker
+broker_url: stomp://localhost:61613
 
 # Interval in seconds in which to send a heartbeat on the message bus.  
 heartbeat_period: 10
