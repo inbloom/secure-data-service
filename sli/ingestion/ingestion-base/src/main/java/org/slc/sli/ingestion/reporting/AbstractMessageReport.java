@@ -31,7 +31,7 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
 
     /**
      * Reports an message as an error and updates the wider-scope error state in the provided
-     * reportStats. Will also log the error message if the implementation supports logging.
+     * reportStats.
      *
      * @param reportStats
      *            statistics state and source
@@ -42,17 +42,15 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      */
     public void error(ReportStats reportStats, MessageCode code, Object... args) {
 
-        logError(code, args);
-
-        if (reportStats != null && reportStats.getSource() != null) {
+        if (reportStats != null) {
             reportStats.incError();
-            reportError(reportStats, code, args);
         }
+        reportError(reportStats, code, args);
     }
 
     /**
      * Reports an message as a warning and updates the wider-scope warning state in the provided
-     * reportStats. Will also log the warning message if the implementation supports logging.
+     * reportStats.
      *
      * @param reportStats
      *            statistics state and source
@@ -63,12 +61,10 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      */
     public void warning(ReportStats reportStats, MessageCode code, Object... args) {
 
-        logWarning(code, args);
-
-        if (reportStats != null && reportStats.getSource() != null) {
+        if (reportStats != null) {
             reportStats.incWarning();
-            reportWarning(reportStats, code, args);
         }
+        reportWarning(reportStats, code, args);
     }
 
     /**
@@ -87,10 +83,6 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     protected abstract void reportError(ReportStats reportStats, MessageCode code, Object... args);
 
     protected abstract void reportWarning(ReportStats reportStats, MessageCode code, Object... args);
-
-    protected abstract void logError(MessageCode code, Object... args);
-
-    protected abstract void logWarning(MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {
