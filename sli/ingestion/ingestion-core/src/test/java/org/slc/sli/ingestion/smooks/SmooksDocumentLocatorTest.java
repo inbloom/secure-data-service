@@ -65,7 +65,7 @@ public class SmooksDocumentLocatorTest {
 
         List<NeutralRecord> nrs = EntityTestUtils
                 .smooksGetNeutralRecords(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames, 
+                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames,
                         mockDIdStrategy, mockDIdResolver);
 
         Assert.assertEquals(2, nrs.size());

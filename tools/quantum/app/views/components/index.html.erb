@@ -1,0 +1,20 @@
+<h3>Local vs. CI Failure Analysis</h3>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Component</th>
+			<th># Failures Locally</th>
+			<th># Failures in CI</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @components.each { |component| %>
+		<tr>
+			<td><%=component[:name]%></td>
+			<td><%=component[:local]%></td>
+			<td><%=component[:ci]%></td>
+		</tr>
+	<% } %>
+	</tbody>
+</table>

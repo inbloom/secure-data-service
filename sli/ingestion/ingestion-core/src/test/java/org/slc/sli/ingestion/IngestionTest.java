@@ -27,18 +27,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
-import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -47,9 +40,15 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.util.ResourceUtils;
 
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
+import org.slc.sli.ingestion.processors.PersistenceProcessor;
+
 /**
  * a set of static functions that can be used by Ingestion Tests.
- * 
+ *
  * @author yuan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -57,41 +56,41 @@ import org.springframework.util.ResourceUtils;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 @Ignore
 public class IngestionTest {
-    
+
     public static final String INGESTION_FILE_PREFIX = "conv";
     public static final String INGESTION_TEMP_FILE_SUFFIX = ".tmp";
     public static final String INGESTION_CSV_FILE_SUFFIX = ".csv";
     public static final String INGESTION_XML_FILE_SUFFIX = ".xml";
-    
+
     // @Autowired
     // private ContextManager contextManager;
-    
+
     @Autowired
-    private EdFiProcessor edFiProcessor;
-    
+    private ConcurrentEdFiProcessor concurrentEdFiProcessor;
+
     @Autowired
     private PersistenceProcessor persistenceProcessor;
-    
+
     @Before
     public void setup() {
     }
-    
+
     // protected ContextManager getRepositoryFactory() {
     // return this.contextManager;
     // }
-    
-    protected EdFiProcessor getEdFiProcessor() {
-        return this.edFiProcessor;
+
+    protected ConcurrentEdFiProcessor getEdFiProcessor() {
+        return this.concurrentEdFiProcessor;
     }
-    
+
     protected PersistenceProcessor getPersistenceProcessor() {
         return this.persistenceProcessor;
     }
-    
+
     public static InputStream createInputStream(String inputString) {
         return new ByteArrayInputStream(inputString.getBytes());
     }
-    
+
     public static File getFile(String fileResourcePath) throws FileNotFoundException {
         if (!fileResourcePath.startsWith("classpath:")) {
             fileResourcePath = "classpath:" + fileResourcePath;
@@ -99,7 +98,7 @@ public class IngestionTest {
         File file = ResourceUtils.getFile(fileResourcePath);
         return file;
     }
-    
+
     public static InputStream getFileInputStream(String fileResourcePath) throws FileNotFoundException {
         if (!fileResourcePath.startsWith("classpath:")) {
             fileResourcePath = "classpath:" + fileResourcePath;
@@ -107,54 +106,54 @@ public class IngestionTest {
         File file = ResourceUtils.getFile(fileResourcePath);
         return new BufferedInputStream(new FileInputStream(file));
     }
-    
+
     public static OutputStream createFileOutputStream(String filePath) throws IOException {
         File file = new File(filePath);
         return new BufferedOutputStream(new FileOutputStream(file));
     }
-    
+
     public static OutputStream createTempFileOutputStream() throws IOException {
         File file = createTempFile();
         return new BufferedOutputStream(new FileOutputStream(file));
     }
-    
+
     public static File createTempFile() throws IOException {
         return createTempFile(INGESTION_FILE_PREFIX, INGESTION_TEMP_FILE_SUFFIX);
     }
-    
+
     public static File createTempFile(String prefix, String suffix) throws IOException {
         File file = File.createTempFile(prefix, suffix);
         file.deleteOnExit();
         return file;
     }
-    
+
     public static File createTestFile(String fileContents) throws IOException {
         return createTestFile(INGESTION_FILE_PREFIX, INGESTION_TEMP_FILE_SUFFIX, fileContents);
     }
-    
+
     public static File createTestFile(String prefix, String suffix, String fileContents) throws IOException {
         File file = createTempFile(prefix, suffix);
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
-        
+
         try {
             outputStream.write(fileContents.getBytes());
         } finally {
             outputStream.close();
         }
-        
+
         return file;
     }
-    
+
     public static long getTotalCountOfEntityInRepository(Repository repository, String entityType) {
         int count = 0;
         Iterator<Entity> entities = repository.findAll(entityType, new NeutralQuery()).iterator();
-        
+
         while (entities.hasNext()) {
             count++;
             entities.next();
         }
-        
+
         return count;
     }
-    
+
 }

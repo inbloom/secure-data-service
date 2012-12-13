@@ -23,12 +23,12 @@ import org.milyn.delivery.SmooksContentHandler;
 import org.milyn.delivery.sax.SAXHandler;
 import org.xml.sax.Locator;
 /**
- * This class extends {@linkplain org.milyn.delivery.sax.SAXHandler} and implements 
+ * This class extends {@linkplain org.milyn.delivery.sax.SAXHandler} and implements
  * a concrete {@linkplain #setDocumentLocator(Locator)} method.
  * <p>
- * In its constructor, a 
+ * In its constructor, a
  * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler handler}
- * is injected in order to provide a callback to 
+ * is injected in order to provide a callback to
  * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator(Locator)}.
  *
  * @author slee

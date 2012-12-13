@@ -105,8 +105,10 @@
                                     <outputDirectory>${project.build.directory}/</outputDirectory>
                                     <verbose>true</verbose>
                                     <filters>
-                                        <filter>-org.slc.sli.aspect.*</filter>
-                                        <filter>-org.slc.sli.sandbox.idp.aspect.*</filter>
+                                        <!--from ingestion-->
+                                        <filter>-org.slc.sli.aspect.LoggerCarrierAspect</filter>
+                                        <!--from simple-idp-->
+                                        <filter>-org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect</filter>
                                     </filters>
                                 </configuration>
                             </execution>

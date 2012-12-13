@@ -33,6 +33,7 @@ class EnrollmentGenerator < InterchangeGenerator
     @header, @footer = build_header_footer( "StudentEnrollment" )
     @writers[StudentSchoolAssociation] = EntityWriter.new("student_school_association.mustache")
     @writers[StudentSectionAssociation] = EntityWriter.new("student_section_association.mustache")
+    @writers[GraduationPlan] = EntityWriter.new("graduation_plan.mustache")
   end
 
 end

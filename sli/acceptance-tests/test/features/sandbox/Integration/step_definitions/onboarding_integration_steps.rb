@@ -400,7 +400,7 @@ end
 Given /^the "(.*?)" has "(.*?)" defined in LDAP by the operator$/ do |email, edorg|
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
   user = ldap.read_user(email)
   if user[:edorg] != edorg
     user[:edorg] = edorg
@@ -412,7 +412,7 @@ def initializeApprovalAndLDAP(emailConf, prod)
   # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
    @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                            PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                           PropLoader.getProps['ldap_admin_pass'])
+                           PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
    ApprovalEngine.init(@ldap, nil, !prod)
  end
 
