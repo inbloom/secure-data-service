@@ -113,10 +113,6 @@ public class SliSchemaVersionValidator {
         for (NeutralSchema neutralSchema : this.entitySchemaRepository.getSchemas()) {
             AppInfo appInfo = neutralSchema.getAppInfo();
 
-            if (neutralSchema.getType().equals("teacher")) {
-                System.out.print("");
-            }
-
             if (appInfo != null) {
                 int schemaVersion = appInfo.getSchemaVersion();
                 if (schemaVersion != AppInfo.NOT_VERSIONED) {
