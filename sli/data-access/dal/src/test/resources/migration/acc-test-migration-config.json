@@ -6,15 +6,15 @@
                     "fieldName": "favoriteSubject",
                     "defaultValue": "Math"
                 }            
-            }
+            }]
         },
         "teacher": {
-            "999999": {
+            "999999": [{
                 "ADD": {
                     "fieldName": "favoriteSubject",
                     "defaultValue": "Math"
                 }            
-            }
+            }]
         }
     }
 }
