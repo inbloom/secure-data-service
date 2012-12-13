@@ -173,7 +173,7 @@ def replace_ids dir
 
       puts f
       $replacements.each do |k, v|
-        f_contents = f_contents.gsub("\"#{k}\"", "\"#{v}\"")
+        f_contents = f_contents.gsub(/([\"\/\.\|\,\s])#{k}([\"\/\.\|\,\s])/, '\1' + v + '\2')
       end
 
       File.open(f, 'w') { |f| f.write(f_contents) }
