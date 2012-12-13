@@ -31,9 +31,10 @@ schemaFilename = ARGV[0]
 xsd = File.read(schemaFilename)
 upversioned_xsd = xsd.gsub(%r{<sli:schemaVersion>\d*</sli:schemaVersion>}, '<sli:schemaVersion>999999</sli:schemaVersion>')
 
-insert_index = upversioned_xsd.index("<xs:element name=\"studentUniqueStateId\"")
+# add new field to EducationOrganization
+insert_index = upversioned_xsd.index("<xs:element minOccurs=\"0\" name=\"teacherUniqueStateId\"")
 
-new_schema_field = "<xs:element name=\"favoriteFood\" type=\"xs:string\"/>\n"
+new_schema_field = "<xs:element name=\"favoriteSubject\" type=\"xs:string\"/>\n"
 upversioned_xsd.insert(insert_index,new_schema_field)
 
 

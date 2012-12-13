@@ -1,10 +1,10 @@
 {
     "entities":{
-        "student": {
-            "99999": {
+        "teacher": {
+            "999999": {
                 "ADD": {
-                    "fieldName": "favoriteFood",
-                    "defaultValue": "ice cream"
+                    "fieldName": "favoriteSubject",
+                    "defaultValue": "Math"
                 }            
             }
         }
