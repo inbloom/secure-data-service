@@ -78,7 +78,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 while ((ze = zis.getNextEntry()) != null) {
 
                     if (isDirectory(ze)) {
-                        fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
+                        fail(callback, getFailureMessage("BASE_0010", zipFile.getName()));
                         return false;
                     }
 
@@ -89,14 +89,14 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
                 // no manifest (.ctl file) found in the zip file
                 if (!isValid) {
-                    fail(callback, getFailureMessage("SL_ERR_MSG5", zipFile.getName()));
+                    fail(callback, getFailureMessage("BASE_0009", zipFile.getName()));
                 }
 
                 done = true;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                fail(callback, getFailureMessage("SL_ERR_MSG18", zipFile.getName()));
+                fail(callback, getFailureMessage("BASE_0011", zipFile.getName()));
                 done = true;
                 return false;
 
@@ -106,7 +106,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 String message = zipFile.getAbsolutePath()
                         + " cannot be found. If the file is not processed, please resubmit.";
                 LOG.error(message, ex);
-                fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
+                fail(callback, getFailureMessage("BASE_0008", zipFile.getName()));
                 done = true;
                 return false;
 
@@ -115,7 +115,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 ex.printStackTrace();
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
-                    fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
+                    fail(callback, getFailureMessage("BASE_0008", zipFile.getName()));
                     LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
                     done = true;
                     return false;
@@ -176,7 +176,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 while ((ze = zis.getNextEntry()) != null) {
 
                     if (isDirectory(ze)) {
-                        error(report, reportStats, BaseMessageCode.SL_ERR_MSG15, zipFile.getName());
+                        error(report, reportStats, BaseMessageCode.BASE_0010, zipFile.getName());
                         return false;
                     }
 
@@ -187,14 +187,14 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
                 // no manifest (.ctl file) found in the zip file
                 if (!isValid) {
-                    error(report, reportStats, BaseMessageCode.SL_ERR_MSG5, zipFile.getName());
+                    error(report, reportStats, BaseMessageCode.BASE_0009, zipFile.getName());
                 }
 
                 done = true;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                error(report, reportStats, BaseMessageCode.SL_ERR_MSG18, zipFile.getName());
+                error(report, reportStats, BaseMessageCode.BASE_0011, zipFile.getName());
                 done = true;
                 return false;
 
@@ -204,7 +204,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 String message = zipFile.getAbsolutePath()
                         + " cannot be found. If the file is not processed, please resubmit.";
                 LOG.error(message, ex);
-                error(report, reportStats, BaseMessageCode.SL_ERR_MSG4, zipFile.getName());
+                error(report, reportStats, BaseMessageCode.BASE_0008, zipFile.getName());
                 done = true;
                 return false;
 
@@ -213,7 +213,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 ex.printStackTrace();
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
-                    error(report, reportStats, BaseMessageCode.SL_ERR_MSG4, zipFile.getName());
+                    error(report, reportStats, BaseMessageCode.BASE_0008, zipFile.getName());
                     LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
                     done = true;
                     return false;

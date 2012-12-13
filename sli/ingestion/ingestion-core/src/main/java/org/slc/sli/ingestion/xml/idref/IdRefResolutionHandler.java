@@ -172,7 +172,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null
                             && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
-                            report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MS2, currentXPath);
+                            report.warning(reportStats, CoreMessageCode.CORE_0020, currentXPath);
                         }
                         return false;
                     }
@@ -290,7 +290,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
 
-                                report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MSG5, ref.getValue());
+                                report.warning(reportStats, CoreMessageCode.CORE_0021, ref.getValue());
                             }
                         }
                     } else if (theXmlEvent.isEndElement()) {
@@ -414,7 +414,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                     if (id != null && id.getValue().equals(ref.getValue())) {
                                         newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                        report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MSG4, ref.getValue());
+                                        report.warning(reportStats, CoreMessageCode.CORE_0022, ref.getValue());
                                     } else {
 
                                         contentToAdd = resolveRefs(getCurrentXPath(parents),
@@ -424,7 +424,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 } else {
                                     // unable to resolve reference, no matching id for ref
                                     if (isSupportedRef(getCurrentXPath(parents))) {
-                                        report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MSG3, ref.getValue());
+                                        report.warning(reportStats, CoreMessageCode.CORE_0023, ref.getValue());
                                     }
                                 }
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
@@ -468,7 +468,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         // it.
                         transformedContent = rrs.resolve(currentXPath, cachedContent.string);
                         if (transformedContent == null) {
-                            report.warning(reportStats, CoreMessageCode.IDREF_WRNG_MS1, id);
+                            report.warning(reportStats, CoreMessageCode.CORE_0024, id);
                         } else {
                             bucketCache
                                     .addToBucket(namespace, id, new TransformableXmlString(transformedContent, true));
@@ -489,7 +489,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
 
-            report.error(reportStats, CoreMessageCode.IDREF_ERR_MS1, xml.getName());
+            report.error(reportStats, CoreMessageCode.CORE_0025, xml.getName());
         } finally {
             closeResources(writer, out);
         }
@@ -508,7 +508,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(eventReader, browser);
 
         } catch (Exception e) {
-            report.error(reportStats, CoreMessageCode.IDREF_ERR_MS1, xml.getName());
+            report.error(reportStats, CoreMessageCode.CORE_0025, xml.getName());
         } finally {
             if (eventReader != null) {
                 try {
