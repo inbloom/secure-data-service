@@ -1,5 +1,11 @@
 desc "Run Search Tests"
-task :searchTests => [:importUnifiedData] do
+task :searchTests do
+  ["Midgar","Hyrule"].each do |tenant|
+    ["student", "learningObjective", "learningStandard", "competencyLevelDescriptor", "studentCompetencyObjective", "assessment"].each do |collection|
+      removeCollectionsCleanly(collection, tenant)
+    end
+  end
+  Rake::Task["importUnifiedData"].execute
   runTests("test/features/search/search_extractor.feature")
   runTests("test/features/search/search_indexer.feature")
 end
