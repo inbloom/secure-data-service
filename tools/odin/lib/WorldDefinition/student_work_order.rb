@@ -112,7 +112,7 @@ class StudentWorkOrder
         #generate a section for each available course offering
         sections.each{|course_offering, available_sections|
           section = available_sections.to_a[id % available_sections.count]
-          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section, course_offering['id']),
+          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section),
                                                 school_id, start_year, start_grade)
         }
       end

@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+require 'json'
 require 'logger'
 
 Dir["#{File.dirname(__FILE__)}/../Shared/EntityClasses/*.rb"].each { |f| load(f) }
@@ -57,12 +58,12 @@ class DataWriter
 
   # displays the counts for entities created
   def display_entity_counts
+    @log.info "-------------------------------------------------------"
     @log.info "Entity counts:"
     @log.info "-------------------------------------------------------"
-    @counts.each do |type, count|
-      @log.info "#{type}\t\t | count: #{count}"
-    end
-    @log.info "Total count: #{@counts.values.inject(:+)}"
+    @log.info JSON.pretty_generate(@counts)
+    @log.info "Total entity count: #{@counts.values.inject(:+)}"
+    @log.info "-------------------------------------------------------"
   end
 
   # get the entities created

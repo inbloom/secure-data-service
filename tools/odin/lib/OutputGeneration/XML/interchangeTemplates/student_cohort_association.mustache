@@ -14,24 +14,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
-  <TeacherSectionAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>{{teacher_id}}</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    {{#section}}
-    <SectionReference>
-      <SectionIdentity>
+  <StudentCohortAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>{{student}}</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    {{#cohort}}
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>{{identifier}}</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>{{school_id}}</StateOrganizationId>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>{{unique_section_code}}</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-    {{/section}}
-    <ClassroomPosition>{{position}}</ClassroomPosition>
-  </TeacherSectionAssociation>
+      </CohortIdentity>
+    </CohortReference>
+    {{/cohort}}
+    <BeginDate>{{begin_date}}</BeginDate>
+    {{#end_date}}
+    <EndDate>{{end_date}}</EndDate>
+    {{/end_date}}
+  </StudentCohortAssociation>
 {{/entity}}

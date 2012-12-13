@@ -32,6 +32,7 @@ STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
 BATCH_SIZE: 10000
 
 # Course Catalog (currently published at State Education Agency level)
+# should be translated into course.json (similar to staff catalog)
 SIXTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 SEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 EIGHTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
@@ -42,6 +43,9 @@ TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 
 # Staff Catalog location
 STAFF_CATALOG: scenarios/staff.json
+
+# Teacher to Section mapping
+MAX_SECTIONS_PER_TEACHER: {'elementary': 1, 'middle': 3, 'high': 5}
 
 # Assessment information
 ASSESSMENTS_TAKEN: {grade_wide: 3}
