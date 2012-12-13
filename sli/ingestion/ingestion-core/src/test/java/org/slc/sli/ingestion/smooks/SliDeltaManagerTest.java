@@ -32,8 +32,11 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Tests for SliDeltaManager
@@ -44,7 +47,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SliDeltaManagerTest {
     @Mock
-    private ErrorReport errorReport;
+    private AbstractMessageReport errorReport;
     @Mock
     private BatchJobMongoDA mockBatchJobMongoDA;
     @Mock
@@ -53,6 +56,8 @@ public class SliDeltaManagerTest {
     private DeterministicIdResolver mockDidResolver;
 
     private static final String RECORD_DID = "theRecordId";
+
+    ReportStats reportStats = new SimpleReportStats(new SimpleSource("TestJob", "Resource", "StageName"));
 
     @Before
     public void setup() {
@@ -79,7 +84,7 @@ public class SliDeltaManagerTest {
         Mockito.when(mockDIdStrategy.generateId(any(NaturalKeyDescriptor.class))).thenReturn(RECORD_DID);
 
         // Simulate a record being ingested the first time - should return false
-        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(originalRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport));
+        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(originalRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport, reportStats));
         // Confirm hash related metaData is updated
         confirmMetaDataUpdated(originalRecord);
 
@@ -94,7 +99,7 @@ public class SliDeltaManagerTest {
         Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(hash);
 
         // Simulate a matching record being ingested - should return true
-        Assert.assertTrue(SliDeltaManager.isPreviouslyIngested(recordClone, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport));
+        Assert.assertTrue(SliDeltaManager.isPreviouslyIngested(recordClone, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport, reportStats));
         // Confirm hash related metaData is updated
         confirmMetaDataUpdated(recordClone);
 
@@ -125,7 +130,7 @@ public class SliDeltaManagerTest {
         Mockito.when(mockDIdStrategy.generateId(any(NaturalKeyDescriptor.class))).thenReturn(RECORD_DID);
 
         // Simulate a record being ingested the first time - should return false
-        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(originalRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport));
+        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(originalRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport, reportStats));
         // Confirm hash related metaData is updated
         confirmMetaDataUpdated(originalRecord);
 
@@ -140,7 +145,7 @@ public class SliDeltaManagerTest {
         Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(hash);
 
         // Simulate a matching record with updated attributes being ingested (i.e. different hash)
-        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(modifiedRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport));
+        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(modifiedRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport, reportStats));
         confirmMetaDataUpdated(modifiedRecord);
 
         String sId = (String) modifiedRecord.getMetaData().get("rhId");

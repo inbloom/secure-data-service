@@ -35,8 +35,9 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 
@@ -67,7 +68,7 @@ public final class SliDeltaManager {
      * @return
      */
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
-            DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, ErrorReport errorReport) {
+            DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, AbstractMessageReport report, ReportStats reportStats) {
         boolean isPrevIngested = false;
         String tenantId = TenantContext.getTenantId();
 
@@ -93,7 +94,7 @@ public final class SliDeltaManager {
 
         NeutralRecord neutralRecordResolved = (NeutralRecord) n.clone();
         Entity entity = new NeutralRecordEntity(neutralRecordResolved);
-        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
+        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
 
         // Calculate DiD using natural key values (that are references) in their Did form
         try {

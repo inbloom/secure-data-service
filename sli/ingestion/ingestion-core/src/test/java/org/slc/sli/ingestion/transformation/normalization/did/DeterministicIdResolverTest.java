@@ -39,13 +39,16 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
-import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.Ref;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 
 /**
@@ -142,7 +145,7 @@ public class DeterministicIdResolverTest {
 
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
 
         EntityConfig oldEntityConfig = Mockito.mock(EntityConfig.class);
         Mockito.when(entityConfigs.getEntityConfiguration(Mockito.anyString())).thenReturn(oldEntityConfig);
@@ -161,10 +164,11 @@ public class DeterministicIdResolverTest {
         Mockito.when(refDef2.getRef()).thenReturn(ref2);
         references.add(refDef2);
 
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Assert.assertEquals(DID_VALUE, entity.getBody().get(REF_FIELD));
-        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("no errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
     @Test
@@ -186,12 +190,13 @@ public class DeterministicIdResolverTest {
 
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Assert.assertEquals(DID_VALUE, entity.getBody().get(REF_FIELD));
-        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("no errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
     @Test
@@ -213,13 +218,14 @@ public class DeterministicIdResolverTest {
 
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         // assert that the other reference is resolved and that no errors are reported
         Assert.assertEquals(DID_VALUE, entity.getBody().get(REF_FIELD));
-        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("no errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
     @Test
@@ -244,9 +250,10 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk1))).thenReturn(DID_VALUE_1);
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
 
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         @SuppressWarnings("unchecked")
         List<String> did_list = (List<String>) entity.getBody().get(REF_FIELD);
@@ -257,30 +264,31 @@ public class DeterministicIdResolverTest {
         Assert.assertEquals(DID_VALUE_1, did_list.get(0));
         Assert.assertEquals(DID_VALUE_2, did_list.get(1));
 
-        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("no errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
     @Test
     public void shouldFailFastForNonDidEntities() {
         Entity entity = createSourceEntity();
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
         // test null entity config
         mockEntityConfig(null, NON_DID_ENTITY_TYPE);
 
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
         Mockito.verify(didSchemaParser, Mockito.never()).getRefConfigs();
 
         // test null ref config list
         DidEntityConfig entityConfig = Mockito.mock(DidEntityConfig.class);
         mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(entityConfig.getReferenceSources()).thenReturn(null);
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
         Mockito.verify(didSchemaParser, Mockito.never()).getRefConfigs();
 
         // test empty ref config list
         Mockito.when(entityConfig.getReferenceSources()).thenReturn(new ArrayList<DidRefSource>());
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
         Mockito.verify(didSchemaParser, Mockito.never()).getRefConfigs();
     }
 
@@ -289,7 +297,9 @@ public class DeterministicIdResolverTest {
 
         DidRefConfig refConfig = createRefConfig("nested_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+
         Entity entity = createNestedSourceEntity();
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -307,11 +317,11 @@ public class DeterministicIdResolverTest {
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
         Mockito.when(didGenerator.generateId(Mockito.eq(nestedNdk))).thenReturn(NESTED_DID_VALUE);
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Object resolvedId = entity.getBody().get(REF_FIELD);
         Assert.assertEquals(DID_VALUE, resolvedId);
-        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("no errors should be reported from reference resolution ", reportStats.hasErrors());
 
     }
 
@@ -321,7 +331,9 @@ public class DeterministicIdResolverTest {
         Entity entity = createEntity("NeutralRecord_StudentTranscriptAssoc_missingOptionalEdOrg.json");
         DidRefConfig refConfig = createRefConfig("StudentAcademicRecord_optional_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("StudentTranscriptAssoc_entity_config.json");
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("schoolId", "");
@@ -342,11 +354,11 @@ public class DeterministicIdResolverTest {
         mockEntityConfig(entityConfig, "studentTranscriptAssociation");
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
 
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Object resolvedId = entity.getBody().get("StudentAcademicRecordReference");
         Assert.assertEquals("studentAcademicRecordDID", resolvedId);
-        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("no errors should be reported from reference resolution ", reportStats.hasErrors());
 
     }
 
@@ -375,9 +387,11 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk1))).thenReturn(DID_VALUE_1);
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
 
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         List<Object> embeddedList = (List<Object>) entity.getBody().get(EMBEDDED_LIST_FIELD);
         Assert.assertNotNull(embeddedList);
@@ -388,7 +402,7 @@ public class DeterministicIdResolverTest {
 
         Assert.assertEquals(DID_VALUE_1, subObj1.get(REF_FIELD));
         Assert.assertEquals(DID_VALUE_2, subObj2.get(REF_FIELD));
-        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("no errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
 
@@ -457,24 +471,28 @@ public class DeterministicIdResolverTest {
     }
 
     private void testGenericErrorReporting(DidRefConfig refConfig, DidEntityConfig entityConfig) {
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+
         Entity entity = createSourceEntity();
         Object refObj = entity.getBody().get(REF_FIELD);
         mockRefConfig(refConfig, ENTITY_TYPE);
         mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
         Mockito.when(didGenerator.generateId(Mockito.any(NaturalKeyDescriptor.class))).thenReturn(DID_VALUE);
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Assert.assertEquals("Id should not have been resolved; it should still be the refObject", refObj, entity
                 .getBody().get(REF_FIELD));
-        Assert.assertTrue("Errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertTrue("Errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
     @Test
     public void testErrorReportingOnEntityRefFieldMissing() throws IOException {
         // entity doesn't have property to get at sourceRefPath
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+
         Entity entity = createSourceEntityMissingRefField();
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
@@ -482,25 +500,27 @@ public class DeterministicIdResolverTest {
         mockRefConfig(refConfig, ENTITY_TYPE);
         mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Assert.assertNull("Id should not have been resolved", entity.getBody().get(REF_FIELD));
-        Assert.assertTrue("Errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertTrue("Errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
     @Test
     public void testErrorReportingOnFactoryMissingRefConfigForEntityType() throws IOException {
-        ErrorReport errorReport = new TestErrorReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+
         Entity entity = createSourceEntityMissingRefField();
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
         mockRefConfig(null, ENTITY_TYPE);
         mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
-        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Assert.assertNull("Id should not have been resolved", entity.getBody().get(REF_FIELD));
-        Assert.assertFalse("No errors should be reported from reference resolution ", errorReport.hasErrors());
+        Assert.assertFalse("No errors should be reported from reference resolution ", reportStats.hasErrors());
     }
 
     private DidEntityConfig createEntityConfig(String fileName) throws IOException {

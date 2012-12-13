@@ -172,7 +172,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null
                             && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
-                            report.warning(reportStats, CoreMessageCode.CORE_0020, currentXPath);
+                            report.warning(reportStats, CoreMessageCode.CORE_0027, currentXPath);
                         }
                         return false;
                     }

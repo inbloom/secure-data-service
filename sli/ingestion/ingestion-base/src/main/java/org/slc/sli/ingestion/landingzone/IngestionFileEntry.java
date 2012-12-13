@@ -20,9 +20,15 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.File;
 import java.io.Serializable;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
 
@@ -46,6 +52,11 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private FaultsReport faultsReport;
     private String topLevelLandingZonePath;
 
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
+
+    private ReportStats reportStats;
+
     // will only be set when this is added to a BatchJob
     private String batchJobId;
 
@@ -61,9 +72,17 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         this.checksum = checksum;
         this.faultsReport = new FaultsReport();
         this.topLevelLandingZonePath = topLevelLandingZonePath;
+        this.reportStats = new SimpleReportStats(new SimpleSource(batchJobId, fileName, null));
     }
 
     // Methods
+
+    /**
+     * @return the reportStats
+     */
+    public ReportStats getReportStats() {
+        return reportStats;
+    }
 
     /**
      * Set the Ingestion file format.
@@ -206,4 +225,12 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
         this.topLevelLandingZonePath = topLevelLandingZonePath;
     }
+
+    /**
+     * @return the databaseMessageReport
+     */
+    public AbstractMessageReport getDatabaseMessageReport() {
+        return databaseMessageReport;
+    }
+
 }

@@ -43,6 +43,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksCallable;
@@ -76,6 +77,9 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     @Autowired
     private NeutralRecordAccess neutralRecordMongoAccess;
+
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
 
     @Override
     public void process(Exchange exchange) throws Exception {
