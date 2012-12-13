@@ -17,7 +17,9 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -115,8 +117,14 @@ public final class SliDeltaManager {
                     + neutralRecordResolved.getAttributes().toString() + "-" + tenantId);
             RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
-            n.addMetaData("rhId", recordId);
-            n.addMetaData("rhHash", recordHashValues);
+            // TODO consider making this a util
+            List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
+            Map<String, Object> rhDataElement = new HashMap<String, Object>();
+            rhDataElement.put("rhId", recordId);
+            rhDataElement.put("rhHash", recordHashValues);
+            rhData.add(rhDataElement);
+
+            n.addMetaData("rhData", rhData);
             n.addMetaData("rhTenantId", tenantId);
 
             isPrevIngested = (record != null && record.getHash().equals(recordHashValues));

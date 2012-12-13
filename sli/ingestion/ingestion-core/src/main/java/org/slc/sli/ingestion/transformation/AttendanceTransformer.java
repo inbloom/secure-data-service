@@ -321,8 +321,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
                 ATTENDANCE_TRANSFORMED);
 
-        // TODO remove this
-        System.out.println("Added "+attendanceRhData.size()+" attendance event hashes for student "+studentId+" at school "+schoolId );
     }
 
     private Collection<? extends Map<String, Object>> extractRecordHashDataFromAttendanceEvents(
