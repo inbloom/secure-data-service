@@ -24,7 +24,7 @@ package org.slc.sli.ingestion.reporting;
  */
 public enum BaseMessageCode implements MessageCode {
 
-    SL_ERR_MSG1, SL_ERR_MSG2, SL_ERR_MSG3, SL_ERR_MSG8, SL_ERR_MSG9, SL_ERR_MSG14;
+    BASE_0001, SL_ERR_MSG4, SL_ERR_MSG5, BASE_0002, BASE_0003, BASE_0004, BASE_0005, BASE_0006, BASE_0007, SL_ERR_MSG11, SL_ERR_MSG12, SL_ERR_MSG13, SL_ERR_MSG15, SL_ERR_MSG18, XSD_VALIDATION_ERROR;
 
     @Override
     public String getCode() {

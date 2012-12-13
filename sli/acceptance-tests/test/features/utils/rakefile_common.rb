@@ -22,7 +22,7 @@ require 'digest/sha1'
 def cleanUpLdapUser(user_email)
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                         PropLoader.getProps['ldap_admin_pass'])
+                         PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
 
   ldap.get_user_groups(user_email).each do |group_id|
     ldap.remove_user_group(user_email, group_id)

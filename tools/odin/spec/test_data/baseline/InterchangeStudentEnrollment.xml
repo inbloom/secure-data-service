@@ -122,6 +122,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2001-09-01</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>
@@ -136,6 +146,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
     <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>
@@ -150,6 +170,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>
@@ -234,6 +264,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Distinguished</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>
@@ -262,6 +302,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2002-09-01</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>
@@ -276,6 +326,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <EntryDate>2003-09-01</EntryDate>
     <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
 <StudentSchoolAssociation>
    <StudentReference>

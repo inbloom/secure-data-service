@@ -46,10 +46,23 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     @Autowired
     private DbIndexValidator batchJobDbIndexValidator;
 
-
     @Override
     public boolean isValid(Object object, ErrorReport callback) {
 
+        verifyIndexes();
+
+        return true;
+    }
+
+    @Override
+    public boolean isValid(Object object, AbstractMessageReport report, ReportStats reportStats) {
+
+        verifyIndexes();
+
+        return true;
+    }
+
+    private void verifyIndexes() {
         LOG.info("Validating indexes for sli database....");
         sliDbIndexValidator.verifyIndexes();
 
@@ -58,15 +71,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
 
         LOG.info("Validating indexes for tenant databases....");
         tenantDBIndexValidator.verifyIndexes();
-
-        return true;
-    }
-
-
-    @Override
-    public boolean isValid(Object object, AbstractMessageReport report, ReportStats reportStats) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
 }

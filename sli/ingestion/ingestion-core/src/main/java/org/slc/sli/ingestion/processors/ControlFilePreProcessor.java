@@ -67,7 +67,6 @@ import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -127,12 +126,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
-            source = new SimpleSource(batchJobId, controlFileName, BatchJobStageType.CONTROL_FILE_PREPROCESSOR.toString());
+            source = new SimpleSource(batchJobId, controlFileName, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats(source);
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
             createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
-
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
@@ -143,10 +141,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                 auditSecurityEvent(controlFile);
 
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, CoreMessageCode.CORE_0001.getCode()));
                 databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0001);
             }
-
 
             setExchangeHeaders(exchange, newBatchJob, reportStats);
 
@@ -157,7 +153,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             if (newBatchJob != null) {
                 id = newBatchJob.getId();
                 if (newBatchJob.getResourceEntries().size() == 0) {
-                    LOG.info(MessageSourceHelper.getMessage(messageSource, CoreMessageCode.CORE_0002.getCode()));
                     databaseMessageReport.warning(reportStats, CoreMessageCode.CORE_0002);
                 }
             }

@@ -95,9 +95,6 @@ class SectionWorkOrderFactory
   end
 
   def sections(id, type, year, grade)
-    #puts "ed org id: #{id}"
-    #puts "world: #{@world}"
-    #puts ""
     if (@world.nil? == false && @world[type].nil? == false)
       ed_org = @world[type].find{|s| s['id'] == id}
       return ed_org['sections'][year][grade] if !ed_org.nil? and !ed_org['sections'].nil? and !ed_org['sections'][year].nil?
