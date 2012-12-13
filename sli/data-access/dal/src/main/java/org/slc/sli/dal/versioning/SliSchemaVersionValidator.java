@@ -122,11 +122,14 @@ public class SliSchemaVersionValidator {
                     DBObject dbObject = this.mongoTemplate.findOne(query, BasicDBObject.class, METADATA_COLLECTION);
 
                     if (dbObject == null) {
+                        int sarjeFlag = (schemaVersion > 1) ? 1 : 0;
+                        int storedSchemaVersion = schemaVersion - sarjeFlag; // because migrating from x to x might be odd
+                        
                         Map<String, Object> objectToSave = new HashMap<String, Object>();
                         objectToSave.put(ID, neutralSchema.getType());
                         objectToSave.put(DAL_SV, schemaVersion);
-                        objectToSave.put(MONGO_SV, schemaVersion - 1);
-                        objectToSave.put(SARJE, 1);
+                        objectToSave.put(MONGO_SV, storedSchemaVersion);
+                        objectToSave.put(SARJE, sarjeFlag);
                         this.mongoTemplate.insert(objectToSave, METADATA_COLLECTION);
                     } else {
                         int lastKnownDalVersion = Double.valueOf(dbObject.get(DAL_SV).toString()).intValue();
