@@ -663,8 +663,9 @@
                         <linkXref>true</linkXref>
                         <sourceEncoding>utf-8</sourceEncoding>
                         <minimumTokens>100</minimumTokens>
-                        <targetJdk>${java.version}</targetJdk>
+                        <targetJdk>1.5</targetJdk>
                         <includeTests>false</includeTests>
+                        <failurePriority>2</failurePriority>
                         <rulesets>
                             <ruleset>${sli.home}/../build-tools/src/main/resources/PMD/SLI-PMD-Rules.xml</ruleset>
                         </rulesets>
