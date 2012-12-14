@@ -161,4 +161,21 @@ describe "Odin" do
     end
   end
 
+  context "with a configuration with only students whitelisted" do
+    let(:odin) {Odin.new}
+    before {odin.generate "1000studentsOnly"}
+    let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
+    let(:interchanges) {Dir.new("#{File.dirname(__FILE__)}/../generated/").select{|f| f.match(/xml$/)}}
+
+    describe "#generate" do
+      it "will generate lists of 1000 students" do
+        student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
+      end
+      it "will not generate any other entity" do
+        student.readlines.select{|l| l.match("<Parent>")}.length.should eq(0)
+        interchanges.should have(1).items
+      end
+    end
+  end
+
 end
