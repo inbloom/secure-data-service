@@ -31,3 +31,12 @@ Feature: Entity versioning and migration strategies
     And "sex" should not exist
     And "name" should not exist
     And "nameData" should exist
+
+  Scenario: A posted entity has the correct version number after being saved to database
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And format "application/vnd.slc+json"  
+    And a valid entity json document for a "educationOrganization"
+    When I navigate to POST "/<EDORG URI>"
+    Then I should receive a return code of 201
+    And I should receive an ID for the newly created entity
+    Then the entity should have a version of "999999" in the database
