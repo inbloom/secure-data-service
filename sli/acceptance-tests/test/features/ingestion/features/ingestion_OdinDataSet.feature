@@ -194,13 +194,13 @@ Scenario: Verify superdoc studentSchoolAssociation for specific _id ingested cor
     And the studentSchoolAssociation references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
-  When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"
-    Then the student entity body.race should be "White"
-    And the student entity body.limitedEnglishProficiency should be "NotLimited"
-    And the student entity body.schoolFoodServicesEligibility should be "Reduced price"  
-    And the student entity schools.entryGradeLevel should be "Kindergarten"
-    And the student entity schools.entryGradeLevel should be "First grade" 
-    And the student entity schools.entryGradeLevel should be "Second grade" 
+  When I can find a "student" with "_id" "9e54047cbfeeee26fed86b0667e98286a2b72791_id" in tenant db "Midgar"
+    Then the "student" entity "body.race" should be "White"
+    And the "student" entity "body.limitedEnglishProficiency" should be "NotLimited"
+    And the "student" entity "body.schoolFoodServicesEligibility" should be "Reduced price"  
+    And the "student" entity "schools.entryGradeLevel" should be "Kindergarten"
+    And the "student" entity "schools.entryGradeLevel" should be "First grade" 
+    And the "student" entity "schools.entryGradeLevel" should be "Second grade" 
 
 Scenario: Verify entities in student school association were ingested correctly
     And I check to find if record is in collection:

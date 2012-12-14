@@ -144,9 +144,6 @@ Before do
         end
       end
 
-      if path.start_with?("c:")
-        path = path.sub("c:", "C:");
-      end
 
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
@@ -1788,16 +1785,13 @@ Then /^the "(.*?)" entity "(.*?)" should be "(.*?)"$/ do |coll, doc_key, expecte
 end
 
 Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, field, ref|
-  # build up the student_school_association value hash
-  # example: ref = student, field = body.studentId, value = 62f964169b8d2321a5daa39f100431f04d19e4bd_id
-  #value = ref_coll.find({@id_type => @id}, :fields => field).to_a
   result = false
   # cache the referenced collection (student OR educationOrganizatio)
   ref_coll = @db[coll]
   assert(true, "Could not find #{coll} collection") if ref_coll.count == 0
 
   # This part gets a little hackish because mongo returns nested structs
-  # for student school assoc we need to support at most a 2 nodes
+  # for student school assoc we need to support at most 2 nodes
   # -> Get values from the studentSchoolAssociation doc
   ssa_doc_root_field  = ref.split(".").shift
   ssa_doc_value_field   = ref.split(".").pop
