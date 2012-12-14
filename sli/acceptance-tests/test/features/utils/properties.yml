@@ -65,9 +65,11 @@ user_registration_email: devldapuser@slidev.org
 user_registration_pass: test1234
 
 jmeter_jmx_path: "../../tools/jmeter/"
-jmeter_jtl_archive: "/storage/jmeter/jtl"
+jmeter_jtl_archive: "/storage/logs/jmeter/archive"
+jmeter_failed_jtl_archive: "/storage/logs/jmeter/failed"
 jmeter_bin:	"jmeter"
 jmeter_properties: "local.properties"
+jmeter_regression_threshold: 0.25
 
 
 emaiL_smtp_host: mon.slidev.org

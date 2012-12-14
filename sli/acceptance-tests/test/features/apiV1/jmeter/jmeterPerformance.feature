@@ -5,12 +5,12 @@ Feature: API Jmeter performance tests
 Scenario: Run Jmeter tests
   Given I run each of the Jmeter tests:
     | testName            |
-    | login				  |
-    | list-attendance	  |
+    | login               |
+    | list-attendance	    |
     | list-sections	      |
-    | list-grades		  |
-    | list-students		  |
+    | list-grades         |
+    | list-students       |
     | single-student      |
     | update-gradebooks   |
     | update-attendance   |
-  Then blah
+  Then no performance regressions should be found
