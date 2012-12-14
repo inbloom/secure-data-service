@@ -34,6 +34,8 @@ require_relative '../../utils/sli_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   id = "staff"                                   if human_readable_id == "STAFF URI"
+  id = "educationOrganizations"                  if human_readable_id == "EDORG URI"
+  id = @newId                                    if human_readable_id == "New Entity ID"
   id = "85585b27-5368-4f10-a331-3abcaf3a3f4c"    if human_readable_id == "'Rick Rogers' ID"
     
   #return the translated value
@@ -56,6 +58,38 @@ end
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
+
+
+$edorgData = {
+    "organizationCategories" => [
+      "State Education Agency"
+    ],
+    "address" => [
+      {
+        "addressType" => "Physical",
+        "streetNumberName" => "111 District Office Way",
+        "apartmentRoomSuiteNumber" => "100",
+        "city" => "NY",
+        "stateAbbreviation" => "NY",
+        "postalCode" => "12345",
+        "nameOfCounty" => "Wake"
+      }
+    ],
+    "parentEducationAgencyReference" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "stateOrganizationId" => "NEW SCHOOL",
+    "nameOfInstitution" => "New School for Testing"
+  }
+
+Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
+  if arg1 == "educationOrganization"
+    @fields = $edorgData
+  else 
+    assert(false,"Unexpected entity type: " + arg1)
+  end
+
+end
+
+
 
 Given /^I drop the "([^\"]*)" collection$/ do |collection|
   #steps %Q{
@@ -111,6 +145,18 @@ Then /^"([^\"]*)" should not exist$/ do |arg1|
   assert(@result.has_key?(arg1) == false, "Expected '#{arg1}' field should not exist")
 end
 
+
+Then /^the entity should have a version of "([^\"]*)" in the database$/ do |arg1|
+  @result = @res if !defined? @result
+
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn[convertTenantIdToDbName('Midgar')]
+  @entity_collection = @db["educationOrganization"]
+
+  assert(@entity_collection.find({"_id" => @newId, "metaData.tenantId" => "Midgar"}).count == 1, "Entity with version number not found")
+  #assert(@entity_collection.find({"_id" => @newId, "metaData.version" => arg1}).count == 1, "Entity with version number not found")
+
+end
 
 
 
