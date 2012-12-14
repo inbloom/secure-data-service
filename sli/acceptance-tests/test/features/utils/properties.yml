@@ -64,7 +64,8 @@ validation_base_suffix: "/user_account_validation"
 user_registration_email: devldapuser@slidev.org
 user_registration_pass: test1234
 
-jmeter_path: "../../tools/jmeter/"
+jmeter_jmx_path: "../../tools/jmeter/"
+jmeter_jtl_archive: "/storage/jmeter/jtl"
 
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 3000
