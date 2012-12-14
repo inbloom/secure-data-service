@@ -637,26 +637,24 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         String tenantId = TenantContext.getTenantId();
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
+        List<Map<String, String>> rhData = (List<Map<String, String>>) rhDataObj;
 
-        for (Map<String, Object> rhDataElement : rhData) {
+        for (Map<String, String> rhDataElement : rhData) {
 
-            Object rhHashObj = rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
-            Object rhIdObj = rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
+            String newHashValue = rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
+            String recordId = rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
 
             // Make sure complete metadata is present
-            if (null == rhHashObj || null == rhIdObj) {
+            if ((null == recordId || null == newHashValue) || recordId.isEmpty() || newHashValue.isEmpty()) {
                 continue;
             }
-            String newHashValues = rhHashObj.toString();
-            String recordId = rhIdObj.toString();
 
             // Consider DE2002, removing a query per record vs. tracking version
             RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
             if (rh == null) {
-                batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
+                batchJobDAO.insertRecordHash(tenantId, recordId, newHashValue);
             } else {
-                batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+                batchJobDAO.updateRecordHash(tenantId, rh, newHashValue);
             }
         }
 

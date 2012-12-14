@@ -121,8 +121,8 @@ public final class SliDeltaManager {
             RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
             // TODO consider making this a util
-            List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
-            Map<String, Object> rhDataElement = new HashMap<String, Object>();
+            List<Map<String, String>> rhData = new ArrayList<Map<String, String>>();
+            Map<String, String> rhDataElement = new HashMap<String, String>();
             rhDataElement.put(RECORDHASH_ID, recordId);
             rhDataElement.put(RECORDHASH_HASH, recordHashValues);
             rhData.add(rhDataElement);
