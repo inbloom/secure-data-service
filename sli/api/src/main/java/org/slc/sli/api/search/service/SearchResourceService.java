@@ -16,7 +16,6 @@
 package org.slc.sli.api.search.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +36,7 @@ import com.google.common.collect.Table;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.client.Client;
 import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
@@ -72,7 +72,7 @@ import org.slc.sli.domain.NeutralCriteria;
  * Service class to handle all API search requests. Retrieves results using data
  * access classes. Queries and filters results based on the user's security
  * context (role, ed-org, school, section assocs, etc.)
- * 
+ *
  */
 
 @Component
@@ -122,7 +122,7 @@ public class SearchResourceService {
 
 	/**
 	 * Main entry point for retrieving search results
-	 * 
+	 *
 	 * @param resource
 	 * @param resourcesToSearch
 	 * @param queryUri
@@ -182,7 +182,7 @@ public class SearchResourceService {
 	/**
 	 * Takes an ApiQuery and retrieve results. Includes logic for pagination and
 	 * calls methods to filter by security context.
-	 * 
+	 *
 	 * @param definition
 	 * @param apiQuery
 	 * @return
@@ -246,7 +246,7 @@ public class SearchResourceService {
 
 	/**
 	 * Replace entity type 'search' with the real entity types
-	 * 
+	 *
 	 * @param entities
 	 */
 	private void setRealEntityTypes(List<EntityBody> entities) {
@@ -260,7 +260,7 @@ public class SearchResourceService {
 	 * Prepare an ApiQuery to send to the search repository. Creates the
 	 * ApiQuery from the query URI, sets query criteria and security context
 	 * criteria.
-	 * 
+	 *
 	 * @param resourcesToSearch
 	 * @param queryUri
 	 * @return
@@ -280,7 +280,7 @@ public class SearchResourceService {
 
 	/**
 	 * Given string of resource names, get corresponding string of entity types
-	 * 
+	 *
 	 * @param resourceNames
 	 * @return
 	 */
@@ -304,7 +304,7 @@ public class SearchResourceService {
 	 * Return list of accessible entities, filtered through the security
 	 * context. Original list may by cross-collection. Retains the original
 	 * order of entities.
-	 * 
+	 *
 	 * @param entities
 	 * @param offset
 	 *            -
@@ -362,7 +362,7 @@ public class SearchResourceService {
 
 	/**
 	 * Get entities table by type, by ids
-	 * 
+	 *
 	 * @param entityList
 	 * @return
 	 */
@@ -379,7 +379,7 @@ public class SearchResourceService {
 
 	/**
 	 * Filter id set to get accessible ids
-	 * 
+	 *
 	 * @param toType
 	 * @param ids
 	 * @return
@@ -398,7 +398,7 @@ public class SearchResourceService {
 
 	/**
 	 * NeutralCriteria filter. Keep NeutralCriteria only on the White List
-	 * 
+	 *
 	 * @param apiQuery
 	 */
 	public void filterCriteria(ApiQuery apiQuery) {
@@ -428,7 +428,7 @@ public class SearchResourceService {
 	/**
 	 * Apply default query pattern for ElasticSearch. Query strategy -
 	 * start-of-word match on each query token
-	 * 
+	 *
 	 * @param criterias
 	 */
 	private static void applyDefaultPattern(NeutralCriteria criteria) {
@@ -451,7 +451,7 @@ public class SearchResourceService {
 	 * determined by the user's accessible schools. The list of accessible
 	 * school ids is added to the query, and records in Elasticsearch must match
 	 * an id in order to be returned.
-	 * 
+	 *
 	 * @param apiQuery
 	 */
 	private void addSecurityContext(ApiQuery apiQuery) {
@@ -474,9 +474,9 @@ public class SearchResourceService {
 
 	/**
 	 * Run an embedded ElasticSearch instance, if enabled by configuration.
-	 * 
+	 *
 	 * @author dwu
-	 * 
+	 *
 	 */
 	@Component
 	static final class Embedded {
@@ -511,6 +511,10 @@ public class SearchResourceService {
 				node = NodeBuilder.nodeBuilder().local(true)
 						.settings(settings).node();
 			}
+		}
+
+		public Client getClient() {
+			return node.client();
 		}
 
 		@PreDestroy
