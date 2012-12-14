@@ -8,8 +8,9 @@ Scenario: Run Jmeter tests
     | login				  |
     | list-attendance	  |
     | list-sections	      |
-	| list-grades		  |
-	| list-students		  |
-	| single-student      |
-	| update-gradebooks   |
-	| update-attendance   |
+    | list-grades		  |
+    | list-students		  |
+    | single-student      |
+    | update-gradebooks   |
+    | update-attendance   |
+  Then blah

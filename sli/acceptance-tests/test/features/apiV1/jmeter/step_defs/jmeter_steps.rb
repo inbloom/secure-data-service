@@ -16,80 +16,81 @@ limitations under the License.
 
 =end
 
+require 'pp'
+require 'xml'
 require_relative '../../../utils/sli_utils.rb'
 
 ###############################################################################
 # RUN JMETER TESTS
 ###############################################################################
 
-require 'xml'
-JMETER_PATH = PropLoader.getProps['jmeter_path']
-
-
+JMETER_JMX_PATH = PropLoader.getProps['jmeter_jmx_path']
 PROPERTIES_FILE = "local.properties"
 
 Given /^I run each of the Jmeter tests:$/ do |table|
+  @testsRun = Array.new
   table.hashes.map do |row|
-      testName = row["testName"]
-      runTest(testName)
+    testName = row["testName"]
+    @testsRun << testName
+    puts "\n" + testName
+    runTest(testName)
   end
 end
 
 def runTest(testName)
-    jmxFileName = JMETER_PATH + testName + ".jmx"
-      propertiesFileName = JMETER_PATH + PROPERTIES_FILE
-      jMeterCommand = "jmeter -n -t " + jmxFileName + " -q " + propertiesFileName
-      puts "executing: " + jMeterCommand
-      system jMeterCommand
-      parseJtlForRC(testName)
+  jmxFileName = JMETER_JMX_PATH + testName + ".jmx"
+  propertiesFileName = JMETER_JMX_PATH + PROPERTIES_FILE
+  jMeterCommand = "jmeter -n -t " + jmxFileName + " -q " + propertiesFileName
+  puts "executing: " + jMeterCommand
+  system jMeterCommand
+  parseJtlForRC(testName)
 end
 
 def parseJtlForRC(testName)
-	rcMap = {}
-	fileName = testName + ".jtl"
-	doc = loadXML(fileName)
-	testPassed = true
-	doc.find('//httpSample').each do |sample|
-    	label = sample.attributes["lb"]
-    	rc = sample.attributes["rc"]
-    	truncatedLabel = label
-    	optIndex = truncatedLabel.index('?')
-    	if optIndex != nil
-    		truncatedLabel = truncatedLabel[0, optIndex]
-    	end
-    	rcMap[truncatedLabel] = rc
-    	validRc = validReturnCode?(rc)
-    	if !validRc
-    		puts truncatedLabel + ": \t " + rc
-    		testPassed = false
-    	end 
-  	end
-  	
-  	if !testPassed
-  		deleteJtlFile(testName)	
-  	end
-  	
-  	rcMap.each do |label, rc|
-  		assert(validReturnCode?(rc), String(rc) + " returned for " + label)
-  	end
-  	
+  rcMap = {}
+  fileName = testName + ".jtl"
+  doc = loadXML(fileName)
+  testPassed = true
+  doc.find('//httpSample').each do |sample|
+    label = sample.attributes["lb"]
+    rc = sample.attributes["rc"]
+    truncatedLabel = label
+    optIndex = truncatedLabel.index('?')
+    if optIndex != nil
+      truncatedLabel = truncatedLabel[0, optIndex]
+    end
+    rcMap[truncatedLabel] = rc
+    validRc = validReturnCode?(rc)
+    if !validRc
+      puts truncatedLabel + ": \t " + rc
+      testPassed = false
+    end
+  end
+
+  if !testPassed
+    deleteJtlFile(testName)
+  end
+
+  rcMap.each do |label, rc|
+    assert(validReturnCode?(rc), String(rc) + " returned for " + label)
+  end
 end
 
 def deleteJtlFile(testName)
-	File.delete(testName + ".jtl")
+  File.delete(testName + ".jtl")
 end
 
 def loadXML(fileName)
-	xml = File.read(fileName)
-	parser = XML::Parser.string(xml)
-	parser.parse
+  xml = File.read(fileName)
+  parser = XML::Parser.string(xml)
+  parser.parse
 end
 
 def validReturnCode?(rc)
-	rc.to_i >= 200 && rc.to_i < 400
+  rc.to_i >= 200 && rc.to_i < 400
 end
 
-#TODO remove and use SLI utils assert
-def assert(bool, message = 'assertion failure')
-  raise message unless bool
+Then /^blah$/ do
+  pp @testsRun
 end
+
