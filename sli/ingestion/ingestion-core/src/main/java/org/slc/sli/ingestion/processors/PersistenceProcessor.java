@@ -53,6 +53,7 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
@@ -218,7 +219,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * @param stage
      *            persistence stage.
      */
-    private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
+    private void processWorkNote(WorkNote workNote, NewBatchJob job, Stage stage) {
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
 
         EntityPipelineType entityPipelineType = getEntityPipelineType(collectionNameAsStaged);
@@ -301,6 +302,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     + collectionNameAsStaged + "\n";
             errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
+            ResourceEntry resourceEntry = new ResourceEntry();
+            resourceEntry.setResourceId(collectionNameAsStaged);
+            job.addResourceEntry(resourceEntry);
+            batchJobDAO.saveBatchJob(job);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
