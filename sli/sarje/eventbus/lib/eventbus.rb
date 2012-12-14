@@ -95,14 +95,15 @@ module Eventbus
     def initialize(node_id, event_type, config = {},logger = nil)
       @logger = logger if logger
       @config = {
-          :heartbeat_period => 5
+          :heartbeat_period => 5,
+          :subscription_request_queue => "/queue/subscription/poll"
       }.merge(config)
 
       @messaging = MessagingService.new(@config, logger)
       @subscription_channel = @messaging.get_subscriber(subscription_address(event_type))
       @event_channels = {}
       @heartbeat_channel = @messaging.get_publisher(HEART_BEAT_ADDRESS)
-      @subscription_request_channel = @messaging.get_publisher(config[:initial_subscription_queue])
+      @subscription_request_channel = @messaging.get_publisher(events_address(config[:subscription_request_queue]))
 
       @subscribed_event_ids = []
       @sub_e_ids_lock = Mutex.new
