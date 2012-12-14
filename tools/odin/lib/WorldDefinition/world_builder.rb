@@ -757,7 +757,7 @@ class WorldBuilder
     ["elementary", "middle", "high"].each{|classification|
       @world[classification].each { |edOrg|
         @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification})
-        create_cohorts edOrg
+        create_cohorts DataUtility.get_school_id(edOrg['id'], classification)
       }
     }
 
@@ -1027,8 +1027,14 @@ class WorldBuilder
   end
 
   def create_cohorts(ed_org)
-    (1..(@scenarioYAML['COHORTS_PER_SCHOOL'] or 0)).each{ |i|
-      @queue.push_work_order(Cohort.new(i, ed_org, scope: "School"))
+    WorldBuilder.cohorts(ed_org, @scenarioYAML).each{ |cohort|
+      @queue.push_work_order(cohort)
+    }
+  end
+
+  def self.cohorts(ed_org, scenario)
+    (1..(scenario['COHORTS_PER_SCHOOL'] or 0)).map{ |i|
+      Cohort.new(i, ed_org, scope: "School")
     }
   end
 

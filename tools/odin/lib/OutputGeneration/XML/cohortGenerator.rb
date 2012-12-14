@@ -32,6 +32,7 @@ class CohortGenerator < InterchangeGenerator
 
     @header, @footer = build_header_footer( "StudentCohort" )
     @writers[Cohort] = EntityWriter.new("cohort.mustache")
+    @writers[StudentCohortAssociation] = EntityWriter.new("student_cohort_association.mustache")
   end
 
 end

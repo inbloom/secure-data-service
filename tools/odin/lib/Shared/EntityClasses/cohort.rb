@@ -18,15 +18,19 @@ limitations under the License.
 
 require_relative "baseEntity.rb"
 
-# creates section
+# creates cohort
 class Cohort < BaseEntity
   attr_accessor :identifier, :description, :type, :scope, :subject, :ed_org_id, :programs
-  def initialize(id, edOrg, opts = {})
-    @rand = Random.new(id)
+  def initialize(id, ed_org_id, opts = {})
     @identifier = id
-    @ed_org_id = edOrg['id']
-    @description = (opts[:description] or "Cohort #{id} at Edorg #{ed_org_id}")
-    @type = (opts[:type] or
+    @ed_org_id = ed_org_id
+    @opts = opts
+  end
+
+  def build
+    @rand = Random.new(@identifier)
+    @description = (@opts[:description] or "Cohort #{@identifier} at Edorg #{@ed_org_id}")
+    @type = (@opts[:type] or
       choose(["Academic Intervention",
               "Attendance Intervention",
               "Discipline Intervention",
@@ -38,7 +42,7 @@ class Cohort < BaseEntity
               "In-school Suspension",
               "Study Hall",
               "Other"]))
-    @scope = (opts[:scope] or
+    @scope = (@opts[:scope] or
       choose(["District",
               "School",
               "Classroom",
@@ -46,8 +50,9 @@ class Cohort < BaseEntity
               "Principal",
               "Counselor",
               "Statewide"]))
-    @subject = (opts[:subject] or nil)
-    @programs = (opts[:programs] or [])
+    @subject = (@opts[:subject] or nil)
+    @programs = (@opts[:programs] or [])
+    self
   end
 
 end
