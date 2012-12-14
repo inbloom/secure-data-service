@@ -49,7 +49,8 @@ public class GenericContextValidator implements IContextValidator {
 			EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.REPORT_CARD, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT, EntityNames.SCHOOL,
 			EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_ASSESSMENT, EntityNames.STAFF, EntityNames.SECTION, EntityNames.SESSION, EntityNames.COURSE_OFFERING,
 			EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.PARENT, EntityNames.COHORT, EntityNames.PROGRAM, EntityNames.TEACHER,
-            EntityNames.ASSESSMENT, EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD, EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
+            EntityNames.ASSESSMENT, EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD, EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
+            EntityNames.STUDENT_COHORT_ASSOCIATION);
 
 
     private static final List<String> TRANSITIVE_IGNORE_LIST = Arrays
@@ -78,7 +79,8 @@ public class GenericContextValidator implements IContextValidator {
                     EntityNames.LEARNING_OBJECTIVE, 
                     EntityNames.LEARNING_STANDARD, 
                     EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
-                    EntityNames.TEACHER
+                    EntityNames.TEACHER,
+                    EntityNames.STUDENT_COHORT_ASSOCIATION
                     );
 
 	@Override
