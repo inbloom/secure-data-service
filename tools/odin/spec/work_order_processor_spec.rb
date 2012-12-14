@@ -37,6 +37,7 @@ describe "WorkOrderProcessor" do
   let(:prng) {Random.new(config['seed'])}
   let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
                    'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3},
+                   'INCLUDE_PARENTS' => true,
                    'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30}}
   describe "#build" do
 
