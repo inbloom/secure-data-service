@@ -59,6 +59,6 @@
 
   <bean id="messageSource" parent="baseMessageSource" />
 
-  <bean id="toolLoggingMessageReport" class="org.slc.sli.ingestion.tool.toolLoggingMessageReport" />
+  <bean id="toolLoggingMessageReport" class="org.slc.sli.ingestion.tool.ToolLoggingMessageReport" />
 
 </beans>

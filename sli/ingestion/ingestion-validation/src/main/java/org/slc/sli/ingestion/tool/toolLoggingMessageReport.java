@@ -20,12 +20,13 @@ import org.slc.sli.ingestion.reporting.LoggingMessageReport;
 
 /**
  * Logging Message Report implementation that sets the logger for the validation tool
+ *
  * @author npandey
  *
  */
-public class toolLoggingMessageReport extends LoggingMessageReport {
+public class ToolLoggingMessageReport extends LoggingMessageReport {
 
-    public toolLoggingMessageReport() {
+    public ToolLoggingMessageReport() {
         setLogger(LoggerUtil.getLogger());
     }
 
