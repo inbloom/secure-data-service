@@ -823,11 +823,10 @@ class WorldBuilder
   # - Staff
   # - [not implemented yet] StaffEducationOrgAssignmentAssociation
   def create_staff_association_work_orders
-    create_staff_at_ed_org_work_orders("seas")
-    create_staff_at_ed_org_work_orders("leas")
-    create_staff_at_ed_org_work_orders("elementary")
-    create_staff_at_ed_org_work_orders("middle")
-    create_staff_at_ed_org_work_orders("high")
+    ['seas', 'leas', 'elementary', 'middle', 'high'].each{|type|
+      create_staff_at_ed_org_work_orders(type)
+    }
+    create_staff_cohort_associations
   end
 
   # writes the staff members and teachers out for each education organization that is of the specified 'type'
@@ -857,7 +856,8 @@ class WorldBuilder
           create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
         end
       end
-      
+
+
       # create teachers for the current education organization
       if !ed_org["teachers"].nil? and ed_org["teachers"].size > 0
         ed_org["teachers"].each_index do |teacher_index|
@@ -882,6 +882,20 @@ class WorldBuilder
         end
       end
     end
+  end
+
+  def create_staff_cohort_associations
+    ['elementary', 'middle', 'high'].each{|type|
+      @world[type].each{|ed_org|
+        staff = ed_org['staff'].cycle
+        ed_org['sessions'].each{|session|
+          WorldBuilder.cohorts(ed_org['id'], @scenarioYAML).each{|cohort|
+            @queue.push_work_order(
+              StaffCohortAssociation.new(staff.next['id'], cohort, @scenarioYAML['STAFF_HAVE_COHORT_ACCESS'], session['interval'].get_begin_date))
+          }
+        }
+      }
+    }
   end
 
   # uses the specified state education agency's state organization id to find a child local education agency,
