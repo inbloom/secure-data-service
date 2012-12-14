@@ -50,6 +50,7 @@ module Eventbus
     def publish(message)
       begin
         @client = Stomp::Client.new(@config) if @client.nil?
+        @client.autoflush = true
         @client.publish(@queue_name, message.to_json)
       rescue Exception => e
         @client = nil
@@ -85,6 +86,7 @@ module Eventbus
       begin
         if @client.nil? 
           @client = Stomp::Client.new(@config) if @client.nil?
+          @client.autoflush = true
         end 
         @client.subscribe(@queue_name) do |msg|
           yield JSON.parse msg.body
