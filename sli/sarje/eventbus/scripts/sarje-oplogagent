@@ -11,19 +11,22 @@
 . /lib/lsb/init-functions
 
 # Process name ( For display )
-NAME=sarje-oplogagent
-SARJE_HOME=/opt/sarje
+NAME=sarje-jscheduler
+SARJE_HOME=/home/stephan/dev/sli/sli/sarje/eventbus
 
-DAEMON_CONFIG="$SARJE_HOME/conf/oplogagent-config.yml"
-DAEMON_WRAPPER="$SARJE_HOME/oplogagent-wrapper.rb"
+DAEMON_CONFIG="$SARJE_HOME/conf/minislirp-oplogagent-1-config.yml"
+DAEMON="$SARJE_HOME/oplogagent_daemon.rb"
 
 PIDFILE=$SARJE_HOME/run/oplogagent.pid
 LOG_FILE=$SARJE_HOME/log/oplogagent.log
 RETVAL=0
 
+# If the daemon is not there, then exit.
+test -x $JSCHEDULER_APP || exit 5
+
 case $1 in
  start)
-    $DAEMON_WRAPPER $DAEMON_CONFIG > $LOG_FILE &
+    $DAEMON $DAEMON_CONFIG > $LOG_FILE & 
     echo $! > $PIDFILE
   ;;
  stop)
@@ -40,7 +43,7 @@ case $1 in
  status)
   # Check the status of the process.
   if [ -e $PIDFILE ]; then
-   status_of_proc -p $PIDFILE $DAEMON_WRAPPER "$NAME process" && exit 0 || exit $?
+   status_of_proc -p $PIDFILE $DAEMON "$NAME process" && exit 0 || exit $?
   else
    log_daemon_msg "$NAME Process is not running"
    log_end_msg 0
