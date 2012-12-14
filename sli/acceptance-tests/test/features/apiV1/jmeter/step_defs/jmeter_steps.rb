@@ -25,7 +25,8 @@ require_relative '../../../utils/sli_utils.rb'
 ###############################################################################
 
 JMETER_JMX_PATH = PropLoader.getProps['jmeter_jmx_path']
-PROPERTIES_FILE = "local.properties"
+PROPERTIES_FILE = PropLoader.getProps['jmeter_properties']
+JMETER_BIN = PropLoader.getProps['jmeter_bin']
 
 Given /^I run each of the Jmeter tests:$/ do |table|
   @testsRun = Array.new
@@ -40,7 +41,7 @@ end
 def runTest(testName)
   jmxFileName = JMETER_JMX_PATH + testName + ".jmx"
   propertiesFileName = JMETER_JMX_PATH + PROPERTIES_FILE
-  jMeterCommand = "jmeter -n -t " + jmxFileName + " -q " + propertiesFileName
+  jMeterCommand = JMETER_BIN + " -n -t " + jmxFileName + " -q " + propertiesFileName
   puts "executing: " + jMeterCommand
   system jMeterCommand
   parseJtlForRC(testName)

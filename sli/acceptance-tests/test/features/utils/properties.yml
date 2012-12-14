@@ -66,6 +66,9 @@ user_registration_pass: test1234
 
 jmeter_jmx_path: "../../tools/jmeter/"
 jmeter_jtl_archive: "/storage/jmeter/jtl"
+jmeter_bin:	"jmeter"
+jmeter_properties: "local.properties"
+
 
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 3000
