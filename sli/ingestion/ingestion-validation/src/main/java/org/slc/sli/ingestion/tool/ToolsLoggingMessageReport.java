@@ -24,9 +24,9 @@ import org.slc.sli.ingestion.reporting.LoggingMessageReport;
  * @author npandey
  *
  */
-public class ToolLoggingMessageReport extends LoggingMessageReport {
+public class ToolsLoggingMessageReport extends LoggingMessageReport {
 
-    public ToolLoggingMessageReport() {
+    public ToolsLoggingMessageReport() {
         setLogger(LoggerUtil.getLogger());
     }
 
