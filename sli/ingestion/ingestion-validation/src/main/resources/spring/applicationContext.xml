@@ -52,13 +52,13 @@
     <property name="zipFileHandler" ref="zipFileHandler" />
     <property name="ComplexValidator" ref="complexValidator" />
     <property name="controlFilevalidator" ref="controlFileValidator" />
-    <property name="messageReport" ref="toolLoggingMessageReport" />
+    <property name="messageReport" ref="toolsLoggingMessageReport" />
   </bean>
 
   <context:property-placeholder ignore-resource-not-found="true" />
 
   <bean id="messageSource" parent="baseMessageSource" />
 
-  <bean id="toolLoggingMessageReport" class="org.slc.sli.ingestion.tool.toolLoggingMessageReport" />
+  <bean id="toolsLoggingMessageReport" class="org.slc.sli.ingestion.tool.ToolsLoggingMessageReport" />
 
 </beans>
