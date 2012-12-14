@@ -24,24 +24,28 @@ class UserAccountValidation
   # success message
   ACCOUNT_VERIFICATION_COMPLETE = {
       "status" => "Registration Complete!",
-      "message" => "An administrator will email you when your account is ready."
+      "message" => "An administrator will email you when your account is ready.",
+      :success => true
   }
 
   INVALID_VERIFICATION_CODE = {
       "status" => "Account validation failed!",
-      "message" => "Invalid account verification code."
+      "message" => "Invalid account verification code.",
+      :success => false
   }
 
   # error condition for attempt to re-verify verified account
   ACCOUNT_PREVIOUSLY_VERIFIED = {
       "status" => "Account validation failed!",
-      "message" => "This account was previously verified. For questions please contact #{APP_CONFIG['support_email']}"
+      "message" => "This account was previously verified. For questions please contact #{APP_CONFIG['support_email']}",
+      :success => false
   }
 
   # error condition for unhandled exceptions
   UNEXPECTED_VERIFICATION_ERROR = {
       "status" => "Account validation failed!",
-      "message" => "Unexpected verification error. Try again later."
+      "message" => "Unexpected verification error. Try again later.",
+      :success => false
   }
 
   def self.validate_account(emailToken)

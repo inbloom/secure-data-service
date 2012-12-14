@@ -89,7 +89,7 @@ development_sb:
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3001/callback
-    ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
