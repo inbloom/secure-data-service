@@ -64,6 +64,8 @@ validation_base_suffix: "/user_account_validation"
 user_registration_email: devldapuser@slidev.org
 user_registration_pass: test1234
 
+jmeter_path: "../../tools/jmeter"
+
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 3000
 
@@ -136,14 +138,14 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 #developer_email_imap_registration_pass: test1234
 
 ##Developer creds (sandbox) - For RC environments
-#developer_sb_email_imap_registration_user: 
-#developer_sb_email_imap_registration_user_email: 
-#developer_sb_email_imap_registration_pass: 
+#developer_sb_email_imap_registration_user:
+#developer_sb_email_imap_registration_user_email:
+#developer_sb_email_imap_registration_pass:
 
 ##Developer 2 creds (sandbox) - For RC environments
-#developer2_sb_email_imap_registration_user: 
-#developer2_sb_email_imap_registration_user_email: 
-#developer2_sb_email_imap_registration_pass: 
+#developer2_sb_email_imap_registration_user:
+#developer2_sb_email_imap_registration_user_email:
+#developer2_sb_email_imap_registration_pass:
 
 ################# /e2e test properties #################################
 

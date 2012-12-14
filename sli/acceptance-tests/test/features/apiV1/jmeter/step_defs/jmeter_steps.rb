@@ -16,27 +16,28 @@ limitations under the License.
 
 =end
 
+require_relative '../../../utils/sli_utils.rb'
 
 ###############################################################################
 # RUN JMETER TESTS
 ###############################################################################
 
-JMETER_PATH = "../../../../../../tools/jmeter/"
+JMETER_PATH = PropLoader.getProps['jmeter_path']
 PROPERTIES_FILE = "local.properties"
 
 Given /^I run each of the Jmeter tests:$/ do |table|
   puts "starting test"
   table.hashes.map do |row|
-  	testName = row["testName"]
+      testName = row["testName"]
     puts "\n" + testName
-  	runTest(testName)
+      runTest(testName)
   end
 end
 
 def runTest(testName)
-	jmxFileName = JMETER_PATH + testName + ".jmx" 
-  	propertiesFileName = JMETER_PATH + PROPERTIES_FILE
-  	jMeterCommand = "jmeter -n -t " + jmxFileName + " -q " + propertiesFileName
-  	puts "executing: " + jMeterCommand
-  	system jMeterCommand
+    jmxFileName = JMETER_PATH + testName + ".jmx"
+      propertiesFileName = JMETER_PATH + PROPERTIES_FILE
+      jMeterCommand = "jmeter -n -t " + jmxFileName + " -q " + propertiesFileName
+      puts "executing: " + jMeterCommand
+      system jMeterCommand
 end
