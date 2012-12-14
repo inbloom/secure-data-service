@@ -22,6 +22,7 @@ require_relative '../../../../utils/sli_utils.rb'
 Transform /the section "([^"]*)"/ do |arg1|
   base = "00000000-0001-0000-0000-00000000000"
   base << arg1.match(/(\d+)/)[0]
+  base << "_id"
   base
 end
 
