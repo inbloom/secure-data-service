@@ -33,10 +33,7 @@
 
         <jb:value property="localEducationAgencyReference"        data="attributes LocalEducationAgencyReference" />
         <jb:value property="educationServiceCenterReference"      data="attributes EducationServiceCenterReference" />
-
-        <jb:expression property="parentEducationAgencyReference" execOnElement="attributes">
-           (LocalEducationAgencyReference!=null)?LocalEducationAgencyReference.LEA:(StateEducationAgencyReference!=null) ? StateEducationAgencyReference.SEA:null
-        </jb:expression>
+        <jb:value property="parentEducationAgencyReference"       data="attributes StateEducationAgencyReference" />
 
         <jb:wiring property="educationOrgIdentificationCode"      beanIdRef="educationOrgIdentificationCodeArray" />
         <jb:wiring property="organizationCategories"              beanIdRef="organizationCategories" />
@@ -44,14 +41,6 @@
         <jb:wiring property="telephone"                           beanIdRef="telephoneArray" />
         <jb:wiring property="accountabilityRatings"               beanIdRef="accountabilityRatingsArray" />
         <jb:wiring property="programReference"                    beanIdRef="programReferenceArray" />
-    </jb:bean>
-
-    <jb:bean beanId="StateEducationAgencyReference" class="java.util.HashMap" createOnElement="attributes StateEducationAgencyReference">
-        <jb:value property="SEA"        data="attributes StateEducationAgencyReference" />
-    </jb:bean>
-
-    <jb:bean beanId="LocalEducationAgencyReference" class="java.util.HashMap" createOnElement="attributes LocalEducationAgencyReference">
-        <jb:value property="LEA"        data="attributes LocalEducationAgencyReference" />
     </jb:bean>
 
     <jb:bean beanId="educationOrgIdentificationCodeArray" class="java.util.ArrayList" createOnElement="attributes">
