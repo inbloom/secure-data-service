@@ -106,6 +106,7 @@ And I should see "InterchangeAttendance.xml attendance 2 deltas!" in the resulti
  And I check to find if record is in collection:
     | collectionName              | expectedRecordCount | searchParameter                                 | searchValue       |
     | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason| test for 100000000|
+    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-12-11        |
 
 
 Scenario: Job report should not report deltas when SDS is ingested twice for different tenantId
