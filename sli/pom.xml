@@ -863,6 +863,10 @@
                             <location>checkstyle/import-control.xml</location>
                         </file>
                         <file>
+                            <name>.settings/java.header</name>
+                            <location>checkstyle/java.header</location>
+                        </file>
+                        <file>
                             <name>.checkstyle</name>
                             <location>eclipse/eclipse-sli-checkstyle.xml</location>
                         </file>

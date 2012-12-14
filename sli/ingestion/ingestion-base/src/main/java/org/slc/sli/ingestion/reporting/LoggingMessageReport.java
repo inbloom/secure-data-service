@@ -16,21 +16,30 @@
 
 package org.slc.sli.ingestion.reporting;
 
+import org.slf4j.Logger;
+
 /**
- * Enumeration of message codes for the ingestion-core module.
+ * MessageReport implementation that is constructed with a logger and uses that logger to act on
+ * errors and warnings
  *
- * @author dduran
+ * @author npandey
  *
  */
-public enum CoreMessageCode implements MessageCode {
-    ATTENDANCE_TRANSFORMER_WRNG_MSG1,
-    CORE_0001, CORE_0002, CORE_0003, CORE_0014,
-    CORE_0020, CORE_0021, CORE_0022, CORE_0023, CORE_0024, CORE_0025;
+public class LoggingMessageReport extends AbstractMessageReport {
 
+    private Logger logger;
 
     @Override
-    public String getCode() {
-        return this.name();
+    protected void reportError(ReportStats reportStats, MessageCode code, Object... args) {
+        logger.error(getMessage(code, args));
     }
 
+    @Override
+    protected void reportWarning(ReportStats reportStats, MessageCode code, Object... args) {
+        logger.warn(getMessage(code, args));
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
 }

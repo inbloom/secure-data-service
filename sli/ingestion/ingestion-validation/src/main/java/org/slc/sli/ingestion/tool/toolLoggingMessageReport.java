@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.tool;
+
+import org.slc.sli.ingestion.reporting.LoggingMessageReport;
 
 /**
- * Enumeration of message codes for the ingestion-core module.
+ * Logging Message Report implementation that sets the logger for the validation tool
  *
- * @author dduran
+ * @author npandey
  *
  */
-public enum CoreMessageCode implements MessageCode {
-    ATTENDANCE_TRANSFORMER_WRNG_MSG1,
-    CORE_0001, CORE_0002, CORE_0003, CORE_0014,
-    CORE_0020, CORE_0021, CORE_0022, CORE_0023, CORE_0024, CORE_0025;
+public class ToolLoggingMessageReport extends LoggingMessageReport {
 
-
-    @Override
-    public String getCode() {
-        return this.name();
+    public ToolLoggingMessageReport() {
+        setLogger(LoggerUtil.getLogger());
     }
+
 
 }

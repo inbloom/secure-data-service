@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.tool;
+
+import org.slc.sli.ingestion.reporting.MessageCode;
 
 /**
- * Enumeration of message codes for the ingestion-core module.
- *
- * @author dduran
+ *Enumeration of message codes for the ingestion-validation module.
+ * @author npandey
  *
  */
-public enum CoreMessageCode implements MessageCode {
-    ATTENDANCE_TRANSFORMER_WRNG_MSG1,
-    CORE_0001, CORE_0002, CORE_0003, CORE_0014,
-    CORE_0020, CORE_0021, CORE_0022, CORE_0023, CORE_0024, CORE_0025;
+public enum ValidationMessageCode implements MessageCode {
 
+    VALIDATION_0001, VALIDATION_0002, VALIDATION_0003, VALIDATION_0004, VALIDATION_0005, VALIDATION_0006, VALIDATION_0007, VALIDATION_0008, VALIDATION_0009;
 
     @Override
     public String getCode() {
