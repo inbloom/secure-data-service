@@ -328,6 +328,7 @@ public class AttendanceTransformerTest {
         query1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
         query1.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
+        
         Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query1)),
@@ -348,7 +349,8 @@ public class AttendanceTransformerTest {
                 Mockito.anyMap(),
                 Mockito.eq("attendance_transformed")
              );
-
+        
+        
     }
 
 
@@ -544,6 +546,10 @@ public class AttendanceTransformerTest {
         r1.setAttributeField("eventDate", "2012-09-09");
         r1.setAttributeField("attendanceEventCategory", "attendanceEventCategory1");
         r1.setAttributeField("attendanceEventReason", "attendanceEventReason1");
+              
+        r1.addMetaData("rhId", "rhId1");
+        r1.addMetaData("rhHash", "rhHash1");
+        
         NeutralRecord r2 = new NeutralRecord();
         r2.setRecordType("attendance");
         r2.setRecordId("recordId2");
@@ -551,6 +557,10 @@ public class AttendanceTransformerTest {
         r2.setAttributeField("eventDate", "2012-09-09");
         r2.setAttributeField("attendanceEventCategory", "attendanceEventCategory2");
         r2.setAttributeField("attendanceEventReason", "attendanceEventReason2");
+        
+        r2.addMetaData("rhId", "rhId2");
+        r2.addMetaData("rhHash", "rhHash2");
+		
         return Arrays.asList(r1, r2);
     }
 
