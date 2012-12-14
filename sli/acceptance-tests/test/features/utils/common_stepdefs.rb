@@ -226,6 +226,27 @@ Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
   assert(found, "Link not found rel=#{arg1}")  
 end
 
+Then /^in an entity "([^"]*)", I should receive a link named "([^"]*)"$/ do |id, arg1|
+  @the_link = []
+  @id_link = []
+  @result = JSON.parse(@res.body)
+  found = false
+  @result = [@result] unless @result.is_a? Array
+  @result.each do |entity|
+    next if entity["id"] != id
+    #puts entity
+    assert(entity.has_key?("links"), "Response contains no links")
+    entity["links"].each do |link|
+      if link["rel"] == arg1
+        @the_link.push link['href']
+        @id_link.push({"id"=>entity["id"],"link"=>link["href"]})
+        found = true
+      end
+    end
+  end
+  assert(found, "Link not found rel=#{arg1}")
+end
+
 When /^I navigate to GET the link named "([^"]*)"$/ do |arg1|
   @the_link.each { |link|
     restHttpGetAbs(link)
