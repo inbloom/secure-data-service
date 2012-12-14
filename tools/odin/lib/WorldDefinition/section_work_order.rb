@@ -74,7 +74,7 @@ class SectionWorkOrderFactory
                 if teacher_does_not_exist_yet(section[:teacher]['id'])
                   year_of = Date.today.year - DataUtility.select_random_from_options(@prng, (25..65).to_a)
                   # keep :name => nil in work order --> Teacher entity class will lazily create name for teacher if its nil
-                  yielder << {:type=>Teacher, :id=>section[:teacher]['id'], :year=>year_of, :name=>nil}
+                  yielder << {:type=>Teacher, :id=>section[:teacher]['id'], :year=>year_of, :name=>section[:teacher]['name']}
                 end
                 
                 if !@teachers[school_id].include?(section[:teacher]['id'])
