@@ -17,8 +17,11 @@ limitations under the License.
 =end
 
 require 'pp'
-require 'xml'
+require 'rexml/document'
+
 require_relative '../../../utils/sli_utils.rb'
+
+include REXML
 
 ###############################################################################
 # RUN JMETER TESTS
@@ -51,10 +54,13 @@ def parseJtlForRC(testName)
   rcMap = {}
   fileName = testName + ".jtl"
   doc = loadXML(fileName)
+  puts doc
   testPassed = true
-  doc.find('//httpSample').each do |sample|
+  doc.get_elements('//httpSample').each do |sample|
+  	puts sample
     label = sample.attributes["lb"]
     rc = sample.attributes["rc"]
+    #puts label + " : " + rc
     truncatedLabel = label
     optIndex = truncatedLabel.index('?')
     if optIndex != nil
@@ -83,8 +89,7 @@ end
 
 def loadXML(fileName)
   xml = File.read(fileName)
-  parser = XML::Parser.string(xml)
-  parser.parse
+  Document.new(xml)
 end
 
 def validReturnCode?(rc)
