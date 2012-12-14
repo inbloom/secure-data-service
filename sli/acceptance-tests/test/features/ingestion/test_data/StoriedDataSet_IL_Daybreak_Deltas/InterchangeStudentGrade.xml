@@ -122,7 +122,7 @@
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
-    <!-- Commented out as a wip because ref is no longer supported
+    <!-- TODO - IDREF is not longer supported and ref attribute causes validation to fail -->
     <ReportCard>
         <StudentCompetencyReference ref="SC-GR3-800000025-1"/>
         <GPAGivenGradingPeriod>1.1</GPAGivenGradingPeriod>
@@ -131,10 +131,10 @@
             <StudentIdentity>
                 <StudentUniqueStateId>800000025</StudentUniqueStateId>
             </StudentIdentity>
-        </StudentReference-->
+        </StudentReference>
         <!-- id does not exist in this file-->
         <!-- GradingPeriodReference ref="GRDP_20070527"/-->
-        <!--GradingPeriodReference>
+        <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -146,5 +146,5 @@
                 <SchoolYear>2010-2011</SchoolYear>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-    </ReportCard-->
+    </ReportCard>
 </InterchangeStudentGrade>
