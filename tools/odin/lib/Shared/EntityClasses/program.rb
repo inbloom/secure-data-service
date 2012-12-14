@@ -16,75 +16,21 @@ limitations under the License.
 
 =end
 
+require_relative '../data_utility.rb'
 require_relative 'baseEntity.rb'
+require_relative 'enum/ProgramSponsorType.rb'
+require_relative 'enum/ProgramType.rb'
 
+# creates a program
 class Program < BaseEntity
   
-  def initialize(id, rand)
-    @id = id
-    @rand = rand
-  end
+  attr_accessor :id, :type, :sponsor, :services
 
-  def id
-    @id
-  end
-
-  def type
-    choose(["Adult/Continuing Education",
-            "Alternative Education",
-            "Athletics",
-            "Bilingual",
-            "Bilingual Summer",
-            "Career and Technical Education",
-            "Cocurricular Programs",
-            "College Preparatory",
-            "Community Service Program",
-            "Community/Junior College Education Program",
-            "Compensatory Services for Disadvantaged Students",
-            "Counseling Services",
-            "District-Funded GED",
-            "English as a Second Language (ESL)",
-            "Even Start",
-            "Expelled Education",
-            "Extended Day/Child Care Services",
-            "Gifted and Talented",
-            "Head Start",
-            "Health Services Program",
-            "High School Equivalency Program (HSEP)",
-            "IDEA",
-            "Immigrant Education",
-            "Independent Study",
-            "Indian Education",
-            "International Baccalaureate",
-            "Library/Media Services Program",
-            "Magnet/Special Program Emphasis",
-            "Migrant Education",
-            "Neglected and Delinquent Program",
-            "Optional Flexible School Day Program (OFSDP)",
-            "Other",
-            "Regular Education",
-            "Remedial Education",
-            "Section 504 Placement",
-            "Service Learning",
-            "Special Education",
-            "Student Retention/Dropout Prevention",
-            "Substance Abuse Education/Prevention",
-            "Teacher Professional Development/Mentoring",
-            "Technical Preparatory",
-            "Title I Part A",
-            "Vocational Education"])
-  end
-
-  def sponsor
-    choose(["Federal",
-            "State Education Agency",
-            "Education Service Center",
-            "Local Education Agency",
-            "School",
-            "Private Organization"])
-  end
-
-  def service
-    "Service for program" + id
+  def initialize(id, prng)
+    @id   = DataUtility.get_program_id(id)
+    @rand = prng
+    @type = choose(ProgramType.all)
+    @sponsor = choose(ProgramSponsorType.all)
+    @services = ["Service for Program " + id.to_s]
   end
 end

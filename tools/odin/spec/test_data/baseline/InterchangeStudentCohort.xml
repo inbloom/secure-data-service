@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd">
+  <Cohort>
+    <CohortIdentifier>1</CohortIdentifier>
+    <CohortDescription>Cohort 1 at Edorg South Daybreak Elementary</CohortDescription>
+    <CohortType>Extracurricular Activity</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>2</CohortIdentifier>
+    <CohortDescription>Cohort 2 at Edorg South Daybreak Elementary</CohortDescription>
+    <CohortType>Counselor List</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>3</CohortIdentifier>
+    <CohortDescription>Cohort 3 at Edorg South Daybreak Elementary</CohortDescription>
+    <CohortType>Study Hall</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>1</CohortIdentifier>
+    <CohortDescription>Cohort 1 at Edorg East Daybreak Junior High</CohortDescription>
+    <CohortType>Extracurricular Activity</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>2</CohortIdentifier>
+    <CohortDescription>Cohort 2 at Edorg East Daybreak Junior High</CohortDescription>
+    <CohortType>Counselor List</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>3</CohortIdentifier>
+    <CohortDescription>Cohort 3 at Edorg East Daybreak Junior High</CohortDescription>
+    <CohortType>Study Hall</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>1</CohortIdentifier>
+    <CohortDescription>Cohort 1 at Edorg Daybreak Central High</CohortDescription>
+    <CohortType>Extracurricular Activity</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>2</CohortIdentifier>
+    <CohortDescription>Cohort 2 at Edorg Daybreak Central High</CohortDescription>
+    <CohortType>Counselor List</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+  <Cohort>
+    <CohortIdentifier>3</CohortIdentifier>
+    <CohortDescription>Cohort 3 at Edorg Daybreak Central High</CohortDescription>
+    <CohortType>Study Hall</CohortType>
+    <CohortScope>School</CohortScope>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </Cohort>
+</InterchangeStudentCohort>
