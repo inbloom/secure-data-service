@@ -94,7 +94,7 @@ describe "Odin" do
       end
       
       it "will generate a valid control file with 8 interchanges" do     
-        @interchanges.length.should eq(8)
+        @interchanges.length.should eq(9)
       end
       
       it "will generate a valid control file with Student as a type" do

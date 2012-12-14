@@ -73,7 +73,19 @@ class StudentWorkOrder
   end
 
   def build
-    generated = [Student.new(@id, @birth_day_after)]
+    student = Student.new(@id, @birth_day_after)
+    [student] + per_year_info + parents(student)
+  end
+
+  private
+
+  def parents(student)
+    [:mom, :dad].map{|type|
+      [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
+  end
+
+  def per_year_info
+    generated = []
     schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
     curr_type = GradeLevelType.school_type(@initial_grade)
     @edOrg['sessions'].each{ |session|
@@ -91,8 +103,6 @@ class StudentWorkOrder
     generated
   end
 
-  private
-
   def generate_enrollment(school_id, type, start_year, start_grade, session)
     rval = []
     rval << StudentSchoolAssociation.new(@id, school_id, start_year, start_grade, graduation_plan(type))
@@ -102,7 +112,7 @@ class StudentWorkOrder
         #generate a section for each available course offering
         sections.each{|course_offering, available_sections|
           section = available_sections.to_a[id % available_sections.count]
-          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section, course_offering['id']),
+          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section),
                                                 school_id, start_year, start_grade)
         }
       end

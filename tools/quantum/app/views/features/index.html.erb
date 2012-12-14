@@ -1,4 +1,10 @@
-<h3>Failed Test Leaderboard</h3>
+<h3>Failing Test Leaderboard</h3>
+
+<%= form_tag("/features", :method => :get) do %>
+  <%= label_tag(:component_filter, "Component:") %>
+  <%= select_tag(:component_filter, options_for_select(controller.getComponentOptions), :include_blank => true) %>
+  <%= submit_tag "Filter" %>
+<% end %>
 
 <table class="table">
 	<thead>
