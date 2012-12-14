@@ -128,7 +128,6 @@ public final class SliDeltaManager {
             rhData.add(rhDataElement);
 
             n.addMetaData(RECORDHASH_DATA, rhData);
-            n.addMetaData("rhTenantId", tenantId);
 
             isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
 
