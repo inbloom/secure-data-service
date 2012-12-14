@@ -29,7 +29,6 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
 
     protected MessageSource messageSource;
 
-
     /**
      * Reports an message as an error and updates the wider-scope error state in the provided
      * reportStats.
@@ -42,7 +41,11 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            additional arguments for the message
      */
     public void error(ReportStats reportStats, MessageCode code, Object... args) {
-        // implement
+
+        if (reportStats != null) {
+            reportStats.incError();
+        }
+        reportError(reportStats, code, args);
     }
 
     /**
@@ -50,14 +53,18 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * reportStats.
      *
      * @param reportStats
-     *           statistics state and source
+     *            statistics state and source
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
      */
     public void warning(ReportStats reportStats, MessageCode code, Object... args) {
-        // implement
+
+        if (reportStats != null) {
+            reportStats.incWarning();
+        }
+        reportWarning(reportStats, code, args);
     }
 
     /**
@@ -72,6 +79,10 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     protected String getMessage(MessageCode code, Object... args) {
         return messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
     }
+
+    protected abstract void reportError(ReportStats reportStats, MessageCode code, Object... args);
+
+    protected abstract void reportWarning(ReportStats reportStats, MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

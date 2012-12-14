@@ -115,7 +115,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            String studentAssessmentId = (String) attributes.remove("xmlId");
 
             String studentId = null;
             String administrationDate = null;
@@ -154,47 +153,26 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 LOG.error("Unable to get key fields for StudentAssessment transform", e);
             }
 
-            if (studentAssessmentId != null) {
-                Map<String, Object> queryCriteria = new LinkedHashMap<String, Object>();
-                queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_STUDENT, studentId);
-                queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE, administrationDate);
-                queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE, assessmentTitle);
-                queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT, academicSubject);
-                queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED, gradeLevelAssessed);
-                queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_VERSION, version);
+            Map<String, Object> queryCriteria = new LinkedHashMap<String, Object>();
+            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_STUDENT, studentId);
+            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE, administrationDate);
+            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE, assessmentTitle);
+            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT, academicSubject);
+            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED, gradeLevelAssessed);
+            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_VERSION, version);
 
-                // TODO: Once ID/Ref support is turned off, remove studentObjectiveAssessmentsIdRef
-                // and supporting function to clean up unused code
-                List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessmentsNaturalKeys(queryCriteria);
-                List<Map<String, Object>> studentObjectiveAssessmentsIdRef = getStudentObjectiveAssessments(studentAssessmentId);
+            List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessmentsNaturalKeys(queryCriteria);
 
-                // objectiveAssessments here will either be from IDRef or Natural Keys, so just add
-                // together
-                studentObjectiveAssessments.addAll(studentObjectiveAssessmentsIdRef);
-
-                if (studentObjectiveAssessments.size() > 0) {
-                    LOG.debug("found {} student objective assessments for student assessment id: {}.",
-                            studentObjectiveAssessments.size(), studentAssessmentId);
-                    attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
-                }
-
-                // TODO: Once ID/Ref support is turned off, remove studentAssessmentItemsIdRef and
-                // supporting function to clean up unused code
-                List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItemsNaturalKeys(queryCriteria);
-                List<Map<String, Object>> studentAssessmentItemsIdRef = getStudentAssessmentItems(studentAssessmentId);
-
-                // studentAssessmentItems here will either be from IDRef or Natural Keys, so just
-                // add together
-                studentAssessmentItems.addAll(studentAssessmentItemsIdRef);
-
-                if (studentAssessmentItems.size() > 0) {
-                    LOG.debug("found {} student assessment items for student assessment id: {}.",
-                            studentAssessmentItems.size(), studentAssessmentId);
-                    attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
-                }
-            } else {
-                LOG.warn("no local id for student assessment association. cannot embed student objective assessment objects.");
+            if (studentObjectiveAssessments.size() > 0) {
+                attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
             }
+
+            List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItemsNaturalKeys(queryCriteria);
+
+            if (studentAssessmentItems.size() > 0) {
+                attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
+            }
+
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             transformedStudentAssessments.add(neutralRecord);

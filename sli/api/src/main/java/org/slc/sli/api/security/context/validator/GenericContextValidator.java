@@ -33,105 +33,103 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Generic context validator that makes use of the old context resolvers until we can
- * fully transition to the new logic.
- *
+ * Generic context validator that makes use of the old context resolvers until we can fully transition to the new logic.
+ * 
  */
 @Component
 public class GenericContextValidator implements IContextValidator {
 
-    @Autowired
-    private ContextResolverStore store;
+	@Autowired
+	private ContextResolverStore store;
 
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-    
-    private static final List<String> INTRANSITIVE_IGNORE_LIST = Arrays
-            .asList(EntityNames.ATTENDANCE, EntityNames.COURSE_TRANSCRIPT, EntityNames.EDUCATION_ORGANIZATION,
-                    EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_ACADEMIC_RECORD,
-                    EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION,
-                    EntityNames.REPORT_CARD, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT,
-                    EntityNames.SCHOOL, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-                    EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_ASSESSMENT, EntityNames.STAFF,
-            EntityNames.SECTION, EntityNames.SESSION, EntityNames.COURSE_OFFERING,
-            EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.PARENT, EntityNames.COHORT, EntityNames.PROGRAM);
-    
+	@Autowired
+	private PagingRepositoryDelegate<Entity> repo;
+
+	private static final List<String> INTRANSITIVE_IGNORE_LIST = Arrays.asList(EntityNames.ATTENDANCE, EntityNames.COURSE_TRANSCRIPT, EntityNames.EDUCATION_ORGANIZATION, EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_ACADEMIC_RECORD,
+			EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.REPORT_CARD, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT, EntityNames.SCHOOL,
+			EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_ASSESSMENT, EntityNames.STAFF, EntityNames.SECTION, EntityNames.SESSION, EntityNames.COURSE_OFFERING,
+			EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.PARENT, EntityNames.COHORT, EntityNames.PROGRAM, EntityNames.TEACHER,
+            EntityNames.ASSESSMENT, EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD, EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
+
+
     private static final List<String> TRANSITIVE_IGNORE_LIST = Arrays
             .asList(
-            EntityNames.ATTENDANCE,
-            EntityNames.COURSE_TRANSCRIPT,
-            EntityNames.COHORT,
-            EntityNames.EDUCATION_ORGANIZATION,
-            EntityNames.DISCIPLINE_ACTION,
-            EntityNames.STUDENT_ACADEMIC_RECORD,
-            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-            EntityNames.STUDENT_PARENT_ASSOCIATION,
-            EntityNames.REPORT_CARD,
-            EntityNames.STUDENT_SECTION_ASSOCIATION,
-            EntityNames.STUDENT,
-            EntityNames.SCHOOL,
-            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-            EntityNames.STUDENT_GRADEBOOK_ENTRY,
-            EntityNames.STUDENT_ASSESSMENT,
-            EntityNames.STAFF_COHORT_ASSOCIATION,
-            EntityNames.PARENT,
- EntityNames.PROGRAM,
- EntityNames.STAFF,
-                    EntityNames.SECTION
-            );
+                    EntityNames.ATTENDANCE,
+                    EntityNames.COURSE_TRANSCRIPT,
+                    EntityNames.COHORT,
+                    EntityNames.EDUCATION_ORGANIZATION,
+                    EntityNames.DISCIPLINE_ACTION,
+                    EntityNames.STUDENT_ACADEMIC_RECORD,
+                    EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+                    EntityNames.STUDENT_PARENT_ASSOCIATION,
+                    EntityNames.REPORT_CARD,
+                    EntityNames.STUDENT_SECTION_ASSOCIATION,
+                    EntityNames.STUDENT,
+                    EntityNames.SCHOOL,
+                    EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+                    EntityNames.STUDENT_GRADEBOOK_ENTRY,
+                    EntityNames.STUDENT_ASSESSMENT,
+                    EntityNames.STAFF_COHORT_ASSOCIATION,
+                    EntityNames.PARENT,
+                    EntityNames.PROGRAM,
+                    EntityNames.STAFF,
+                    EntityNames.SECTION,
+                    EntityNames.ASSESSMENT, 
+                    EntityNames.LEARNING_OBJECTIVE, 
+                    EntityNames.LEARNING_STANDARD, 
+                    EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
+                    EntityNames.TEACHER
+                    );
 
-    @Override
-    public boolean canValidate(String entityType, boolean through) {
-        String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
-        if (userType.equals("staff")) {
-            return false;
-        }
-        if (through) {
-            return !TRANSITIVE_IGNORE_LIST.contains(entityType) && store.findResolver(userType, entityType) != null;
-        } else {
-            return !INTRANSITIVE_IGNORE_LIST.contains(entityType) && store.findResolver(userType, entityType) != null;
-        }
+	@Override
+	public boolean canValidate(String entityType, boolean through) {
+		String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
+		if (userType.equals("staff")) {
+			return false;
+		}
+		if (through) {
+			return !TRANSITIVE_IGNORE_LIST.contains(entityType) && store.findResolver(userType, entityType) != null;
+		} else {
+			return !INTRANSITIVE_IGNORE_LIST.contains(entityType) && store.findResolver(userType, entityType) != null;
+		}
 
-    }
+	}
 
-    @Override
-    public boolean validate(String entityType, Set<String> ids) {
-        String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
-        EntityContextResolver resolver = store.findResolver(userType, entityType);
-        if (resolver instanceof AllowAllEntityContextResolver) {
-            return true;
-        }
-        Set<String> contextIds = new HashSet<String>(
-                resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
-        return contextIds.containsAll(ids);
-    }
+	@Override
+	public boolean validate(String entityType, Set<String> ids) {
+		String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
+		EntityContextResolver resolver = store.findResolver(userType, entityType);
+		if (resolver instanceof AllowAllEntityContextResolver) {
+			return true;
+		}
+		Set<String> contextIds = new HashSet<String>(resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
+		return contextIds.containsAll(ids);
+	}
 
-    /**
-     * Determines if the entity type is public.
-     *
-     * @param type
-     *            Entity type.
-     * @return True if the entity is public, false otherwise.
-     */
-    protected boolean isPublic(String type) {
-        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
-                || type.equals(EntityNames.LEARNING_STANDARD);
-    }
+	/**
+	 * Determines if the entity type is public.
+	 * 
+	 * @param type Entity type.
+	 * @return True if the entity is public, false otherwise.
+	 */
+	protected boolean isPublic(String type) {
+		return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE) || type.equals(EntityNames.LEARNING_STANDARD);
+	}
 
-    /**
-     * Determines if the user is of type 'staff'.
-     *
-     * @return True if user is of type 'staff', false otherwise.
-     */
-    protected boolean isStaff() {
-        return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
-    }
+	/**
+	 * Determines if the user is of type 'staff'.
+	 * 
+	 * @return True if user is of type 'staff', false otherwise.
+	 */
+	protected boolean isStaff() {
+		return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+	}
 
-    protected Repository<Entity> getRepo() {
-        return this.repo;
-    }
+	protected Repository<Entity> getRepo() {
+		return this.repo;
+	}
 
-    protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
-        this.repo = repo;
-    }
+	protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
+		this.repo = repo;
+	}
 }

@@ -30,12 +30,12 @@ describe 'StaffAssociationInterchangeGenerator' do
     interchange = File.open(@path, 'w')
     @generator = StaffAssociationGenerator.new(get_spec_scenario(), interchange)
     @generator.start
-    @generator.create_staff(1, 1969)
-    @generator.create_staff("cgray", 1973, "Charles Gray")
-    @generator.create_staff_ed_org_assignment_association(1, 1, :PRINCIPAL, "Principal", Date.new(2009, 9, 4))
-    @generator.create_teacher(1, 1974)
-    @generator.create_teacher("linda.kim", 1972, "Linda Kim")
-    @generator.create_teacher_school_association("linda.kim", 2, :REGULAR_EDUCATION, [:EIGHTH_GRADE], [:SCIENCE])
+    @generator << Staff.new(1, 1969)
+    @generator << Staff.new("cgray", 1973, "Charles Gray")
+    @generator << StaffEducationOrgAssignmentAssociation.new(1, 1, :PRINCIPAL, "Principal", Date.new(2009, 9, 4))
+    @generator << Teacher.new(1, 1974)
+    @generator << Teacher.new("linda.kim", 1972, "Linda Kim")
+    @generator << TeacherSchoolAssociation.new("linda.kim", 2, :REGULAR_EDUCATION, [:EIGHTH_GRADE], [:SCIENCE])
     @generator.finalize
     @staff_association = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStaffAssociation.xml", "r") { |file| file.read }
   end
