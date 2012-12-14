@@ -87,11 +87,11 @@ public class SliDeltaManagerTest {
         // Confirm hash related metaData is updated
         confirmMetaDataUpdated(originalRecord);
 
-        List<Map<String, Object>> fData = (List<Map<String, Object>>) originalRecord.getMetaData().get("rhData");
+        List<Map<String, String>> fData = (List<Map<String, String>>) originalRecord.getMetaData().get("rhData");
         String fTenantId = (String) originalRecord.getMetaData().get("rhTenantId");
-        String fHash=fData.get(0).get("rhHash").toString();
-        String fRhId=fData.get(0).get("rhId").toString();
-        
+        String fHash=fData.get(0).get("rhHash");
+        String fRhId=fData.get(0).get("rhId");
+
         // Create the hash to be returned when simulating a recordHash match
         RecordHash hash = createRecordHash(fHash);
 
@@ -103,11 +103,11 @@ public class SliDeltaManagerTest {
         // Confirm hash related metaData is updated
         confirmMetaDataUpdated(recordClone);
 
-        List<Map<String, Object>> sData = (List<Map<String, Object>>) originalRecord.getMetaData().get("rhData");
+        List<Map<String, String>> sData = (List<Map<String, String>>) originalRecord.getMetaData().get("rhData");
         String sTenantId = (String) originalRecord.getMetaData().get("rhTenantId");
-        String sHash=sData.get(0).get("rhHash").toString();
-        String sRhId=sData.get(0).get("rhId").toString();
-        
+        String sHash=sData.get(0).get("rhHash");
+        String sRhId=sData.get(0).get("rhId");
+
         // Confirm the rhId, rhHash, and rhTenantId values were populated consistently
         Assert.assertEquals(fRhId, sRhId);
         Assert.assertEquals(fHash, sHash);
@@ -135,11 +135,11 @@ public class SliDeltaManagerTest {
         // Confirm hash related metaData is updated
         confirmMetaDataUpdated(originalRecord);
 
-        List<Map<String, Object>> fData = (List<Map<String, Object>>) originalRecord.getMetaData().get("rhData");
+        List<Map<String, String>> fData = (List<Map<String, String>>) originalRecord.getMetaData().get("rhData");
         String fTenantId = (String) originalRecord.getMetaData().get("rhTenantId");
-        String fHash=fData.get(0).get("rhHash").toString();
-        String fRhId=fData.get(0).get("rhId").toString();
-        
+        String fHash=fData.get(0).get("rhHash");
+        String fRhId=fData.get(0).get("rhId");
+
         // Create the hash to be returned when simulating a recordHash match
         RecordHash hash = createRecordHash(fHash);
 
@@ -150,25 +150,24 @@ public class SliDeltaManagerTest {
         Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(modifiedRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport));
         confirmMetaDataUpdated(modifiedRecord);
 
-        List<Map<String, Object>> sData = (List<Map<String, Object>>) modifiedRecord.getMetaData().get("rhData");
+        List<Map<String, String>> sData = (List<Map<String, String>>) modifiedRecord.getMetaData().get("rhData");
         String sTenantId = (String) originalRecord.getMetaData().get("rhTenantId");
-        String sHash=sData.get(0).get("rhHash").toString();
-        String sRhId=sData.get(0).get("rhId").toString();
-        
+        String sHash=sData.get(0).get("rhHash");
+        String sRhId=sData.get(0).get("rhId");
+
         // Confirm the rhId and rhTenantId values were populated consistently
         Assert.assertEquals(fRhId, sRhId);
         Assert.assertEquals(fTenantId, sTenantId);
 
         // Confirm the calculated hashes differ since the attribute values have changed
-        
+
         Assert.assertFalse(fHash.equals(sHash));
 
     }
 
     private void confirmMetaDataUpdated(NeutralRecord record) {
-        Assert.assertNotNull(((List<Map<String, Object>>) record.getMetaData().get("rhData")).get(0).get("rhId"));
-        Assert.assertNotNull(((List<Map<String, Object>>) record.getMetaData().get("rhData")).get(0).get("rhHash"));
-        Assert.assertNotNull(record.getMetaData().get("rhTenantId"));
+        Assert.assertNotNull(((List<Map<String, String>>) record.getMetaData().get("rhData")).get(0).get("rhId"));
+        Assert.assertNotNull(((List<Map<String, String>>) record.getMetaData().get("rhData")).get(0).get("rhHash"));
     }
 
     private RecordHash createRecordHash(String rHash) {
