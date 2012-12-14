@@ -163,17 +163,17 @@ Scenario: Verify specific staff document for Rebecca Braverman ingested correctl
     And the "staff" entity "body.race" should be "White"
     And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
     And the "staff" entity "body.sex" should be "Female"  
-    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "No Degree"
-    And the "staff" entity "body.birthDate" should be "1981-02-07" 
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Bachelor's"
+    And the "staff" entity "body.birthDate" should be "1975-01-28" 
 
 Scenario: Verify specific staff document for Charles Gray ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "cgray" in tenant db "Midgar"
     Then the "staff" entity "type" should be "teacher"
     And the "staff" entity "body.race" should be "White"
     And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
-    And the "staff" entity "body.sex" should be "Male"  
-    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Bachelor's" 
-    And the "staff" entity "body.birthDate" should be "1983-11-09" 
+    And the "staff" entity "body.sex" should be "Female"  
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Master's" 
+    And the "staff" entity "body.birthDate" should be "1966-12-31" 
 
 Scenario: Verify specific staff document for Linda Kim ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "linda.kim" in tenant db "Midgar"
@@ -181,17 +181,17 @@ Scenario: Verify specific staff document for Linda Kim ingested correctly: Popul
     And the "staff" entity "body.race" should be "White"
     And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
     And the "staff" entity "body.sex" should be "Female"  
-    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Master's" 
-    And the "staff" entity "body.birthDate" should be "1966-01-14" 
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate" 
+    And the "staff" entity "body.birthDate" should be "1984-05-17" 
 
 Scenario: Verify superdoc studentSchoolAssociation for specific _id ingested correctly: Populated Database
   #When I can find a "studentSchoolAssociation" with "_id" "bbe01f0a3de4e1b35d86397a26ddd0007fd8296a_id" in tenant db "Midgar"
-  When Examining the "studentSchoolAssociation" collection references
-    Then "studentSchoolAssociation" references "educationOrganization" "_id" with "body.schoolId"
-    And "studentSchoolAssociation" references "student" "_id" with "body.studentId"
-    And "studentSchoolAssociation" references "student" "schools._id" with "body.schoolId"
-    And "studentSchoolAssociation" references "student" "schools.entryDate" with "body.entryDate"
-    And "studentSchoolAssociation" references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
+  When Examining the studentSchoolAssociation collection references
+    Then the studentSchoolAssociation references "educationOrganization" "_id" with "body.schoolId"
+    And the studentSchoolAssociation references "student" "_id" with "body.studentId"
+    And the studentSchoolAssociation references "student" "schools._id" with "body.schoolId"
+    And the studentSchoolAssociation references "student" "schools.entryDate" with "body.entryDate"
+    And the studentSchoolAssociation references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
   When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"

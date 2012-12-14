@@ -1482,58 +1482,33 @@ When /^I can find a "(.*?)" with "(.*?)" "(.*?)" in tenant db "(.*?)"$/ do |coll
   @dd_doc = @coll.find(id_type => id).to_a[0]
 end
 
-When /^Examining the "studentSchoolAssociation" collection references
+When /^Examining the studentSchoolAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
   # build up the student_school_association value hash
   @coll = @db["studentSchoolAssociation"]
-  @st_sch_assoc = coll.find_one({"type" => "studentSchoolAssociation"})
+  #@st_sch_assoc = @coll.find_one({"type" => "studentSchoolAssociation"})
+  @st_sch_assoc = @coll.find_one
   # ensure our query returned a document
-  return false if @st_sch_assoc.nil?
-  return false if @st_sch_assoc["body"]["schoolId"].nil?
-  return false if @st_sch_assoc["body"]["studentId"].nil?
-  return false if @st_sch_assoc["body"]["entryDate"].nil?
-  return false if @st_sch_assoc["body"]["entryGradeLevel"].nil?
+  assert(true, "studentSchoolAssociation unset") if @st_sch_assoc.nil?
+  puts "st_sch_assoc has data in it! Good Job!"
+  # body.schoolId
+  assert(true, "studentSchoolAssociation.body.schoolId unset") if @st_sch_assoc["body"]["schoolId"].nil?
+  puts "studentSchoolAssociation.body.schoolId = #{@st_sch_assoc["body"]["schoolId"]}"
+  # body.studentId
+  assert(true, "studentSchoolAssociation.body.studentId unset") if @st_sch_assoc["body"]["studentId"].nil?
+  puts "studentSchoolAssociation.body.studentId = #{@st_sch_assoc["body"]["studentId"]}"
+  # body.entryDate
+  assert(true, "studentSchoolAssociation.body.entryDate unset") if @st_sch_assoc["body"]["entryDate"].nil?
+  puts "studentSchoolAssociation.body.entryDate = #{@st_sch_assoc["body"]["entryDate"]}"
+  # body.entryGradeLevel
+  assert(true, "studentSchoolAssociation.body.entryGradeLevel unset") if @st_sch_assoc["body"]["entryGradeLevel"].nil?
+  puts "studentSchoolAssociation.body.entryGradeLevel = #{@st_sch_assoc["body"]["entryGradeLevel"]}"
+  puts "PASS"
   # push references into student school association hash
   #@stu_sch_assoc["body.schoolId"]  = doc["body"]["schoolId"]
   #@stu_sch_assoc["body.studentId"] = doc["body"]["studentId"]
   #@stu_sch_assoc["body.entryDate"] = doc["body"]["entryDate"]
   #@stu_sch_assoc["body.entryGradeLevel"] = doc["body"]["entryGradeLevel"]
-
-end
-
-When /^"studentSchoolAssociation" references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, field, ref|
-  # build up the student_school_association value hash
-  # example: ref = student, field = body.studentId, value = 62f964169b8d2321a5daa39f100431f04d19e4bd_id
-  #value = ref_coll.find({@id_type => @id}, :fields => field).to_a
-  
-  # cache the referenced collection (student, section, etc)
-  ref_coll = @db[coll]
-  false if ref_coll.count == 0
-  # find the referenced document and pull out the field value(s)
-  # this returns a Mongo::Cursor object (even if miss), so be careful
-  # on miss, ref_doc.count will be 0 (not null). on hit, call
-  # ref_doc.to_a, and get an array of field match hashes
-  ref_doc = ref_coll.find({field => ref}, :fields => field).to_a
-  false if ref_doc.count == 0
-  
-  # This part gets a little nasty because mongo returns nested structs
-  # student school assoc we need to support at most a 2 nodes
-  # -> Get values from the studentSchoolAssociation doc
-  parent_ref  = ref.split(".").shift
-  value_ref   = ref.split(".").pop
-  # -> Get values from the student OR educationOrganization doc
-  parent_field = field.split(".").shift
-  value_field  = field.split(".").pop
-  # -> The fields and values are in a hash appended to the returned array
-  # -> so pop the last array element into the results hash
-  results = ref_doc.pop
-  
-  # -> loop through hits and check if they match referencer document
-  for field_hash in results[parent_field]
-    puts "DEBUG: Looking for #{@stu_sch_assoc[parent_ref][value_ref]}, found #{field_hash[value_field]}"
-    return true if @stu_sch_assoc[parent_ref][value_ref] = field_hash[value_field]
-  end
-  puts "FAIL: Could not find the required value in the referenced document"
-  return false
 end
 
 ############################################################
@@ -1807,6 +1782,50 @@ Then /^the "(.*?)" entity "(.*?)" should be "(.*?)"$/ do |coll, doc_key, expecte
   # Perform a deep document inspection of doc.subdoc.keyvalue
   # Check the body of the returned document array for expected key/value pair
   assert(deepDocumentInspect(coll, doc_key, expected_value), "#{doc_key} not set to #{expected_value}")
+end
+
+Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, field, ref|
+  # build up the student_school_association value hash
+  # example: ref = student, field = body.studentId, value = 62f964169b8d2321a5daa39f100431f04d19e4bd_id
+  #value = ref_coll.find({@id_type => @id}, :fields => field).to_a
+  result = false
+  # cache the referenced collection (student OR educationOrganizatio)
+  ref_coll = @db[coll]
+  assert(true, "Could not find #{coll} collection") if ref_coll.count == 0
+
+  # This part gets a little hackish because mongo returns nested structs
+  # for student school assoc we need to support at most a 2 nodes
+  # -> Get values from the studentSchoolAssociation doc
+  ssa_doc_root_field  = ref.split(".").shift
+  ssa_doc_value_field   = ref.split(".").pop
+  ssa_value = @st_sch_assoc[ssa_doc_root_field][ssa_doc_value_field]
+  # -> Get values from the student OR educationOrganization doc
+  ref_doc_root_field = field.split(".").shift
+  ref_doc_value_field  = field.split(".").pop
+  # -> The fields and values are in a hash appended to the returned array
+  # -> so pop the last array element into the results hash
+
+  # find the referenced document and pull out the field value(s)
+  # this returns a Mongo::Cursor object (even if miss), so be careful
+  # on miss, ref_doc.count will be 0 (not null). on hit, call
+  # ref_doc.to_a, and get an array of field match hashes
+  id = @st_sch_assoc["body"]["studentId"] if coll == "student"
+  id =  @st_sch_assoc["body"]["schoolId"] if coll == "educationOrganization"
+  ref_doc = ref_coll.find({"_id" => id}, :fields => field).to_a
+  ref_doc_results_hash = ref_doc.pop
+  false if ref_doc.count == 0
+
+  # -> if this is a top-level document, just check equality
+  if ref_doc_results_hash.length == 1
+    # -> pass case (equal)
+    result = true if ssa_value == ref_doc_results_hash[ref_doc_root_field]
+  else
+    # -> loop through subdoc hits and check if they match referencer document
+    for field_hash in ref_doc_results_hash[ref_doc_root_field]
+      result = true if ssa_value == field_hash[ref_doc_value_field]
+    end
+  end
+  assert(result, "Could not find the required value in the referenced document")
 end
 
 =begin
