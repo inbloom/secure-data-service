@@ -20,6 +20,14 @@ AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS: 750
 AVERAGE_HIGH_SCHOOL_NUM_STUDENTS: 1000
 AVERAGE_NUM_STUDENTS_THRESHOLD: 0.50
 
+# Average number of programs available per education organization type
+AVERAGE_NUM_PROGRAMS: {'seas': 4, 'leas': 8, 'elementary': 12, 'middle': 16, 'high': 20}
+AVERAGE_NUM_PROGRAMS_THRESHOLD: 0.25
+MINIMUM_NUM_PROGRAMS_PER_STAFF_MEMBER: 2
+MAXIMUM_NUM_PROGRAMS_PER_STAFF_MEMBER: 6
+MINIMUM_NUM_PROGRAMS_PER_TEACHER: 1
+MAXIMUM_NUM_PROGRAMS_PER_TEACHER: 3
+
 # Average number of schools per school district
 # -> resource: http://nces.ed.gov/pubs2009/2009320.pdf (Table 1, page 7)
 AVERAGE_NUM_SCHOOLS_PER_DISTRICT: 5
@@ -53,10 +61,8 @@ ASSESSMENTS_PER_GRADE: 2
 ASSESSMENT_ITEMS_PER_ASSESSMENT: {grade_wide: 4}
 
 #Graduation plans
-GRADUATION_PLANS: 
-  {"Distinguished": 
-    {"English Language and Literature": 12, "Mathematics": 15, "Science": 15, "Social Sciences and History": 12}, 
-   "Minimum": 
-    {"English Language and Literature": 9, "Mathematics": 9, "Science": 9, "Social Sciences and History": 9}, 
-   "Standard": 
-    {"English Language and Literature": 12, "Mathematics": 12, "Science": 12, "Social Sciences and History": 12}} 
+GRADUATION_PLANS: {
+  "Distinguished": {"English Language and Literature": 12, "Mathematics": 15, "Science": 15, "Social Sciences and History": 12}, 
+  "Minimum": {"English Language and Literature": 9, "Mathematics": 9, "Science": 9, "Social Sciences and History": 9}, 
+  "Standard": {"English Language and Literature": 12, "Mathematics": 12, "Science": 12, "Social Sciences and History": 12}
+}

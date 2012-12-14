@@ -16,23 +16,19 @@ limitations under the License.
 
 =end
 
-require_relative "../data_utility.rb"
-require_relative "baseEntity.rb"
+require_relative '../data_utility.rb'
+require_relative 'baseEntity.rb'
 
-# creates local education agency
-class LeaEducationOrganization < BaseEntity
+# creates a student program association
+class StudentProgramAssociation < BaseEntity
+  
+  attr_accessor :student, :program, :begin_date, :ed_org_id, :end_date
 
-  attr_accessor :state_org_id, :parent_id, :programs
-
-  def initialize(rand, id, parent_id, programs = nil)
-    @rand = rand
-    if id.kind_of? String
-      @state_org_id = id
-    else
-      @state_org_id = DataUtility.get_local_education_agency_id(id)
-    end
-    @parent_id = parent_id
-    @programs  = programs
+  def initialize(student, program, ed_org_id, begin_date, end_date = nil)
+    @student    = student
+    @program    = program
+    @ed_org_id  = end_org_id
+    @begin_date = begin_date
+    @end_date   = end_date
   end
-
 end

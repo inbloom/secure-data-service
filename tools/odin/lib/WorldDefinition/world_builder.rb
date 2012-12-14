@@ -21,6 +21,8 @@ require 'logger'
 
 require_relative '../Shared/EntityClasses/enum/GradeLevelType.rb'
 require_relative '../Shared/EntityClasses/enum/GradingPeriodType.rb'
+require_relative '../Shared/EntityClasses/enum/ProgramSponsorType.rb'
+require_relative '../Shared/EntityClasses/enum/ProgramType.rb'
 require_relative '../Shared/EntityClasses/enum/StaffClassificationType.rb'
 require_relative '../Shared/data_utility.rb'
 require_relative '../Shared/date_interval.rb'
@@ -53,7 +55,9 @@ class WorldBuilder
 
     @num_staff_members = 0            # use to make sure staff   unique state ids are unique
     @num_teachers      = 0            # use to make sure teacher unique state ids are unique
-    @queue = queue
+    @unique_program_id = 0            # use to make sure program identifiers      are unique
+
+    @queue = queue                    # queue for work orders (passed to entity factory for entity creation after world building)
   end
 
   # Builds the initial snapshot of the world
@@ -186,8 +190,6 @@ class WorldBuilder
       end
     end
     @breakdown = new_breakdown
-    #puts "breakdown: #{@breakdown}"
-    #puts "new breakdown: #{new_breakdown}"
   end
 
   # uses the total number of students, as well as range of [min, max] to compute students at a school of type 'tag', and then
@@ -218,7 +220,7 @@ class WorldBuilder
 
       school_id, members = @pre_requisites[index].shift if @pre_requisites[index].size > 0
 
-      # remember the school's state organization id if it's a String --> popped off later when creating education organizations
+      # remember the school's state organization id if it's a String --> pop off later when creating education organizations
       @schools << school_id if school_id.kind_of? String
       
       staff, teachers    = create_staff_and_teachers_for_school(members)
@@ -231,7 +233,8 @@ class WorldBuilder
         "staff" => staff,
         "teachers" => teachers,
         "offerings" => {},
-        "students" => {begin_year => assemble_students_into_waves(tag, current_students)}
+        "students" => {begin_year => assemble_students_into_waves(tag, current_students)},
+        "programs" => create_programs_for_education_organization(tag, :SCHOOL)
       }
     end
     school_counter
@@ -293,9 +296,13 @@ class WorldBuilder
       
       update_schools_with_district_id(district_id, schools_in_this_district)
       
-      #edOrg["programs"] = []
-      @world["leas"]   << {"id" => district_id, "parent" => nil, "sessions" => [], "staff" => create_staff_for_local_education_agency(members)}
-      school_counter    += num_schools_in_this_district
+      @world["leas"] << {"id" => district_id, 
+        "parent" => nil, 
+        "sessions" => [], 
+        "staff" => create_staff_for_local_education_agency(members),
+        "programs" => create_programs_for_education_organization("leas", :LOCAL_EDUCATION_AGENCY)
+      }
+      school_counter += num_schools_in_this_district
     end
     district_counter
   end
@@ -324,8 +331,11 @@ class WorldBuilder
     members   = []
     state_id, members = @pre_requisites[:seas].shift if @pre_requisites[:seas].size > 0
 
-    #edOrg["programs"] = []
-    @world["seas"]  << {"id" => state_id, "courses" => create_courses, "staff" => create_staff_for_state_education_agency(members)}
+    @world["seas"] << {"id" => state_id, 
+      "courses" => create_courses, 
+      "staff" => create_staff_for_state_education_agency(members), 
+      "programs" => create_programs_for_education_organization("seas", :STATE_EDUCATION_AGENCY)}
+
     @world["leas"].each { |edOrg| edOrg["parent"] = state_id }
     @queue.push_work_order GraduationPlanFactory.new(state_id, @scenarioYAML)
   end
@@ -411,12 +421,32 @@ class WorldBuilder
     teachers
   end
 
+  # creates programs for the education organization
+  def create_programs_for_education_organization(ed_org_type, sponsor)
+    programs = []
+    avg = @scenarioYAML["AVERAGE_NUM_PROGRAMS"][ed_org_type]
+    min = (avg * (1 - @scenarioYAML["AVERAGE_NUM_PROGRAMS_THRESHOLD"])).round
+    max = (avg * (1 + @scenarioYAML["AVERAGE_NUM_PROGRAMS_THRESHOLD"])).round
+    num = DataUtility.select_random_from_options(@prng, (min..max).to_a)
+    (1..num).each do 
+      @unique_program_id += 1
+      programs << {:id => @unique_program_id, :type => get_random_program_type, :sponsor => sponsor}
+    end
+    programs
+  end
+
+  # gets a random program type
+  def get_random_program_type
+    DataUtility.select_random_from_options(@prng, ProgramType.all).key
+  end
+
   def build_world_from_edOrgs()
-  	num_schools = @scenarioYAML["schoolCount"]
-    @log.info "Creating world from initial number of schools: #{num_schools}"
+  	#num_schools = @scenarioYAML["schoolCount"]
+    #@log.info "Creating world from initial number of schools: #{num_schools}"
     # NOT CURRENTLY SUPPORTED
     # update structure with time information
-    add_time_information_to_edOrgs
+    #add_time_information_to_edOrgs
+    @log.warn "Creating world from initial number of schools is not currently supported."
   end
 
   # creates sessions for each local education agency
@@ -554,9 +584,7 @@ class WorldBuilder
     @world[type].each_index do |index|
       school = @world[type][index]
       students_by_year = school["students"]
-      if school["students"][year].nil?
-        @world[type][index]["students"][year] = shuffle_students_forward_at_school(school["students"][year - 1])
-      end
+      @world[type][index]["students"][year] = shuffle_students_forward_at_school(school["students"][year - 1]) if school["students"][year].nil?
     end
   end
 
@@ -745,25 +773,33 @@ class WorldBuilder
       else
         ed_org_id = DataUtility.get_state_education_agency_id(edOrg["id"])
       end
-      @queue.push_work_order({ :type => SeaEducationOrganization, :id => ed_org_id })
+      @queue.push_work_order({ :type => SeaEducationOrganization, :id => ed_org_id, :programs => get_program_ids(edOrg["programs"]) })
+      
       create_course_work_orders(ed_org_id, edOrg["courses"])
+      create_program_work_orders(edOrg["programs"])
     end
+
     # write local education agencies
-    @world["leas"].each       { |edOrg|
-      @queue.push_work_order({ :type => LeaEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"]})
+    @world["leas"].each { |edOrg|
+      @queue.push_work_order({ :type => LeaEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]) })
+      create_program_work_orders(edOrg["programs"])
     }
 
     # write schools
     @world["elementary"].each { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "elementary"})
-    }
-    @world["middle"].each     { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "middle"})
-    }
-    @world["high"].each     { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "high"})
+      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "elementary", :programs => get_program_ids(edOrg["programs"])})
+      create_program_work_orders(edOrg["programs"])
     }
 
+    @world["middle"].each { |edOrg|
+      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "middle", :programs => get_program_ids(edOrg["programs"])})
+      create_program_work_orders(edOrg["programs"])
+    }
+
+    @world["high"].each { |edOrg|
+      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "high", :programs => get_program_ids(edOrg["programs"])})
+      create_program_work_orders(edOrg["programs"])
+    }
   end
 
   # writes ed-fi xml interchange: education organization calendar entities:
@@ -858,6 +894,7 @@ class WorldBuilder
             offset   = 30
           end
           create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
+          create_staff_program_associations_for_sessions(sessions, offset, member, ed_org["programs"])
         end
       end
       
@@ -877,11 +914,7 @@ class WorldBuilder
             subjects = DataUtility.get_random_academic_subjects_for_type(@prng, type)
             @world[type][ed_org_index]["teachers"][teacher_index]["subjects"] = subjects
           end
-
-          @log.info "creating teacher from catalog: #{teacher} at ed org: #{ed_org_id}"
-          @queue.push_work_order({:type=>Teacher, :id=>teacher["id"], :year=>year_of, :name=>teacher["name"]})
-          @queue.push_work_order({:type=>TeacherSchoolAssociation, :id=>teacher["id"], :school=>ed_org_id,
-                                  :assignment=>:REGULAR_EDUCATION, :grades=>grades, :subjects=>subjects})
+          @log.info "assigning teacher from catalog: #{teacher["id"]} to education organization: #{ed_org_id}"
         end
       end
     end
@@ -925,6 +958,34 @@ class WorldBuilder
         @queue.push_work_order({:type=>StaffEducationOrgAssignmentAssociation, :id=>member["id"], :edOrg=>state_org_id, :classification=>classification,
                                :title=>title, :beginDate=>begin_date, :endDate=>end_date})
       end
+    end
+  end
+
+  # iterates through sessions, using begin and end date, to assemble staff -> program associations
+  # -> manipulates date interval of each session by 'offset' (subtracts offset from begin_date, adds offset to end_date)
+  # -> randomly chooses the number of program associations each staff member will have, then randomly selects programs
+  def create_staff_program_associations_for_sessions(sessions, offset, member, programs)
+    if !sessions.nil? and sessions.size > 0
+      min = @scenarioYAML["MINIMUM_NUM_PROGRAMS_PER_STAFF_MEMBER"]
+      max = @scenarioYAML["MAXIMUM_NUM_PROGRAMS_PER_STAFF_MEMBER"]
+      sessions.each { |session| create_staff_program_association(session, offset, member, programs, min, max) }
+    end
+  end  
+
+  # creates a staff program association using the specified session to extract begin and end dates, manipulates those
+  # dates by specified 'offset', and then creates the association between the specified staff 'member' a subset of 
+  # randomly selected programs (where the subset of randomly selected programs falls on the interval [min,max])
+  def create_staff_program_association(session, offset, member, programs, min, max)
+    interval     = session["interval"]
+    begin_date   = interval.get_begin_date - offset
+    end_date     = interval.get_end_date   + offset
+    num_programs = DataUtility.select_random_from_options(@prng, (min..max).to_a)
+    my_programs  = DataUtility.select_num_from_options(@prng, num_programs, programs)
+    my_programs.each do |program|
+      access = DataUtility.select_random_from_options(@prng, [true, false])
+      staff_id   = DataUtility.get_staff_unique_state_id(member["id"])
+      program_id = DataUtility.get_program_id(program[:id])
+      @queue.push_work_order({:type=>StaffProgramAssociation, :staff=>staff_id, :program=>program_id, :access=>access, :begin_date=>begin_date, :end_date=>end_date})
     end
   end
 
@@ -1013,7 +1074,7 @@ class WorldBuilder
     courses
   end
 
-  # writes the courses at the state education agency to the education organization interchange
+  # creates course work orders to be written to the education organization interchange
   def create_course_work_orders(edOrgId, courses)
     courses.each do |key, value|
       grade = GradeLevelType.get(key)
@@ -1027,6 +1088,26 @@ class WorldBuilder
         @queue.push_work_order({:type => Course, :id => id, :title => title, :edOrgId => edOrgId})
       end
     end
+  end
+
+  # creates program work orders to be written to the education organization interchange
+  def create_program_work_orders(programs)
+    if programs.nil? == false and programs.size > 0
+      programs.each do |program|
+        @queue.push_work_order({:type => Program, :id => DataUtility.get_program_id(program[:id]), :program_type => program[:type], :sponsor => program[:sponsor]})
+      end
+    end
+  end
+
+  # get the program identifiers (in correct format)
+  def get_program_ids(programs)
+    program_ids = []
+    if programs.nil? == false and programs.size > 0
+      programs.each do |program|
+        program_ids << DataUtility.get_program_id(program[:id])
+      end
+    end
+    program_ids
   end
 
   # computes a random number on the interval [min, max]

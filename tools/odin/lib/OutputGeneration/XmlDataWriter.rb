@@ -55,15 +55,16 @@ class XmlDataWriter < DataWriter
     end
 
     @writers = []
-    @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
+    @writers << AssessmentMetadataGenerator.new(@yaml, initialize_interchange(directory, "AssessmentMetadata"))
     @writers << EducationOrganizationGenerator.new(@yaml, initialize_interchange(directory, "EducationOrganization"))
     @writers << EducationOrgCalendarGenerator.new(@yaml, initialize_interchange(directory, "EducationOrgCalendar"))
-    @writers << MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
-    @writers << AssessmentMetadataGenerator.new(@yaml, initialize_interchange(directory, "AssessmentMetadata"))
     @writers << EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
+    @writers << MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
     @writers << StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
-    
+    @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
+    #@writers << StudentProgramGenerator.new(@yaml, initialize_interchange(directory, "StudentProgram"))
+
     # enable entities to be written
     # -> writes header and starts reporting
     @writers.each { |writer| writer.start }
@@ -82,13 +83,10 @@ class XmlDataWriter < DataWriter
   end
 
   def write_one_entity(entity)
-    initialize_entity(entity.class)
-
     if entity.is_a?(Array)
       entity.each do |e|
         write_one_entity(e)
-    end
-
+      end
     else
       initialize_entity(entity.class)
 
@@ -96,7 +94,9 @@ class XmlDataWriter < DataWriter
       @writers.each do |writer|
         if writer.can_write?(entity.class)
           writer << entity
+          increment_count(entity)
           found = true
+          break
         end
       end
 
@@ -104,8 +104,6 @@ class XmlDataWriter < DataWriter
         puts "<<<< #{entity}: writer not registered for type #{entity.class}"
         exit -1
       end
-
-      increment_count(entity)
     end
   end
 

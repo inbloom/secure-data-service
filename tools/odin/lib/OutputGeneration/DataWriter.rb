@@ -59,10 +59,10 @@ class DataWriter
   # displays the counts for entities created
   def display_entity_counts
     @log.info "-------------------------------------------------------"
-    @log.info "Entity counts:"
+    @log.info "ed-fi entity counts:"
     @log.info "-------------------------------------------------------"
     @log.info JSON.pretty_generate(@counts)
-    @log.info "Total entity count: #{@counts.values.inject(:+)}"
+    @log.info "total ed-fi entity count: #{@counts.values.inject(:+)}"
     @log.info "-------------------------------------------------------"
   end
 

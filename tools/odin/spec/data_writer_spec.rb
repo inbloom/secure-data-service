@@ -85,7 +85,7 @@ describe "DataWriter" do
 
     it "will store a program in-memory" do
       @writer.get_entity_count(Program).should eq(0)
-      @writer << Program.new(1, @random)
+      @writer << Program.new(@random, 1)
       @writer.get_entity_count(Program).should_not be_nil
       @writer.get_entity_count(Program).should eq(1)
     end

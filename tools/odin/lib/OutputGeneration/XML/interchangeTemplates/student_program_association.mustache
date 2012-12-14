@@ -14,24 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
-  <StateEducationAgency>
-    <StateOrganizationId>{{state_org_id}}</StateOrganizationId>
-    <NameOfInstitution>{{state_org_id}} (State Education Agency)</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>State Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-    {{#programs}}
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>{{student}}</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>{{.}}</ProgramId>
+        <ProgramId>{{program}}</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    {{/programs}}
-  </StateEducationAgency>
+    <BeginDate>{{begin_date}}</BeginDate>
+    {{#end_date}}
+    <EndDate>{{end_date}}</EndDate>
+    {{/end_date}}
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
 {{/entity}}

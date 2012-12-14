@@ -80,11 +80,13 @@ class DataUtility
   #----------   INTERCHANGE: STAFF ASSOCIATION   ----------
   # create a staff unique state id
   def self.get_staff_unique_state_id(id)
+    return id if id.kind_of? String
     "stff-" + pad_id_with_zeroes(id, 10)
   end
 
   # create a teacher unique state id
   def self.get_teacher_unique_state_id(id)
+    return id if id.kind_of? String
     "tech-" + pad_id_with_zeroes(id, 10)
   end  
   #----------   INTERCHANGE: STAFF ASSOCIATION   ----------
@@ -153,5 +155,17 @@ class DataUtility
   # selects a random object from the list of options
   def self.select_random_from_options(prng, options)
     options[prng.rand(options.size) - 1]
+  end
+
+  # randomly selects a subset of the specified 'choices' that will have size equal to the specified number of choices
+  # -> if num is larger than size of choices, choices array will be returned (no error condition raised)
+  def self.select_num_from_options(prng, num, choices)
+    return choices if num >= choices.size
+    subset = []
+    while subset.size < num
+      choice = select_random_from_options(prng, choices)
+      subset << choice if !subset.include? choice
+    end
+    subset
   end
 end
