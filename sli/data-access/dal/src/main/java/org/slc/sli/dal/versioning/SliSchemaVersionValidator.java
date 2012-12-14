@@ -103,6 +103,9 @@ public class SliSchemaVersionValidator {
             if (this.getMigrationStrategies(entityType, newVersion) == NO_STRATEGIES_DEFINED) {
                 LOG.warn("Migration of entity type [{}] to version [{}] is undefined", entry.getKey(), entry.getValue());
             }
+ else {
+                LOG.warn("Entity will be migrated [{}]", entry.getKey());
+            }
         }
     }
 
@@ -172,18 +175,29 @@ public class SliSchemaVersionValidator {
 
         Entity localEntity = entity;
 
+        LOG.warn("Considering entity: {} in {}", localEntity.getType(), collectionName);
+
         if (this.entityTypesBeingMigrated.containsKey(entityType)) {
+
             int entityVersionNumber = this.getEntityVersionNumber(entity);
             int newVersionNumber = this.entityTypesBeingMigrated.get(entityType);
 
+            LOG.warn("Migrating entity: {}. {}", localEntity.getType(), entityVersionNumber + " -> " + newVersionNumber);
+
             if (entityVersionNumber < newVersionNumber) {
+                LOG.warn("Available strategies: {}", this.getMigrationStrategies(entityType, newVersionNumber));
 
                 for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, newVersionNumber)) {
+                    LOG.warn("Using strategy: {}", migrationStrategy.getClass().getName());
                     localEntity = migrationStrategy.migrate(localEntity);
                 }
                 
                 localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
+
+                LOG.warn("After migration: {}", localEntity.getBody());
                 repo.updateWithoutValidatingNaturalKeys(collectionName, localEntity);
+                LOG.warn("After update: {}", localEntity.getBody());
+
             }
         }
 
@@ -216,6 +230,7 @@ public class SliSchemaVersionValidator {
         MigrationConfig config = null;
         try {
             config = MigrationConfig.parse(migrationConfigResource.getInputStream());
+            LOG.warn("Migration config: {}", config.toString());
         } catch (IOException e) {
             LOG.error("Unable to read migration config file", e);
             return migrationStrategyMap;
@@ -228,6 +243,8 @@ public class SliSchemaVersionValidator {
                 .entrySet()) {
 
             String entityType = entityEntry.getKey();
+            LOG.warn("Parsing entity: {}", entityType);
+
             Map<Integer, List<Map<Strategy, Map<String, Object>>>> versionUpdates = entityEntry.getValue();
 
             Map<Integer, List<MigrationStrategy>> migrationsForVersion = new HashMap<Integer, List<MigrationStrategy>>();
@@ -236,6 +253,7 @@ public class SliSchemaVersionValidator {
             for (Map.Entry<Integer, List<Map<Strategy, Map<String, Object>>>> versionEntry : versionUpdates.entrySet()) {
 
                 Integer versionNumber = versionEntry.getKey();
+                LOG.warn("Parsing version: {}", versionNumber);
                 List<Map<Strategy, Map<String, Object>>> versionStrategies = versionEntry.getValue();
 
                 List<MigrationStrategy> strategies = new ArrayList<MigrationStrategy>();
@@ -246,6 +264,9 @@ public class SliSchemaVersionValidator {
                     // iterate over migration strategies for a single version update
                     for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategy.entrySet()) {
                         try {
+                            LOG.warn("Parsing strategy: {}", strategy.getKey());
+                            LOG.warn("Strategy params: {}", strategy.getValue());
+
                             MigrationStrategy migrationStrategy = strategy.getKey().getNewImplementation();
                             migrationStrategy.setParameters(strategy.getValue());
                             strategies.add(migrationStrategy);
