@@ -18,14 +18,12 @@ package org.slc.sli.ingestion.validation;
 
 import java.io.File;
 
-import org.springframework.context.MessageSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  *
@@ -33,12 +31,6 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
  *
  */
 public class XsdErrorHandler implements XsdErrorHandlerInterface {
-
-    private ErrorReport errorReport;
-
-    private MessageSource messageSource;
-
-    private String errorPrefix = "";
 
     private AbstractMessageReport report;
 
@@ -53,10 +45,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void warning(SAXParseException ex) {
 
-        // TODO: remove after migrating to new calls
-        String errorMessage = getErrorMessage(ex);
-        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-
         reportWarning(ex);
     }
 
@@ -68,10 +56,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     @Override
     public void error(SAXParseException ex) {
-
-        // TODO: remove after migrating to new calls
-        String errorMessage = getErrorMessage(ex);
-        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
 
         reportWarning(ex);
     }
@@ -87,34 +71,9 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void fatalError(SAXParseException ex) throws SAXException {
 
-        // TODO: remove after migrating to new calls
-        String errorMessage = getErrorMessage(ex);
-        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-
         reportWarning(ex);
 
         throw ex;
-    }
-
-    /**
-     * Incorporate the SAX error message into an ingestion error message.
-     *
-     * @param saxErrorMessage
-     *            Error message returned by SAX
-     * @return Error message returned by Ingestion
-     */
-    private String getErrorMessage(SAXParseException ex) {
-        // Create an ingestion error message incorporating the SAXParseException information.
-        String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
-        File parseFile = new File(fullParsefilePathname);
-
-        // Return the ingestion error message.
-        return MessageSourceHelper.getMessage(messageSource, "XSD_VALIDATION_ERROR", parseFile.getName(),
-                String.valueOf(ex.getLineNumber()), String.valueOf(ex.getColumnNumber()), ex.getMessage());
-    }
-
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     private void reportWarning(SAXParseException ex) {
@@ -127,15 +86,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
             report.warning(reportStats, BaseMessageCode.XSD_VALIDATION_ERROR, parseFile.getName(),
                     String.valueOf(ex.getLineNumber()), String.valueOf(ex.getColumnNumber()), ex.getMessage());
         }
-    }
-
-    @Override
-    public void setErrorReport(ErrorReport errorReport) {
-        this.errorReport = errorReport;
-    }
-
-    public void setErrorPrefix(String errorPrefix) {
-        this.errorPrefix = errorPrefix;
     }
 
     @Override
