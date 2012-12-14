@@ -20,24 +20,18 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.File;
 import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
 
 /**
  * Represents an Ingestion File Entry which includes the file to ingest along with its
  * metainformation.
  *
  */
-public class IngestionFileEntry implements Serializable, ErrorReportSupport {
+public class IngestionFileEntry implements Serializable {
 
     private static final long serialVersionUID = 8326156381009199389L;
 
@@ -52,8 +46,7 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private FaultsReport faultsReport;
     private String topLevelLandingZonePath;
 
-    @Autowired
-    private AbstractMessageReport databaseMessageReport;
+    private AbstractMessageReport errorReport;
 
     private ReportStats reportStats;
 
@@ -72,10 +65,16 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         this.checksum = checksum;
         this.faultsReport = new FaultsReport();
         this.topLevelLandingZonePath = topLevelLandingZonePath;
-        this.reportStats = new SimpleReportStats(new SimpleSource(batchJobId, fileName, null));
     }
 
     // Methods
+
+    /**
+     * @param reportStats the reportStats to set
+     */
+    public void setReportStats(ReportStats reportStats) {
+        this.reportStats = reportStats;
+    }
 
     /**
      * @return the reportStats
@@ -199,11 +198,6 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         return this.faultsReport;
     }
 
-    @Override
-    public ErrorReport getErrorReport() {
-        return getFaultsReport();
-    }
-
     public String getBatchJobId() {
         return batchJobId;
     }
@@ -229,8 +223,15 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     /**
      * @return the databaseMessageReport
      */
-    public AbstractMessageReport getDatabaseMessageReport() {
-        return databaseMessageReport;
+    public AbstractMessageReport getMessageReport() {
+        return errorReport;
+    }
+
+    /**
+     * @param databaseMessageReport the databaseMessageReport to set
+     */
+    public void setMessageReport(AbstractMessageReport databaseMessageReport) {
+        this.errorReport = databaseMessageReport;
     }
 
 }

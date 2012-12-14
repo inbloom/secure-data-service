@@ -226,13 +226,16 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
         ReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged, stage.getStageName());
         try {
-            ReportStats reportStatsForNrEntity = createReportStats(job.getId(), collectionNameAsStaged, stage.getStageName());
+            ReportStats reportStatsForNrEntity = null;
 
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
             // UN: Added the records to the recordHashStore
             for (NeutralRecord neutralRecord : records) {
+                if (reportStatsForNrEntity == null) {
+                    reportStatsForNrEntity = createReportStats(job.getId(), neutralRecord.getSourceFile(), stage.getStageName());
+                }
                 recordHashStore.add(neutralRecord);
             }
 
@@ -336,7 +339,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
 
             //returnValue = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-            returnValue = createReportStats(job.getId(), returnValue.getSource().getStageName(), returnValue.getSource().getResourceId());
+            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), returnValue.getSource().getStageName());
             Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
             SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job),

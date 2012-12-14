@@ -44,6 +44,8 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksCallable;
@@ -171,6 +173,8 @@ public class ConcurrentEdFiProcessor implements Processor {
                 String lzPath = resource.getTopLevelLandingZonePath();
 
                 IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
+                fe.setMessageReport(databaseMessageReport);
+                fe.setReportStats(new SimpleReportStats(new SimpleSource(batchJobId, fileName, BATCH_JOB_STAGE.getName())));
                 fe.setFile(new File(resource.getResourceName()));
                 fe.setBatchJobId(batchJobId);
 

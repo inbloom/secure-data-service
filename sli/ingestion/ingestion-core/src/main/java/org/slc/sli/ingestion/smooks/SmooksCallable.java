@@ -88,7 +88,7 @@ public class SmooksCallable implements Callable<Boolean> {
         stage.addMetrics(metrics);
 
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
-        AbstractMessageReport errorReport = fe.getDatabaseMessageReport();
+        AbstractMessageReport errorReport = fe.getMessageReport();
 
         // actually do the processing
         processFileEntry(fe, errorReport, fe.getReportStats(),fileProcessStatus);
