@@ -104,6 +104,10 @@ describe "WorldBuilder" do
         @queue.count(GradeWideAssessmentWorkOrder).should eq(39)
       end
 
+      it "will create the configured number of cohorts for each school" do
+        @queue.count(Cohort).should eq(9)
+      end
+
     end
   end
 

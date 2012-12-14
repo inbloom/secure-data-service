@@ -66,3 +66,6 @@ GRADUATION_PLANS: {
   "Minimum": {"English Language and Literature": 9, "Mathematics": 9, "Science": 9, "Social Sciences and History": 9}, 
   "Standard": {"English Language and Literature": 12, "Mathematics": 12, "Science": 12, "Social Sciences and History": 12}
 }
+
+#cohorts
+COHORTS_PER_SCHOOL: 3

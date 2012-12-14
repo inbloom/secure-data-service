@@ -72,7 +72,7 @@ public class TeacherToProgramValidatorTest {
     public void testCanValidate() {
         setupCurrentUser(teacher1);
         Assert.assertTrue(validator.canValidate(EntityNames.PROGRAM, false));
-        Assert.assertFalse(validator.canValidate(EntityNames.PROGRAM, true));
+        Assert.assertTrue(validator.canValidate(EntityNames.PROGRAM, true));
         
         injector.setStaffContext();
         Assert.assertFalse(validator.canValidate(EntityNames.PROGRAM, false));

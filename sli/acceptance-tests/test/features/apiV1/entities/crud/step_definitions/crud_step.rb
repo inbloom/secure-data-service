@@ -109,8 +109,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772",
-    "programId" => ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"]
+    "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772"
   },
   "course" => {
     "courseTitle" => "Chinese 1",

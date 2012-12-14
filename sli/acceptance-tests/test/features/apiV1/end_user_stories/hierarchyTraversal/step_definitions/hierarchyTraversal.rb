@@ -115,9 +115,7 @@ When /^I navigate to GET the "([^"]*)" link named "([^"]*)"$/ do |arg1, arg2|
   restHttpGetAbs(@the_link)
   #@result = JSON.parse(@res.body)
 end
-# Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)(\/+[\w-]+)$/ do |version, uri, template, uri2|
-  # version + uri + Transform(template) + uri2
-# end
+
 Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
 end
@@ -142,3 +140,4 @@ When /^I navigate to GET the link named "(.*?)" with "(.*?)" of "(.*?)"$/ do |li
     end
   end
 end
+

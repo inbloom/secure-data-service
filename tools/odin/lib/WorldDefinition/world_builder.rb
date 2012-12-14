@@ -785,20 +785,13 @@ class WorldBuilder
       create_program_work_orders(edOrg["programs"])
     }
 
-    # write schools
-    @world["elementary"].each { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "elementary", :programs => get_program_ids(edOrg["programs"])})
-      create_program_work_orders(edOrg["programs"])
-    }
-
-    @world["middle"].each { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "middle", :programs => get_program_ids(edOrg["programs"])})
-      create_program_work_orders(edOrg["programs"])
-    }
-
-    @world["high"].each { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "high", :programs => get_program_ids(edOrg["programs"])})
-      create_program_work_orders(edOrg["programs"])
+    # write elementary, middle, and high schools 
+    ["elementary", "middle", "high"].each{ |classification|
+      @world[classification].each { |edOrg|
+        @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
+        create_program_work_orders(edOrg["programs"])
+        create_cohorts edOrg
+      }
     }
   end
 
@@ -1108,6 +1101,12 @@ class WorldBuilder
       end
     end
     program_ids
+  end
+
+  def create_cohorts(ed_org)
+    (1..(@scenarioYAML['COHORTS_PER_SCHOOL'] or 0)).each{ |i|
+      @queue.push_work_order(Cohort.new(i, ed_org, scope: "School"))
+    }
   end
 
   # computes a random number on the interval [min, max]

@@ -145,15 +145,14 @@ public class TenantProcessor implements Processor {
      */
     boolean preLoad(String landingZone, List<String> dataSets) {
         File landingZoneDir = new File(landingZone);
-        try {
-            if (!landingZoneDir.exists()) {
-                if (!landingZoneDir.createNewFile()) {
-                    LOG.debug("Failed to createNewFile: " + landingZoneDir.getPath());
-                }
+        if (!landingZoneDir.exists()) {
+            try {
+                // will try to create if dir doesn't already exist
+                FileUtils.forceMkdir(landingZoneDir);
+            } catch (IOException e) {
+                LOG.error("TenantProcessor: Failed to create landing zone: {} with absolute path {}", landingZone, landingZoneDir.getAbsolutePath());
+                return false;
             }
-        } catch (IOException e) {
-            LOG.error("Could not create landing zone", e);
-            return false;
         }
         if (landingZoneDir.exists() && landingZoneDir.isDirectory()) {
             boolean result = true;
