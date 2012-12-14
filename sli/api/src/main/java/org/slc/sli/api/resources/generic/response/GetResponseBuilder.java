@@ -95,7 +95,7 @@ public class GetResponseBuilder extends ResponseBuilder {
                     
                     // if the user tried to execute a query/filter
                     if (apiQuery.getCriteria().size() > 0) {
-                        throw new QueryParseException("Querying not allowed", endpoint);
+                        throw new QueryParseException("Querying not allowed", apiQuery.toString());
                     }
                 }
             }
