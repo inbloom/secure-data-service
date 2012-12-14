@@ -111,8 +111,8 @@ public class NeutralSchemaValidator implements EntityValidator {
     }
     
     @Override
-    public void validateNaturalKeys(final Entity entity, boolean clearOriginal) {
-        
+    public boolean validateNaturalKeys(final Entity entity, boolean clearOriginal) {
+        return true;
     }
 
     @Override

@@ -48,8 +48,7 @@ public class MockValidator implements EntityValidator {
     }
 
     @Override
-    public void validateNaturalKeys(Entity entity, boolean fullOverwrite) {
-        // TODO Auto-generated method stub
-        
+    public boolean validateNaturalKeys(Entity entity, boolean fullOverwrite) {
+        return true;
     }
 }

@@ -59,7 +59,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
      * @return
      */
     @Override
-    public void validateNaturalKeys(final Entity entity, boolean overWrite) throws NaturalKeyValidationException {
+    public boolean validateNaturalKeys(final Entity entity, boolean overWrite) throws NaturalKeyValidationException {
         String collectionName = entity.getType();
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
 
@@ -74,12 +74,12 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
             // swallow exception. if there are missing keys fields,
             // they will be validated in the validate method
             LOG.error(e.getMessage(), e);
-            return;
+            return true;
         } catch (NoNaturalKeysDefinedException e) {
             // swallow exception. if there are missing keys fields,
             // they will be validated in the validate method
             LOG.error(e.getMessage(), e);
-            return;
+            return true;
         }
 
         if (naturalKeyFields != null && naturalKeyFields.size() != 0) {
@@ -99,6 +99,8 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                 this.validateNaturalKeyDoesNotConflictWithExistingDocument(entity, collectionName, naturalKeyFields);
             }
         }
+        
+        return true;
     }
 
     /**

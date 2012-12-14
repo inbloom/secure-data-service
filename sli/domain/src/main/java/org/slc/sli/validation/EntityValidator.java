@@ -56,10 +56,13 @@ public interface EntityValidator {
     public void setReferenceCheck(String referenceCheck);
     
     /**
+     * Validates the entity's natural key against system and database configuration.
      * 
-     * @param entity
-     * @param fullOverwrite
+     * @param entity entity being checked for natural key constraints and such
+     * @param fullOverwrite whether this entity will be used for a full entity overwrite (instead of a partial)
+     * @return true if successful, throws EntityValidationException otherwise
+     * @throws EntityValidationException when entity fails validation
      */
-    public void validateNaturalKeys(final Entity entity, boolean fullOverwrite);
+    public boolean validateNaturalKeys(final Entity entity, boolean fullOverwrite) throws EntityValidationException;
 
 }

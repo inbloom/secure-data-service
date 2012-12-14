@@ -35,6 +35,7 @@ import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntity;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
+import org.slc.sli.dal.versioning.SliSchemaVersionValidator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -85,6 +86,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private SubDocAccessor subDocs;
 
     private Denormalizer denormalizer;
+
+    @Autowired
+    protected SliSchemaVersionValidator schemaVersionData;
     
     @Override
     public void afterPropertiesSet() {
@@ -224,6 +228,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         return internalCreate(type, null, body, metaData, collectionName);
     }
+    
 
     /*
      * This method should be private, but is used via mockito in the tests, thus
@@ -255,6 +260,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
+        this.schemaVersionData.insertVersionInformation(entity);
 
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).create(entity);
@@ -278,6 +284,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
 
+        for (Entity entity : records) {
+            this.schemaVersionData.insertVersionInformation(entity);
+        }
+        
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).insert(records);
 

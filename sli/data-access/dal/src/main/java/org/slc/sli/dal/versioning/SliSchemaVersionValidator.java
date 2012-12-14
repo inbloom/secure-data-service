@@ -78,10 +78,32 @@ public class SliSchemaVersionValidator {
     @Autowired
     @Qualifier("mongoTemplate")
     protected MongoTemplate mongoTemplate;
+    
 
     private Map<String, Integer> entityTypesBeingMigrated;
+    private Map<String, Integer> currentEntityTypeVersions;
 
     private Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap;
+    
+    /**
+     * If the entity is non null, has a metaData map, and its entity type has a version,
+     * this method inserts that version into the metaData.
+     * 
+     * @param entity
+     */
+    public void insertVersionInformation(Entity entity) {
+        if (entity != null) {
+            Integer version = this.currentEntityTypeVersions.get(entity.getType());
+            
+            if (version != null) {
+                Map<String, Object> metaData = entity.getMetaData();
+                
+                if (metaData != null) {
+                    metaData.put(VERSION_NUMBER_FIELD, version);
+                }
+            }
+        }
+    }
 
     @PostConstruct
     public void initMigration() {
@@ -109,6 +131,7 @@ public class SliSchemaVersionValidator {
     private void detectMigrations() {
 
         this.entityTypesBeingMigrated = new HashMap<String, Integer>();
+        this.currentEntityTypeVersions = new HashMap<String, Integer>();
 
         for (NeutralSchema neutralSchema : this.entitySchemaRepository.getSchemas()) {
             AppInfo appInfo = neutralSchema.getAppInfo();
@@ -116,8 +139,11 @@ public class SliSchemaVersionValidator {
             if (appInfo != null) {
                 int schemaVersion = appInfo.getSchemaVersion();
                 if (schemaVersion != AppInfo.NOT_VERSIONED) {
+                    String entityType = neutralSchema.getType();
+                    this.currentEntityTypeVersions.put(entityType, schemaVersion);
+                    
                     Query query = new Query();
-                    query.addCriteria(Criteria.where(ID).is(neutralSchema.getType()));
+                    query.addCriteria(Criteria.where(ID).is(entityType));
 
                     DBObject dbObject = this.mongoTemplate.findOne(query, BasicDBObject.class, METADATA_COLLECTION);
 
@@ -126,7 +152,7 @@ public class SliSchemaVersionValidator {
                         int storedSchemaVersion = schemaVersion - sarjeFlag; // because migrating from x to x might be odd
                         
                         Map<String, Object> objectToSave = new HashMap<String, Object>();
-                        objectToSave.put(ID, neutralSchema.getType());
+                        objectToSave.put(ID, entityType);
                         objectToSave.put(DAL_SV, schemaVersion);
                         objectToSave.put(MONGO_SV, storedSchemaVersion);
                         objectToSave.put(SARJE, sarjeFlag);
@@ -143,7 +169,7 @@ public class SliSchemaVersionValidator {
                         
                         if (currentMongoVersion < schemaVersion) {
                             // remember that the entity's schema is being upversioned
-                            this.entityTypesBeingMigrated.put(neutralSchema.getType(), schemaVersion);
+                            this.entityTypesBeingMigrated.put(entityType, schemaVersion);
                         }
                     }
                 }
