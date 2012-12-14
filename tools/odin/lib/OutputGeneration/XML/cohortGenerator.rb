@@ -22,19 +22,16 @@ require_relative "../../Shared/util"
 
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
-# event-based staff association interchange generator 
-class StaffAssociationGenerator < InterchangeGenerator
+# event-based student enrollment interchange generator
+class CohortGenerator < InterchangeGenerator
 
-  # initialization will define the header and footer for the staff association interchange
+  # initialization will define the header and footer for the student enrollment interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
 
-    @header, @footer = build_header_footer( "StaffAssociation" )    
-    @writers[ Staff ] = EntityWriter.new("staff.mustache")
-    @writers[ StaffEducationOrgAssignmentAssociation ] = EntityWriter.new("staff_ed_org_assignment_association.mustache")
-    @writers[ Teacher ] = EntityWriter.new("teacher.mustache")
-    @writers[ TeacherSchoolAssociation ] = EntityWriter.new("teacher_school_association.mustache")
-    @writers[ TeacherSectionAssociation ] = EntityWriter.new("teacher_section_association.mustache")
+    @header, @footer = build_header_footer( "StudentCohort" )
+    @writers[Cohort] = EntityWriter.new("cohort.mustache")
   end
+
 end
