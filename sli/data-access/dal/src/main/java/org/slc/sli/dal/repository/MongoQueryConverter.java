@@ -166,7 +166,7 @@ public class MongoQueryConverter {
                              return Criteria.where(prefixKey(neutralCriteria)).in((Collection<Object>) neutralCriteria.getValue());
                          }
                      } catch (ClassCastException cce) {
-                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.getKey());
                      }
                  }
              }
@@ -184,7 +184,7 @@ public class MongoQueryConverter {
                     try {
                         return Criteria.where(prefixKey(neutralCriteria)).nin(neutralCriteria.getValue());
                     } catch (ClassCastException cce) {
-                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.getKey());
                     }
                 }
             }
@@ -371,7 +371,7 @@ public class MongoQueryConverter {
 
                 NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, neutralQuery.getSortBy());
                 if (fieldSchema != null && fieldSchema.isPii()) {
-                    throw new QueryParseException(ENCRYPTION_ERROR + " cannot be sorted on", neutralQuery.toString());
+                    throw new QueryParseException(ENCRYPTION_ERROR + " cannot be sorted on", neutralQuery.getSortBy());
                 }
             }
 
@@ -406,7 +406,7 @@ public class MongoQueryConverter {
                 }
                 if (fieldSchema.isPii()) {
                     if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
-                        throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
+                        throw new QueryParseException(ENCRYPTION_ERROR + value, key);
                     }
 
                     if (encryptor != null) {
