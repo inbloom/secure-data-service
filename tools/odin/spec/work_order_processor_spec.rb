@@ -35,10 +35,10 @@ require_relative '../lib/EntityCreation/work_order_processor'
 describe "WorkOrderProcessor" do
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
-  let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
+  let(:scenario) {Scenario.new({'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
                    'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3},
                    'INCLUDE_PARENTS' => true,
-                   'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30}}
+                   'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30})}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
@@ -218,8 +218,8 @@ end
 describe "generate_work_orders" do
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
-  let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
-                   'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}}
+  let(:scenario) {Scenario.new({'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
+                   'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}})}
 
   context "with a world with 20 students in 4 schools" do
 
