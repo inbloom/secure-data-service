@@ -29,6 +29,7 @@ import java.util.Map;
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
 
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -328,31 +330,56 @@ public class AttendanceTransformerTest {
         query1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
         query1.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
-        
-        Mockito.verify(repository, Mockito.times(1))
+
+        List<Map<String, Object>> attendanceRhData = new ArrayList<Map<String, Object>>();
+        Map<String,Object> RhDataElement = new HashMap<String, Object>();
+        RhDataElement.put("rhId", "rhId1");
+        RhDataElement.put("rhHahs", "rhHahs1");
+        attendanceRhData.add(RhDataElement);
+        Map<String, Object> attendanceEventDeltaHashValuesToPush = new HashMap<String, Object>();
+        attendanceEventDeltaHashValuesToPush.put("metaData.rhData", attendanceRhData.toArray());
+        Map<String, Object> update = new HashMap<String, Object>();
+        update.put("pushAll", attendanceEventDeltaHashValuesToPush);
+
+        // Set the tenantId
+        Map<String, Object> attendanceEventDeltaHashTenantIdToSet = new HashMap<String, Object>();
+        attendanceEventDeltaHashTenantIdToSet.put("metaData.rhTenantId", TenantContext.getTenantId());
+        update.put("set", attendanceEventDeltaHashTenantIdToSet);
+                Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query1)),
                 Mockito.anyMap(),
                 Mockito.eq("attendance_transformed")
              );
-
-        //verify attendance for studentId2
+                        //verify attendance for studentId2
         NeutralQuery query2 = new NeutralQuery(1);
         query2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
         query2.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId2"));
         query2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId2"));
         query2.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
-        Mockito.verify(repository, Mockito.times(1))
+        
+        List<Map<String, Object>> attendanceRhData2 = new ArrayList<Map<String, Object>>();
+        Map<String,Object> RhDataElement2 = new HashMap<String, Object>();
+        RhDataElement2.put("rhId", "rhId1");
+        RhDataElement2.put("rhHahs", "rhHahs1");
+        attendanceRhData2.add(RhDataElement2);
+        Map<String, Object> attendanceEventDeltaHashValuesToPush2 = new HashMap<String, Object>();
+        attendanceEventDeltaHashValuesToPush2.put("metaData.rhData", attendanceRhData.toArray());
+        Map<String, Object> update2 = new HashMap<String, Object>();
+        update2.put("pushAll", attendanceEventDeltaHashValuesToPush);
+
+        // Set the tenantId
+        Map<String, Object> attendanceEventDeltaHashTenantIdToSet2 = new HashMap<String, Object>();
+        attendanceEventDeltaHashTenantIdToSet.put("metaData.rhTenantId", TenantContext.getTenantId());
+        update.put("set", attendanceEventDeltaHashTenantIdToSet2);
+                Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query2)),
                 Mockito.anyMap(),
                 Mockito.eq("attendance_transformed")
              );
-        
-        
-    }
-
+      }
 
 
     private List<Entity> buildSessionEntity() {
@@ -546,10 +573,13 @@ public class AttendanceTransformerTest {
         r1.setAttributeField("eventDate", "2012-09-09");
         r1.setAttributeField("attendanceEventCategory", "attendanceEventCategory1");
         r1.setAttributeField("attendanceEventReason", "attendanceEventReason1");
-              
-        r1.addMetaData("rhId", "rhId1");
-        r1.addMetaData("rhHash", "rhHash1");
-        
+        HashMap<String, Object> relement1 = new HashMap<String, Object>();
+        relement1.put("rhId", "rhId1");
+        relement1.put("rhHash", "rhHash1");
+        List<HashMap<String, Object>> rList1 = new ArrayList<HashMap<String, Object>>();
+        rList1.add(relement1);
+        r1.addMetaData("rhData", rList1);
+               
         NeutralRecord r2 = new NeutralRecord();
         r2.setRecordType("attendance");
         r2.setRecordId("recordId2");
@@ -557,11 +587,14 @@ public class AttendanceTransformerTest {
         r2.setAttributeField("eventDate", "2012-09-09");
         r2.setAttributeField("attendanceEventCategory", "attendanceEventCategory2");
         r2.setAttributeField("attendanceEventReason", "attendanceEventReason2");
-        
-        r2.addMetaData("rhId", "rhId2");
-        r2.addMetaData("rhHash", "rhHash2");
-		
-        return Arrays.asList(r1, r2);
+        HashMap<String, Object> relement2 = new HashMap<String, Object>();
+        relement2.put("rhId", "rhId1");
+        relement2.put("rhHash", "rhHash1");
+        List<HashMap<String, Object>> rList2 = new ArrayList<HashMap<String, Object>>();
+        rList2.add(relement2);
+        r2.addMetaData("rhData", rList2);
+   
+		return Arrays.asList(r1, r2);
     }
 
 }
