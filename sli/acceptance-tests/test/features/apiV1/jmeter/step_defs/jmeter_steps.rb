@@ -61,7 +61,7 @@ def archiveJtlFiles(destination)
     if file.end_with?(".jtl") or file == "jmeter.log"
       archivedFile = File.join(destination, "#{file}.#{@time}")
       puts "Moving #{file} to #{archivedFile}"
-      FileUtils.mv(file, archivedFile)
+      FileUtils.cp(file, archivedFile)
     end
   end
 end
