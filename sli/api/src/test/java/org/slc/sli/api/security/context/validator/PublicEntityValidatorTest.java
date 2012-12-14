@@ -50,10 +50,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class NonTransitivePublicEntityValidatorTest {
+public class PublicEntityValidatorTest {
 
     @Autowired
-    private NonTransitivePublicEntityValidator validator;
+    private PublicEntityValidator validator;
 
     @Autowired
     private SecurityContextInjector injector;

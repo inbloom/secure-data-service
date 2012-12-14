@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
  * @author mabernathy
  */
 @Component
-public class NonTransitivePublicEntityValidator extends AbstractContextValidator {
+public class PublicEntityValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
