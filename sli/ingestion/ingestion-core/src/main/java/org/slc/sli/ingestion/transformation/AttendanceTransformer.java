@@ -19,7 +19,6 @@ package org.slc.sli.ingestion.transformation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,12 +42,12 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
@@ -77,7 +76,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String DATE = "date";
     private static final String EVENT = "event";
-    private static final String RECORDHASHDATA = "recordHashData";
+    private static final String RECORDHASHDATA = SliDeltaManager.RECORDHASH_DATA;
 
     private int numAttendancesIngested = 0;
 
@@ -128,7 +127,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            Map<String, Object> recordHashData = neutralRecord.getMetaData();
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> recordHashData = (List<Map<String, Object>>) neutralRecord.getMetaData().get(SliDeltaManager.RECORDHASH_DATA);
 
 
             String studentId = null;
@@ -313,29 +313,18 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         Map<String, Object> update = new HashMap<String, Object>();
         update.put("pushAll", attendanceEventDeltaHashValuesToPush);
 
-        // Set the tenantId
-        Map<String, Object> attendanceEventDeltaHashTenantIdToSet = new HashMap<String, Object>();
-        attendanceEventDeltaHashTenantIdToSet.put("metaData.rhTenantId", TenantContext.getTenantId());
-        update.put("set", attendanceEventDeltaHashTenantIdToSet);
-
         getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
                 ATTENDANCE_TRANSFORMED);
 
     }
 
-    private Collection<? extends Map<String, Object>> extractRecordHashDataFromAttendanceEvents(
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> extractRecordHashDataFromAttendanceEvents(
             List<Map<String, Object>> events) {
         List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
 
         for(Map<String, Object> event: events) {
-            Map<String, Object> rhDataElement = new HashMap<String, Object>();
-            @SuppressWarnings("unchecked")
-            Map<String, Object> eventRhData = (Map<String, Object>) event.get(RECORDHASHDATA);
-            if (eventRhData != null && eventRhData.get("rhId") != null && eventRhData.get("rhHash") != null) {
-                rhDataElement.put("rhId", eventRhData.get("rhId"));
-                rhDataElement.put("rhHash", eventRhData.get("rhHash"));
-                rhData.add(rhDataElement);
-            }
+            rhData.addAll((List<Map<String, Object>>) event.get(RECORDHASHDATA));
         }
         return rhData;
     }

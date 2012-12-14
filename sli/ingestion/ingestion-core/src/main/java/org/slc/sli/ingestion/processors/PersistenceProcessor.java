@@ -55,6 +55,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -109,12 +110,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
     	this.batchJobDAO = batchJobDAO;
     }
-    
+
     public BatchJobDAO getBatchJobDAO()
     {
     	return this.batchJobDAO;
     }
-    
+
     // Paths for id field and ref fields for self-referencing entities (for DE1950)
     // TODO: make it work for entities with multiple field keys.
     // TODO: make it configurable. From schema, maybe.
@@ -622,32 +623,27 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             return;
         }
 
-        // TODO define field names as constants and use them in SliDeltaManager, Transformers, and here
-        Object rhTenantIdObj = nr.getMetaDataByName("rhTenantId");
-        Object rhDataObj = nr.getMetaDataByName("rhData");
+        Object rhDataObj = nr.getMetaDataByName(SliDeltaManager.RECORDHASH_DATA);
 
         // Make sure complete metadata is present
-        if (null == rhDataObj || null == rhTenantIdObj) {
+        if (null == rhDataObj) {
             return;
         }
 
-        String tenantId = rhTenantIdObj.toString();
+        String tenantId = TenantContext.getTenantId();
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
 
         for (Map<String, Object> rhDataElement : rhData) {
 
-            Object rhHashObj = rhDataElement.get("rhHash");
-            Object rhIdObj = rhDataElement.get("rhId");
+            Object rhHashObj = rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
+            Object rhIdObj = rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
 
             // Make sure complete metadata is present
             if (null == rhHashObj || null == rhIdObj) {
-                return;
+                continue;
             }
             String newHashValues = rhHashObj.toString();
-            if (newHashValues == null) {
-                return;
-            }
-
             String recordId = rhIdObj.toString();
 
             // Consider DE2002, removing a query per record vs. tracking version

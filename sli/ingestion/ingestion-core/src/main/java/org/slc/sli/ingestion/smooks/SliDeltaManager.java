@@ -51,6 +51,9 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
 public final class SliDeltaManager {
 
 
+    public static final String RECORDHASH_DATA = "rhData";
+    public static final String RECORDHASH_HASH = "rhHash";
+    public static final String RECORDHASH_ID = "rhId";
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
 
@@ -120,11 +123,11 @@ public final class SliDeltaManager {
             // TODO consider making this a util
             List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
             Map<String, Object> rhDataElement = new HashMap<String, Object>();
-            rhDataElement.put("rhId", recordId);
-            rhDataElement.put("rhHash", recordHashValues);
+            rhDataElement.put(RECORDHASH_ID, recordId);
+            rhDataElement.put(RECORDHASH_HASH, recordHashValues);
             rhData.add(rhDataElement);
 
-            n.addMetaData("rhData", rhData);
+            n.addMetaData(RECORDHASH_DATA, rhData);
             n.addMetaData("rhTenantId", tenantId);
 
             isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
