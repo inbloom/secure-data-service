@@ -331,26 +331,26 @@ public class AttendanceTransformerTest {
         query1.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
 
-        List<Map<String, Object>> attendanceRhData = new ArrayList<Map<String, Object>>();
-        Map<String,Object> RhDataElement = new HashMap<String, Object>();
-        RhDataElement.put("rhId", "rhId1");
-        RhDataElement.put("rhHahs", "rhHahs1");
-        attendanceRhData.add(RhDataElement);
-        Map<String, Object> attendanceEventDeltaHashValuesToPush = new HashMap<String, Object>();
-        attendanceEventDeltaHashValuesToPush.put("metaData.rhData", attendanceRhData.toArray());
-        Map<String, Object> update = new HashMap<String, Object>();
-        update.put("pushAll", attendanceEventDeltaHashValuesToPush);
-
-        // Set the tenantId
-        Map<String, Object> attendanceEventDeltaHashTenantIdToSet = new HashMap<String, Object>();
-        attendanceEventDeltaHashTenantIdToSet.put("metaData.rhTenantId", TenantContext.getTenantId());
-        update.put("set", attendanceEventDeltaHashTenantIdToSet);
-                Mockito.verify(repository, Mockito.times(1))
+    	NeutralQuery queryRh1 = new NeutralQuery(1);
+    	queryRh1.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
+    	queryRh1.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
+    	queryRh1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+   
+        
+        Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query1)),
                 Mockito.anyMap(),
                 Mockito.eq("attendance_transformed")
              );
+        
+        Mockito.verify(repository, Mockito.times(1))
+        .updateFirstForJob(
+            Mockito.argThat(new IsCorrectNeutralQuery(queryRh1)),
+            Mockito.anyMap(),
+            Mockito.eq("attendance_transformed")
+         );
+              
                         //verify attendance for studentId2
         NeutralQuery query2 = new NeutralQuery(1);
         query2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
@@ -359,26 +359,24 @@ public class AttendanceTransformerTest {
         query2.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
         
-        List<Map<String, Object>> attendanceRhData2 = new ArrayList<Map<String, Object>>();
-        Map<String,Object> RhDataElement2 = new HashMap<String, Object>();
-        RhDataElement2.put("rhId", "rhId1");
-        RhDataElement2.put("rhHahs", "rhHahs1");
-        attendanceRhData2.add(RhDataElement2);
-        Map<String, Object> attendanceEventDeltaHashValuesToPush2 = new HashMap<String, Object>();
-        attendanceEventDeltaHashValuesToPush2.put("metaData.rhData", attendanceRhData.toArray());
-        Map<String, Object> update2 = new HashMap<String, Object>();
-        update2.put("pushAll", attendanceEventDeltaHashValuesToPush);
-
-        // Set the tenantId
-        Map<String, Object> attendanceEventDeltaHashTenantIdToSet2 = new HashMap<String, Object>();
-        attendanceEventDeltaHashTenantIdToSet.put("metaData.rhTenantId", TenantContext.getTenantId());
-        update.put("set", attendanceEventDeltaHashTenantIdToSet2);
-                Mockito.verify(repository, Mockito.times(1))
+    	NeutralQuery queryRh2 = new NeutralQuery(1);
+    	queryRh2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
+    	queryRh2.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
+    	queryRh2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+    	
+        Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query2)),
                 Mockito.anyMap(),
                 Mockito.eq("attendance_transformed")
              );
+        
+        Mockito.verify(repository, Mockito.times(1))
+        .updateFirstForJob(
+            Mockito.argThat(new IsCorrectNeutralQuery(queryRh2)),
+            Mockito.anyMap(),
+            Mockito.eq("attendance_transformed")
+         );
       }
 
 
