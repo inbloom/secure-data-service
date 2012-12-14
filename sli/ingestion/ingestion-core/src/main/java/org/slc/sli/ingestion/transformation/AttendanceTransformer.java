@@ -324,7 +324,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
 
         for(Map<String, Object> event: events) {
-            rhData.addAll((List<Map<String, Object>>) event.get(RECORDHASHDATA));
+            // note that events from SLI will not have RECORDHASHDATA so will NOT be added to the recordHash
+            List<Map<String, Object>> eventRhData = (List<Map<String, Object>>) event.remove(RECORDHASHDATA);
+            if (eventRhData != null) {
+                rhData.addAll(eventRhData);
+            }
         }
         return rhData;
     }
