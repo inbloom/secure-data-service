@@ -1,5 +1,10 @@
-<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">  <Student>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+  <Student>
     <StudentUniqueStateId>530425896</StudentUniqueStateId>
+    <StudentIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="Federal">
+        <IdentificationCode>555-55-5555</IdentificationCode>
+    </StudentIdentificationCode>
     <Name>
       <FirstName>Rhonda</FirstName>
       <MiddleName>Shannon</MiddleName>
@@ -69,4 +74,32 @@
     </StudentIndicators>
     <LoginId>rsd</LoginId>
   </Student>
+  <Parent>
+        <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Richard</FirstName>
+            <MiddleName>Lee</MiddleName>
+            <LastSurname>Le</LastSurname>
+        </Name>
+        <OtherName OtherNameType="Nickname">
+          <FirstName>Julie</FirstName>
+          <MiddleName>Wren</MiddleName>
+          <LastSurname>Einstein</LastSurname>
+        </OtherName>
+        <Sex>Male</Sex>
+        <Address>
+            <StreetNumberName>23 Rue Lecourbe</StreetNumberName>
+            <City>Paris</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
+        <Telephone>
+            <TelephoneNumber>+33 (1) 45.23.35.48.12</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail>
+          <EmailAddress>rle@summer.nc.edu</EmailAddress>
+        </ElectronicMail> 
+        <LoginId>rle</LoginId>
+  </Parent>
 </InterchangeStudentParent>
