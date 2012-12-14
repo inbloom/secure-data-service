@@ -23,14 +23,13 @@ limitations under the License.
 
 require 'xml'
 
+
 JMETER_PATH = "../../../../../../tools/jmeter/"
 PROPERTIES_FILE = "local.properties"
 
 Given /^I run each of the Jmeter tests:$/ do |table|
-  puts "starting test"
   table.hashes.map do |row|
   	testName = row["testName"]
-    puts "\n" + testName
   	runTest(testName)
   end
 end
@@ -39,7 +38,6 @@ def runTest(testName)
 	jmxFileName = JMETER_PATH + testName + ".jmx" 
   	propertiesFileName = JMETER_PATH + PROPERTIES_FILE
   	jMeterCommand = "jmeter -n -t " + jmxFileName + " -q " + propertiesFileName
-  	puts "executing: " + jMeterCommand
   	system jMeterCommand
 	parseJtlForRC(testName)
 end
@@ -48,21 +46,48 @@ def parseJtlForRC(testName)
 	rcMap = {}
 	fileName = testName + ".jtl"
 	doc = loadXML(fileName)
+	testPassed = true
 	doc.find('//httpSample').each do |sample|
     	label = sample.attributes["lb"]
     	rc = sample.attributes["rc"]
-    	rcMap[label] = rc
-    	#sample.attributes.each do |attribute|
-    	#	puts attribute.name + " : " + attribute.value
-    	#end
-    	puts label + " : " + rc
+    	truncatedLabel = label
+    	optIndex = truncatedLabel.index('?')
+    	if optIndex != nil
+    		truncatedLabel = truncatedLabel[0, optIndex]
+    	end
+    	rcMap[truncatedLabel] = rc
+    	validRc = validReturnCode?(rc)
+    	if !validRc
+    		puts truncatedLabel + ": \t " + rc
+    		testPassed = false
+    	end 
   	end
-  	rcMap
+  	
+  	if !testPassed
+  		deleteJtlFile(testName)	
+  	end
+  	
+  	rcMap.each do |label, rc|
+  		assert(validReturnCode?(rc), String(rc) + " returned for " + label)
+  	end
+  	
+end
+
+def deleteJtlFile(testName)
+	File.delete(testName + ".jtl")
 end
 
 def loadXML(fileName)
 	xml = File.read(fileName)
-	parser = XML::Parser.new
-	parser.string = xml
+	parser = XML::Parser.string(xml)
 	parser.parse
+end
+
+def validReturnCode?(rc)
+	rc.to_i >= 200 && rc.to_i < 400
+end
+
+#TODO remove and use SLI utils assert
+def assert(bool, message = 'assertion failure')
+  raise message unless bool
 end
