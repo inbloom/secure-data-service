@@ -65,7 +65,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                               |                 78|
      | attendance                               |                  0|
      | calendarDate                             |               1161|
-     | cohort                                   |                  0|
+     | cohort                                   |                  9|
      | competencyLevelDescriptor                |                  0|
      | course                                   |                 34|
      | courseOffering                           |                102|
@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                 21|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 2146 records." in the resulting batch job file
+    And I should see "Processed 2155 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
