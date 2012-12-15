@@ -125,6 +125,7 @@ public class SearchResourceServiceTest {
     }
 
     @Test
+    @Ignore
     public void testResponse() throws Exception {
         setupAuth(EntityNames.TEACHER);
         Map<String, Object> student = new HashMap<String, Object>();
