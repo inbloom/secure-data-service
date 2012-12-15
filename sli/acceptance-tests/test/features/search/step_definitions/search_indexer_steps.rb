@@ -39,11 +39,11 @@ end
 ###################################################################################
 
 Given /^I send a command to start the extractor to extract now$/ do
-  hostname = PropLoader.getProps['elastic_search_host']
-  port = PropLoader.getProps['elastic_search_remote_command_port']
-  socket = TCPSocket.open(hostname, port)
-  socket.write("extract")
-  socket.close  
+  sendCommand("extract")
+end
+
+Given /^I send a command to start the extractor to extract "(.*?)" now$/ do |tenant|
+  sendCommand("extract #{tenant}")  
 end
 
 Given /^I DELETE to clear the Indexer$/ do
@@ -159,6 +159,7 @@ end
 Given /^I search in Elastic Search for "(.*?)" in tenant "(.*?)"$/ do |query, tenant|
   url = PropLoader.getProps['elastic_search_address'] + "/" + convertTenantIdToDbName(tenant) + "/_search?q=" + query
   restHttpGetAbs(url)
+  puts url
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -347,6 +348,14 @@ def generateTenantDoc(tenantName)
         "tenantId" => tenantName
       }
   }
+end
+
+def sendCommand(command)
+  hostname = PropLoader.getProps['elastic_search_host']
+  port = PropLoader.getProps['elastic_search_remote_command_port']
+  socket = TCPSocket.open(hostname, port)
+  socket.write(command)
+  socket.close 
 end
 
 

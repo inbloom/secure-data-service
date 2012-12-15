@@ -1,10 +1,12 @@
 desc "Run Search Tests"
 task :searchTests do
-  ["Midgar","Hyrule"].each do |tenant|
+  ["Midgar", "Hyrule"].each do |tenant|
     ["student", "learningObjective", "learningStandard", "competencyLevelDescriptor", "studentCompetencyObjective", "assessment"].each do |collection|
+      DB_NAME = convertTenantIdToDbName(tenant)
       removeCollectionsCleanly(collection, tenant)
     end
   end
+  DB_NAME = convertTenantIdToDbName("Midgar")
   Rake::Task["importUnifiedData"].execute
   runTests("test/features/search/search_extractor.feature")
   runTests("test/features/search/search_indexer.feature")
