@@ -17,7 +17,6 @@ limitations under the License.
 =end
 
 require 'rubygems'
-require 'mongo'
 require 'fileutils'
 
 def parseGitb(out)

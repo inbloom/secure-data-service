@@ -835,6 +835,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
+  Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS

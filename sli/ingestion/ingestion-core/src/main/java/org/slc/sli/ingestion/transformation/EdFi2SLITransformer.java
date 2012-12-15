@@ -21,6 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -28,25 +35,21 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 
 /**
@@ -86,18 +89,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     @Override
-    public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
+    public List<SimpleEntity> handle(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
 
-        resolveReferences(item, errorReport);
+        resolveReferences(item, report, reportStats);
 
-        if (errorReport.hasErrors()) {
+        if (reportStats.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.resolveReferences()");
             return Collections.emptyList();
         }
 
-        List<SimpleEntity> transformed = transform(item, errorReport);
+        List<SimpleEntity> transformed = transform(item, report, reportStats);
 
-        if (errorReport.hasErrors()) {
+        if (reportStats.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.transform()");
             return Collections.emptyList();
         }
@@ -115,12 +118,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
 
                 try {
-                    matchEntity(entity, errorReport);
+                    matchEntity(entity, report, reportStats);
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception in matchEntity", darfe);
                 }
 
-                if (errorReport.hasErrors()) {
+                if (reportStats.hasErrors()) {
                     return Collections.emptyList();
                 }
             }
@@ -131,9 +134,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         return transformed;
     }
 
-    protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
+    protected void resolveReferences(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
         Entity entity = new NeutralRecordEntity(item);
-        dIdResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
+        dIdResolver.resolveInternalIds(entity, item.getSourceId(), report, reportStats);
 }
 
     /**
@@ -147,12 +150,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            Error reporting
      */
-    protected void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
+    protected void matchEntity(SimpleEntity entity, AbstractMessageReport report, ReportStats reportStats) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
-        Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
+        Query query = createEntityLookupQuery(entity, entityConfig, report, reportStats);
 
-        if (errorReport.hasErrors()) {
+        if (reportStats.hasErrors()) {
             return;
         }
 
@@ -205,7 +208,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      *
      * @author tke
      */
-    protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
+    protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, AbstractMessageReport report, ReportStats reportStats) {
         Query query;
 
         NaturalKeyDescriptor naturalKeyDescriptor;
@@ -218,7 +221,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
             }
-            errorReport.error(message.toString(), this);
+            report.error(reportStats, CoreMessageCode.CORE_0010, entity.getType(), Long.toString(entity.getRecordNumber()), message.toString());
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);
@@ -230,7 +233,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
                     + "       Instance   " + entity.getRecordNumber());
 
-            query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
+            query = createEntityLookupQueryFromKeyFields(entity, entityConfig, report, reportStats);
         } else {
             query = new Query();
             String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
@@ -241,12 +244,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
-            ErrorReport errorReport) {
+            AbstractMessageReport report, ReportStats reportStats) {
         Query query = new Query();
 
         StringBuilder errorMessage = new StringBuilder("ERROR: Invalid key fields for an entity\n");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
-            errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
+            report.error(reportStats, CoreMessageCode.CORE_0011);
         } else {
             errorMessage.append("       Entity      " + entity.getType() + "\n" + "       Key Fields  "
                     + entityConfig.getKeyFields() + "\n");
@@ -299,13 +302,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         fieldValue));
             }
         } catch (Exception e) {
-            errorReport.error(errorMessage.toString(), this);
+            report.error(reportStats, CoreMessageCode.CORE_0012, errorMessage.toString());
         }
 
         return query;
     }
 
-    protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);
+    protected abstract List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats);
 
     public void setDIdResolver(DeterministicIdResolver dIdResolver) {
         this.dIdResolver = dIdResolver;

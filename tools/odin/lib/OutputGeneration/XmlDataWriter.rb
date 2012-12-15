@@ -18,6 +18,7 @@ limitations under the License.
 
 require 'logger'
 
+require_relative "XML/cohortGenerator.rb"
 require_relative "XML/studentParentGenerator.rb"
 require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
@@ -38,7 +39,7 @@ class XmlDataWriter < DataWriter
   # future implementations should take a map of {interchange => true/false}, indicating whether or not
   # that interchange is to be written as part of the current scenario
   def initialize(yaml)
-    super()
+    super(yaml)
     @yaml      = yaml
     @directory = (yaml['DIRECTORY'] or 'generated/')
     initialize_edfi_xml_writers(@directory)
@@ -63,6 +64,7 @@ class XmlDataWriter < DataWriter
     @writers << EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
     @writers << StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
+    @writers << CohortGenerator.new(@yaml, initialize_interchange(directory, "StudentCohort"))
     
     # enable entities to be written
     # -> writes header and starts reporting
@@ -84,32 +86,19 @@ class XmlDataWriter < DataWriter
   def write_one_entity(entity)
     initialize_entity(entity.class)
 
-    if entity.is_a?(Array)
-      entity.each do |e|
-        write_one_entity(e)
+    found = false
+    @writers.each do |writer|
+      if writer.can_write?(entity.class)
+        writer << entity
+        found = true
+      end
     end
 
-    else
-      initialize_entity(entity.class)
-
-      found = false
-      @writers.each do |writer|
-        if writer.can_write?(entity.class)
-          writer << entity
-          found = true
-        end
-      end
-
-      if found == false
-        puts "<<<< #{entity}: writer not registered for type #{entity.class}"
-        exit -1
-      end
-
-      increment_count(entity)
+    if found == false
+      puts "<<<< #{entity}: writer not registered for type #{entity.class}"
+      exit -1
     end
-  end
 
-  def << (entity)
-    write_one_entity(entity)
+    increment_count(entity)
   end
 end

@@ -31,7 +31,7 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
 
     /**
      * Reports an message as an error and updates the wider-scope error state in the provided
-     * reportStats.
+     * reportStats. Will also log the error message if the implementation supports logging.
      *
      * @param reportStats
      *            statistics state and source
@@ -50,7 +50,7 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
 
     /**
      * Reports an message as a warning and updates the wider-scope warning state in the provided
-     * reportStats.
+     * reportStats. Will also log the warning message if the implementation supports logging.
      *
      * @param reportStats
      *            statistics state and source
