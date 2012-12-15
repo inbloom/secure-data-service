@@ -25,7 +25,7 @@ require_relative 'graduation_plan_factory'
 class StudentWorkOrderFactory
   def initialize(world, scenario, section_factory)
     @world = world
-    @scenario = scenario
+    @scenario = Scenario.new scenario
     @section_factory = section_factory
     @next_id = 0
     @assessment_factory = AssessmentFactory.new(@scenario)
@@ -66,7 +66,7 @@ class StudentWorkOrder
     @initial_year = (opts[:initial_year] or 2011)
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
     @section_factory = opts[:section_factory]
-    @scenario = (opts[:scenario] or {})
+    @scenario = (opts[:scenario] or Scenario.new({}))
     @assessment_factory = opts[:assessment_factory]
     @graduation_plans = opts[:graduation_plans]
     @enrollment = []
@@ -81,7 +81,7 @@ class StudentWorkOrder
   private
 
   def parents(student)
-    if @scenario['INCLUDE_PARENTS']
+    if @scenario.include_entity? "Parent"
       [:mom, :dad].map{|type|
         [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
     else
