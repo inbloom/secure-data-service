@@ -56,9 +56,6 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
      | securityEvent            |
      | customRole               |
    And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "13" authorized edorgs
-   And I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 0                   | t                           | Hyrule                  | string               |
  And I should not see an error log file created
 
  Scenario: Purge a tenant, cleaning out the application edorgs.
@@ -109,7 +106,4 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
      | securityEvent            |
      | customRole               |
    And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "10" authorized edorgs
-   And I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 0                   | t                           | Hyrule                  | string               |
  And I should not see an error log file created
