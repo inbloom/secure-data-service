@@ -16,6 +16,13 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -43,9 +50,6 @@ public abstract class AbstractContextValidator implements IContextValidator {
     @Autowired
     protected DateHelper dateHelper;
 
-    @Autowired
-    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
-    
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
@@ -155,17 +159,28 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
 
+    /**
+     * Will go through staffEdorgAssociations that are current and get the descendant
+     * edorgs that you have.
+     *
+     * @return a set of the edorgs you are associated to and their children.
+     */
     protected Set<String> getStaffEdOrgLineage() {
         return edorgHelper.getStaffEdOrgLineage();
     }
 
+    protected Set<String> getEdorgDescendents(Set<String> edOrgLineage) {
+        edOrgLineage.addAll(edorgHelper.getChildEdOrgs(edOrgLineage));
+        return edOrgLineage;
+    }
+    
     protected Set<String> getEdorgLineage(Set<String> directEdorgs) {
         Set<String> ancestors = new HashSet<String>();
         Set<String> descendants = new HashSet<String>(directEdorgs);
         for (String edorg : directEdorgs) {
             ancestors.addAll(fetchParentEdorgs(edorg));
         }
-        descendants = edorgHelper.getEdorgDescendents(descendants);
+        descendants = getEdorgDescendents(descendants);
         descendants.addAll(ancestors);
         return descendants;
         

@@ -17,7 +17,12 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
@@ -314,6 +319,8 @@ public class EdOrgHelper {
             edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
         }
         return edOrgIds;
+        
+        
     }
 
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {

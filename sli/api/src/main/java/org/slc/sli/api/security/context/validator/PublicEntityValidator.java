@@ -22,17 +22,17 @@ import org.slc.sli.api.constants.EntityNames;
 import org.springframework.stereotype.Component;
 
 /**
- * Validates the context of a staff member to see the requested set of non-transitive public
+ * Validates the context of a staff/teacher member to see the requested set of non-transitive public
  * entities. Returns true if the staff member can see ALL of the entities, and false otherwise.
  *
  * @author mabernathy
  */
 @Component
-public class StaffToNonTransitivePublicEntityValidator extends AbstractContextValidator {
+public class PublicEntityValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return isPublic(entityType) && isStaff();
+        return isPublic(entityType);
     }
 
     @Override
@@ -56,6 +56,18 @@ public class StaffToNonTransitivePublicEntityValidator extends AbstractContextVa
         return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
                 || type.equals(EntityNames.LEARNING_STANDARD)
  || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
+    }
+
+    /**
+     * Determines if the entity type is public.
+     *
+     * @param type Entity type.
+     * @return True if the entity is public, false otherwise.
+     */
+    protected boolean isPublic(String type) {
+        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
+                || type.equals(EntityNames.LEARNING_STANDARD)
+                || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
     }
 
 }

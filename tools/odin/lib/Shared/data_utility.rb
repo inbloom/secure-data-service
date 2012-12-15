@@ -100,6 +100,14 @@ class DataUtility
     "sctn-" + pad_id_with_zeroes(id, 10)
   end
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
+  #-----------   INTERCHANGE: STUDENT PROGRAM   -----------
+
+  # create a program id
+  def self.get_program_id(id)
+    "prgm-" + pad_id_with_zeroes(id, 10)
+  end
+
+  #-----------   INTERCHANGE: STUDENT PROGRAM   -----------
 
   # returns a randomly selected grade for the specified school 'type'
   def self.get_random_grade_for_type(prng, type)

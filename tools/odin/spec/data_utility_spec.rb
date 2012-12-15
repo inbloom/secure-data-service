@@ -104,6 +104,12 @@ describe "DataUtility" do
         DataUtility.get_unique_section_id(43).should match("sctn-0000000043")
       end
     end
+
+    describe "#get_program_id" do
+      it "will generate a program id with the correct format" do
+        DataUtility.get_program_id(40).should match("prgm-0000000040")
+      end
+    end
   end
 
   describe "Handles requests for entities correctly" do
