@@ -309,6 +309,7 @@ And I see the following search results at index 0:
  |Field              |Value                                           |
  |name.firstName     |Rudolph                                         |
   
+  @wip
  Scenario: Staff More than 50 search results
  Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
@@ -351,6 +352,7 @@ Then I should receive a json response containing my authorization token
   And the header "TotalCount" equals 50
   #And the a next link exists with offset equal to 50 and limit equal to 50
 
+@wip
  Scenario: School Level searching for student not in school
   Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
