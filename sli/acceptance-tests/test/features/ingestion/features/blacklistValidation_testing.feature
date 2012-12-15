@@ -20,6 +20,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   And I should see "     Error      INVALID_VALUE" in the resulting error log file
   And I should see "       Expected   [Invalid value caught by strict blacklisting strategy: CharacterBlacklistStrategy]" in the resulting error log file
   And I should see "       Expected   [Invalid value caught by strict blacklisting strategy: StringBlacklistStrategy]" in the resulting error log file
+  And I should not see a warning log file created
   And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter               | searchValue                     |
      | course                      | 1                   | body.courseTitle              | CourseWithRelaxedBlacklist      |
