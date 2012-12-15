@@ -31,6 +31,4 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 public interface XsdErrorHandlerInterface extends ErrorHandler {
 
     public void setReportAndStats(AbstractMessageReport report, ReportStats reportStats);
-
-
 }

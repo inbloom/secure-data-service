@@ -83,6 +83,7 @@
   <bean id="mongoTrackingAspect" class="org.slc.sli.dal.aspect.MongoTrackingAspect" factory-method="aspectOf">
   </bean>
 
+  <alias alias="securityRepo" name="validationRepo" />
   <bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
 
   <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" />
@@ -109,6 +110,21 @@
   </bean>
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
+  
+  <bean id="searchTemplate" class = "org.springframework.web.client.RestTemplate">
+<!-- 	  <constructor-arg> -->
+<!-- 	    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory"> -->
+<!-- 		    <property name="readTimeout" value="${search.service.timeout:3000}" /> -->
+<!-- 	    </bean> -->
+<!-- 	  </constructor-arg> -->
+  </bean>
+  
+  <bean id="searchRepository" name="searchRepo" class="org.slc.sli.dal.repository.ElasticSearchRepository" init-method="init" destroy-method="destroy">
+    <property name="searchTemplate" ref="searchTemplate" />
+    <property name="searchUrl" value="${sli.search.url}" />
+    <property name="searchUsername" value="${sli.search.username}" />
+    <property name="searchPassword" value="${sli.search.password}" />
+  </bean>
 
   <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
     <value>tenant</value>

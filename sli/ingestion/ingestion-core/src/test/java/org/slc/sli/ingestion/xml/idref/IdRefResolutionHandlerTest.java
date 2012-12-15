@@ -38,6 +38,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.MD5;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  *

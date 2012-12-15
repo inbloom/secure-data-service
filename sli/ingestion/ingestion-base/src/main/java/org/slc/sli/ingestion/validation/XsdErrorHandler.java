@@ -24,6 +24,7 @@ import org.xml.sax.SAXParseException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  *
@@ -45,6 +46,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void warning(SAXParseException ex) {
 
+        // TODO: remove after migrating to new calls
         reportWarning(ex);
     }
 
@@ -71,11 +73,17 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void fatalError(SAXParseException ex) throws SAXException {
 
+        // TODO: remove after migrating to new calls
         reportWarning(ex);
 
         throw ex;
     }
 
+    /**
+     * Incorporate the SAX error message into an ingestion error message.
+     *
+     * @return Error message returned by Ingestion
+     */
     private void reportWarning(SAXParseException ex) {
         if (report != null) {
 
@@ -93,5 +101,4 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         this.report = report;
         this.reportStats = reportStats;
     }
-
 }
