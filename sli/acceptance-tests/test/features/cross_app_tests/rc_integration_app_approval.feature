@@ -314,7 +314,7 @@ And I see the following search results at index 0:
 When I navigate to the API authorization endpoint with my client ID
 When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials  "ckoch" "ckoch1234"  for the "Simple" login page
+And I submit the credentials "ckoch" "ckoch1234" for the "Simple" login page
 Then I should receive a json response containing my authorization code
 When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
 Then I should receive a json response containing my authorization token
@@ -328,6 +328,7 @@ And I see the following search results at index 18:
  |Field              |Value                                           |
  |name.firstName     |Matt                                            |
   
+ @wip
 Scenario:  Educator with more than 50 results
  Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
