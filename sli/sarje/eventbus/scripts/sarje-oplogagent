@@ -1,28 +1,26 @@
 #!/bin/bash
 #
-# sarje-jobscheduler      Start/Stop sarje-jobscheduler.
+# sarje-oplogagent      Start/Stop sarje-oplogagent.
 #
 # chkconfig: - 62 38
 # description: Instiki is a ruby wiki.
 #
-# processname: sarje-jobscheduler
+# processname: sarje-oplogagent
 
 # Using the lsb functions to perform the operations.
 . /lib/lsb/init-functions
 
 # Process name ( For display )
-NAME=sarje-jscheduler
+NAME=sarje-oplogagent
 SARJE_HOME=/home/stephan/dev/sli/sli/sarje/eventbus
 
 DAEMON_CONFIG="$SARJE_HOME/conf/minislirp-oplogagent-1-config.yml"
 DAEMON="$SARJE_HOME/oplogagent_daemon.rb"
 
 PIDFILE=$SARJE_HOME/run/oplogagent.pid
-LOG_FILE=$SARJE_HOME/log/oplogagent.pid
+LOG_FILE=$SARJE_HOME/log/oplogagent.log
 RETVAL=0
 
-# If the daemon is not there, then exit.
-test -x $JSCHEDULER_APP || exit 5
 
 case $1 in
  start)
@@ -36,10 +34,6 @@ case $1 in
     rm -f $PIDFILE
   fi
   ;;
- restart)
-  # Restart the daemon.
-  $0 stop && sleep 2 && $0 start
-  ;;
  status)
   # Check the status of the process.
   if [ -e $PIDFILE ]; then
@@ -51,7 +45,7 @@ case $1 in
   ;;
  *)
   # For invalid arguments, print the usage message.
-  echo "Usage: $0 {start|stop|restart|status}"
+  echo "Usage: $0 {start|stop|status}"
   exit 2
   ;;
 esac

@@ -13,12 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
-{{#teachers}}
-  {{>Partials/_staff_body}}
-  {{#teacherUniqueStateId}}
+{{#entity}}
+  <Teacher>
+  {{> Partials/_staff_body}}
   <TeacherUniqueStateId>{{teacher_unique_state_id}}</TeacherUniqueStateId>
-  {{/teacherUniqueStateId}}
-  {{#highlyQualifiedTeacher}}
   <HighlyQualifiedTeacher>{{highly_qualified_teacher}}</HighlyQualifiedTeacher>
-  {{/highlyQualifiedTeacher}}
-{{/teachers}}
+  </Teacher>
+{{/entity}}

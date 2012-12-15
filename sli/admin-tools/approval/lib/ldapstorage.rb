@@ -131,7 +131,7 @@ class LDAPStorage
   ################################################################
 
   # Initialize the module
-  def initialize(host, port, base, username, password)
+  def initialize(host, port, base, username, password, use_ssl)
     @people_base = "ou=people,#{base}"
     @group_base  = "ou=groups,#{base}"
     @ldap_conf = {
@@ -145,8 +145,8 @@ class LDAPStorage
         }
     }
 
-    # make it secure connection if the port is 636
-    if port == 636
+    # enable SSL if n
+    if use_ssl
       @ldap_conf[:encryption] = {    :method => :simple_tls    }
     end
 
@@ -211,7 +211,7 @@ class LDAPStorage
   end
 
   def authenticate(uid, password)
-    # retrieve the raw user record 
+    # retrieve the raw user record
     filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, uid)
     user = search_map_user_fields(filter, 1, true)[0]
     return false if !user
@@ -514,7 +514,3 @@ class LDAPStorage
   end
 
 end
-
-# usage 
-#require 'approval'
-#storage = LDAPStorage.new("ldap.slidev.org", 389, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")

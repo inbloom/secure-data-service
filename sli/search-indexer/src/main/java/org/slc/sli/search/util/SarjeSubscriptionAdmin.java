@@ -213,6 +213,7 @@ public class SarjeSubscriptionAdmin {
     @Document
     public static class SubscriptionTrigger {
         private static final String REG_PREFIX = "^(?!is\\.)^[^.]+[.]";
+        private static final String REG_SUFFIX = "$";
         private String ns;
 
         public SubscriptionTrigger(){}
@@ -221,7 +222,7 @@ public class SarjeSubscriptionAdmin {
             if (ns == null) {
                 throw new IllegalArgumentException("ns must not be null");
             }
-            this.ns = REG_PREFIX + ns;
+            this.ns = REG_PREFIX + ns + REG_SUFFIX;
         }
 
         @Override

@@ -18,9 +18,9 @@
 	<property name="password"	value="b00ksrc00l"/>
 	<input message="Specify a subdir for your generator (e.g. bsuzuki): " addproperty="subdir"/>
 	<property name="path"         value="/metroplex/testDataGeneration/${username}/${subdir}/"/>
-	<input message="Specify a config file (e.g. db-datagen-approach/ref-configurations/config.properties): " addproperty="config"/>
 
-	    	
+	<input message="Specify a config file: " addproperty="config" defaultvalue="generator-configs/mediumDataSet.properties"/>
+
     <target name="create_run_jar">
         <jar destfile="TestDataGeneration.jar">
             <manifest>
@@ -37,23 +37,50 @@
             <zipfileset dir="lib" includes="commons-codec-1.6.jar"/>
             <zipfileset dir="lib" includes="commons-io-2.2.jar"/>
             <zipfileset dir="lib" includes="commons-lang3-3.0.1.jar"/>
+            <zipfileset dir="../../sli/common/sli-common/target" includes="sli-common-1.0-SNAPSHOT.jar"/>
         </jar>
+        
+        <jar destfile="Replicate.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="org.slc.sli.test.utils.Replicate"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ jtds-1.2.5.jar log4j-1.2.16.jar 
+                commons-codec-1.6.jar commons-io-2.2.jar commons-lang3-3.0.1.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <zipfileset dir="lib" includes="jtds-1.2.5.jar"/>
+            <fileset dir="bin"/>
+            <zipfileset dir="lib" includes="log4j-1.2.16.jar"/>
+            <zipfileset dir="lib" includes="commons-codec-1.6.jar"/>
+            <zipfileset dir="lib" includes="commons-io-2.2.jar"/>
+            <zipfileset dir="lib" includes="commons-lang3-3.0.1.jar"/>
+        </jar>
+        
         <sshexec host="${host}" username="${username}" password="${password}" 
         command="mkdir -p ${path}" trust = "true"/>
         
         <scp file="TestDataGeneration.jar" todir="${username}:${password}@${host}:${path}" trust="true"/>
+        <scp file="Replicate.jar" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp file="start.sh" todir="${username}:${password}@${host}:${path}" trust="true"/>
+        <scp file="replicate.sh" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp todir="${username}:${password}@${host}:${path}" trust="true">
           <fileset dir=".">
               <include name = "database/**"></include>
           </fileset>
         </scp>
         <sshexec host="${host}" username="${username}" password="${password}" 
-        command="mkdir -p ${path}/../../sli/domain/src/main/resources/edfiXsd/"
+        command="mkdir -p ${path}/../../sli/edfi-schema/src/main/resources/edfiXsd/"
+        trust = "true"/>
+        <sshexec host="${host}" username="${username}" password="${password}" 
+        command="mkdir -p ${path}/../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/"
         trust = "true"/>
         
-        <scp todir="${username}:${password}@${host}:${path}/../../sli/domain/src/main/resources/edfiXsd/" trust="true">
-                  <fileset dir="../../sli/domain/src/main/resources/edfiXsd/" />
+        <scp todir="${username}:${password}@${host}:${path}/../../sli/edfi-schema/src/main/resources/edfiXsd/" trust="true">
+                  <fileset dir="../../sli/edfi-schema/src/main/resources/edfiXsd/" />
+        </scp>
+        <scp todir="${username}:${password}@${host}:${path}/../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/" trust="true">
+                  <fileset dir="../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/" />
         </scp>
     	    	        
         <scp file = "${config}" todir="${username}:${password}@${host}:${path}/" trust="true"/>

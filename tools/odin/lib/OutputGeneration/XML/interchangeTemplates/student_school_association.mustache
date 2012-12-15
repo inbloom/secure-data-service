@@ -1,6 +1,10 @@
 {{#entity}}
 <StudentSchoolAssociation>
-   {{> Partials/_student_reference}}
+   <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>{{studentId}}</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>{{schoolStateOrgId}}</StateOrganizationId>
@@ -8,5 +12,17 @@
     </SchoolReference>
     <EntryDate>{{startYear}}-09-01</EntryDate>
     <EntryGradeLevel>{{startGrade}}</EntryGradeLevel>
+    {{#gradPlan}}
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>{{type}}</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+    {{/gradPlan}}
   </StudentSchoolAssociation>
 {{/entity}}

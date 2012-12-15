@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Licensed to the Apache Software Foundation (ASF) under one or more
-    contributor license agreements.  See the NOTICE file distributed with
-    this work for additional information regarding copyright ownership.
-    The ASF licenses this file to You under the Apache License, Version 2.0
-    (the "License"); you may not use this file except in compliance with
-    the License.  You may obtain a copy of the License at
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements. See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License. You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+  http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -24,34 +24,41 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-<context:component-scan base-package="org.slc.sli.ingestion.landingzone" />
 
-<import resource="classpath:/spring/validation-context.xml" />
-<import resource="classpath:/spring/handler-context.xml" />
+  <context:component-scan base-package="org.slc.sli.ingestion.landingzone" />
+
+  <import resource="classpath:/spring/validation-context.xml" />
+  <import resource="classpath:/spring/handler-context.xml" />
+  <import resource="validation-message-context.xml" />
 
   <util:list id="validatorsList" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-      <ref bean="xsdValidator"/>
+    <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+    <ref bean="xsdValidator" />
   </util:list>
 
   <bean id="complexValidator" class="org.slc.sli.ingestion.validation.ComplexValidator">
-      <property name="validators" ref="validatorsList" />
+    <property name="validators" ref="validatorsList" />
   </bean>
 
-    <bean id="OfflineTool" class="org.slc.sli.ingestion.tool.OfflineTool">
-        <property name="controller" ref="validationController" />
-        <property name="appName" value="validationTool" />
-        <property name="inputArgumentCount" value="1" />
-    </bean>
+  <bean id="OfflineTool" class="org.slc.sli.ingestion.tool.OfflineTool">
+    <property name="controller" ref="validationController" />
+    <property name="appName" value="validationTool" />
+    <property name="inputArgumentCount" value="1" />
+  </bean>
 
-    <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone"/>
+  <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
 
-    <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
-        <property name="zipFileHandler" ref="zipFileHandler"/>
-        <property name="batchJobAssembler" ref="batchJobAssembler"/>
-        <property name="ComplexValidator" ref="complexValidator"/>
-     </bean>
+  <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
+    <property name="zipFileHandler" ref="zipFileHandler" />
+    <property name="ComplexValidator" ref="complexValidator" />
+    <property name="controlFilevalidator" ref="controlFileValidator" />
+    <property name="messageReport" ref="toolsLoggingMessageReport" />
+  </bean>
 
-       <context:property-placeholder
-               ignore-resource-not-found="true" />
+  <context:property-placeholder ignore-resource-not-found="true" />
+
+  <bean id="messageSource" parent="baseMessageSource" />
+
+  <bean id="toolsLoggingMessageReport" class="org.slc.sli.ingestion.tool.ToolsLoggingMessageReport" />
+
 </beans>

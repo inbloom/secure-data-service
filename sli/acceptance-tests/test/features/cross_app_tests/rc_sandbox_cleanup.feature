@@ -17,15 +17,15 @@ Scenario: App developer deletes installed app
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "Application Registration"
+  And under System Tools, I click on "Register Application"
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page
-  Then I have clicked on the button 'Deny' for the application named "NotTheAppYoureLookingFor"
+  Then I have clicked on the button 'Delete' for the application named "NotTheAppYoureLookingFor"
   And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
   When I click 'Yes'
   And I switch to the iframe
   Then the application named "NotTheAppYoureLookingFor" is removed from the SLI
-  Then I have clicked on the button 'Deny' for the application named "Schlemiel"
+  Then I have clicked on the button 'Delete' for the application named "Schlemiel"
   And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
   When I click 'Yes'
   And I switch to the iframe
@@ -41,7 +41,7 @@ Scenario: slcoperator deletes SB Dev1 and Dev2
     Then I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "Developer Account Management"
+    And under System Tools, I click on "Manage Developer Accounts"
 
     And I switch to the iframe
    Then I delete the user "RCTestDev PartTwo"

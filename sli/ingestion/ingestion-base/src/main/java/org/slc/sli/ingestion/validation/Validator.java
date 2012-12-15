@@ -17,6 +17,9 @@
 
 package org.slc.sli.ingestion.validation;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+
 /**
  * Validator Interface.
  *
@@ -33,5 +36,9 @@ public interface Validator<T> {
      * @return true if valid; false otherwise
      */
     boolean isValid(T object, ErrorReport callback);
+
+
+
+    boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats);
 
 }

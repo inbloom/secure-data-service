@@ -15,10 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-# base entity
 
 require 'yaml'
 
+# base entity
 class BaseEntity
   class << self; attr_accessor :demographics end
   @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")
@@ -52,7 +52,7 @@ class BaseEntity
   end
 
   def bit_choose()
-    rand(2) == 1
+    @rand.rand(2) == 1
   end
 
 end

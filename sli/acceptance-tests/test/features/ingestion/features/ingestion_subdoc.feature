@@ -20,6 +20,8 @@ Feature: Subdoc Out of Order
       | section         | 8     |
       | gradebookEntry  | 20    |
       | student         | 1     |
+    And I verify all super doc "section" entities have correct type field
+    And I verify all super doc "student" entities have correct type field
     Then I post "SubDocOutOfOrder_section.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And I am willing to wait upto 60 seconds for ingestion to complete
@@ -29,3 +31,5 @@ Feature: Subdoc Out of Order
       | section         | 17    |
       | gradebookEntry  | 20    |
       | student         | 11    |
+    And I verify all super doc "section" entities have correct type field
+    And I verify all super doc "student" entities have correct type field

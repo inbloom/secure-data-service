@@ -4,11 +4,8 @@ logger_output: STDOUT
 # Log level. Levels are DEBUG, INFO, WARN, ERROR, FATAL.
 logger_level: INFO
 
-# ActiveMQ host that runs the STOMP protocol to use as the message broker.  
-messaging_host: 127.0.0.1
-
-# Port of the ActiveMQ server  
-messaging_port: 61613
+# url of ActiveMQ running STOMP protocol used as message broker
+broker_url: stomp://localhost:61613
 
 # Host of the MongoDB instance where jobs are retrieved from. 
 mongo_host: 127.0.0.1

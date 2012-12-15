@@ -27,6 +27,19 @@ public class MongoIndex {
     private boolean unique;
     private DBObject keys = new BasicDBObject();
 
+    public MongoIndex(String collection, boolean unique, DBObject keys) {
+        this.collection = collection;
+        this.unique = unique;
+        this.keys = keys;
+    }
+
+    /**
+     * constructor has been provided
+     */
+    public MongoIndex() {
+
+    }
+
     public String getCollection() {
         return collection;
     }

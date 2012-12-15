@@ -133,8 +133,12 @@ public class ZipFileUtil {
 
     }
 
-    public static File findCtlFile(File dir) throws IOException {
+    public static File findCtlFile(File dir) {
 
+        if (!dir.isDirectory()) {
+            log.info("Non-existent control file directory: " + dir.getAbsolutePath());
+            return null;
+        }
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -143,9 +147,9 @@ public class ZipFileUtil {
             }
         };
 
-        File[] fileList = dir.listFiles(filter);
         File ctlFile = null;
 
+        File[] fileList = dir.listFiles(filter);
         if (fileList.length > 0) {
             ctlFile = fileList[0];
             log.info("Found control file: " + ctlFile.getName());

@@ -99,8 +99,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="indexEntityConverter" ref="indexEntityConverter" />
 	</bean>
 
-    <amq:connectionFactory id="jmsFactory" maxThreadPoolSize="10"  brokerURL="${sli.search.indexer.broker.uri}" 
-	    userName="${sli.search.indexer.broker.username}" password="${sli.search.indexer.broker.password}"  />
+    <amq:connectionFactory id="jmsFactory" maxThreadPoolSize="10"  brokerURL="${sli.search.indexer.broker.uri}" />
      
     <amq:topic id="sarjeSubTopic" physicalName="${sli.search.indexer.sarje.sub.topic}"/>
     <bean id="stompMessageConverter" class="org.slc.sli.search.util.StompMessageConverter"/>

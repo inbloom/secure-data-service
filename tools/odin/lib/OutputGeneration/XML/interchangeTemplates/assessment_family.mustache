@@ -6,11 +6,9 @@
         <ID>{{code}}</ID>
     </AssessmentFamilyIdentificationCode>
     {{/assessmentFamilyIdentificationCode}}
-
     {{#assessmentCategoryType}}
     <AssessmentCategory>{{assessmentCategoryType}}</AssessmentCategory>
     {{/assessmentCategoryType}}
-
     {{#academicSubject}}
     <AcademicSubject>{{academicSubject}}</AcademicSubject>
     {{/academicSubject}}
@@ -20,30 +18,21 @@
     {{#lowestGradeLevelAssessed}}
     <LowestGradeLevelAssessed>{{lowestGradeLevelAssessed}}</LowestGradeLevelAssessed>
     {{/lowestGradeLevelAssessed}}
-
     {{#contentStandard}}
     <ContentStandard>{{contentStandard}}</ContentStandard>
     {{/contentStandard}}
-
     {{#version}}
     <Version>{{version}}</Version>
     {{/version}}
-
     {{#revisionDate}}
     <RevisionDate>{{revisionDate}}</RevisionDate>
     {{/revisionDate}}
-
     {{#nomenclature}}
     <Nomenclature>{{nomenclature}}</Nomenclature>
     {{/nomenclature}}
-
     {{#assessmentPeriod}}
     <AssessmentPeriod>{{assessmentPeriod}}</AssessmentPeriod>
     {{/assessmentPeriod}}
-
-    {{#assessmentFamilyReference}}
-    {{> Partials/_assessment_family_reference }}
-    {{/assessmentFamilyReference}}
-
+    {{> Partials/_assessment_family_reference}}
 </AssessmentFamily>
 {{/entity}}

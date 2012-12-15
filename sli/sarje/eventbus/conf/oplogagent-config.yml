@@ -7,11 +7,10 @@ logger_level: WARN
 # Node-id that is prefixed to the hostname. This is valuable in determine  
 node_id: oplogagent-1-
 
-# ActiveMQ host that runs the STOMP protocol to use as the message broker.  
-messaging_host: 127.0.0.1
-
-# Port of the ActiveMQ server  
-messaging_port: 61613
+# url of ActiveMQ running STOMP protocol used as message broker
+# ex. stomp://host:port
+# ex. failover:(stomp+ssl://login1:passcode1@remotehost1:61612,stomp://login2:passcode2@remotehost2:61613)?initialReconnectDelay=5000&randomize=false&useExponentialBackOff=false
+broker_url: stomp://localhost:61613
 
 # Interval in seconds in which to send a heartbeat on the message bus.  
 heartbeat_period: 10
@@ -45,4 +44,4 @@ mongo_timestamp_marker: oplog.marker
 collect_events_interval: 5
 
 # Queue name used to publish a message to for getting the subscriptions at startup
-initial_subscription_queue: /queue//queue/subscription/poll
+subscription_request_queue: /queue/subscription/poll

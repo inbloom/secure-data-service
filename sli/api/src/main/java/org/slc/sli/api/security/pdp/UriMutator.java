@@ -115,7 +115,14 @@ public class UriMutator {
                     Entity e = repo.findOne(definition.getType(), query);
                     if (e != null) {
                         MutatedContainer newMutated = new MutatedContainer();
-                        newMutated.setPath(String.format("/%s/%s", resource, e.getEntityId()));
+                        String path = String.format("/%s/%s", resource, e.getEntityId());
+                        if (EntityNames.TEACHER.equals(e.getType())) {
+                        	path = String.format("/teachers/%s", e.getEntityId());
+                        } else if (EntityNames.STAFF.equals(e.getType())) {
+                        	path = String.format("/staff/%s", e.getEntityId());
+                        }
+						newMutated.setPath(path);
+                        
                         info("Rewriting URI to {} based on natural keys", newMutated.getPath());
                         return newMutated;
                     }

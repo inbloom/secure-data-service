@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 require_relative 'spec_helper'
 require_relative '../lib/OutputGeneration/XML/enrollmentGenerator'
 
@@ -26,8 +27,9 @@ describe 'EnrollmentGenerator' do
     interchange = File.open(path, 'w')
     @generator = EnrollmentGenerator.new(get_spec_scenario(), interchange)
     @generator.start
-    @generator.create_student_school_association(42, 64, 2004, :FIRST_GRADE)
-    @generator.create_student_section_association(43, 128, 256, 65, 2005, :SECOND_GRADE)
+    @generator << StudentSchoolAssociation.new(42, "elem-0000000064", 2004, :FIRST_GRADE)
+    @generator << StudentSectionAssociation.new(43, "sctn-0025600128", "elem-0000000065", 2005, :SECOND_GRADE)
+    @generator << GraduationPlan.new("Standard", {"English" => 9, "Science" => 12, "Math" => 15}, "elem-0000000064")
     @generator.finalize
     @student_enrollment = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStudentEnrollment.xml", "r") { |file| file.read }
   end
@@ -47,6 +49,19 @@ describe 'EnrollmentGenerator' do
       @student_enrollment.match('<StateOrganizationId>elem-0000000065</StateOrganizationId>').should_not be_nil
       @student_enrollment.match('<BeginDate>2005-09-01</BeginDate>').should_not be_nil
       @student_enrollment.match('<UniqueSectionCode>sctn-0025600128</UniqueSectionCode>').should_not be_nil
+    end
+  end
+
+  describe '--> creating graduation plans' do
+    it 'will write a GraduationPlan to ed-fi xml interchange' do
+      @student_enrollment.match('<GraduationPlanType>Standard</GraduationPlanType>').should_not be_nil
+      @student_enrollment.match('<Credit>36</Credit>').should_not be_nil
+      @student_enrollment.match('<Credit>9</Credit>').should_not be_nil
+      @student_enrollment.match('<Credit>12</Credit>').should_not be_nil
+      @student_enrollment.match('<Credit>15</Credit>').should_not be_nil
+      @student_enrollment.match('<SubjectArea>English</SubjectArea>').should_not be_nil
+      @student_enrollment.match('<SubjectArea>Science</SubjectArea>').should_not be_nil
+      @student_enrollment.match('<SubjectArea>Math</SubjectArea>').should_not be_nil
     end
   end
 end

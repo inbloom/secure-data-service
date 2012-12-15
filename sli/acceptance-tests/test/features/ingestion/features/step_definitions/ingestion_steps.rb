@@ -38,6 +38,7 @@ CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
+INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
 LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
 LZ_SFTP_PORT = PropLoader.getProps['lz_sftp_port']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
@@ -50,6 +51,9 @@ INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
 INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
 INGESTION_RC_TENANT = PropLoader.getProps['ingestion_rc_tenant']
 INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
+INGESTION_TIMEOUT_OVERRIDE = PropLoader.getProps['ingestion_timeout_override_seconds']
+
+ACTIVEMQ_HOST = PropLoader.getProps['activemq_host']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
@@ -64,14 +68,26 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 Before do
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB)
-  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
-  @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-  ensureBatchJobIndexes(@batchConn)
+  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
+
+  if (INGESTION_MODE != 'remote')
+    @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
+    ensureBatchJobIndexes(@batchConn) 
+
+    puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
+  else
+    @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
+    @recordHash = @batchDB.collection('recordHash')
+    @recordHash.remove("tenantId" => PropLoader.getProps['tenant'])
+    @recordHash.remove("tenantId" => PropLoader.getProps['sandbox_tenant'])
+
+    puts "Dropped recordHash for remote testing tenants"
+  end
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
-  if (INGESTION_RC_TENANT == "" && INGESTION_RC_EDORG == "")
+  if (((INGESTION_RC_TENANT == "") || (INGESTION_RC_TENANT == nil)) && ((INGESTION_RC_EDORG == "") || (INGESTION_RC_EDORG == nil)))
     @ingestion_lz_key_override = nil
   else
     @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
@@ -91,7 +107,7 @@ Before do
       end
     end
   else
-      puts "Refusing to remove tenants from remote (possibly RC) db"
+    puts "Refusing to remove tenants from remote (possibly RC) db"
   end
 
   @ingestion_lz_identifer_map = {}
@@ -220,8 +236,8 @@ def initializeTenants()
   if !File.directory?(@tenantTopLevelLandingZone)
     if INGESTION_MODE != 'remote'
       FileUtils.mkdir_p(@tenantTopLevelLandingZone)
-    else
-      createRemoteDirectory(@tenantTopLevelLandingZone)
+      #else
+      # createRemoteDirectory(@tenantTopLevelLandingZone)
     end
   end
 end
@@ -259,57 +275,57 @@ end
 ############################################################
 
 def remoteLzCopy(srcPath, destPath)
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
-        puts "attempting to remote copy " + srcPath + " to " + destPath
-        sftp.upload(srcPath, destPath)
-    end
+  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+    puts "attempting to remote copy " + srcPath + " to " + destPath
+    sftp.upload(srcPath, destPath)
+  end
 end
 
 def clearRemoteLz(landingZone)
 
-    puts "clear landing zone " + landingZone
+  puts "clear landing zone " + landingZone
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
-        sftp.dir.foreach(landingZone) do |entry|
-            next if entry.name == '.' or entry.name == '..'
+  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+    sftp.dir.foreach(landingZone) do |entry|
+      next if entry.name == '.' or entry.name == '..'
 
-            entryPath = File.join(landingZone, entry.name)
+      entryPath = File.join(landingZone, entry.name)
 
-            if !sftp.stat!(entryPath).directory?
-                sftp.remove!(entryPath)
-            end
-        end
+      if !sftp.stat!(entryPath).directory?
+        sftp.remove!(entryPath)
+      end
     end
+  end
 end
 
 def remoteDirContainsFile(pattern, dir)
-    return remoteLzContainsFile(pattern, dir)
+  return remoteLzContainsFile(pattern, dir)
 end
 
 def remoteLzContainsFile(pattern, landingZone)
-    puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
+  puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
-        sftp.dir.glob(landingZone, pattern) do |entry|
-            return true
-        end
+  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+    sftp.dir.glob(landingZone, pattern) do |entry|
+      return true
     end
-    return false
+  end
+  return false
 end
 
 def remoteLzContainsFiles(pattern, targetNum , landingZone)
-    puts "remoteLzContainsFiles(" + pattern + ", " + targetNum.to_s + " , " + landingZone + ")"
+  puts "remoteLzContainsFiles(" + pattern + ", " + targetNum.to_s + " , " + landingZone + ")"
 
-    count = 0
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
-        sftp.dir.glob(landingZone, pattern) do |entry|
-            count += 1
-            if count >= targetNum
-                return true
-            end
-        end
+  count = 0
+  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+    sftp.dir.glob(landingZone, pattern) do |entry|
+      count += 1
+      if count >= targetNum
+        return true
+      end
     end
-    return false
+  end
+  return false
 end
 
 def searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, completeFileName)
@@ -327,36 +343,36 @@ def searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, complet
 end
 
 def remoteFileContainsMessage(prefix, message, landingZone)
-    found = false;
-    puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
-        sftp.dir.glob(landingZone, prefix + "*") do |entry|
-            entryPath = File.join(landingZone, entry.name)
-            puts "found file " + entryPath
+  found = false;
+  puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
+  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+    sftp.dir.glob(landingZone, prefix + "*") do |entry|
+      entryPath = File.join(landingZone, entry.name)
+      puts "found file " + entryPath
 
-            #download file contents to a string
-            file_contents = sftp.download!(entryPath)
+      #download file contents to a string
+      file_contents = sftp.download!(entryPath)
 
-            #check file contents for message
-            if (file_contents.rindex(message) != nil)
-                puts "Found message " + message
-                found = true
-            end
-        end
+      #check file contents for message
+      if (file_contents.rindex(message) != nil)
+        puts "Found message " + message
+        found = true
+      end
     end
-    return found
+  end
+  return found
 end
 
 def createRemoteDirectory(dirPath)
-    puts "attempting to create dir: " + dirPath
+  puts "attempting to create dir: " + dirPath
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
-        begin
-            sftp.mkdir!(dirPath)
-        rescue
-            puts "directory exists"
-        end
+  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+    begin
+      sftp.mkdir!(dirPath)
+    rescue
+      puts "directory exists"
     end
+  end
 end
 
 ############################################################
@@ -429,11 +445,11 @@ end
 def initializeLandingZone(lz)
   unless lz.nil?
 
-  if lz.rindex('/') == (lz.length - 1)
-    @landing_zone_path = lz
-  else
-    @landing_zone_path = lz+ '/'
-  end
+    if lz.rindex('/') == (lz.length - 1)
+      @landing_zone_path = lz
+    else
+      @landing_zone_path = lz+ '/'
+    end
   end
 
   @landing_zone_path = lz
@@ -478,7 +494,7 @@ def processPayloadFile(file_name)
   ctl_template = nil
   Dir.foreach(zip_dir) do |file|
     if /.*.ctl$/.match file
-    ctl_template = file
+      ctl_template = file
     end
   end
 
@@ -487,13 +503,13 @@ def processPayloadFile(file_name)
   File.open(zip_dir + ctl_template, "r") do |ctl_file|
     ctl_file.each_line do |line|
       if line.chomp.length == 0
-      next
+        next
       end
       entries = line.chomp.split ","
       if entries.length < 3
         puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
-      new_ctl_file.puts line.chomp
-      next
+        new_ctl_file.puts line.chomp
+        next
       end
       payload_file = entries[2]
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
@@ -537,7 +553,7 @@ def processZipWithFolder(file_name)
   ctl_template = nil
   Dir.foreach(zip_dir) do |file|
     if /.*.ctl$/.match file
-    ctl_template = file
+      ctl_template = file
     end
   end
 
@@ -546,19 +562,19 @@ def processZipWithFolder(file_name)
   File.open(zip_dir + ctl_template, "r") do |ctl_file|
     ctl_file.each_line do |line|
       if line.chomp.length == 0
-      next
+        next
       end
       entries = line.chomp.split ","
       if entries.length < 3
         puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
-      new_ctl_file.puts line.chomp
-      next
+        new_ctl_file.puts line.chomp
+        next
       end
       payload_file = entries[2]
       if payload_file == "MissingXmlFile.xml"
-    puts "DEBUG: An xml file in control file is missing .."
+        puts "DEBUG: An xml file in control file is missing .."
         new_ctl_file.puts entries.join ","
-    next
+        next
       end
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
@@ -579,7 +595,7 @@ def processZipWithFolder(file_name)
 end
 
 Then /^I post "(.*?)" control file for concurent processing$/ do |file_name|
-   copyFilesInDir file_name
+  copyFilesInDir file_name
 end
 
 
@@ -605,12 +621,12 @@ def copyFilesInDir(file_name)
   File.open(src_dir + file_name, "r") do |ctl_file|
     ctl_file.each_line do |line|
       if line.chomp.length == 0
-      next
+        next
       end
       entries = line.chomp.split ","
       if entries.length < 3
         puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
-      next
+        next
       end
       payload_file = entries[2]
       puts "controlFileEntry: " + payload_file
@@ -656,10 +672,10 @@ def getErrorCount
           if(line.rindex('ERROR'))
             resourceToErrorCount[@resource] += 1
           end
-        end
       end
     end
-    return resourceToErrorCount
+  end
+  return resourceToErrorCount
 end
 
 
@@ -683,60 +699,60 @@ def getWarnCount
       end
     end
   end
-    return resourceToWarnCount
+  return resourceToWarnCount
 end
 
 #check if the actually error count is less than the max error count
 def verifyErrorCount(count)
-   maxError = Integer(count)
+  maxError = Integer(count)
 
-   puts "maxError = "
-   puts maxError
-   resourceToErrorCount = Hash.new(0)
-   resourceToErrorCount = getErrorCount
+  puts "maxError = "
+  puts maxError
+  resourceToErrorCount = Hash.new(0)
+  resourceToErrorCount = getErrorCount
 
-   resourceToErrorCount.keys.each do |k,v|
-     if maxError >= resourceToErrorCount[k]
-       assert(true, "Number of Errors written to error.log file is less than max number of Errors")
-     else
-       assert(false, "Number of Errors written to error.log file is more than max number of Errors")
-     end
-   end
+  resourceToErrorCount.keys.each do |k,v|
+    if maxError >= resourceToErrorCount[k]
+      assert(true, "Number of Errors written to error.log file is less than max number of Errors")
+    else
+      assert(false, "Number of Errors written to error.log file is more than max number of Errors")
+    end
+  end
 
 end
 
 #check if the actually warn count is less than the max warn count
 def verifyWarnCount(count)
-   maxWarn = Integer(count)
+  maxWarn = Integer(count)
 
-   puts "maxWarn = "
-   puts maxWarn
-   resourceToWarnCount = Hash.new(0)
-   resourceToWarnCount = getWarnCount
+  puts "maxWarn = "
+  puts maxWarn
+  resourceToWarnCount = Hash.new(0)
+  resourceToWarnCount = getWarnCount
 
-   resourceToWarnCount.keys.each do |k,v|
-     if maxWarn >= resourceToWarnCount[k]
-       assert(true, "Number of Warnings written to warning.log file is less than max number of Warnings")
-     else
-       assert(false, "Number of Warnings written to warning.log file is more than max number of Warnings")
-     end
+  resourceToWarnCount.keys.each do |k,v|
+    if maxWarn >= resourceToWarnCount[k]
+      assert(true, "Number of Warnings written to warning.log file is less than max number of Warnings")
+    else
+      assert(false, "Number of Warnings written to warning.log file is more than max number of Warnings")
     end
+  end
 end
 
 
 Given /^I should see the number of errors in error log is no more than the error count limitation (\d+)$/ do |count|
-   verifyErrorCount(count)
+  verifyErrorCount(count)
 end
 
 Given /^I should see the number of warnings in warn log is no more than the warning count limitation (\d+)$/ do |count|
-   verifyWarnCount(count)
+  verifyWarnCount(count)
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
- @source_file_name = processPayloadFile file_name
+  @source_file_name = processPayloadFile file_name
 end
 Given /^I post "([^"]*)" zip file with folder as the payload of the ingestion job$/ do |file_name|
- @source_file_name = processZipWithFolder file_name
+  @source_file_name = processZipWithFolder file_name
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job for "([^"]*)"$/ do |file_name, lz_key|
@@ -773,9 +789,9 @@ Given /^the following collections are empty in datastore:$/ do |table|
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
     if parent
-        @entity_collection = @db[parent]
-        superDocs = @entity_collection.find()
-        cleanupSubDoc(superDocs, row["collectionName"])
+      @entity_collection = @db[parent]
+      superDocs = @entity_collection.find()
+      cleanupSubDoc(superDocs, row["collectionName"])
     else
       @entity_collection = @db[row["collectionName"]]
       @entity_collection.remove()
@@ -868,8 +884,8 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   if INGESTION_MODE != 'remote'
     FileUtils.mkdir_p(path)
     FileUtils.chmod(0777, path)
-  else
-    createRemoteDirectory(path)
+    #else
+    # createRemoteDirectory(path)
   end
 
   puts lz_key + " -> " + path
@@ -900,23 +916,23 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   dbName = convertTenantIdToDbName('Midgar')
 
   @body = {
-    "tenantId" => tenant,
-    "landingZone" => [
-      {
-        "educationOrganization" => edOrg,
-        "ingestionServer" => ingestionServer,
-        "path" => absolutePath
-      }
-    ]
+      "tenantId" => tenant,
+      "landingZone" => [
+          {
+              "educationOrganization" => edOrg,
+              "ingestionServer" => ingestionServer,
+              "path" => absolutePath
+          }
+      ]
   }
 
   @metaData = {}
 
   @newTenant = {
-    "_id" => "tenantTest-id",
-    "type" => "tenantTest",
-    "body" => @body,
-    "metaData" => @metaData
+      "_id" => "tenantTest-id",
+      "type" => "tenantTest",
+      "body" => @body,
+      "metaData" => @metaData
   }
 
   @db = @conn[INGESTION_DB_NAME]
@@ -966,8 +982,8 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   if INGESTION_MODE != 'remote'
     FileUtils.mkdir_p(path)
     FileUtils.chmod(0777, path)
-  else
-    createRemoteDirectory(path)
+    #else
+    # createRemoteDirectory(path)
   end
 
   puts lz_key + " -> " + path
@@ -981,10 +997,10 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   end
 
   @newLandingZone = {
-        "educationOrganization" => edOrg,
-        "ingestionServer" => ingestionServer,
-        "path" => absolutePath
-      }
+      "educationOrganization" => edOrg,
+      "ingestionServer" => ingestionServer,
+      "path" => absolutePath
+  }
 
   @landingZones.push(@newLandingZone)
   @tenantColl.save(@existingTenant)
@@ -1000,8 +1016,8 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
 
   # split tenant from edOrg on hyphen
   if lz_key.index('-') > 0
-      tenant = lz_key[0, lz_key.index('-')]
-      edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
+    tenant = lz_key[0, lz_key.index('-')]
+    edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
 
   @db = @conn[INGESTION_DB_NAME]
@@ -1023,24 +1039,24 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
 
   absolutePath = path
   if INGESTION_MODE == 'remote'
-      absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
+    absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
   end
 
   if INGESTION_MODE != 'remote'
-      FileUtils.mkdir_p(path)
-      FileUtils.chmod(0777, path)
-      else
-      createRemoteDirectory(path)
+    FileUtils.mkdir_p(path)
+    FileUtils.chmod(0777, path)
+    #else
+    #createRemoteDirectory(path)
   end
 
   puts lz_key + " -> " + path
 
   ingestionServer = Socket.gethostname
   if INGESTION_MODE == 'remote'
-      ingestionServer = INGESTION_SERVER_URL
-      if ingestionServer.index('.') != nil
-          ingestionServer = ingestionServer[0, ingestionServer.index('.')]
-      end
+    ingestionServer = INGESTION_SERVER_URL
+    if ingestionServer.index('.') != nil
+      ingestionServer = ingestionServer[0, ingestionServer.index('.')]
+    end
   end
 
   @newLandingZone = {
@@ -1124,52 +1140,53 @@ def dirContainsBatchJobLogs?(dir, num)
 end
 
 When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |limit|
-  @maxTimeout = limit.to_i
+  @maxTimeout = limit.to_i + INGESTION_TIMEOUT_OVERRIDE.to_i
+  puts "Waited for #{INGESTION_TIMEOUT_OVERRIDE.to_i} seconds in addition to the timeout"
 end
 
 When /^a batch job log has been created$/ do
   if !@hasNoLandingZone
-  intervalTime = 3 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+    intervalTime = 3 #seconds
+                     #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+    @maxTimeout ? @maxTimeout : @maxTimeout = 900
 
-  iters = (1.0*@maxTimeout/intervalTime).ceil
-  found = false
-  if (INGESTION_MODE == 'remote')
-    sleep(5)
-    iters.times do |i|
-      if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
+    iters = (1.0*@maxTimeout/intervalTime).ceil
+    found = false
+    if (INGESTION_MODE == 'remote')
+      sleep(5)
+      iters.times do |i|
+        if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
+          puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+          found = true
+          break
+        else
+          sleep(intervalTime)
+        end
+      end
+    else
+      sleep(3) # waiting to poll job file removes race condition (windows-specific)
+      iters.times do |i|
+        if dirContainsBatchJobLog? @landing_zone_path
+          puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+          found = true
+          break
+        else
+          sleep(intervalTime)
+        end
       end
     end
-  else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
-    iters.times do |i|
-      if dirContainsBatchJobLog? @landing_zone_path
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  end
 
-  if found
-    assert(true, "")
-  else
-    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
-  end
+    if found
+      assert(true, "")
+    else
+      assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+    end
   end
 end
 
 When /^a batch job log has not been created$/ do
   intervalTime = 3 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+                   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
@@ -1260,7 +1277,7 @@ end
 
 When /^two batch job logs have been created$/ do
   intervalTime = 3 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+                   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 240
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
@@ -1304,7 +1321,7 @@ end
 def checkForBatchJobLog(landing_zone)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+                   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 420
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
@@ -1356,7 +1373,8 @@ def scpFileToLandingZone(filename)
     FileUtils.cp @source_path, @destination_path
   end
 
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end
@@ -1379,7 +1397,8 @@ def scpFileToLandingZoneWithNewName(filename, dest_file_name)
     FileUtils.cp @source_path, @destination_path
   end
 
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end
@@ -1401,7 +1420,8 @@ def scpFileToParallelLandingZone(lz, filename)
     FileUtils.cp @source_path, @destination_path
   end
 
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end
@@ -1438,26 +1458,57 @@ When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"
 end
 
 When /^an ingestion service "([^"]*)" running with pid "([^"]*)" stops$/ do |instance_name, pid|
-    Process.kill(9, pid.to_i)
+  Process.kill(9, pid.to_i)
 end
 
 When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
-   #uri = URI(INGESTION_HEALTHCHECK_URL)
-   #req = Net::HTTP::Get.new(uri.request_uri)
-   #req.basic_auth user, pass
-   #res = Net::HTTP.start(uri.hostname, uri.port) {|http|
-   #http.request(req)
-   #}
-   res = RestClient::Request.new(:method => :get, :url => INGESTION_HEALTHCHECK_URL, :user => user, :password => pass).execute
-   puts res.body
-   $healthCheckResult = res.body
+  #uri = URI(INGESTION_HEALTHCHECK_URL)
+  #req = Net::HTTP::Get.new(uri.request_uri)
+  #req.basic_auth user, pass
+  #res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+  #http.request(req)
+  #}
+  res = RestClient::Request.new(:method => :get, :url => INGESTION_HEALTHCHECK_URL, :user => user, :password => pass).execute
+  puts res.body
+  $healthCheckResult = res.body
 end
 
-When /^I can find a (.*?) with (.*?) (.*?) in tenant db "([^"]*)"$/ do |collection, id_type, id, tenantId|
+When /^I can find a "(.*?)" with "(.*?)" "(.*?)" in tenant db "(.*?)"$/ do |collection, id_type, id, tenantId|
   @db = @conn[convertTenantIdToDbName(tenantId)]
   @coll = @db[collection]
+  @id_type = id_type
+  @id = id
   # Set the "drilldown document" to the input id_type/id pair
-  @dd_doc = @coll.find(id_type => id).to_a
+  @dd_doc = @coll.find(id_type => id).to_a[0]
+end
+
+When /^Examining the studentSchoolAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the student_school_association value hash
+  @coll = @db["studentSchoolAssociation"]
+  #@st_sch_assoc = @coll.find_one({"type" => "studentSchoolAssociation"})
+  @st_sch_assoc = @coll.find_one
+  # ensure our query returned a document
+  assert(true, "studentSchoolAssociation unset") if @st_sch_assoc.nil?
+  puts "st_sch_assoc has data in it! Good Job!"
+  # body.schoolId
+  assert(true, "studentSchoolAssociation.body.schoolId unset") if @st_sch_assoc["body"]["schoolId"].nil?
+  puts "studentSchoolAssociation.body.schoolId = #{@st_sch_assoc["body"]["schoolId"]}"
+  # body.studentId
+  assert(true, "studentSchoolAssociation.body.studentId unset") if @st_sch_assoc["body"]["studentId"].nil?
+  puts "studentSchoolAssociation.body.studentId = #{@st_sch_assoc["body"]["studentId"]}"
+  # body.entryDate
+  assert(true, "studentSchoolAssociation.body.entryDate unset") if @st_sch_assoc["body"]["entryDate"].nil?
+  puts "studentSchoolAssociation.body.entryDate = #{@st_sch_assoc["body"]["entryDate"]}"
+  # body.entryGradeLevel
+  assert(true, "studentSchoolAssociation.body.entryGradeLevel unset") if @st_sch_assoc["body"]["entryGradeLevel"].nil?
+  puts "studentSchoolAssociation.body.entryGradeLevel = #{@st_sch_assoc["body"]["entryGradeLevel"]}"
+  puts "PASS"
+  # push references into student school association hash
+  #@stu_sch_assoc["body.schoolId"]  = doc["body"]["schoolId"]
+  #@stu_sch_assoc["body.studentId"] = doc["body"]["studentId"]
+  #@stu_sch_assoc["body.entryDate"] = doc["body"]["entryDate"]
+  #@stu_sch_assoc["body.entryGradeLevel"] = doc["body"]["entryGradeLevel"]
 end
 
 ############################################################
@@ -1489,21 +1540,21 @@ end
 
 def cleanupSubDoc(superdocs, subdoc)
   superdocs.each do |superdoc|
-      superdoc[subdoc] = nil
-      @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
+    superdoc[subdoc] = nil
+    @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
   end
 end
 
 def subDocParent(collectionName)
   case collectionName
     when "studentSectionAssociation"
-     "section"
+      "section"
     when "gradebookEntry"
-     "section"
+      "section"
     when "teacherSectionAssociation"
-     "section"
+      "section"
     when "studentAssessment"
-     "student"
+      "student"
     when "studentProgramAssociation"
       "program"
     when "studentParentAssociation"
@@ -1518,73 +1569,73 @@ def subDocParent(collectionName)
 end
 
 def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
-    total = 0
-    coll = @db.collection(parent)
-    coll.find().each do |doc|
-        unless doc[subdoc] == nil
-            if key == nil and match_value == nil and opts==nil
-                total += doc[subdoc].size
-            else
-                array = doc[subdoc]
-                array.each do |sub|
-                    @contains = true
-                    if (key != nil && match_value != nil)
-                        @contains = false
-                        subdocMatch(sub, key, match_value)
-                    end
-                    @failed = false
-                    if (@contains and opts != nil)
-                        opts.each_pair do |opt_key, opt_value|
-                           #and only now
-                           @contains = false
-                           subdocMatch(sub, opt_key, opt_value)
-                           if not @contains
-                               @failed = true
-                           end
-                        end
-                        if not @failed
-                            total += 1
-                        end
-                    elsif (@contains)
-                        total += 1
-                    end
-                end
+  total = 0
+  coll = @db.collection(parent)
+  coll.find().each do |doc|
+    unless doc[subdoc] == nil
+      if key == nil and match_value == nil and opts==nil
+        total += doc[subdoc].size
+      else
+        array = doc[subdoc]
+        array.each do |sub|
+          @contains = true
+          if (key != nil && match_value != nil)
+            @contains = false
+            subdocMatch(sub, key, match_value)
+          end
+          @failed = false
+          if (@contains and opts != nil)
+            opts.each_pair do |opt_key, opt_value|
+              #and only now
+              @contains = false
+              subdocMatch(sub, opt_key, opt_value)
+              if not @contains
+                @failed = true
+              end
             end
+            if not @failed
+              total += 1
+            end
+          elsif (@contains)
+            total += 1
+          end
         end
+      end
     end
-    total
+  end
+  total
 end
 
 def subdocMatch(subdoc, key, match_value)
-    if key.is_a? Array
-        keys = key
-    else
-        keys = key.split('.')
-    end
-    tmp = subdoc
-    for i in 0...keys.length
-        path = keys[i]
-        if tmp.is_a? Hash
-            tmp = tmp[path]
-            if tmp.is_a? Integer
-                tmp = tmp.to_s()
-            end
-            if i == keys.length - 1
-                if match_value.is_a? Array and tmp.is_a? Array
-                    @contains = true if (match_value & tmp).size > 0
-                elsif match_value.is_a? Array
-                    @contains = true if match_value.include? tmp
-                elsif tmp == match_value
-                    @contains = true
-                end
-            end
-        elsif tmp.is_a? Array
-            newkey = Array.new(keys[i...keys.length])
-            tmp.each do |newsubdoc|
-                subdocMatch(newsubdoc, newkey, match_value)
-            end
+  if key.is_a? Array
+    keys = key
+  else
+    keys = key.split('.')
+  end
+  tmp = subdoc
+  for i in 0...keys.length
+    path = keys[i]
+    if tmp.is_a? Hash
+      tmp = tmp[path]
+      if tmp.is_a? Integer
+        tmp = tmp.to_s()
+      end
+      if i == keys.length - 1
+        if match_value.is_a? Array and tmp.is_a? Array
+          @contains = true if (match_value & tmp).size > 0
+        elsif match_value.is_a? Array
+          @contains = true if match_value.include? tmp
+        elsif tmp == match_value
+          @contains = true
         end
+      end
+    elsif tmp.is_a? Array
+      newkey = Array.new(keys[i...keys.length])
+      tmp.each do |newsubdoc|
+        subdocMatch(newsubdoc, newkey, match_value)
+      end
     end
+  end
 end
 
 def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue, opts=nil)
@@ -1696,9 +1747,9 @@ Then /^I check to find if record is in collection:$/ do |table|
         @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}]}).count().to_s
       elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
+          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
         else
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
+          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
         end
       elsif row["searchType"] == "nil"
         @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}]}).count().to_s
@@ -1724,63 +1775,168 @@ Then /^I check to find if record is in collection:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Then /^the student entity (.*?)\.(.*?) should be "([^"]*)"$/ do |doc_key, subdoc_key, expected_value|
+# Deep-document inspection when we are interested in top-level entities (_id, type, etc)
+Then /^the "(.*?)" entity "(.*?)" should be "(.*?)"$/ do |coll, doc_key, expected_value|
   # Make sure drilldown_document has been set already
   assert(defined? @dd_doc, "Required mongo document has not been retrieved")
   # Perform a deep document inspection of doc.subdoc.keyvalue
   # Check the body of the returned document array for expected key/value pair
-  assert(ddiStudent(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
+  assert(deepDocumentInspect(coll, doc_key, expected_value), "#{doc_key} not set to #{expected_value}")
 end
 
+Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, field, ref|
+  result = false
+  # cache the referenced collection (student OR educationOrganizatio)
+  ref_coll = @db[coll]
+  assert(true, "Could not find #{coll} collection") if ref_coll.count == 0
+
+  # This part gets a little hackish because mongo returns nested structs
+  # for student school assoc we need to support at most 2 nodes
+  # -> Get values from the studentSchoolAssociation doc
+  ssa_doc_root_field  = ref.split(".").shift
+  ssa_doc_value_field   = ref.split(".").pop
+  ssa_value = @st_sch_assoc[ssa_doc_root_field][ssa_doc_value_field]
+  # -> Get values from the student OR educationOrganization doc
+  ref_doc_root_field = field.split(".").shift
+  ref_doc_value_field  = field.split(".").pop
+  # -> The fields and values are in a hash appended to the returned array
+  # -> so pop the last array element into the results hash
+
+  # find the referenced document and pull out the field value(s)
+  # this returns a Mongo::Cursor object (even if miss), so be careful
+  # on miss, ref_doc.count will be 0 (not null). on hit, call
+  # ref_doc.to_a, and get an array of field match hashes
+  id = @st_sch_assoc["body"]["studentId"] if coll == "student"
+  id =  @st_sch_assoc["body"]["schoolId"] if coll == "educationOrganization"
+  ref_doc = ref_coll.find({"_id" => id}, :fields => field).to_a
+  ref_doc_results_hash = ref_doc.pop
+  false if ref_doc.count == 0
+
+  # -> if this is a top-level document, just check equality
+  if ref_doc_results_hash.length == 1
+    # -> pass case (equal)
+    result = true if ssa_value == ref_doc_results_hash[ref_doc_root_field]
+  else
+    # -> loop through subdoc hits and check if they match referencer document
+    for field_hash in ref_doc_results_hash[ref_doc_root_field]
+      result = true if ssa_value == field_hash[ref_doc_value_field]
+    end
+  end
+  assert(result, "Could not find the required value in the referenced document")
+end
+
+=begin
+# Deep-document inspection for when we are interested in subdocs (body, metaData, schools, etc)
+Then /^the "(.*?)" entity "(.*?)\.(.*?)" should be "(.*?)"$/ do |coll, doc_key, subdoc_key, expected_value|
+  # Make sure drilldown_document has been set already
+  assert(defined? @dd_doc, "Required mongo document has not been retrieved")
+  puts "expected_value is #{expected_value} which is of type #{expected_value.class}"
+  # Perform a deep document inspection of doc.subdoc.keyvalue
+  # Check the body of the returned document array for expected key/value pair
+  assert(deepDocumentInspect(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
+end
+=end
+
 # Deep-Document Inspection of the Student collection in TENANT_DB
-# --> This checks whether doc.subdoc = expected_value
-def ddiStudent(doc_key, subdoc_key, expected_value)
-  ### TODO: Factor this code out for now until Odin is ready for it
-  return true
+# -> Pass in mongo document switches (doc.subdoc) and expected value,
+# -> query mongo for the @db.@coll.doc.subdoc, and check equality
+#
+# Ex: deepDocumentInspect(body, stateUniqueStaffId, cgray)
+#
+def deepDocumentInspect(coll, doc_key, expected_value)
+  # Split out each document node into an array
+
+  doc_ary = doc_key.split(".")
+
   # --> This checks whether body.subdoc = expected_value
-  if doc_key == "body"
+  if doc_ary[0] == "body"
+    body = @dd_doc["body"]
+    subdoc = doc_ary[1]
     # Parse the actual value from the student
-    # --> This might be an array OR a string, depending on what's in mongo
-    # --> so we need to use duck typing 
-    if @dd_doc[0][doc_key][subdoc_key].respond_to?(:to_ary)
-      real_value = @dd_doc[0][doc_key][subdoc_key][0]
-    else 
-      real_value = @dd_doc[0][doc_key][subdoc_key]
+    # -> This might be an array OR a string, depending on what's in mongo
+    # -> so we need to use duck typing 
+    # --> if the subdoc is an array, take the first element
+    # TODO: this should iterate through all elems of the list, needs refactor
+    if subdoc.match    (/race/i)
+      real_value = body["race"][0]
+
+    elsif subdoc.match (/highlyQualifiedTeacher/)
+      real_value = body["highlyQualifiedTeacher"].to_s
+
+    elsif subdoc.match (/sex/i)
+      real_value = body["sex"]
+
+    elsif subdoc.match (/highestLevelOfEducationCompleted/i)
+      real_value = body["highestLevelOfEducationCompleted"]
+
+    elsif subdoc.match (/birthDate/i)
+      real_value = body["birthDate"]
+
+    elsif doc_ary[1].respond_to?(:to_ary)
+      real_value = @dd_doc[doc_ary[0]][doc_ary[1]][0]
+    # --> this will cast a boolean to a string, or just pass a string thru
+    elsif doc_ary[1].respond_to?(:to_s) 
+      real_value = @dd_doc[doc_ary[0]][doc_ary[1]]
+    # --> If the mongo entity is not something we can handle, we need
+    # --> to fail gracefully and notify the type issue
+    else
+      puts "This subdoc type (#{doc_ary[1]}) is not supported"
+      return false
     end
          
     # Check equality
-    puts "Looking for #{expected_value}, found #{real_value}"
-    if real_value == expected_value
-      return true
-    else
-      puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
-      return false
-    end  
+    puts "Looking for #{doc_ary[0]}.#{doc_ary[1]} to be #{expected_value}, found #{real_value}"
+    check_equals(real_value, expected_value)
 
   # --> This checks whether schools.subdoc = expected_value
-  elsif doc_key == "schools"
+  elsif doc_ary[0] == "schools"
     # This checks how many records of the schools.subdoc type exist
     # --> Example: [tenant_db].student.schools.entryGradeLevel has one entity per year
-    num_entities = @dd_doc[0][doc_key].length
+    num_entities = @dd_doc[doc_ary[0]].length
     
     # Recursively check the returned document array for expected key/value pair
     for i in 0..num_entities-1
-      real_value = @dd_doc[0][doc_key][i][subdoc_key]
-      puts "Looking for #{expected_value}, found #{real_value}"
-      
+      real_value = @dd_doc[doc_ary[0]][i][doc_ary[1]]
+            
       # Check equality
-      if real_value == expected_value
-        return true
-      end  
+      return true if real_value == expected_value  
     end
-   puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
+   puts "#{doc_ary[0]}.#{doc_ary[1]} set to #{real_value}, expected #{expected_value}"
    return false
+  
+  # --> Not interested in a subdoc (cases: _id, type)
+  elsif doc_ary[0].match(/type/) or doc_ary[0].match(/_id/)
+    real_value = @dd_doc[doc_ary[0]]
 
-  # --> Default case if I don't recognize "doc_key"
+    puts "The real_value is set to: #{real_value}, expected #{expected_value}"
+
+    # Check equality
+    check_equals(real_value, expected_value) 
+  # --> Default case if I don't recognize "doc_ary"
   else
-    puts "This type of entity is not covered by ddiStudent in ingestion_steps.rb"
+    puts "ERROR: This type of entity (#{doc_ary[0]}) is not covered by deepDocumentInspect in ingestion_steps.rb"
     return false 
   end
+end
+
+def studentSchoolAssociationInspect(key_hash, expected_value)
+  # look for the _id in studentSchoolAssociation
+
+  # look for the 
+
+  # verify the student_id matches a student._id document
+
+  # verify the school_id matches a student.schools._id document
+
+  # verify the entryDate matches a student.schools.entryDate document
+
+  # verify the entryGradeLevel matches a student.schools.entryGradeLevel document
+
+end
+
+def check_equals(real_value, expected_value)
+  return true if real_value == expected_value
+  return false
 end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
@@ -1796,7 +1952,7 @@ Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
     if parent
-       @entity_count = subDocCount(parent, row["collectionName"], {"metaData.edOrgs" => [@stateOrganizationId]})
+      @entity_count = subDocCount(parent, row["collectionName"], {"metaData.edOrgs" => [@stateOrganizationId]})
     else
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
@@ -1923,6 +2079,15 @@ Then /^verify the following data in that document:$/ do |table|
   enable_NOTABLESCAN()
 end
 
+Then /^I verify all super doc "(.*?)" entities have correct type field$/ do |entityType|
+disable_NOTABLESCAN()
+super_coll=@db[entityType]
+total_count = super_coll.count
+count = super_coll.find({"type" => entityType}).count
+assert(total_count == count, "not all super doc #{entityType} have correct type field")
+enable_NOTABLESCAN()
+end
+
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
   disable_NOTABLESCAN()
   @entity.each do |ent|
@@ -1973,7 +2138,7 @@ def checkForContentInFileGivenPrefix(message, prefix)
       end
       aFile.close
     else
-       raise "File " + @job_status_filename + "can't be opened"
+      raise "File " + @job_status_filename + "can't be opened"
     end
   end
 end
@@ -2009,7 +2174,7 @@ def checkForNullContentInFileGivenPrefix(message, prefix)
       end
       aFile.close
     else
-       raise "File " + @job_status_filename + "can't be opened"
+      raise "File " + @job_status_filename + "can't be opened"
     end
   end
 end
@@ -2055,7 +2220,7 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
       end
       aFile.close
     else
-       raise "File " + @job_status_filename + "can't be opened"
+      raise "File " + @job_status_filename + "can't be opened"
     end
   end
 end
@@ -2063,7 +2228,7 @@ end
 def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
 
   if (INGESTION_MODE == 'remote')
-     if remoteFileContainsMessage(prefix, message, landing_zone)
+    if remoteFileContainsMessage(prefix, message, landing_zone)
       assert(true, "Processed all the records.")
     else
       assert(false, "Didn't process all the records.")
@@ -2091,7 +2256,7 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
       end
 
     else
-       raise "File " + @job_status_filename + "can't be opened"
+      raise "File " + @job_status_filename + "can't be opened"
     end
   end
 end
@@ -2124,81 +2289,81 @@ Then /^I should see "([^"]*)" in the resulting batch job file for "([^"]*)"$/ do
 end
 
 Then /^I should see "(.*?)" in the resulting error log file for "([^"]*)"$/ do |message, load_file|
-    prefix = "error."+load_file
-    checkForContentInFileGivenPrefix(message, prefix)
+  prefix = "error."+load_file
+  checkForContentInFileGivenPrefix(message, prefix)
 end
 
 Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
-    prefix = "error."
-    checkForContentInFileGivenPrefix(message, prefix)
+  prefix = "error."
+  checkForContentInFileGivenPrefix(message, prefix)
 end
 
 Then /^I should see "([^"]*)" in the resulting StudentAssessment warning log file$/ do |message|
-    prefix = "warn.InterchangeStudentAssessment"
-    checkForContentInFileGivenPrefix(message, prefix)
+  prefix = "warn.InterchangeStudentAssessment"
+  checkForContentInFileGivenPrefix(message, prefix)
 end
 
 Then /^I should see "([^"]*)" in the resulting warning log file$/ do |message|
-    prefix = "warn."
-    checkForContentInFileGivenPrefix(message, prefix)
+  prefix = "warn."
+  checkForContentInFileGivenPrefix(message, prefix)
 end
 
 Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ do |message, xml_name|
-    prefix = "warn."
-    checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
+  prefix = "warn."
+  checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
 end
 
 Then /^I should not see an error log file created$/ do
   if !@hasNoLandingZone
-  if (INGESTION_MODE == 'remote')
-    if remoteLzContainsFile("error.*", @landing_zone_path)
-      assert(false, "Error files created.")
-    else
-      assert(true, "No error files created.")
-    end
-
-  else
-    @error_filename_component = "error."
-
-    @error_status_filename = ""
-    Dir.foreach(@landing_zone_path) do |entry|
-      if (entry.rindex(@error_filename_component))
-        puts File.open(@landing_zone_path + entry).read
-        # LAST ENTRY IS OUR FILE
-        @error_status_filename = entry
+    if (INGESTION_MODE == 'remote')
+      if remoteLzContainsFile("error.*", @landing_zone_path)
+        assert(false, "Error files created.")
+      else
+        assert(true, "No error files created.")
       end
-    end
 
-    puts "STATUS FILENAME = " + @landing_zone_path + @error_status_filename
-    assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
-  end
+    else
+      @error_filename_component = "error."
+
+      @error_status_filename = ""
+      Dir.foreach(@landing_zone_path) do |entry|
+        if (entry.rindex(@error_filename_component))
+          puts File.open(@landing_zone_path + entry).read
+          # LAST ENTRY IS OUR FILE
+          @error_status_filename = entry
+        end
+      end
+
+      puts "STATUS FILENAME = " + @landing_zone_path + @error_status_filename
+      assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
+    end
   end
 end
 
 And /^I should not see a warning log file created$/ do
   if !@hasNoLandingZone
-  if (INGESTION_MODE == 'remote')
-    if remoteLzContainsFile("warn.*", @landing_zone_path)
-      assert(false, "Warn files created.")
-    else
-      assert(true, "No warn files created.")
-    end
-
-  else
-    @warn_filename_component = "warn."
-
-    @warn_status_filename = ""
-    Dir.foreach(@landing_zone_path) do |entry|
-      if (entry.rindex(@warn_filename_component))
-        puts File.open(@landing_zone_path + entry).read
-        # LAST ENTRY IS OUR FILE
-        @warn_status_filename = entry
+    if (INGESTION_MODE == 'remote')
+      if remoteLzContainsFile("warn.*", @landing_zone_path)
+        assert(false, "Warn files created.")
+      else
+        assert(true, "No warn files created.")
       end
-    end
 
-    puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
-    assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
-  end
+    else
+      @warn_filename_component = "warn."
+
+      @warn_status_filename = ""
+      Dir.foreach(@landing_zone_path) do |entry|
+        if (entry.rindex(@warn_filename_component))
+          puts File.open(@landing_zone_path + entry).read
+          # LAST ENTRY IS OUR FILE
+          @warn_status_filename = entry
+        end
+      end
+
+      puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
+      assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
+    end
   end
 end
 
@@ -2272,7 +2437,7 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
       object[f].should_not == nil
       object = object[f]
     end
-  endt = object[f]
+    endt = object[f]
   end
   object.should_not == value
 end
@@ -2303,7 +2468,7 @@ Then /^the database is sharded for the following collections/ do |table|
   @configDb = @conn.db(CONFIG_DB_NAME)
 
   @shardsCollection = @configDb.collection("shards")
-   @result = "true"
+  @result = "true"
 
   if @shardsCollection.count() > 0
     @chunksCollection = @configDb.collection("chunks")
@@ -2316,7 +2481,7 @@ Then /^the database is sharded for the following collections/ do |table|
       end
     end
   else
-      puts "Mongo is not sharded"
+    puts "Mongo is not sharded"
   end
 
   assert(@result == "true", "Database was not sharder successfully.")
@@ -2449,12 +2614,12 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
     found = searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, completeFileName)
   else
     File.open(completeFileName, "r") do |infile|
-        while (line = infile.gets)
-            if ((line =~ /#{logTag}.*#{content1}/) or (line =~ /#{logTag}.*#{content2}/)) then
-                found = true
-                break
-            end
+      while (line = infile.gets)
+        if ((line =~ /#{logTag}.*#{content1}/) or (line =~ /#{logTag}.*#{content2}/)) then
+          found = true
+          break
         end
+      end
     end
   end
   assert(found == true, "content not found")
@@ -2466,9 +2631,9 @@ def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
   id_param = subdoc + "._id"
   field = subdoc + "." + field
 
-    puts "verifySubDocDid #{id_param}, #{didId}, #{field}, #{value}"
+  puts "verifySubDocDid #{id_param}, #{didId}, #{field}, #{value}"
 
-    @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value}]}).count().to_s
+  @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value}]}).count().to_s
 end
 
 Then /^I check that ids were generated properly:$/ do |table|

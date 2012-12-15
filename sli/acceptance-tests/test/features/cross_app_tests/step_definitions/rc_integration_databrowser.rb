@@ -28,6 +28,17 @@ When /^I click and go back to Home$/ do
   assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
 end
 
+Then /^I log out of Databrowser$/ do
+if RUN_ON_RC
+    steps %Q{
+      Then I click on log out
+    }
+  else
+    steps %Q{
+      When I click on the logout link 
+   }
+  end
+end
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################

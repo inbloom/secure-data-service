@@ -76,6 +76,9 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
         if (students != null && students.iterator().hasNext()) {
             for (Entity entity : students) {
+                NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                        NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
+
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
                       programValidator.validateWithStudentAccess(EntityNames.PROGRAM, getValidPrograms(entity), true) ||
@@ -97,7 +100,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         Set<String> programs = new HashSet<String>();
         Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
         for (Entity spa : spas) {
-            if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE)) {
+            if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE, true)) {
                 continue;
             }
             programs.add((String) spa.getBody().get(ParameterConstants.PROGRAM_ID));
@@ -111,7 +114,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         Set<String> cohorts = new HashSet<String>();
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
-            if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+            if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
                 continue;
             }
             cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));

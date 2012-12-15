@@ -86,7 +86,7 @@ module Eventbus
 
     def get_publishers
       @current_publishers
-      end
+    end
   end
 
   class EventPublisher
@@ -95,13 +95,15 @@ module Eventbus
     def initialize(node_id, event_type, config = {},logger = nil)
       @logger = logger if logger
       @config = {
-          :heartbeat_period => 5
+          :heartbeat_period => 5,
+          :subscription_request_queue => "/queue/subscription/poll"
       }.merge(config)
 
       @messaging = MessagingService.new(@config, logger)
       @subscription_channel = @messaging.get_subscriber(subscription_address(event_type))
       @event_channels = {}
       @heartbeat_channel = @messaging.get_publisher(HEART_BEAT_ADDRESS)
+      @subscription_request_channel = @messaging.get_publisher(events_address(config[:subscription_request_queue]))
 
       @subscribed_event_ids = []
       @sub_e_ids_lock = Mutex.new
@@ -157,6 +159,14 @@ module Eventbus
       @event_channels.each { |q| q.close }
       @heartbeat_thread.terminate
     end 
+    
+    def publish_msg_for_subscription
+      # Sleep 3 seconds to make sure subscribe socket flush before publish send socket to STOMP.
+      # This may be a bug in ruby that socket buffer does not flush when flush is called.
+      sleep 3
+      @subscription_request_channel.publish({})
+      @subscription_request_channel.close
+    end
 
     private
     def start_heartbeat(node_id, heartbeat_period)

@@ -33,7 +33,11 @@ end
 
 desc "Run App Approval RC Test"
 task :rcAppApprovalTests do
-  runTests("test/features/cross_app_tests/rc_integration_app_approval.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_app_approval.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_app_approval.feature")
+  end
 end
 
 desc "Run Dashboard RC Test"
@@ -43,7 +47,11 @@ end
 
 desc "Run DataBrowser RC Test"
 task :rcDataBrowserTests do
-  runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_databrowser.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
+  end
 end
 
 desc "Run RC SAMT Tests"
@@ -58,7 +66,11 @@ end
 
 desc "Run RC Account Registration Tests"
 task :rcAccountRequestTests do
-  runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_account_request.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
+  end
 end
 
 desc "Run RC Cleanup"
@@ -160,6 +172,7 @@ desc "Run RC E2E Tests in Production mode"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
+  Rake::Task["rcTenantCleanUp"].execute if tenant_exists
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -170,8 +183,7 @@ task :rcTests do
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
-  Rake::Task["rcCleanUpTests"].execute if tenant_exists
-  Rake::Task["rcTenantCleanUp"].execute
+  Rake::Task["rcCleanUpTests"].execute
 
   displayFailureReport()
   if $SUCCESS
@@ -184,6 +196,7 @@ end
 desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
+  Rake::Task["rcSandboxTenantCleanUp"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
@@ -192,8 +205,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
   Rake::Task["rcSandboxPurgeTests"].execute
-  Rake::Task["rcSandboxCleanUpTests"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
-  Rake::Task["rcSandboxTenantCleanUp"].execute
+  Rake::Task["rcSandboxCleanUpTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -215,7 +227,7 @@ end
 private
 
 def tenant_exists(tenant_name = PropLoader.getProps['tenant'])
-  host = (RUN_ON_RC) ? "rcingest01.#{RC_SERVER}" : PropLoader.getProps['ingestion_db']
+  host = PropLoader.getProps['ingestion_db']
   conn = Mongo::Connection.new(host)
   sli_db = conn.db(PropLoader.getProps['sli_database_name'])
   (sli_db['tenant'].find("body.tenantId" => tenant_name).count == 0) ? false : true

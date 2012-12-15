@@ -35,14 +35,4 @@ class MasterScheduleGenerator < InterchangeGenerator
     @writers[Section] = EntityWriter.new("section.mustache")
   end
 
-  # creates and writes course offering to interchange
-  def create_course_offering(id, title, ed_org_id, session, course)
-    self << CourseOffering.new(id, title, ed_org_id, session, course)
-  end
-
-  # creates and writes section to interchange
-  def create_section(id, school_id, offering)
-    self << Section.new(id, school_id, offering)
-  end
-
 end

@@ -257,8 +257,12 @@
 			"body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue", 
 			"body.assessmentPerformanceLevel.performanceLevelDescriptor.description", 
 			"body.assessmentPerformanceLevel.performanceLevelDescriptor.performanceBaseConversion", 
-			"body.assessmentPeriodDescriptor", 
-			"body.assessmentTitle", 
+			"body.assessmentPeriodDescriptor.beginDate",
+			"body.assessmentPeriodDescriptor.endDate",
+			"body.assessmentPeriodDescriptor.codeValue",
+			"body.assessmentPeriodDescriptor.description",
+			"body.assessmentPeriodDescriptor.shortDescription",
+			"body.assessmentTitle",
 			"body.contentStandard", 
 			"body.gradeLevelAssessed", 
 			"body.lowestGradeLevelAssessed", 
@@ -314,6 +318,22 @@
 							}
 						}
 					},
+					"assessmentPeriodDescriptor": {
+                    						"properties": {
+                    							"beginDate": {
+                    								"type": "string",
+                    								"index": "not_analyzed"
+                    							},
+                    							"endDate": {
+                    								"type": "string",
+                    								"index": "not_analyzed"
+                    							},
+                    							"codeValue": {
+                    							    "type" : "string",
+                    							    "index" : "not_analyzed"
+                    							}
+                    						}
+                    					},
 					"assessmentItem": {
 						"properties": {
 							"identificationCode": {

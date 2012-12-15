@@ -1,14 +1,27 @@
+{{! 
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+}}
 {{#entity}}
 <Assessment>
     <AssessmentTitle>{{assessmentTitle}}</AssessmentTitle>
-
     {{#assessmentIdentificationCode}}
-         {{> Partials/_assessment_identification_code}}
+    {{> Partials/_assessment_identification_code}}
     {{/assessmentIdentificationCode}}
     {{#assessmentCategoryType}}
     <AssessmentCategory>{{assessmentCategoryType}}</AssessmentCategory>
     {{/assessmentCategoryType}}
-
     {{#academicSubject}}
     <AcademicSubject>{{academicSubject}}</AcademicSubject>
     {{/academicSubject}}
@@ -18,7 +31,6 @@
     {{#lowestGradeLevelAssessed}}
     <LowestGradeLevelAssessed>{{lowestGradeLevelAssessed}}</LowestGradeLevelAssessed>
     {{/lowestGradeLevelAssessed}}
-
     {{#assessmentPerformanceLevel}}
     <AssessmentPerformanceLevel>{{.}}</AssessmentPerformanceLevel>
     {{/assessmentPerformanceLevel}}
@@ -34,28 +46,20 @@
     {{#revisionDate}}
     <RevisionDate>{{revisionDate}}</RevisionDate>
     {{/revisionDate}}
-
     {{#maxRawScore}}
     <MaxRawScore>{{maxRawScore}}</MaxRawScore>
     {{/maxRawScore}}
     {{#nomenclature}}
     <Nomenclature>{{nomenclature}}</Nomenclature>
     {{/nomenclature}}
-
     {{#assessmentPeriod}}
     <AssessmentPeriod>{{assessmentPeriod}}</AssessmentPeriod>
     {{/assessmentPeriod}}
-
-    {{#assessment_item_reference}}
     {{> Partials/_assessment_item_reference}}
-    {{/assessment_item_reference}}
-    
     {{#objective_assessment_reference}}
     {{> Partials/_objective_assessment_reference}}
     {{/objective_assessment_reference}}
-
     {{> Partials/_assessment_family_reference}}
-
     {{#sectionReference}}
     {{> Partials/_section_reference}}
     {{/sectionReference}}

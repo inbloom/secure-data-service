@@ -25,22 +25,21 @@ require_relative "enum/PopulationServedType.rb"
 # creates section
 class Section < BaseEntity
 
-  attr_accessor :school_id, :id, :unique_section_code, :sequence, :environment, 
+  attr_accessor :school_id, :unique_section_code, :sequence, :environment, 
     :medium, :population, :course_offering, :session
 
   def initialize(id, school_id, offering, session = offering['session'], program = nil)
-    @id = id
     # move these to choices.yml eventually and have these be a weighted choice
     @sequence = 1  
     @environment = "Classroom"
     @medium = "Face-to-face instruction"
     @population = "Regular Students"
     @school_id = school_id
-    @course_offering = {code: DataUtility.get_course_offering_code(offering["id"]),
+    @course_offering = {code: DataUtility.get_course_offering_code(offering['id']),
                         ed_org_id: offering['ed_org_id'],
                         session: offering['session']}
     @session = offering['session']
-    @unique_section_code = DataUtility.get_unique_section_id(@id, offering['id'])
+    @unique_section_code = DataUtility.get_unique_section_id(id)
     #@program              = program
     # --> programs are not currently implemented
   end

@@ -25,45 +25,18 @@ module Eventbus
   class MessagingService
     def initialize(config = {}, logger = nil)
       @logger = logger
+            
       @config = {
-          :messaging_host => "localhost",
-          :messaging_port => 61613,
-          :messaging_login => "",
-          :messaging_passcode => "",
-          :messaging_ssl => false,
+        :broker_url => "stomp://localhost:61613"
       }.merge(config)
-
-      @host = {
-          :login => @config[:messaging_login],
-          :passcode => @config[:messaging_passcode],
-          :host => @config[:messaging_host],
-          :port => @config[:messaging_port],
-          :ssl => @config[:messaging_ssl]
-      }
-
-      # XXX: hardcoded configuration for ActiveMQ/Stomp
-      # we might want to make this configurable eventually 
-      @config[:stomp_config] = {
-          :hosts => [@host],
-          :initial_reconnect_delay => 0.01,
-          :max_reconnect_delay => 30.0,
-          :use_exponential_back_off => true,
-          :back_off_multiplier => 2,
-          :max_reconnect_attempts => 0,
-          :randomize => false,
-          :backup => false,
-          :timeout => -1,
-          :connect_headers => {},
-          :parse_timeout => 5
-      }
     end
 
     def get_publisher(q_name)
-      Publisher.new(q_name, @config[:stomp_config])
+      Publisher.new(q_name, @config[:broker_url])
     end
 
     def get_subscriber(q_name)
-      Subscriber.new(q_name, @config[:stomp_config])
+      Subscriber.new(q_name, @config[:broker_url])
     end
   end
 
@@ -77,6 +50,7 @@ module Eventbus
     def publish(message)
       begin
         @client = Stomp::Client.new(@config) if @client.nil?
+        @client.autoflush = true
         @client.publish(@queue_name, message.to_json)
       rescue Exception => e
         @client = nil
@@ -112,6 +86,7 @@ module Eventbus
       begin
         if @client.nil? 
           @client = Stomp::Client.new(@config) if @client.nil?
+          @client.autoflush = true
         end 
         @client.subscribe(@queue_name) do |msg|
           yield JSON.parse msg.body

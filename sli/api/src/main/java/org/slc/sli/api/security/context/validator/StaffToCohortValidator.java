@@ -66,7 +66,7 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             Map<String, Object> body = sca.getBody();
-            if (isFieldExpired(body, ParameterConstants.END_DATE)) {
+            if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
                 continue;
             } else {
                 myCohortIds.add((String) body.get(ParameterConstants.COHORT_ID));

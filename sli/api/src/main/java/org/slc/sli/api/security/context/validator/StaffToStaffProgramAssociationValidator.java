@@ -59,7 +59,7 @@ public class StaffToStaffProgramAssociationValidator extends AbstractContextVali
         Iterable<Entity> staffPrograms = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
         for (Entity staff : staffPrograms) {
             Map<String, Object> body = staff.getBody();
-            if (isFieldExpired(body, ParameterConstants.END_DATE)) {
+            if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
                 continue;
             }
             staffIds.add((String) body.get(ParameterConstants.STAFF_ID));

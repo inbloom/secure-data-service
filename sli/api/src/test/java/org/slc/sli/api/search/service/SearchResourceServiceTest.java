@@ -15,19 +15,27 @@
  */
 package org.slc.sli.api.search.service;
 
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.client.Client;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,10 +59,12 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.search.service.SearchResourceService.Embedded;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.enums.Right;
@@ -68,6 +78,99 @@ public class SearchResourceServiceTest {
 
     @Autowired
     SearchResourceService resourceService;
+
+    @Autowired
+    Embedded embedded;
+
+    static Client client;
+
+    @Before
+    public void setup() {
+    	client = embedded.getClient();
+    }
+
+    private void indexData(String index, String type, Collection<Map<String, Object>> data) throws Exception {
+    	if (!client.admin().indices().prepareExists(index).execute().actionGet().isExists()) {
+    		client.admin().indices().prepareCreate(index).execute().actionGet();
+    	}
+    	client.admin().indices().preparePutMapping(index).setType(type).setSource(
+    			jsonBuilder()
+    			.startObject()
+    			.startObject(type)
+    			.startObject("properties")
+    			.startObject("context")
+    			.startObject("properties")
+    			.startObject("schoolId")
+    			.field("type", "string")
+    			.field("index", "not_analyzed")
+    			.endObject()
+    			.endObject()
+    			.endObject()
+    			.endObject()
+				.endObject()).execute().actionGet();
+    	BulkRequestBuilder bulkRequest = client.prepareBulk();
+    	for (Map<String, Object> object : data) {
+    		bulkRequest.add(client.prepareIndex(index, type).setId((String)object.get("_id")).setSource(object));
+    	}
+    	BulkResponse bulkResponse = bulkRequest.execute().actionGet();
+    	if (bulkResponse.hasFailures()) {
+    		throw new RuntimeException("Unable to index provided data " + bulkResponse.buildFailureMessage());
+    	}
+    	client.admin().indices().prepareFlush(index).execute().actionGet();
+    }
+
+    @SuppressWarnings("unchecked")
+	private void indexData(String index, String type, Map<String, Object> object) throws Exception {
+    	indexData(index, type, Arrays.asList(object));
+    }
+
+    @Test
+    public void testResponse() throws Exception {
+        setupAuth(EntityNames.TEACHER);
+        Map<String, Object> student = new HashMap<String, Object>();
+        Map<String, Object> name = new HashMap<String, Object>();
+        Map<String, Object> context = new HashMap<String, Object>();
+        student.put("_id", "david'sid");
+        name.put("firstName", "David");
+        name.put("lastSurname", "Wu");
+        name.put("middleName", "≠");
+        student.put("name", name);
+        context.put("schoolId", "ALL");
+        student.put("context", context);
+
+        String index = TenantIdToDbName.convertTenantIdToDbName(TenantContext.getTenantId());
+        indexData(index, "student", student);
+
+        student.put("_id", "another");
+        name.put("firstName", "xyz");
+        name.put("lastSurname", "Davi");
+        indexData(index, "student", student);
+
+        Resource resource = new Resource("v1", "search");
+        SearchResourceService rs = Mockito.spy(resourceService);
+        Mockito.when(rs.filterResultsBySecurity(Mockito.isA(List.class), Mockito.anyInt(), Mockito.anyInt())).thenAnswer(new Answer<List<EntityBody>>() {
+            @Override
+            public List<EntityBody> answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                return (List<EntityBody>)args[0];
+            }
+        });
+
+        ServiceResponse serviceResponse = null;
+        serviceResponse = rs.list(resource, null, new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu"), false);
+        Assert.assertEquals(1L, serviceResponse.getEntityCount());
+        EntityBody studentBody = serviceResponse.getEntityBodyList().get(0);
+        Assert.assertEquals("david'sid", studentBody.get("_id"));
+        Assert.assertEquals("≠", ((Map<String, Object>)studentBody.get("name")).get("middleName"));
+
+        serviceResponse = rs.list(resource, null, new URI("http://local.slidev.org:8080/api/rest/v1/search?name.firstName=davId"), false);
+        Assert.assertEquals(1L, serviceResponse.getEntityCount());
+        studentBody = serviceResponse.getEntityBodyList().get(0);
+        Assert.assertEquals("david'sid", studentBody.get("_id"));
+
+        serviceResponse = rs.list(resource, null, new URI("http://local.slidev.org:8080/api/rest/v1/search/student?q=Davi"), false);
+        Assert.assertEquals(2L, serviceResponse.getEntityCount());
+    }
 
     @Test(expected = HttpClientErrorException.class)
     @Ignore
