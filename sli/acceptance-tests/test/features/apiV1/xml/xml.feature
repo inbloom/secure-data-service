@@ -23,7 +23,9 @@ Background: Nothing yet
     | courseOfferings             | courseOffering             | c5b80f7d-93c5-11e1-adcc-101f74582c4c    |
 
   Scenario Outline: Getting response from GET - Read all
-    Given parameter "limit" is "0"
+  
+	 #ES bug, set this back to zero after bug fix
+    Given parameter "limit" is "250"
     When I navigate to GET "/v1/<ENTITY URI>"
     Then I should receive a return code of 200
     And I should receive an XML document

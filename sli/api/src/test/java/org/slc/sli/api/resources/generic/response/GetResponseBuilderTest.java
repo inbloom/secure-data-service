@@ -16,10 +16,21 @@
 
 package org.slc.sli.api.resources.generic.response;
 
+import static junit.framework.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.ws.rs.core.PathSegment;
+import javax.ws.rs.core.UriInfo;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.QueryParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -27,16 +38,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
-
-import static junit.framework.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.QueryParseException;
 
 /**
  * Unit Tests
@@ -69,6 +72,7 @@ public class GetResponseBuilderTest {
         when(uriInfo.getPathSegments()).thenReturn(segments);
     }
 
+    @Ignore /* assessments can have filters now. */
     @Test(expected = QueryParseException.class)
     public void testValidatePublicResourceInvalidQuery() throws URISyntaxException {
         requestURI = new URI(URI + "?someField=someValue");
@@ -78,6 +82,7 @@ public class GetResponseBuilderTest {
         getResponseBuilder.validatePublicResourceQuery(uriInfo);
     }
 
+    @Ignore /* assessments can have filters now. */
     @Test(expected = QueryParseException.class)
     public void testValidatePublicResourceMultiInvalidQuery() throws URISyntaxException {
         requestURI = new URI(URI + "?limit=0&someField=someValue&includeFields=somefield");

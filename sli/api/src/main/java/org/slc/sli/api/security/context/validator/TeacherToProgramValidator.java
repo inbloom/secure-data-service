@@ -17,7 +17,7 @@ public class TeacherToProgramValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.PROGRAM.equals(entityType) && isTeacher();
+        return !isTransitive && EntityNames.PROGRAM.equals(entityType) && isTeacher();
     }
 
     
