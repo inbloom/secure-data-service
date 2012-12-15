@@ -24,6 +24,7 @@ package org.slc.sli.ingestion.queues;
 public enum MessageType {
     BATCH_REQUEST,
     PURGE,
+    PURGE_KEEP_EDORGS,  // Keep apps enabled for edorgs accessible to tenant.
     CONTROL_FILE_PROCESSED, //Flag is set after ControlFileProcessor completes its work
     XML_FILE_PROCESSED, //Flag is set after XmlFileProcessor completes its work
     PERSIST_REQUEST,

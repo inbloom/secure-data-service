@@ -332,6 +332,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to PurgeProcessor.")
                 .process(purgeProcessor).to("direct:stop")
 
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PURGE_KEEP_EDORGS.name()))
+                .log(LoggingLevel.INFO, "CamelRouting", "Purge command - keep edorgs. Routing to PurgeProcessor.")
+                .process(purgeProcessor).to("direct:stop")
+
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentXmlFileProcessor.")
                 .process(concurrentXmlFileProcessor).to(workItemQueueUri)
