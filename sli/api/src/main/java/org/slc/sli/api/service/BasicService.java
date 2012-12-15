@@ -26,6 +26,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -48,15 +58,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -133,14 +134,7 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        if (useContextResolver()) {
-            NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-            SecurityCriteria securityCriteria = findAccessible(defn.getType());
-            localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
-            return getRepo().count(collectionName, localNeutralQuery);
-        } else {
-            return getRepo().count(collectionName, neutralQuery);
-        }
+        return getRepo().count(collectionName, neutralQuery);
     }
 
     /**
@@ -338,7 +332,7 @@ public class BasicService implements EntityService {
                 nq.setOffset(0);
                 nq.setLimit(MAX_RESULT_SIZE);
             }
-            
+
             if (useContextResolver()) {
                 SecurityCriteria securityCriteria = findAccessible(defn.getType());
                 nq = securityCriteria.applySecurityCriteria(nq);
@@ -817,7 +811,7 @@ public class BasicService implements EntityService {
                 || defn.getType().equals(EntityNames.GRADUATION_PLAN);
 
     }
-    
+
     /**
      * Removes fields user isn't entitled to see
      *
@@ -1001,7 +995,7 @@ public class BasicService implements EntityService {
 
         return metadata;
     }
-    
+
     private boolean useContextResolver() {
 
         boolean useResolvers = true;
