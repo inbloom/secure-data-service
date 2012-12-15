@@ -37,10 +37,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private ReportStats reportStats;
 
-    private AbstractMessageReport report;
-
-    private ReportStats reportStats;
-
     /**
      * Report a SAX parsing warning.
      *
@@ -51,9 +47,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void warning(SAXParseException ex) {
 
         // TODO: remove after migrating to new calls
-        String errorMessage = getErrorMessage(ex);
-        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-
         reportWarning(ex);
     }
 
@@ -65,10 +58,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     @Override
     public void error(SAXParseException ex) {
-
-        // TODO: remove after migrating to new calls
-        String errorMessage = getErrorMessage(ex);
-        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
 
         reportWarning(ex);
     }
@@ -85,9 +74,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void fatalError(SAXParseException ex) throws SAXException {
 
         // TODO: remove after migrating to new calls
-        String errorMessage = getErrorMessage(ex);
-        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-
         reportWarning(ex);
 
         throw ex;
@@ -96,8 +82,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     /**
      * Incorporate the SAX error message into an ingestion error message.
      *
-     * @param saxErrorMessage
-     *            Error message returned by SAX
      * @return Error message returned by Ingestion
      */
     private void reportWarning(SAXParseException ex) {
@@ -113,24 +97,8 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     }
 
     @Override
-    public void setErrorReport(ErrorReport errorReport) {
-        this.errorReport = errorReport;
-
-            report.warning(reportStats, BaseMessageCode.XSD_VALIDATION_ERROR, parseFile.getName(),
-                    String.valueOf(ex.getLineNumber()), String.valueOf(ex.getColumnNumber()), ex.getMessage());
-        }
-    }
-
-    @Override
     public void setReportAndStats(AbstractMessageReport report, ReportStats reportStats) {
         this.report = report;
         this.reportStats = reportStats;
     }
-
-    @Override
-    public void setReportAndStats(AbstractMessageReport report, ReportStats reportStats) {
-        this.report = report;
-        this.reportStats = reportStats;
-    }
-
 }

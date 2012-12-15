@@ -29,7 +29,6 @@
 
   <import resource="classpath:/spring/validation-context.xml" />
   <import resource="classpath:/spring/handler-context.xml" />
-  <import resource="classpath:/spring/base-message-context.xml" />
   <import resource="validation-message-context.xml" />
 
   <util:list id="validatorsList" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
@@ -51,7 +50,6 @@
 
   <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
     <property name="zipFileHandler" ref="zipFileHandler" />
-    <property name="batchJobAssembler" ref="batchJobAssembler" />
     <property name="ComplexValidator" ref="complexValidator" />
     <property name="controlFilevalidator" ref="controlFileValidator" />
     <property name="messageReport" ref="toolsLoggingMessageReport" />
@@ -60,6 +58,7 @@
   <context:property-placeholder ignore-resource-not-found="true" />
 
   <bean id="messageSource" parent="baseMessageSource" />
+
   <bean id="toolsLoggingMessageReport" class="org.slc.sli.ingestion.tool.ToolsLoggingMessageReport" />
 
 </beans>

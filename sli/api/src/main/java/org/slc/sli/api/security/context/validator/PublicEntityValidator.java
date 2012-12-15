@@ -58,16 +58,4 @@ public class PublicEntityValidator extends AbstractContextValidator {
  || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
     }
 
-    /**
-     * Determines if the entity type is public.
-     *
-     * @param type Entity type.
-     * @return True if the entity is public, false otherwise.
-     */
-    protected boolean isPublic(String type) {
-        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
-                || type.equals(EntityNames.LEARNING_STANDARD)
-                || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
-    }
-
 }

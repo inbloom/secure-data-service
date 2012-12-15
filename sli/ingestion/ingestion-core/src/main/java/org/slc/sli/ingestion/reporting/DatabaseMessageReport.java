@@ -72,16 +72,6 @@ public class DatabaseMessageReport extends AbstractMessageReport {
         batchJobDAO.saveError(error);
     }
 
-    @Override
-    protected void logError(MessageCode code, Object... args) {
-        LOG.error(getMessage(code, args));
-    }
-
-    @Override
-    protected void logWarning(MessageCode code, Object... args) {
-        LOG.warn(getMessage(code, args));
-    }
-    
     protected void logError(String message) {
         LOG.error(message);
     }

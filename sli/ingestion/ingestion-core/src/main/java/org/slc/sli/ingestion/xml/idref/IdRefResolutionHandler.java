@@ -662,13 +662,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
 
     @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
