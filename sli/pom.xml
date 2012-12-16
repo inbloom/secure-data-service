@@ -51,6 +51,8 @@
         <xerces.version>2.4.0</xerces.version>
         <avro.version>1.6.1</avro.version>
         <commons.schema.version>1.4.7</commons.schema.version>
+        <!-- ElasticSearch Versions -->
+		<elasticsearch.version>0.19.9</elasticsearch.version>
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <!-- Rest Services (JAX-RS) Framework Versions -->
@@ -105,8 +107,10 @@
                                     <outputDirectory>${project.build.directory}/</outputDirectory>
                                     <verbose>true</verbose>
                                     <filters>
-                                        <filter>-org.slc.sli.aspect.*</filter>
-                                        <filter>-org.slc.sli.sandbox.idp.aspect.*</filter>
+                                        <!--from ingestion-->
+                                        <filter>-org.slc.sli.aspect.LoggerCarrierAspect</filter>
+                                        <!--from simple-idp-->
+                                        <filter>-org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect</filter>
                                     </filters>
                                 </configuration>
                             </execution>
@@ -210,6 +214,7 @@
         <module>dashboard</module>
         <module>simple-idp</module>
         <module>sif</module>
+        <module>search-indexer</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -859,6 +864,10 @@
                         <file>
                             <name>.settings/import-control.xml</name>
                             <location>checkstyle/import-control.xml</location>
+                        </file>
+                        <file>
+                            <name>.settings/java.header</name>
+                            <location>checkstyle/java.header</location>
                         </file>
                         <file>
                             <name>.checkstyle</name>

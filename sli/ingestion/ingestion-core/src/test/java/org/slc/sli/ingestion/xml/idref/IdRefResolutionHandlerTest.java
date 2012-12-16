@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.xml.idref;
 
 import java.io.File;
@@ -36,8 +35,10 @@ import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  *
@@ -71,8 +72,13 @@ public class IdRefResolutionHandlerTest {
             @Override
             public void execute(File file) throws Throwable {
 
-                ErrorReport errorReport = Mockito.mock(ErrorReport.class);
-                Set<String> result = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class, ErrorReport.class}, new Object[]{file, errorReport});
+                AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
+                ReportStats reportStats = Mockito.mock(ReportStats.class);
+
+                Set<String> result = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler,
+                        "findIDRefsToResolve",
+                        new Class[] { File.class, AbstractMessageReport.class, ReportStats.class }, new Object[] {
+                                file, report, reportStats });
 
                 Assert.assertNotNull(result);
                 Assert.assertEquals(1, result.size());
@@ -83,8 +89,6 @@ public class IdRefResolutionHandlerTest {
         performTestOnFile(inputFile, findIdRefsToResolve);
     }
 
-
-
     @Test
     public void testProcess() throws Throwable {
         final File inputFile = IngestionTest.getFile("ReferenceResolution/InterchangeStudentGrade.xml");
@@ -93,14 +97,16 @@ public class IdRefResolutionHandlerTest {
 
             @Override
             public void execute(File file) throws Throwable {
-                ErrorReport errorReport = Mockito.mock(ErrorReport.class);
+                AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
+                ReportStats reportStats = Mockito.mock(ReportStats.class);
+
                 FileProcessStatus fileProcessStatus = Mockito.mock(FileProcessStatus.class);
                 String beforeHash = MD5.calculate(inputFile);
                 IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                         FileType.XML_STUDENT_GRADES, file.getName(), beforeHash);
                 inputFileEntry.setFile(file);
 
-                idRefResolutionHandler.doHandling(inputFileEntry, errorReport, fileProcessStatus);
+                idRefResolutionHandler.doHandling(inputFileEntry, report, reportStats, fileProcessStatus);
 
                 String afterHash = MD5.calculate(file);
 
@@ -110,7 +116,6 @@ public class IdRefResolutionHandlerTest {
 
         performTestOnFile(inputFile, process);
     }
-
 
     private static void performTestOnFile(File inputFile, TestExecutor test) throws Throwable {
         File tempInputFile = null;

@@ -23,19 +23,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.ResourceWriter;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -44,7 +38,16 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.xml.sax.Locator;
 
-import com.mongodb.MongoException;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -53,7 +56,7 @@ import com.mongodb.MongoException;
  *
  */
 @StreamResultWriter
-public final class SmooksEdFiVisitor implements SAXElementVisitor {
+public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLocatorHandler {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
@@ -67,7 +70,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private final String beanId;
     private final String batchJobId;
-    private final ErrorReport errorReport;
     private final IngestionFileEntry fe;
     private Map<String, Integer> occurences;
     private Map<String, List<NeutralRecord>> queuedWrites;
@@ -77,14 +79,17 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
-    private SliSmooks sliSmooks;
-    
+    private Locator locator;
+
     private int visitBeforeLineNumber;
     private int visitBeforeColumnNumber;
     private int visitAfterLineNumber;
     private int visitAfterColumnNumber;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
+
+    private AbstractMessageReport errorReport;
+    private ReportStats reportStats;
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -97,36 +102,33 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         return recordsPerisisted;
     }
 
-    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, AbstractMessageReport report, ReportStats reportStats, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
-        this.errorReport = errorReport;
+        this.errorReport = report;
+        this.reportStats = reportStats;
         this.fe = fe;
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
-            IngestionFileEntry fe) {
-        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
+    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, AbstractMessageReport report,
+            ReportStats reportStats, IngestionFileEntry fe) {
+        return new SmooksEdFiVisitor(beanId, batchJobId, report, reportStats, fe);
     }
-    
-    public void setSliSmooks(SliSmooks sliSmooks) {
-        this.sliSmooks = sliSmooks;
-    }
-    
-    private Locator getDocumentLocator() {
-        return sliSmooks==null ? null : sliSmooks.getDocumentLocator();
+
+    @Override
+    public void setDocumentLocator(Locator locator) {
+        this.locator = locator;
     }
 
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
-        Locator locator = getDocumentLocator();
         visitAfterLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
-        
+        visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();
+
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
@@ -135,7 +137,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
 
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, errorReport)) {
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, errorReport, reportStats)) {
                     queueNeutralRecordForWriting(neutralRecord);
 
                 } else {
@@ -151,10 +153,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         } else {
 
             // Indicate Smooks Validation Failure
-            LOG.error("Smooks validation failure at element " + element.getName().toString());
-
             if (errorReport != null) {
-                errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
+                errorReport.error(reportStats, CoreMessageCode.CORE_0019, element.getName().toString());
             }
         }
     }
@@ -213,7 +213,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             this.occurences.put(neutralRecord.getRecordType(), FIRST_INSTANCE);
             neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
-        
+
         neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
         neutralRecord.setVisitBeforeColumnNumber(visitBeforeColumnNumber);
         neutralRecord.setVisitAfterLineNumber(visitAfterLineNumber);
@@ -253,11 +253,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        Locator locator = getDocumentLocator();
         visitBeforeLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();                
+        visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();
     }
-    
+
     @Override
     public void onChildElement(SAXElement element, SAXElement childElement, ExecutionContext executionContext) {
         // nothing
@@ -276,6 +275,5 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
         this.duplicateCounts = duplicateCounts;
     }
-
 
 }

@@ -204,7 +204,8 @@ Examples:
     | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
     | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
     Given entity URI <Entity Resource URI>
-    Given parameter "limit" is "0"
+    #TODO BUG for the 6 entities routed to ES, revert back to "0" when bug is fixed
+    Given parameter "limit" is "250"
      When I navigate to GET "/<ENTITY URI>"
      Then I should receive a return code of 200
       And I should receive a collection of "<Count>" entities
@@ -213,7 +214,7 @@ Examples:
 
 Examples:
 | Entity Type             | Entity Resource URI       | Count | Rewrite URI|
-| "assessment"            | "assessments"             | 17    |/assessments|                                                                            
+| "assessment"            | "assessments"             | 17    |/search/assessments|                                                                            
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 3     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 | 27    |/schools/@ids/courses|
@@ -221,10 +222,10 @@ Examples:
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
 | "gradebookEntry"        | "gradebookEntries"        | 1     |/sections/@ids/gradebookEntries|
-| "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
-| "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
+| "learningObjective"     | "learningObjectives"      | 5     |/search/learningObjectives|                                                                     
+| "learningStandard"      | "learningStandards"       | 14    |/search/learningStandards|                                                                      
 | "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|
-| "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
+| "program"               | "programs"                | 1     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2     |/teachers/@ids/teacherSchoolAssociations/schools|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
 | "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
@@ -237,7 +238,7 @@ Examples:
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
 | "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
 | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
-| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/educationOrganizations/@ids/studentCompetencyObjectives    |
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/search/studentCompetencyObjectives    |
 
 	@DE1825
 	Scenario: Invalid data parsing fails gracefully

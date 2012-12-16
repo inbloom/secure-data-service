@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -39,40 +37,31 @@ import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.*;
+
 /**
  * Abstract class that all context validators must extend.
  */
 public abstract class AbstractContextValidator implements IContextValidator {
-
+    
     @Value("${sli.security.gracePeriod}")
-    private String gracePeriod;
+    String gracePeriod;
+    
+    @Autowired
+    protected DateHelper dateHelper;
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
-    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
-    
-    @Autowired
     private EdOrgHelper edorgHelper;
 
-    private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
-
     protected String getFilterDate(boolean useGracePeriod) {
-        DateTime date = null;
-        if (useGracePeriod) {
-            date = getNowMinusGracePeriod();
-        } else {
-            date = DateTime.now();
-            
-        }
-        return date.toString(fmt);
+        return dateHelper.getFilterDate(useGracePeriod);
     }
 
     protected DateTime getNowMinusGracePeriod() {
-        DateTime now = DateTime.now();
-        int numDays = Integer.parseInt(gracePeriod);
-        return now.minusDays(numDays);
+        return dateHelper.getNowMinusGracePeriod();
     }
 
     /**
@@ -119,7 +108,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      *         otherwise.
      */
     protected boolean isLhsBeforeRhs(DateTime lhs, DateTime rhs) {
-        return !rhs.toLocalDate().isBefore(lhs.toLocalDate());
+        return dateHelper.isLhsBeforeRhs(lhs, rhs);
     }
 
     /**
@@ -129,7 +118,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return DateTime object.
      */
     protected DateTime getDateTime(String convert) {
-        return DateTime.parse(convert, fmt);
+        return DateTime.parse(convert, dateHelper.fmt);
     }
 
     /**
@@ -139,7 +128,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return String representing DateTime (of format yyyy-MM-dd).
      */
     protected String getDateTimeString(DateTime convert) {
-        return convert.toString(fmt);
+        return convert.toString(dateHelper.fmt);
     }
 
     /**
@@ -161,18 +150,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
     
     protected boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
-        DateTime expirationDate = DateTime.now();
-        if (useGracePeriod) {
-            int numDays = Integer.parseInt(gracePeriod);
-            expirationDate = expirationDate.minusDays(numDays);
-        }
-        if (body.containsKey(fieldName)) {
-            String dateStringToCheck = (String) body.get(fieldName);
-            DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
-
-            return dateToCheck.isBefore(expirationDate);
-        }
-        return false;
+        return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
     
 
@@ -188,29 +166,29 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return a set of the edorgs you are associated to and their children.
      */
     protected Set<String> getStaffEdOrgLineage() {
-        Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs();
+        return edorgHelper.getStaffEdOrgLineage();
+    }
+
+    protected Set<String> getEdorgDescendents(Set<String> edOrgLineage) {
         edOrgLineage.addAll(edorgHelper.getChildEdOrgs(edOrgLineage));
         return edOrgLineage;
     }
-
-    protected Set<String> getStaffCurrentAssociatedEdOrgs() {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> staffEdOrgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        List<Entity> staffEdOrgAssociations = new LinkedList<Entity>();
-        if (staffEdOrgs != null) {
-            for (Entity staffEdOrg : staffEdOrgs) {
-                staffEdOrgAssociations.add(staffEdOrg);
-            }
+    
+    protected Set<String> getEdorgLineage(Set<String> directEdorgs) {
+        Set<String> ancestors = new HashSet<String>();
+        Set<String> descendants = new HashSet<String>(directEdorgs);
+        for (String edorg : directEdorgs) {
+            ancestors.addAll(fetchParentEdorgs(edorg));
         }
-        List<Entity> currentStaffEdOrgAssociations = staffEdOrgEdOrgIDNodeFilter.filterEntities(staffEdOrgAssociations, null);
-        Set<String> edOrgIds = new HashSet<String>();
-        for (Entity association : currentStaffEdOrgAssociations) {
-            edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-        }
-        return edOrgIds;
+        descendants = getEdorgDescendents(descendants);
+        descendants.addAll(ancestors);
+        return descendants;
+        
     }
 
+    protected  Set<String> getStaffCurrentAssociatedEdOrgs() {
+        return edorgHelper.getStaffCurrentAssociatedEdOrgs();
+    }
 
     protected Set<String> getStaffEdOrgParents() {
         Set<String> edorgHiearchy = new HashSet<String>();
@@ -264,7 +242,37 @@ public abstract class AbstractContextValidator implements IContextValidator {
         this.repo = repo;
     }
 
-    public void setStaffEdOrgEdOrgIDNodeFilter(StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter) {
-        this.staffEdOrgEdOrgIDNodeFilter = staffEdOrgEdOrgIDNodeFilter;
+    protected boolean areParametersValid(String correctEntityType, String inputEntityType, Set<String> ids) {
+        if (ids == null || ids.size() == 0 || !correctEntityType.equals(inputEntityType)) {
+            return false;
+        }
+        return true;
+    }
+
+    protected Set<String> getTeacherEdorgLineage() {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, basicQuery);
+        Set<String> edorgs = new HashSet<String>();
+        for(Entity tsa : tsas) {
+            edorgs.add((String) tsa.getBody().get(ParameterConstants.SCHOOL_ID));
+        }
+        edorgs = getEdorgLineage(edorgs);
+        return edorgs;
+    }
+
+    @Override
+    public Set<String> getValid(String entityType, Set<String> ids) {
+        // Default "fallback" implementation where ids are validated one by one
+        Set<String> validated = new HashSet<String>();
+        Set<String> tmp = new HashSet<String>();
+        for (String id : ids) {
+            tmp.add(id);
+            if (validate(entityType, tmp)) {
+                validated.add(id);
+            }
+            tmp.clear();
+        }
+        return validated;
     }
 }

@@ -31,7 +31,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "valueTypeNotMatchAttributeType.zip" is completed in database
-  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      ENUMERATION_MISMATCH" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
   And I should see "     Instance   1" in the resulting error log file
@@ -88,7 +88,7 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordHasMoreAttributes.zip" is completed in database
-  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
   And I should see "     Instance   1" in the resulting error log file
@@ -109,7 +109,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
-  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "       Entity     student" in the resulting error log file
   And I should see "       Instance   1" in the resulting error log file
@@ -295,5 +295,5 @@ Scenario: Post an zip file where the control file has extra properties
         | session                     |
   When zip file is scp to ingestion landing zone
   And a batch job for file "ControlFileHasExtraProperty.zip" is completed in database
-  And I should see "ERROR  Invalid control file entry at line number" in the resulting error log file
+  And I should see "ERROR  Failed to parse ctl file. Invalid control file entry at line number" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file

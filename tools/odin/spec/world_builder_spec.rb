@@ -100,6 +100,14 @@ describe "WorldBuilder" do
       it "grade wide assessment work orders will be created for each grade and year" do
         @queue.count(GradeWideAssessmentWorkOrder).should eq(39)
       end
+
+      it "will create the configured number of cohorts for each school" do
+        @queue.count(Cohort).should eq(9)
+      end
+
+      it "will associate a staff member for each cohort for each year" do
+        @queue.count(StaffCohortAssociation).should eq(27)
+      end
     end
   end
 
@@ -179,6 +187,7 @@ describe "WorldBuilder" do
       it "grade wide assessment work orders will be created for each grade and year" do
         @queue.count(GradeWideAssessmentWorkOrder).should eq(13)
       end
+
     end
   end
 

@@ -10,7 +10,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Male</Sex>
   <BirthData>
-    <BirthDate>1997-01-12</BirthDate>
+    <BirthDate>1988-01-12</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>960 Marks Ct</StreetNumberName>
@@ -38,7 +38,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>1995-11-15</BirthDate>
+    <BirthDate>1990-11-15</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>433 Oak Street</StreetNumberName>
@@ -66,7 +66,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>1995-05-15</BirthDate>
+    <BirthDate>1990-05-15</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
@@ -94,7 +94,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>1994-08-27</BirthDate>
+    <BirthDate>1989-08-27</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
@@ -122,7 +122,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Male</Sex>
   <BirthData>
-    <BirthDate>1992-11-13</BirthDate>
+    <BirthDate>1996-11-13</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>740 Elm Street</StreetNumberName>
@@ -150,7 +150,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>1992-08-28</BirthDate>
+    <BirthDate>1996-08-28</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
@@ -178,7 +178,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Male</Sex>
   <BirthData>
-    <BirthDate>1991-03-31</BirthDate>
+    <BirthDate>1995-03-31</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
@@ -206,7 +206,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Male</Sex>
   <BirthData>
-    <BirthDate>1990-01-15</BirthDate>
+    <BirthDate>1994-01-15</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>360 Marks Ct</StreetNumberName>
@@ -234,7 +234,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Female</Sex>
   <BirthData>
-    <BirthDate>1988-10-27</BirthDate>
+    <BirthDate>1992-10-27</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>918 North Street</StreetNumberName>
@@ -262,7 +262,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Name>
   <Sex>Male</Sex>
   <BirthData>
-    <BirthDate>1988-04-09</BirthDate>
+    <BirthDate>1992-04-09</BirthDate>
   </BirthData>
   <Address AddressType="Home">
     <StreetNumberName>925 North Street</StreetNumberName>
@@ -283,4 +283,705 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <LoginId>1520@fakemail.com</LoginId>
 </Student>
 
+<Parent>
+  <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Brandy</FirstName>
+    <MiddleName>Maxine</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2516@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2516@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Roosevelt</FirstName>
+    <MiddleName>Quentin</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8151@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8151@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>2-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Bobbi</FirstName>
+    <MiddleName>Vanessa</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5034@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5034@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>2-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Ashley</FirstName>
+    <MiddleName>Marlin</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9541@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9541@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>3-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lelia</FirstName>
+    <MiddleName>Maribel</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6542@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6542@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>3-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lindsey</FirstName>
+    <MiddleName>Armando</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4019@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4019@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>4-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Annmarie</FirstName>
+    <MiddleName>Marie</MiddleName>
+    <LastSurname>Morse</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8170@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8170@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>4-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Clifford</FirstName>
+    <MiddleName>Adan</MiddleName>
+    <LastSurname>Morse</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5606@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5606@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>5-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lynnette</FirstName>
+    <MiddleName>Cindy</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9260@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9260@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>5-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Alfred</FirstName>
+    <MiddleName>Eddy</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9470@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9470@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>6-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Concepcion</FirstName>
+    <MiddleName>Graciela</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1953@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1953@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>6-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Trey</FirstName>
+    <MiddleName>Eddy</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2390@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2390@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>7-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lessie</FirstName>
+    <MiddleName>Sally</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1456@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1456@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>7-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Douglas</FirstName>
+    <MiddleName>Major</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9541@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9541@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>8-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Amalia</FirstName>
+    <MiddleName>Katherine</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5469@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5469@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>8-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Rickey</FirstName>
+    <MiddleName>Caleb</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4659@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4659@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>9-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Terrie</FirstName>
+    <MiddleName>Deann</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>956@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>956@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>9-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lamont</FirstName>
+    <MiddleName>Ariel</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6418@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6418@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>10-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Mamie</FirstName>
+    <MiddleName>Minnie</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2102@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2102@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>10-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Clinton</FirstName>
+    <MiddleName>Milford</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6899@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6899@fakemail.com</LoginId>
+  </Parent>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>2-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>2-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>3-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>3-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>4-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>4-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>5-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>5-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>6-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>6-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>7-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>7-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>8-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>8-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>9-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>9-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>10-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>10-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
 </InterchangeStudentParent>

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.xml.idref;
 
 import java.util.concurrent.Callable;
@@ -26,12 +25,13 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.Fault;
-import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.Error;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * Id Reference Resolution of the future...
@@ -47,7 +47,10 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
     private final IdRefResolutionHandler resolver;
     private final IngestionFileEntry entry;
     private final Job job;
-    private final BatchJobDAO batchJobDao;
+
+    private AbstractMessageReport report;
+
+    private ReportStats reportStats;
 
     /**
      * Default constructor for the id reference resolution callable.
@@ -60,11 +63,15 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
      *            IdRefResolutionHandler to resolve references in ingestion file entries.
      */
     public IdRefResolutionCallable(IdRefResolutionHandler resolver, IngestionFileEntry fileEntry, Job job,
-            BatchJobDAO batchJobDao) {
+            AbstractMessageReport report) {
         this.resolver = resolver;
         this.entry = fileEntry;
         this.job = job;
-        this.batchJobDao = batchJobDao;
+        this.report = report;
+
+        Source source = new SimpleSource(job.getId(), fileEntry.getFileName(),
+                BatchJobStageType.XML_FILE_PROCESSOR.getName());
+        this.reportStats = new SimpleReportStats(source);
     }
 
     /**
@@ -74,40 +81,12 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
     public Boolean call() throws Exception {
         TenantContext.setJobId(job.getId());
 
-        boolean hasErrors = false;
-
         LOG.info("Starting IdRefResolutionCallable for: " + entry.getFileName());
-        resolver.handle(entry, entry.getErrorReport());
 
-        hasErrors = aggregateAndLogResolutionErrors(entry);
+        resolver.handle(entry, report, reportStats);
+
         LOG.info("Finished IdRefResolutionCallable for: " + entry.getFileName());
 
-        return hasErrors;
-    }
-
-    /**
-     * Logs errors incurred during id reference resolution.
-     *
-     * @param fileEntry
-     *            ingestion file entry.
-     * @return integer representing number of errors during id reference resolution.
-     */
-    private boolean aggregateAndLogResolutionErrors(IngestionFileEntry fileEntry) {
-        int errorCount = 0;
-        for (Fault fault : fileEntry.getFaultsReport().getFaults()) {
-            String faultMessage = fault.getMessage();
-            String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
-                    : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-
-            Error error = Error.createIngestionError(job.getId(), fileEntry.getFileName(),
-                    BatchJobStageType.XML_FILE_PROCESSOR.getName(), null, null, null, faultLevel, faultLevel,
-                    faultMessage);
-            batchJobDao.saveError(error);
-
-            if (fault.isError()) {
-                errorCount++;
-            }
-        }
-        return errorCount > 0;
+        return reportStats.hasErrors();
     }
 }

@@ -1,5 +1,7 @@
 require 'mongo'
 require 'rbconfig'
+require 'json'
+require 'socket'
 
 
 Dir.glob('suites/*.rake').each { |r| import r }
@@ -446,6 +448,81 @@ end
 task :loadDefaultIngestionTenants do
   #jshort - must fix with some profile swap
   #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
+
+  # chung - the code below is a ruby port of tenant bootstrapping by ingestion.
+  # It generates time-based shard type 1 uuids and replaces dbName with SHA1 digest.
+  private
+  def get_default_tenant_docs
+    # Read default tenant JSON documents specified in ingestion-core
+    tenant_doc_dir = "#{File.dirname(__FILE__)}/../ingestion/ingestion-core/src/main/resources/tenants"
+    tenants = []
+    Dir.foreach(tenant_doc_dir) do |file|
+      next if file == "." or file == ".."
+      doc = {
+        "type" => "tenant",
+        "body" => JSON.parse(IO.read("#{tenant_doc_dir}/#{file}"))
+      }
+      doc["body"]["landingZone"].each do |lz|
+        lz["path"] = lz["path"].gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+      end
+      tenants << doc
+    end
+    tenants
+  end
+
+  private
+  def replace_placeholders(lzs)
+    hostname_placeholder = "<hostname>"
+    lzpath_placeholder = "<lzpath>"
+    hostname = Socket.gethostname
+    # Read parent LZ path from sli.properties if not specified
+    if ENV['ingestion_landing_zone']
+      parent_lz_path = ENV['ingestion_landing_zone']
+    else
+      require_relative 'test/features/utils/rakefile_common.rb'
+      parent_lz_path = ""
+      sli_props_loc = PropLoader.getProps["ingestion_properties_file"]
+      File.readlines(sli_props_loc).each do |line|
+        if line.include?("landingzone.inbounddir")
+          parent_lz_path = line.split("=")[1].strip
+        end
+      end
+    end
+    # Dir.chdir hack to make sure both absolute and relative parent LZ paths are resolved
+    current_dir = Dir.getwd
+    Dir.chdir("#{File.dirname(__FILE__)}/../ingestion/ingestion-service")
+    lzs.each do |lz|
+      lz_server = lz["ingestionServer"]
+      lz["ingestionServer"].replace(lz_server.gsub(hostname_placeholder, hostname))
+      lz_path = lz["path"]
+      Dir.mkdir(parent_lz_path) if !Dir.exists?(parent_lz_path)
+      Dir.chdir(parent_lz_path) do
+        new_path = Dir.getwd.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+	if new_path.start_with?("c:")
+	  new_path = new_path.sub("c:", "C:");
+	end
+        lz["path"].replace(lz_path.gsub(lzpath_placeholder, new_path))
+        Dir.mkdir(lz["path"]) if !Dir.exists?(lz["path"])
+      end
+    end
+    Dir.chdir(current_dir)
+  end
+
+  private
+  def replace_id_and_dbName(tenant)
+    tenant = ShardType1UUIDPKFactory.new.create_pk(tenant)
+    tenant["body"]["dbName"].replace(convertTenantIdToDbName(tenant["body"]["dbName"]))
+  end
+
+  tenant_col = Mongo::Connection.new(DB_HOST).db(SYSTEM_DB_NAME).collection('tenant')
+  get_default_tenant_docs.each do |tenant|
+    lzs = tenant["body"]["landingZone"]
+    replace_placeholders(lzs)
+    replace_id_and_dbName(tenant)
+    puts "Inserting default tenant: tenantId = #{tenant["body"]["tenantId"]}"
+    tenant_col.remove("body.tenantId" => tenant["body"]["tenantId"])
+    tenant_col.insert(tenant)
+  end
 end
 
 # Run a whole series of acceptance and integration tests
@@ -699,7 +776,7 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
 #                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+task :ingestionTests => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionDbSpinupTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
@@ -758,6 +835,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
+  Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
@@ -1236,4 +1314,18 @@ task :tasks do
     tasks.each do |t|
       puts ":" + t.to_s
     end
+end
+
+#######################################################
+# Primary Key Factory Class for Shard Type 1 UUIDs
+#######################################################
+
+class ShardType1UUIDPKFactory
+  require 'securerandom'
+  def create_pk(doc)
+    chars = ("a".."z").to_a
+    prefix = Time.new.year.to_s + Array.new(2, '').collect{chars[rand(chars.size)]}.join
+    doc["_id"] ||= prefix + "-" + SecureRandom.uuid
+    doc
+  end
 end

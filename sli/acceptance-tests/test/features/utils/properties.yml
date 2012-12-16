@@ -29,6 +29,7 @@ ingestion_index_validation: true
 ingestion_rc_tenant: ""
 ingestion_rc_edorg: ""
 ingestion_timeout_override_seconds: 0
+activemq_host: "localhost"
 
 sif_db: "localhost"
 sif_database_name: "sli"
@@ -49,6 +50,7 @@ simpleIDP_realm_suffix: "Local"
 
 ldap_hostname: ldap.slidev.org
 ldap_port: 389
+ldap_use_ssl: false
 ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
 ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
@@ -148,3 +150,10 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"
 
+elastic_search_address: http://local.slidev.org:9200
+elastic_search_inbox: "../search-indexer/data/inbox"
+elastic_search_host: localhost
+elastic_search_remote_command_port: 10024
+
+activemq_host: localhost
+activemq_port: 61613

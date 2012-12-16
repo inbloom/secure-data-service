@@ -26,22 +26,27 @@ import junitx.util.PrivateAccessor;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.milyn.Smooks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
+import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * tests for SmooksFileHandler
@@ -58,6 +63,8 @@ public class SmooksFileHandlerTest {
 
     @Autowired
     LocalFileSystemLandingZone lz;
+
+    ReportStats reportStats = new SimpleReportStats(new SimpleSource("TestJob", "Resource", "StageName"));
 
     /*
      * XML TESTS
@@ -78,10 +85,12 @@ public class SmooksFileHandlerTest {
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        FaultsReport errorReport = new FaultsReport();
-        smooksFileHandler.handle(inputFileEntry, errorReport);
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        assertTrue("Value type mismatch should give error.", errorReport.hasErrors());
+        smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
+
+        assertTrue("Value type mismatch should give error.", reportStats.hasErrors());
     }
 
     @Test
@@ -96,10 +105,12 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setFile(inputFile);
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
-        FaultsReport errorReport = new FaultsReport();
-        smooksFileHandler.handle(inputFileEntry, errorReport);
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        assertTrue("Malformed XML should give error.", errorReport.hasErrors());
+        smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
+
+        assertTrue("Malformed XML should give error.", reportStats.hasErrors());
     }
 
     @Test
@@ -117,28 +128,34 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setFile(inputFile);
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
-        FaultsReport errorReport = new FaultsReport();
-        smooksFileHandler.handle(inputFileEntry, errorReport);
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        assertTrue("Valid XML should give no errors." + errorReport.getFaults(), !errorReport.hasErrors());
+        smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
+
+        assertTrue("Valid XML should give no errors." , !reportStats.hasErrors());
     }
 
     @Test
     public void testXsdPreValidation() throws IOException, SAXException, NoSuchFieldException {
-        Smooks smooks = Mockito.mock(Smooks.class);
+        SliSmooks smooks = Mockito.mock(SliSmooks.class);
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
         Mockito.when(
-                factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(ErrorReport.class))).thenReturn(smooks);
+                factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class))).thenReturn(smooks);
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
 
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
                 xmlFile.getAbsolutePath(), "", lz.getLZId());
         ife.setFile(xmlFile);
-        ErrorReport errorReport = Mockito.mock(ErrorReport.class);
+        AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
 
-        smooksFileHandler.handle(ife, errorReport);
-        Mockito.verify(errorReport, Mockito.never()).error(Mockito.anyString(), Mockito.anyObject());
+        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance("", "", errorReport,reportStats, ife);
+        Mockito.when(
+                smooks.getFirstSmooksEdFiVisitor()).thenReturn(visitor);
+
+        smooksFileHandler.handle(ife, errorReport, reportStats);
+        Mockito.verify(errorReport, Mockito.never()).error(Mockito.any(ReportStats.class), Mockito.any(CoreMessageCode.class));
     }
 }
 
