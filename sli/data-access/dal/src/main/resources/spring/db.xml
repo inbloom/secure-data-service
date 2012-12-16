@@ -118,12 +118,17 @@
 <!-- 	    </bean> -->
 <!-- 	  </constructor-arg> -->
   </bean>
+
+   <bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
+      <constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStore}" />
+      <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+   </bean>
   
   <bean id="searchRepository" name="searchRepo" class="org.slc.sli.dal.repository.ElasticSearchRepository" init-method="init" destroy-method="destroy">
     <property name="searchTemplate" ref="searchTemplate" />
     <property name="searchUrl" value="${sli.search.url}" />
-    <property name="searchUsername" value="${sli.search.username}" />
-    <property name="searchPassword" value="${sli.search.password}" />
+    <property name="searchUsername" value="#{encryptor.decrypt('${sli.encryption.dalKeyAlias}','${sli.encryption.keyStorePass}','${sli.search.username}')}" />
+    <property name="searchPassword" value="#{encryptor.decrypt('${sli.encryption.dalKeyAlias}','${sli.encryption.keyStorePass}','${sli.search.password}')}" />
   </bean>
 
   <util:set id="tenantAgnosticCollections" value-type="java.lang.String">

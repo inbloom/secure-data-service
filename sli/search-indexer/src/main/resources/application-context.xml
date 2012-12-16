@@ -76,11 +76,16 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	<bean id="sourceDatasourceConnector" class="org.slc.sli.search.connector.impl.SourceDatastoreConnectorImpl">
 		<property name="mongoTemplate" ref="dataMongoTemplate" />
 	</bean>
+
+	<bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
+		<constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStore}" />
+		<constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+	</bean>
 	
 	<bean id="searchEngineConnector" class="org.slc.sli.search.connector.impl.ESOperation">
 		<property name="searchUrl" value="${sli.search.url}" />
-		<property name="searchUsername" value="${sli.search.username}" />
-		<property name="searchPassword" value="${sli.search.password}" />
+		<property name="searchUsername" value="#{encryptor.decrypt('${sli.encryption.dalKeyAlias}','${sli.encryption.keyStorePass}','${sli.search.username}')}" />
+		<property name="searchPassword" value="#{encryptor.decrypt('${sli.encryption.dalKeyAlias}','${sli.encryption.keyStorePass}','${sli.search.password}')}" />
 		<property name="searchTemplate" ref="searchTemplate" />
 		<property name="retryCount" value="${sli.search.indexer.retryCount:2}"></property>
 		<property name="retryWaitMillis" value="${sli.search.indexer.retryWaitMillis:2000}"></property>
