@@ -34,10 +34,10 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   # students
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if human_readable_id == "'MARVIN MILLER'"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id" if human_readable_id == "'MATT SOLLARS'"
-  id = "e04118fd-5025-4d3b-b58d-3ed0d4f270a6"    if human_readable_id == "'CARMEN ORTIZ JR'"
-  id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe"    if human_readable_id == "'CHARLA CHRISTOFF'"
-  id = "51db306f-4fa5-405b-b587-5fac7605e4b3"    if human_readable_id == "'STEVE DONG'"
-  id = "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34"    if human_readable_id == "'LUCRETIA NAGAI'"
+  id = "e04118fd-5025-4d3b-b58d-3ed0d4f270a6_id"    if human_readable_id == "'CARMEN ORTIZ JR'"
+  id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id"    if human_readable_id == "'CHARLA CHRISTOFF'"
+  id = "51db306f-4fa5-405b-b587-5fac7605e4b3_id"    if human_readable_id == "'STEVE DONG'"
+  id = "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34_id"    if human_readable_id == "'LUCRETIA NAGAI'"
 
   # schools
   id = "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"    if human_readable_id == "'SUNSET CENTRAL HIGH'"

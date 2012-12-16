@@ -56,7 +56,7 @@ end
 
 When /^I move teacher12 to a new section$/ do
   updateHash = {
-    "sectionId" => "00000000-0001-0000-0000-000000000004",
+    "sectionId" => "00000000-0001-0000-0000-000000000004_id",
     "classroomPosition" => "Teacher of Record",
     "teacherId" => "00000000-0000-0000-0001-000000000012",
     "highlyQualifiedTeacher" => true,
@@ -64,7 +64,7 @@ When /^I move teacher12 to a new section$/ do
     "endDate" => "2005-12-16"
   }
   createHash = {
-    "sectionId" => "00000000-0001-0000-0000-000000000005",
+    "sectionId" => "00000000-0001-0000-0000-000000000005_id",
     "classroomPosition" => "Teacher of Record",
     "teacherId" => "00000000-0000-0000-0001-000000000012",
     "highlyQualifiedTeacher" => true,
@@ -77,7 +77,7 @@ When /^I move teacher12 to a new section$/ do
   assert(@res.code == 201, "Failed to move teacher12 to new section, code was #{@res.code}")
 
   #Make the old association outdated
-  restHttpPut("/v1/teacherSectionAssociations/00000000-0001-0000-0000-000000000018", updateHash.to_json, "application/json")
+  restHttpPut("/v1/teacherSectionAssociations/00000000-0001-0000-0000-000000000004_id00000000-0001-0000-0000-000000000018_id", updateHash.to_json, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
   assert(@res.code == 204, "Failed to move teacher12 to new section, code was #{@res.code}")
 
@@ -86,15 +86,15 @@ end
 When /^I move student58 to a new section$/ do
   updateHash = {
     "repeatIdentifier" => "Not repeated",
-    "studentId" => "00000000-abcd-0000-0000-000000000058",
-    "sectionId" => "00000000-0001-0000-0000-000000000004",
+    "studentId" => "00000000-abcd-0000-0000-000000000058_id",
+    "sectionId" => "00000000-0001-0000-0000-000000000004_id",
     "beginDate" => "2011-01-01",
     #"endDate" => "2005-12-16"
   }
   createHash = {
     "repeatIdentifier" => "Not repeated",
-    "studentId" => "00000000-abcd-0000-0000-000000000058",
-    "sectionId" => "00000000-0001-0000-0000-000000000005",
+    "studentId" => "00000000-abcd-0000-0000-000000000058_id",
+    "sectionId" => "00000000-0001-0000-0000-000000000005_id",
     "beginDate" => "2012-07-16"
   }
   
@@ -104,7 +104,7 @@ When /^I move student58 to a new section$/ do
   assert(@res.code == 201, "Failed to move student58 to new section, code was #{@res.code}")
 
   #Make the old association outdated
-  restHttpPut("/v1/studentSectionAssociations/48151623-4200-0000-0000-000000000011", updateHash.to_json, "application/json")
+  restHttpPut("/v1/studentSectionAssociations/00000000-0001-0000-0000-000000000004_id48151623-4200-0000-0000-000000000011_id", updateHash.to_json, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
   assert(@res.code == 204, "Failed to move student58 to new section, code was #{@res.code}")
 
@@ -144,14 +144,14 @@ When /^I move student61 to a new school$/ do
     "entryDate" => "2001-09-01",
     "entryGradeLevel" => "First grade",
     "schoolId" => "00000000-0000-0000-0000-000000000004",
-    "studentId" => "00000000-abcd-0000-0000-000000000061",
+    "studentId" => "00000000-abcd-0000-0000-000000000061_id",
     "exitWithdrawDate" => "2005-12-16"
   }
   createHash = {
     "entryDate" => "2012-07-16",
     "entryGradeLevel" => "First grade",
     "schoolId" => "00000000-0000-0000-0000-000000000005",
-    "studentId" => "00000000-abcd-0000-0000-000000000061",
+    "studentId" => "00000000-abcd-0000-0000-000000000061_id",
     "exitWithdrawDate" => "2015-12-16"
   }
 
