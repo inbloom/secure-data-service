@@ -273,3 +273,95 @@ Then I should receive a json response containing my authorization code
 When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
 Then I should receive a json response containing my authorization token
 And I should be able to use the token to make valid API calls
+
+Scenario: Educator performs student search
+Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+Given I search in API for "Daniella"
+Then I should receive a return code of 200
+And I see the following search results at index 0:
+ |Field              |Value                                           |
+ |name.middleName    |Daniella                                        |
+ |name.lastSurname   |Ortiz                                           |
+ |name.firstName     |Carmen                                          |
+
+Scenario: Staff performs student search
+Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+Given I search in API for "rudolp"
+Then I should receive a return code of 200
+And I see the following search results at index 0:
+ |Field              |Value                                           |
+ |name.firstName     |Rudolph                                         |
+ And I see the following search results at index 1:
+ |Field              |Value                                           |
+ |name.firstName     |Rudolph                                         |
+  
+  @wip
+ Scenario: Staff More than 50 search results
+ Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "ckoch" "ckoch1234" for the "Simple" login page
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+ Given I search in API for "matt"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 50 elements
+  #TODO: BUG: this should be 54
+  And the header "TotalCount" equals 50
+  #And the a next link exists with offset equal to 50 and limit equal to 50
+And I see the following search results at index 18:
+ |Field              |Value                                           |
+ |name.firstName     |Matt                                            |
+  
+ @wip
+Scenario:  Educator with more than 50 results
+ Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "manthony" "manthony1234" for the "Simple" login page
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+ Given I search in API for "matt"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 50 elements
+  #TODO: BUG: this should be 54
+  And the header "TotalCount" equals 50
+  #And the a next link exists with offset equal to 50 and limit equal to 50
+  Given I search in API for "lin"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 50 elements
+  #TODO: BUG: this should be 54
+  And the header "TotalCount" equals 50
+  #And the a next link exists with offset equal to 50 and limit equal to 50
+
+@wip
+ Scenario: School Level searching for student not in school
+  Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "mgonzales" "mgonzales1234" for the "Simple" login page
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+ Given I search in API for "Alton"
+ Then I should receive a return code of 200
+ Then I should receive a collection with 0 elements

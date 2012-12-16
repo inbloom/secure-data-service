@@ -16,7 +16,9 @@ limitations under the License.
 
 =end
 
+require 'json'
 require 'logger'
+require_relative '../Shared/scenario'
 
 Dir["#{File.dirname(__FILE__)}/../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
@@ -26,16 +28,23 @@ Dir["#{File.dirname(__FILE__)}/../Shared/EntityClasses/*.rb"].each { |f| load(f)
 class DataWriter
   
   # default constructor for data writer class
-  def initialize
+  def initialize(scenario)
     $stdout.sync = true
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
 
     @entities = Hash.new     # leave default value of nil for hash key not existing
     @counts   = Hash.new(0)  # set default value (when key doesn't exist in hash) to be zero
+    @scenario = Scenario.new(scenario)
   end
 
-  def << (entity)
+  def << (to_write)
+    ((to_write.is_a? Array) ? to_write : [to_write]).each{|entity|
+      write_one_entity(entity) if @scenario.include_entity?(entity)
+    }
+  end
+
+  def write_one_entity (entity)
     initialize_entity(entity)
     @entities[entity.class.name] << entity
     increment_count(entity)
@@ -57,12 +66,12 @@ class DataWriter
 
   # displays the counts for entities created
   def display_entity_counts
+    @log.info "-------------------------------------------------------"
     @log.info "Entity counts:"
     @log.info "-------------------------------------------------------"
-    @counts.each do |type, count|
-      @log.info "#{type}\t\t | count: #{count}"
-    end
-    @log.info "Total count: #{@counts.values.inject(:+)}"
+    @log.info JSON.pretty_generate(@counts)
+    @log.info "Total entity count: #{@counts.values.inject(:+)}"
+    @log.info "-------------------------------------------------------"
   end
 
   # get the entities created

@@ -27,7 +27,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
- * Message report that persists errors and warnings to a database.
+ * Message report that persists errors and warnings to a database and the log.
  *
  * @author dduran
  *
@@ -42,20 +42,26 @@ public class DatabaseMessageReport extends AbstractMessageReport {
 
     @Override
     protected void reportError(ReportStats reportStats, MessageCode code, Object... args) {
-
         String message = getMessage(code, args);
-        Source source = reportStats.getSource();
+        logError(message);
 
-        persistFault(FaultType.TYPE_ERROR, message, source);
+        if (reportStats != null && reportStats.getSource() != null) {
+            Source source = reportStats.getSource();
+
+            persistFault(FaultType.TYPE_ERROR, message, source);
+        }
     }
 
     @Override
     protected void reportWarning(ReportStats reportStats, MessageCode code, Object... args) {
-
         String message = getMessage(code, args);
-        Source source = reportStats.getSource();
+        logWarning(message);
 
-        persistFault(FaultType.TYPE_WARNING, message, source);
+        if (reportStats != null && reportStats.getSource() != null) {
+            Source source = reportStats.getSource();
+
+            persistFault(FaultType.TYPE_WARNING, message, source);
+        }
     }
 
     private void persistFault(FaultType faultType, String message, Source source) {
@@ -66,14 +72,12 @@ public class DatabaseMessageReport extends AbstractMessageReport {
         batchJobDAO.saveError(error);
     }
 
-    @Override
-    protected void logError(MessageCode code, Object... args) {
-        LOG.error(getMessage(code, args));
+    protected void logError(String message) {
+        LOG.error(message);
     }
 
-    @Override
-    protected void logWarning(MessageCode code, Object... args) {
-        LOG.warn(getMessage(code, args));
+    protected void logWarning(String message) {
+        LOG.warn(message);
     }
 
 }

@@ -23,13 +23,23 @@ import static org.slc.sli.ingestion.util.NeutralRecordUtils.getByPath;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Tests for PersistenceProcessor
@@ -37,9 +47,14 @@ import org.slc.sli.ingestion.util.NeutralRecordUtils;
  * @author dduran
  *
  */
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class PersistenceProcessorTest {
 
+    @Autowired
+    PersistenceProcessor processor;
+ 
+    
     @Test
     public void testSortLearningObjectivesByDependency() {
         List<NeutralRecord> unsortedRecords = new ArrayList<NeutralRecord>();
@@ -145,13 +160,90 @@ public class PersistenceProcessorTest {
         record.getAttributes().put("stateOrganizationId", leaId);
         return record;
     }
-
-    
     
     private static int factorial(int n) {
         if (n == 0) {
             return 1;
         }
         return n * factorial(n - 1);
+    }
+    
+    @Test
+    public void testRecordHashIngestedforSimpleEntity() {
+    	NeutralRecord originalRecord = createBaseNeutralRecord("simple");
+    	
+    	Object rhTenantIdObj = originalRecord.getMetaDataByName("rhTenantId");   
+    
+    	testRecordHashIngested(originalRecord,  1);
+    }
+
+    @Test
+    public void testRecordHashIngestedforTransformedEntity() {
+		NeutralRecord originalRecord = createBaseNeutralRecord("transformed");
+		List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
+		testRecordHashIngested(originalRecord, rhData.size());
+    }
+
+	private void testRecordHashIngested(NeutralRecord originalRecord, int count) {
+		recordHashTestPreConfiguration();
+		
+      	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(null);
+    	processor.upsertRecordHash(originalRecord); 	
+    	verify(processor.getBatchJobDAO(), times(count)).findRecordHash(any(String.class), any(String.class));
+    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class), any(String.class));
+    	
+    	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(createRecordHash("hash"));
+    	processor.upsertRecordHash(originalRecord);
+    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(String.class), any(RecordHash.class), any(String.class));
+	}
+
+	
+	private void recordHashTestPreConfiguration() {
+		BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
+        processor.setBatchJobDAO(batchJobDAO);
+        
+    	Set<String> recordTypes = new HashSet();
+    	recordTypes.add("recordType");
+    	processor.setRecordLvlHashNeutralRecordTypes(recordTypes);
+	}
+    
+    private RecordHash createRecordHash(String rHash) {
+        RecordHash hash = new RecordHash();
+        hash.setId("RECORD_ID");
+        hash.setHash(rHash);
+        hash.setCreated(12345);
+        hash.setUpdated(23456);
+        return hash;
+    }
+    
+    private NeutralRecord createBaseNeutralRecord(String entityType) {
+        NeutralRecord originalRecord = new NeutralRecord();
+        originalRecord.setRecordType("recordType");
+        
+        List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
+        Map<String, Object> rhDataElement = new HashMap<String, Object>();
+        
+		if (entityType.equals("simple")) {
+			rhDataElement.put("rhId", "rhId1");
+			rhDataElement.put("rhHash", "rhHash1");
+			rhData.add(rhDataElement);
+		} else if (entityType.equals("transformed")) {
+			rhDataElement.put("rhId", "rhId1");
+			rhDataElement.put("rhHash", "rhHash1");
+			rhData.add(rhDataElement);
+			
+			rhDataElement.put("rhId", "rhId2");
+			rhDataElement.put("rhHash", "rhHash2");
+			rhData.add(rhDataElement);
+			
+			rhDataElement.put("rhId", "rhId3");
+			rhDataElement.put("rhHash", "rhHash3");
+			rhData.add(rhDataElement);
+		}
+        
+        originalRecord.addMetaData("rhData", rhData);
+        originalRecord.addMetaData("rhTenantId", "rhTenantId");
+        
+        return originalRecord;
     }
 }

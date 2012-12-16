@@ -23,6 +23,9 @@ public class TeacherToProgramValidator extends AbstractContextValidator {
     
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
+            return false;
+        }
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("staffId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         nq.addCriteria(new NeutralCriteria("programId", "in", ids));
         addEndDateToQuery(nq, false);

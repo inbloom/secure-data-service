@@ -179,6 +179,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             }
             return driverConfig;
         } catch (FileNotFoundException ex) {
+
             LOGGER.error("Unable to read config for " + componentId, ex);
             throw new DashboardException("Unable to read config for " + componentId, ex);
         } catch (JsonSyntaxException ex) {
@@ -195,8 +196,9 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             } finally {
                 IOUtils.closeQuietly(fr);
             }
+        } else {
+            throw new FileNotFoundException("Config file does not exists.");
         }
-        return null;
     }
 
     @Override
@@ -212,6 +214,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
         // keep reading EdOrg until it hits the top.
         APIClient apiClient = getApiClient();
+
         do {
             if (apiClient != null) {
                 edOrg = apiClient.getEducationalOrganization(token, id);
@@ -227,7 +230,6 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 }
             }
         } while (parentEdOrg != null);
-
         for (EdOrgKey key : edOrgKeys) {
             ConfigMap configMap = getCustomConfig(token, key);
             // if api has config
@@ -345,7 +347,6 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      */
     @Override
     public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
-
         try {
             return getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
         } catch (JsonSyntaxException e) {

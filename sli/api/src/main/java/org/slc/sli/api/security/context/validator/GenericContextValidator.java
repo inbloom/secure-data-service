@@ -35,12 +35,12 @@ import org.springframework.stereotype.Component;
 /**
  * Generic context validator that makes use of the old context resolvers until we can
  * fully transition to the new logic.
- *
+ * 
  */
 @Component
 public class GenericContextValidator implements IContextValidator {
 
-    @Autowired
+	@Autowired
     private ContextResolverStore store;
 
     @Autowired
@@ -54,7 +54,8 @@ public class GenericContextValidator implements IContextValidator {
                     EntityNames.SCHOOL, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
                     EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_ASSESSMENT, EntityNames.STAFF,
             EntityNames.SECTION, EntityNames.SESSION, EntityNames.COURSE_OFFERING,
-            EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.PARENT, EntityNames.COHORT, EntityNames.PROGRAM);
+            EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.PARENT, EntityNames.COHORT, EntityNames.PROGRAM, EntityNames.TEACHER,
+            EntityNames.ASSESSMENT, EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD, EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
     
     private static final List<String> TRANSITIVE_IGNORE_LIST = Arrays
             .asList(
@@ -75,9 +76,14 @@ public class GenericContextValidator implements IContextValidator {
             EntityNames.STUDENT_ASSESSMENT,
             EntityNames.STAFF_COHORT_ASSOCIATION,
             EntityNames.PARENT,
- EntityNames.PROGRAM,
- EntityNames.STAFF,
-                    EntityNames.SECTION
+            EntityNames.PROGRAM,
+			EntityNames.STAFF,
+            EntityNames.SECTION,
+            EntityNames.ASSESSMENT, 
+            EntityNames.LEARNING_OBJECTIVE, 
+            EntityNames.LEARNING_STANDARD, 
+            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
+            EntityNames.TEACHER
             );
 
     @Override
@@ -104,6 +110,19 @@ public class GenericContextValidator implements IContextValidator {
         Set<String> contextIds = new HashSet<String>(
                 resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
         return contextIds.containsAll(ids);
+    }
+
+    @Override
+    public Set<String> getValid(String entityType, Set<String> ids) {
+        String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
+        EntityContextResolver resolver = store.findResolver(userType, entityType);
+        if (resolver instanceof AllowAllEntityContextResolver) {
+            return ids;
+        }
+        Set<String> contextIds = new HashSet<String>(
+                resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
+        contextIds.retainAll(ids);
+        return contextIds;
     }
 
     /**

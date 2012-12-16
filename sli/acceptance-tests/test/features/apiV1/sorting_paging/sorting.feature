@@ -248,3 +248,56 @@ Scenario: Confirm negative offset is blocked by API
    When parameter "offset" is "-1"
     And I navigate to GET "/v1/schools"
    Then I should receive a return code of 400
+
+Scenario: Sorting Collections routed to Elastic Search
+  Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And format "application/json"
+    And parameter "sortBy" is "academicSubject"
+    And parameter "sortOrder" is "ascending"
+  When I navigate to GET "/v1/assessments"
+  Then I should receive a return code of 200 
+  Then I should receive a collection
+   And the link at index 0 should have "academicSubject" equal to "English Language and Literature"
+   And the link at index 1 should have "academicSubject" equal to "English Language and Literature"
+   And the link at index 2 should have "academicSubject" equal to "English Language and Literature"
+   And the link at index 3 should have "academicSubject" equal to "English Language and Literature"
+   And the link at index 4 should have "academicSubject" equal to "Mathematics"
+   And the link at index 12 should have "academicSubject" equal to "Reading"
+  And the link at index 13 should have "academicSubject" equal to "Reading"
+  And the link at index 14 should have "academicSubject" equal to "Reading"
+  And the link at index 15 should have "academicSubject" equal to "Reading"
+  And the link at index 16 should have "academicSubject" equal to "Reading"
+ And parameter "sortBy" is "objective"
+  And parameter "sortOrder" is "descending"
+  When I navigate to GET "/v1/learningObjectives"
+  Then I should receive a return code of 200 
+  Then I should receive a collection
+   And the link at index 0 should have "objective" equal to "Writing Test"
+   And the link at index 1 should have "objective" equal to "Similarity, Right Triangle, and Trigonometry"
+   And the link at index 2 should have "objective" equal to "Reading Test"
+   And the link at index 3 should have "objective" equal to "Math Test"
+   And the link at index 4 should have "objective" equal to "Geometry"
+ And parameter "sortBy" is "subjectArea"
+  And parameter "sortOrder" is "ascending"
+  When I navigate to GET "/v1/learningStandards"
+  Then I should receive a return code of 200 
+  Then I should receive a collection
+   And the link at index 0 should have "subjectArea" equal to "English Language and Literature"
+   And the link at index 1 should have "subjectArea" equal to "English Language and Literature"
+   And the link at index 2 should have "subjectArea" equal to "English Language and Literature"
+   And the link at index 3 should have "subjectArea" equal to "Mathematics"
+ And parameter "sortBy" is "codeValue"
+  And parameter "sortOrder" is "ascending"
+  When I navigate to GET "/v1/competencyLevelDescriptor"
+  Then I should receive a return code of 200 
+  Then I should receive a collection
+   And the link at index 0 should have "codeValue" equal to "A"
+   And the link at index 1 should have "codeValue" equal to "B"
+  And parameter "sortBy" is "objective"
+  And parameter "sortOrder" is "descending"
+  When I navigate to GET "/v1/studentCompetencyObjectives"
+  Then I should receive a return code of 200 
+  Then I should receive a collection
+   And the link at index 0 should have "objective" equal to "Learn to read"
+
+               

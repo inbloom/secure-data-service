@@ -38,13 +38,10 @@ require_relative 'graduation_plan_factory.rb'
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldBuilder
   def initialize(prng, yaml, queue, pre_requisites)
-    small_batch_size  = 500
-    medium_batch_size = 5000
-    large_batch_size  = 25000
-
     $stdout.sync = true
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
+
     @prng = prng
     @scenarioYAML = yaml
 
@@ -189,6 +186,8 @@ class WorldBuilder
       end
     end
     @breakdown = new_breakdown
+    #puts "breakdown: #{@breakdown}"
+    #puts "new breakdown: #{new_breakdown}"
   end
 
   # uses the total number of students, as well as range of [min, max] to compute students at a school of type 'tag', and then
@@ -219,9 +218,8 @@ class WorldBuilder
 
       school_id, members = @pre_requisites[index].shift if @pre_requisites[index].size > 0
 
-      if school_id.kind_of? String
-        @schools << school_id
-      end
+      # remember the school's state organization id if it's a String --> popped off later when creating education organizations
+      @schools << school_id if school_id.kind_of? String
       
       staff, teachers    = create_staff_and_teachers_for_school(members)
       begin_year         = @scenarioYAML["beginYear"]
@@ -621,21 +619,11 @@ class WorldBuilder
           current_courses.each do |course|
             # increment course offering unique id
             offering_id                += 1
-            # create map for session information
-            local_session              = Hash.new
-            local_session["name"]      = session["name"]
-            local_session["ed_org_id"] = session["edOrgId"]
             # create course offering container
             offering = Hash.new
             offering["id"]        = offering_id
-            if type == "elementary"
-              offering["ed_org_id"] = DataUtility.get_elementary_school_id(school["id"])
-            elsif type == "middle"
-              offering["ed_org_id"] = DataUtility.get_middle_school_id(school["id"])
-            elsif type == "high"
-              offering["ed_org_id"] = DataUtility.get_high_school_id(school["id"])
-            end            
-            offering["session"]   = local_session
+            offering["ed_org_id"] = DataUtility.get_school_id(school["id"], type)
+            offering["session"]   = {"name"=>session["name"], "ed_org_id"=>session["edOrgId"]}
             offering["course"]    = course
             offering["grade"]     = grade
             
@@ -715,30 +703,21 @@ class WorldBuilder
     
     courses = Hash.new
     if type == "elementary"
-      GradeLevelType.elementary.each do |grade|
-        # get the current set of courses that the state education agency has published
-        # add state education agency id to courses --> makes life easier when creating course offering
-        current_courses              = state_education_agency["courses"][grade]
-        current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
-        courses[grade]               = current_courses
-      end
+      grades = GradeLevelType.elementary
     elsif type == "middle"
-      GradeLevelType.middle.each do |grade|
-        # get the current set of courses that the state education agency has published
-        # add state education agency id to courses --> makes life easier when creating course offering
-        current_courses              = state_education_agency["courses"][grade]
-        current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
-        courses[grade]               = current_courses
-      end
+      grades = GradeLevelType.middle
     elsif type == "high"
-      GradeLevelType.high.each do |grade|
-        # get the current set of courses that the state education agency has published
-        # add state education agency id to courses --> makes life easier when creating course offering
-        current_courses              = state_education_agency["courses"][grade]
-        current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
-        courses[grade]               = current_courses
-      end
+      grades = GradeLevelType.high
     end
+
+    grades.each do |grade|
+      # get the current set of courses that the state education agency has published
+      # add state education agency id to courses --> makes life easier when creating course offering
+      current_courses              = state_education_agency["courses"][grade]
+      current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
+      courses[grade]               = current_courses
+    end
+
     courses
   end
 
@@ -775,14 +754,11 @@ class WorldBuilder
     }
 
     # write schools
-    @world["elementary"].each { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "elementary"})
-    }
-    @world["middle"].each     { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "middle"})
-    }
-    @world["high"].each     { |edOrg|
-      @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => "high"})
+    ["elementary", "middle", "high"].each{|classification|
+      @world[classification].each { |edOrg|
+        @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification})
+        create_cohorts DataUtility.get_school_id(edOrg['id'], classification)
+      }
     }
 
   end
@@ -847,11 +823,10 @@ class WorldBuilder
   # - Staff
   # - [not implemented yet] StaffEducationOrgAssignmentAssociation
   def create_staff_association_work_orders
-    create_staff_at_ed_org_work_orders("seas")
-    create_staff_at_ed_org_work_orders("leas")
-    create_staff_at_ed_org_work_orders("elementary")
-    create_staff_at_ed_org_work_orders("middle")
-    create_staff_at_ed_org_work_orders("high")
+    ['seas', 'leas', 'elementary', 'middle', 'high'].each{|type|
+      create_staff_at_ed_org_work_orders(type)
+    }
+    create_staff_cohort_associations
   end
 
   # writes the staff members and teachers out for each education organization that is of the specified 'type'
@@ -881,7 +856,8 @@ class WorldBuilder
           create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
         end
       end
-      
+
+
       # create teachers for the current education organization
       if !ed_org["teachers"].nil? and ed_org["teachers"].size > 0
         ed_org["teachers"].each_index do |teacher_index|
@@ -899,22 +875,27 @@ class WorldBuilder
             @world[type][ed_org_index]["teachers"][teacher_index]["subjects"] = subjects
           end
 
-          @log.info "writing teacher: #{teacher} at ed org: #{ed_org_id}"
+          @log.info "creating teacher from catalog: #{teacher} at ed org: #{ed_org_id}"
           @queue.push_work_order({:type=>Teacher, :id=>teacher["id"], :year=>year_of, :name=>teacher["name"]})
           @queue.push_work_order({:type=>TeacherSchoolAssociation, :id=>teacher["id"], :school=>ed_org_id,
                                   :assignment=>:REGULAR_EDUCATION, :grades=>grades, :subjects=>subjects})
-
-          # create staff education organization assignment associations for teachers
-          # -> use their published (or inherited) sessions
-          if !sessions.nil? and sessions.size > 0
-            # -> this is meant to replace changing the ed-fi xsd (where begin and end dates would be put teacher school associations)
-            # -> instead, every teacher will have a single teacher school association (per school they teach at), and multiple
-            #    staff -> education organization assignment associations (one for each year they teach at a given school)
-            create_staff_ed_org_associations_for_teachers(sessions, teacher["id"], ed_org_id, type)
-          end
         end
       end
     end
+  end
+
+  def create_staff_cohort_associations
+    ['elementary', 'middle', 'high'].each{|type|
+      @world[type].each{|ed_org|
+        staff = ed_org['staff'].cycle
+        ed_org['sessions'].each{|session|
+          WorldBuilder.cohorts(ed_org['id'], @scenarioYAML).each{|cohort|
+            @queue.push_work_order(
+              StaffCohortAssociation.new(staff.next['id'], cohort, @scenarioYAML['STAFF_HAVE_COHORT_ACCESS'], session['interval'].get_begin_date))
+          }
+        }
+      }
+    }
   end
 
   # uses the specified state education agency's state organization id to find a child local education agency,
@@ -957,32 +938,6 @@ class WorldBuilder
       end
     end
   end
-  
-  # iterates through sessions, using begin and end date, to assemble teacher -> school associations
-  # -> not used, yet
-  # -> will be used soon (as soon as ed-fi changes to add start and end dates to teacher school associations)
-  def create_staff_ed_org_associations_for_teachers(sessions, teacher_id, ed_org_id, type)
-    if !sessions.nil? and sessions.size > 0
-      sessions.each do |session|
-        if ed_org_id.kind_of? Integer
-          state_org_id = DataUtility.get_state_education_agency_id(ed_org_id) if type == "seas"
-          state_org_id = DataUtility.get_local_education_agency_id(ed_org_id) if type == "leas"
-          state_org_id = DataUtility.get_elementary_school_id(ed_org_id)      if type == "elementary"
-          state_org_id = DataUtility.get_middle_school_id(ed_org_id)          if type == "middle"
-          state_org_id = DataUtility.get_high_school_id(ed_org_id)            if type == "high"
-        else
-          state_org_id = ed_org_id
-        end
-        classification = :TEACHER
-        title          = "Educator"
-        interval       = session["interval"]
-        begin_date     = interval.get_begin_date
-        end_date       = interval.get_end_date
-        @queue.push_work_order({:type=>StaffEducationOrgAssignmentAssociation, :id=>teacher_id, :edOrg=>state_org_id,
-                                :classification=>classification, :title=>title, :beginDate=>begin_date, :endDate=>end_date})
-      end
-    end
-  end
 
   # based on the education organization type (state education agecy, local education agency, or school), choose a staff classification type
   def get_staff_classification_for_ed_org_type(type)
@@ -1006,11 +961,8 @@ class WorldBuilder
             course    = course_offering["course"]
             grade     = course_offering["grade"]
           
-            if GradeLevelType.is_elementary_school_grade(grade)
-              title   = GradeLevelType.get(grade)
-            else
-              title   = GradeLevelType.get(grade) + " " + course["title"]
-            end
+            title = GradeLevelType.get(grade) + " " + course["title"]
+            title = GradeLevelType.get(grade) if GradeLevelType.is_elementary_school_grade(grade)
 
             @queue.push_work_order({:type=>CourseOffering, :id=>id, :title=>title, :edOrgId=>ed_org_id, :session=>session, :course=>course})
           end
@@ -1034,9 +986,7 @@ class WorldBuilder
       if holidays.include?(date)
         calendar_dates << {"date" => date, "event" => :HOLIDAY, "ed_org_id" => ed_org_id}
       else
-        if date.wday != 0 and date.wday != 6
-          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id}
-        end
+        calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id} if date.wday != 0 and date.wday != 6
       end
     end
     calendar_dates
@@ -1090,6 +1040,18 @@ class WorldBuilder
     end
   end
 
+  def create_cohorts(ed_org)
+    WorldBuilder.cohorts(ed_org, @scenarioYAML).each{ |cohort|
+      @queue.push_work_order(cohort)
+    }
+  end
+
+  def self.cohorts(ed_org, scenario)
+    (1..(scenario['COHORTS_PER_SCHOOL'] or 0)).map{ |i|
+      Cohort.new(i, ed_org, scope: "School")
+    }
+  end
+
   # computes a random number on the interval [min, max]
   # does NOT round
   def random_on_interval(min, max)
@@ -1109,23 +1071,32 @@ class WorldBuilder
     }
   end
 
+  # generates both section and student work orders
+  # -> section work orders drive creation of students
   def generate_student_work_orders
-    section_factory = SectionWorkOrderFactory.new(@world, @scenarioYAML)
+    section_factory = SectionWorkOrderFactory.new(@world, @scenarioYAML, @prng)
     student_factory = StudentWorkOrderFactory.new(@world, @scenarioYAML, section_factory)
-    Enumerator.new do |y|
-      @world.each{|type, edOrgs|
-        edOrgs.each{|edOrg|
-          section_factory.gen_sections(edOrg, type, y)
-          student_factory.generate_work_orders(edOrg, y)
-        }
-      }
+    Enumerator.new do |yielder|
+      # needs to be in this order for boundary students
+      # -> if an elementary school student graduates to middle school, we need to guarantee that the
+      #    infrastructure for the middle school exists (same for middle -> high school graduation)
+      create_work_orders_using_factories(section_factory, student_factory, "high", yielder)
+      create_work_orders_using_factories(section_factory, student_factory, "middle", yielder)
+      create_work_orders_using_factories(section_factory, student_factory, "elementary", yielder)
     end
   end
 
+  # uses the specified section factory and student factory to create sections for 
+  # education organizations of specified 'type'
+  def create_work_orders_using_factories(section_factory, student_factory, type, yielder)
+    @world[type].each { |school|
+      section_factory.generate_sections_with_teachers(school, type, yielder)
+      student_factory.generate_work_orders(school, yielder)
+    }
+  end
+
   def create_student_and_enrollment_work_orders
-    generate_student_work_orders.each do |work_order|
-      @queue.push_work_order(work_order)
-    end
+    generate_student_work_orders.each { |work_order| @queue.push_work_order(work_order) }
   end
 
   def generate_assessment_work_orders(begin_year, num_years)
