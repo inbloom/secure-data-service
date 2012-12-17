@@ -99,10 +99,10 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             return true;
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + ingestionFileEntry.getFileName(), e);
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG11, ingestionFileEntry.getFileName());
+            error(report, reportStats, BaseMessageCode.BASE_0013, ingestionFileEntry.getFileName());
         } catch (IOException e) {
             LOG.error("Problem reading file: " + ingestionFileEntry.getFileName(), e);
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG12, ingestionFileEntry.getFileName());
+            error(report, reportStats, BaseMessageCode.BASE_0014, ingestionFileEntry.getFileName());
         } catch (SAXException e) {
             LOG.error("SAXException");
         } catch (RuntimeException e) {
