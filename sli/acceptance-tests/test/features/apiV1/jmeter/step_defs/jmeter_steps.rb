@@ -50,7 +50,7 @@ def makeDirs(dirs)
   end
 end
 
-def archiveJtlFile()
+def archiveJtlFile(file)
 	archivedFile = File.join(JMETER_JTL_ARCHIVE, "#{file}.#{@time}")
 	puts "Moving #{file} to #{archivedFile}"
 	FileUtils.cp(file, archivedFile)
@@ -174,7 +174,7 @@ def checkForRegression(testName)
 
     fractionalDifference = calculateFractionalDifference(avgCurrentTime, avgPreviousTime)
     if fractionalDifference >= REGRESSION_THRESHOLD
-      puts "#{difference} is greater than or equal to #{REGRESSION_THRESHOLD}, adding map for #{label} to #{fractionalDifference.to_s}"
+      puts "#{fractionalDifference} is greater than or equal to #{REGRESSION_THRESHOLD}, adding map for #{label} to #{fractionalDifference.to_s}"
       regressions[label] = fractionalDifference
     end
   end
