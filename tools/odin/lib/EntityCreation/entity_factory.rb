@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 class EntityFactory
 
   def initialize(prnd)
@@ -59,15 +60,6 @@ class EntityFactory
         when [Section]
           rval << Section.new(work_order[:id], work_order[:edOrg], work_order[:offering])
 
-        when [AssessmentItem]
-          rval << AssessmentItem.new(work_order[:id], work_order[:assessment])
-
-        when [Assessment]
-          rval << Assessment.new(work_order[:id], work_order[:year], work_order[:grade], work_order[:itemCount], work_order[:family])
-
-        when [AssessmentFamily]
-          rval << AssessmentFamily.new(work_order[:id], work_order[:year], work_order[:parent])
-
         when [Staff]
           rval << Staff.new(work_order[:id], work_order[:year], work_order[:name])
 
@@ -81,12 +73,15 @@ class EntityFactory
         when [TeacherSchoolAssociation]
           rval << TeacherSchoolAssociation.new(work_order[:id], work_order[:school], work_order[:assignment], work_order[:grades], work_order[:subjects])
 
+        when [TeacherSectionAssociation]
+          rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
+
         else
           puts "factory not found for #{work_order}"
       end
       rval
     else
-      work_order.build
+      work_order.respond_to?('build') ?  work_order.build : [work_order]
     end
 
   end

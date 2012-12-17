@@ -35,34 +35,6 @@ class StaffAssociationGenerator < InterchangeGenerator
     @writers[ StaffEducationOrgAssignmentAssociation ] = EntityWriter.new("staff_ed_org_assignment_association.mustache")
     @writers[ Teacher ] = EntityWriter.new("teacher.mustache")
     @writers[ TeacherSchoolAssociation ] = EntityWriter.new("teacher_school_association.mustache")
-    #@writers[ TeacherSectionAssociation ] = EntityWriter.new("teacher_section_association.mustache")
+    @writers[ TeacherSectionAssociation ] = EntityWriter.new("teacher_section_association.mustache")
   end
-
-  # creates and writes staff to interchange
-  def create_staff(id, year_of, name = nil)
-    self << Staff.new(id, year_of, name)
-  end
-
-  # creates and writes staff education organization assignment association to interchange
-  def create_staff_ed_org_assignment_association(staff, ed_org, classification, title, begin_date, end_date = nil)
-    self << StaffEducationOrgAssignmentAssociation.new(staff, ed_org, classification, title, begin_date, end_date)
-  end
-
-  # creates and writes staff program association to interchange --> not currently implemented
-  #def create_staff_program_association
-  #end
-
-  # creates and writes teacher to interchange
-  def create_teacher(id, year_of, name = nil)
-    self << Teacher.new(id, year_of, name)
-  end
-
-  # creates and writes teacher school association to interchange
-  def create_teacher_school_association(teacher_id, school_id, program_assignment, grades, subjects)
-    self << TeacherSchoolAssociation.new(teacher_id, school_id, program_assignment, grades, subjects)
-  end
-
-  # creates and writes teacher section association to interchange
-  #def create_teacher_section_association
-  #end
 end

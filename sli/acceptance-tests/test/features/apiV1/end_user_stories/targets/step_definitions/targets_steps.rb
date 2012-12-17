@@ -32,7 +32,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id"    if human_readable_id == "Marvin ID"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id"    if human_readable_id == "Matt Sollars ID"
   id = "bcfcc33f-f4a6-488f-baee-b92fbd062e8d"       if human_readable_id == "Braverman ID"
-  id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f"       if human_readable_id == "Homeroom ID"
+  id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id"       if human_readable_id == "Homeroom ID"
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"       if human_readable_id == "South Daybreak Elementary ID"
 
   id = "assessments"                                if human_readable_id == "ASSESSMENT URI"

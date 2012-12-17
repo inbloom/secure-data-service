@@ -21,36 +21,33 @@ limitations under the License.
 require_relative 'baseEntity'
 class Parent < BaseEntity
 
-  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
-                :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
-                :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood
-  def initialize(id, year_of)
-    @id = id
-    @year_of = year_of
-    @rand = Random.new(@id)
+  attr_accessor :id, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
+                :email, :loginId, :address, :city, :state, :postalCode
+
+  def initialize(kid, type)
+    @id = Parent.parentId(kid, type)
+    @kid = kid
+    @rand = @kid.rand
+    @type = type
     buildParent
   end
 
   def buildParent
-    @sex = choose(@@demographics['sex'])
-    @prefix = sex == "Male?" ? "Mr" : "Ms"
-    @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-    @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-    @lastName = choose(@@demographics['lastNames'])
-    @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
-    @birthDay = (@year_of + @rand.rand(365)).to_s
-    @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
+    @sex = @type == :mom ? "Female": "Male"
+    @prefix = @sex == "Male?" ? "Mr" : "Ms"
+    @firstName = choose(@sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+    @middleName = choose(@sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+    @lastName = @kid.lastName
+    @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+    @email = @rand.rand(10000).to_s + BaseEntity.demographics['emailSuffix']
     @loginId = email
-    @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])
-    @city = @@demographics['city']
-    @state = @@demographics['state']
-    @postalCode = @@demographics['postalCode']
-    @race = wChoose(@@demographics['raceDistribution'])
-    @hispanicLatino = wChoose(@@demographics['hispanicLatinoDist'])
-    @economicDisadvantaged = wChoose(@@demographics['economicDisadvantaged'])
-    @limitedEnglish = wChoose(@@demographics['limitedEnglish'])
-    @disability = wChoose(@@demographics['disability'])
-    @schoolFood = wChoose(@@demographics['schoolFood'])
+    @address = @kid.address
+    @city = @kid.city
+    @state = @kid.state
+    @postalCode = @kid.postalCode
   end
 
+  def self.parentId(kid, type)
+    "#{kid.id}-#{type.to_s}"
+  end
 end

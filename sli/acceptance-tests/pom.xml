@@ -1,233 +1,233 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-   <parent>
+  <parent>
+    <groupId>org.slc.sli</groupId>
+    <artifactId>sli</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>acceptance.tests</artifactId>
+  <packaging>pom</packaging>
+  <name>acceptance.tests</name>
+
+  <properties>
+    <sli.home>${project.parent.basedir}</sli.home>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
       <groupId>org.slc.sli</groupId>
-      <artifactId>sli</artifactId>
-      <version>1.0-SNAPSHOT</version>
-   </parent>
+      <artifactId>api</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
 
-    <artifactId>acceptance.tests</artifactId>
-   <packaging>pom</packaging>
-    <name>acceptance.tests</name>
+    <dependency>
+      <groupId>org.slc.sli</groupId>
+      <artifactId>dashboard</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
 
-    <properties>
-          <sli.home>${project.parent.basedir}</sli.home>
-    </properties>
+    <dependency>
+      <groupId>org.slc.sli.ingestion</groupId>
+      <artifactId>ingestion-service</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
 
-   <dependencies>
+    <dependency>
+      <groupId>org.slc.sli.client.sample</groupId>
+      <artifactId>sample</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
 
-        <dependency>
-            <groupId>org.slc.sli</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
+    <dependency>
+      <groupId>org.slc.sli</groupId>
+      <artifactId>simple-idp</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
 
-        <dependency>
-            <groupId>org.slc.sli</groupId>
-            <artifactId>dashboard</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
+  </dependencies>
 
-        <dependency>
-            <groupId>org.slc.sli.ingestion</groupId>
-            <artifactId>ingestion-service</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
+  <build>
+    <plugins>
 
-        <dependency>
-            <groupId>org.slc.sli.client.sample</groupId>
-            <artifactId>sample</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.2.1</version>
 
-        <dependency>
-            <groupId>org.slc.sli</groupId>
-            <artifactId>simple-idp</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
+        <executions>
+          <execution>
+            <id>start-container</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-container</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
 
-   </dependencies>
+        <configuration>
+          <container>
+            <containerId>tomcat7x</containerId>
+            <type>Installed</type>
+            <log>target/tomcat7x/logs/tomcat7x.log</log>
+            <output>target/tomcat7x/logs/tomcat7x.log</output>
 
-   <build>
-        <plugins>
+            <zipUrlInstaller>
+              <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
+              <downloadDir>target/tomcat7x/downloads</downloadDir>
+              <extractDir>target/tomcat7x/extracts</extractDir>
+            </zipUrlInstaller>
+          </container>
 
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven2-plugin</artifactId>
-                <version>1.2.1</version>
+          <configuration>
+            <properties>
+              <cargo.logging>low</cargo.logging>
+              <cargo.jvmargs>${MAVEN_OPTS}</cargo.jvmargs>
+            </properties>
+            <deployables>
+              <deployable>
+                <groupId>org.slc.sli</groupId>
+                <artifactId>api</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>/api</context>
+                </properties>
+              </deployable>
 
-                <executions>
-                    <execution>
-                        <id>start-container</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>stop-container</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
+              <deployable>
+                <groupId>org.slc.sli</groupId>
+                <artifactId>dashboard</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>/dashboard</context>
+                </properties>
+              </deployable>
 
-                <configuration>
-                    <container>
-                        <containerId>tomcat7x</containerId>
-                        <type>Installed</type>
-                        <log>target/tomcat7x/logs/tomcat7x.log</log>
-                        <output>target/tomcat7x/logs/tomcat7x.log</output>
+              <deployable>
+                <groupId>org.slc.sli.ingestion</groupId>
+                <artifactId>ingestion-service</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>/ingestion</context>
+                </properties>
+              </deployable>
 
-						<zipUrlInstaller>
-						<url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
-						<downloadDir>target/tomcat7x/downloads</downloadDir>
-						<extractDir>target/tomcat7x/extracts</extractDir>
-						</zipUrlInstaller>
-					</container>
+              <deployable>
+                <groupId>org.slc.sli</groupId>
+                <artifactId>simple-idp</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>/simple-idp</context>
+                </properties>
+              </deployable>
 
-                    <configuration>
-                        <properties>
-                            <cargo.logging>low</cargo.logging>
-							<cargo.jvmargs>${MAVEN_OPTS}</cargo.jvmargs>
-                        </properties>
-                        <deployables>
-                            <deployable>
-                                <groupId>org.slc.sli</groupId>
-                                <artifactId>api</artifactId>
-                                <type>war</type>
-                                <properties>
-                                    <context>/api</context>
-                                </properties>
-                            </deployable>
+              <deployable>
+                <groupId>org.slc.sli.client.sample</groupId>
+                <artifactId>sample</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>/sample</context>
+                </properties>
+              </deployable>
 
-                            <deployable>
-                                <groupId>org.slc.sli</groupId>
-                                <artifactId>dashboard</artifactId>
-                                <type>war</type>
-                                <properties>
-                                    <context>/dashboard</context>
-                                </properties>
-                            </deployable>
+            </deployables>
+          </configuration>
+        </configuration>
+      </plugin>
 
-                            <deployable>
-                                <groupId>org.slc.sli.ingestion</groupId>
-                                <artifactId>ingestion-service</artifactId>
-                                <type>war</type>
-                                <properties>
-                                    <context>/ingestion</context>
-                                </properties>
-                            </deployable>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
 
-                            <deployable>
-                                <groupId>org.slc.sli</groupId>
-                                <artifactId>simple-idp</artifactId>
-                                <type>war</type>
-                                <properties>
-                                    <context>/simple-idp</context>
-                                </properties>
-                            </deployable>
+        <executions>
 
-                           <deployable>
-                                <groupId>org.slc.sli.client.sample</groupId>
-                                <artifactId>sample</artifactId>
-                                <type>war</type>
-                                <properties>
-                                    <context>/sample</context>
-                                </properties>
-                            </deployable>
+          <execution>
+            <id>stop-admin-rails-app</id>
+            <phase>post-integration-test</phase>
+            <configuration>
+              <executable>stop-rails</executable>
+              <arguments>
+                <argument>admin-rails</argument>
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
 
-                        </deployables>
-                    </configuration>
-                </configuration>
-            </plugin>
+          <execution>
+            <id>stop-databrowswer-app</id>
+            <phase>post-integration-test</phase>
+            <configuration>
+              <executable>stop-rails</executable>
+              <arguments>
+                <argument>databrowser</argument>
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
 
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.2.1</version>
+          <execution>
+            <id>install gems</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>bundle</executable>
+              <arguments>
+                <argument>install</argument>
+              </arguments>
+            </configuration>
+          </execution>
 
-            <executions>
+          <execution>
+            <id>run tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>bundle</executable>
+              <arguments>
+                <argument>exec</argument>
+                <argument>rake</argument>
+                <argument>dashboard_server_address=http://local.slidev.org:8080</argument>
+                <argument>dashboard_api_server_uri=http://local.slidev.org:8080</argument>
+                <argument>realm_page_url=http://local.slidev.org:8080/api/oauth/authorize</argument>
+                <argument>admintools_server_url=http://local.slidev.org:2000</argument>
+                <argument>api_server_url=http://local.slidev.org:8080</argument>
+                <argument>databrowser_server_url=http://local.slidev.org:2001</argument>
+                <argument>simpleIDP_login_url=http://local.slidev.org:8080/simple-idp</argument>
+                <argument>simpleIDP_realm_suffix=local</argument>
+                <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
+                <argument>${TESTS_TO_RUN}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-               <execution>
-                   <id>stop-admin-rails-app</id>
-                   <phase>post-integration-test</phase>
-                   <configuration>
-                       <executable>stop-rails</executable>
-	                   <arguments>
-                           <argument>admin-rails</argument>
-					   </arguments>
-                   </configuration>
-                   <goals>
-                       <goal>exec</goal>
-                   </goals>
-              </execution>
+    </plugins>
 
-               <execution>
-                   <id>stop-databrowswer-app</id>
-                   <phase>post-integration-test</phase>
-                   <configuration>
-                       <executable>stop-rails</executable>
-                       <arguments>
-                           <argument>databrowser</argument>
-                       </arguments>
-                   </configuration>
-                   <goals>
-                       <goal>exec</goal>
-                   </goals>
-              </execution>
-
-               <execution>
-                  <id>install gems</id>
-                  <phase>integration-test</phase>
-                  <goals>
-                     <goal>exec</goal>
-                  </goals>
-                   <configuration>
-                       <executable>bundle</executable>
-                       <arguments>
-                           <argument>install</argument>
-                       </arguments>
-                   </configuration>
-               </execution>
-
-                <execution>
-                    <id>run tests</id>
-                    <phase>integration-test</phase>
-                    <goals>
-                        <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                        <executable>bundle</executable>
-                        <arguments>
-                            <argument>exec</argument>
-                            <argument>rake</argument>
-                            <argument>dashboard_server_address=http://local.slidev.org:8080</argument>
-                            <argument>dashboard_api_server_uri=http://local.slidev.org:8080</argument>
-                            <argument>realm_page_url=http://local.slidev.org:8080/api/oauth/authorize</argument>
-                            <argument>admintools_server_url=http://local.slidev.org:2000</argument>
-                            <argument>api_server_url=http://local.slidev.org:8080</argument>
-                            <argument>databrowser_server_url=http://local.slidev.org:2001</argument>
-						    <argument>simpleIDP_login_url=http://local.slidev.org:8080/simple-idp</argument>
-						    <argument>simpleIDP_realm_suffix=local</argument>
-						    <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
-                            <argument>${TESTS_TO_RUN}</argument>
-                        </arguments>
-                    </configuration>
-                </execution>
-            </executions>
-         </plugin>
-
-      </plugins>
-
-    </build>
+  </build>
 </project>

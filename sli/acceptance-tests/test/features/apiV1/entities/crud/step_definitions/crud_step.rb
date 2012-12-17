@@ -76,7 +76,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 
   "attendance" => {
     "entityType" => "attendance",
-    "studentId" => "0c2756fd-6a30-4010-af79-488d6ef2735a",
+    "studentId" => "0c2756fd-6a30-4010-af79-488d6ef2735a_id",
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
@@ -87,7 +87,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }]
   },
   "studentAcademicRecord" => {
-    "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
+    "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3_id",
     "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072"
   },
   "student" => {
@@ -109,8 +109,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772",
-    "programId" => ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"]
+    "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772"
   },
   "course" => {
     "courseTitle" => "Chinese 1",
@@ -154,7 +153,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     ]],
     "disciplineDate" => "2012-01-28",
     "disciplineIncidentId" => ["0e26de79-7efa-5e67-9201-5113ad50a03b"],
-    "studentId" => ["61161008-2560-480d-aadf-4b0264dc2ae3"],
+    "studentId" => ["61161008-2560-480d-aadf-4b0264dc2ae3_id"],
     "responsibilitySchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "assignmentSchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
@@ -241,10 +240,10 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }
   },
   "studentGradebookEntry" => {
-    "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
+    "gradebookEntryId" => "0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id",
     "letterGradeEarned" => "A",
     "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
-    "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
+    "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b_id",
     "studentSectionAssociationId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
     "numericGradeEarned" => 98,
     "dateFulfilled" => "2012-01-31",
@@ -306,7 +305,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }
   },
   "grade" => {
-    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
+    "studentSectionAssociationId" => "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final"
   },
@@ -318,7 +317,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
        "learningObjectiveId" => "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
      },
      "diagnosticStatement" => "passed with flying colors",
-     "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+     "studentSectionAssociationId" => "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id"
   },
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
@@ -328,7 +327,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "numberOfDaysAbsent" => 15,
       "numberOfDaysInAttendance" => 150,
       "numberOfDaysTardy" => 10,
-      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
   },
   "graduationPlan" => {
@@ -342,7 +341,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
        }],
        "individualPlan" => false,
        "graduationPlanType" => "Minimum",
-       "educationOrganizationId" => "92d6d5a0-852c-45f4-907a-912752831772",
+       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
        "totalCreditsRequired" => {
             "creditConversion" => 0,
             "creditType" => "Semester hour credit",
@@ -368,7 +367,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
   @assocData = {
     "studentCohortAssocation" => {
        "cohortId" => @newId,
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
        "endDate" => "2020-01-15",
        "beginDate" => "2011-04-01"
     },
@@ -392,12 +391,12 @@ When /^I create an association of type "([^"]*)"$/ do |type|
        "availableCredit" => nil
     },
     "studentDisciplineIncidentAssociation" => {
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
        "disciplineIncidentId" => @newId,
        "studentParticipationCode" => "Reporter"
     },
     "studentParentAssociation" => {
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
        "parentId" => @newId,
        "livesWith" => true,
        "primaryContactStatus" => true,
@@ -406,13 +405,13 @@ When /^I create an association of type "([^"]*)"$/ do |type|
        "emergencyContactStatus" => true
     },
     "studentProgramAssociation" => {
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
        "programId" => @newId,
        "beginDate" => "2011-05-01",
        "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
     },
     "studentSectionAssociation" => {
-      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "sectionId" => @newId,
       "beginDate" => "2012-05-01"
     },
@@ -451,7 +450,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "studentParentAssociation2" => {
       "parentId" => @newId,
-      "studentId" => "737dd4c1-86bd-4892-b9e0-0f24f76210be",
+      "studentId" => "737dd4c1-86bd-4892-b9e0-0f24f76210be_id",
       "livesWith" => true,
       "primaryContactStatus" => true,
       "relation" => "Father",

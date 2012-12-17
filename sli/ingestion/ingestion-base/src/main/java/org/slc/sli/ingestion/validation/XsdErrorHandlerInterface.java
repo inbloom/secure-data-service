@@ -19,6 +19,9 @@ package org.slc.sli.ingestion.validation;
 
 import org.xml.sax.ErrorHandler;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+
 /**
  * Forgiving XSD validation error handler.
  *
@@ -27,6 +30,5 @@ import org.xml.sax.ErrorHandler;
  */
 public interface XsdErrorHandlerInterface extends ErrorHandler {
 
-    public void setErrorReport(ErrorReport errorReport);
-
+    public void setReportAndStats(AbstractMessageReport report, ReportStats reportStats);
 }

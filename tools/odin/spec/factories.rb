@@ -29,7 +29,7 @@ FactoryGirl.define do
   end
 
   factory :parent do
-    initialize_with { new(52, Date.new(1980, 10, 2)) }
+    initialize_with { new(FactoryGirl.build(:student), :dad) }
     sex "Male"
     firstName "James"
     lastName "Snow"
@@ -45,8 +45,7 @@ FactoryGirl.define do
   end
 
   factory :studentParentAssociation do
-    rand = Random.new(42)
-    initialize_with { new(52, 42, rand) }
+    initialize_with { new(FactoryGirl.build(:student), :dad) }
     primaryContactStatus true
   end
   
@@ -54,6 +53,7 @@ FactoryGirl.define do
   
     initialize_with { new(52, Date.new(2012, 11, 2)) }
     assessmentTitle "SAT II - US History"
+    gradeLevelAssessed "Twelfth grade"
   end
   
    factory :assessment_family do

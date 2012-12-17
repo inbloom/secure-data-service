@@ -1,5 +1,7 @@
 require 'mongo'
 require 'rbconfig'
+require 'json'
+require 'socket'
 
 
 Dir.glob('suites/*.rake').each { |r| import r }
@@ -446,6 +448,81 @@ end
 task :loadDefaultIngestionTenants do
   #jshort - must fix with some profile swap
   #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
+
+  # chung - the code below is a ruby port of tenant bootstrapping by ingestion.
+  # It generates time-based shard type 1 uuids and replaces dbName with SHA1 digest.
+  private
+  def get_default_tenant_docs
+    # Read default tenant JSON documents specified in ingestion-core
+    tenant_doc_dir = "#{File.dirname(__FILE__)}/../ingestion/ingestion-core/src/main/resources/tenants"
+    tenants = []
+    Dir.foreach(tenant_doc_dir) do |file|
+      next if file == "." or file == ".."
+      doc = {
+        "type" => "tenant",
+        "body" => JSON.parse(IO.read("#{tenant_doc_dir}/#{file}"))
+      }
+      doc["body"]["landingZone"].each do |lz|
+        lz["path"] = lz["path"].gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+      end
+      tenants << doc
+    end
+    tenants
+  end
+
+  private
+  def replace_placeholders(lzs)
+    hostname_placeholder = "<hostname>"
+    lzpath_placeholder = "<lzpath>"
+    hostname = Socket.gethostname
+    # Read parent LZ path from sli.properties if not specified
+    if ENV['ingestion_landing_zone']
+      parent_lz_path = ENV['ingestion_landing_zone']
+    else
+      require_relative 'test/features/utils/rakefile_common.rb'
+      parent_lz_path = ""
+      sli_props_loc = PropLoader.getProps["ingestion_properties_file"]
+      File.readlines(sli_props_loc).each do |line|
+        if line.include?("landingzone.inbounddir")
+          parent_lz_path = line.split("=")[1].strip
+        end
+      end
+    end
+    # Dir.chdir hack to make sure both absolute and relative parent LZ paths are resolved
+    current_dir = Dir.getwd
+    Dir.chdir("#{File.dirname(__FILE__)}/../ingestion/ingestion-service")
+    lzs.each do |lz|
+      lz_server = lz["ingestionServer"]
+      lz["ingestionServer"].replace(lz_server.gsub(hostname_placeholder, hostname))
+      lz_path = lz["path"]
+      Dir.mkdir(parent_lz_path) if !Dir.exists?(parent_lz_path)
+      Dir.chdir(parent_lz_path) do
+        new_path = Dir.getwd.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+	if new_path.start_with?("c:")
+	  new_path = new_path.sub("c:", "C:");
+	end
+        lz["path"].replace(lz_path.gsub(lzpath_placeholder, new_path))
+        Dir.mkdir(lz["path"]) if !Dir.exists?(lz["path"])
+      end
+    end
+    Dir.chdir(current_dir)
+  end
+
+  private
+  def replace_id_and_dbName(tenant)
+    tenant = ShardType1UUIDPKFactory.new.create_pk(tenant)
+    tenant["body"]["dbName"].replace(convertTenantIdToDbName(tenant["body"]["dbName"]))
+  end
+
+  tenant_col = Mongo::Connection.new(DB_HOST).db(SYSTEM_DB_NAME).collection('tenant')
+  get_default_tenant_docs.each do |tenant|
+    lzs = tenant["body"]["landingZone"]
+    replace_placeholders(lzs)
+    replace_id_and_dbName(tenant)
+    puts "Inserting default tenant: tenantId = #{tenant["body"]["tenantId"]}"
+    tenant_col.remove("body.tenantId" => tenant["body"]["tenantId"])
+    tenant_col.insert(tenant)
+  end
 end
 
 # Run a whole series of acceptance and integration tests
@@ -458,25 +535,6 @@ task :fullSuite => [
   :JavaSDKTests,
   :sandboxTests,
   :adminSandboxTests,
-  :apiSeleniumTests] do
-
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-# Run a whole series of acceptance and integration tests
-desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests for Emma"
-task :fullSuiteForEmma => [
-  :apiAndSecurityTests,
-  :ingestionEmmaTests,
-  :localDashboardTests,
-  :integrationTests,
-  :JavaSDKTests,
-  :sandboxTests,
   :apiSeleniumTests] do
 
   displayFailureReport()
@@ -718,7 +776,7 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
 #                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+task :ingestionTests => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionDbSpinupTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
@@ -777,19 +835,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["dashboardSdsTests"].invoke
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run Integration Acceptance Tests for EMMA"
-task :integrationEmmaTests => [] do
-  Rake::Task["ingestionAcceptanceSdsTest"].execute
-  #Rake::Task["crossAppTests"].execute
+  Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
@@ -1080,13 +1126,10 @@ task :importSandboxMidgarData do
     "course" => "Midgar_data/course_fixture.json",
     "student" => "Midgar_data/student_fixture.json",
     "parent" => "Midgar_data/parent_fixture.json",
-    "studentParentAssociation" => "Midgar_data/studentParentAssociation_fixture.json",
     "staff" => "Midgar_data/staff_fixture.json",
     "assessment" => "Midgar_data/assessment_fixture.json",
     "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "Midgar_data/teacherSectionAssociation_fixture.json",
-    "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
     "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
     "aggregationDefinition" => "Midgar_data/aggregationdefinition_fixture.json",
@@ -1094,23 +1137,20 @@ task :importSandboxMidgarData do
     "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
     "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",
     "courseTranscript" => "Midgar_data/courseTranscript_fixture.json",
-    "gradebookEntry" => "Midgar_data/gradebookEntry_fixture.json",
     "studentGradebookEntry" => "Midgar_data/studentGradebookEntry_fixture.json",
     "disciplineIncident" => "Midgar_data/disciplineIncident_fixture.json",
     # "studentDisciplineIncidentAssociation" => "Midgar_data/studentDisciplineIncidentAssociation_fixture.json",
     "disciplineAction" => "Midgar_data/disciplineAction_fixture.json",
     "cohort" => "Midgar_data/cohort_fixture.json",
     "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
-    "studentCohortAssociation" => "Midgar_data/studentCohortAssociation_fixture.json",
     "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
-    "studentProgramAssociation" => "Midgar_data/studentProgramAssociation_fixture.json",
     "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
     "learningStandard" => "Midgar_data/learningStandard_fixture.json",
     "learningObjective" => "Midgar_data/learningObjective_fixture.json",
     "grade" => "Midgar_data/grade_fixture.json",
     "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
-    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
     "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
+    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
     "reportCard" => "Midgar_data/reportCard_fixture.json",
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
@@ -1130,8 +1170,6 @@ task :importSandboxHyruleData do
     "staff" => "Hyrule_data/staff_fixture.json",
     "assessment" => "Hyrule_data/assessment_fixture.json",
     "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "Hyrule_data/teacherSectionAssociation_fixture.json",
-    "studentSectionAssociation" => "Hyrule_data/studentSectionAssociation_fixture.json",
     "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
     "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
@@ -1276,4 +1314,18 @@ task :tasks do
     tasks.each do |t|
       puts ":" + t.to_s
     end
+end
+
+#######################################################
+# Primary Key Factory Class for Shard Type 1 UUIDs
+#######################################################
+
+class ShardType1UUIDPKFactory
+  require 'securerandom'
+  def create_pk(doc)
+    chars = ("a".."z").to_a
+    prefix = Time.new.year.to_s + Array.new(2, '').collect{chars[rand(chars.size)]}.join
+    doc["_id"] ||= prefix + "-" + SecureRandom.uuid
+    doc
+  end
 end

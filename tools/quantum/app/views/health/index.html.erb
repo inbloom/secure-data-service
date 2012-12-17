@@ -1,0 +1,25 @@
+<h3>CI Node Health Check</h3>
+
+<%= form_tag("/health", :method => :get) do %>
+  <%= label_tag(:time_filter, "Since:") %>
+  <%= select_tag(:time_filter, options_for_select([ ["Beginning (All)", 0], ["One day" , 86400], ["Three days" , 259200], ["One week" , 604800],
+  													["Two weeks" , 1209600], ["Two months", 5184000] ], params[:time_filter])) %>
+  <%= submit_tag "Filter" %>
+<% end %>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>CI Node</th>
+			<th>Number of Failures</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @hosts.each { |host| %>
+		<tr>
+			<td><%=host[:name]%></td>
+			<td><%=host[:count]%></td>
+		</tr>
+	<% } %>
+	</tbody>
+</table>

@@ -133,7 +133,7 @@ public class ZipFileUtil {
 
     }
 
-    public static File findCtlFile(File dir) throws IOException {
+    public static File findCtlFile(File dir) {
 
         if (!dir.isDirectory()) {
             log.info("Non-existent control file directory: " + dir.getAbsolutePath());

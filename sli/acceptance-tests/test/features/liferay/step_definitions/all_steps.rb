@@ -38,12 +38,14 @@ end
 
 #This logout step is for clicking the logout link from the portal header
 Then /^I click on log out$/ do
-  menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
-  menu = menuList.find_element(:id,"menulink")
-  menu.click
-  puts menuList.find_element(:link_text, "Exit").attribute("href")
-  menuList.find_element(:link_text, "Exit").click
-  assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
+  begin
+    menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
+    menu = menuList.find_element(:id,"menulink")
+    menu.click
+    menuList.find_element(:xpath, "/html/body/div[2]/div/div[2]/div/div/div/div/div/div/div/div/div/ul/li/ul/li[2]/a").click
+  rescue
+    assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
+  end
 end
 
 # TODO, look for something now in eula, if found proceed

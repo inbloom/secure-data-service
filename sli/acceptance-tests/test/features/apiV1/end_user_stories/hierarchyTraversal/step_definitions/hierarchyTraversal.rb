@@ -38,7 +38,7 @@ Transform /^<([^>]*)>$/ do |human_readable_id|
   guid = "15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id" if human_readable_id == "'TEACHER-SECTION-ASSOCIATION' ID"
   guid = "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b" if human_readable_id == "'TEACHER' ID"
   guid = "15ab6363-5509-470c-8b59-4f289c224107_id76ac366b-ee0d-4db9-b820-ac5bc83e53ac_id" if human_readable_id == "'STUDENT-SECTION' ID"
-  guid = "0f0d9bac-0081-4900-af7c-d17915e02378" if human_readable_id == "'STUDENT' ID"
+  guid = "0f0d9bac-0081-4900-af7c-d17915e02378_id" if human_readable_id == "'STUDENT' ID"
   guid
 end
 
@@ -101,6 +101,10 @@ end
 When /^I navigate to GET the "([^"]*)" link named "([^"]*)"$/ do |arg1, arg2|
   puts @the_link.count
   case arg1
+  when /fifth/
+    @the_link = @the_link[4]
+  when /fourth/
+    @the_link = @the_link[3]
   when /third/
     @the_link = @the_link[2]
   when /second/
@@ -111,15 +115,21 @@ When /^I navigate to GET the "([^"]*)" link named "([^"]*)"$/ do |arg1, arg2|
   restHttpGetAbs(@the_link)
   #@result = JSON.parse(@res.body)
 end
-# Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)(\/+[\w-]+)$/ do |version, uri, template, uri2|
-  # version + uri + Transform(template) + uri2
-# end
+
 Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
 end
 
+Then /^I should receive (\d+) entities$/ do |arg1|
+  if arg1.to_i == 0
+    assert(@result.empty?, "Expected zero entities, received #{@result.size}")
+  else
+    assert(@result.size == arg1.to_i, "Expected #{arg1} entities, recieved #{@result.size()}")
+  end
+end
+
 And /^I should receive zero entities$/ do
-  assert(@result.empty?, "Expected zero entities, recieved #{@result.size()}")
+  step "I should receive 0 entities"
 end
 
 When /^I navigate to GET the link named "(.*?)" with "(.*?)" of "(.*?)"$/ do |linkName, key, value|
@@ -130,3 +140,4 @@ When /^I navigate to GET the link named "(.*?)" with "(.*?)" of "(.*?)"$/ do |li
     end
   end
 end
+

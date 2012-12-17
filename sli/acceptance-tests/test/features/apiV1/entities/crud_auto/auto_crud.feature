@@ -1,4 +1,4 @@
-@smoke @RALLY_US209 @RALLY_DE87
+@wip @smoke @RALLY_US209 @RALLY_DE87
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
@@ -177,7 +177,7 @@ Background: Nothing yet
     | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
     | staff                  | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
     | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
-    | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
+    | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234_id |
     Given the expected rewrite results are defined by table:
     | Entity Type                              | Entity Resource URI                      | Count | Rewrite URI|
     | assessment                              | assessments                              | 17    |/assessments|

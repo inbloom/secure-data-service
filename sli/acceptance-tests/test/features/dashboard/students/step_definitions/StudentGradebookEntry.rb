@@ -18,9 +18,9 @@ limitations under the License.
 
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  id = "6e42d32c-2be3-45de-97fe-894d4c065aa2"   if human_readable_id == "Matt Sollars FIRST UNIT TEST"
-  id = "c92277ec-a8f1-47e2-bc6e-719cc761deae"   if human_readable_id == "Matt Sollars SECOND UNIT TEST"
-  id = "00f627d7-1ccd-4c63-a1b3-64e104ec73de"   if human_readable_id == "Matt Sollars THIRD UNIT TEST"
+  id = "da5b4d1a-63a3-46d6-a4f1-396b3308af83_id6e42d32c-2be3-45de-97fe-894d4c065aa2_id"   if human_readable_id == "Matt Sollars FIRST UNIT TEST"
+  id = "da5b4d1a-63a3-46d6-a4f1-396b3308af83_idc92277ec-a8f1-47e2-bc6e-719cc761deae_id"   if human_readable_id == "Matt Sollars SECOND UNIT TEST"
+  id = "da5b4d1a-63a3-46d6-a4f1-396b3308af83_id00f627d7-1ccd-4c63-a1b3-64e104ec73de_id"   if human_readable_id == "Matt Sollars THIRD UNIT TEST"
   id = "c319cf6a-4f86-453c-9074-f37ebd8e6227"   if human_readable_id == "Carmen Ortiz CURRENT GRADE"
   #return the translated value
   id

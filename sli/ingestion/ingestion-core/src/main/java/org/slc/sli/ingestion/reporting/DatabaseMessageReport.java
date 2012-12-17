@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.reporting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +27,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.BatchJobUtils2;
 
 /**
- * Message report that persists errors and warnings to a database.
+ * Message report that persists errors and warnings to a database and the log.
  *
  * @author dduran
  *
@@ -33,52 +35,61 @@ import org.slc.sli.ingestion.util.BatchJobUtils2;
 @Component
 public class DatabaseMessageReport extends AbstractMessageReport {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DatabaseMessageReport.class);
+
     @Autowired
     private BatchJobDAO batchJobDAO;
 
     @Override
-    public void error(Source source, MessageCode code, Object... args) {
-
+    protected void reportError(ReportStats reportStats, MessageCode code, Object... args) {
         String message = getMessage(code, args);
+        logError(message);
 
-        String recordIdentifier = null;
+        if (reportStats != null && reportStats.getSource() != null) {
+            Source source = reportStats.getSource();
+
+            persistFault(FaultType.TYPE_ERROR, message, source);
+        }
+    }
+
+    @Override
+    protected void reportWarning(ReportStats reportStats, MessageCode code, Object... args) {
+        String message = getMessage(code, args);
+        logWarning(message);
+
+        if (reportStats != null && reportStats.getSource() != null) {
+            Source source = reportStats.getSource();
+
+            persistFault(FaultType.TYPE_WARNING, message, source);
+        }
+    }
+
+
+    @Override
+    protected void reportInfo(ReportStats reportStats, MessageCode code, Object... args) {
+        String message = getMessage(code, args);
+        logInfo(message);
+    }
+
+    private void persistFault(FaultType faultType, String message, Source source) {
         Error error = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
-                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), recordIdentifier,
-                FaultType.TYPE_ERROR.getName(), FaultType.TYPE_ERROR.getName(), message);
+                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), null, faultType.getName(),
+                faultType.getName(), message);
 
         batchJobDAO.saveError(error);
     }
 
-    @Override
-    public void error(Source source, ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incError();
-        }
-
-        error(source, code, args);
+    protected void logError(String message) {
+        LOG.error(message);
     }
 
-    @Override
-    public void warning(Source source, MessageCode code, Object... args) {
-
-        String message = getMessage(code, args);
-
-        String recordIdentifier = null;
-        Error error = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
-                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), recordIdentifier,
-                FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(), message);
-
-        batchJobDAO.saveError(error);
+    protected void logWarning(String message) {
+        LOG.warn(message);
     }
 
-    @Override
-    public void warning(Source source, ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incWarning();
-        }
-
-        warning(source, code, args);
+    protected void logInfo(String message) {
+        LOG.info(message);
     }
+
+
 }

@@ -29,19 +29,21 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
-import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Zip file handler.
@@ -64,6 +66,9 @@ public class ZipFileProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
+
     @Override
     public void process(Exchange exchange) throws Exception {
 
@@ -76,6 +81,11 @@ public class ZipFileProcessor implements Processor {
         String batchJobId = null;
 
         NewBatchJob newJob = null;
+
+        Source source = null;
+
+        ReportStats reportStats = null;
+
         try {
             LOG.info("Received zip file: " + exchange.getIn());
 
@@ -86,11 +96,10 @@ public class ZipFileProcessor implements Processor {
             TenantContext.setTenantId(newJob.getTenantId());
             batchJobId = newJob.getId();
 
-            FaultsReport errorReport = new FaultsReport();
+            source = new SimpleSource(batchJobId, zipFile.getName(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
+            reportStats = new SimpleReportStats(source);
 
-            File ctlFile = zipFileHandler.handle(zipFile, errorReport);
-
-            BatchJobUtils.writeErrorsWithDAO(batchJobId, zipFile.getName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
+            File ctlFile = zipFileHandler.handle(zipFile, databaseMessageReport, reportStats);
 
             createResourceEntryAndAddToJob(zipFile, newJob);
 
@@ -98,16 +107,16 @@ public class ZipFileProcessor implements Processor {
                 newJob.setSourceId(ctlFile.getParentFile().getCanonicalPath() + File.separator);
             }
 
-            setExchangeHeaders(exchange, errorReport, newJob);
+            setExchangeHeaders(exchange, reportStats, newJob);
 
-            setExchangeBody(exchange, ctlFile, errorReport, batchJobId);
+            setExchangeBody(exchange, ctlFile, reportStats, batchJobId);
 
             if (!zipFile.delete()) {
-                LOG.debug("Failed to delete: " + zipFile.getPath());
+                LOG.debug("Failed to delete: {}", zipFile.getPath());
             }
 
         } catch (Exception exception) {
-            handleProcessingException(exchange, batchJobId, exception);
+            handleProcessingException(exchange, batchJobId, exception, reportStats);
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
@@ -132,19 +141,17 @@ public class ZipFileProcessor implements Processor {
         return newJob;
     }
 
-    private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception) {
+    private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(),
-                    null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            batchJobDAO.saveError(error);
+            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0014, exception.toString());
         }
     }
 
-    private void setExchangeBody(Exchange exchange, File ctlFile, ErrorReport errorReport, String batchJobId) {
-        if (!errorReport.hasErrors() && ctlFile != null) {
+    private void setExchangeBody(Exchange exchange, File ctlFile, ReportStats reportStats, String batchJobId) {
+        if (!reportStats.hasErrors() && ctlFile != null) {
             exchange.getIn().setBody(ctlFile, File.class);
         } else {
             WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
@@ -152,10 +159,10 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, FaultsReport errorReport, NewBatchJob newJob) {
+    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats, NewBatchJob newJob) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
-        if (errorReport.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+        if (reportStats.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
         }
     }

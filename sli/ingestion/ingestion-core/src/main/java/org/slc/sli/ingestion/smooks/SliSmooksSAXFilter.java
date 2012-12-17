@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.smooks;
 
 import java.io.Writer;
@@ -7,8 +23,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.milyn.SmooksException;
 import org.milyn.cdr.ParameterAccessor;
 import org.milyn.container.ExecutionContext;
@@ -19,40 +33,68 @@ import org.milyn.delivery.sax.terminate.TerminateException;
 import org.milyn.payload.FilterResult;
 import org.milyn.payload.FilterSource;
 import org.milyn.payload.JavaSource;
-import org.xml.sax.Locator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class SliSmooksSAXFilter extends Filter
-{
-    private static Log logger = LogFactory.getLog(SmooksSAXFilter.class);
-    
+/**
+ * This class replaces {@linkplain org.milyn.delivery.sax.SmooksSAXFilter filter} and
+ * provides the identical function except it instantiates a
+ * {@linkplain org.slc.sli.ingestion.smooks.SliSAXParser parser} instead of
+ * a {@linkplain org.milyn.delivery.sax.SAXParser parser} in the original
+ * {@linkplain org.milyn.delivery.sax.SmooksSAXFilter filter}.
+ * <p>
+ * In its constructor, a
+ * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler handler}
+ * is injected in order to provide a callback to
+ * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator(Locator)}.
+ *
+ * @author slee
+ *
+ */
+public class SliSmooksSAXFilter extends Filter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmooksSAXFilter.class);
+
     private ExecutionContext executionContext;
     private SliSAXParser parser;
     private boolean closeSource;
     private boolean closeResult;
 
-    public SliSmooksSAXFilter(ExecutionContext executionContext) {
+    /**
+     * Constructor.
+     *
+     * @param executionContext
+     */
+    public SliSmooksSAXFilter(final ExecutionContext executionContext,
+            SliDocumentLocatorHandler handler) {
         this.executionContext = executionContext;
         closeSource = ParameterAccessor.getBoolParameter(Filter.CLOSE_SOURCE, true, executionContext.getDeliveryConfig());
         closeResult = ParameterAccessor.getBoolParameter(Filter.CLOSE_RESULT, true, executionContext.getDeliveryConfig());
-        parser = new SliSAXParser(executionContext);
+        parser = new SliSAXParser(executionContext, handler);
     }
 
-    public Locator getDocumentLocator() {
-        return parser.getDocumentLocator();
-    }
-    
-    public void doFilter() throws SmooksException {
+    /**
+     * Same as in {@linkplain org.milyn.delivery.sax.SmooksSAXFilter}.
+     *
+     */
+    @Override
+    public final void doFilter() throws SmooksException {
         Source source = FilterSource.getSource(executionContext);
         Result result = FilterResult.getResult(executionContext, StreamResult.class);
 
         doFilter(source, result);
     }
 
-    protected void doFilter(Source source, Result result) {
+    /**
+     * Same as in {@linkplain org.milyn.delivery.sax.SmooksSAXFilter}.
+     *
+     * @param source
+     * @param result
+     */
+    protected final void doFilter(final Source source, final Result result) {
         if (!(source instanceof StreamSource) && !(source instanceof JavaSource)) {
             throw new IllegalArgumentException(source.getClass().getName() + " Source types not yet supported by the SAX Filter. Only supports StreamSource and JavaSource at present.");
         }
-        if(!(result instanceof FilterResult)) {
+        if (!(result instanceof FilterResult)) {
             if (!(result instanceof StreamResult) && result != null) {
                 throw new IllegalArgumentException(result.getClass().getName() + " Result types not yet supported by the SAX Filter. Only supports StreamResult at present.");
             }
@@ -62,26 +104,30 @@ public class SliSmooksSAXFilter extends Filter
             Writer writer = parser.parse(source, result, executionContext);
             writer.flush();
         } catch (TerminateException e) {
-            if(logger.isDebugEnabled()) {
-                if(e.isTerminateBefore()) {
-                    logger.debug("Terminated filtering on visitBefore of element '" + SAXUtil.getXPath(e.getElement()) + "'.");
+            if (LOGGER.isDebugEnabled()) {
+                if (e.isTerminateBefore()) {
+                    LOGGER.debug("Terminated filtering on visitBefore of element '{}'.", SAXUtil.getXPath(e.getElement()));
                 } else {
-                    logger.debug("Terminated filtering on visitAfter of element '" + SAXUtil.getXPath(e.getElement()) + "'.");                  
+                    LOGGER.debug("Terminated filtering on visitAfter of element '{}'.", SAXUtil.getXPath(e.getElement()));
                 }
             }
         } catch (Exception e) {
             throw new SmooksException("Failed to filter source.", e);
         } finally {
-            if(closeSource) {
+            if (closeSource) {
                 close(source);
             }
-            if(closeResult) {
+            if (closeResult) {
                 close(result);
             }
         }
     }
 
-    public void cleanup() {
+    /**
+     * Same as in {@linkplain org.milyn.delivery.sax.SmooksSAXFilter}.
+     */
+    @Override
+    public final void cleanup() {
         parser.cleanup();
     }
 }

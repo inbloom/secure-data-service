@@ -194,6 +194,16 @@ def restHttpPost(id, data, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpPostAbs(url, data = nil, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into POST was nil")
+
+  urlHeader = makeHeaders('post',sessionId,format)
+  @res = RestClient.post(url, data, urlHeader[:headers]){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 # Function restHttpGet
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
@@ -281,6 +291,16 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpDeleteAbs(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into DELETE was nil")
+
+  urlHeader = makeHeaders('delete',sessionId,format)
+  @res = RestClient.delete(url, urlHeader[:headers]){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 def makeUrlAndHeaders(verb,id,sessionId,format)
   headers = makeHeaders(verb, sessionId, format)
 
@@ -350,7 +370,7 @@ Around('@LDAP_Reset_developer-email') do |scenario, block|
   if scenario.failed?
     ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
     ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
 end
@@ -360,7 +380,7 @@ Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
   if scenario.failed?
     ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
     ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
   end
 end

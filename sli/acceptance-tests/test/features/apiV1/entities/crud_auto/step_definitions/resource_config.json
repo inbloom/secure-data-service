@@ -35,7 +35,7 @@
   "attendance": {
     "POST": {
       "entityType": "attendance",
-      "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735a",
+      "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735a_id",
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "schoolYearAttendance": [
         {
@@ -66,7 +66,7 @@
         }]
     },
     "naturalKey": {
-      "studentId": "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba",
+      "studentId": "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba_id",
       "schoolId": "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
     },
     "context" : {
@@ -76,7 +76,7 @@
   },
   "studentAcademicRecord": {
     "POST": {
-      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
+      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3_id",
       "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
     },
     "UPDATE": {
@@ -84,7 +84,7 @@
       "value": "2.2"
     },
     "naturalKey": {
-      "studentId": "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba",
+      "studentId": "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba_id",
       "sessionId": "abcff7ae-1f01-46bc-8cc7-cf409819bbce"
     },
     "context" : {
@@ -123,7 +123,7 @@
       "academicSubject": "Physical, Health, and Safety Education",
       "educationOrgId": "92d6d5a0-852c-45f4-907a-912752831772",
       "programId": [
-        "9b8cafdc-8fd5-11e1-86ec-0021701f543f"
+        "9b8cafdc-8fd5-11e1-86ec-0021701f543f_id"
       ]
     },
     "UPDATE": {
@@ -227,7 +227,7 @@
         "0e26de79-7efa-5e67-9201-5113ad50a03b"
       ],
       "studentId": [
-        "61161008-2560-480d-aadf-4b0264dc2ae3"
+        "61161008-2560-480d-aadf-4b0264dc2ae3_id"
       ],
       "responsibilitySchoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "assignmentSchoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
@@ -276,6 +276,7 @@
       "organizationCategories": [
         "State Education Agency"
       ],
+      "parentEducationAgencyReference": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "stateOrganizationId": "SomeUniqueSchoolDistrict-2422883",
       "nameOfInstitution": "Gotham City School District",
       "address": [
@@ -309,7 +310,7 @@
     "naturalKey": {
       "gradebookEntryType": "Assignment",
       "dateAssigned": "2012-02-07",
-      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234"
+      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id"
     },
     "context" : {
       "sectionId" : "sections"
@@ -453,10 +454,10 @@
   },
   "studentGradebookEntry": {
     "POST": {
-      "gradebookEntryId": "20120613-56b6-4d17-847b-2997b7227686",
+      "gradebookEntryId": "0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id",
       "letterGradeEarned": "A",
       "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
-      "studentId": "2fab099f-47d5-4099-addf-69120db3b53b",
+      "studentId": "2fab099f-47d5-4099-addf-69120db3b53b_id",
       "studentSectionAssociationId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
       "numericGradeEarned": 98,
       "dateFulfilled": "2012-01-31",
@@ -467,7 +468,7 @@
       "value": "Finished the quiz in 5 hours"
     },
     "naturalKey": {
-      "gradebookEntryId": "008fd89d-88a2-43aa-8af1-74ac16a29380",
+      "gradebookEntryId": "706ee3be-0dae-4e98-9525-f564e05aa388_id_id008fd89d-88a2-43aa-8af1-74ac16a29380_id",
       "studentSectionAssociationId": "ceffbb26-1327-4313-9cfc-1c3afd38122e_id202b34f5-934c-4f69-b7a6-10d6881414b9_id"
     },
     "context" : {
@@ -573,7 +574,7 @@
   },
   "grade": {
     "POST": {
-      "studentSectionAssociationId": "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
+      "studentSectionAssociationId": "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id",
       "letterGradeEarned": "B+",
       "gradeType": "Final"
     },
@@ -599,7 +600,7 @@
         "learningObjectiveId": "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
       },
       "diagnosticStatement": "passed with flying colors",
-      "studentSectionAssociationId": "01340032-1191-402d-d3c5-5f37c0232180"
+      "studentSectionAssociationId": "f048354d-dbcb-0214-791d-b769f521210d_id01340032-1191-402d-d3c5-5f37c0232180_id"
     },
     "UPDATE": {
       "field": "diagnosticStatement",
@@ -632,7 +633,7 @@
       "numberOfDaysAbsent": 15,
       "numberOfDaysInAttendance": 150,
       "numberOfDaysTardy": 10,
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
     },
     "UPDATE": {
@@ -640,7 +641,7 @@
       "value": "17"
     },
     "naturalKey": {
-      "studentId": "00209530-6e1f-4273-a5a7-eb686c79fcd9",
+      "studentId": "00209530-6e1f-4273-a5a7-eb686c79fcd9_id",
       "gradingPeriodId": "b40a7eb5-dd74-4666-a5b9-5c3f4425f130"
     },
     "context" : {
@@ -712,7 +713,7 @@
   },
   "courseTranscript": {
     "POST": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "courseId": "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
       "studentAcademicRecordId": "16afc8d4-6c91-48f9-8a51-de527c1131b7",
       "courseAttemptResult": "Pass",
@@ -740,7 +741,7 @@
   "staffCohortAssociation": {
     "POST": {
       "staffId": "04f708bc-928b-420d-a440-f1592a5d1073",
-      "cohortId": "b408635d-8fd5-11e1-86ec-0021701f543f",
+      "cohortId": "b408635d-8fd5-11e1-86ec-0021701f543f_id",
       "beginDate": "2010-01-15",
       "endDate": "2013-03-29",
       "studentRecordAccess": true
@@ -751,7 +752,7 @@
     },
     "naturalKey": {
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
+      "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44_id",
       "beginDate": "2010-01-16"
     },
     "context" : {
@@ -785,7 +786,7 @@
   "staffProgramAssociation": {
     "POST": {
       "staffId": "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id",
       "beginDate": "2012-01-01",
       "endDate": "2013-12-31"
     },
@@ -795,7 +796,7 @@
     },
     "naturalKey": {
       "staffId": "42424242-4242-4242-4242-424242424242",
-      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
+      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f_id",
       "beginDate": "2012-02-02"
     },
     "context" : {
@@ -808,7 +809,7 @@
   },
   "studentAssessment": {
     "POST": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
       "assessmentId": "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
       "administrationDate": "2011-10-01",
       "administrationEndDate": "2012-01-01",
@@ -820,14 +821,14 @@
     },
     "naturalKey": {
       "administrationDate": "2011-10-02",
-       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "assessmentId": "dd916592-7dfe-4e27-a8ac-bec5f4b757b7"
     }
   },
   "studentCohortAssociation": {
     "POST": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "cohortId": "b408d88e-8fd5-11e1-86ec-0021701f543f",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
+      "cohortId": "b408d88e-8fd5-11e1-86ec-0021701f543f_id",
       "beginDate": "2012-02-29",
       "endDate": "2013-03-29"
     },
@@ -836,8 +837,8 @@
       "value": "2013-04-04"
     },
     "naturalKey": {
-      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3",
-      "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44",
+      "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3_id",
+      "cohortId": "ea919537-80ba-43e7-8acb-021440b2cf44_id",
       "beginDate": "2012-03-12"
     },
     "context" : {
@@ -848,7 +849,7 @@
   },
   "studentDisciplineIncidentAssociation": {
     "POST": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
       "disciplineIncidentId": "0e26de79-7efa-5e67-9201-5113ad50a03b",
       "studentParticipationCode": "Reporter"
     },
@@ -857,7 +858,7 @@
       "value": "Witness"
     },
     "naturalKey": {
-       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378"
+       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id"
     },
     "context" : {
       "studentId":"students",
@@ -867,7 +868,7 @@
   },
   "studentParentAssociation": {
     "POST": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
       "parentId": "9b8f7237-ce8e-4dff-98cf-66535880987b",
       "livesWith": true
     },
@@ -876,7 +877,7 @@
       "value": false
     },
     "naturalKey": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "parentId": "38ba6ea7-7e73-47db-99e7-d0956f83d7e9"
     },
     "context" : {
@@ -886,8 +887,8 @@
   },
   "studentProgramAssociation": {
     "POST": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
-      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
+      "programId": "9b8cafdc-8fd5-11e1-86ec-0021701f543f_id",
       "beginDate": "2012-01-12",
       "endDate": "2013-05-01",
       "reasonExited": "Refused services",
@@ -898,8 +899,8 @@
       "value": "2013-07-01"
     },
     "naturalKey": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
+      "programId": "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id",
       "beginDate": "2012-02-12",
       "educationOrganizationId": "92d6d5a0-852c-45f4-907a-912752831772"
     },
@@ -911,7 +912,7 @@
   },
   "studentSchoolAssociation": {
     "POST": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
       "entryGradeLevel": "First grade",
       "entryDate": "2011-09-01"
@@ -921,7 +922,7 @@
       "value": "Third grade"
     },
     "naturalKey": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
       "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
       "entryDate": "2011-09-02"
     },
@@ -932,8 +933,8 @@
   },
   "studentSectionAssociation": {
     "POST": {
-      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
-      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234",
+      "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
+      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id",
       "repeatIdentifier": "Repeated, counted in grade point average",
       "beginDate": "2011-12-01",
       "endDate": "2013-01-01",
@@ -944,8 +945,8 @@
       "value": "Not repeated"
     },
     "naturalKey": {
-      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378",
-      "sectionId": "392d1835-f372-4690-b221-7065db1aed33",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
+      "sectionId": "392d1835-f372-4690-b221-7065db1aed33_id",
       "beginDate": "2011-12-02"
     },
     "context" : {
@@ -975,7 +976,7 @@
   "teacherSectionAssociation": {
     "POST": {
       "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
-      "sectionId": "392d1835-f372-4690-b221-7065db1aed33",
+      "sectionId": "392d1835-f372-4690-b221-7065db1aed33_id",
       "classroomPosition": "Teacher of Record"
     },
     "UPDATE": {

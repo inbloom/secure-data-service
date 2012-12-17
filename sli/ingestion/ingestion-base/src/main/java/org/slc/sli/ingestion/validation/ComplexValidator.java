@@ -19,6 +19,9 @@ package org.slc.sli.ingestion.validation;
 
 import java.util.List;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+
 /**
  * Abstract validator.
  *
@@ -58,6 +61,16 @@ public class ComplexValidator<T> extends SimpleValidator<T> {
         if (report != null) {
             report.error(message, this);
         }
+    }
+
+    @Override
+    public boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats) {
+        for (Validator<T> validator : validators) {
+            if (!validator.isValid(object, report, reportStats)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
