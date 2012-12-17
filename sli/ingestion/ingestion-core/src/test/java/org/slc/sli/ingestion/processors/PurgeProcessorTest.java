@@ -42,8 +42,8 @@ import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  *
@@ -87,7 +87,7 @@ public class PurgeProcessorTest {
         PrivateAccessor.setField(purgeProcessor, "databaseMessageReport", messageReport);
 
         purgeProcessor.process(ex);
-        Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(ReportStats.class), Matchers.eq(CoreMessageCode.CORE_0035));
+        Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(AbstractReportStats.class), Matchers.eq(CoreMessageCode.CORE_0035));
     }
 
     @Test
