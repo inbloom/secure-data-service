@@ -94,7 +94,7 @@ describe "Odin" do
       end
       
       it "will generate a valid control file with 8 interchanges" do     
-        @interchanges.length.should eq(8)
+        @interchanges.length.should eq(9)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -157,6 +157,23 @@ describe "Odin" do
     describe "#generate" do
       it "will generate lists of 10001 students" do
         student.readlines.select{|l| l.match("<Student>")}.length.should eq(10001)
+      end
+    end
+  end
+
+  context "with a configuration with only students whitelisted" do
+    let(:odin) {Odin.new}
+    before {odin.generate "1000studentsOnly"}
+    let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
+    let(:interchanges) {Dir.new("#{File.dirname(__FILE__)}/../generated/").select{|f| f.match(/xml$/)}}
+
+    describe "#generate" do
+      it "will generate lists of 1000 students" do
+        student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
+      end
+      it "will not generate any other entity" do
+        student.readlines.select{|l| l.match("<Parent>")}.length.should eq(0)
+        interchanges.should have(1).items
       end
     end
   end

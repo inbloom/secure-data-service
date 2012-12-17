@@ -85,6 +85,8 @@ public final class ResourceNames {
     public static final String ADMIN_DELEGATION = "adminDelegation";
     public static final String HOME = "home";
 
+    public static final String SEARCH = "search";
+
     public static final Map<String, Set<String>> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, Set<String>>();
 
     /*

@@ -25,7 +25,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,30 +46,33 @@ public class CSVReader {
 
     public static XMLGregorianCalendar getDate(String dateString) {
         DateFormat dateFormatter = new SimpleDateFormat(CSVReader.DATE_FORMAT);
-//        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         Date date = null;
         try {
             date = (Date) dateFormatter.parse(dateString);
-//            calendar.setTime(date);
+            calendar.setTime(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        GregorianCalendar gregory = new GregorianCalendar();
-        gregory.setTime(date);
-
-        XMLGregorianCalendar calendar = null;
+        DatatypeFactory dtf = null;
+        XMLGregorianCalendar xgc = null;
 		try {
-			calendar = DatatypeFactory.newInstance()
-			        .newXMLGregorianCalendar(
-			            gregory);
+			 dtf = DatatypeFactory.newInstance();
+		     xgc = dtf.newXMLGregorianCalendar(); 
+	
+		     xgc.setYear(calendar.get(Calendar.YEAR)); 
+		     xgc.setMonth(calendar.get(Calendar.MONTH)+1);
+		     xgc.setDay(calendar.get(Calendar.DAY_OF_MONTH));
+
 		} catch (DatatypeConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}             
         
-        return calendar;
+        return xgc;
     }
+
 
 
     

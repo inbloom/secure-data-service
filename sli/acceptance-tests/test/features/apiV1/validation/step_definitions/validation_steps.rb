@@ -25,8 +25,8 @@ require_relative '../../../utils/sli_utils.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = @newId.to_s                            if template == "'Previous School' ID"
-  id = "737dd4c1-86bd-4892-b9e0-0f24f76210be" if template == "'Jones' ID"
-  id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe" if template == "'Christoff' ID"
+  id = "737dd4c1-86bd-4892-b9e0-0f24f76210be_id" if template == "'Jones' ID"
+  id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id" if template == "'Christoff' ID"
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "'South Daybreak Elementary' ID"
   id = "92d6d5a0-852c-45f4-907a-912752831772" if template == "'Daybreak Central High' ID"
   id = "706ee3be-0dae-4e98-9525-f564e05aa388_id" if template == "'Valid Section' ID"
@@ -145,7 +145,7 @@ end
 
 Given /^an SSA object is valid except for "([^"]*)"$/ do |arg1|
   @result = Hash[
-                "studentId" => "714c1304-8a04-4e23-b043-4ad80eb60992",
+                "studentId" => "714c1304-8a04-4e23-b043-4ad80eb60992_id",
                 "entryGradeLevel" => "EIGHTH_GRADE"
                 ]
   @result[arg1] = "11111111-1111-1111-1111-111111111111"
@@ -293,7 +293,7 @@ $validationTestData = {
                                    }]
     },
     "studentAcademicRecord" => {
-        "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4",
+        "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4_id",
         "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904",
         "cumulativeGradePointsEarned" => 99.0
     },
@@ -317,7 +317,7 @@ $validationTestData = {
         "cohortScope" => "Statewide",
         "academicSubject" => "Physical, Health, and Safety Education",
         "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
-        "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"]
+        "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f_id"]
     },
     "course" => {
         "courseTitle" => "Chinese 1",
@@ -353,7 +353,7 @@ $validationTestData = {
                           ]],
         "disciplineDate" => "2012-01-28",
         "disciplineIncidentId" => ["0e26de79-22ea-5d67-9201-5113ad50a03b"],
-        "studentId" => ["1563ec1d-924d-4c02-8099-3a0e314ef1d4"],
+        "studentId" => ["1563ec1d-924d-4c02-8099-3a0e314ef1d4_id"],
         "responsibilitySchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
         "assignmentSchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
     },
@@ -383,7 +383,7 @@ $validationTestData = {
     "gradebookEntry" => {
         "gradebookEntryType" => "Validation Test GBE Type",
         "dateAssigned" => "2012-02-14",
-        "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7"
+        "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7_id"
     },
     "learningObjective" => {
         "academicSubject" => "Mathematics",
@@ -438,9 +438,9 @@ $validationTestData = {
         }
     },
     "studentGradebookEntry" => {
-        "gradebookEntryId" => "008fd89d-88a2-43aa-8af1-74ac16a29380",
+        "gradebookEntryId" => "706ee3be-0dae-4e98-9525-f564e05aa388_id_id008fd89d-88a2-43aa-8af1-74ac16a29380_id",
         "letterGradeEarned" => "A",
-        "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388",
+        "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388_id",
         "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
         "numericGradeEarned" => 11,
         "dateFulfilled" => "2012-01-31",
@@ -503,7 +503,7 @@ $validationTestData = {
         }
     },
     "grade" => {
-        "studentSectionAssociationId" => "bac890d6-b580-4d9d-a0d4-8bce4e8d351a",
+        "studentSectionAssociationId" => "706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id",
         "letterGradeEarned" => "F--",
         "gradeType" => "Final"
     },
@@ -521,7 +521,7 @@ $validationTestData = {
         "numberOfDaysAbsent" => 999,
         "numberOfDaysInAttendance" => 150,
         "numberOfDaysTardy" => 10,
-        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378"
+        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id"
         #"gradingPeriodId" => "TODO"
     }
 }

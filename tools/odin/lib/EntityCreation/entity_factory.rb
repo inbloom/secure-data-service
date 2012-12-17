@@ -105,7 +105,7 @@ class EntityFactory
       end
       rval
     else
-      work_order.build
+      work_order.respond_to?('build') ?  work_order.build : [work_order]
     end
 
   end

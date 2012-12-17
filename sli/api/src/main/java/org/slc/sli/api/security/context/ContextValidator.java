@@ -85,8 +85,9 @@ public class ContextValidator implements ApplicationContextAware {
         }
 
         String rootEntity = segs.get(1).getPath();
+
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
-        if (def == null) {
+        if (def == null || def.skipContextValidation()) {
             return;
         }
 
@@ -119,6 +120,7 @@ public class ContextValidator implements ApplicationContextAware {
         Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
         validateContextToEntities(def, ids, isTransitive);
     }
+
 
     public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
 
@@ -156,7 +158,14 @@ public class ContextValidator implements ApplicationContextAware {
         }
     }
 
-    private IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
+    /**
+     *
+     * @param toType
+     * @param isTransitive
+     * @return
+     * @throws IllegalStateException
+     */
+    public IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
