@@ -27,8 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -57,7 +55,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  *
  */
 @Component
-public class PurgeProcessor implements Processor, MessageSourceAware {
+public class PurgeProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PURGE_PROCESSOR;
 
@@ -82,6 +80,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     private ReportStats reportStats = null;
 
+
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
@@ -100,11 +99,6 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     public void setExcludeCollections(List<String> excludeCollections) {
         this.excludeCollections = excludeCollections;
-    }
-
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     @Override
