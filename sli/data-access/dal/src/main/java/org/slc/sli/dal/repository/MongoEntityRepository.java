@@ -255,8 +255,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         MongoEntity entity = new MongoEntity(type, id, body, metaData);
-        validator.validate(entity);
         validator.validateNaturalKeys(entity, true);
+        validator.validate(entity);
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
@@ -403,10 +403,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     private boolean update(String collection, Entity entity, boolean validateNaturalKeys) {
-        validator.validate(entity);
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
+        validator.validate(entity);
         
         this.updateTimestamp(entity);
 
