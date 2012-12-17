@@ -30,15 +30,15 @@ Transform /^data for "([^"]*)"$/ do |path|
   id = "/v1/teachers/bcfcc33f-f4a6-488f-baee-b92fbd062e8d" if path == "Rebecca Braverman"
   id = "/v1/teachers/edce823c-ee28-4840-ae3d-74d9e9976dc5" if path == "Mark Anthony"
   id = "/v1/teachers/a060273b-3e65-4e5f-b5d1-45226f584c5d" if path == "Dale Reiss"
-  id = "/v1/students/92d1a002-2695-4fb8-a0d6-4ef655d29e48" if path == "Malcolm Haehn NY"
+  id = "/v1/students/92d1a002-2695-4fb8-a0d6-4ef655d29e48_id" if path == "Malcolm Haehn NY"
   id = "/v1/students/5738d251-dd0b-4734-9ea6-417ac9320a15_id" if path == "Matt Sollars"
-  id = "/v1/students/85ff53e3-2779-4dc7-bc31-59c405f3a49e" if path == "Larissa Marney"
-  id = "/v1/students/eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d" if path == "Lavern Chaney"
-  id = "/v1/students/0cff1537-95e6-440b-ba2f-3003a2ecd7ed" if path == "Brandon Suzuki"
+  id = "/v1/students/85ff53e3-2779-4dc7-bc31-59c405f3a49e_id" if path == "Larissa Marney"
+  id = "/v1/students/eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d_id" if path == "Lavern Chaney"
+  id = "/v1/students/0cff1537-95e6-440b-ba2f-3003a2ecd7ed_id" if path == "Brandon Suzuki"
   id = "/v1/schools/46c2e439-f800-4aaf-901c-8cf3299658cc/studentSchoolAssociations/students" if path == "Students in Parker Elementary"
   id = "/v1/schools/9d970849-0116-499d-b8f3-2255aeb69552/studentSchoolAssociations/students" if path == "Students in Dawn Elementary"
   id = "/v1/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/studentSchoolAssociations/students" if path == "Students in South Daybreak Elementary"
-  id = "/v1/sections/7295e51e-cd51-4901-ae67-fa33966478c7/studentSectionAssociations/students" if path == "Students in AP Calculus Sec 201"
+  id = "/v1/sections/7295e51e-cd51-4901-ae67-fa33966478c7_id/studentSectionAssociations/students" if path == "Students in AP Calculus Sec 201"
   id = "/v1/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/teacherSchoolAssociations/teachers" if path == "Teachers in South Daybreak Elementary"
   id = "/v1/schools/9d970849-0116-499d-b8f3-2255aeb69552/teacherSchoolAssociations/teachers" if path == "Teachers in Dawn Elementary"
   id = "/v1/schools/46c2e439-f800-4aaf-901c-8cf3299658cc/teacherSchoolAssociations/teachers" if path == "Teachers in Parker Elementary"
@@ -55,46 +55,46 @@ Transform /^data containing "([^"]*)"$/ do |path|
   id = ["bcfcc33f-f4a6-488f-baee-b92fbd062e8d"] if path == "Rebecca Braverman"
   id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5"] if path == "Mark Anthony"
   id = ["a060273b-3e65-4e5f-b5d1-45226f584c5d"] if path == "Dale Reiss"
-  id = ["92d1a002-2695-4fb8-a0d6-4ef655d29e48"] if path == "Malcolm Haehn NY"
-  id = ["5738d251-dd0b-4734-9ea6-417ac9320a15"] if path == "Matt Sollars"
-  id = ["0cff1537-95e6-440b-ba2f-3003a2ecd7ed"] if path == "Brandon Suzuki"
-  id = "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d" if path == "Lavern Chaney"
-  id = ["1894b083-5e6e-470f-bc5e-01435a899d44",
-        "439b5c9d-3ebf-49a3-a483-f10943e148ba",
-        "6944f8d8-1fda-41c3-a2b7-d9d416d07ebc",
-        "85ff53e3-2779-4dc7-bc31-59c405f3a49e"] if path == "Students in Parker Elementary"
-  id = ["b14ff449-56c9-4d10-942b-70c9eb721919",
-        "92d1a002-2695-4fb8-a0d6-4ef655d29e48",
-        "f098e289-5678-4df0-9447-ca568e45061d",
-        "c79fb3a9-a0ec-4ffd-a128-124a0d9a7069"] if path == "Students in Dawn Elementary"
-  id = ["1563ec1d-924d-4c02-8099-3a0e314ef1d4",
-        "274f4c71-1984-4607-8c6f-0a91db2d240a",
-        "0cff1537-95e6-440b-ba2f-3003a2ecd7ed",
-        "41df2791-b33c-4b10-8de6-a24963bbd3dd",
-        "23ca4b0f-33a6-4826-be55-a819f683b982",
-        "27fea52e-94ab-462c-b80f-7e868f6919d7",
-        "d2462231-4f6c-452e-9b29-4a63ad92138e",
-        "5738d251-dd0b-4734-9ea6-417ac9320a15",
-        "365906f4-bfe0-453e-8622-29b33bdea405",
-        "b20bf77d-9f45-493e-a660-085d0e9a7a2b",
-        "9630059d-e76c-4f47-ba1e-dcd928bd1c38",
-        "fb71442f-1023-4c55-a675-92ad8c393c82",
-        "11d13fde-371c-4b58-b0b0-a6e2d955a947",
-        "98174ba6-7643-4c6b-8745-9683d04f889b",
-        "00209530-6e1f-4273-a5a7-eb686c79fcd9",
-        "cab8d70e-7720-447a-a6a3-512bea6dc3c6",
-        "e0aab7d8-a486-417b-b3b3-1fbf4ee7b3bf",
-        "d5b69caa-52bb-4d91-a0f4-2940e295a5d0",
-        "fff656b2-5031-4897-b6b8-7b0f5769b482",
-        "4de1bb23-c4d7-4d98-98a2-1710181ed015",
-        "4992906e-8f7a-4ba5-b940-4c2751ca52d0",
-        "83e21fcd-5472-40cf-b60d-8e7aae0c5f52",
-        "8f5928fe-d733-4bd3-921a-03e5d0fdf552",
-        "61fccb27-262c-43dd-a822-7380ac298286",
-        "26928f4a-2420-4ee1-b88a-72b87c536366",
-        "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
-        "b1fd8fb1-6eec-4bfa-9c4b-2dd39a41d769"] if path == "Students in South Daybreak Elementary"
-  id = ["737dd4c1-86bd-4892-b9e0-0f24f76210be"] if path == "Students in AP Calculus Sec 201"
+  id = ["92d1a002-2695-4fb8-a0d6-4ef655d29e48_id"] if path == "Malcolm Haehn NY"
+  id = ["5738d251-dd0b-4734-9ea6-417ac9320a15_id"] if path == "Matt Sollars"
+  id = ["0cff1537-95e6-440b-ba2f-3003a2ecd7ed_id"] if path == "Brandon Suzuki"
+  id = "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d_id" if path == "Lavern Chaney"
+  id = ["1894b083-5e6e-470f-bc5e-01435a899d44_id",
+        "439b5c9d-3ebf-49a3-a483-f10943e148ba_id",
+        "6944f8d8-1fda-41c3-a2b7-d9d416d07ebc_id",
+        "85ff53e3-2779-4dc7-bc31-59c405f3a49e_id"] if path == "Students in Parker Elementary"
+  id = ["b14ff449-56c9-4d10-942b-70c9eb721919_id",
+        "92d1a002-2695-4fb8-a0d6-4ef655d29e48_id",
+        "f098e289-5678-4df0-9447-ca568e45061d_id",
+        "c79fb3a9-a0ec-4ffd-a128-124a0d9a7069_id"] if path == "Students in Dawn Elementary"
+  id = ["1563ec1d-924d-4c02-8099-3a0e314ef1d4_id",
+        "274f4c71-1984-4607-8c6f-0a91db2d240a_id",
+        "0cff1537-95e6-440b-ba2f-3003a2ecd7ed_id",
+        "41df2791-b33c-4b10-8de6-a24963bbd3dd_id",
+        "23ca4b0f-33a6-4826-be55-a819f683b982_id",
+        "27fea52e-94ab-462c-b80f-7e868f6919d7_id",
+        "d2462231-4f6c-452e-9b29-4a63ad92138e_id",
+        "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+        "365906f4-bfe0-453e-8622-29b33bdea405_id",
+        "b20bf77d-9f45-493e-a660-085d0e9a7a2b_id",
+        "9630059d-e76c-4f47-ba1e-dcd928bd1c38_id",
+        "fb71442f-1023-4c55-a675-92ad8c393c82_id",
+        "11d13fde-371c-4b58-b0b0-a6e2d955a947_id",
+        "98174ba6-7643-4c6b-8745-9683d04f889b_id",
+        "00209530-6e1f-4273-a5a7-eb686c79fcd9_id",
+        "cab8d70e-7720-447a-a6a3-512bea6dc3c6_id",
+        "e0aab7d8-a486-417b-b3b3-1fbf4ee7b3bf_id",
+        "d5b69caa-52bb-4d91-a0f4-2940e295a5d0_id",
+        "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
+        "4de1bb23-c4d7-4d98-98a2-1710181ed015_id",
+        "4992906e-8f7a-4ba5-b940-4c2751ca52d0_id",
+        "83e21fcd-5472-40cf-b60d-8e7aae0c5f52_id",
+        "8f5928fe-d733-4bd3-921a-03e5d0fdf552_id",
+        "61fccb27-262c-43dd-a822-7380ac298286_id",
+        "26928f4a-2420-4ee1-b88a-72b87c536366_id",
+        "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
+        "b1fd8fb1-6eec-4bfa-9c4b-2dd39a41d769_id"] if path == "Students in South Daybreak Elementary"
+  id = ["737dd4c1-86bd-4892-b9e0-0f24f76210be_id"] if path == "Students in AP Calculus Sec 201"
   id = ["bcfcc33f-f4a6-488f-baee-b92fbd062e8d"] if path == "Teachers in South Daybreak Elementary"
   id = ["35ac640e-8f6e-427f-bbab-abbdca50df5b",
         "8ecbbd5e-5d5b-48ba-ab01-cdc0eefc02f7",

@@ -73,7 +73,7 @@ Examples:
 Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-| "attendance"                   | "attendances"             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a"       |
+| "attendance"                   | "attendances"             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"       |
 | "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
 
@@ -202,7 +202,7 @@ Examples:
     | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
     | staff	                 | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
     | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
-    | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
+    | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234_id |
     Given entity URI <Entity Resource URI>
     #TODO BUG for the 6 entities routed to ES, revert back to "0" when bug is fixed
     Given parameter "limit" is "250"

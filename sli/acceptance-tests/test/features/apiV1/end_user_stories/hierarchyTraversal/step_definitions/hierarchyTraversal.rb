@@ -38,7 +38,7 @@ Transform /^<([^>]*)>$/ do |human_readable_id|
   guid = "15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id" if human_readable_id == "'TEACHER-SECTION-ASSOCIATION' ID"
   guid = "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b" if human_readable_id == "'TEACHER' ID"
   guid = "15ab6363-5509-470c-8b59-4f289c224107_id76ac366b-ee0d-4db9-b820-ac5bc83e53ac_id" if human_readable_id == "'STUDENT-SECTION' ID"
-  guid = "0f0d9bac-0081-4900-af7c-d17915e02378" if human_readable_id == "'STUDENT' ID"
+  guid = "0f0d9bac-0081-4900-af7c-d17915e02378_id" if human_readable_id == "'STUDENT' ID"
   guid
 end
 
