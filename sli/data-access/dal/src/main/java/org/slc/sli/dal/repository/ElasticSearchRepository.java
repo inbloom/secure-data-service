@@ -133,7 +133,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
      */
     private HttpEntity<String> query(String url, HttpMethod method, String query, Object[] params) {
         HttpHeaders headers = new HttpHeaders();
-
+        headers.set("Content-Type", "application/json;charset=utf-8");
+        
         // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
             headers.set("Authorization",
