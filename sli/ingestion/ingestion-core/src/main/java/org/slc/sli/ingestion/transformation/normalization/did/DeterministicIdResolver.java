@@ -32,8 +32,10 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Resolver for deterministic id resolution.
@@ -58,7 +60,7 @@ public class DeterministicIdResolver {
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
 
-    public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
+    public void resolveInternalIds(Entity entity, String tenantId, AbstractMessageReport report, ReportStats reportStats) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -83,7 +85,7 @@ public class DeterministicIdResolver {
                 handleDeterministicIdForReference(entity, didRefSource, tenantId);
 
             } catch (IdResolutionException e) {
-                handleException(sourceRefPath, entity.getType(), referenceEntityType, e, errorReport);
+                handleException(sourceRefPath, entity.getType(), referenceEntityType, e, report, reportStats);
             }
         }
     }
@@ -222,13 +224,9 @@ public class DeterministicIdResolver {
     }
 
     private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
-            ErrorReport errorReport) {
+            AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        String errorMessage = "ERROR: Failed to resolve a deterministic id" + "\n       Entity " + entityType
-                + ": Reference to " + referenceType
-                + " is incomplete because the following reference field is not resolved: " + sourceRefPath;
-
-        errorReport.error(errorMessage, this);
+        report.error(reportStats, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }
 
     // function which, given reference type map (source object) and refConfig, return a did

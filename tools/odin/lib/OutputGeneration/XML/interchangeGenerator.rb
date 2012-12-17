@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'logger'
+require_relative '../../../lib/Shared/deferred_garbage_collector'
 
 Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
@@ -35,6 +36,8 @@ class InterchangeGenerator
     if @batch_size.nil?
       @batch_size = 10000
     end
+    @gc = DeferredGarbageCollector.new(1.0)
+
     @stime = Time.now
     @entities = []
     @writers = Hash.new
@@ -63,6 +66,7 @@ class InterchangeGenerator
     split_entities.each do |k, v|
       @interchange << (@writers[k].write(v))
     end
+    @gc.collect
   end
 
   def finalize
