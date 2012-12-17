@@ -40,7 +40,6 @@ import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -75,8 +74,6 @@ public class SliSchemaVersionValidator {
     @Autowired
     protected Resource migrationConfigResource;
 
-    @Autowired
-    @Qualifier("mongoTemplate")
     protected MongoTemplate mongoTemplate;
     
 
@@ -303,6 +300,14 @@ public class SliSchemaVersionValidator {
 
         // for the cases where it is undefined
         return NO_STRATEGIES_DEFINED;
+    }
+
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
+    }
+
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
     }
 
 }

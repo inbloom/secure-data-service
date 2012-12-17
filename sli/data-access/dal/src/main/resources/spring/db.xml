@@ -90,7 +90,9 @@
   <alias alias="securityRepo" name="validationRepo" />
   <bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
 
-  <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" />
+  <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" >
+    <property name="mongoTemplate" ref="mongoTemplate" />
+  </bean>
 
   <bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
