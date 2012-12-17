@@ -37,8 +37,8 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
@@ -77,7 +77,7 @@ public class SmooksEdiFiVisitorTest {
         // set up objects
         final String recordType = "otherType";
         final DummyMessageReport errorReport = new DummyMessageReport();
-        final ReportStats reportStats = new SimpleReportStats(new SimpleSource("TestSource", "resourceId", "stageName"));
+        final AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("TestSource", "resourceId", "stageName"));
         final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
         final String beanId = "ABeanId";
         final DeterministicUUIDGeneratorStrategy mockUUIDStrategy = Mockito

@@ -1,5 +1,4 @@
-src/main/resources/eapplication.wadl
-src/main/resources/sli.wadl.settings
+.settings
 .project
 .gitignore
 .checkstyle

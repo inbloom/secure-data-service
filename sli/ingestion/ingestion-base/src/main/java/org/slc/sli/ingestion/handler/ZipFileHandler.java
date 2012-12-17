@@ -34,7 +34,7 @@ import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -124,12 +124,12 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
         throw new NotImplementedException("Processing of multiple zip files is not currently supported.");
     }
 
-    File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats) {
+    File doHandling(File zipFile, AbstractMessageReport report, AbstractReportStats reportStats) {
         return doHandling(zipFile, report, reportStats, null);
     }
 
     @Override
-    protected File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats,
+    protected File doHandling(File zipFile, AbstractMessageReport report, AbstractReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
 
         boolean done = false;
@@ -181,7 +181,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     }
 
     @Override
-    protected List<File> doHandling(List<File> items, AbstractMessageReport report, ReportStats reportStats,
+    protected List<File> doHandling(List<File> items, AbstractMessageReport report, AbstractReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
