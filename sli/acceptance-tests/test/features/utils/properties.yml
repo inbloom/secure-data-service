@@ -10,6 +10,7 @@ api_server_url: "http://local.slidev.org:8080"
 databrowser_server_url: "http://local.slidev.org:3000"
 
 ingestion_db: "localhost"
+ingestion_db_port: 27017
 ingestion_database_name: "sli"
 ingestion_batchjob_db: "localhost"
 ingestion_batchjob_database_name: "ingestion_batch_job"
@@ -32,12 +33,14 @@ ingestion_timeout_override_seconds: 0
 activemq_host: "localhost"
 
 sif_db: "localhost"
+sif_port: 27017
 sif_database_name: "sli"
 sif_zis_address_trigger: "http://local.slidev.org:8087/mock-zis/trigger"
 
 sli_database_name: "sli"
 
 DB_HOST: "localhost"
+DB_PORT: 27017
 api_database_name : "sli"
 
 sampleApp_server_address: "http://local.slidev.org:8081/"
