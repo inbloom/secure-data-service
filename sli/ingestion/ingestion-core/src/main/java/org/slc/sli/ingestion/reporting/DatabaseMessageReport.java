@@ -64,6 +64,13 @@ public class DatabaseMessageReport extends AbstractMessageReport {
         }
     }
 
+
+    @Override
+    protected void reportInfo(ReportStats reportStats, MessageCode code, Object... args) {
+        String message = getMessage(code, args);
+        logInfo(message);
+    }
+
     private void persistFault(FaultType faultType, String message, Source source) {
         Error error = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
                 BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), null, faultType.getName(),
@@ -79,5 +86,10 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     protected void logWarning(String message) {
         LOG.warn(message);
     }
+
+    protected void logInfo(String message) {
+        LOG.info(message);
+    }
+
 
 }

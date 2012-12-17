@@ -25,6 +25,7 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  *
  * @author okrook
  *
+ * @param <T> Type of the object being validated
  */
 public abstract class SimpleValidator<T> implements Validator<T> {
 
@@ -57,7 +58,6 @@ public abstract class SimpleValidator<T> implements Validator<T> {
     protected void error(AbstractMessageReport report, ReportStats reportStats, MessageCode code, Object... args) {
         if (report != null) {
             report.error(reportStats, code, args);
-            reportStats.incError();
         }
     }
 
@@ -76,7 +76,6 @@ public abstract class SimpleValidator<T> implements Validator<T> {
     protected void warn(AbstractMessageReport report, ReportStats reportStats, MessageCode code, Object... args) {
         if (report != null) {
             report.warning(reportStats, code, args);
-            reportStats.incWarning();
         }
     }
 

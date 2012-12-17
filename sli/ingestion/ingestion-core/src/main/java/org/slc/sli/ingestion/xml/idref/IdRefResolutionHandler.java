@@ -147,6 +147,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             if (semiResolvedXml != null) {
                 FileUtils.renameFile(semiResolvedXml, xml);
                 return process(xml, report, reportStats);
+
             }
         }
         return xml;
@@ -172,7 +173,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null
                             && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
-                            report.warning(reportStats, CoreMessageCode.CORE_0020, currentXPath);
+                            report.warning(reportStats, CoreMessageCode.CORE_0021, currentXPath);
+
                         }
                         return false;
                     }
@@ -200,8 +202,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             }
 
         };
-
         browse(xml, collectIdRefsToResolve, report, reportStats);
+
 
         return idRefs;
     }
@@ -228,6 +230,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String id = xmlEvent.asStartElement().getAttributeByName(ID_ATTR).getValue();
                 String content = getXmlContentForId(xmlEvent, eventReader, report, reportStats);
+
                 bucketCache.addToBucket(namespace, id, new TransformableXmlString(content, false));
             }
 
@@ -290,7 +293,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
 
-                                report.warning(reportStats, CoreMessageCode.CORE_0021, ref.getValue());
+                                report.warning(reportStats, CoreMessageCode.CORE_0022, ref.getValue());
                             }
                         }
                     } else if (theXmlEvent.isEndElement()) {
@@ -361,6 +364,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
 
     protected File resolveIdRefs(final File xml, final AbstractMessageReport report, final ReportStats reportStats) {
+
         File newXml = null;
 
         BufferedOutputStream out = null;
@@ -414,17 +418,18 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                     if (id != null && id.getValue().equals(ref.getValue())) {
                                         newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                        report.warning(reportStats, CoreMessageCode.CORE_0022, ref.getValue());
+                                        report.warning(reportStats, CoreMessageCode.CORE_0024, ref.getValue());
                                     } else {
 
                                         contentToAdd = resolveRefs(getCurrentXPath(parents),
                                                 (TransformableXmlString) cacheLookupObject, ref.getValue(), report,
                                                 reportStats);
+
                                     }
                                 } else {
                                     // unable to resolve reference, no matching id for ref
                                     if (isSupportedRef(getCurrentXPath(parents))) {
-                                        report.warning(reportStats, CoreMessageCode.CORE_0023, ref.getValue());
+                                        report.warning(reportStats, CoreMessageCode.CORE_0025, ref.getValue());
                                     }
                                 }
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
@@ -468,7 +473,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         // it.
                         transformedContent = rrs.resolve(currentXPath, cachedContent.string);
                         if (transformedContent == null) {
-                            report.warning(reportStats, CoreMessageCode.CORE_0024, id);
+                            report.warning(reportStats, CoreMessageCode.CORE_0026, id);
+
                         } else {
                             bucketCache
                                     .addToBucket(namespace, id, new TransformableXmlString(transformedContent, true));
@@ -481,6 +487,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             browse(xml, replaceRefContent, report, reportStats);
 
+
             writer.flush();
 
         } catch (Exception e) {
@@ -489,7 +496,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
 
-            report.error(reportStats, CoreMessageCode.CORE_0025, xml.getName());
+            report.error(reportStats, CoreMessageCode.CORE_0023, xml.getName());
         } finally {
             closeResources(writer, out);
         }
@@ -498,6 +505,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
 
     private void browse(final File xml, XmlEventVisitor browser, AbstractMessageReport report, ReportStats reportStats) {
+
         BufferedInputStream xmlStream = null;
         XMLEventReader eventReader = null;
         try {
@@ -508,7 +516,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(eventReader, browser);
 
         } catch (Exception e) {
-            report.error(reportStats, CoreMessageCode.CORE_0025, xml.getName());
+
+            report.error(reportStats, CoreMessageCode.CORE_0023, xml.getName());
         } finally {
             if (eventReader != null) {
                 try {

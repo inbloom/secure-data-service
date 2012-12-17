@@ -41,6 +41,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
@@ -100,26 +101,15 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         entityRepository.setReferenceCheck(referenceCheckEnabled);
     }
 
-    Entity doHandling(SimpleEntity entity, ErrorReport errorReport) {
-        return doHandling(entity, errorReport, null);
-    }
-
     @Override
     protected Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-        try {
-            return persist(entity);
-        } catch (EntityValidationException ex) {
-            reportErrors(ex.getValidationErrors(), entity, errorReport);
-        } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), entity.getSourceFile(), errorReport);
-        }
         return null;
     }
 
     @Override
     protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
-        return persist(entities, errorReport);
+        return null;
     }
 
     /**
@@ -156,7 +146,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
     }
 
-    boolean update(String collectionName, Entity entity, List<Entity> failed, ErrorReport errorReport) {
+    boolean update(String collectionName, Entity entity, List<Entity> failed, AbstractMessageReport report, ReportStats reportStats) {
         boolean res = false;
 
         try {
@@ -165,13 +155,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 failed.add(entity);
             }
         } catch (MongoException e) {
-            reportWarnings(e.getCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), errorReport);
+            reportWarnings(e.getCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), report, reportStats);
         }
 
         return res;
     }
 
-    private List<Entity> persist(List<SimpleEntity> entities, ErrorReport errorReport) {
+    private List<Entity> persist(List<SimpleEntity> entities, AbstractMessageReport report, ReportStats reportStats) {
         List<Entity> failed = new ArrayList<Entity>();
         List<Entity> queued = new ArrayList<Entity>();
         Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
@@ -180,9 +170,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (SimpleEntity entity : entities) {
             if (entity.getEntityId() != null) {
-                update(collectionName, entity, failed, errorReport);
+                update(collectionName, entity, failed, report, reportStats);
             } else {
-                preMatchEntity(memory, entityConfig, errorReport, entity);
+                preMatchEntity(memory, entityConfig, report, entity, reportStats);
             }
         }
 
@@ -194,7 +184,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 addTimestamps(entity);
                 queued.add(entity);
             } catch (EntityValidationException e) {
-                reportErrors(e.getValidationErrors(), entity, errorReport);
+                reportErrors(e.getValidationErrors(), entity, report, reportStats);
                 failed.add(entity);
             }
         }
@@ -211,7 +201,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
-                update(collectionName, entity, failed, errorReport);
+                update(collectionName, entity, failed, report, reportStats);
             }
         }
 
@@ -219,7 +209,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
-            ErrorReport errorReport, SimpleEntity entity) {
+            AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
 
         NaturalKeyDescriptor naturalKeyDescriptor;
         try {
@@ -234,7 +224,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     + "       Instance   " + entity.getRecordNumber();
             LOG.error(message);
 
-            preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
+            preMatchEntityWithNaturalKeys(memory, entityConfig, report, entity, reportStats);
         } else {
             // "new" style -> based on natural keys from schema
             String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
@@ -246,7 +236,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
-            ErrorReport errorReport, SimpleEntity entity) {
+            AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
         if (keyFields.size() > 0) {
@@ -255,9 +245,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 try {
                     keyValues.add(PropertyUtils.getProperty(entity, field));
                 } catch (Exception e) {
-                    String errorMessage = "Issue finding key field: " + field + " for entity of type: "
-                            + entity.getType() + "\n";
-                    errorReport.error(errorMessage, entity.getSourceFile(), this);
+                    report.error(reportStats, CoreMessageCode.CORE_0008, field, entity.getType());
                 }
 
                 if (complexField != null) {
@@ -266,9 +254,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        String errorMessage = "Issue finding key field: " + " for entity of type: " + entity.getType()
-                                + "\n";
-                        errorReport.error(errorMessage, entity.getSourceFile(), this);
+                        report.error(reportStats, CoreMessageCode.CORE_0008, field, entity.getType());
                     }
                 }
 
@@ -300,15 +286,14 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      * @param errorReport
      *            Reference to error report logging error messages.
      */
-    private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
+    private void reportErrors(List<ValidationError> errors, SimpleEntity entity, AbstractMessageReport report, ReportStats reportStats) {
         for (ValidationError err : errors) {
 
-            String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
-                    + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
+            String message = "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
                     + "\n" + "       Instance   " + entity.getRecordNumber() + "\n" + "       Field      "
                     + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue() + "\n"
                     + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
-            errorReport.error(message, entity.getSourceFile(), this);
+            report.error(reportStats, CoreMessageCode.CORE_0006, message);
         }
     }
 
@@ -322,9 +307,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      * @param errorReport
      *            Reference to error report to log warning message in.
      */
-    private void reportWarnings(String warningMessage, String type, String resourceId, ErrorReport errorReport) {
-        String assembledMessage = "Entity (" + type + ") reports warning: " + warningMessage;
-        errorReport.warning(assembledMessage, resourceId, this);
+    private void reportWarnings(String warningMessage, String type, String resourceId, AbstractMessageReport report, ReportStats reportStats) {
+        report.warning(reportStats, CoreMessageCode.CORE_0007, type, warningMessage);
     }
 
     protected String getFailureMessage(String code, Object... args) {
@@ -357,10 +341,21 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         entity.getMetaData().put("updated", now);
     }
 
+
+    Entity doHandling(SimpleEntity entity,  AbstractMessageReport report, ReportStats reportStats) {
+        return doHandling(entity, report, reportStats, null);
+    }
+
     @Override
     protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
+        try {
+            return persist(item);
+        } catch (EntityValidationException ex) {
+            reportErrors(ex.getValidationErrors(), item, report, reportStats);
+        } catch (DuplicateKeyException ex) {
+            reportWarnings(ex.getRootCause().getMessage(), item.getType(), item.getSourceFile(), report, reportStats);
+        }
         return null;
     }
 
@@ -368,6 +363,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     protected List<Entity> doHandling(List<SimpleEntity> items, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
-        return null;
+        return persist(items, report, reportStats);
     }
 }

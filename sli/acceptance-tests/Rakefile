@@ -498,9 +498,9 @@ task :loadDefaultIngestionTenants do
       Dir.mkdir(parent_lz_path) if !Dir.exists?(parent_lz_path)
       Dir.chdir(parent_lz_path) do
         new_path = Dir.getwd.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
-	if new_path.start_with?("c:")
-	  new_path = new_path.sub("c:", "C:");
-	end
+        if new_path.start_with?("c:")
+          new_path = new_path.sub("c:", "C:");
+        end
         lz["path"].replace(lz_path.gsub(lzpath_placeholder, new_path))
         Dir.mkdir(lz["path"]) if !Dir.exists?(lz["path"])
       end
@@ -1047,7 +1047,6 @@ task :importSecuredData do
     "courseTranscript" => "secured/courseTranscript.json",
     "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
-    "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
     "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
@@ -1058,18 +1057,12 @@ task :importSecuredData do
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
     "studentAssessment" => "secured/studentAssessment.json",
-    "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentCompetency" => "secured/studentCompetency.json",
-#    "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
-    "studentProgramAssociation" => "secured/studentProgramAssociation.json",    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
+    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
-    "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "parent" => "secured/parent.json",
-    "studentParentAssociation" => "secured/studentParentAssociation.json",
-    "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
-
   ]
 
    tenant = {
@@ -1126,13 +1119,10 @@ task :importSandboxMidgarData do
     "course" => "Midgar_data/course_fixture.json",
     "student" => "Midgar_data/student_fixture.json",
     "parent" => "Midgar_data/parent_fixture.json",
-    "studentParentAssociation" => "Midgar_data/studentParentAssociation_fixture.json",
     "staff" => "Midgar_data/staff_fixture.json",
     "assessment" => "Midgar_data/assessment_fixture.json",
     "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "Midgar_data/teacherSectionAssociation_fixture.json",
-    "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
     "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
     "aggregationDefinition" => "Midgar_data/aggregationdefinition_fixture.json",
@@ -1140,23 +1130,20 @@ task :importSandboxMidgarData do
     "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
     "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",
     "courseTranscript" => "Midgar_data/courseTranscript_fixture.json",
-    "gradebookEntry" => "Midgar_data/gradebookEntry_fixture.json",
     "studentGradebookEntry" => "Midgar_data/studentGradebookEntry_fixture.json",
     "disciplineIncident" => "Midgar_data/disciplineIncident_fixture.json",
     # "studentDisciplineIncidentAssociation" => "Midgar_data/studentDisciplineIncidentAssociation_fixture.json",
     "disciplineAction" => "Midgar_data/disciplineAction_fixture.json",
     "cohort" => "Midgar_data/cohort_fixture.json",
     "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
-    "studentCohortAssociation" => "Midgar_data/studentCohortAssociation_fixture.json",
     "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
-    "studentProgramAssociation" => "Midgar_data/studentProgramAssociation_fixture.json",
     "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
     "learningStandard" => "Midgar_data/learningStandard_fixture.json",
     "learningObjective" => "Midgar_data/learningObjective_fixture.json",
     "grade" => "Midgar_data/grade_fixture.json",
     "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
-    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
     "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
+    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
     "reportCard" => "Midgar_data/reportCard_fixture.json",
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
@@ -1176,8 +1163,6 @@ task :importSandboxHyruleData do
     "staff" => "Hyrule_data/staff_fixture.json",
     "assessment" => "Hyrule_data/assessment_fixture.json",
     "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "Hyrule_data/teacherSectionAssociation_fixture.json",
-    "studentSectionAssociation" => "Hyrule_data/studentSectionAssociation_fixture.json",
     "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
     "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
@@ -1242,15 +1227,11 @@ task :importUnifiedData => [:realmInit] do
     "course" => "unified_data/uds_course.json",
     "courseOffering" => "unified_data/uds_courseOffering.json",
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
-    "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",
     "student" => "unified_data/uds_student.json",
-    "studentAssessment" => "unified_data/uds_studentAssessment.json",
-    "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
-    "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",

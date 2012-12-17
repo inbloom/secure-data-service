@@ -69,6 +69,9 @@ describe "WorldBuilder" do
         count.should eq(34)
         @queue.count(Course).should eq(34)
       end
+      it "education organization interchange will contain the correct number of programs" do
+        @queue.count(Program).should eq(62)
+      end
       it "education organization calendar interchange will contain the correct number of sessions" do
         # sessions are defined at the LEA
         count = 0
@@ -157,32 +160,35 @@ describe "WorldBuilder" do
         count.should eq(34)
         @queue.count(Course).should eq(34)
       end
+      it "education organization interchange will contain the correct number of programs" do
+        @queue.count(Program).should eq(303)
+      end
       it "education organization calendar interchange will contain the correct number of sessions" do
         # sessions are defined at the LEA
         count = 0
         @world["leas"].each do |lea|
           count = count + lea["sessions"].length
         end
-        count.should eq(4)
-        @queue.count(Session).should eq(4)
+        count.should eq(3)
+        @queue.count(Session).should eq(3)
       end
       it "education organization calendar interchange will contain the correct number of grading periods" do
         # Grading periods are not part of the world, they are created as work orders directly.
-        @queue.count(GradingPeriod).should eq(4)
+        @queue.count(GradingPeriod).should eq(3)
       end
       it "education organization calendar interchange will contain the correct number of calendar dates" do
         # Calendar dates are not part of the world, they are created as work orders directly.
-        @queue.count(CalendarDate).should eq(775)
+        @queue.count(CalendarDate).should eq(582)
       end
       it "master schedule interchange will contain the correct number of course offerings" do
         # Course offerings are not part of the world, they are created as work orders directly.
-        @queue.count(CourseOffering).should eq(166)
+        @queue.count(CourseOffering).should eq(172)
       end
       it "staff association interchange will contain the correct number of staff members" do
-        @queue.count(Staff).should eq(169)
+        @queue.count(Staff).should eq(164)
       end
       it "staff association interchange will contain the correct number of staff education organization assignment associations" do
-        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(169)
+        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(@queue.count(Staff))
       end
       it "grade wide assessment work orders will be created for each grade and year" do
         @queue.count(GradeWideAssessmentWorkOrder).should eq(13)

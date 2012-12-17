@@ -18,6 +18,7 @@ limitations under the License.
 
 require_relative 'world_builder'
 require_relative './assessment_work_order'
+require_relative '../Shared/data_utility'
 require_relative '../Shared/EntityClasses/studentAssessment'
 require_relative 'graduation_plan_factory'
 
@@ -25,7 +26,7 @@ require_relative 'graduation_plan_factory'
 class StudentWorkOrderFactory
   def initialize(world, scenario, section_factory)
     @world = world
-    @scenario = scenario
+    @scenario = Scenario.new scenario
     @section_factory = section_factory
     @next_id = 0
     @assessment_factory = AssessmentFactory.new(@scenario)
@@ -44,12 +45,31 @@ class StudentWorkOrderFactory
           student_id = @next_id += 1
           yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade, 
                                              initial_year: initial_year, edOrg: edOrg,
+                                             programs: find_programs_above_school(edOrg),
                                              section_factory: @section_factory,
                                              assessment_factory: @assessment_factory,
                                              graduation_plans: @graduation_plans)
         }
       }
     end
+  end
+
+  def find_programs_above_school(school)
+    programs = []
+    parent_id = school["parent"]
+    parent    = @world["leas"].detect {|lea| lea["id"] == parent_id} unless parent_id.nil?
+    while parent != nil
+      # get programs from local education agency
+      # -> get parent id for current local education agency
+      # -> find next local education agency (or nil if the next parent is a state education agency)
+      programs  << parent["programs"].each {|program| program['ed_org_id'] = parent_id}
+      parent_id = parent["parent"]
+      parent    = @world["leas"].detect {|lea| lea["id"] == parent_id} unless parent_id.nil?
+    end
+    # parent_id should now be populated with id of the state education agency
+    state_education_agency = @world["seas"].detect {|sea| sea["id"] == parent_id} unless parent_id.nil?
+    programs << state_education_agency["programs"].each {|program| program['ed_org_id'] = parent_id} unless state_education_agency.nil?
+    programs.flatten
   end
 
 end
@@ -66,9 +86,10 @@ class StudentWorkOrder
     @initial_year = (opts[:initial_year] or 2011)
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
     @section_factory = opts[:section_factory]
-    @scenario = (opts[:scenario] or {})
+    @scenario = (opts[:scenario] or Scenario.new({}))
     @assessment_factory = opts[:assessment_factory]
     @graduation_plans = opts[:graduation_plans]
+    @other_programs = opts[:programs]
     @enrollment = []
     @assessment = []
   end
@@ -81,7 +102,7 @@ class StudentWorkOrder
   private
 
   def parents(student)
-    if @scenario['INCLUDE_PARENTS']
+    if @scenario.include_entity? "Parent"
       [:mom, :dad].map{|type|
         [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
     else
@@ -104,10 +125,43 @@ class StudentWorkOrder
         school = schools[0]
         generated += generate_enrollment(school, curr_type, year, grade, session)
         generated += generate_grade_wide_assessment_info(grade, session)
+        generated += generate_program_associations(session, curr_type, schools[0])
         generated += generate_cohorts(school, curr_type, session)
       end
     }
     generated
+  end
+
+  # generates student -> program associations for the specified 'session' at the current school of specified 'type'
+  # -> student will be involved in 0, 1, or 2 programs at their current school (currently, this is true only if student is at original school)
+  # -> student will be involved in 1, 2, or 3 programs at education organizations above their school (local or state education agency level)
+  def generate_program_associations(session, type, current_school)
+    associations = []
+    interval   = session["interval"]
+    begin_date = interval.get_begin_date unless interval.nil?
+    end_date   = interval.get_end_date unless interval.nil?
+
+    # if student is currently enrolled at original school
+    # -> eventually add implementation to query world for new school's programs        
+    if current_school == @edOrg['id']
+      num_school_programs = DataUtility.select_random_from_options(@rand, (0..2).to_a)
+      programs = DataUtility.select_num_from_options(@rand, num_school_programs, @edOrg['programs'])
+      programs.each do |program|
+        program_id = DataUtility.get_program_id(program[:id])
+        ed_org_id  = DataUtility.get_school_id(@edOrg['id'], type)
+        associations << StudentProgramAssociation.new(@id, program_id, ed_org_id, begin_date, end_date)
+      end
+    end
+    
+    num_other_programs = DataUtility.select_random_from_options(@rand, (1..3).to_a)
+    other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, @other_programs)
+    other_programs.each do |program|
+      program_id = DataUtility.get_program_id(program[:id])
+      ed_org_id  = DataUtility.get_state_education_agency_id(program[:ed_org_id]) if program[:sponsor] == :STATE_EDUCATION_AGENCY
+      ed_org_id  = DataUtility.get_local_education_agency_id(program[:ed_org_id]) if program[:sponsor] == :LOCAL_EDUCATION_AGENCY
+      associations << StudentProgramAssociation.new(@id, program_id, ed_org_id, begin_date, end_date)
+    end
+    associations
   end
 
   def generate_enrollment(school_id, type, start_year, start_grade, session)
