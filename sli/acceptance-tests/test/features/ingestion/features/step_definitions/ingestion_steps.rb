@@ -36,6 +36,7 @@ require_relative '../../../utils/sli_utils.rb'
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
+INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
 INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
@@ -67,7 +68,7 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 
 Before do
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
 
   if (INGESTION_MODE != 'remote')
@@ -778,7 +779,7 @@ end
 
 Given /^the following collections are empty in datastore:$/ do |table|
   disable_NOTABLESCAN()
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
 
   @db = @conn[@ingestion_db_name]
 
