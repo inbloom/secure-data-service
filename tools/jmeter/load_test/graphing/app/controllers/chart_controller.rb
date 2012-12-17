@@ -44,21 +44,23 @@ class ChartController < ApplicationController
       end
       @charts << LazyHighCharts::HighChart.new('graph') do |f|
         f.chart(:renderTo => 'container', :type => 'line', :marginRight => 130, :marginBottom => 50)
-        f.title(:text => scenario, :x => -20)
+        f.title(:text => scenario, :x => -20, :style => {"fontSize" =>"20px" })
         f.subtitle(:text => 'subtitle', :x => -20)
-        f.xAxis(:categories => categories, :title => { :text => "Number of Threads" })
-        f.yAxis(:title => { :text => 'Response Time in millisecond' },
+        f.xAxis(:categories => categories, :title => { :text => "Number of Threads" ,:style => {"fontSize" => "16px"}}, :labels => {:style => {"fontSize" => "14px"}, :y => 20},:min => 1)
+        f.yAxis(:title => { :text => 'Response Time in millisecond', :style => {"fontSize" => "16px"} },
                 :plotLines => [{
                                    value: 0,
                                    width: 1,
                                    color: '#808080'
-                               }])
+                               }],
+	       :min => 0, :labels => {:style => {"fontSize" => "14px","margin-top" => "8px"}})
         f.legend(:layout => 'vertical',
                  :align => 'right',
                  :verticalAlign => 'top',
-                 :x => -10,
-                 :y => 100,
-                 :borderWidth => 0
+                 :x => -5,
+                 :y => 80,
+                 :borderWidth => 0,
+	         :itemStyle => {"fontSize" => "14px"}
         )
         aggregate.each do |request, averages|
           f.series(:name => request, :data => averages)
