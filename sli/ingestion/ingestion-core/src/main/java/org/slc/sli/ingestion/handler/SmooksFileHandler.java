@@ -77,7 +77,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    @SuppressWarnings("unchecked")
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
@@ -113,7 +112,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         try {
 
-            generateNeutralRecord(item,report, reportStats, fileProcessStatus);
+            generateNeutralRecord(item, report, reportStats, fileProcessStatus);
 
         } catch (IOException e) {
             report.error(reportStats, CoreMessageCode.CORE_0016);
