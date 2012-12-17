@@ -17,7 +17,9 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -35,8 +37,9 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 
@@ -48,6 +51,9 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
  */
 public final class SliDeltaManager {
 
+    public static final String RECORDHASH_DATA = "rhData";
+    public static final String RECORDHASH_HASH = "rhHash";
+    public static final String RECORDHASH_ID = "rhId";
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
@@ -67,7 +73,7 @@ public final class SliDeltaManager {
      * @return
      */
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
-            DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, ErrorReport errorReport) {
+            DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, AbstractMessageReport report, ReportStats reportStats) {
         boolean isPrevIngested = false;
         String tenantId = TenantContext.getTenantId();
 
@@ -91,9 +97,17 @@ public final class SliDeltaManager {
         //    to neutral record fields here which are based on SLI-Ed-Fi.
         Map<String, String> naturalKeys = new HashMap<String, String>();
 
-        NeutralRecord neutralRecordResolved = (NeutralRecord) n.clone();
-        Entity entity = new NeutralRecordEntity(neutralRecordResolved);
-        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
+        NeutralRecord neutralRecordResolved = null;
+
+        if ("attendance".equals(n.getRecordType())) {
+            // HACK didResolver requires transformed entities to be transformed so use the unresolved references
+            // to calculate record delta hash dId
+            neutralRecordResolved = n;
+        } else {
+            neutralRecordResolved = (NeutralRecord) n.clone();
+            Entity entity = new NeutralRecordEntity(neutralRecordResolved);
+            didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
+        }
 
         // Calculate DiD using natural key values (that are references) in their Did form
         try {
@@ -107,9 +121,14 @@ public final class SliDeltaManager {
                     + neutralRecordResolved.getAttributes().toString() + "-" + tenantId);
             RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
-            n.addMetaData("rhId", recordId);
-            n.addMetaData("rhHash", recordHashValues);
-            n.addMetaData("rhTenantId", tenantId);
+            // TODO consider making this a util
+            List<Map<String, String>> rhData = new ArrayList<Map<String, String>>();
+            Map<String, String> rhDataElement = new HashMap<String, String>();
+            rhDataElement.put(RECORDHASH_ID, recordId);
+            rhDataElement.put(RECORDHASH_HASH, recordHashValues);
+            rhData.add(rhDataElement);
+
+            n.addMetaData(RECORDHASH_DATA, rhData);
 
             isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
 

@@ -19,6 +19,7 @@ limitations under the License.
 # require 'perftools'
 # PerfTools::CpuProfiler.start("/tmp/odin_profile")
 
+
 require_relative 'lib/odin'
 
 # Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
@@ -35,5 +36,9 @@ end
 
 o = Odin.new
 o.generate( scenario )
+
+# re-enable garbage collection if we disabled it elsewhere.
+GC.enable
+GC.start
 
 # PerfTools::CpuProfiler.stop

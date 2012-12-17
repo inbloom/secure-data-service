@@ -39,33 +39,33 @@ Transform /^the teacher "([^"]*)"$/ do |arg1|
 end
 
 Transform /^the section "([^"]*)"$/ do |arg1|
-  id = "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d" if arg1 == "FHS-Math101"
-  id = "eb4d7e1b-7bed-890a-d974-cdb25a29fc2d" if arg1 == "FHS-Science101"
-  id = "eb4d7e1b-7bed-890a-dd74-cdb25a29fc2d" if arg1 == "FHS-English101"
-  id = "eb4d7e1b-7bed-890a-d5b4-cdb25a29fc2d" if arg1 == "WES-English"
-  id = "eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d" if arg1 == "WES-Math"
-  id = "eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d" if arg1 == "PDMS-Trig"
-  id = "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d" if arg1 == "PDMS-Geometry"
+  id = "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d_id" if arg1 == "FHS-Math101"
+  id = "eb4d7e1b-7bed-890a-d974-cdb25a29fc2d_id" if arg1 == "FHS-Science101"
+  id = "eb4d7e1b-7bed-890a-dd74-cdb25a29fc2d_id" if arg1 == "FHS-English101"
+  id = "eb4d7e1b-7bed-890a-d5b4-cdb25a29fc2d_id" if arg1 == "WES-English"
+  id = "eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d_id" if arg1 == "WES-Math"
+  id = "eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d_id" if arg1 == "PDMS-Trig"
+  id = "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d_id" if arg1 == "PDMS-Geometry"
   id
 end
 
 Transform /^the student "([^"]*)"$/ do |arg1|
-  id = "eb4d7e1b-7bed-890a-d574-5d8aa9fbfc2d" if arg1 == "Doris Hanes"
-  id = "eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d" if arg1 == "Danny Fields"
-  id = "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d" if arg1 == "Gail Newman"
-  id = "eb4d7e1b-7bed-890a-e174-5d8aa9fbfc2d" if arg1 == "Mark Moody"
-  id = "eb4d7e1b-7bed-890a-e574-5d8aa9fbfc2d" if arg1 == "Irma Atkons"
-  id = "eb4d7e1b-7bed-890a-e974-5d8aa9fbfc2d" if arg1 == "Austin Durran"
-  id = "eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d" if arg1 == "Kristy Carillo"
-  id = "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d" if arg1 == "Forrest Hopper"
-  id = "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d" if arg1 == "Lavern Chaney"
-  id = "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d" if arg1 == "Emil Oneil"
-  id = "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d" if arg1 == "Kesley Krauss"
-  id = "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d" if arg1 == "Hal Kessler"
-  id = "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d" if arg1 == "Millie Lovel"
-  id = "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d" if arg1 == "Brock Ott"
-  id = "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d" if arg1 == "Elnora Fin"
-  id = "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d" if arg1 == "Freeman Marcum"
+  id = "eb4d7e1b-7bed-890a-d574-5d8aa9fbfc2d_id" if arg1 == "Doris Hanes"
+  id = "eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d_id" if arg1 == "Danny Fields"
+  id = "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d_id" if arg1 == "Gail Newman"
+  id = "eb4d7e1b-7bed-890a-e174-5d8aa9fbfc2d_id" if arg1 == "Mark Moody"
+  id = "eb4d7e1b-7bed-890a-e574-5d8aa9fbfc2d_id" if arg1 == "Irma Atkons"
+  id = "eb4d7e1b-7bed-890a-e974-5d8aa9fbfc2d_id" if arg1 == "Austin Durran"
+  id = "eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d_id" if arg1 == "Kristy Carillo"
+  id = "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d_id" if arg1 == "Forrest Hopper"
+  id = "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d_id" if arg1 == "Lavern Chaney"
+  id = "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d_id" if arg1 == "Emil Oneil"
+  id = "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d_id" if arg1 == "Kesley Krauss"
+  id = "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d_id" if arg1 == "Hal Kessler"
+  id = "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d_id" if arg1 == "Millie Lovel"
+  id = "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d_id" if arg1 == "Brock Ott"
+  id = "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d_id" if arg1 == "Elnora Fin"
+  id = "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d_id" if arg1 == "Freeman Marcum"
   id
 end
 
@@ -88,41 +88,41 @@ Transform /list of teachers from school "([^\"]*)"/ do |arg1|
 end
 
 Transform /list of sections that "([^\"]*)" teaches/ do |arg1|
-  array = ["eb4d7e1b-7bed-890a-d574-cdb25a29fc2d",
-           "eb4d7e1b-7bed-890a-d974-cdb25a29fc2d"] if arg1 == "John Doe 1"
-  array = ["eb4d7e1b-7bed-890a-d974-cdb25a29fc2d",
-           "eb4d7e1b-7bed-890a-dd74-cdb25a29fc2d"] if arg1 == "Ted Bear"
-  array = ["eb4d7e1b-7bed-890a-d5b4-cdb25a29fc2d"] if arg1 == "John Doe 2"
-  array = ["eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "Elizabeth Jane"
-  array = ["eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d",
-           "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "John Doe 3"
+  array = ["eb4d7e1b-7bed-890a-d574-cdb25a29fc2d_id",
+           "eb4d7e1b-7bed-890a-d974-cdb25a29fc2d_id"] if arg1 == "John Doe 1"
+  array = ["eb4d7e1b-7bed-890a-d974-cdb25a29fc2d_id",
+           "eb4d7e1b-7bed-890a-dd74-cdb25a29fc2d_id"] if arg1 == "Ted Bear"
+  array = ["eb4d7e1b-7bed-890a-d5b4-cdb25a29fc2d_id"] if arg1 == "John Doe 2"
+  array = ["eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d_id"] if arg1 == "Elizabeth Jane"
+  array = ["eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d_id",
+           "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d_id"] if arg1 == "John Doe 3"
   array = [] if arg1 == "Emily Jane"
   array
 end
 
 Transform /list of students in section "([^\"]*)"/ do |arg1|
-  array = ["eb4d7e1b-7bed-890a-d574-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e174-5d8aa9fbfc2d"] if arg1 == "FHS-Math101"
-  array = ["eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e574-5d8aa9fbfc2d"] if arg1 == "FHS-Science101"
-  array = ["eb4d7e1b-7bed-890a-e174-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e574-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e974-5d8aa9fbfc2d"] if arg1 == "FHS-English101"
-  array = ["eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d"] if arg1 == "WES-English"
-  array = ["eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d"] if arg1 == "WES-Math"
-  array = ["eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d"] if arg1 == "PDMS-Trig"
-  array = ["eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d", 
-           "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d"] if arg1 == "PDMS-Geometry"
+  array = ["eb4d7e1b-7bed-890a-d574-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-e174-5d8aa9fbfc2d_id"] if arg1 == "FHS-Math101"
+  array = ["eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-e574-5d8aa9fbfc2d_id"] if arg1 == "FHS-Science101"
+  array = ["eb4d7e1b-7bed-890a-e174-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-e574-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-e974-5d8aa9fbfc2d_id"] if arg1 == "FHS-English101"
+  array = ["eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d_id"] if arg1 == "WES-English"
+  array = ["eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d_id"] if arg1 == "WES-Math"
+  array = ["eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d_id"] if arg1 == "PDMS-Trig"
+  array = ["eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d_id",
+           "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d_id", 
+           "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d_id"] if arg1 == "PDMS-Geometry"
   array
 end
 

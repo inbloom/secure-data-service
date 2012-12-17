@@ -60,3 +60,12 @@ GRADUATION_PLANS:
     {"English Language and Literature": 9, "Mathematics": 9, "Science": 9, "Social Sciences and History": 9}, 
    "Standard": 
     {"English Language and Literature": 12, "Mathematics": 12, "Science": 12, "Social Sciences and History": 12}} 
+
+#cohorts
+COHORTS_PER_SCHOOL: 3
+DAYS_IN_COHORT: 90
+PROBABILITY_STUDENT_IN_COHORT: .3
+STAFF_HAVE_COHORT_ACCESS: true
+
+#parents
+INCLUDE_PARENTS: true

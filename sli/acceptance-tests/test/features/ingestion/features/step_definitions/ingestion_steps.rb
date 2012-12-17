@@ -2596,6 +2596,15 @@ end
 ############################################################
 
 After do
+  if (!@landing_zone_path.nil?)
+          Dir.foreach(@landing_zone_path) do |entry|
+              if (entry.rindex("warn.") || entry.rindex("error."))
+                   STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
+                   STDOUT.puts "File contents follow:"
+                   STDOUT.puts File.open(@landing_zone_path + entry).read
+              end
+          end
+      end
   cleanTenants()
   @conn.close if @conn != nil
   @batchConn.close if @batchConn != nil

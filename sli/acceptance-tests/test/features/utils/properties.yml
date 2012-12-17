@@ -158,3 +158,10 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"
 
+elastic_search_address: http://local.slidev.org:9200
+elastic_search_inbox: "../search-indexer/data/inbox"
+elastic_search_host: localhost
+elastic_search_remote_command_port: 10024
+
+activemq_host: localhost
+activemq_port: 61613

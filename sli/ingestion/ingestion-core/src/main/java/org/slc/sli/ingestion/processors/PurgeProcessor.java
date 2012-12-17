@@ -26,6 +26,7 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -37,6 +38,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -58,8 +60,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_STAGE_DESC = "Purges tenant's ingested data from sli database";
 
-    private static Logger logger = LoggerFactory
-            .getLogger(PurgeProcessor.class);
+    private static Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
 
     private static final String TENANT_ID = "tenantId";
 
@@ -72,6 +73,10 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     private List<String> excludeCollections;
 
     private MessageSource messageSource;
+
+    @Autowired
+    @Value("${sli.sandbox.enabled}")
+    private boolean sandboxEnabled;
 
     public MongoTemplate getMongoTemplate() {
         return mongoTemplate;
@@ -97,8 +102,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE,
-                BATCH_JOB_STAGE_DESC);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
@@ -115,7 +119,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
                     handleNoTenantId(batchJobId);
                 } else {
 
-                    purgeForTenant(exchange, tenantId);
+                    purgeForTenant(exchange, newJob, tenantId);
 
                 }
 
@@ -133,7 +137,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private void purgeForTenant(Exchange exchange, String tenantId) {
+    private void purgeForTenant(Exchange exchange, NewBatchJob job, String tenantId) {
 
         Query searchTenantId = new Query();
 
@@ -144,57 +148,58 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         String collectionName;
         while (iter.hasNext()) {
             collectionName = iter.next();
-            if (isExcludedCollection(collectionName)) {
-                continue;
+            if (!isExcludedCollection(collectionName)) {
+                // Remove edorgs and apps if in sandbox mode or purge-keep-edorgs was not specified.
+                if (collectionName.equalsIgnoreCase("educationOrganization")) {
+                    if (sandboxEnabled || (job.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
+                        cleanApplicationEdOrgs(searchTenantId);
+                        removeTenantCollection(searchTenantId, collectionName);
+                    }
+                } else if (collectionName.equalsIgnoreCase("applicationAuthorization")) {
+                    if (sandboxEnabled || (job.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
+                        removeTenantCollection(searchTenantId, collectionName);
+                    }
+                } else {
+                    removeTenantCollection(searchTenantId, collectionName);
+                }
             }
-            if (collectionName.equalsIgnoreCase("educationOrganization")) {
-                cleanApplicationEdOrgs(searchTenantId);
-            }
-
-            TenantContext.setIsSystemCall(false);
-            mongoTemplate.remove(searchTenantId, collectionName);
-
         }
 
         batchJobDAO.removeRecordHashByTenant(tenantId);
-        exchange.setProperty("purge.complete",
-                "Purge process completed successfully.");
+        exchange.setProperty("purge.complete", "Purge process completed successfully.");
         logger.info("Purge process complete.");
 
     }
 
+    @SuppressWarnings("unchecked")
     private void cleanApplicationEdOrgs(Query searchTenantId) {
 
         TenantContext.setIsSystemCall(false);
-        List<Entity> edorgs = mongoTemplate.find(searchTenantId, Entity.class,
-                "educationOrganization");
+        List<Entity> edorgs = mongoTemplate.find(searchTenantId, Entity.class, "educationOrganization");
 
         TenantContext.setIsSystemCall(true);
         List<Entity> apps = mongoTemplate.findAll(Entity.class, "application");
 
-        List<String> edorgids = new ArrayList();
+        List<String> edorgids = new ArrayList<String>();
         for (Entity edorg : edorgs) {
             edorgids.add(edorg.getEntityId());
         }
 
         List<String> authedEdorgs;
         for (Entity app : apps) {
-            authedEdorgs = (List<String>) app.getBody().get(
-                    "authorized_ed_orgs");
-            if (authedEdorgs == null) {
-                continue;
-            }
-
-            for (String id : edorgids) {
-                if (authedEdorgs.contains(id)) {
-                    authedEdorgs.remove(id);
+            authedEdorgs = (List<String>) app.getBody().get("authorized_ed_orgs");
+            if (authedEdorgs != null) {
+                for (String id : edorgids) {
+                    if (authedEdorgs.contains(id)) {
+                        authedEdorgs.remove(id);
+                    }
                 }
+
+                app.getBody().put("authorized_ed_orgs", authedEdorgs);
+
+                TenantContext.setIsSystemCall(true);
+                mongoTemplate.save(app, "application");
             }
-
-            app.getBody().put("authorized_ed_orgs", authedEdorgs);
-
-            TenantContext.setIsSystemCall(true);
-            mongoTemplate.save(app, "application");
         }
     }
 
@@ -207,31 +212,29 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         return false;
     }
 
+    private void removeTenantCollection(Query searchTenantId, String collectionName) {
+        TenantContext.setIsSystemCall(false);
+        mongoTemplate.remove(searchTenantId, collectionName);
+    }
+
     private void handleNoTenantId(String batchJobId) {
-        String noTenantMessage = MessageSourceHelper.getMessage(messageSource,
-                "PURGEPROC_ERR_MSG1");
+        String noTenantMessage = MessageSourceHelper.getMessage(messageSource, "PURGEPROC_ERR_MSG1");
         logger.info(noTenantMessage);
 
-        Error error = Error.createIngestionError(batchJobId, null,
-                BatchJobStageType.PURGE_PROCESSOR.getName(), null, null, null,
-                FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
+        Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
+                null, null, FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
         batchJobDAO.saveError(error);
     }
 
-    private void handleProcessingExceptions(Exchange exchange,
-            String batchJobId, Exception exception) {
+    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        exchange.getIn().setHeader("IngestionMessageType",
-                MessageType.ERROR.name());
-        exchange.setProperty("purge.complete",
-                "Errors encountered during purge process");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.setProperty("purge.complete", "Errors encountered during purge process");
         logger.error("Error processing batch job " + batchJobId, exception);
 
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, null,
-                    BatchJobStageType.PURGE_PROCESSOR.getName(), null, null,
-                    null, FaultType.TYPE_ERROR.getName(), null,
-                    exception.toString());
+            Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),
+                    null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
         }
     }
@@ -247,11 +250,8 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage",
-                "No BatchJobId specified in exchange header.");
-        exchange.getIn().setHeader("IngestionMessageType",
-                MessageType.ERROR.name());
-        logger.error("Error:", "No BatchJobId specified in "
-                + this.getClass().getName() + " exchange message header.");
+        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        logger.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 }

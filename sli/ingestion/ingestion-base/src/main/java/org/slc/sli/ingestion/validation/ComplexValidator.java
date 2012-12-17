@@ -65,8 +65,12 @@ public class ComplexValidator<T> extends SimpleValidator<T> {
 
     @Override
     public boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats) {
-        // TODO Auto-generated method stub
-        return false;
+        for (Validator<T> validator : validators) {
+            if (!validator.isValid(object, report, reportStats)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

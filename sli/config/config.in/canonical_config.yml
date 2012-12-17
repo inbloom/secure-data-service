@@ -89,6 +89,12 @@ default:
         sli.stagingmongodb.connections: 20
         sli.batchjobmongodb.connections: 20
 
+        # Elasticsearch config
+        sli.search.url : http://localhost:9200
+        sli.search.username: user
+        sli.search.password: searchme
+        sli.search.embedded: true
+
         # Key substitutions
         sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
@@ -391,6 +397,20 @@ default:
         # interim sif id reference resolution files
         sli.sif-agent.idmap: default-idmap.csv
         sli.sif-agent.zonemap: default-zonemap.csv
+
+        # search indexer
+        sli.search.indexer.log.path: logs
+        sli.search.indexer.log.level: INFO
+        sli.search.indexer.dir.inbox: data/inbox
+        sli.search.indexer.dir.extract: data/tmp
+        sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
+        sli.search.indexer.extract.runOnStartup: false
+        sli.search.indexer.service.port: 10024
+        sli.search.indexer.broker.uri : vm:(localhost:(stomp://localhost:61613,tcp://localhost:61616)?persistent=false&tempUsage=1073741824)?marshal=false&waitForStart=1
+        sli.search.indexer.queue.name: search
+        sli.search.indexer.sarje.sub.topic: /topic/oplog_subscribe
+        sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
+        sli.search.indexer.env: local
 
 acceptance-tests:
     api:
@@ -1304,6 +1324,8 @@ team:
         sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
 
         sli.sif-agent.zoneUrl: http://local.slidev.org:8080/mock-zis/zis
+
+        sli.search.indexer.broker.embedded: false
 
 perf:
     data-access:

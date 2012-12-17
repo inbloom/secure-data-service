@@ -26,9 +26,9 @@ require_relative '../../entities/common.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if template == "MARVIN MILLER STUDENT ID"
-  id = "5738d251-dd0b-4734-9ea6-417ac9320a15" if template == "MATT SOLLARS STUDENT ID"
-  id = "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b" if template == "CARMEN ORTIZ STUDENT ID"
-  id = "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34" if template == "LUCRETIA NAGAI STUDENT ID"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id" if template == "MATT SOLLARS STUDENT ID"
+  id = "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id" if template == "CARMEN ORTIZ STUDENT ID"
+  id = "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34_id" if template == "LUCRETIA NAGAI STUDENT ID"
   id
 end
 

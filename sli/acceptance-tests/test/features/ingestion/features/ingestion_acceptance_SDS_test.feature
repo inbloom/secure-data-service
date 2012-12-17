@@ -659,6 +659,8 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
     And I should see "Processed 342 records." in the resulting batch job file
+    #TODO - this test data generates a warn file
+    #And I should not see a warning log file created
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 105" in the resulting batch job file
@@ -770,6 +772,8 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | NY                         | string               |
     And I should see "Processed 726 records." in the resulting batch job file
     And I should not see an error log file created
+    #TODO warning files generated - data needs to be cleaned
+    #And I should not see a warning log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -1182,6 +1186,9 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
     And a batch job for file "StoriedDataSet_IL_Daybreak_Deltas.zip" is completed in database
+    #TODO Test data generates warn file
+    #And I should not see a warning log file created
+    And I should not see an error log file created
     Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | gradebookEntry              | 13    |

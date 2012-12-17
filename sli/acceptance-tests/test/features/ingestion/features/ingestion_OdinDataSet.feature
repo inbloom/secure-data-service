@@ -65,7 +65,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                               |                 78|
      | attendance                               |                  0|
      | calendarDate                             |               1161|
-     | cohort                                   |                  0|
+     | cohort                                   |                  9|
      | competencyLevelDescriptor                |                  0|
      | course                                   |                 34|
      | courseOffering                           |                102|
@@ -91,13 +91,13 @@ Then I should see following map of entry counts in the corresponding collections
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
      | staff                                    |                 70|
-     | staffCohortAssociation                   |                  0|
+     | staffCohortAssociation                   |                 27|
      | staffEducationOrganizationAssociation    |                168|
      | staffProgramAssociation                  |                  0|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                  0|
+     | studentCohortAssociation                 |                 32|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                 21|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 2146 records." in the resulting batch job file
+    And I should see "Processed 2214 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -165,9 +165,3 @@ Scenario: Verify entities in specific student document ingested correctly: Popul
     And the student entity schools.entryGradeLevel should be "Kindergarten"
     And the student entity schools.entryGradeLevel should be "First grade" 
     And the student entity schools.entryGradeLevel should be "Second grade" 
-
-Scenario: Verify entities in student school association were ingested correctly
-    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
-     | graduationPlan              | 1                   | _id                                      | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
-     | studentSchoolAssociation    | 5                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |

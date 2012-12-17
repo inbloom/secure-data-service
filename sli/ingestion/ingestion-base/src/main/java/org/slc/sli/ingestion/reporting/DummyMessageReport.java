@@ -40,18 +40,4 @@ public class DummyMessageReport extends AbstractMessageReport {
 
         // report warning
     }
-
-    @Override
-    protected void logError(MessageCode code, Object... args) {
-
-        // log error
-
-    }
-
-    @Override
-    protected void logWarning(MessageCode code, Object... args) {
-
-        // log warning
-
-    }
 }

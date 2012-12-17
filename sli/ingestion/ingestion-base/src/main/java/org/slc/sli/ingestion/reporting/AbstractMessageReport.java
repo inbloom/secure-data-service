@@ -42,12 +42,10 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      */
     public void error(ReportStats reportStats, MessageCode code, Object... args) {
 
-        logError(code, args);
-
-        if (reportStats != null && reportStats.getSource() != null) {
+        if (reportStats != null) {
             reportStats.incError();
-            reportError(reportStats, code, args);
         }
+        reportError(reportStats, code, args);
     }
 
     /**
@@ -63,12 +61,10 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      */
     public void warning(ReportStats reportStats, MessageCode code, Object... args) {
 
-        logWarning(code, args);
-
-        if (reportStats != null && reportStats.getSource() != null) {
+        if (reportStats != null) {
             reportStats.incWarning();
-            reportWarning(reportStats, code, args);
         }
+        reportWarning(reportStats, code, args);
     }
 
     /**
@@ -87,10 +83,6 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     protected abstract void reportError(ReportStats reportStats, MessageCode code, Object... args);
 
     protected abstract void reportWarning(ReportStats reportStats, MessageCode code, Object... args);
-
-    protected abstract void logError(MessageCode code, Object... args);
-
-    protected abstract void logWarning(MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

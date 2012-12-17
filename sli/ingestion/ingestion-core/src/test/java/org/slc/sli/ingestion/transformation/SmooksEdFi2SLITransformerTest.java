@@ -41,10 +41,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -75,8 +79,9 @@ public class SmooksEdFi2SLITransformerTest {
         NeutralRecord directlyMapped = new NeutralRecord();
         directlyMapped.setRecordType("directEntity");
         directlyMapped.setAttributeField("field2", "Test String");
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        List<? extends Entity> result = transformer.transform(directlyMapped, new DummyErrorReport());
+        List<? extends Entity> result = transformer.transform(directlyMapped, new DummyMessageReport(), reportStats);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -141,8 +146,9 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        List<? extends Entity> result = transformer.transform(assessment, new DummyErrorReport());
+        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -259,8 +265,9 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        List<? extends Entity> result = transformer.transform(assessment, new DummyErrorReport());
+        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
         Entity entity = result.get(0);
 
@@ -298,8 +305,10 @@ public class SmooksEdFi2SLITransformerTest {
         le.add(createAssessmentEntity(true));
 
         when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(le);
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
-        List<SimpleEntity> res = transformer.handle(assessmentRC);
+        List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 
         verify(mockedEntityRepository).findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0));
 

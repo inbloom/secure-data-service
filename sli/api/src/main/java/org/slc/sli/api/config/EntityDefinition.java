@@ -50,16 +50,25 @@ public class EntityDefinition {
     private NeutralSchema schema;
     private LinkedHashMap<String, ReferenceSchema> referenceFields; //all fields on this entity that reference other entities
     private final boolean supportsAggregates;
+    private final boolean skipContextValidation;
+    private final boolean wrapperEntity;
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates) {
+        this(type, resourceName, collectionName, service, supportsAggregates, false, false);
+    }
+
+    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates,
+            boolean skipContextValidation, boolean pullTypeFromEntity) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
         this.service = service;
         this.referencingEntities = new LinkedList<EntityDefinition>();
         this.supportsAggregates = supportsAggregates;
+        this.skipContextValidation = skipContextValidation;
+        this.wrapperEntity = pullTypeFromEntity;
     }
-    
+
     public boolean hasArrayField(String fieldName) {
         if (this.schema == null || this.schema.getFields() == null) {
             return false;
@@ -194,5 +203,24 @@ public class EntityDefinition {
      */
     public boolean supportsAggregates() {
         return supportsAggregates;
+    }
+
+    /**
+     * Skip pre-filter context validation for this entity.
+     *
+     * @return
+     */
+    public boolean skipContextValidation() {
+        return skipContextValidation;
+    }
+
+    /**
+     * The entity is a wrapper for other entities
+     * For example, search wraps entities like student, section, etc.
+     *
+     * @return
+     */
+    public boolean wrapperEntity() {
+        return wrapperEntity;
     }
 }
