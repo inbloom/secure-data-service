@@ -39,12 +39,6 @@ Before do
   @testsRun = Array.new
 
   makeDirs([JMETER_JTL_ARCHIVE, JMETER_FAILED_JTL_ARCHIVE])
-
-  archiveJtlFiles(JMETER_FAILED_JTL_ARCHIVE)
-end
-
-After do
-  archiveJtlFiles(JMETER_JTL_ARCHIVE)
 end
 
 def makeDirs(dirs)
@@ -56,20 +50,16 @@ def makeDirs(dirs)
   end
 end
 
-def archiveJtlFiles(destination)
-  Dir.foreach(".") do |file|
-    if file.end_with?(".jtl") or file == "jmeter.log"
-      archivedFile = File.join(destination, "#{file}.#{@time}")
-      puts "Moving #{file} to #{archivedFile}"
-      FileUtils.cp(file, archivedFile)
-    end
-  end
+def archiveJtlFile()
+	archivedFile = File.join(JMETER_JTL_ARCHIVE, "#{file}.#{@time}")
+	puts "Moving #{file} to #{archivedFile}"
+	FileUtils.cp(file, archivedFile)
 end
 
 def archiveFailedJtlFile(file)
-  archivedFile = File.join(JMETER_FAILED_JTL_ARCHIVE, "#{file}.#{@time}")
-  puts "Moving #{file} to #{archivedFile}"
-  FileUtils.mv(file, archivedFile)
+	archivedFile = File.join(JMETER_FAILED_JTL_ARCHIVE, "#{file}.#{@time}")
+	puts "Moving #{file} to #{archivedFile}"
+	FileUtils.cp(file, archivedFile)
 end
 
 Given /^I run each of the Jmeter tests:$/ do |table|
@@ -123,7 +113,9 @@ def parseJtlForRC(testName)
 end
 
 def deleteJtlFile(testName)
-  File.delete(testName + ".jtl")
+	fileName = "#{testName}.jtl"
+  	archiveFailedJtlFile(fileName)
+  	File.delete(fileName)
 end
 
 def loadXML(fileName)
@@ -139,9 +131,11 @@ Then /^no performance regressions should be found/ do
   superRegressionMap = {}
   @testsRun.each do |testName|
     regressionsFound = checkForRegression(testName)
-    unless regressionsFound.empty?
-      archiveFailedJtlFile("#{testName}.jtl")
-      superRegressionMap[testName] = regressionsFound
+    if regressionsFound.empty?
+      	archiveJtlFile("#{testName}.jtl")
+    else
+    	archiveFailedJtlFile("#{testName}.jtl")
+    	superRegressionMap[testName] = regressionsFound
     end
   end
 
@@ -163,8 +157,8 @@ def checkForRegression(testName)
   currentDoc = loadXML(currentJtl)
   previousDoc = loadXML(previousJtl)
 
-  currentMap = docToMap(currentDoc)
-  previousMap = docToMap(previousDoc)
+  currentMap = parseJtlForTimings(currentDoc)
+  previousMap = parseJtlForTimings(previousDoc)
 
   currentStats = aggregate(currentMap)
   previousStats = aggregate(previousMap)
@@ -178,7 +172,7 @@ def checkForRegression(testName)
       next
     end
 
-    difference = calculateDifference(avgCurrentTime, avgPreviousTime)
+    fractionalDifference = calculateFractionalDifference(avgCurrentTime, avgPreviousTime)
     if difference >= REGRESSION_THRESHOLD
       puts "#{difference} is greater than or equal to #{REGRESSION_THRESHOLD}, adding map for #{label} to #{difference.to_s}"
       regressions[label] = difference
@@ -201,7 +195,7 @@ def findPreviousJtl(testName)
   return previousJtl
 end
 
-def docToMap(doc)
+def parseJtlForTimings(doc)
   map = {}
   # could cause issues if a root element isn't httpSample
   doc.root.elements.each do |sample|
@@ -231,6 +225,6 @@ def aggregate(map)
   return aggregateMap
 end
 
-def calculateDifference(avgCurrentTime, avgPreviousTime)
+def calculateFractionalDifference(avgCurrentTime, avgPreviousTime)
   return (avgCurrentTime - avgPreviousTime) / avgPreviousTime
 end
