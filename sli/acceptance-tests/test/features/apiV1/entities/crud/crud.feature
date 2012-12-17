@@ -229,7 +229,7 @@ Examples:
 | "school"                | "schools"                 | 2     |/teachers/@ids/teacherSchoolAssociations/schools|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
 | "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
-| "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
+| "staff"                 | "staff"                   | 6     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
 | "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
