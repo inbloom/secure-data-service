@@ -91,9 +91,10 @@ default:
 
         # Elasticsearch config
         sli.search.url : http://localhost:9200
-        sli.search.username: user
-        sli.search.password: searchme
+        sli.search.username: 17BF72EAF6893034F8FB4AE35BF3A567
+        sli.search.password: 4284B82ACF30963CA2315839AC939C62
         sli.search.embedded: true
+        sli.search.encryption: true
 
         # Key substitutions
         sli.mongodb.keyencoding: \%:\%25,\\.:\%2E

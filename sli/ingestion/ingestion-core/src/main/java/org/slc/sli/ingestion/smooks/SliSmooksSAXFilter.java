@@ -23,8 +23,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.milyn.SmooksException;
 import org.milyn.cdr.ParameterAccessor;
 import org.milyn.container.ExecutionContext;
@@ -35,7 +33,8 @@ import org.milyn.delivery.sax.terminate.TerminateException;
 import org.milyn.payload.FilterResult;
 import org.milyn.payload.FilterSource;
 import org.milyn.payload.JavaSource;
-import org.xml.sax.Locator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class replaces {@linkplain org.milyn.delivery.sax.SmooksSAXFilter filter} and
@@ -53,7 +52,7 @@ import org.xml.sax.Locator;
  *
  */
 public class SliSmooksSAXFilter extends Filter {
-    private static Log logger = LogFactory.getLog(SmooksSAXFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmooksSAXFilter.class);
 
     private ExecutionContext executionContext;
     private SliSAXParser parser;
@@ -77,6 +76,7 @@ public class SliSmooksSAXFilter extends Filter {
      * Same as in {@linkplain org.milyn.delivery.sax.SmooksSAXFilter}.
      *
      */
+    @Override
     public final void doFilter() throws SmooksException {
         Source source = FilterSource.getSource(executionContext);
         Result result = FilterResult.getResult(executionContext, StreamResult.class);
@@ -104,11 +104,11 @@ public class SliSmooksSAXFilter extends Filter {
             Writer writer = parser.parse(source, result, executionContext);
             writer.flush();
         } catch (TerminateException e) {
-            if (logger.isDebugEnabled()) {
+            if (LOGGER.isDebugEnabled()) {
                 if (e.isTerminateBefore()) {
-                    logger.debug("Terminated filtering on visitBefore of element '" + SAXUtil.getXPath(e.getElement()) + "'.");
+                    LOGGER.debug("Terminated filtering on visitBefore of element '{}'.", SAXUtil.getXPath(e.getElement()));
                 } else {
-                    logger.debug("Terminated filtering on visitAfter of element '" + SAXUtil.getXPath(e.getElement()) + "'.");
+                    LOGGER.debug("Terminated filtering on visitAfter of element '{}'.", SAXUtil.getXPath(e.getElement()));
                 }
             }
         } catch (Exception e) {
@@ -126,6 +126,7 @@ public class SliSmooksSAXFilter extends Filter {
     /**
      * Same as in {@linkplain org.milyn.delivery.sax.SmooksSAXFilter}.
      */
+    @Override
     public final void cleanup() {
         parser.cleanup();
     }

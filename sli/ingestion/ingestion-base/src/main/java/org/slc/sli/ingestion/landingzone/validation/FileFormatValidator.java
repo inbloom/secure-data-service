@@ -22,7 +22,7 @@ import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -43,7 +43,7 @@ public class FileFormatValidator extends IngestionFileValidator {
     }
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
         IngestionFileEntry entry = item.getFileItem();
         FileFormat format = entry.getFileFormat();
         if (format == null) {
