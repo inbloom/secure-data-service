@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'json'
 
-API_LOAD_TEST_HOME = File.dirname(__FILE__)
+API_LOAD_TEST_HOME = File.dirname(File.absolute_path(__FILE__))
 IGNORED_JMX_FILES = ["oauth.jmx"]
 IGNORED_REQUESTS = ["/api/oauth/sso", "simple-idp", "IDP Login HTTP Request", "/api/rest/saml/sso/post", "/api/oauth/token"]
 JTL_FILE_PREFIX = "test"
@@ -39,12 +39,12 @@ module ApiLoadTest
       @result_dir = config[:result_dir] || "#{API_LOAD_TEST_HOME}/result"
       @jmeter_exec = config[:jmeter_exec] || "/opt/apache-jmeter/bin/jmeter"
       @max_avg_elapsed_time = config[:max_avg_elapsed_time] || 30000
-      @jmeter_prop = config[:jmeter_prop] || "#{API_LOAD_TEST_HOME}/../local.properties"
+      @jmeter_prop = config[:jmeter_prop] || "#{API_LOAD_TEST_HOME.split('/')[0..-2].join('/')}/local.properties"
     end
 
     def run_jmeter(jmx_file, jtl_file, thread_count)
       File.delete(jtl_file) if File.exist? jtl_file
-      command = @remote ? "#{@jmeter_exec} -n -G#{@jmeter_prop} -t #{jmx_file} -l #{jtl_file} -Gthreads=#{thread_count} -Gloops=1 -R #{@remote_servers.join(',')}" :
+      command = @remote ? "#{@jmeter_exec} -n -t #{jmx_file} -G #{@jmeter_prop} -l #{jtl_file} -Gthreads=#{thread_count} -Gloops=1 -R #{@remote_servers.join(',')}" :
           "#{@jmeter_exec} -n -q #{@jmeter_prop} -t #{jmx_file} -l #{jtl_file} -Jthreads=#{thread_count} -Jloops=1"
 
       p "Spawning process command: #{command}"

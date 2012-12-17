@@ -50,7 +50,7 @@ task :runMultiNodesTests => [:checkJmeterHome] do
       {
           :jmeter_exec => @jmeter_exec,
           :remote => true,
-          :remote_servers => ["localhost","192.168.0.9"]
+          :remote_servers => ["localhost"]
       }
   )
 end
