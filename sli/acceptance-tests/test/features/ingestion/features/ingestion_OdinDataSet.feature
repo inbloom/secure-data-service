@@ -97,19 +97,19 @@ Then I should see following map of entry counts in the corresponding collections
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 32|
+     | studentCohortAssociation                 |                 33|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
      | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                 92|
+     | studentProgramAssociation                |                102|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 2965 records." in the resulting batch job file
+    And I should see "Processed 3035 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -156,36 +156,6 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 10                  | schools.edOrgs                           | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |   
      | student                     | 1                   | _id                                      | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
      | studentParentAssociation    | 2                   | body.studentId                           | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
-
-Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database
-  When I can find a "staff" with "body.teacherUniqueStateId" "rbraverman" in tenant db "Midgar"
-    Then the "staff" entity "type" should be "teacher"
-    And the "staff" entity "body.staffUniqueStateId" should be "rbraverman"
-#    And the "staff" entity "body.name.firstName" should be "Rebecca"
-#    And the "staff" entity "body.name.lastSurName" should be "Braverman" 
-
-Scenario: Verify specific staff document for Charles Gray ingested correctly: Populated Database
-  When I can find a "staff" with "body.teacherUniqueStateId" "cgray" in tenant db "Midgar"
-    Then the "staff" entity "type" should be "teacher"
-    And the "staff" entity "body.staffUniqueStateId" should be "cgray"
-#    And the "staff" entity "body.name.firstName" should be "Charles"
-#    And the "staff" entity "body.name.lastSurName" should be "Gray"
-
-Scenario: Verify specific staff document for Linda Kim ingested correctly: Populated Database
-  When I can find a "staff" with "body.teacherUniqueStateId" "linda.kim" in tenant db "Midgar"
-    Then the "staff" entity "type" should be "teacher"
-    And the "staff" entity "body.staffUniqueStateId" should be "linda.kim"
-#    And the "staff" entity "body.name.firstName" should be "Linda"
-#    And the "staff" entity "body.name.lastSurName" should be "Kim"
-
-Scenario: Verify superdoc studentSchoolAssociation for specific _id ingested correctly: Populated Database
-  #When I can find a "studentSchoolAssociation" with "_id" "bbe01f0a3de4e1b35d86397a26ddd0007fd8296a_id" in tenant db "Midgar"
-  When Examining the studentSchoolAssociation collection references
-    Then the studentSchoolAssociation references "educationOrganization" "_id" with "body.schoolId"
-    And the studentSchoolAssociation references "student" "_id" with "body.studentId"
-    And the studentSchoolAssociation references "student" "schools._id" with "body.schoolId"
-    And the studentSchoolAssociation references "student" "schools.entryDate" with "body.entryDate"
-    And the studentSchoolAssociation references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
   When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"
