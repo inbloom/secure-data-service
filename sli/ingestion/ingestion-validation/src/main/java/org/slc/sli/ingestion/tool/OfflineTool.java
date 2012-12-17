@@ -22,9 +22,14 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  *
@@ -35,7 +40,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class OfflineTool {
 
-    private static Logger logger = LoggerUtil.getLogger();
     public static void main(String[] args) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
@@ -46,29 +50,38 @@ public class OfflineTool {
 
     private ValidationController controller;
 
+    private AbstractMessageReport messageReport;
+
     // Name of the validation tool
     String appName;
 
     // Number of arguments
     int inputArgumentCount;
 
+    private Source source = null;
+
+    private ReportStats reportStats = null;
+
     private void start(String[] args) {
         LoggerUtil.logToConsole();
         File file = null;
 
+        source = new SimpleSource(null, null, null);
+        reportStats = new SimpleReportStats(source);
+
         if ((args.length != inputArgumentCount)) {
-            logger.error(appName + ":Illegal options");
-            logger.error("Usage: " + appName + " [Zip/Ctl File]");
+            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0011, appName);
+            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0012, appName);
             return;
         } else {
             file = new File(args[0]);
             if (!file.exists()) {
-                logger.error(args[0] + " does not exist");
+                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0014, args[0]);
                 return;
             }
             if (file.isDirectory()) {
-                logger.error("Illegal option - directory path. Expecting a Zip or a Ctl file");
-                logger.error("Usage: " + appName + " [Zip/Ctl File]");
+                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0013);
+                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0012, appName);
                 return;
             }
         }
@@ -103,5 +116,10 @@ public class OfflineTool {
 
     public int getInputArgumentCount() {
         return inputArgumentCount;
+    }
+
+
+    public void setMessageReport(AbstractMessageReport messageReport) {
+        this.messageReport = messageReport;
     }
 }
