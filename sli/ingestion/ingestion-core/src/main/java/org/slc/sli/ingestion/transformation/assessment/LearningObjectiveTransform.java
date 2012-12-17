@@ -30,6 +30,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -158,10 +159,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     // add this entity to our NR working set
                     transformedLearningObjectives.add(childEntityNR);
                 } else {
-                    super.getErrorReport(parentLO.getSourceFile()).error(
-                            "Could not resolve LearningObjectiveReference with Objective: " + objective
-                                    + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel"
-                                    + objectiveGradeLevel, this);
+                    super.reportError(parentLO.getSourceFile(), CoreMessageCode.CORE_0034, objective, academicSubject, objectiveGradeLevel);
                 }
             }
         }
@@ -176,8 +174,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         if (!childLo.getAttributes().containsKey(PARENT_LEARNING_OBJ_REF)) {
             childLo.getAttributes().put(PARENT_LEARNING_OBJ_REF, childLearningObjRefs);
         } else {
-            super.getErrorReport(childLo.getSourceFile()).error(
-                    "LearningObjective cannot have multiple parents. " + childLearningObjRefs.toString(), this);
+            super.reportError(childLo.getSourceFile(), CoreMessageCode.CORE_0030, childLearningObjRefs.toString());
         }
     }
 
@@ -193,9 +190,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         if (childLearningStdRefs != null) {
             for (Map<String, Object> learnStdRef : childLearningStdRefs) {
                 if (learnStdRef == null) {
-                    super.getErrorReport(parentLO.getSourceFile()).error(
-                            "Could not resolve child learning standard references for learning objective "
-                                    + getByPath(LO_ID_CODE_PATH, parentLO.getAttributes()), this);
+                    super.reportError(parentLO.getSourceFile(), CoreMessageCode.CORE_0031, getByPath(LO_ID_CODE_PATH, parentLO.getAttributes()));
                 } else {
                     String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
                     String csn = getByPath(LS_CONTENT_STANDARD_NAME_PATH, learnStdRef);

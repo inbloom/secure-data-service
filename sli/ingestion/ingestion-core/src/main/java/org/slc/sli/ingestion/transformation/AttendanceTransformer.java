@@ -47,6 +47,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
@@ -224,8 +225,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         long numAttendance = attendances.size();
         if (numAttendance != numAttendancesIngested) {
             long remainingAttendances = numAttendance - numAttendancesIngested;
-            super.getErrorReport(attendances.values().iterator().next().getSourceFile())
-                .warning(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG1",Long.toString(remainingAttendances) ) , this);
+            super.reportWarnings(attendances.values().iterator().next().getSourceFile(), CoreMessageCode.CORE_0028, Long.toString(remainingAttendances));
         }
 
         LOG.info("Finished transforming attendance data");
@@ -625,8 +625,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         numAttendancesIngested += processedAttendances.size();
 
         if (sessions.entrySet().size() == 0 && attendance.size() > 0) {
-            super.getErrorReport(attendances.values().iterator().next().getSourceFile())
-                .warning(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG4",studentId,schoolId), this);
+            super.reportWarnings(attendances.values().iterator().next().getSourceFile(), CoreMessageCode.CORE_0029, studentId, schoolId);
         }
 
         // Step 2: retrieve sli SchoolYearAttendances
