@@ -26,7 +26,7 @@ Scenario Outline: Teacher making calls to disallowed URI paths and being rewritt
     And my contextual access is defined by table:
     | Context  | Ids                                                                          |
     | teachers | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
-    | sections | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
+    | sections | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234_id |
     When I call <Called Path> using ID <ID>
     Then I should receive a return code of 200
     And the executed URI should be <Rewritten Path>
@@ -47,7 +47,7 @@ Scenario Outline: Teacher making calls to disallowed URI paths speficic to teach
     And my contextual access is defined by table:
     | Context  | Ids                                                                          |
     | teachers | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
-    | sections | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
+    | sections | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234_id |
     When I call <Called Path> using ID <ID>
     Then I should receive a return code of 200
     And the executed URI should be <Rewritten Path>
@@ -164,7 +164,7 @@ Examples:
     | Allowed Path           | Denied Path                                    | ID |
     | "/courses/@id"         | "/courses/@id/courseTranscripts/students"      | "e31f7583-417e-4c42-bd55-0bbe7518edf8" |
     | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
-    | "/programs/@id"        | "/programs/@id/cohorts"                        | "f24e5725-c1e4-48db-9f62-381ab434c0ec" |
+    | "/programs/@id"        | "/programs/@id/cohorts"                        | "f24e5725-c1e4-48db-9f62-381ab434c0ec_id" |
 	
 Scenario Outline: Denied Paths for Staff
 	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
@@ -176,7 +176,7 @@ Examples:
     | Allowed Path           | Denied Path                                    | ID |
     | "/courses/@id"         | "/courses/@id/courseTranscripts/students"      | "e31f7583-417e-4c42-bd55-0bbe7518edf8" |
     | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
-    | "/programs/@id"        | "/programs/@id/cohorts"                        | "9b8c3aab-8fd5-11e1-86ec-0021701f543f" |
+    | "/programs/@id"        | "/programs/@id/cohorts"                        | "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id" |
 	
 Scenario Outline: Deny multiple IDs in URI if those IDs are rewritten to query params
 #NOTE: This test will need to be reworked if the API is ever made to support multiple ids in query params

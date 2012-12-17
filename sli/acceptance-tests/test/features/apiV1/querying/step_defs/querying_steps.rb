@@ -79,7 +79,12 @@ Then /^the executed path should not equal the requested "(.*?)"$/ do |requested_
     assert(executed_path != requested_path, "The executed path should have shown the implied (injected) context but did not")
 end
 
-
+Then /^each entity's response body I should see the following fields only:$/ do |table|
+  @result.each do |res|
+    check_number_of_fields(res, table)
+    check_contains_fields(res, table)
+  end
+end
 
 
 

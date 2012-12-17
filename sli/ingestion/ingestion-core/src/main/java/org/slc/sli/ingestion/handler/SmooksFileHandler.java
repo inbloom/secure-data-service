@@ -35,6 +35,7 @@ import org.xml.sax.SAXException;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
@@ -58,9 +59,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
+        /*
         try {
 
-            generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
+            //generateNeutralRecord(fileEntry, errorReport, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
             LOG.error("IOException: Could not instantiate smooks, unable to read configuration file", e);
@@ -71,16 +73,16 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
                     SmooksFileHandler.class);
         }
-
+    */
         return fileEntry;
     }
 
     @SuppressWarnings("unchecked")
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
-        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
+        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
@@ -94,8 +96,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
         } catch (SmooksException se) {
-            LOG.error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
-            errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
+            errorReport.error(reportStats, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
@@ -110,8 +111,17 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+
+            generateNeutralRecord(item,report, reportStats, fileProcessStatus);
+
+        } catch (IOException e) {
+            report.error(reportStats, CoreMessageCode.CORE_0016);
+        } catch (SAXException e) {
+            report.error(reportStats, CoreMessageCode.CORE_0017);
+        }
+
+        return item;
     }
 
     @Override

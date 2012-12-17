@@ -21,14 +21,15 @@ import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Helper class for adding hateoas links to entities
@@ -48,9 +49,15 @@ public class HateoasLink {
 
     public List<EntityBody> add(final String resource, List<EntityBody> entities, final UriInfo uriInfo) {
 
-        EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
+        EntityDefinition baseDefinition = entityDefinitionStore.lookupByResourceName(resource);
+        EntityDefinition definition;
 
         for (EntityBody entity : entities) {
+
+            // if this is a wrapper entity, get the definition from the type of the entity itself
+            definition = baseDefinition.wrapperEntity() ?
+                             entityDefinitionStore.lookupByEntityType((String) entity.get("entityType")) :
+                             baseDefinition;
             List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
 
             Iterator<EmbeddedLink> it = links.iterator();
@@ -63,7 +70,7 @@ public class HateoasLink {
                     }
                 }
             }
-            
+
             if (!links.isEmpty()) {
                 entity.put(ResourceConstants.LINKS, links);
             }

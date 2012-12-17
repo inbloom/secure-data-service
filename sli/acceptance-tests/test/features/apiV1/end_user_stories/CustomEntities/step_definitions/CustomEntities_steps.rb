@@ -37,7 +37,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"       if human_readable_id == "EDUCATION ORGANIZATION ID"
     
   #students
-  id = "0cff1537-95e6-440b-ba2f-3003a2ecd7ed"       if human_readable_id == "STUDENT ID"
+  id = "0cff1537-95e6-440b-ba2f-3003a2ecd7ed_id"       if human_readable_id == "STUDENT ID"
   
   #student school associations
   id = "3b638fbc-0b82-459a-8002-ee57717e02e9"       if human_readable_id == "STUDENT SCHOOL ASSOC ID"

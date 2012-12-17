@@ -49,6 +49,7 @@ public final class EntityNames {
     public static final String REALM = "realm";
     public static final String REPORT_CARD = "reportCard";
     public static final String SCHOOL = "school";
+    public static final String SEARCH = "search";
     public static final String SECTION = "section";
     public static final String SESSION = "session";
     public static final String STAFF = "staff";

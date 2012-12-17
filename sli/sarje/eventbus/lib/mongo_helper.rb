@@ -41,7 +41,7 @@ module Eventbus
     def setFixture(collectionName = @active_config[:mongo_job_collection], fixtureFilePath = @active_config[:fixture_file_path], dropExistingCollection = true)
       dropOption = (dropExistingCollection) ? "--drop":""
       command = "#{MONGOIMPORT_EXEC} #{dropOption} -d #{@active_config[:mongo_db]} -c #{collectionName} -h #{@active_config[:mongo_host]} --file #{fixtureFilePath}"
-      puts "COMMAND: #{command}"
+      #puts "COMMAND: #{command}"
       status, stdout, stderr = systemu command
 
       #sh cmd do |success, exit_code|

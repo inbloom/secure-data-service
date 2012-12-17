@@ -18,12 +18,14 @@ Background: Nothing yet
     | ENTITY URI                  | ENTITY TYPE                | ENTITY ID                               |
     | assessments                 | assessment                 | dd916592-7d7e-5d27-a87d-dfc7fcb757f6    |
     | schools                     | school                     | 92d6d5a0-852c-45f4-907a-912752831772    |
-    | students                    | student                    | 3a8860f9-ffb1-40f2-89b4-84f3ba369204    |
-    | studentSectionAssociations  | studentSectionAssociation  | 4ae72560-3518-4576-a35e-a9607668c9ad    |
+    | students                    | student                    | 3a8860f9-ffb1-40f2-89b4-84f3ba369204_id    |
+    | studentSectionAssociations  | studentSectionAssociation  | 8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id    |
     | courseOfferings             | courseOffering             | c5b80f7d-93c5-11e1-adcc-101f74582c4c    |
 
   Scenario Outline: Getting response from GET - Read all
-    Given parameter "limit" is "0"
+  
+	 #ES bug, set this back to zero after bug fix
+    Given parameter "limit" is "250"
     When I navigate to GET "/v1/<ENTITY URI>"
     Then I should receive a return code of 200
     And I should receive an XML document

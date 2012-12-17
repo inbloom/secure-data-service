@@ -16,7 +16,7 @@ Scenario: Post a zip file with an external entity that attempts to access a loca
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 1 records." in the resulting batch job file
 
-  And I should see "ERROR  ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Entity     stateEducationAgency" in the resulting error log file
   And I should see "     Instance   0" in the resulting error log file
   And I should see "     Field      stateOrganizationId" in the resulting error log file

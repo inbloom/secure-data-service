@@ -28,6 +28,7 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -35,6 +36,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.util.*;
 
 /**
  * Abstract class that all context validators must extend.
@@ -49,7 +52,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
+
     @Autowired
     private EdOrgHelper edorgHelper;
 
@@ -163,8 +166,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return a set of the edorgs you are associated to and their children.
      */
     protected Set<String> getStaffEdOrgLineage() {
-        Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs();
-        return getEdorgDescendents(edOrgLineage);
+        return edorgHelper.getStaffEdOrgLineage();
     }
 
     protected Set<String> getEdorgDescendents(Set<String> edOrgLineage) {
@@ -184,25 +186,9 @@ public abstract class AbstractContextValidator implements IContextValidator {
         
     }
 
-    protected Set<String> getStaffCurrentAssociatedEdOrgs() {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> staffEdOrgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        List<Entity> staffEdOrgAssociations = new LinkedList<Entity>();
-        if (staffEdOrgs != null) {
-            for (Entity staffEdOrg : staffEdOrgs) {
-                if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE, false)) {
-                    staffEdOrgAssociations.add(staffEdOrg);
-                }
-            }
-        }
-        Set<String> edOrgIds = new HashSet<String>();
-        for (Entity association : staffEdOrgAssociations) {
-            edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-        }
-        return edOrgIds;
+    protected  Set<String> getStaffCurrentAssociatedEdOrgs() {
+        return edorgHelper.getStaffCurrentAssociatedEdOrgs();
     }
-
 
     protected Set<String> getStaffEdOrgParents() {
         Set<String> edorgHiearchy = new HashSet<String>();
@@ -273,5 +259,20 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         edorgs = getEdorgLineage(edorgs);
         return edorgs;
+    }
+
+    @Override
+    public Set<String> getValid(String entityType, Set<String> ids) {
+        // Default "fallback" implementation where ids are validated one by one
+        Set<String> validated = new HashSet<String>();
+        Set<String> tmp = new HashSet<String>();
+        for (String id : ids) {
+            tmp.add(id);
+            if (validate(entityType, tmp)) {
+                validated.add(id);
+            }
+            tmp.clear();
+        }
+        return validated;
     }
 }
