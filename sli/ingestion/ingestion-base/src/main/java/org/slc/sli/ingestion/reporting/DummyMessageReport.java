@@ -18,27 +18,23 @@ package org.slc.sli.ingestion.reporting;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Dummy implementation of the AbstractMessageReport. Do not report warnings/errors.
+ *
+ * @author okrook
+ *
+ */
 @Component
 public class DummyMessageReport extends AbstractMessageReport {
 
     @Override
     public void reportError(ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incError();
-        }
-
-        // report error
+        // Do nothing
     }
 
     @Override
     public void reportWarning(ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incWarning();
-        }
-
-        // report warning
+     // Do nothing
     }
 
     @Override

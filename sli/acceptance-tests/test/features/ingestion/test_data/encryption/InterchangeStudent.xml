@@ -1,5 +1,10 @@
-<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">  <Student>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+  <Student>
     <StudentUniqueStateId>530425896</StudentUniqueStateId>
+    <StudentIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="Federal">
+        <IdentificationCode>555-55-5555</IdentificationCode>
+    </StudentIdentificationCode>
     <Name>
       <FirstName>Rhonda</FirstName>
       <MiddleName>Shannon</MiddleName>
@@ -7,66 +12,94 @@
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <OtherName OtherNameType="Nickname">
-	<FirstName>Julie</FirstName>
-	<MiddleName>Wren</MiddleName>
-	<LastSurname>Einstein</LastSurname>
+    <FirstName>Julie</FirstName>
+    <MiddleName>Wren</MiddleName>
+    <LastSurname>Einstein</LastSurname>
     </OtherName>
     <Sex>Female</Sex>
     <BirthData>
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
     <Address>
-    	<StreetNumberName>1234 Shaggy</StreetNumberName>
-	<City>Durham</City>
-	<StateAbbreviation>NC</StateAbbreviation>
-	<PostalCode>27701</PostalCode>
+        <StreetNumberName>1234 Shaggy</StreetNumberName>
+    <City>Durham</City>
+    <StateAbbreviation>NC</StateAbbreviation>
+    <PostalCode>27701</PostalCode>
     </Address>
     <Telephone>
-	<TelephoneNumber>919-555-8765</TelephoneNumber>
+    <TelephoneNumber>919-555-8765</TelephoneNumber>
     </Telephone>
     <ElectronicMail>
-	<EmailAddress>rsd@summer.nc.edu</EmailAddress>
+    <EmailAddress>rsd@summer.nc.edu</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <OldEthnicity>Black, Not Of Hispanic Origin</OldEthnicity>
     <Race>
-    	<RacialCategory>Black - African American</RacialCategory>
+        <RacialCategory>Black - African American</RacialCategory>
     </Race>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <StudentCharacteristics>
-	<Characteristic>Parent in Military</Characteristic>
-	<BeginDate>2000-10-01</BeginDate>
+    <Characteristic>Parent in Military</Characteristic>
+    <BeginDate>2000-10-01</BeginDate>
     </StudentCharacteristics>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Languages>
-	<Language>English</Language>
+    <Language>English</Language>
     </Languages>
     <HomeLanguages>
-	<Language>English</Language>
+    <Language>English</Language>
     </HomeLanguages>
     <Disabilities>
-	<Disability>Other Health Impairment</Disability>
+    <Disability>Other Health Impairment</Disability>
     </Disabilities>
     <Section504Disabilities>
-    	<Section504Disability>Medical Condition</Section504Disability>
+        <Section504Disability>Medical Condition</Section504Disability>
     </Section504Disabilities>
     <DisplacementStatus>Slightly to the right</DisplacementStatus>
     <ProgramParticipations>
-	<Program>Section 504 Placement</Program>
+    <Program>Section 504 Placement</Program>
     </ProgramParticipations>
     <LearningStyles>
-	<VisualLearning>33</VisualLearning>
-	<AuditoryLearning>33</AuditoryLearning>
-	<TactileLearning>33</TactileLearning>
+    <VisualLearning>33</VisualLearning>
+    <AuditoryLearning>33</AuditoryLearning>
+    <TactileLearning>33</TactileLearning>
     </LearningStyles>
     <CohortYears CohortYearType="First grade">
-	<SchoolYear>2010-2011</SchoolYear>
+    <SchoolYear>2010-2011</SchoolYear>
     </CohortYears>
     <StudentIndicators>
-	<IndicatorName>At risk</IndicatorName>
-	<Indicator>At risk</Indicator>
+    <IndicatorName>At risk</IndicatorName>
+    <Indicator>At risk</Indicator>
     </StudentIndicators>
     <LoginId>rsd</LoginId>
   </Student>
+  <Parent>
+        <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Richard</FirstName>
+            <MiddleName>Lee</MiddleName>
+            <LastSurname>Le</LastSurname>
+        </Name>
+        <OtherName OtherNameType="Nickname">
+          <FirstName>Julie</FirstName>
+          <MiddleName>Wren</MiddleName>
+          <LastSurname>Einstein</LastSurname>
+        </OtherName>
+        <Sex>Male</Sex>
+        <Address>
+            <StreetNumberName>23 Rue Lecourbe</StreetNumberName>
+            <City>Paris</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
+        <Telephone>
+            <TelephoneNumber>+33 (1) 45.23.35.48.12</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail>
+          <EmailAddress>rle@summer.nc.edu</EmailAddress>
+        </ElectronicMail> 
+        <LoginId>rle</LoginId>
+  </Parent>
 </InterchangeStudentParent>

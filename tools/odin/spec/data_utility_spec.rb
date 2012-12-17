@@ -125,6 +125,30 @@ describe "DataUtility" do
       end
     end
 
+    describe "--> request to get staff unique state id with string" do
+      it "will return the string that was input" do
+        DataUtility.get_staff_unique_state_id("rrogers").should match("rrogers")
+      end
+    end
+
+    describe "--> request to get staff unique state id with integer" do
+      it "will return the corresponding staff unique state id" do
+        DataUtility.get_staff_unique_state_id(17).should match("stff-0000000017")
+      end
+    end
+
+    describe "--> request to get teacher unique state id with string" do
+      it "will return the string that was input" do
+        DataUtility.get_teacher_unique_state_id("cgray").should match("cgray")
+      end
+    end
+
+    describe "--> request to get teacher unique state id with integer" do
+      it "will return the corresponding teacher unique state id" do
+        DataUtility.get_teacher_unique_state_id(18).should match("tech-0000000018")
+      end
+    end
+
     describe "--> request to get middle school id with integer" do
       it "will return the corresponding middle school id" do
         DataUtility.get_school_id(35, :middle).should match("midl-0000000035")
@@ -161,6 +185,30 @@ describe "DataUtility" do
         (1..25).each do
           grades.include?(DataUtility.get_random_grade_for_type(@prng, "high")).should be_true
         end
+      end
+    end
+
+    describe "--> request to get subset of choices" do
+      it "will return a subset of choices with correct size" do
+        options = [1,2,3,4,5,6,7,8,9,10]
+        subset  = DataUtility.select_num_from_options(@prng, 5, options)
+        subset.size.should eq 5
+        subset.each do |number|
+          options.include?(number).should be_true
+        end
+      end
+
+      it "will return choices if the number specified is larger than the size of choices" do
+        options = [1,2,3,4,5,6,7,8,9,10]
+        subset  = DataUtility.select_num_from_options(@prng, 15, options)
+        subset.size.should eq 10
+        subset.should eq options
+      end
+
+      it "will return an empty array is the number specified is zero" do
+        options = [1,2,3,4,5,6,7,8,9,10]
+        subset  = DataUtility.select_num_from_options(@prng, 0, options)
+        subset.size.should eq 0
       end
     end
   end

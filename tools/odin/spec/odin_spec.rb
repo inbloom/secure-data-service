@@ -79,14 +79,30 @@ describe "Odin" do
           @interchanges[line.split(',')[1]] = line
         end
       end
+
+      it "will generate a valid control file with the correct number of interchanges" do     
+        @interchanges.length.should eq(10)
+      end
+      
+      it "will generate a valid control file with Student as a type" do
+        @interchanges["StudentParent"].should match(/StudentParent.xml/)
+      end
+      
+      it "will generate a valid control file with EducationOrganization as a type" do
+        @interchanges["EducationOrganization"].should match(/EducationOrganization.xml/)
+      end
+      
+      it "will generate a valid control file with EducationOrgCalendar as a type" do
+        @interchanges["EducationOrgCalendar"].should match(/EducationOrgCalendar.xml/)
+      end
       
       describe "#generate" do
         it "will generate lists of 10 students" do
           student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
         end
         
-        it "will generate a valid control file with 8 interchanges" do     
-          @interchanges.length.should eq(9)
+        it "will generate a valid control file with the correct number of interchanges" do     
+          @interchanges.length.should eq(10)
         end
         
         it "will generate a valid control file with Student as a type" do

@@ -21,14 +21,16 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.ingestion.validation.SimpleValidator;
 
 /**
  * Abstract validator with Spring MessageSource support.
  *
  * @author okrook
  *
+ * @param <T> Type of the object being validated
  */
-public abstract class SimpleValidatorSpring<T> extends org.slc.sli.ingestion.validation.SimpleValidator<T> implements MessageSourceAware {
+public abstract class SimpleValidatorSpring<T> extends SimpleValidator<T> implements MessageSourceAware {
 
     private MessageSource messageSource;
 

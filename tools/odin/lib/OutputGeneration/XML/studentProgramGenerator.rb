@@ -20,21 +20,15 @@ require_relative "./EntityWriter"
 require_relative "./interchangeGenerator"
 require_relative "../../Shared/util"
 
-# event-based education organization interchange generator
-class EducationOrganizationGenerator < InterchangeGenerator
+# event-based student program interchange generator 
+class StudentProgramGenerator < InterchangeGenerator
 
-  # initialization will define the header and footer for the education organization interchange
+  # initialization will define the header and footer for the staff association interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
 
-    @header, @footer = build_header_footer("EducationOrganization")
-
-    @writers[ SeaEducationOrganization ] = EntityWriter.new("state_education_organization.mustache")
-    @writers[ LeaEducationOrganization ] = EntityWriter.new("local_education_organization.mustache")
-    @writers[ SchoolEducationOrganization ] = EntityWriter.new("school.mustache")
-    @writers[ Course ] = EntityWriter.new("course.mustache")
-    @writers[ Program ] = EntityWriter.new("program.mustache")
+    @header, @footer = build_header_footer( "StudentProgram" )    
+    @writers[ StudentProgramAssociation ] = EntityWriter.new("student_program_association.mustache")
   end
-
 end
