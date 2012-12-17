@@ -2,8 +2,7 @@ class FeaturesController < ApplicationController
 
 	def index
 		@features = []
-		start_time = 0 # Catch all... if date filter not specified, grab all events since 1970-01-01
-		start_time = Time.now - params[:time_filter].to_i unless (params[:time_filter] == nil || params[:time_filter] == "0")
+		start_time = get_time_filter_value
 		feature_set = Set.new
 		if params[:component_filter] != nil and !params[:component_filter].empty?
 			@cur_component = params[:component_filter]
