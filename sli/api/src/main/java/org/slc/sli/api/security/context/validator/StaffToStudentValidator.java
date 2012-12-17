@@ -24,14 +24,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
@@ -42,7 +43,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Autowired
     private StaffToProgramValidator programValidator;
-    
+
     @Autowired
     private StaffToCohortValidator cohortValidator;
 
@@ -53,8 +54,14 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
+    public Set<String> getValid(String entityType, Set<String> studentIds) {
+        // first check if the entire set is valid. if not, check id by id.
+        return (validate(entityType, studentIds)) ? studentIds : super.getValid(entityType, studentIds);
+    }
+
+    @Override
     public boolean validate(String entityType, Set<String> studentIds) {
-        
+
         return validateStaffToStudentContextThroughSharedEducationOrganization(studentIds);
     }
 
@@ -71,26 +78,11 @@ public class StaffToStudentValidator extends AbstractContextValidator {
             for (Entity entity : students) {
                 NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
                         NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
-                Set<String> cohorts = new HashSet<String>();
-                Set<String> programs = new HashSet<String>();
-                Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
-                for (Entity spa : spas) {
-                    if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE, true)) {
-                        continue;
-                    }
-                    programs.add((String) spa.getBody().get(ParameterConstants.PROGRAM_ID));
-                }
-                Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
-                for (Entity sca : scas) {
-                    if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
-                        continue;
-                    }
-                    cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
-                }
+
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
-                boolean byProgram = programValidator.validateWithStudentAccess(EntityNames.PROGRAM, programs, true);
-                boolean byCohort = cohortValidator.validateWithStudentAccess(EntityNames.COHORT, cohorts, true);
-                if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) || byProgram || byCohort)) {
+                if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
+                      programValidator.validateWithStudentAccess(EntityNames.PROGRAM, getValidPrograms(entity), true) ||
+                      cohortValidator.validateWithStudentAccess(EntityNames.COHORT, getValidCohorts(entity), true))) {
                     isValid = false;
                     break;
                 }
@@ -100,6 +92,34 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         }
 
         return isValid;
+    }
+
+    private Set<String> getValidPrograms(Entity entity) {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
+        Set<String> programs = new HashSet<String>();
+        Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
+        for (Entity spa : spas) {
+            if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE, true)) {
+                continue;
+            }
+            programs.add((String) spa.getBody().get(ParameterConstants.PROGRAM_ID));
+        }
+        return programs;
+    }
+
+    private Set<String> getValidCohorts(Entity entity) {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
+        Set<String> cohorts = new HashSet<String>();
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
+        for (Entity sca : scas) {
+            if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
+                continue;
+            }
+            cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
+        }
+        return cohorts;
     }
 
     private boolean isIntersection(Set<String> setA, Set<String> setB) {
@@ -154,7 +174,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     public void setProgramValidator(StaffToProgramValidator programValidator) {
         this.programValidator = programValidator;
     }
-    
+
     /**
      * @param cohortValidator
      *            the cohortValidator to set

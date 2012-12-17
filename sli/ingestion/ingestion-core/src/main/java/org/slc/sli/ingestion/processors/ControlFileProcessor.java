@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
@@ -124,24 +123,25 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(newJob.getTenantId());
 
-
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
             ControlFile cf = cfd.getFileItem();
 
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
-            Source source = new SimpleSource(newJob.getId(), cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
+            Source source = new SimpleSource(newJob.getId(), cf.getFileName(),
+                    BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
             ReportStats reportStats = new SimpleReportStats(source);
 
-            if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
+            if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
+                    && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
                 if (validator.isValid(cfd, databaseMessageReport, reportStats)) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
                     boolean isZipFile = false;
                     for (ResourceEntry resourceEntry : newJob.getResourceEntries()) {
                         if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
-                           isZipFile = true;
+                            isZipFile = true;
                         }
                     }
                     if (!isZipFile) {
@@ -158,7 +158,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             if (!cf.getFile().delete()) {
                 LOG.debug("Failed to delete: {}", cf.getFile().getPath());
             }
-
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
@@ -185,7 +184,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         if (reportStats.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
-        } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
+        } else if ((newJob.getProperty(AttributeType.PURGE.getName()) != null)
+                || (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) != null)) {
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.PURGE.name());
         } else {
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.CONTROL_FILE_PROCESSED.name());

@@ -16,9 +16,9 @@ Background:
 
                 Examples:
                         | ENTITY_ID                                   | SCORE  |                        
-                        | 2012aa-1b0d443a-d511-11e1-b0fd-0811960672a8 | "31.0" |
-                        | 2012ac-1b1ea9be-d511-11e1-b0fd-0811960672a8 | "28.0" |
-                        | 2012ae-1b124d5c-d511-11e1-b0fd-0811960672a8 | "24.0" |
+                        | 2012aa-1b0d443a-d511-11e1-b0fd-0811960672a8_id | "31.0" |
+                        | 2012ac-1b1ea9be-d511-11e1-b0fd-0811960672a8_id | "28.0" |
+                        | 2012ae-1b124d5c-d511-11e1-b0fd-0811960672a8_id | "24.0" |
 
   Scenario: As a teacher, I want to filter the calculated values that are returned
     When I navigate to a student with many calculated values

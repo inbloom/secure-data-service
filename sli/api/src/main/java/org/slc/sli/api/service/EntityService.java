@@ -201,4 +201,13 @@ public interface EntityService {
      */
     public CalculatedData<Map<String, Integer>> getAggregates(String id);
 
+    /**
+     * check if the collection exists in database
+     *
+     * @param collection
+     *            : name of the collection
+     * @return
+     */
+    public boolean collectionExists(String collection);
+
 }

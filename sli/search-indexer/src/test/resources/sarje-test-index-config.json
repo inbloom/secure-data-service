@@ -1,0 +1,61 @@
+{
+  "student": {
+    "fields": [
+      "_id",
+      "body.name.firstName",
+      "body.name.middleName",
+      "body.name.lastSurname",
+      "body.otherName.firstName",
+      "body.name.lastSurname",
+      "metaData",
+      "type"
+    ],
+    "mapping": {
+      "student": {
+        "properties": {
+          "context": {
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "section": {
+    "fields": [
+      "_id",
+      "body.uniqueSectionCode",
+      "metaData",
+      "type"
+    ]
+  },
+  "test": {
+    "indexType": "student",
+    "fields": [
+      "body.a",
+      "body.b",
+      "body.name"
+    ],
+    "rename" : {"body.name" : "_id", "body.b": "body.metaData.contextId"},
+    "condition":{"test.filter": null, "test.array.filter": null},
+    "append": {
+      "body.append" : {"value": "ALL"}
+    }
+  },
+  "test1": {
+    "indexType": "student",
+    "fields": [],
+    "condition":{"test.array.filter": null}
+  },
+  "test2": {
+    "indexType": "student",
+    "fields": ["array.id", "array.filter"],
+     "append": {
+      "body.test" : {"subdoc": "array", "field":"id", "condition": {"filter" : null}}
+    }
+  }
+}
