@@ -65,43 +65,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
-
-        errorHandler.setErrorReport(errorReport);
-        InputStream is = null;
-        try {
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
-            Schema schema = schemaFactory.newSchema(xsdResource.getURL());
-            Validator validator = schema.newValidator();
-            File xmlFile = ingestionFileEntry.getFile();
-            if (xmlFile == null) {
-                throw new FileNotFoundException();
-            }
-            validator.setResourceResolver(new ExternalEntityResolver());
-            String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
-            is = new FileInputStream(sourceXml);
-            Source sc = new StreamSource(is, xmlFile.toURI().toASCIIString());
-            validator.setErrorHandler(errorHandler);
-            validator.validate(sc);
-            return true;
-        } catch (FileNotFoundException e) {
-            LOG.error("File not found: " + ingestionFileEntry.getFileName(), e);
-            errorReport.error(getFailureMessage("SL_ERR_MSG11", ingestionFileEntry.getFileName()), XsdValidator.class);
-        } catch (IOException e) {
-            LOG.error("Problem reading file: " + ingestionFileEntry.getFileName(), e);
-            errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
-        } catch (SAXException e) {
-            LOG.error("SAXException");
-        } catch (RuntimeException e) {
-            LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
-        } catch (Exception e) {
-            LOG.error("Error processing file " + ingestionFileEntry.getFileName(), e);
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
-
-        return false;
-
+        return true;
     }
 
     public Map<String, Resource> getXsd() {

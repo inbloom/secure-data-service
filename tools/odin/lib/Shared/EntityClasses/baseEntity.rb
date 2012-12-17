@@ -46,6 +46,10 @@ class BaseEntity
     end
     sum
   end
+  
+  def bit_choose() 
+    rand(2) == 1
+  end
 
   def bit_choose()
     @rand.rand(2) == 1

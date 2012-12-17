@@ -47,6 +47,10 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
@@ -71,6 +75,9 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -143,12 +150,16 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                         resource.getChecksum());
                 fileEntry.setBatchJobId(newJob.getId());
                 fileEntry.setFile(new File(resource.getResourceName()));
+                fileEntry.setMessageReport(databaseMessageReport);
+
+                ReportStats reportStats = new SimpleReportStats(new SimpleSource(newJob.getId(), resource.getResourceId(), BATCH_JOB_STAGE.getName()));
+                fileEntry.setReportStats(reportStats);
 
                 IdRefResolutionHandler idRefResolutionHandler = context.getBean("IdReferenceResolutionHandler",
                         IdRefResolutionHandler.class);
 
                 Callable<Boolean> idRefCallable = new IdRefResolutionCallable(idRefResolutionHandler, fileEntry,
-                        newJob, batchJobDAO);
+                        newJob, databaseMessageReport);
                 FutureTask<Boolean> resolutionTask = IngestionExecutor.execute(idRefCallable);
                 resolutionTaskList.add(resolutionTask);
             }

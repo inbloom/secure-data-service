@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# sarje-jobscheduler      Start/Stop sarje-jobscheduler.
+#
+# chkconfig: - 62 38
+# description: Instiki is a ruby wiki.
+#
+# processname: sarje-jobscheduler
+
+# Using the lsb functions to perform the operations.
+. /lib/lsb/init-functions
+
+# Process name ( For display )
+NAME=sarje-jscheduler
+SARJE_HOME=/home/stephan/dev/sli/sli/sarje/eventbus
+
+DAEMON_CONFIG="$SARJE_HOME/conf/minislirp-jscheduler-config.yml"
+DAEMON="$SARJE_HOME/jscheduler_daemon.rb"
+
+PIDFILE=$SARJE_HOME/run/jscheduler.pid 
+LOG_FILE=$SARJE_HOME/log/jscheduler.log 
+RETVAL=0
+
+# If the daemon is not there, then exit.
+test -x $JSCHEDULER_APP || exit 5
+
+case $1 in
+ start)
+    $DAEMON $DAEMON_CONFIG > $LOG_FILE & 
+    echo $! > $PIDFILE
+  ;;
+ stop)
+  # Stop the daemon.
+  if [ -e $PIDFILE ]; then
+    kill -9 `cat $PIDFILE`
+    rm -f $PIDFILE
+  fi
+  ;;
+ restart)
+  # Restart the daemon.
+  $0 stop && sleep 2 && $0 start
+  ;;
+ status)
+  # Check the status of the process.
+  if [ -e $PIDFILE ]; then
+   status_of_proc -p $PIDFILE $DAEMON "$NAME process" && exit 0 || exit $?
+  else
+   log_daemon_msg "$NAME Process is not running"
+   log_end_msg 0
+  fi
+  ;;
+ *)
+  # For invalid arguments, print the usage message.
+  echo "Usage: $0 {start|stop|restart|status}"
+  exit 2
+  ;;
+esac
+exit $?

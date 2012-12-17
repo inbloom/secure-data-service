@@ -87,6 +87,7 @@ public class CommonValidatorTest {
         ignored.add(EntityNames.OBJECTIVE_ASSESSMENT);
         ignored.add(EntityNames.REALM);
         ignored.add(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT);
+        ignored.add(EntityNames.SEARCH);
     }
 
     @After
