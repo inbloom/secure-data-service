@@ -149,14 +149,14 @@ describe "Odin" do
 
   end
 
-  context "with a 10001 student configuration" do
+  context "with a 1000 student configuration" do
     let(:odin) {Odin.new}
-    before {odin.generate "10001students"}
+    before {odin.generate "1000students"}
     let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
 
     describe "#generate" do
-      it "will generate lists of 10001 students" do
-        student.readlines.select{|l| l.match("<Student>")}.length.should eq(10001)
+      it "will generate lists of 1000 students" do
+        student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
       end
     end
   end
