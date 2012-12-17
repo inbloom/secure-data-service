@@ -36,6 +36,7 @@ import org.milyn.delivery.ContentDeliveryConfig;
 import org.milyn.delivery.Filter;
 import org.milyn.delivery.FilterBypass;
 import org.milyn.delivery.Visitor;
+import org.milyn.delivery.sax.SmooksSAXFilter;
 import org.milyn.event.ExecutionEventListener;
 import org.milyn.event.types.FilterLifecycleEvent;
 import org.milyn.javabean.context.BeanContext;
@@ -44,6 +45,8 @@ import org.milyn.javabean.context.preinstalled.UniqueID;
 import org.milyn.payload.FilterResult;
 import org.milyn.payload.FilterSource;
 import org.milyn.payload.JavaResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
@@ -76,14 +79,14 @@ import org.xml.sax.SAXException;
  * <p>
  * This <code>SliSmooks</code> class extends  {@linkplain org.milyn.Smooks} and
  * implements {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler}.
- * It keeps a <code>sliVisitorConfigMap</code> and uses the map to
+ * It keeps a <code>SmooksEdFiVisitor</code> reference and uses it to
  * call the visitors'
  * <code>{@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator}</code> method.
  * <p>
  * Below are the funcionality this class provides beyond <code>Smooks</code>:
  * <ol>
- * <li>In <code>{@linkplain #addVisitor(Visitor, String, String)</code>, it adds the visitor into
- * <code>sliVisitorConfigMap</code> before calling super's method.</li>
+ * <li>In <code>{@linkplain #addVisitor(Visitor, String, String)</code>, it sets the visitor to
+ * <code>SmooksEdFiVisitor</code> before calling super's method.</li>
  * <li>In <code>{@linkplain #_filter}</code>, it creates a
  * {@linkplain SliSmooksSAXFilter} (instead of SmooksSAXFilter)</li>
  * <li>It implements {@linkplain #setDocumentLocator}</li>
@@ -95,19 +98,11 @@ import org.xml.sax.SAXException;
  *
  */
 public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
-    private static Log logger = LogFactory.getLog(SliSmooks.class);
+    private static final Logger logger = LoggerFactory.getLogger(SliSmooks.class);
     /**
-     * A complete list of all the that have been initialized and added to this store.
+     * A SmooksEdFiVisitor that has been initialized and added.
      */
-    private List<SmooksEdFiVisitor> sliVisitorConfigMap = new CopyOnWriteArrayList<SmooksEdFiVisitor>() {
-        public boolean add(final SmooksEdFiVisitor object) {
-            if (contains(object)) {
-                // Don't add the same object again...
-                return false;
-            }
-            return super.add(object);
-        }
-    };
+    private SmooksEdFiVisitor edFiVisitor;
 
     /**
      * Public Default Constructor.
@@ -150,7 +145,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
 
     /**
      * Add a visitor instance to <code>this</code> Smooks instance.
-     * Also add it to <code>sliVisitorConfigMap</code> for
+     * Also set it to <code>edFiVisitor</code> for
      * implementing <code>setDocumentLocator</code>.
      *
      * @param visitor The visitor implementation.
@@ -158,8 +153,8 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      * @param targetSelectorNS The message fragment target selector namespace.
      */
     public SmooksResourceConfiguration addVisitor(Visitor visitor, String targetSelector, String targetSelectorNS) {
-        if (visitor.getClass().getName().endsWith("SmooksEdFiVisitor")) {
-            sliVisitorConfigMap.add((SmooksEdFiVisitor)visitor);
+        if (visitor instanceof SmooksEdFiVisitor) {
+            edFiVisitor = (SmooksEdFiVisitor) visitor;
         }
         return super.addVisitor(visitor, targetSelector, targetSelectorNS);
     }
@@ -223,7 +218,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
                     }
                 }
 
-                Filter messageFilter = new SliSmooksSAXFilter(executionContext, this);//deliveryConfig.newFilter(executionContext);
+                Filter messageFilter = new SliSmooksSAXFilter(executionContext, this);
                 Filter.setFilter(messageFilter);
                 try {
                     // Attach the source and results to the context...
@@ -276,8 +271,8 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
 
     @Override
     public final void setDocumentLocator(final Locator locator) {
-        for (SmooksEdFiVisitor visitor : sliVisitorConfigMap) {
-            visitor.setDocumentLocator(locator);
+        if (edFiVisitor instanceof SliDocumentLocatorHandler) {
+            ((SliDocumentLocatorHandler) edFiVisitor).setDocumentLocator(locator);
         }
     }
 
@@ -285,8 +280,8 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      *
      * @return SmooksEdFiVisitor
      */
-    public SmooksEdFiVisitor getFirstSmooksEdFiVisitor() {
-        return sliVisitorConfigMap!= null ? sliVisitorConfigMap.get(0) : null;
+    public SmooksEdFiVisitor getSmooksEdFiVisitor() {
+        return edFiVisitor;
     }
 
 }
