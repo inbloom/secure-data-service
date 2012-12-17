@@ -36,6 +36,12 @@ import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -65,6 +71,11 @@ public class TransformationProcessor implements Processor {
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
+
+    private AbstractReportStats reportStats;
+
     /**
      * Camel Exchange process callback method
      *
@@ -73,6 +84,9 @@ public class TransformationProcessor implements Processor {
     @Override
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        Source errorSource = new SimpleSource(workNote.getBatchJobId(), null, BATCH_JOB_STAGE.getName());
+        reportStats = new SimpleReportStats(errorSource);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobId(exchange);
@@ -155,7 +169,7 @@ public class TransformationProcessor implements Processor {
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            batchJobDAO.saveError(error);
+            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0027, error.getErrorDetail());
         }
     }
 

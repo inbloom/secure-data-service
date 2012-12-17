@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.smooks;
 
 import java.io.BufferedInputStream;
@@ -44,8 +43,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.LogUtil;
 
 /**
@@ -91,7 +90,7 @@ public class SmooksCallable implements Callable<Boolean> {
         AbstractMessageReport errorReport = fe.getMessageReport();
 
         // actually do the processing
-        processFileEntry(fe, errorReport, fe.getReportStats(),fileProcessStatus);
+        processFileEntry(fe, errorReport, fe.getReportStats(), fileProcessStatus);
 
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
 
@@ -104,7 +103,8 @@ public class SmooksCallable implements Callable<Boolean> {
         return (errorCount > 0);
     }
 
-    public void processFileEntry(IngestionFileEntry fe, AbstractMessageReport errorReport, ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+    public void processFileEntry(IngestionFileEntry fe, AbstractMessageReport errorReport,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
 
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
@@ -120,7 +120,8 @@ public class SmooksCallable implements Callable<Boolean> {
         }
     }
 
-    private void doHandling(IngestionFileEntry fileEntry, AbstractMessageReport errorReport, ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+    private void doHandling(IngestionFileEntry fileEntry, AbstractMessageReport errorReport,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
         try {
 
             generateNeutralRecord(fileEntry, errorReport, reportStats, fileProcessStatus);
@@ -136,8 +137,8 @@ public class SmooksCallable implements Callable<Boolean> {
         }
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats,
-            FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
@@ -152,7 +153,8 @@ public class SmooksCallable implements Callable<Boolean> {
         } catch (SmooksException se) {
             LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
-            //errorReport.error("SmooksException encountered while filtering input.", SmooksCallable.class);
+            // errorReport.error("SmooksException encountered while filtering input.",
+            // SmooksCallable.class);
             errorReport.error(reportStats, CoreMessageCode.CORE_0018);
         } finally {
             IOUtils.closeQuietly(inputStream);
@@ -162,10 +164,10 @@ public class SmooksCallable implements Callable<Boolean> {
     private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
             IngestionFileEntry ingestionFileEntry) {
 
-        SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
+        SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
-        int recordsPersisted = visitAfter.getRecordsPerisisted();
-        Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+        int recordsPersisted = edFiVisitor.getRecordsPerisisted();
+        Map<String, Long> duplicateCounts = edFiVisitor.getDuplicateCounts();
 
         fileProcessStatus.setTotalRecordCount(recordsPersisted);
         fileProcessStatus.setDuplicateCounts(duplicateCounts);

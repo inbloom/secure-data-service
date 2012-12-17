@@ -48,7 +48,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.service.IngestionExecutor;
@@ -152,7 +152,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                 fileEntry.setFile(new File(resource.getResourceName()));
                 fileEntry.setMessageReport(databaseMessageReport);
 
-                ReportStats reportStats = new SimpleReportStats(new SimpleSource(newJob.getId(), resource.getResourceId(), BATCH_JOB_STAGE.getName()));
+                AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(newJob.getId(), resource.getResourceId(), BATCH_JOB_STAGE.getName()));
                 fileEntry.setReportStats(reportStats);
 
                 IdRefResolutionHandler idRefResolutionHandler = context.getBean("IdReferenceResolutionHandler",

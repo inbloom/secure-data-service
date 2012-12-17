@@ -1,5 +1,27 @@
 <h3>Local vs. CI Failure Analysis</h3>
 
+<%= form_tag("/components", :method => :get, :class => "form-inline") do %>
+  <%= label_tag(:time_filter, "Since:") %>
+  <%= select_tag(:time_filter, options_for_select([ ["Beginning (All)", 0], ["Two weeks" , 1209600], ["Two months", 5184000] ], params[:time_filter])) %>
+  <%= submit_tag("Filter", :class => "btn") %>
+<% end %>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Legend</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="bad">
+			<td>Definite issue with tests: They aren't tooled to work in CI, suffering "Random" problems (ex. Spring dependency ordering), or aren't being run locally</td>
+		</tr>
+		<tr class="warn">
+			<td>Possible issue with tests: Tests are trending into/out of a bad state; investigate any likely issues before they become problems</td>
+		</tr>
+	</tbody>
+</table>
+
 <table class="table">
 	<thead>
 		<tr>
@@ -10,7 +32,13 @@
 	</thead>
 	<tbody>
 	<% @components.each { |component| %>
+		<% if component[:ci].to_i >= component[:local].to_i %>
+		<tr class="bad">
+		<% elsif component[:ci].to_i*2 >= component[:local].to_i %>
+		<tr class="warn">
+		<% else %>
 		<tr>
+		<% end %>
 			<td><%=component[:name]%></td>
 			<td><%=component[:local]%></td>
 			<td><%=component[:ci]%></td>

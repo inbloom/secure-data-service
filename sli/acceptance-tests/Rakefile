@@ -498,9 +498,9 @@ task :loadDefaultIngestionTenants do
       Dir.mkdir(parent_lz_path) if !Dir.exists?(parent_lz_path)
       Dir.chdir(parent_lz_path) do
         new_path = Dir.getwd.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
-	if new_path.start_with?("c:")
-	  new_path = new_path.sub("c:", "C:");
-	end
+        if new_path.start_with?("c:")
+          new_path = new_path.sub("c:", "C:");
+        end
         lz["path"].replace(lz_path.gsub(lzpath_placeholder, new_path))
         Dir.mkdir(lz["path"]) if !Dir.exists?(lz["path"])
       end
@@ -1047,7 +1047,6 @@ task :importSecuredData do
     "courseTranscript" => "secured/courseTranscript.json",
     "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
-    "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
     "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
@@ -1058,18 +1057,12 @@ task :importSecuredData do
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
     "studentAssessment" => "secured/studentAssessment.json",
-    "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentCompetency" => "secured/studentCompetency.json",
-#    "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
-    "studentProgramAssociation" => "secured/studentProgramAssociation.json",    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
+    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
-    "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "parent" => "secured/parent.json",
-    "studentParentAssociation" => "secured/studentParentAssociation.json",
-    "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
-
   ]
 
    tenant = {
@@ -1234,15 +1227,11 @@ task :importUnifiedData => [:realmInit] do
     "course" => "unified_data/uds_course.json",
     "courseOffering" => "unified_data/uds_courseOffering.json",
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
-    "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",
     "student" => "unified_data/uds_student.json",
-    "studentAssessment" => "unified_data/uds_studentAssessment.json",
-    "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
-    "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",

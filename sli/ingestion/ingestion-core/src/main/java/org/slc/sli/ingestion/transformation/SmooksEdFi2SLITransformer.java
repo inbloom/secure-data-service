@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -48,7 +48,8 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     private Map<String, Smooks> smooksConfigs;
 
     @Override
-    public List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
+    public List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report,
+            AbstractReportStats reportStats) {
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
 
@@ -129,8 +130,11 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.slc.sli.ingestion.handler.Handler#handle(java.lang.Object, org.slc.sli.ingestion.validation.ErrorReport)
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.ingestion.handler.Handler#handle(java.lang.Object,
+     * org.slc.sli.ingestion.validation.ErrorReport)
      */
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
@@ -138,12 +142,16 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.slc.sli.ingestion.handler.Handler#handle(java.util.List, org.slc.sli.ingestion.reporting.AbstractMessageReport, org.slc.sli.ingestion.reporting.ReportStats)
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.ingestion.handler.Handler#handle(java.util.List,
+     * org.slc.sli.ingestion.reporting.AbstractMessageReport,
+     * org.slc.sli.ingestion.reporting.ReportStats)
      */
     @Override
     public List<List<SimpleEntity>> handle(List<NeutralRecord> items, AbstractMessageReport report,
-            ReportStats reportStats) {
+            AbstractReportStats reportStats) {
         // TODO Auto-generated method stub
         return null;
     }

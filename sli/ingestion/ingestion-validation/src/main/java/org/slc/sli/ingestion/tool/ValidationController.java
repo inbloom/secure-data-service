@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.tool;
 
 import java.io.File;
 import java.io.IOException;
-
-import org.slf4j.Logger;
 
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -29,7 +26,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -50,12 +47,10 @@ public class ValidationController {
 
     private Validator<ControlFileDescriptor> controlFilevalidator;
 
-    private static Logger logger = LoggerUtil.getLogger();
-
     private AbstractMessageReport messageReport;
 
     private Source source = null;
-    private ReportStats reportStats = null;
+    private AbstractReportStats reportStats = null;
 
     /*
      * retrieve zip file or control file from the input directory and invoke
@@ -71,10 +66,10 @@ public class ValidationController {
             } else if (path.getName().endsWith(".zip")) {
                 processZip(path);
             } else {
-                logger.error("Invalid input: No clt/zip file found");
+                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0001);
             }
         } else {
-            logger.error("Invalid input: No clt/zip file found");
+            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0001);
         }
     }
 
@@ -82,21 +77,20 @@ public class ValidationController {
         boolean isValid = false;
         for (IngestionFileEntry ife : cfile.getFileEntries()) {
             if (ife.getFile() != null) {
-                logger.info("Processing file: {} ...", ife.getFileName());
+                messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0002, ife.getFileName());
                 isValid = complexValidator.isValid(ife, messageReport, reportStats);
                 if (!isValid) {
-                    logger.info("Processing of file: {} resulted in errors.", ife.getFileName());
-
+                    messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0003, ife.getFileName());
                     continue;
                 }
-                logger.info("Processing of file: {} completed.", ife.getFileName());
+                messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0004, ife.getFileName());
             }
         }
     }
 
     public void processZip(File zipFile) {
 
-        logger.info("Processing a zip file [{}] ...", zipFile.getAbsolutePath());
+        messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
         File ctlFile = zipFileHandler.handle(zipFile, messageReport, reportStats);
 
@@ -105,12 +99,12 @@ public class ValidationController {
             processControlFile(ctlFile);
         }
 
-        logger.info("Zip file [{}] processing is complete.", zipFile.getAbsolutePath());
+        messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
     }
 
     public void processControlFile(File ctlFile) {
 
-        logger.info("Processing a control file [{}] ...", ctlFile.getAbsolutePath());
+        messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0007, ctlFile.getAbsolutePath());
 
         try {
             LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
@@ -120,14 +114,14 @@ public class ValidationController {
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
             controlFilevalidator.isValid(cfd, messageReport, reportStats);
-                processValidators(cfile);
+            processValidators(cfile);
 
         } catch (IOException e) {
-            logger.error("Cannot parse control file", ValidationController.class);
+            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0008);
         } catch (SubmissionLevelException exception) {
-            logger.error(exception.getMessage());
+            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0010, exception.getMessage());
         } finally {
-            logger.info("Control file [{}] processing is complete.", ctlFile.getAbsolutePath());
+            messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0009, ctlFile.getAbsolutePath());
         }
     }
 

@@ -35,11 +35,11 @@ class Parent < BaseEntity
   def buildParent
     @sex = @type == :mom ? "Female": "Male"
     @prefix = @sex == "Male?" ? "Mr" : "Ms"
-    @firstName = choose(@sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-    @middleName = choose(@sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
+    @firstName = choose(@sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+    @middleName = choose(@sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
     @lastName = @kid.lastName
-    @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
-    @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
+    @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+    @email = @rand.rand(10000).to_s + BaseEntity.demographics['emailSuffix']
     @loginId = email
     @address = @kid.address
     @city = @kid.city
