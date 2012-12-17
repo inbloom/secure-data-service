@@ -28,11 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -171,9 +175,7 @@ public class PersistenceProcessorTest {
     @Test
     public void testRecordHashIngestedforSimpleEntity() {
     	NeutralRecord originalRecord = createBaseNeutralRecord("simple");
-    	
     	Object rhTenantIdObj = originalRecord.getMetaDataByName("rhTenantId");   
-    
     	testRecordHashIngested(originalRecord,  1);
     }
 
@@ -186,15 +188,33 @@ public class PersistenceProcessorTest {
 
 	private void testRecordHashIngested(NeutralRecord originalRecord, int count) {
 		recordHashTestPreConfiguration();
+		List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
+		Map<String, Object> rhElement = rhData.get(0);
+		String recordId = rhElement.get("rhId").toString();
+		String rhHash = rhElement.get("rhHash").toString();
 		
+        TenantContext.setTenantId("tenantId");
+		
+		ArgumentCaptor<String> argument1 = ArgumentCaptor.forClass(String.class);		   		   
+		ArgumentCaptor<String> argument2 = ArgumentCaptor.forClass(String.class);		
+		ArgumentCaptor<String> argument3 = ArgumentCaptor.forClass(String.class);
+		ArgumentCaptor<RecordHash> argument4 = ArgumentCaptor.forClass(RecordHash.class);
+		   
       	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(null);
     	processor.upsertRecordHash(originalRecord); 	
-    	verify(processor.getBatchJobDAO(), times(count)).findRecordHash(any(String.class), any(String.class));
-    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class), any(String.class));
+    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(argument1.capture(), argument2.capture(), argument3.capture());
     	
-    	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(createRecordHash("hash"));
+    	Assert.assertEquals("tenantId", argument1.getValue());
+    	Assert.assertEquals(recordId, argument2.getValue());
+    	Assert.assertEquals(rhHash, argument3.getValue());
+		   
+    	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(createRecordHash(rhHash));
     	processor.upsertRecordHash(originalRecord);
-    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(String.class), any(RecordHash.class), any(String.class));
+    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(argument1.capture(), argument4.capture(), argument2.capture());
+    	
+    	Assert.assertEquals("tenantId", argument1.getValue());
+    	Assert.assertEquals(createRecordHash(rhHash).getHash(), argument4.getAllValues().get(0).getHash());
+    	Assert.assertEquals(rhHash, argument2.getValue());
 	}
 
 	
@@ -242,7 +262,6 @@ public class PersistenceProcessorTest {
 		}
         
         originalRecord.addMetaData("rhData", rhData);
-        originalRecord.addMetaData("rhTenantId", "rhTenantId");
         
         return originalRecord;
     }
