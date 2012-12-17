@@ -33,7 +33,12 @@ public enum ValidationMessageCode implements MessageCode {
     VALIDATION_0006,
     VALIDATION_0007,
     VALIDATION_0008,
-    VALIDATION_0009;
+    VALIDATION_0009,
+    VALIDATION_0010,
+    VALIDATION_0011,
+    VALIDATION_0012,
+    VALIDATION_0013,
+    VALIDATION_0014;
 
     @Override
     public String getCode() {
