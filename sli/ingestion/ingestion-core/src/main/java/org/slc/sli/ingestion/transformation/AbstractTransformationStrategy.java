@@ -36,8 +36,8 @@ import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -118,9 +118,10 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
                 this.batchJobDAO);
     }
 
-    public ReportStats getReportStats(String fileName) {
-        Source source = new SimpleSource(this.batchJobId, fileName, BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
-        ReportStats reportStats = new SimpleReportStats(source);
+    public AbstractReportStats getReportStats(String fileName) {
+        Source source = new SimpleSource(this.batchJobId, fileName,
+                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+        AbstractReportStats reportStats = new SimpleReportStats(source);
         return reportStats;
     }
 
@@ -286,8 +287,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
 
     /**
-     *  This method is for cases where ReportStats is not important to the context to save
-     *  the code to create a ReportStats all the time, which is true for many transformers.
+     * This method is for cases where ReportStats is not important to the context to save
+     * the code to create a ReportStats all the time, which is true for many transformers.
+     *
      * @param source
      * @param code
      * @param args

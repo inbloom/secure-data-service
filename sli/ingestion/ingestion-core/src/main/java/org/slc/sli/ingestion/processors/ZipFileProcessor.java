@@ -38,8 +38,8 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -84,7 +84,7 @@ public class ZipFileProcessor implements Processor {
 
         Source source = null;
 
-        ReportStats reportStats = null;
+        AbstractReportStats reportStats = null;
 
         try {
             LOG.info("Received zip file: " + exchange.getIn());
@@ -141,7 +141,8 @@ public class ZipFileProcessor implements Processor {
         return newJob;
     }
 
-    private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats) {
+    private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception,
+            AbstractReportStats reportStats) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
@@ -150,7 +151,7 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeBody(Exchange exchange, File ctlFile, ReportStats reportStats, String batchJobId) {
+    private void setExchangeBody(Exchange exchange, File ctlFile, AbstractReportStats reportStats, String batchJobId) {
         if (!reportStats.hasErrors() && ctlFile != null) {
             exchange.getIn().setBody(ctlFile, File.class);
         } else {
@@ -159,7 +160,7 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats, NewBatchJob newJob) {
+    private void setExchangeHeaders(Exchange exchange, AbstractReportStats reportStats, NewBatchJob newJob) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
         if (reportStats.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());

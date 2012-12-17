@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import static org.mockito.Matchers.eq;
@@ -42,8 +41,8 @@ import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -79,7 +78,7 @@ public class SmooksEdFi2SLITransformerTest {
         NeutralRecord directlyMapped = new NeutralRecord();
         directlyMapped.setRecordType("directEntity");
         directlyMapped.setAttributeField("field2", "Test String");
-        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
         List<? extends Entity> result = transformer.transform(directlyMapped, new DummyMessageReport(), reportStats);
 
@@ -139,14 +138,13 @@ public class SmooksEdFi2SLITransformerTest {
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel2);
         assessment.setAttributeField("assessmentPerformanceLevel", assessmentPerformanceLevelList);
 
-
         assessment.setAttributeField("contentStandard", "SAT");
         assessment.setAttributeField("assessmentForm", "assessmentForm");
         assessment.setAttributeField("version", "1");
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -154,9 +152,11 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals(1, result.size());
 
         Assert.assertEquals("assessmentTitle", result.get(0).getBody().get("assessmentTitle"));
-        Assert.assertEquals("assessmentFamilyHierarchyName", result.get(0).getBody().get("assessmentFamilyHierarchyName"));
+        Assert.assertEquals("assessmentFamilyHierarchyName",
+                result.get(0).getBody().get("assessmentFamilyHierarchyName"));
 
-        List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0).getBody().get("assessmentIdentificationCode");
+        List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0).getBody()
+                .get("assessmentIdentificationCode");
         Assert.assertNotNull(assessmentIDCodeList);
         Assert.assertEquals(2, assessmentIDCodeList.size());
         Map<String, Object> assessmentIDCode1 = assessmentIDCodeList.get(0);
@@ -171,7 +171,8 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("State", assessmentIDCode2.get("identificationSystem"));
         Assert.assertEquals("assigningOrganizationCode2", assessmentIDCode2.get("assigningOrganizationCode"));
 
-        List<Map<String, Object>> assessmentPerfLevelList = (List<Map<String, Object>>) result.get(0).getBody().get("assessmentPerformanceLevel");
+        List<Map<String, Object>> assessmentPerfLevelList = (List<Map<String, Object>>) result.get(0).getBody()
+                .get("assessmentPerformanceLevel");
         Assert.assertNotNull(assessmentPerfLevelList);
         Assert.assertEquals(2, assessmentPerfLevelList.size());
         Map<String, Object> assessmentPerfLevel1 = assessmentPerfLevelList.get(0);
@@ -179,7 +180,8 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals(1600, assessmentPerfLevel1.get("maximumScore"));
         Assert.assertEquals(2400, assessmentPerfLevel1.get("minimumScore"));
         Assert.assertEquals("C-scaled scores", assessmentPerfLevel1.get("assessmentReportingMethod"));
-        List<Map<String, Object>> perfLevelDescriptor1 = (List<Map<String, Object>>) assessmentPerfLevel1.get("performanceLevelDescriptor");
+        List<Map<String, Object>> perfLevelDescriptor1 = (List<Map<String, Object>>) assessmentPerfLevel1
+                .get("performanceLevelDescriptor");
         Assert.assertNotNull(perfLevelDescriptor1);
         Assert.assertEquals("description1", perfLevelDescriptor1.get(0).get("description"));
 
@@ -188,7 +190,8 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals(1800, assessmentPerfLevel2.get("maximumScore"));
         Assert.assertEquals(2600, assessmentPerfLevel2.get("minimumScore"));
         Assert.assertEquals("ACT score", assessmentPerfLevel2.get("assessmentReportingMethod"));
-        List<Map<String, Object>> perfLevelDescriptor2 = (List<Map<String, Object>>) assessmentPerfLevel2.get("performanceLevelDescriptor");
+        List<Map<String, Object>> perfLevelDescriptor2 = (List<Map<String, Object>>) assessmentPerfLevel2
+                .get("performanceLevelDescriptor");
         Assert.assertNotNull(perfLevelDescriptor2.get(0));
         Assert.assertEquals("description2", perfLevelDescriptor2.get(0).get("description"));
 
@@ -202,7 +205,7 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("1999-01-01", result.get(0).getBody().get("revisionDate"));
         Assert.assertEquals(2400, result.get(0).getBody().get("maxRawScore"));
         Assert.assertEquals("nomenclature", result.get(0).getBody().get("nomenclature"));
-   }
+    }
 
     @Test
     public void testAssessmentValidation() {
@@ -235,7 +238,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessmentPerformanceLevel1.put("minimumScore", "2400");
         assessmentPerformanceLevel1.put("assessmentReportingMethod", "C-scaled scores");
         List<Object> performanceLevelDescriptor1 = new ArrayList<Object>();
-        Map<String, Object>  description = new HashMap<String, Object>();
+        Map<String, Object> description = new HashMap<String, Object>();
         Map<String, Object> codeValue = new HashMap<String, Object>();
         description.put("description", "description1");
         codeValue.put("codeValue", "codeValue");
@@ -258,14 +261,13 @@ public class SmooksEdFi2SLITransformerTest {
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel2);
         assessment.setAttributeField("assessmentPerformanceLevel", assessmentPerformanceLevelList);
 
-
         assessment.setAttributeField("contentStandard", "SAT");
         assessment.setAttributeField("assessmentForm", "assessmentForm");
         assessment.setAttributeField("version", 1);
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -274,10 +276,9 @@ public class SmooksEdFi2SLITransformerTest {
         EntityTestUtils.mapValidation(entity.getBody(), "assessment", validator);
     }
 
-
     /**
      * @author tke
-     * Test the transformation and matching steps behave as expected
+     *         Test the transformation and matching steps behave as expected
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -292,21 +293,24 @@ public class SmooksEdFi2SLITransformerTest {
 
         transformer.setEntityConfigurations(entityConfigurations);
 
-        //mock the Did Resolver
+        // mock the Did Resolver
         DeterministicIdResolver mockDidResolver = Mockito.mock(DeterministicIdResolver.class);
         transformer.setDIdResolver(mockDidResolver);
 
-        //Query assessmentQuery = new Query();
-        //assessmentQuery.addCriteria(Criteria.where("body.assessmentTitle").is(ASSESSMENT_TITLE));
-        //assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." + TENANT_ID_FIELD).is(TENANT_ID));
-        //assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD).is(STUDENT_ID));
+        // Query assessmentQuery = new Query();
+        // assessmentQuery.addCriteria(Criteria.where("body.assessmentTitle").is(ASSESSMENT_TITLE));
+        // assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." +
+        // TENANT_ID_FIELD).is(TENANT_ID));
+        // assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." +
+        // EXTERNAL_ID_FIELD).is(STUDENT_ID));
 
         List<Entity> le = new ArrayList<Entity>();
         le.add(createAssessmentEntity(true));
 
-        when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(le);
+        when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(
+                le);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
         List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 
@@ -321,7 +325,8 @@ public class SmooksEdFi2SLITransformerTest {
 
     /**
      * @author tke
-     * @param setId : localId will be set if it is true
+     * @param setId
+     *            : localId will be set if it is true
      * @return neutral record
      */
     private NeutralRecord createAssessmentNeutralRecord(boolean setId) {
@@ -332,7 +337,7 @@ public class SmooksEdFi2SLITransformerTest {
             assessment.setLocalId(STUDENT_ID);
         }
 
-        //This will become tenantId field after transformed into neutral record entity
+        // This will become tenantId field after transformed into neutral record entity
         assessment.setSourceId(TENANT_ID);
 
         assessment.setRecordType("assessment");
@@ -388,10 +393,10 @@ public class SmooksEdFi2SLITransformerTest {
         return assessment;
     }
 
-
     /**
      * @author tke
-     * @param setId:entityId will be set if it is true
+     * @param setId
+     *            :entityId will be set if it is true
      * @return assessment entity
      */
     public SimpleEntity createAssessmentEntity(boolean setId) {
