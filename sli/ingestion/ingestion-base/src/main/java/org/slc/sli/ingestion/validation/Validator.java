@@ -25,6 +25,7 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  *
  * @author okrook
  *
+ * @param <T> Type of the object being validated
  */
 public interface Validator<T> {
 
@@ -36,8 +37,6 @@ public interface Validator<T> {
      * @return true if valid; false otherwise
      */
     boolean isValid(T object, ErrorReport callback);
-
-
 
     boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats);
 
