@@ -29,6 +29,13 @@ public class LoggingMessageReport extends AbstractMessageReport {
 
     private Logger logger;
 
+    public LoggingMessageReport() {
+    }
+
+    public LoggingMessageReport(Logger logger) {
+        this.logger = logger;
+    }
+
     @Override
     protected void reportError(ReportStats reportStats, MessageCode code, Object... args) {
         logger.error(getMessage(code, args));
