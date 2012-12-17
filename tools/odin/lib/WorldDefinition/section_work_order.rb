@@ -36,19 +36,22 @@ class SectionWorkOrderFactory
 
     @world = world
     @scenario = scenario
+    @teachers = {}
     @prng = prng
     @teacher_unique_state_id = 0
     @start_index = 1
   end
 
   # uses the instantiated @world to generate sections (and corresponding teachers) for the specified education organization
+  # -> expected behaviour: teachers will NOT come into existence until sections, populated with students, are available for them to teach.
+  #    for small scenarios (less than 500 students), it is possible that pre-requisite teachers will not come into existence until later years
   def generate_sections_with_teachers(ed_org, ed_org_type, yielder = [])
     school_id    = DataUtility.get_school_id(ed_org['id'], ed_org_type.to_sym)
     ed_org_index = @world[ed_org_type].index(ed_org) if @world[ed_org_type].nil? == false and @world[ed_org_type].size > 0
 
+    @teachers[school_id] = [] if @teachers[school_id].nil?
     @world[ed_org_type][ed_org_index]['sections'] = {}
     unless ed_org['students'].nil?
-      teachers = []
       ed_org['students'].each{|year, student_map|
         @world[ed_org_type][ed_org_index]['sections'][year] = {}
         unless ed_org['offerings'].nil?
@@ -59,7 +62,6 @@ class SectionWorkOrderFactory
             teachers_for_this_grade.each { |teacher| teacher['num_sections'] = sections_for_this_teacher(ed_org_type) } if !teachers_for_this_grade.nil? and teachers_for_this_grade.size > 0
             
             # take sections_from_edorg output and add teachers to sections
-            # -> yielder is passed in so that newly created teachers will have work orders for their creation
             # -> num_sections for each teacher is reset for each new year
             sections_with_teachers = add_teachers_to_sections(sections_from_edorg(ed_org, ed_org_type, year, grade), teachers_for_this_grade, ed_org_type)
 
@@ -68,20 +70,34 @@ class SectionWorkOrderFactory
               sections.each{ |section|
                 # remember the unique section ids that map to each course offering --> stored in the @world
                 @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] << section[:id]
-                year_of = Date.today.year - DataUtility.select_random_from_options(@prng, (25..65).to_a)
 
-                # add staff -> education organization assignment association for current session (where teacher is associated to school)
-                # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
-                #    the current simulation
-                if !teachers.include?(section[:teacher]['id'])
-                  yielder << {:type=>Teacher, :id=>section[:teacher]['id'], :year=>year_of, :name=>nil}
-                  yielder << {:type=>TeacherSchoolAssociation, :id=>section[:teacher]['id'], :school=>school_id, :assignment=>:REGULAR_EDUCATION, :grades=>[offering['grade']], :subjects=>section[:teacher]['subjects']}
-                  
-                  create_staff_ed_org_association_for_teacher(find_matching_session_for_school(school_id, offering), section[:teacher]['id'], school_id, ed_org_type).each do |order|
-                    yielder << order
-                  end
+                if teacher_does_not_exist_yet(section[:teacher]['id'])
+                  year_of = Date.today.year - DataUtility.select_random_from_options(@prng, (25..65).to_a)
+                  # keep :name => nil in work order --> Teacher entity class will lazily create name for teacher if its nil
+                  yielder << {:type=>Teacher, :id=>section[:teacher]['id'], :year=>year_of, :name=>section[:teacher]['name']}
+                end
+                
+                if !@teachers[school_id].include?(section[:teacher]['id'])
+                  @teachers[school_id] << section[:teacher]['id']
+                  yielder << {:type=>TeacherSchoolAssociation, 
+                    :id=>section[:teacher]['id'], 
+                    :school=>school_id, 
+                    :assignment=>:REGULAR_EDUCATION, 
+                    :grades=>[offering['grade']], 
+                    :subjects=>section[:teacher]['subjects']
+                  }
 
-                  teachers << section[:teacher]['id']
+                  # add staff -> education organization assignment association for current session (where teacher is associated to school)
+                  # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
+                  #    the current simulation
+                  session             = find_matching_session_for_school(school_id, offering)
+                  ed_org_associations = create_staff_ed_org_association_for_teacher(session, section[:teacher]['id'], school_id, ed_org_type)
+                  ed_org_associations.each { |order| yielder << order }
+
+                  # add staff -> program associations (currently very random)
+                  # future implementations should be based off of a program catalog, OR more intelligence in reacting to students during simulation
+                  program_associations = create_staff_program_associations_for_teacher(session, section[:teacher]['id'], ed_org["programs"])
+                  program_associations.each { |order| yielder << order }
                 end
                 
                 yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering}
@@ -94,12 +110,28 @@ class SectionWorkOrderFactory
     end
   end
 
+  # returns true if the teacher does NOT exist (and needs to be created), and false otherwise (teacher already exists)
+  # -> used for determining whether or not to create a Teacher ed-fi entity for the incoming teacher
+  # -> will check every school in the world to see if teacher exists anywhere
+  def teacher_does_not_exist_yet(teacher_id)
+    needs_to_be_created = true
+    if !@teachers.nil? and @teachers.size > 0
+      @teachers.each do |school, current_teachers|
+        if current_teachers.include?(teacher_id)
+          needs_to_be_created = false
+          break
+        end
+      end
+    end
+    needs_to_be_created
+  end
+
   def sections(id, type, year, grade)
     if (@world.nil? == false && @world[type].nil? == false)
       ed_org = @world[type].find{|s| s['id'] == id}
       return ed_org['sections'][year][grade] if !ed_org.nil? and !ed_org['sections'].nil? and !ed_org['sections'][year].nil?
-      return nil
     end
+    return nil
   end
 
   def sections_from_edorg(ed_org, ed_org_type, year, grade)
@@ -193,18 +225,14 @@ class SectionWorkOrderFactory
     return nil
   end
 
-  # iterates through sessions, using begin and end date, to assemble teacher -> school associations
-  # -> not used, yet
-  # -> will be used soon (as soon as ed-fi changes to add start and end dates to teacher school associations)
+  # creates staff -> education organization assignment association for the teacher at the specified school, in the specified session
   def create_staff_ed_org_association_for_teacher(session, teacher_id, ed_org_id, type)
     associations = []
     if !session.nil?
       if ed_org_id.kind_of? Integer
         state_org_id = DataUtility.get_state_education_agency_id(ed_org_id) if type == "seas"
         state_org_id = DataUtility.get_local_education_agency_id(ed_org_id) if type == "leas"
-        state_org_id = DataUtility.get_elementary_school_id(ed_org_id)      if type == "elementary"
-        state_org_id = DataUtility.get_middle_school_id(ed_org_id)          if type == "middle"
-        state_org_id = DataUtility.get_high_school_id(ed_org_id)            if type == "high"
+        state_org_id = DataUtility.get_school_id(ed_org_id, type)
       else
         state_org_id = ed_org_id
       end
@@ -217,6 +245,28 @@ class SectionWorkOrderFactory
       associations << {:type=>StaffEducationOrgAssignmentAssociation, :id=>teacher_id, :edOrg=>state_org_id,
                        :classification=>classification, :title=>title, :beginDate=>begin_date, :endDate=>end_date}
     end 
+    associations
+  end
+
+  # creates staff -> program association for the teacher in the specified session
+  # -> randomly selects the number of programs the teacher is involved in (range is specified in scenario configuration)
+  # -> assembles a subset of available programs and creates associations
+  def create_staff_program_associations_for_teacher(session, teacher_id, programs)
+    associations = []
+    if !session.nil?
+      min          = @scenario["MINIMUM_NUM_PROGRAMS_PER_TEACHER"]
+      max          = @scenario["MAXIMUM_NUM_PROGRAMS_PER_TEACHER"]
+      interval     = session["interval"]
+      begin_date   = interval.get_begin_date
+      end_date     = interval.get_end_date
+      num_programs = DataUtility.select_random_from_options(@prng, (min..max).to_a)
+      my_programs  = DataUtility.select_num_from_options(@prng, num_programs, programs)
+      my_programs.each do |program|
+        access = DataUtility.select_random_from_options(@prng, [true, false])
+        program_id = DataUtility.get_program_id(program[:id])
+        associations << {:type=>StaffProgramAssociation, :staff=>teacher_id, :program=>program_id, :access=>access, :begin_date=>begin_date, :end_date=>end_date}
+      end
+    end
     associations
   end
 

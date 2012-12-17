@@ -23,9 +23,9 @@ require_relative "enum/GradeLevelType.rb"
 # creates school
 class SchoolEducationOrganization < BaseEntity
 
-  attr_accessor :state_org_id, :grades, :parent_id
+  attr_accessor :state_org_id, :grades, :parent_id, :programs
 
-  def initialize(id, parent_id, type)
+  def initialize(id, parent_id, type, programs = nil)
     if parent_id.kind_of? String
       @parent_id = parent_id
     else
@@ -61,6 +61,7 @@ class SchoolEducationOrganization < BaseEntity
         @grades << GradeLevelType.get(level)
       end
     end
+    @programs = programs
   end
 
   def type

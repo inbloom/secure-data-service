@@ -68,6 +68,21 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     }
 
     /**
+     * Reports an message as a info
+     *
+     * @param reportStats
+     *            statistics state and source
+     * @param code
+     *            message defined by a code
+     * @param args
+     *            additional arguments for the message
+     */
+    public void info(ReportStats reportStats, MessageCode code, Object... args) {
+
+        reportInfo(reportStats, code, args);
+    }
+
+    /**
      * Look up the corresponding message for a MessageCode.
      *
      * @param code
@@ -83,6 +98,8 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     protected abstract void reportError(ReportStats reportStats, MessageCode code, Object... args);
 
     protected abstract void reportWarning(ReportStats reportStats, MessageCode code, Object... args);
+
+    protected abstract void reportInfo(ReportStats reportStats, MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {
