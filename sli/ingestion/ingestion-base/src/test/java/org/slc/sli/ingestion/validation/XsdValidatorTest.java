@@ -525,6 +525,11 @@ public class XsdValidatorTest {
             warnings.add(getMessage(code, args));
         }
 
+        @Override
+        protected void reportInfo(ReportStats reportStats, MessageCode code, Object... args) {
+            // Do Nothing
+        }
+
         public List<String> getErrors() {
             return Collections.unmodifiableList(errors);
         }
@@ -532,5 +537,6 @@ public class XsdValidatorTest {
         public List<String> getWarnings() {
             return Collections.unmodifiableList(warnings);
         }
+
     }
 }

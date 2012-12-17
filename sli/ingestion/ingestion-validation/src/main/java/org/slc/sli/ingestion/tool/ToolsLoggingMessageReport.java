@@ -29,6 +29,4 @@ public class ToolsLoggingMessageReport extends LoggingMessageReport {
     public ToolsLoggingMessageReport() {
         setLogger(LoggerUtil.getLogger());
     }
-
-
 }

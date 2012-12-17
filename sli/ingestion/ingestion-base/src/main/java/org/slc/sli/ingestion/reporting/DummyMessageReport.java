@@ -40,4 +40,10 @@ public class DummyMessageReport extends AbstractMessageReport {
 
         // report warning
     }
+
+    @Override
+    protected void reportInfo(ReportStats reportStats, MessageCode code, Object... args) {
+
+        // Do nothing
+    }
 }

@@ -91,7 +91,7 @@ public class SmooksCallable implements Callable<Boolean> {
         AbstractMessageReport errorReport = fe.getMessageReport();
 
         // actually do the processing
-        processFileEntry(fe, errorReport, fe.getReportStats(),fileProcessStatus);
+        processFileEntry(fe, errorReport, fe.getReportStats(), fileProcessStatus);
 
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
 
