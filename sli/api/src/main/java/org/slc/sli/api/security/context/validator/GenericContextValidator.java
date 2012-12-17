@@ -107,6 +107,19 @@ public class GenericContextValidator implements IContextValidator {
 		Set<String> contextIds = new HashSet<String>(resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
 		return contextIds.containsAll(ids);
 	}
+	
+    @Override
+    public Set<String> getValid(String entityType, Set<String> ids) {
+        String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
+        EntityContextResolver resolver = store.findResolver(userType, entityType);
+        if (resolver instanceof AllowAllEntityContextResolver) {
+            return ids;
+        }
+        Set<String> contextIds = new HashSet<String>(
+                resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
+        contextIds.retainAll(ids);
+        return contextIds;
+    }
 
 	/**
 	 * Determines if the entity type is public.
