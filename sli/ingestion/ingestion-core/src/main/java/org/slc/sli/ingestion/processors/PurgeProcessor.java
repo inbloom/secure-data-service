@@ -141,6 +141,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void purgeForTenant(Exchange exchange, NewBatchJob job, String tenantId) {
 
         Query searchTenantId = new Query();
