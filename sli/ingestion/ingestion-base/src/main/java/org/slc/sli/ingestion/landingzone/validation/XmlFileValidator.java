@@ -60,16 +60,16 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
         try {
             br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
-                errorReport.fatal(getFailureMessage("SL_ERR_MSG13", fileEntry.getFileName()), XmlFileValidator.class);
+                errorReport.fatal(getFailureMessage("BASE_0015", fileEntry.getFileName()), XmlFileValidator.class);
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + fileEntry.getFileName(), e);
-            errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), XmlFileValidator.class);
+            errorReport.error(getFailureMessage("BASE_0013", fileEntry.getFileName()), XmlFileValidator.class);
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + fileEntry.getFileName());
-            errorReport.error(getFailureMessage("SL_ERR_MSG12", fileEntry.getFileName()), XmlFileValidator.class);
+            errorReport.error(getFailureMessage("BASE_0014", fileEntry.getFileName()), XmlFileValidator.class);
             isEmpty = true;
         } finally {
             try {
@@ -103,16 +103,16 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
         try {
             br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
-                error(report, reportStats, BaseMessageCode.SL_ERR_MSG13, fileEntry.getFileName());
+                error(report, reportStats, BaseMessageCode.BASE_0015, fileEntry.getFileName());
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + fileEntry.getFileName(), e);
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG11, fileEntry.getFileName());
+            error(report, reportStats, BaseMessageCode.BASE_0013, fileEntry.getFileName());
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + fileEntry.getFileName());
-            error(report, reportStats, BaseMessageCode.SL_ERR_MSG12, fileEntry.getFileName());
+            error(report, reportStats, BaseMessageCode.BASE_0014, fileEntry.getFileName());
             isEmpty = true;
         } finally {
             try {

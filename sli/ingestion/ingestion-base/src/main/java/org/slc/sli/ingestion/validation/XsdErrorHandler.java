@@ -24,7 +24,6 @@ import org.xml.sax.SAXParseException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  *
@@ -91,7 +90,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
             String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
             File parseFile = new File(fullParsefilePathname);
 
-            report.warning(reportStats, BaseMessageCode.XSD_VALIDATION_ERROR, parseFile.getName(),
+            report.warning(reportStats, BaseMessageCode.BASE_0017, parseFile.getName(),
                     String.valueOf(ex.getLineNumber()), String.valueOf(ex.getColumnNumber()), ex.getMessage());
         }
     }

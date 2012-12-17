@@ -28,10 +28,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -41,6 +41,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  *
@@ -80,11 +83,11 @@ public class PurgeProcessorTest {
         NewBatchJob job = new NewBatchJob();
         Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
-        Logger log = Mockito.mock(org.slf4j.Logger.class);
-        PrivateAccessor.setField(purgeProcessor, "logger", log);
+        AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
+        PrivateAccessor.setField(purgeProcessor, "databaseMessageReport", messageReport);
 
         purgeProcessor.process(ex);
-        Mockito.verify(log, Mockito.atLeastOnce()).info("TenantId missing. No purge operation performed.");
+        Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(ReportStats.class), Matchers.eq(CoreMessageCode.CORE_0035));
     }
 
     @Test

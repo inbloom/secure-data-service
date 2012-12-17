@@ -36,17 +36,19 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Performs purging of data in mongodb based on the tenant id.
@@ -76,7 +78,9 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     private List<String> excludeCollections;
 
-    private MessageSource messageSource;
+    private Source source = null;
+
+    private ReportStats reportStats = null;
 
     @Autowired
     @Value("${sli.sandbox.enabled}")
@@ -111,6 +115,9 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
+            source = new SimpleSource(batchJobId, null, BATCH_JOB_STAGE.getName());
+            reportStats = new SimpleReportStats(source);
+
             NewBatchJob newJob = null;
             try {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
@@ -141,7 +148,6 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void purgeForTenant(Exchange exchange, NewBatchJob job, String tenantId) {
 
         Query searchTenantId = new Query();
@@ -223,25 +229,15 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     }
 
     private void handleNoTenantId(String batchJobId) {
-        String noTenantMessage = MessageSourceHelper.getMessage(messageSource, "PURGEPROC_ERR_MSG1");
-        logger.info(noTenantMessage);
-
-        Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
-                null, null, FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
-        batchJobDAO.saveError(error);
+        databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0035);
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
-        logger.error("Error processing batch job " + batchJobId, exception);
 
-        if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),
-                    null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            batchJobDAO.saveError(error);
-        }
+        databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0036, exception.toString());
     }
 
     private String getBatchJobId(Exchange exchange) {
