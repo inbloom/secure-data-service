@@ -106,6 +106,7 @@ class DataUtility
 
   # create a program id
   def self.get_program_id(id)
+    return id if id.kind_of? String
     "prgm-" + pad_id_with_zeroes(id, 10)
   end
 
@@ -160,6 +161,7 @@ class DataUtility
   # randomly selects a subset of the specified 'choices' that will have size equal to the specified number of choices
   # -> if num is larger than size of choices, choices array will be returned (no error condition raised)
   def self.select_num_from_options(prng, num, choices)
+    return []      if choices.nil?
     return choices if num >= choices.size
     subset = []
     while subset.size < num

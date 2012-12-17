@@ -18,21 +18,20 @@ limitations under the License.
 
 require 'logger'
 
+require_relative "DataWriter.rb"
+require_relative "XML/assessment_metadata_generator.rb"
 require_relative "XML/cohortGenerator.rb"
-require_relative "XML/studentParentGenerator.rb"
 require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
-require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/enrollmentGenerator.rb"
+require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/staffAssociationGenerator.rb"
 require_relative "XML/studentAssessmentGenerator.rb"
-require_relative "XML/assessment_metadata_generator.rb"
-require_relative "DataWriter.rb"
+require_relative "XML/studentParentGenerator.rb"
+require_relative "XML/studentProgramGenerator.rb"
 
 # ed-fi xml interchange writer class
-# -> sub-class of (in-memory) data writer
-# -> batches writes to interchanges by specified BATCH_SIZE
-# -> meant to be event-driven writing of entities to xml interchanges
+# -> event-driven writing of entities to xml interchanges
 class XmlDataWriter < DataWriter
   
   # default constructor for data writer class
@@ -65,7 +64,7 @@ class XmlDataWriter < DataWriter
     @writers << StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
     @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
-    #@writers << StudentProgramGenerator.new(@yaml, initialize_interchange(directory, "StudentProgram"))
+    @writers << StudentProgramGenerator.new(@yaml, initialize_interchange(directory, "StudentProgram"))
 
     # enable entities to be written
     # -> writes header and starts reporting

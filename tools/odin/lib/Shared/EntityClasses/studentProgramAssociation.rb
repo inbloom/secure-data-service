@@ -27,7 +27,7 @@ class StudentProgramAssociation < BaseEntity
   def initialize(student, program, ed_org_id, begin_date, end_date = nil)
     @student    = student
     @program    = program
-    @ed_org_id  = end_org_id
+    @ed_org_id  = ed_org_id
     @begin_date = begin_date
     @end_date   = end_date
   end
