@@ -55,7 +55,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = null;
         
-        Collection<Role> roles = mapRoles(tenantId, realmId, roleNames);
+        Collection<Role> roles = mapRoles(tenantId, realmId, roleNames, true);
         
         Entity realm = findRealm(realmId);
         for (Role role : roles) {
@@ -110,8 +110,12 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     }
 
     @Override
-    public Set<Role> mapRoles(String tenantId, String realmId,
-            List<String> roleNames) {
+    public Set<Role> mapRoles(String tenantId, String realmId, List<String> roleNames) {
+        return mapRoles(tenantId, realmId, roleNames, false);
+    }
+    
+    private Set<Role> mapRoles(String tenantId, String realmId,
+            List<String> roleNames, boolean secondMap) {
         Set<Role> roles = new HashSet<Role>();
         
         Entity realm = findRealm(realmId);
@@ -120,20 +124,21 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             debug("Mapped admin roles {} to {}.", roleNames, roles);
         } else if (isDeveloperRealm(realm)) {
             roles.addAll(roleRightAccess.findAdminRoles(roleNames));
-            boolean canLoginAsDeveloper = false;
-            for (Role role : roles) {
-                if (role.hasRight(Right.PRODUCTION_LOGIN)) {
-                    canLoginAsDeveloper = true;
-                    break;
+            if (!secondMap) {
+                boolean canLoginAsDeveloper = false;
+                for (Role role : roles) {
+                    if (role.hasRight(Right.PRODUCTION_LOGIN)) {
+                        canLoginAsDeveloper = true;
+                        break;
+                    }
                 }
-            }
-           
-            roles = new HashSet<Role>();
-            if (canLoginAsDeveloper) {
-                roles.addAll(roleRightAccess.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER)));
-                debug("Mapped admin role with production login right, converted {} to {}.", roleNames, roles);
-            }
-            
+                
+                roles = new HashSet<Role>();
+                if (canLoginAsDeveloper) {
+                    roles.addAll(roleRightAccess.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER)));
+                    debug("Mapped admin role with production login right, converted {} to {}.", roleNames, roles);
+                }
+            } 
         } else {
             roles.addAll(roleRightAccess.findRoles(tenantId, realmId, roleNames));
             debug("Mapped user roles {} to {}.", roleNames, roles);
