@@ -64,7 +64,7 @@ class DataWriter
   
   # displays the counts for entities created
   def display_entity_counts
-    @log.info @tracker
+    @log.info @tracker.display
   end
 
   # get the entities created

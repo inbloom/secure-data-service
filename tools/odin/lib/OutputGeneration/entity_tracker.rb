@@ -30,12 +30,15 @@ class EntityTracker
     @counts[entity.class.name] += 1
   end
 
-  def to_s
-    "-------------------------------------------------------" +
+  def display
+    pattern = "%-45s%10i\n"
+    "-------------------------------------------------------\n" +
     "Ed-fi entity counts:" +
-    "-------------------------------------------------------" +
-    JSON.pretty_generate(@counts) +
-    "Total entity count: #{@counts.values.inject(:+)}" +
+    "-------------------------------------------------------\n" +
+    @counts.sort.map{|type, count|
+      pattern % ["#{type}:", count]
+    }.inject(:+) +
+    pattern % ["Total entity count:", @counts.values.inject(:+)] +
     "-------------------------------------------------------"
   end
 
