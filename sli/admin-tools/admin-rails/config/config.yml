@@ -14,13 +14,13 @@ common: &common
     admin_realm: Shared Learning Collaborative
     reset_password_lifespan: 86400
     app_dev_documentation_link: http://dev.slcedu.org/getting-started
+    sample_data_url: http://dev.slcedu.org
 
 sandbox: &sandbox
     is_sandbox: true
     auto_approve: true
     maximum_user_count: 500
     app_dev_documentation_link: http://dev.slcedu.org/getting-started/sandbox
-    sample_data_url: http://dev.slcedu.org
 
 ldap_default: &ldap_default
     ldap_host: ldap.slidev.org
