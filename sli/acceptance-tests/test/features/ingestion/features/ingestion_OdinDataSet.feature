@@ -102,14 +102,14 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
      | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                  0|
+     | studentProgramAssociation                |                 92|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 2873 records." in the resulting batch job file
+    And I should see "Processed 2965 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
