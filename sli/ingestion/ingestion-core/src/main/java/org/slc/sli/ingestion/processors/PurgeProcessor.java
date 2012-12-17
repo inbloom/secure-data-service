@@ -44,6 +44,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
@@ -69,6 +70,9 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
 
     private List<String> excludeCollections;
 

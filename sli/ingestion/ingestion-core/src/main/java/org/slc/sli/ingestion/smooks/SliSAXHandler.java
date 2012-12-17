@@ -27,7 +27,7 @@ import org.xml.sax.Locator;
  * a concrete {@linkplain #setDocumentLocator(Locator)} method.
  * <p>
  * In its constructor, a
- * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler handler}
+ * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler documentLocatorHandler}
  * is injected in order to provide a callback to
  * {@linkplain org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler#setDocumentLocator(Locator)}.
  *
@@ -36,20 +36,21 @@ import org.xml.sax.Locator;
  */
 public class SliSAXHandler extends SAXHandler {
     /**
-     * handler where the locator shall be handled.
+     * documentLocatorHandler where the locator shall be handled.
      */
-    private SliDocumentLocatorHandler handler;
+    private SliDocumentLocatorHandler documentLocatorHandler;
 
     /**
      * Constructor.
      *
      * @param executionContext
      * @param writer
+     * @param handler
      */
     public SliSAXHandler(final ExecutionContext executionContext, final Writer writer,
             final SliDocumentLocatorHandler handler) {
         super(executionContext, writer);
-        this.handler = handler;
+        this.documentLocatorHandler = handler;
     }
 
     /**
@@ -64,7 +65,7 @@ public class SliSAXHandler extends SAXHandler {
             final Writer writer, final SmooksContentHandler parentContentHandler,
             final SliDocumentLocatorHandler handler) {
         super(executionContext, writer, parentContentHandler);
-        this.handler = handler;
+        this.documentLocatorHandler = handler;
     }
 
     /**
@@ -73,8 +74,8 @@ public class SliSAXHandler extends SAXHandler {
      * @param locator
      */
     public final void setDocumentLocator(final Locator locator) {
-        if (handler != null) {
-            handler.setDocumentLocator(locator);
+        if (documentLocatorHandler != null) {
+            documentLocatorHandler.setDocumentLocator(locator);
         }
     }
 

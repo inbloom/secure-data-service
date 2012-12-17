@@ -162,10 +162,10 @@ public class SmooksCallable implements Callable<Boolean> {
     private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
             IngestionFileEntry ingestionFileEntry) {
 
-        SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
+        SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
-        int recordsPersisted = visitAfter.getRecordsPerisisted();
-        Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+        int recordsPersisted = edFiVisitor.getRecordsPerisisted();
+        Map<String, Long> duplicateCounts = edFiVisitor.getDuplicateCounts();
 
         fileProcessStatus.setTotalRecordCount(recordsPersisted);
         fileProcessStatus.setDuplicateCounts(duplicateCounts);
