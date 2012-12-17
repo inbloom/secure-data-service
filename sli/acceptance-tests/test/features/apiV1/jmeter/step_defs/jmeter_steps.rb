@@ -173,9 +173,9 @@ def checkForRegression(testName)
     end
 
     fractionalDifference = calculateFractionalDifference(avgCurrentTime, avgPreviousTime)
-    if difference >= REGRESSION_THRESHOLD
-      puts "#{difference} is greater than or equal to #{REGRESSION_THRESHOLD}, adding map for #{label} to #{difference.to_s}"
-      regressions[label] = difference
+    if fractionalDifference >= REGRESSION_THRESHOLD
+      puts "#{difference} is greater than or equal to #{REGRESSION_THRESHOLD}, adding map for #{label} to #{fractionalDifference.to_s}"
+      regressions[label] = fractionalDifference
     end
   end
 
