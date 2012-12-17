@@ -54,7 +54,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
 public class MongoQueryConverter {
     private static final String MONGO_ID = "_id";
     private static final String MONGO_BODY = "body.";
-    private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field ";
+    private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field.";
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoQueryConverter.class);
 
@@ -371,7 +371,7 @@ public class MongoQueryConverter {
 
                 NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, neutralQuery.getSortBy());
                 if (fieldSchema != null && fieldSchema.isPii()) {
-                    throw new QueryParseException(ENCRYPTION_ERROR + " cannot be sorted on", neutralQuery.toString());
+                    throw new QueryParseException(ENCRYPTION_ERROR + " PII cannot be sorted on", neutralQuery.toString());
                 }
             }
 
@@ -406,7 +406,7 @@ public class MongoQueryConverter {
                 }
                 if (fieldSchema.isPii()) {
                     if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
-                        throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
+                        throw new QueryParseException(ENCRYPTION_ERROR + " Invalid Operator: " + operator, neutralQuery.toString());
                     }
 
                     if (encryptor != null) {

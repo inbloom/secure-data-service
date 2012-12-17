@@ -44,6 +44,7 @@
     <property name="controller" ref="validationController" />
     <property name="appName" value="validationTool" />
     <property name="inputArgumentCount" value="1" />
+    <property name="messageReport" ref="toolsLoggingMessageReport" />
   </bean>
 
   <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
@@ -57,7 +58,7 @@
 
   <context:property-placeholder ignore-resource-not-found="true" />
 
-  <bean id="messageSource" parent="baseMessageSource" />
+  <bean id="messageSource" parent="validationMessageSource" />
 
   <bean id="toolsLoggingMessageReport" class="org.slc.sli.ingestion.tool.ToolsLoggingMessageReport" />
 

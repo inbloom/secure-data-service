@@ -152,7 +152,7 @@ public class SmooksFileHandlerTest {
 
         SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance("", "", errorReport,reportStats, ife);
         Mockito.when(
-                smooks.getFirstSmooksEdFiVisitor()).thenReturn(visitor);
+                smooks.getSmooksEdFiVisitor()).thenReturn(visitor);
 
         smooksFileHandler.handle(ife, errorReport, reportStats);
         Mockito.verify(errorReport, Mockito.never()).error(Mockito.any(ReportStats.class), Mockito.any(CoreMessageCode.class));
