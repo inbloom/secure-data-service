@@ -95,6 +95,8 @@ class Odin
     display_world_summary(edOrgs)
     display_pre_requisites_after_world_building(pre_requisites)
 
+    writer.display_entity_counts
+
     # clean up writer
     # -> xml  data writer: writes any entities that are still queued and closes file handles
     # -> base data writer: clears maps of entities and counts
