@@ -101,8 +101,8 @@ describe "Odin" do
           student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
         end
         
-        it "will generate a valid control file with 8 interchanges" do     
-          @interchanges.length.should eq(9)
+        it "will generate a valid control file with the correct number of interchanges" do     
+          @interchanges.length.should eq(10)
         end
         
         it "will generate a valid control file with Student as a type" do
