@@ -18,7 +18,7 @@ package org.slc.sli.ingestion.validation;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.MessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 
 /**
  * Abstract validator.
@@ -55,7 +55,7 @@ public abstract class SimpleValidator<T> implements Validator<T> {
      * @param args
      *            optional arguments for substitution into message.
      */
-    protected void error(AbstractMessageReport report, ReportStats reportStats, MessageCode code, Object... args) {
+    protected void error(AbstractMessageReport report, AbstractReportStats reportStats, MessageCode code, Object... args) {
         if (report != null) {
             report.error(reportStats, code, args);
         }
@@ -73,7 +73,7 @@ public abstract class SimpleValidator<T> implements Validator<T> {
      * @param args
      *            optional arguments for substitution into message.
      */
-    protected void warn(AbstractMessageReport report, ReportStats reportStats, MessageCode code, Object... args) {
+    protected void warn(AbstractMessageReport report, AbstractReportStats reportStats, MessageCode code, Object... args) {
         if (report != null) {
             report.warning(reportStats, code, args);
         }
