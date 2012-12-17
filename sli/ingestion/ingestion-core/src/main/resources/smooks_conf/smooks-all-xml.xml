@@ -9,17 +9,20 @@
   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
   <params>
+    <param name="stream.filter.type">SAX</param>
+    <param name="terminate.on.visitor.exception">false</param>
     <param name="gradeType">Final</param>
   </params>
 
-  <reader>
+  <reader class="org.slc.sli.ingestion.smooks.SmooksEdFiReader" >
     <features>
       <setOff feature="http://xml.org/sax/features/external-general-entities" />
       <setOff feature="http://xml.org/sax/features/external-parameter-entities" />
     </features>
   </reader>
 
-  <core:filterSettings defaultSerialization="false" readerPoolSize="5" terminateOnException="false" type="SAX" />
+  <core:filterSettings defaultSerialization="false" />
+<!--  <core:filterSettings defaultSerialization="false" readerPoolSize="5" terminateOnException="false" type="SAX" /> -->
 
  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">

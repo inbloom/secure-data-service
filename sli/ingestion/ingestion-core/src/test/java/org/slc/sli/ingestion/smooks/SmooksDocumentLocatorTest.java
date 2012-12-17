@@ -11,14 +11,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Tests for SliSmooks DocumentLocator
@@ -70,15 +71,11 @@ public class SmooksDocumentLocatorTest {
 
         Assert.assertEquals(2, nrs.size());
         NeutralRecord nr = nrs.get(0);
-        Assert.assertEquals(72579, nr.getVisitBeforeLineNumber());
-        Assert.assertEquals(45, nr.getVisitBeforeColumnNumber());
-        Assert.assertEquals(72592, nr.getVisitAfterLineNumber());
-        Assert.assertEquals(46, nr.getVisitAfterColumnNumber());
+        Assert.assertEquals(72579, nr.getLineNumber());
+        Assert.assertEquals(5, nr.getColumnNumber());
         nr = nrs.get(1);
-        Assert.assertEquals(72593, nr.getVisitBeforeLineNumber());
-        Assert.assertEquals(45, nr.getVisitBeforeColumnNumber());
-        Assert.assertEquals(72606, nr.getVisitAfterLineNumber());
-        Assert.assertEquals(46, nr.getVisitAfterColumnNumber());
+        Assert.assertEquals(72593, nr.getLineNumber());
+        Assert.assertEquals(5, nr.getColumnNumber());
     }
 
 }

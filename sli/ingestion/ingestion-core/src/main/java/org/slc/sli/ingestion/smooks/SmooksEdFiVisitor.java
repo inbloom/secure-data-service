@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import com.mongodb.MongoException;
 
@@ -37,6 +38,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.xml.sax.Locator;
+import org.xml.sax.XMLReader;
 
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -56,7 +58,7 @@ import org.slc.sli.ingestion.util.NeutralRecordUtils;
  *
  */
 @StreamResultWriter
-public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLocatorHandler {
+public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
@@ -79,17 +81,15 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
-    private Locator locator;
-
-    private int visitBeforeLineNumber;
-    private int visitBeforeColumnNumber;
-    private int visitAfterLineNumber;
-    private int visitAfterColumnNumber;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     private AbstractMessageReport errorReport;
     private ReportStats reportStats;
+
+    private Locator locator;
+    private int lineNumber;
+    private int columnNumber;
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -119,19 +119,15 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     }
 
     @Override
-    public void setDocumentLocator(Locator locator) {
-        this.locator = locator;
-    }
-
-    @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
-
-        visitAfterLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();
 
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
+            neutralRecord.setLineNumber(lineNumber);
+            neutralRecord.setColumnNumber(columnNumber);
+//            System.out.println(element.getName().getLocalPart() + ", position in " + neutralRecord.getSourceFile()
+//                    + ": line " + neutralRecord.getLineNumber() + ", column " + neutralRecord.getColumnNumber());
 
             if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
                 queueNeutralRecordForWriting(neutralRecord);
@@ -214,11 +210,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
             neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
 
-        neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
-        neutralRecord.setVisitBeforeColumnNumber(visitBeforeColumnNumber);
-        neutralRecord.setVisitAfterLineNumber(visitAfterLineNumber);
-        neutralRecord.setVisitAfterColumnNumber(visitAfterColumnNumber);
-
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
         // files)
         neutralRecord.setAttributes(NeutralRecordUtils.decodeAndTrimXmlStrings(neutralRecord.getAttributes()));
@@ -249,13 +240,15 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
         this.dIdResolver = dIdResolver;
     }
 
-    /* we are not using the below visitor hooks */
-
+    @SuppressWarnings("unchecked")
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        visitBeforeLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();
+        locator = ((Stack<SmooksEdFiReader>) executionContext.getAttribute(XMLReader.class)).firstElement().getLocator();
+        lineNumber = locator.getLineNumber();
+        columnNumber = locator.getColumnNumber() - (element.getName().getLocalPart().length() + 2);  // Tag start.
     }
+
+    /* we are not using the below visitor hooks */
 
     @Override
     public void onChildElement(SAXElement element, SAXElement childElement, ExecutionContext executionContext) {

@@ -20,12 +20,17 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
+import org.milyn.Smooks;
 import org.milyn.SmooksException;
+import org.milyn.delivery.ContentHandlerConfigMapTable;
+import org.milyn.delivery.VisitorConfigMap;
+import org.milyn.delivery.sax.SAXVisitAfter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +42,6 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -77,24 +81,33 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    @SuppressWarnings("unchecked")
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
-        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
+        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-            SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
+
+            try {
+                Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
+                f.setAccessible(true);
+                VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
+                ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
+                SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0)
+                        .getContentHandler();
 
             int recordsPersisted = visitAfter.getRecordsPerisisted();
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
             LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
+            } catch (Exception e) {
+                LOG.error("Error accessing visitor list in smooks", e);
+            }
         } catch (SmooksException se) {
             errorReport.error(reportStats, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
         } finally {
@@ -127,7 +140,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
+        // Not used.
         return null;
     }
 }

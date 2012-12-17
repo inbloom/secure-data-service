@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.milyn.Smooks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
@@ -56,7 +57,7 @@ public class SliSmooksFactory {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
-    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats) throws IOException, SAXException {
+    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
@@ -71,10 +72,10 @@ public class SliSmooksFactory {
         }
     }
 
-    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, AbstractMessageReport errorReport, ReportStats reportStats, String batchJobId,
+    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, AbstractMessageReport errorReport, ReportStats reportStats, String batchJobId,
             IngestionFileEntry fe) throws IOException, SAXException {
 
-        SliSmooks smooks = new SliSmooks(sliSmooksConfig.getConfigFileName());
+        Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 
         // based on target selectors for this file type, add visitors
         List<String> targetSelectorList = sliSmooksConfig.getTargetSelectors();

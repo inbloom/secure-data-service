@@ -56,7 +56,6 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
-import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
@@ -87,7 +86,7 @@ public class EntityTestUtils {
         ReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
 
-        SliSmooks smooks = new SliSmooks(smooksConfig);
+        Smooks smooks = new Smooks(smooksConfig);
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport, reportStats, null);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
 

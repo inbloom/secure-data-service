@@ -113,21 +113,14 @@ public class NeutralRecord implements Cloneable {
     private int locationInSourceFile;
 
     /**
-     * The line number in source file of the record when the element is processed in visitBefore()
+     * Line in XML source file from which this record was obtained.
      */
-    private int visitBeforeLineNumber;
+    private int lineNumber;
+
     /**
-     * The column number in source file of the record when the element is processed in visitBefore()
+     * Column in XML source file from which this record was obtained.
      */
-    private int visitBeforeColumnNumber;
-    /**
-     * The line number in source file of the record when the element is processed in visitAfter()
-     */
-    private int visitAfterLineNumber;
-    /**
-     * The column number in source file of the record when the element is processed in visitAfter()
-     */
-    private int visitAfterColumnNumber;
+    private int columnNumber;
 
     /**
      * Time when neutral record was created (in ms).
@@ -171,7 +164,7 @@ public class NeutralRecord implements Cloneable {
         this.recordId = recordId;
     }
 
-        
+
     /**
      * @param localId
      *            the localId to set
@@ -319,36 +312,34 @@ public class NeutralRecord implements Cloneable {
         this.locationInSourceFile = locationInSourceFile;
     }
 
-    public int getVisitBeforeLineNumber() {
-        return visitBeforeLineNumber;
+    /**
+     * @return the source line number
+     */
+    public int getLineNumber() {
+        return lineNumber;
     }
 
-    public void setVisitBeforeLineNumber(int visitBeforeLineNumber) {
-        this.visitBeforeLineNumber = visitBeforeLineNumber;
+    /**
+     * @return the source column number
+     */
+    public int getColumnNumber() {
+        return columnNumber;
     }
 
-    public int getVisitBeforeColumnNumber() {
-        return visitBeforeColumnNumber;
+    /**
+     * @param lineNumber
+     *      the source line number to set
+     */
+    public void setLineNumber(int lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
-    public void setVisitBeforeColumnNumber(int visitBeforeColumnNumber) {
-        this.visitBeforeColumnNumber = visitBeforeColumnNumber;
-    }
-
-    public int getVisitAfterLineNumber() {
-        return visitAfterLineNumber;
-    }
-
-    public void setVisitAfterLineNumber(int visitAfterLineNumber) {
-        this.visitAfterLineNumber = visitAfterLineNumber;
-    }
-
-    public int getVisitAfterColumnNumber() {
-        return visitAfterColumnNumber;
-    }
-
-    public void setVisitAfterColumnNumber(int visitAfterColumnNumber) {
-        this.visitAfterColumnNumber = visitAfterColumnNumber;
+    /**
+     * @param columnNumber
+     *      the source column number to set
+     */
+    public void setColumnNumber(int columnNumber) {
+        this.columnNumber = columnNumber;
     }
 
     public long getCreationTime() {
@@ -506,9 +497,9 @@ public class NeutralRecord implements Cloneable {
 
     /*
      * Clone, e.g. for the DiD calculation needs
-     * 
+     *
      *  @return The cloned object, taking care to handle composite members such as maps.
-     * 
+     *
      */
     @Override
     public Object clone() {

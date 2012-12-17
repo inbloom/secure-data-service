@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.container.ExecutionContext;
+import org.milyn.delivery.sax.SAXElement;
 import org.milyn.javabean.context.BeanContext;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -76,6 +77,7 @@ public class SmooksEdiFiVisitorTest {
 
         // set up objects
         final String recordType = "otherType";
+        final String recordName = "someName";
         final DummyMessageReport errorReport = new DummyMessageReport();
         final ReportStats reportStats = new SimpleReportStats(new SimpleSource("TestSource", "resourceId", "stageName"));
         final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
@@ -92,6 +94,7 @@ public class SmooksEdiFiVisitorTest {
         BeanContext mockBeanContext = Mockito.mock(BeanContext.class);
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setRecordType(recordType);
+        neutralRecord.setLocalId(recordName);
 
         // set up behavior
         Mockito.when(mockExecutionContext.getBeanContext()).thenReturn(mockBeanContext);
@@ -100,7 +103,8 @@ public class SmooksEdiFiVisitorTest {
         Mockito.when(mockDIdStrategy.generateId(any(NaturalKeyDescriptor.class))).thenReturn("recordId");
 
         // execute
-        visitor.visitAfter(null, mockExecutionContext);
+        SAXElement element = new SAXElement(recordName, recordName);
+        visitor.visitAfter(element, mockExecutionContext);
 
         // verify
         Mockito.verify(mockUUIDStrategy, Mockito.times(0)).generateId(Mockito.any(NaturalKeyDescriptor.class));

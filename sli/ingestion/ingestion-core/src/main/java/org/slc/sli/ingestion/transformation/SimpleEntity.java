@@ -35,10 +35,8 @@ public class SimpleEntity implements Entity {
     private Map<String, Object> metaData;
     private long recordNumber;
     private String sourceFile;
-    private int visitBeforeLineNumber;
-    private int visitBeforeColumnNumber;
-    private int visitAfterLineNumber;
-    private int visitAfterColumnNumber;
+    private int lineNumber;
+    private int columnNumber;
 
 
     @Override
@@ -85,36 +83,20 @@ public class SimpleEntity implements Entity {
         this.recordNumber = recordNumber;
     }
 
-    public int getVisitBeforeLineNumber() {
-        return visitBeforeLineNumber;
+    public int getLineNumber() {
+        return lineNumber;
     }
 
-    public void setVisitBeforeLineNumber(int visitBeforeLineNumber) {
-        this.visitBeforeLineNumber = visitBeforeLineNumber;
+    public void setLineNumber(int lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
-    public int getVisitBeforeColumnNumber() {
-        return visitBeforeColumnNumber;
+    public int getColumnNumber() {
+        return columnNumber;
     }
 
-    public void setVisitBeforeColumnNumber(int visitBeforeColumnNumber) {
-        this.visitBeforeColumnNumber = visitBeforeColumnNumber;
-    }
-
-    public int getVisitAfterLineNumber() {
-        return visitAfterLineNumber;
-    }
-
-    public void setVisitAfterLineNumber(int visitAfterLineNumber) {
-        this.visitAfterLineNumber = visitAfterLineNumber;
-    }
-
-    public int getVisitAfterColumnNumber() {
-        return visitAfterColumnNumber;
-    }
-
-    public void setVisitAfterColumnNumber(int visitAfterColumnNumber) {
-        this.visitAfterColumnNumber = visitAfterColumnNumber;
+    public void setColumnNumber(int columnNumber) {
+        this.columnNumber = columnNumber;
     }
 
     @Override

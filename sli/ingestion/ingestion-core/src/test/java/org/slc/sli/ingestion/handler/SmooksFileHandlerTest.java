@@ -26,6 +26,7 @@ import junitx.util.PrivateAccessor;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.milyn.Smooks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -43,9 +44,7 @@ import org.slc.sli.ingestion.reporting.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
-import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
-import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.util.MD5;
 
 /**
@@ -138,7 +137,7 @@ public class SmooksFileHandlerTest {
 
     @Test
     public void testXsdPreValidation() throws IOException, SAXException, NoSuchFieldException {
-        SliSmooks smooks = Mockito.mock(SliSmooks.class);
+        Smooks smooks = Mockito.mock(Smooks.class);
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
         Mockito.when(
                 factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class))).thenReturn(smooks);
@@ -149,10 +148,6 @@ public class SmooksFileHandlerTest {
                 xmlFile.getAbsolutePath(), "", lz.getLZId());
         ife.setFile(xmlFile);
         AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
-
-        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance("", "", errorReport,reportStats, ife);
-        Mockito.when(
-                smooks.getFirstSmooksEdFiVisitor()).thenReturn(visitor);
 
         smooksFileHandler.handle(ife, errorReport, reportStats);
         Mockito.verify(errorReport, Mockito.never()).error(Mockito.any(ReportStats.class), Mockito.any(CoreMessageCode.class));
