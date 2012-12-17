@@ -18,21 +18,20 @@ limitations under the License.
 
 require 'logger'
 
+require_relative "DataWriter.rb"
+require_relative "XML/assessment_metadata_generator.rb"
 require_relative "XML/cohortGenerator.rb"
-require_relative "XML/studentParentGenerator.rb"
 require_relative "XML/educationOrganizationGenerator.rb"
 require_relative "XML/educationOrgCalendarGenerator.rb"
-require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/enrollmentGenerator.rb"
+require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/staffAssociationGenerator.rb"
 require_relative "XML/studentAssessmentGenerator.rb"
-require_relative "XML/assessment_metadata_generator.rb"
-require_relative "DataWriter.rb"
+require_relative "XML/studentParentGenerator.rb"
+require_relative "XML/studentProgramGenerator.rb"
 
 # ed-fi xml interchange writer class
-# -> sub-class of (in-memory) data writer
-# -> batches writes to interchanges by specified BATCH_SIZE
-# -> meant to be event-driven writing of entities to xml interchanges
+# -> event-driven writing of entities to xml interchanges
 class XmlDataWriter < DataWriter
   
   # default constructor for data writer class
@@ -56,16 +55,17 @@ class XmlDataWriter < DataWriter
     end
 
     @writers = []
-    @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
+    @writers << AssessmentMetadataGenerator.new(@yaml, initialize_interchange(directory, "AssessmentMetadata"))
+    @writers << CohortGenerator.new(@yaml, initialize_interchange(directory, "StudentCohort"))
     @writers << EducationOrganizationGenerator.new(@yaml, initialize_interchange(directory, "EducationOrganization"))
     @writers << EducationOrgCalendarGenerator.new(@yaml, initialize_interchange(directory, "EducationOrgCalendar"))
-    @writers << MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
-    @writers << AssessmentMetadataGenerator.new(@yaml, initialize_interchange(directory, "AssessmentMetadata"))
     @writers << EnrollmentGenerator.new(@yaml, initialize_interchange(directory, "StudentEnrollment"))
+    @writers << MasterScheduleGenerator.new(@yaml, initialize_interchange(directory, "MasterSchedule"))
     @writers << StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
-    @writers << CohortGenerator.new(@yaml, initialize_interchange(directory, "StudentCohort"))
-    
+    @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
+    @writers << StudentProgramGenerator.new(@yaml, initialize_interchange(directory, "StudentProgram"))
+
     # enable entities to be written
     # -> writes header and starts reporting
     @writers.each { |writer| writer.start }
@@ -84,21 +84,28 @@ class XmlDataWriter < DataWriter
   end
 
   def write_one_entity(entity)
-    initialize_entity(entity.class)
+    if entity.is_a?(Array)
+      entity.each do |e|
+        write_one_entity(e)
+      end
+    else
+      initialize_entity(entity.class)
 
-    found = false
-    @writers.each do |writer|
-      if writer.can_write?(entity.class)
-        writer << entity
-        found = true
+      found = false
+      @writers.each do |writer|
+        if writer.can_write?(entity.class)
+          writer << entity
+          increment_count(entity)
+          found = true
+          break
+        end
+      end
+
+      if found == false
+        puts "<<<< #{entity}: writer not registered for type #{entity.class}"
+        exit -1
       end
     end
-
-    if found == false
-      puts "<<<< #{entity}: writer not registered for type #{entity.class}"
-      exit -1
-    end
-
     increment_count(entity)
   end
 end

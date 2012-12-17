@@ -25,6 +25,7 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  *
  * @author okrook
  *
+ * @param <T> Type of the object being validated
  */
 public abstract class SimpleValidator<T> implements Validator<T> {
 

@@ -1,10 +1,10 @@
 <h3>CI Node Health Check</h3>
 
-<%= form_tag("/health", :method => :get) do %>
+<%= form_tag("/health", :method => :get, :class => "form-inline") do %>
   <%= label_tag(:time_filter, "Since:") %>
   <%= select_tag(:time_filter, options_for_select([ ["Beginning (All)", 0], ["One day" , 86400], ["Three days" , 259200], ["One week" , 604800],
   													["Two weeks" , 1209600], ["Two months", 5184000] ], params[:time_filter])) %>
-  <%= submit_tag "Filter" %>
+  <%= submit_tag("Filter", :class => "btn") %>
 <% end %>
 
 <table class="table">
