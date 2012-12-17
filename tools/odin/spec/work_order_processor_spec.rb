@@ -25,6 +25,7 @@ require_relative '../lib/Shared/EntityClasses/enum/ProgramType.rb'
 require_relative '../lib/Shared/EntityClasses/enum/ProgramSponsorType.rb'
 require_relative '../lib/Shared/EntityClasses/studentSchoolAssociation.rb'
 require_relative '../lib/Shared/EntityClasses/studentSectionAssociation.rb'
+require_relative '../lib/Shared/EntityClasses/student_cohort.rb'
 require_relative '../lib/Shared/date_interval.rb'
 require_relative '../lib/OutputGeneration/XmlDataWriter'
 require_relative '../lib/OutputGeneration/entity_queue'
@@ -36,8 +37,10 @@ require_relative '../lib/EntityCreation/work_order_processor'
 describe "WorkOrderProcessor" do
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
-  let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
-                   'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}}
+  let(:scenario) {Scenario.new({'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
+                   'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3},
+                   'INCLUDE_PARENTS' => true,
+                   'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30})}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
@@ -47,7 +50,7 @@ describe "WorkOrderProcessor" do
       class Factory
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
-          :parents, :parent_associations, :program_associations
+          :parents, :parent_associations, :cohort_associations, :program_associations
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -58,6 +61,7 @@ describe "WorkOrderProcessor" do
           @parents = to_build.select{|a| a.kind_of? Parent}
           @parent_associations = to_build.select{|a| a.kind_of? StudentParentAssociation}
           @program_associations = to_build.select{|a| a.kind_of? StudentProgramAssociation}
+          @cohort_associations = to_build.select{|a| a.kind_of? StudentCohortAssociation}
         end
       end
 
@@ -85,6 +89,7 @@ describe "WorkOrderProcessor" do
         factory.school_associations.select{|ssa| ssa.startYear == 2002 and ssa.startGrade == "First grade"}.should have(1).items
         factory.section_associations.should have(4).items
         factory.assessment_associations.should have(30).items
+        factory.cohort_associations.should have(8).items
       end
 
       it "will generate the right number of parents and student parent associations" do
@@ -131,6 +136,18 @@ describe "WorkOrderProcessor" do
         factory.assessment_associations.each{|a|
           assessment_items[a].should have(3).items
         }
+      end
+
+      it "will generate correct cohort associations for the student" do
+        factory.cohort_associations.each{|c|
+          c.student.should eq 42
+          c.cohort.ed_org_id.should eq "elem-0000000064"
+          c.begin_date.should eq c.end_date - 30
+        }
+        factory.cohort_associations.group_by{|c| c.cohort.identifier}.each{|cohort, associations|
+          associations.should have(2).items
+        }
+
       end
     end
 
@@ -206,8 +223,8 @@ end
 describe "generate_work_orders" do
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
-  let(:scenario) {{'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
-                   'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}}}
+  let(:scenario) {Scenario.new({'ASSESSMENTS_TAKEN' => {'grade_wide' => 5}, 'ASSESSMENTS_PER_GRADE'=>3, 
+                   'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'grade_wide' => 3}})}
 
   context "with a world with 20 students in 4 schools" do
 

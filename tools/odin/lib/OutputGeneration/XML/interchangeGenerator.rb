@@ -36,7 +36,7 @@ class InterchangeGenerator
     if @batch_size.nil?
       @batch_size = 10000
     end
-    @gc = DeferredGarbageCollector.new(15.0)
+    @gc = DeferredGarbageCollector.new(1.0)
 
     @stime = Time.now
     @entities = []

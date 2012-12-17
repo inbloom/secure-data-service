@@ -2,7 +2,9 @@
 
 <%= form_tag("/features", :method => :get) do %>
   <%= label_tag(:component_filter, "Component:") %>
-  <%= select_tag(:component_filter, options_for_select(controller.getComponentOptions), :include_blank => true) %>
+  <%= select_tag(:component_filter, options_for_select(controller.getComponentOptions, params[:component_filter]), :include_blank => true) %>
+  <%= label_tag(:time_filter, "Since:") %>
+  <%= select_tag(:time_filter, options_for_select([ ["Beginning (All)", 0], ["Two weeks" , 1209600], ["Two months", 5184000] ], params[:time_filter])) %>
   <%= submit_tag "Filter" %>
 <% end %>
 

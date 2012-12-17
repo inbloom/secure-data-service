@@ -38,7 +38,7 @@ class XmlDataWriter < DataWriter
   # future implementations should take a map of {interchange => true/false}, indicating whether or not
   # that interchange is to be written as part of the current scenario
   def initialize(yaml)
-    super()
+    super(yaml)
     @yaml      = yaml
     @directory = (yaml['DIRECTORY'] or 'generated/')
     initialize_edfi_xml_writers(@directory)
@@ -106,9 +106,6 @@ class XmlDataWriter < DataWriter
         exit -1
       end
     end
-  end
-
-  def << (entity)
-    write_one_entity(entity)
+    increment_count(entity)
   end
 end

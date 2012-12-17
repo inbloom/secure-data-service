@@ -1,7 +1,7 @@
 @RALLY_US4816
 Feature: Odin Data Set Ingestion Correctness and Fidelity
 Background: I have a landing zone route configured
-Given I am using odin data store 
+Given I am using odin data store
 
 Scenario: Post Odin Sample Data Set
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -91,13 +91,13 @@ Then I should see following map of entry counts in the corresponding collections
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
      | staff                                    |                 68|
-     | staffCohortAssociation                   |                  0|
+     | staffCohortAssociation                   |                 27|
      | staffEducationOrganizationAssociation    |                166|
      | staffProgramAssociation                  |                660|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                  0|
+     | studentCohortAssociation                 |                 32|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
@@ -188,17 +188,10 @@ Scenario: Verify superdoc studentSchoolAssociation for specific _id ingested cor
     And the studentSchoolAssociation references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
-  When I can find a "student" with "_id" "9e54047cbfeeee26fed86b0667e98286a2b72791_id" in tenant db "Midgar"
-    Then the "student" entity "body.race" should be "White"
-    And the "student" entity "body.limitedEnglishProficiency" should be "NotLimited"
-    And the "student" entity "body.schoolFoodServicesEligibility" should be "Reduced price"  
-    And the "student" entity "schools.entryGradeLevel" should be "Kindergarten"
-    And the "student" entity "schools.entryGradeLevel" should be "First grade" 
-    And the "student" entity "schools.entryGradeLevel" should be "Second grade" 
-
-Scenario: Verify entities in student school association were ingested correctly
-    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
-     | graduationPlan              | 1                   | _id                                      | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
-     | studentSchoolAssociation    | 5                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
-
+  When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"
+    Then the student entity body.race should be "White"
+    And the student entity body.limitedEnglishProficiency should be "NotLimited"
+    And the student entity body.schoolFoodServicesEligibility should be "Reduced price"  
+    And the student entity schools.entryGradeLevel should be "Kindergarten"
+    And the student entity schools.entryGradeLevel should be "First grade" 
+    And the student entity schools.entryGradeLevel should be "Second grade" 

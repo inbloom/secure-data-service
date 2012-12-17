@@ -22,6 +22,7 @@
   <allow pkg="openadk.library"/>
   <allow pkg="org.slc.sli.modeling"/>
   <allow pkg="org.slc.sli.scaffold"/>
+  <allow pkg="org.slc.sli.search"/>
 
   <subpackage name="dal">
     <allow pkg="org.slc.sli.dal"/>
@@ -131,6 +132,10 @@
 
   <subpackage name="scaffold">
     <allow pkg="org.slc.sli.api"/>
+  </subpackage>
+  
+  <subpackage name="search">
+    <allow pkg="org.slc.sli.dal"/>
   </subpackage>
 
 </import-control>

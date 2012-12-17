@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+require_relative 'world_builder'
 require_relative './assessment_work_order'
 require_relative '../Shared/data_utility'
 require_relative '../Shared/EntityClasses/studentAssessment'
@@ -25,7 +26,7 @@ require_relative 'graduation_plan_factory'
 class StudentWorkOrderFactory
   def initialize(world, scenario, section_factory)
     @world = world
-    @scenario = scenario
+    @scenario = Scenario.new scenario
     @section_factory = section_factory
     @next_id = 0
     @assessment_factory = AssessmentFactory.new(@scenario)
@@ -85,7 +86,7 @@ class StudentWorkOrder
     @initial_year = (opts[:initial_year] or 2011)
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
     @section_factory = opts[:section_factory]
-    @scenario = opts[:scenario]
+    @scenario = (opts[:scenario] or Scenario.new({}))
     @assessment_factory = opts[:assessment_factory]
     @graduation_plans = opts[:graduation_plans]
     @other_programs = opts[:programs]
@@ -101,8 +102,12 @@ class StudentWorkOrder
   private
 
   def parents(student)
-    [:mom, :dad].map{|type|
-      [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
+    if @scenario.include_entity? "Parent"
+      [:mom, :dad].map{|type|
+        [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
+    else
+      []
+    end
   end
 
   def per_year_info
@@ -117,9 +122,11 @@ class StudentWorkOrder
           curr_type = GradeLevelType.school_type(grade)
           schools = schools.drop(1)
         end
-        generated += generate_enrollment(schools[0], curr_type, year, grade, session)
+        school = schools[0]
+        generated += generate_enrollment(school, curr_type, year, grade, session)
         generated += generate_grade_wide_assessment_info(grade, session)
         generated += generate_program_associations(session, curr_type, schools[0])
+        generated += generate_cohorts(school, curr_type, session)
       end
     }
     generated
@@ -209,6 +216,16 @@ class StudentWorkOrder
         StudentAssessmentItem.new(sa.studentId.odd?, sa, item)
       }
     }.flatten
+  end
+
+  def generate_cohorts(school, school_type, session)
+    cohorts = WorldBuilder.cohorts(DataUtility.get_school_id(school, school_type), @scenario)
+    cohorts.map{|cohort|
+      prob = @scenario['PROBABILITY_STUDENT_IN_COHORT'].to_f
+      if(@rand.rand < prob)
+        StudentCohortAssociation.new(@id, cohort, session['interval'].get_begin_date, (@scenario['DAYS_IN_COHORT'] or -1))
+      end
+    }.select{|c| not c.nil?}
   end
 
   def find_age(grade)

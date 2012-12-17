@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 /**
@@ -24,6 +23,7 @@ package org.slc.sli.ingestion.landingzone;
  */
 public enum AttributeType {
     PURGE("purge"),
+    PURGE_KEEP_EDORGS("purge-keep-edorgs"),  // Keep edorg apps accessible to tenant.
     DRYRUN("dry-run"),
     NO_ID_REF("no-id-ref");
 

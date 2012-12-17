@@ -1,0 +1,4 @@
+studentCount: 1000
+beginYear: 2012
+
+ENTITY_WHITELIST: ['Student']

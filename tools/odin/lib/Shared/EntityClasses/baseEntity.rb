@@ -20,10 +20,16 @@ require 'yaml'
 
 # base entity
 class BaseEntity
-  class << self; attr_accessor :demographics end
-  @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")
 
-  def self.demographics; @@demographics end
+  @@d = {}
+
+  def self.initializeDemographics(demographics, choices)
+    @@d = Demographics.new(demographics, choices)
+  end
+
+  def self.demographics
+    @@d
+  end
 
   def choose(options)
     options[@rand.rand(options.size) - 1]
@@ -45,6 +51,10 @@ class BaseEntity
       sum +=weight
     end
     sum
+  end
+  
+  def bit_choose() 
+    rand(2) == 1
   end
 
   def bit_choose()

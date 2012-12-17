@@ -91,6 +91,8 @@ public class DefinitionFactory {
         protected Right readRight;
         protected Right writeRight;
         private boolean supportsAggregates;
+        private boolean skipContextValidation;
+        private boolean wrapperEntity;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -189,6 +191,16 @@ public class DefinitionFactory {
             return this;
         }
 
+        public EntityBuilder skipContextValidation() {
+            this.skipContextValidation = true;
+            return this;
+        }
+
+        public EntityBuilder wrapperEntity() {
+            this.wrapperEntity = true;
+            return this;
+        }
+
         /**
          * Create the actual entity definition
          *
@@ -197,10 +209,10 @@ public class DefinitionFactory {
         public EntityDefinition build() {
 
             BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
-                    collectionName, treatments, this.readRight, this.writeRight);
+                    collectionName, treatments, this.readRight, this.writeRight, this.repo);
 
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService,
-                    supportsAggregates);
+                    supportsAggregates, skipContextValidation, wrapperEntity);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }
@@ -396,7 +408,7 @@ public class DefinitionFactory {
 
             BasicAssocService service = (BasicAssocService) DefinitionFactory.this.beanFactory.getBean(
                     "basicAssociationService", collectionName, treatments, source.getDefn(), source.getKey(),
-                    target.getDefn(), target.getKey());
+                    target.getDefn(), target.getKey(), this.repo);
 
             source.setLinkToAssociation(this.relNameFromSource);
             target.setLinkToAssociation(this.relNameFromTarget);

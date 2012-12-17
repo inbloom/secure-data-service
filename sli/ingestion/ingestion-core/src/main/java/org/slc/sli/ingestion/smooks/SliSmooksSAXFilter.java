@@ -35,6 +35,8 @@ import org.milyn.delivery.sax.terminate.TerminateException;
 import org.milyn.payload.FilterResult;
 import org.milyn.payload.FilterSource;
 import org.milyn.payload.JavaSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Locator;
 
 /**
@@ -53,7 +55,7 @@ import org.xml.sax.Locator;
  *
  */
 public class SliSmooksSAXFilter extends Filter {
-    private static Log logger = LogFactory.getLog(SmooksSAXFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(SmooksSAXFilter.class);
 
     private ExecutionContext executionContext;
     private SliSAXParser parser;

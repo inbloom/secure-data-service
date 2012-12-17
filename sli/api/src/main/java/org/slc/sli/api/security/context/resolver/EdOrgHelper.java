@@ -16,18 +16,20 @@
 
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.validator.DateHelper;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -36,9 +38,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Contains helper methods for traversing the edorg hierarchy.
- * 
+ *
  * Assumptions it makes
- * 
+ *
  * <ul>
  * <li>SEAs, LEAs, and Schools are all edorgs with organizationCategories of 'State Education
  * Agency' 'Local Education Agency', and 'School' respectively.</li>
@@ -47,8 +49,8 @@ import org.springframework.stereotype.Component;
  * <li>SEAs don't have a parentEducationAgencyReference and therefore are always at the top of the
  * tree</li>
  * </ul>
- * 
- * 
+ *
+ *
  */
 @Component
 public class EdOrgHelper {
@@ -59,10 +61,15 @@ public class EdOrgHelper {
     @Autowired
     private AssociativeContextHelper helper;
 
+    @Autowired
+    protected DateHelper dateHelper;
+
+    @Autowired
+    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
     /**
      * Traverse the edorg hierarchy and find all the SEAs the user is associated with, directly or
      * indirectly.
-     * 
+     *
      * @param user
      * @return a list of entity IDs
      */
@@ -81,12 +88,12 @@ public class EdOrgHelper {
 
     /**
      * Determine the district of the user.
-     * 
+     *
      * If the user is directly associated with an SEA, this is any LEA directly below the SEA. If
      * the user is directly
      * associated with an LEA, this is the top-most LEA i.e. the LEA directly associated with the
      * SEA.
-     * 
+     *
      * @param user
      * @return a list of entity IDs
      */
@@ -125,16 +132,17 @@ public class EdOrgHelper {
 
     /**
      * Get an ordered list of the parents of an edorg.
-     * 
+     *
      * The order of the list starts with the direct parent of the edorg and ends with the SEA
-     * 
+     *
      * @param edOrg
      * @return
      */
     public List<String> getParentEdOrgs(final Entity edOrg) {
         List<String> toReturn = new ArrayList<String>();
 
-        Entity currentEdOrg = edOrg; 
+        Entity currentEdOrg = edOrg;
+
         if (currentEdOrg != null && currentEdOrg.getBody() != null) {
             while (currentEdOrg.getBody().get("parentEducationAgencyReference") != null) {
                 String parentId = (String) currentEdOrg.getBody().get("parentEducationAgencyReference");
@@ -158,7 +166,7 @@ public class EdOrgHelper {
 
     /**
      * Walks the edorg hierarchy to get all schools
-     * 
+     *
      * @param principal
      * @return
      */
@@ -189,7 +197,6 @@ public class EdOrgHelper {
 
     /**
      * Finds schools directly associated to this user
-     * 
      * @param principal
      * @return
      */
@@ -221,7 +228,7 @@ public class EdOrgHelper {
 
     /**
      * Recursively returns the list of all child edorgs
-     * 
+     *
      * @param edOrgs
      * @return
      */
@@ -263,6 +270,61 @@ public class EdOrgHelper {
                 return null;
             }
         }
+    }
+
+
+    /**
+     * Get the collection of ed-orgs that will determine a user's security context
+     * @param principal
+     * @return
+     */
+    public Collection<String> getUserEdOrgs(Entity principal) {
+        return (isTeacher(principal)) ? getDirectSchools(principal) : getStaffEdOrgLineage();
+    }
+
+    /**
+     * Will go through staffEdorgAssociations that are current and get the descendant
+     * edorgs that you have.
+     *
+     * @return a set of the edorgs you are associated to and their children.
+     */
+    public Set<String> getStaffEdOrgLineage() {
+        Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs();
+        return getEdorgDescendents(edOrgLineage);
+    }
+
+    public Set<String> getEdorgDescendents(Set<String> edOrgLineage) {
+        edOrgLineage.addAll(getChildEdOrgs(edOrgLineage));
+        return edOrgLineage;
+    }
+
+    /**
+     * Get current ed-org associations for a staff member
+     * @return
+     */
+    public Set<String> getStaffCurrentAssociatedEdOrgs() {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        Iterable<Entity> staffEdOrgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        List<Entity> staffEdOrgAssociations = new LinkedList<Entity>();
+        if (staffEdOrgs != null) {
+            for (Entity staffEdOrg : staffEdOrgs) {
+                if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE, false)) {
+                    staffEdOrgAssociations.add(staffEdOrg);
+                }
+            }
+        }
+        Set<String> edOrgIds = new HashSet<String>();
+        for (Entity association : staffEdOrgAssociations) {
+            edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+        }
+        return edOrgIds;
+        
+        
+    }
+
+    public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
+        return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
 
     @SuppressWarnings("unchecked")

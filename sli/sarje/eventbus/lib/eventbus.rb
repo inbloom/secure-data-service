@@ -17,11 +17,11 @@ limitations under the License.
 =end
 
 require 'eventbus/version'
-require 'messaging_service'
-require 'jobscheduler'
-require 'oplogagent'
 require 'hadoop_job_runner'
-require "mongo_helper"
+require 'jobscheduler'
+require 'messaging_service'
+require 'mongo_helper'
+require 'oplogagent'
 require 'set'
 
 module Eventbus
@@ -37,11 +37,12 @@ module Eventbus
 
     # return the AMQ queue string for pubsub of events
     def events_address(event_type)
-      "/queue/#{event_type}_events"
+      "/queue/#{event_type}"
     end
 
     # fields in all event messages
-    EVENT_ID = "eventId"
+    F_EVENT_ID = "eventId"
+    F_QUEUE = "queue"
 
     # heartbeat field names
     HB_NODE_ID   = 'node_id'
@@ -53,11 +54,12 @@ module Eventbus
   class EventSubscriber
     include EventPubSubBase
 
-    def initialize(config, event_type,logger = nil)
+    def initialize(config, event_type, queue_name, logger = nil)
+      @event_type = event_type
       @logger = logger if logger
       @messaging = MessagingService.new(config, logger)
       @subscription_channel = @messaging.get_publisher(subscription_address(event_type))
-      @events_channel       = @messaging.get_subscriber(events_address(event_type))
+      @events_channel       = @messaging.get_subscriber(events_address(queue_name))
       @heartbeat_channel    = @messaging.get_subscriber(HEART_BEAT_ADDRESS)
 
       # set up the heartbeat listener
@@ -70,6 +72,11 @@ module Eventbus
 
     # Given a list of event this will subscribe to the
     def observe_events(events)
+      events.each do |e| 
+        if not e.has_key?(F_QUEUE)
+          e[F_QUEUE] = @event_type
+        end 
+      end
       @subscription_channel.publish(events)
     end
 
@@ -88,13 +95,15 @@ module Eventbus
     def initialize(node_id, event_type, config = {},logger = nil)
       @logger = logger if logger
       @config = {
-          :heartbeat_period => 5
+          :heartbeat_period => 5,
+          :subscription_request_queue => "/queue/subscription/poll"
       }.merge(config)
 
       @messaging = MessagingService.new(@config, logger)
       @subscription_channel = @messaging.get_subscriber(subscription_address(event_type))
-      @events_channel    = @messaging.get_publisher(events_address(event_type))
+      @event_channels = {}
       @heartbeat_channel = @messaging.get_publisher(HEART_BEAT_ADDRESS)
+      @subscription_request_channel = @messaging.get_publisher(events_address(config[:subscription_request_queue]))
 
       @subscribed_event_ids = []
       @sub_e_ids_lock = Mutex.new
@@ -102,27 +111,61 @@ module Eventbus
       start_heartbeat(node_id, @config[:heartbeat_period])
     end
 
+    # handle incoming subscriptions. Requires a block
+    # and will yield an arry of subscriptions where each element in 
+    # the array is a hash that contains at least an 'eventId' field. 
     def handle_subscriptions
       @subscription_channel.handle_message do | event_subs |
         handled_subs = yield event_subs
-        e = if !handled_subs
-              event_subs.map { |x| e[EVENT_ID] }
-            else
-              handled_subs
-            end
+        e = handled_subs || event_subs.map { |x| [x[F_EVENT_ID], x[F_QUEUE]] }
+
+        # get the subscribed event ids and the queues involved 
         unique = Set.new e
+        selected_events = event_subs.select { |x| unique.include?([x[F_EVENT_ID], x[F_QUEUE]]) }
+        new_q = Set.new(selected_events.map { |y| y[F_QUEUE] })
+        cur_q = Set.new (@event_channels.keys)
+
+        # add new queues that are not open already and remove unnecessary queues 
+        (cur_q.difference new_q).each do |q|
+            @event_channels[q].close 
+            @event_channels.delete(q)
+        end 
+
         @sub_e_ids_lock.synchronize {
           @subscribed_event_ids = unique.to_a
         }
       end
     end
 
-    def fire_event(event)
-      begin
-        @events_channel.publish(event)
-      rescue Exception => e
-        @logger.warn("problem occurred publishing event: #{e}")
+    def fire_events(events)
+      unless events.is_a?(Array)
+        events = [events]
+      end 
+      events.each do |event|
+        event.each_pair do |q, value|
+          begin
+            unless @event_channels.has_key?(q)
+              @event_channels[q] = @messaging.get_publisher(events_address(q))
+            end
+            @event_channels[q].publish(value) 
+          rescue Exception => e
+            @logger.error("Problem occurred publishing event to queue '#{q}': #{e}")
+          end
+        end
       end
+    end
+
+    def shutdown
+      @event_channels.each { |q| q.close }
+      @heartbeat_thread.terminate
+    end 
+    
+    def publish_msg_for_subscription
+      # Sleep 3 seconds to make sure subscribe socket flush before publish send socket to STOMP.
+      # This may be a bug in ruby that socket buffer does not flush when flush is called.
+      sleep 3
+      @subscription_request_channel.publish({})
+      @subscription_request_channel.close
     end
 
     private
@@ -139,7 +182,7 @@ module Eventbus
               'timestamp' => Time.now.to_i.to_s,
               'events'    => events_list
           }
-          @logger.info "publishing heartbeat" if @logger
+          @logger.info "publishing heartbeat: #{message}" if @logger
           @heartbeat_channel.publish(message)
           sleep(heartbeat_period)
         end

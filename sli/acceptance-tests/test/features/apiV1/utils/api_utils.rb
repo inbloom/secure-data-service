@@ -177,6 +177,13 @@ Then /^each entity's "([^"]*)" should be "([^"]*)"$/ do |key, value|
   end
 end
 
+Then /^each entity's "([^"]*)" should not be "([^"]*)"$/ do |key, value|
+   @result.each do |entity|
+    assert(entity.has_key?(key), "Entity does not even contain key #{key}")
+    assert(entity[key] !=value, "Entity's value for key #{key} is not #{value} (was #{entity[key]})")
+  end
+end
+
 Then /^each entity's "([^"]*)" should be in the array "([^"]*)"$/ do |key, value|
    @result.each do |entity|
     assert(entity.has_key?(key), "Entity does not even contain key #{key}")
