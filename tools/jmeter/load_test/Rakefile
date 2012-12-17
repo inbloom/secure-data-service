@@ -1,4 +1,7 @@
-desc "Clean"
+$:.unshift File.dirname(__FILE__)
+require 'jmeter_runner'
+
+desc "Clean Result directory"
 task :clean do
   current_dir = File.dirname(__FILE__)
   if Dir.exists? "#{current_dir}/result"
@@ -6,30 +9,70 @@ task :clean do
   end
 end
 
-desc "Run Load Tests"
-task :runLoadTests do
-  if verify_env
-    ruby "jmeter_runner.rb #{ENV['JMETER_HOME']}"
+desc "Run one thread per JMX file and check for errors"
+task :verifyJmxFileLocal => [:checkJmeterHome, :checkServerProcesses] do
+  current_dir = File.dirname(__FILE__)
+  test_dir = "#{current_dir}/test"
+  if Dir.exists? test_dir
+    FileUtils.remove_dir(test_dir)
   end
+  runner = ApiLoadTest::Runner.new(
+      {
+          :jmeter_exec => @jmeter_exec,
+          :max_threads => 0,
+          :result_dir => test_dir
+      }
+  )
+  runner.collect_all_data("#{current_dir}/..", 0)
+  errors = runner.collect_all_errors("#{current_dir}/..")
+  contains_error = false
+  errors.each do |scenario, scenario_errors|
+    unless scenario_errors.empty?
+      puts "Scenario = #{scenario}:\t Error Count = #{scenario_errors.size}"
+      contains_error = true
+    end
+  end
+  if contains_error
+    raise "Error exists!"
+  else
+    puts "No error found"
+  end
+end
+
+desc "Run Load Tests"
+task :runLoadTests => [:verifyJmxFileLocal] do
+  ApiLoadTest::Runner.run({:jmeter_exec => @jmeter_exec})
 end
 
 desc "Run Multiple Jmeter Nodes Load Tests"
-task :runMultiNodesTests do
-  if verify_env
-    ruby "jmeter_multi_nodes_runner.rb #{ENV['JMETER_HOME']}"
+task :runMultiNodesTests => [:checkJmeterHome] do
+  ApiLoadTest::Runner.run(
+      {
+          :jmeter_exec => @jmeter_exec,
+          :remote => true,
+          :remote_servers => ["localhost","192.168.0.9"]
+      }
+  )
+end
+
+task :checkServerProcesses do
+  {   8080 => "API",
+      8082 => "SimpleIDP"
+  }.each do |port, server|
+    processId = `lsof -P -i:#{port} -sTCP:LISTEN -t`
+    raise "#{server} should be running" if processId.empty?
   end
 end
 
-task :default =>  'runLoadTests'
-
-def verify_env
+task :checkJmeterHome do
   if ENV["JMETER_HOME"].nil?
-    puts <<EOF
+    raise <<END
 Please set environment variable JMETER_HOME to your JMeter root. For example,
   export JMETER_HOME="/opt/apache-jmeter"
-EOF
-  return false
+END
   else
-  return true
+    @jmeter_exec = "#{ENV["JMETER_HOME"]}/bin/jmeter"
   end
 end
+
+task :default => :runLoadTests

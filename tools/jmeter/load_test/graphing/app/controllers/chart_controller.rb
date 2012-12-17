@@ -26,15 +26,21 @@ class ChartController < ApplicationController
     file = File.read("#{Rails.root}/../result/result.json")
     json = JSON.parse(file)
     @charts = []
+    @table = {}
     json.each do |scenario, result|
       p result
       categories = result.keys.sort! {|x,y| x.to_i <=> y.to_i}
       aggregate = {}
+      @table[scenario] = {:header => [], :data => []}
       categories.each do |category|
+        row = [category]
         result[category].each do |request, average|
           aggregate[request] = [] if aggregate[request].nil?
           aggregate[request] << average
+          @table[scenario][:header] << request unless @table[scenario][:header].include? request
+          row << average
         end
+        @table[scenario][:data] << row
       end
       @charts << LazyHighCharts::HighChart.new('graph') do |f|
         f.chart(:renderTo => 'container', :type => 'line', :marginRight => 130, :marginBottom => 50)
@@ -57,8 +63,16 @@ class ChartController < ApplicationController
         aggregate.each do |request, averages|
           f.series(:name => request, :data => averages)
         end
-
       end
+    end
+
+    @transposed_tables = {}
+    @table.each do |scenario, row|
+      @transposed_tables[scenario] = [["Threads"] + row[:header]]
+      row[:data].each do |data|
+        @transposed_tables[scenario] << data
+      end
+      @transposed_tables[scenario] = @transposed_tables[scenario].transpose
     end
   end
 end
