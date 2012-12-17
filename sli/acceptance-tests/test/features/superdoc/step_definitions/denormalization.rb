@@ -41,7 +41,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id"     if human_readable_id == "8TH GRADE ENGLISH SEC 6"
   id = "b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id" if human_readable_id == "INGESTED 7TH GRADE ENGLISH SEC 5"
   # Program
-  id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC TEST PROG 2"
+  id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id"        if human_readable_id == "ACC TEST PROG 2"
   id = "983dd657325009aefa88a234fa18bdb1e11c82a8_id" if human_readable_id == "INGESTED ACC TEST PROG 2"
   # Session
   id = "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92"        if human_readable_id == "FALL 2011"
@@ -54,7 +54,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "b4a4697c3c7d08b48a38460c34b58286ad3b3f60_id" if human_readable_id == "INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH"
 
   #Cohort
-  id = "b40926af-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC-TEST-COH-2"
+  id = "b40926af-8fd5-11e1-86ec-0021701f543f_id"        if human_readable_id == "ACC-TEST-COH-2"
   id = "dce4d9a8240e3d3ebdbb1759a5376e1dd4bec4d0_id" if human_readable_id == "INGESTED MATT SOLLARS ACC-TEST-COH-4"
 
   # Return the translated value
@@ -119,7 +119,7 @@ $entity_data = {
   },
   "studentProgramAssociation" => {
     "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
-    "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+    "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id",
     "beginDate" => "2012-01-12",
     "endDate" => "2012-05-01",
     "reasonExited" => "Refused services",
@@ -130,7 +130,7 @@ $entity_data = {
       "sessionId" => "62101257-592f-4cbe-bcd5-b8cd24a06f73"
     },
     "studentCohortAssociation" => {
-           "cohortId" => "b40926af-8fd5-11e1-86ec-0021701f543f",
+           "cohortId" => "b40926af-8fd5-11e1-86ec-0021701f543f_id",
            "studentId" =>"74cf790e-84c4-4322-84b8-fca7206f1085_id",
            "endDate" => "2020-01-15",
            "beginDate" => "2011-04-01"

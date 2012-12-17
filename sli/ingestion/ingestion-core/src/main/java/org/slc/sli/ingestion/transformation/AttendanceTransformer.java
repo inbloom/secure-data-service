@@ -47,6 +47,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
@@ -75,6 +76,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String DATE = "date";
     private static final String EVENT = "event";
+    private static final String RECORDHASHDATA = SliDeltaManager.RECORDHASH_DATA;
 
     private int numAttendancesIngested = 0;
 
@@ -125,6 +127,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> recordHashData = (List<Map<String, Object>>) neutralRecord.getMetaData().get(SliDeltaManager.RECORDHASH_DATA);
 
 
             String studentId = null;
@@ -158,6 +162,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                         String eventReason = (String) attributes.get(ATTENDANCE_EVENT_REASON);
                         event.put("reason", eventReason);
                     }
+                    event.put(RECORDHASHDATA, recordHashData);  // include data for record level delta hash processing
                     events.add(event);
                     studentSchoolAttendanceEvents.put(Pair.of(studentId, schoolId), events);
                 }
@@ -177,6 +182,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                     String eventReason = (String) attributes.get(ATTENDANCE_EVENT_REASON);
                     event.put("reason", eventReason);
                 }
+                event.put(RECORDHASHDATA, recordHashData);  // include metadata for record level delta hash updating
                 events.add(event);
                 studentAttendanceEvents.put(studentId, events);
             }
@@ -253,6 +259,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             LOG.warn(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG2"));
         }
 
+        /*
+         * metaData: {
+         *     ...
+         *     "rhData": [ {"rhId": <blahId0>, "rhHash": <blahHash0>}, {"rhId": <blahId1>, "rhHash": <blahHash1>}, ... ],
+         *     "rhTenantId": <tenantId>
+         * }
+         */
+        List<Map<String, Object>> attendanceRhData = new ArrayList<Map<String, Object>>();
+
         Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions, studentId, schoolId);
 
         if (schoolYears.entrySet().size() > 0) {
@@ -267,6 +282,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                         NeutralCriteria.OPERATOR_EQUAL, schoolYear));
 
+                attendanceRhData.addAll(extractRecordHashDataFromAttendanceEvents(events));
+
                 Map<String, Object> attendanceEventsToPush = new HashMap<String, Object>();
                 attendanceEventsToPush.put("body.schoolYearAttendance.$.attendanceEvent", events.toArray());
                 Map<String, Object> update = new HashMap<String, Object>();
@@ -279,6 +296,41 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         } else {
             LOG.warn(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG3", studentId, schoolId));
         }
+
+        // Add record delta hash data to the transformed attendance metaData
+        updateAttendanceRecordHashMetaData(studentId, schoolId, attendanceRhData);
+    }
+
+    private void updateAttendanceRecordHashMetaData(String studentId, String schoolId,
+            List<Map<String, Object>> attendanceRhData) {
+        NeutralQuery query = new NeutralQuery(1);
+        query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
+        query.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentId));
+        query.addCriteria(new NeutralCriteria("schoolId." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID, NeutralCriteria.OPERATOR_EQUAL, schoolId));
+
+        Map<String, Object> attendanceEventDeltaHashValuesToPush = new HashMap<String, Object>();
+        attendanceEventDeltaHashValuesToPush.put("metaData.rhData", attendanceRhData.toArray());
+        Map<String, Object> update = new HashMap<String, Object>();
+        update.put("pushAll", attendanceEventDeltaHashValuesToPush);
+
+        getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
+                ATTENDANCE_TRANSFORMED);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> extractRecordHashDataFromAttendanceEvents(
+            List<Map<String, Object>> events) {
+        List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
+
+        for(Map<String, Object> event: events) {
+            // note that events from SLI will not have RECORDHASHDATA so will NOT be added to the recordHash
+            List<Map<String, Object>> eventRhData = (List<Map<String, Object>>) event.remove(RECORDHASHDATA);
+            if (eventRhData != null) {
+                rhData.addAll(eventRhData);
+            }
+        }
+        return rhData;
     }
 
     /**

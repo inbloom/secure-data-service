@@ -2,3 +2,22 @@ studentCount: 5000000
 beginYear: 2011
 numYears: 1
 ASSESSMENTS_PER_GRADE: 0
+
+ENTITY_WHITELIST: [
+  "SeaEducationOrganization",
+  "Course",
+  "LeaEducationOrganization",
+  "SchoolEducationOrganization",
+  "Session",
+  "GradingPeriod",
+  "CalendarDate",
+  "CourseOffering",
+  "Staff",
+  "StaffEducationOrgAssignmentAssociation",
+  "Teacher",
+  "TeacherSchoolAssociation",
+  "Section",
+  "TeacherSectionAssociation",
+  "Student",
+  "StudentSchoolAssociation",
+  "StudentSectionAssociation"]

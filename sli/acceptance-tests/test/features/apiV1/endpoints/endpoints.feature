@@ -20,5 +20,5 @@ Feature: As a user of the SLC API I would like to see various endpoints exist.
         | "/staff/#{id}/disciplineIncidents/studentDisciplineIncidentAssociations"| "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
         | "/staff/#{id}/disciplineIncidents"                                      | "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
         | "/staff/#{id}/disciplineActions"                                        | "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
-        | "/sections/#{id}/gradebookEntries"                                      | "47b5adbf-6fd0-4f07-ba5e-39612da2e234" |
+        | "/sections/#{id}/gradebookEntries"                                      | "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id" |
 
