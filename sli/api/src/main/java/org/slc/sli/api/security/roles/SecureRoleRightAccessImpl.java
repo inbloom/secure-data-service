@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.roles;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,14 +113,18 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         adminRoles.put(INGESTION_USER,
                 RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
                         .setAdmin(true).build());
+
+        List<Right> slcOperatorRights = new ArrayList<Right> ( Arrays.asList(Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL,
+                                        Right.READ_PUBLIC, Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN,
+                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW ));
+        if (isSandboxEnabled) {
+            slcOperatorRights.add(Right.ACCOUNT_APPROVAL);
+        }
         adminRoles.put(
                 SLC_OPERATOR,
                 RoleBuilder
                         .makeRole(SLC_OPERATOR)
-                        .addRights(
-                                new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL,
-                                        Right.READ_PUBLIC, Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN,
-                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
+                        .addRights(slcOperatorRights.toArray(new Right[slcOperatorRights.size()])).setAdmin(true).build());
         
     }
 
