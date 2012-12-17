@@ -29,7 +29,7 @@ class Teacher < Staff
     @id = DataUtility.get_teacher_unique_state_id(id) if id.kind_of? Integer
     @id = id if id.kind_of? String
     @teacher_unique_state_id = @id
-    @highly_qualified_teacher = wChoose(@@demographics['highly_qualified_teacher'])
+    @highly_qualified_teacher = wChoose(BaseEntity.demographics['highly_qualified_teacher'])
   end
 
 end

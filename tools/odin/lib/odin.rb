@@ -48,15 +48,22 @@ class Odin
     @log.level = Logger::INFO
     @workOrderQueue = nil
     @entityQueue = nil
+
   end
 
   def generate( scenario )
+
+    scenarioYAML, prng = getScenario(scenario)
+
+    demographics = scenarioYAML['demographics'] || File.join("#{File.dirname(__FILE__)}", '../scenarios/defaults/demographics.yml')
+    choices = scenarioYAML['choices'] || File.join("#{File.dirname(__FILE__)}", '../scenarios/defaults/choices.yml')
+
+    BaseEntity.initializeDemographics(demographics, choices)
 
     clean
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-    scenarioYAML, prng = getScenario(scenario)
     output             = scenarioYAML['DATA_OUTPUT']
 
     if output == "xml"
