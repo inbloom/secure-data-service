@@ -91,7 +91,7 @@ public class SmooksCallable implements Callable<Boolean> {
         AbstractMessageReport errorReport = fe.getMessageReport();
 
         // actually do the processing
-        processFileEntry(fe, errorReport, fe.getReportStats(),fileProcessStatus);
+        processFileEntry(fe, errorReport, fe.getReportStats(), fileProcessStatus);
 
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
 
@@ -162,10 +162,10 @@ public class SmooksCallable implements Callable<Boolean> {
     private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
             IngestionFileEntry ingestionFileEntry) {
 
-        SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
+        SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
-        int recordsPersisted = visitAfter.getRecordsPerisisted();
-        Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+        int recordsPersisted = edFiVisitor.getRecordsPerisisted();
+        Map<String, Long> duplicateCounts = edFiVisitor.getDuplicateCounts();
 
         fileProcessStatus.setTotalRecordCount(recordsPersisted);
         fileProcessStatus.setDuplicateCounts(duplicateCounts);

@@ -77,7 +77,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    @SuppressWarnings("unchecked")
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
@@ -88,9 +87,9 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-            SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
+            SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
-            int recordsPersisted = visitAfter.getRecordsPerisisted();
+            int recordsPersisted = edFiVisitor.getRecordsPerisisted();
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
             LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
@@ -113,7 +112,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         try {
 
-            generateNeutralRecord(item,report, reportStats, fileProcessStatus);
+            generateNeutralRecord(item, report, reportStats, fileProcessStatus);
 
         } catch (IOException e) {
             report.error(reportStats, CoreMessageCode.CORE_0016);

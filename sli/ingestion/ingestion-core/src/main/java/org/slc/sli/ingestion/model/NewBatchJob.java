@@ -231,7 +231,7 @@ public class NewBatchJob implements Job {
     }
 
     public Date getJobStartTimestamp() {
-        return new Date (jobStartTimestamp.getTime());
+        return new Date(jobStartTimestamp.getTime());
     }
 
     public Date getJobStopTimestamp() {

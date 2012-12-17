@@ -20,59 +20,13 @@ require 'yaml'
 
 class Demographics
 
-  def initialize(demographics = './defaultDemographics.yml', choices = 'choices.yml')
-    @choices = YAML.load_file File.join("#{File.dirname(__FILE__)}", "choices.yml")
+  def initialize(demographics, choices)
+    @choices =  YAML.load_file(demographics)
+    @choices = @choices.merge!(YAML.load_file(choices))
   end
 
-  def maleNames
-    @choices['maleNames']
+  def [](key)
+    @choices[key]
   end
 
-  def femaleNames
-    @choices['femaleNames']
-  end
-  
-  def lastNames
-    @choices['lastNames']
-  end
-  
-  def raceDistribution
-    @choices['raceDistribution']
-  end
-  
-  def city
-    @choices['city']
-  end
-  
-  def state
-    @choices['state']
-  end
-  
-  def postalCode
-    @choices['postalCode']
-  end
-  
-  def hispanicLatinoDist
-    @choices['hispanicLatinoDist']
-  end
-  
-  def economicDisadvantaged
-    @choices['economicDisadvantaged']
-  end
-  
-  def limitedEnglish
-    @choices['limitedEnglish']
-  end
-  
-  def disability
-    @choices['disability']
-  end
-  
-  def schoolFood
-    @choices['schoolFood']
-  end
-
-  def highly_qualified_teacher
-    @choices['highly_qualified_teacher']
-  end
 end

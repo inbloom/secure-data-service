@@ -60,36 +60,12 @@ class EntityFactory
         when [Section]
           rval << Section.new(work_order[:id], work_order[:edOrg], work_order[:offering])
 
-        when [AssessmentItem]
-          rval << AssessmentItem.new(work_order[:id], work_order[:assessment])
-
-        when [Assessment]
-          rval << Assessment.new(work_order[:id], work_order[:year], work_order[:grade], work_order[:itemCount], work_order[:family])
-
-        when [AssessmentFamily]
-          rval << AssessmentFamily.new(work_order[:id], work_order[:year], work_order[:parent])
-
         when [Staff]
           rval << Staff.new(work_order[:id], work_order[:year], work_order[:name])
 
         when [StaffEducationOrgAssignmentAssociation]
           rval << StaffEducationOrgAssignmentAssociation.new(work_order[:id], work_order[:edOrg], work_order[:classification], work_order[:title],
                                                              work_order[:beginDate], work_order[:endDate])
-
-        when [Teacher]
-          rval << Teacher.new(work_order[:id], work_order[:year], work_order[:name])
-
-        when [TeacherSchoolAssociation]
-          rval << TeacherSchoolAssociation.new(work_order[:id], work_order[:school], work_order[:assignment], work_order[:grades], work_order[:subjects])
-
-        when [AssessmentFamily]
-          rval << AssessmentFamily.new(work_order[:id], work_order[:year], work_order[:parent])
-
-        when [Staff]
-          rval << Staff.new(work_order[:id], work_order[:year], work_order[:name])
-
-        when [StaffEducationOrgAssignmentAssociation]
-          rval << StaffEducationOrgAssignmentAssociation.new(work_order[:id], work_order[:edOrg], work_order[:classification], work_order[:title], work_order[:beginDate], work_order[:endDate])
 
         when [Teacher]
           rval << Teacher.new(work_order[:id], work_order[:year], work_order[:name])

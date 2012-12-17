@@ -126,8 +126,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
-        visitAfterLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();
+        visitAfterLineNumber = (locator == null ? -1 : locator.getLineNumber());
+        visitAfterColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
 
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
@@ -253,8 +253,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        visitBeforeLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();
+        visitBeforeLineNumber = (locator == null ? -1 : locator.getLineNumber());
+        visitBeforeColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
     }
 
     @Override

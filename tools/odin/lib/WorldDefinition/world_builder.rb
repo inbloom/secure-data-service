@@ -1099,26 +1099,15 @@ class WorldBuilder
     generate_student_work_orders.each { |work_order| @queue.push_work_order(work_order) }
   end
 
-  def generate_assessment_work_orders(begin_year, num_years)
+  def create_assessments(begin_year, num_years)
     factory = AssessmentFactory.new(@scenarioYAML)
-    Enumerator.new do |y|
-      (begin_year..(begin_year + num_years -1)).each{|year|
-        gen_parent = true
-        GradeLevelType.get_ordered_grades.each{|grade|
-          @queue.push_work_order GradeWideAssessmentWorkOrder.new(grade, year, gen_parent, factory)
-          gen_parent = false
-        }
+    (begin_year..(begin_year + num_years -1)).each{|year|
+      gen_parent = true
+      GradeLevelType.get_ordered_grades.each{|grade|
+        @queue.push_work_order GradeWideAssessmentWorkOrder.new(grade, year, gen_parent, factory)
+        gen_parent = false
       }
-    end
+    }
   end
 
-  def create_assessments(begin_year, num_years)
-    generate_assessment_work_orders(begin_year, num_years).each do |assessment|
-      assessment.assessmentFamilyReference = "#{assessment.year_of} #{assessment.gradeLevelAssessed} Standard"
-      @queue.push_work_order(assessment)
-      assessment.assessment_items.each{ |ai| 
-        @queue.push_work_order(ai)
-      }
-    end
-  end
 end

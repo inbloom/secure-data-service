@@ -16,8 +16,8 @@ limitations under the License.
 
 =end
 # uncomment this out to enable profiling.
-# require 'perftools'
-# PerfTools::CpuProfiler.start("/tmp/odin_profile")
+#require 'perftools'
+#PerfTools::CpuProfiler.start("/tmp/odin_profile")
 
 
 require_relative 'lib/odin'
@@ -41,4 +41,4 @@ o.generate( scenario )
 GC.enable
 GC.start
 
-# PerfTools::CpuProfiler.stop
+#PerfTools::CpuProfiler.stop

@@ -52,7 +52,7 @@ import org.slc.sli.ingestion.reporting.SimpleSource;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdValidatorTest {
 
-    private final String REF_ERROR_FORMAT = "Attribute 'ref' is not allowed to appear in element '%s'.";
+    private static final String REF_ERROR_FORMAT = "Attribute 'ref' is not allowed to appear in element '%s'.";
 
     @Autowired
     private XsdValidator xsdValidator;
@@ -525,6 +525,11 @@ public class XsdValidatorTest {
             warnings.add(getMessage(code, args));
         }
 
+        @Override
+        protected void reportInfo(ReportStats reportStats, MessageCode code, Object... args) {
+            // Do Nothing
+        }
+
         public List<String> getErrors() {
             return Collections.unmodifiableList(errors);
         }
@@ -532,5 +537,6 @@ public class XsdValidatorTest {
         public List<String> getWarnings() {
             return Collections.unmodifiableList(warnings);
         }
+
     }
 }
