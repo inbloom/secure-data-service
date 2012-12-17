@@ -27,6 +27,7 @@ Dir["#{File.dirname(__FILE__)}/../Shared/EntityClasses/*.rb"].each { |f| load(f)
 # -> keeps all entities written in memory
 # -> useful for small simulations
 class DataWriter
+  attr_accessor :tracker
   
   # default constructor for data writer class
   def initialize(scenario)

@@ -97,6 +97,10 @@ class Odin
 
     writer.display_entity_counts
 
+    File.open("#{scenarioYAML["DIRECTORY"] or 'generated/'}manifest.json", 'w'){ |f|
+      writer.tracker.write_edfi_manifest(f)
+    }
+
     # clean up writer
     # -> xml  data writer: writes any entities that are still queued and closes file handles
     # -> base data writer: clears maps of entities and counts

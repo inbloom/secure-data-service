@@ -26,8 +26,23 @@ class EntityTracker
     @counts = Hash.new(0)
   end
 
+  def lookup_edfi(entity)
+    name = entity.name
+    case name
+    when "SeaEducationOrganization"
+      "StateEducationAgency"
+    when "LeaEducationOrganization"
+      "LocalEducationAgency"
+    when "SchoolEducationOrganization"
+      "School"
+    else
+      name
+    end
+  end
+
   def track(entity)
-    @counts[entity.class.name] += 1
+    edfi_name = lookup_edfi(entity.class)
+    @counts[edfi_name] += 1
   end
 
   def display
@@ -43,11 +58,16 @@ class EntityTracker
   end
 
   def count(entity_type)
-    @counts[entity_type.name]
+    @counts[lookup_edfi(entity_type)]
   end
 
   def clear
     @counts.clear
+  end
+
+  # print out a manifest of entity counts
+  def write_edfi_manifest(file)
+    file.write JSON.pretty_generate(@counts)
   end
 
 end
