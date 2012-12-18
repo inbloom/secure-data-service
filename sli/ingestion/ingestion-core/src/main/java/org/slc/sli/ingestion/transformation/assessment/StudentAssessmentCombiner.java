@@ -33,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -326,14 +327,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
-                        super.getErrorReport(sai.getSourceFile()).error(
-                                "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
-                                        + assessmentItemIdentificatonCode, this);
+                        super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);
                     }
                 } else {
-                    super.getErrorReport(sai.getSourceFile())
-                            .error("StudentAsessmentItem does not contain an AssessmentItemIdentificationCode referencing an AssessmentItem",
-                                    this);
+                    super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0033);
                 }
 
                 studentAssessmentItems.add(sai.getAttributes());
@@ -365,14 +362,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
-                        super.getErrorReport(sai.getSourceFile()).error(
-                                "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
-                                        + assessmentId, this);
+                        super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0032, assessmentId);
                     }
                 } else {
-                    super.getErrorReport(sai.getSourceFile())
-                            .error("StudentAsessmentItem does not contain an AssessmentItemIdentificationCode referencing an AssessmentItem",
-                                    this);
+                    super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0033);
                 }
 
                 studentAssessmentItems.add(sai.getAttributes());

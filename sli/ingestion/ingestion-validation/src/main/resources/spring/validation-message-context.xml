@@ -5,7 +5,7 @@
 
   <import resource="classpath:/spring/base-message-context.xml"/>
 
-  <bean id="coreMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+  <bean id="validationMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basename" value="validation-messages" />
     <property name="parentMessageSource" ref="baseMessageSource" />
   </bean>

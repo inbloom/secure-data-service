@@ -11,7 +11,7 @@ And I search in Elastic Search for "matt" in tenant "Midgar"
 And "1" hit is returned
 And I see the following fields:
  |Field                     |Value                                    |
- |_id                       |2a49acfb-0da9-4983-8a20-4462584f59c7     |
+ |_id                       |2a49acfb-0da9-4983-8a20-4462584f59c7_id     |
  |_type                     |student                                  |
  |_source.name.firstName    |Matt                                     |
  |_source.name.lastSurname  |Sollars                                  |

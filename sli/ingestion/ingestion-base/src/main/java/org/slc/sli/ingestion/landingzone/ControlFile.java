@@ -106,7 +106,7 @@ public class ControlFile implements Serializable {
                     lineNumber += 1;
                     String errorMessage;
                     if (messageSource != null) {
-                        errorMessage = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG16", lineNumber, line);
+                        errorMessage = MessageSourceHelper.getMessage(messageSource, "BASE_0016", lineNumber, line);
                     } else {
                         errorMessage = "Invalid control file entry at line number [" + lineNumber + "] Line:" + line;
                     }

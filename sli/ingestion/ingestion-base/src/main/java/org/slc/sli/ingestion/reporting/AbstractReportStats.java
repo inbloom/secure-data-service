@@ -22,37 +22,56 @@ package org.slc.sli.ingestion.reporting;
  * @author dduran
  *
  */
-public interface ReportStats {
+public abstract class AbstractReportStats {
+
+    private final Source source;
+
+    /**
+     * Source constructor
+     *
+     * @param source
+     *            non-null Source object giving context to the stats.
+     * @throws IllegalArgumentException
+     *             if source is <code>null</code>
+     */
+    public AbstractReportStats(Source source) {
+        if (source == null) {
+            throw new IllegalArgumentException("source cannot be null");
+        }
+        this.source = source;
+    }
 
     /**
      * The source that the stats correspond to.
      *
      * @return Source object
      */
-    Source getSource();
+    public Source getSource() {
+        return source;
+    }
 
     /**
      * Increase the error count by one.
      */
-    void incError();
+    public abstract void incError();
 
     /**
      * Increase the warning count by one.
      */
-    void incWarning();
+    public abstract void incWarning();
 
     /**
      * Report whether any errors have been reported for this context;
      *
      * @return <code>true</code> if one or more errors.
      */
-    boolean hasErrors();
+    public abstract boolean hasErrors();
 
     /**
      * Report whether any warnings have been reported for this context;
      *
      * @return <code>true</code> if one or more warnings.
      */
-    boolean hasWarnings();
+    public abstract boolean hasWarnings();
 
 }

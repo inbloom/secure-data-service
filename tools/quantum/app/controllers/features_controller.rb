@@ -2,15 +2,20 @@ class FeaturesController < ApplicationController
 
 	def index
 		@features = []
-#		if params[:component_filter] != nil
-#			Failure.only(:feature).where(compoent: params[:component_filter]).each do |feature|
-#				@features.push(:name => feature, :count => Failure.where(feature: feature).count, :component => Failure.where(feature: feature)[0][:component])
-#			end
-#		else
-			Failure.all.distinct(:feature).each do |feature|
-				@features.push(:name => feature, :count => Failure.where(feature: feature).count, :component => Failure.where(feature: feature)[0][:component])
+		start_time = get_time_filter_value
+		feature_set = Set.new
+		if params[:component_filter] != nil and !params[:component_filter].empty?
+			@cur_component = params[:component_filter]
+			Failure.only(:feature, :component).where(:component => params[:component_filter]).each do |failure|
+				feature_set.add(failure[:feature])
 			end
-#		end
+		else
+			feature_set = Failure.all.distinct(:feature)
+		end
+		
+		feature_set.each do |feature|
+			@features.push(:name => feature, :count => Failure.where(feature: feature, :timestamp.gte => start_time).count, :component => (@cur_component!=nil ? @cur_component : Failure.where(feature: feature)[0][:component]))
+		end
 		@features.sort!{|a,b| b[:count] <=> a[:count]} 
 
 		respond_to do |format|

@@ -29,13 +29,14 @@ require_relative '../../utils/selenium_common.rb'
 
 INGESTION_DB_NAME = convertTenantIdToDbName('Midgar')
 INGESTION_DB = PropLoader.getProps['ingestion_db']
+INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
 
 ############################################################
 # STEPS: BEFORE - for security event testing
 ############################################################
 
 Before do
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
 end
 
 Given /^I am not authenticated to SLI IDP$/ do

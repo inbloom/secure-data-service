@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -154,7 +154,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
     }
 
     @Override
-    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats) {
+    public boolean isValid(File zipFile, AbstractMessageReport report, AbstractReportStats reportStats) {
         FileInputStream fis = null;
         ZipArchiveInputStream zis = null;
 

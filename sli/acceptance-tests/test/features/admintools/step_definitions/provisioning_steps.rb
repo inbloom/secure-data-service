@@ -110,7 +110,7 @@ Then /^I get the success message$/ do
 end
 
 Then /^I check to find if default roles were created for the tenant$/ do
-  @conn             = Mongo::Connection.new('localhost', 27017)
+  @conn             = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
   @db               = @conn['sli']
   @roles_collection = @db.collection('customRole')
   

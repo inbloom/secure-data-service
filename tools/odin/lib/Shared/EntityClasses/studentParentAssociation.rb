@@ -20,13 +20,7 @@ require_relative 'baseEntity.rb'
 require 'json'
 class StudentParentAssociation < BaseEntity
   
-  ## Should this be in BaseEntity?
-  class << self; attr_accessor :demographics end
-  @@demographics = YAML.load_file File.join("#{File.dirname(__FILE__)}", "../choices.yml")
-
-  def self.demographics; @@demographics end
-
-  attr_accessor :studentId, :parentId, :relation, :primaryContactStatus, :livesWith, 
+  attr_accessor :studentId, :parentId, :relation, :primaryContactStatus, :livesWith,
     :emergencyContactStatus, :contactPriority, :contactRestrictions
 
   def initialize(kid, type)
