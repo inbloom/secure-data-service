@@ -16,19 +16,19 @@
 
 package org.slc.sli.ingestion.reporting;
 
-public final class SimpleReportStats implements ReportStats {
+/**
+ * Simple implementation of AbstractReportStats
+ *
+ * @author dduran
+ *
+ */
+public final class SimpleReportStats extends AbstractReportStats {
 
-    private final Source source;
     private long errorCount = 0L;
     private long warningCount = 0L;
 
     public SimpleReportStats(Source source) {
-        this.source = source;
-    }
-
-    @Override
-    public Source getSource() {
-        return source;
+        super(source);
     }
 
     @Override

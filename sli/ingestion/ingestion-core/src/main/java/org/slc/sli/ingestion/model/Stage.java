@@ -61,7 +61,7 @@ public class Stage {
         this.stageDesc = stageDesc;
         this.status = status;
         this.startTimestamp = new Date(startTimestamp.getTime());
-        this.stopTimestamp = new Date (stopTimestamp.getTime());
+        this.stopTimestamp = new Date(stopTimestamp.getTime());
         List<Metrics> theMetrics = metrics;
         if (theMetrics == null) {
             theMetrics = new LinkedList<Metrics>();
@@ -116,7 +116,7 @@ public class Stage {
     }
 
     public void setStopTimestamp(Date stopTimestamp) {
-        this.stopTimestamp = new Date (stopTimestamp.getTime());
+        this.stopTimestamp = new Date(stopTimestamp.getTime());
     }
 
     public List<Metrics> getMetrics() {
@@ -165,10 +165,10 @@ public class Stage {
             this.status = status;
         }
         if (startTimestamp != null) {
-            this.startTimestamp = new Date (startTimestamp.getTime());
+            this.startTimestamp = new Date(startTimestamp.getTime());
         }
         if (stopTimestamp != null) {
-            this.stopTimestamp = new Date (stopTimestamp.getTime());
+            this.stopTimestamp = new Date(stopTimestamp.getTime());
         }
     }
 

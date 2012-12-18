@@ -26,6 +26,7 @@ require 'mongo'
 
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
+INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
 UNIQUE_TENANT_ID_1 = "694132a09a05"
 UNIQUE_TENANT_ID_2 ="e04161f09a09"
 UNIQUE_TENANT_ID_3 = "4fa3fe8be4b00b3987bec778"
@@ -43,7 +44,7 @@ end
 ############################################################
 
 Before do
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
   @edOrgColl = @mdb.collection('educationOrganization')

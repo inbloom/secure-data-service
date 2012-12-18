@@ -1,9 +1,11 @@
 <h3>Failing Test Leaderboard</h3>
 
-<%= form_tag("/features", :method => :get) do %>
+<%= form_tag("/features", :method => :get, :class => "form-inline") do %>
   <%= label_tag(:component_filter, "Component:") %>
-  <%= select_tag(:component_filter, options_for_select(controller.getComponentOptions), :include_blank => true) %>
-  <%= submit_tag "Filter" %>
+  <%= select_tag(:component_filter, options_for_select(controller.getComponentOptions, params[:component_filter]), :include_blank => true) %>
+  <%= label_tag(:time_filter, "Since:") %>
+  <%= select_tag(:time_filter, options_for_select([ ["Beginning (All)", 0], ["Two weeks" , 1209600], ["Two months", 5184000] ], params[:time_filter])) %>
+  <%= submit_tag("Filter", :class => "btn") %>
 <% end %>
 
 <table class="table">

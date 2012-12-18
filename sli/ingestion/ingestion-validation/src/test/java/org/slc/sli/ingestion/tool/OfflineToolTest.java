@@ -30,12 +30,17 @@ import ch.qos.logback.core.FileAppender;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.MessageCode;
 
 /**
  * Unit test for OfflineTool main
@@ -60,12 +65,13 @@ public class OfflineToolTest {
     @Autowired
     ValidationController controller;
 
-    org.slf4j.Logger logger;
+    AbstractMessageReport messageReport;
+
     ValidationController cntlr;
 
     public void reset() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        logger = Mockito.mock(org.slf4j.Logger.class);
-        PrivateAccessor.setField(offlineTool, "logger", logger);
+        messageReport = Mockito.mock(AbstractMessageReport.class);
+        PrivateAccessor.setField(offlineTool, "messageReport", messageReport);
 
         cntlr = Mockito.mock(ValidationController.class);
         PrivateAccessor.setField(offlineTool, "controller", cntlr);
@@ -98,10 +104,9 @@ public class OfflineToolTest {
     public void testMain() throws Throwable {
         // Testing valid zip file
         reset();
-
         toolTest("zipFile/Session1.zip", "processing is complete.");
 
-        Mockito.verify(logger, Mockito.never()).error(Mockito.anyString());
+        Mockito.verify(messageReport, Mockito.never()).error(Mockito.any(AbstractReportStats.class), Mockito.any(MessageCode.class));
         Mockito.verify(cntlr, Mockito.times(1)).doValidation((File) Mockito.any());
 
     }
@@ -113,21 +118,21 @@ public class OfflineToolTest {
         reset();
         String[] args = new String[2];
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args.getClass()}, new Object[]{args});
-        Mockito.verify(logger, Mockito.times(1)).error("validationTool:Illegal options");
+        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(AbstractReportStats.class), Matchers.eq(ValidationMessageCode.VALIDATION_0011), Matchers.eq("validationTool"));
 
         // Testing nonexistent file
         reset();
         String[] args4 = new String[1];
         args4[0] = "/invalid/nonExist.ctl";
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args4.getClass()}, new Object[]{args4});
-        Mockito.verify(logger, Mockito.times(1)).error(args4[0] + " does not exist");
+        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(AbstractReportStats.class), Matchers.eq(ValidationMessageCode.VALIDATION_0014), Matchers.eq(args4[0]));
 
         // Passing a directory
         reset();
         Resource fileResource = new ClassPathResource("invalid/");
         args4[0] = fileResource.getFile().toString();
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args4.getClass()}, new Object[]{args4});
-        Mockito.verify(logger, Mockito.times(1)).error("Illegal option - directory path. Expecting a Zip or a Ctl file");
+        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(AbstractReportStats.class), Matchers.eq(ValidationMessageCode.VALIDATION_0013));
     }
 
 }
