@@ -6,7 +6,8 @@ As an OAuth application developer for SLI, I want to create a registration entit
 Scenario: CRUD operations on Applications
 
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
-	When I navigate to POST "/apps"
+    When I have a valid application entity
+	 And I navigate to POST "/apps"
 	Then I should receive a return code of 201
      And I should receive an ID for the newly created application
 	When I navigate to GET "/apps/<New App ID>"
@@ -14,7 +15,7 @@ Scenario: CRUD operations on Applications
      And I should receive the data for the specified application entry
 	 And it should be "PENDING"
 	When an operator approves the "/apps/<New App ID>" application
-     And I navigate to PUT "/apps/<New App ID>"
+     And (AR) I navigate to PUT "/apps/<New App ID>"
      Then I should receive a return code of 204
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204
@@ -23,7 +24,8 @@ Scenario: CRUD operations on Applications
 
 Scenario: CRUD on other developer's app
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
-   	When I navigate to POST "/apps"
+    When I have a valid application entity
+   	 And I navigate to POST "/apps"
 	Then I should receive a return code of 201
      And I should receive an ID for the newly created application
 	When I navigate to GET "/apps/<New App ID>"
@@ -32,7 +34,7 @@ Scenario: CRUD on other developer's app
 	 And it should be "PENDING"
 	When an operator approves the "/apps/<New App ID>" application
 	Given I am logged in using "anothersandboxdeveloper" "anothersandboxdeveloper1234" to realm "SLI"
-    	When I navigate to PUT "/apps/<New App ID>"
+    	When (AR) I navigate to PUT "/apps/<New App ID>"
      Then I should receive a return code of 403 
     	When I navigate to DELETE "/apps/<New App ID>"
      Then I should receive a return code of 403 
@@ -76,14 +78,15 @@ Scenario Outline: Deny update when user updating read-only auto-generated field
 @sandbox @RALLY_DE387 
 Scenario: CRUD operations on Applications In Sandbox as a Developer
 	Given I am logged in using "sandboxdeveloper" "sandboxdeveloper1234" to realm "SLI"
-	When I navigate to POST "/apps"
+    When I have a valid application entity
+	 And I navigate to POST "/apps"
 	Then I should receive a return code of 201
      And I should receive an ID for the newly created application
 	When I navigate to GET "/apps/<New App ID>"
 	Then I should receive a return code of 200
      And I should receive the data for the specified sandbox application entry
 	 And it should be "APPROVED"
-    When I navigate to PUT "/apps/<New App ID>"
+    When (AR) I navigate to PUT "/apps/<New App ID>"
      Then I should receive a return code of 204
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204
@@ -92,14 +95,15 @@ Scenario: CRUD operations on Applications In Sandbox as a Developer
 @RALLY_DE387
 Scenario: CRUD operations on Applications In production as an Operator
 	Given I am logged in using "operator" "operator1234" to realm "SLI"
-	When I navigate to POST "/apps"
+    When I have a valid application entity
+	 And I navigate to POST "/apps"
 	Then I should receive a return code of 403
 	When I navigate to GET "/apps/"
 	 Then I should receive a return code of 200
      And I should only see "PENDING" and "APPROVED" applications
-    When I navigate to PUT "/apps/<Testing App>" to update an application to "UNREGISTERED"
+    When (AR) I navigate to PUT "/apps/<Testing App>" to update an application to "UNREGISTERED"
      Then I should receive a return code of 204
-    When I navigate to PUT "/apps/<Testing App>" to update an application's name
+    When (AR) I navigate to PUT "/apps/<Testing App>" to update an application's name
      Then I should receive a return code of 400
 	When I navigate to DELETE "/apps/<Testing App>"
 	Then I should receive a return code of 403
@@ -117,12 +121,13 @@ Scenario: Bootstrapping of apps
 @sandbox @wip @RALLY_DE387
 Scenario: CRUD operations on Applications In production as an Operator
 	Given I am logged in using "operator" "operator1234" to realm "SLI"
-	When I navigate to POST "/apps"
+    When I have a valid application entity
+	 And I navigate to POST "/apps"
 	Then I should receive a return code of 400
 	When I navigate to GET "/apps/"
 	 Then I should receive a return code of 200
      And I should only see "APPROVED" applications
-    When I navigate to PUT "/apps/<Testing App>" to update an application's name
+    When (AR) I navigate to PUT "/apps/<Testing App>" to update an application's name
      Then I should receive a return code of 400
 	When I navigate to DELETE "/apps/<Testing App>"
 	Then I should receive a return code of 400

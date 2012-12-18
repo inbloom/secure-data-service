@@ -197,7 +197,7 @@ end
 Given /^I import into tenant collection$/ do
   tenants = ["Midgar", "Hyrule"]
   dbname = PropLoader.getProps["api_database_name"]
-  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"])[dbname]
+  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"], PropLoader.getProps["DB_PORT"])[dbname]
   tenants.each do |tenant|
     doc = generateTenantDoc(tenant)
     db['tenant'].insert(doc) if db['tenant'].find_one({"body.tenantId" => tenant}).nil?
@@ -207,7 +207,7 @@ end
 Given /^I clear the tenants that I previously imported$/ do
   tenants = ["Midgar", "Hyrule"]
   dbname = PropLoader.getProps["api_database_name"]
-  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"])[dbname]
+  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"], PropLoader.getProps["DB_PORT"])[dbname]
   tenants.each do |tenant|
     id = convertTenantIdToDbName(tenant)
     db['tenant'].remove("_id" => id)

@@ -301,6 +301,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         updateAttendanceRecordHashMetaData(studentId, schoolId, attendanceRhData);
     }
 
+    /**
+     * updateAttendanceRecordHashMetaData
+     *
+     * Update the identified attendance_transformed entity by adding record delta hash data to its metaData
+     *
+     * @param studentId - identifier for the student whose attendance_transformed entity will be updating
+     * @param schoolId - identifier for the school to which the attendance_transformed entity to be updated is associated
+     * @param attendanceRhData - attendance record hash data to update the attendance_transformed entity with
+     */
     private void updateAttendanceRecordHashMetaData(String studentId, String schoolId,
             List<Map<String, Object>> attendanceRhData) {
         NeutralQuery query = new NeutralQuery(1);
@@ -310,10 +319,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
         Map<String, Object> attendanceEventDeltaHashValuesToPush = new HashMap<String, Object>();
         attendanceEventDeltaHashValuesToPush.put("metaData.rhData", attendanceRhData.toArray());
-        Map<String, Object> update = new HashMap<String, Object>();
-        update.put("pushAll", attendanceEventDeltaHashValuesToPush);
+        Map<String, Object> updateOfDeltaHashValues = new HashMap<String, Object>();
+        updateOfDeltaHashValues.put("pushAll", attendanceEventDeltaHashValuesToPush);
 
-        getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
+        getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, updateOfDeltaHashValues,
                 ATTENDANCE_TRANSFORMED);
 
     }

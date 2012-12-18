@@ -17,11 +17,10 @@ limitations under the License.
 =end
 
 require 'yaml'
+require_relative '../demographics'
 
 # base entity
 class BaseEntity
-
-  @@d = {}
 
   def self.initializeDemographics(demographics, choices)
     @@d = Demographics.new(demographics, choices)

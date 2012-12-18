@@ -26,6 +26,7 @@ class SchoolEducationOrganization < BaseEntity
   attr_accessor :state_org_id, :grades, :parent_id, :programs
 
   def initialize(id, parent_id, type, programs = nil)
+    @id = id
     if parent_id.kind_of? String
       @parent_id = parent_id
     else

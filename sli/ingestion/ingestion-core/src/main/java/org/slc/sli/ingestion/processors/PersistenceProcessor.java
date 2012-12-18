@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -57,8 +59,8 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -121,23 +123,30 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     static class SelfRefEntityConfig {
         private String idPath;              // path to the id field
         // Exactly one of the following fields can be non-null:
-        private String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field,
-        private String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
+        private String parentAttributePath; // if parent reference is stored in attribute, path to
+                                            // the parent reference field,
+        private String localParentIdKey;    // if parent reference is stored in localParentId map, key
+                                         // to the parent reference field
+
         SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
             parentAttributePath = p;
             localParentIdKey = k;
         }
     }
+
     public static final Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
     static {
         HashMap<String, SelfRefEntityConfig> m = new HashMap<String, SelfRefEntityConfig>();
         // learning objective's parent reference is stored in localParentId map.
-        m.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null, "parentObjectiveId"));
+        m.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null,
+                "parentObjectiveId"));
         // localEducationAgency's parent reference is stored in a field an attribute
-        m.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference", null));
+        m.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference",
+                null));
         SELF_REF_ENTITY_CONFIG = Collections.unmodifiableMap(m);
     }
+
     // End Self-referencing entity
 
     /**
@@ -225,17 +234,36 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
-        ReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged, stage.getStageName());
+        AbstractReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
+                stage.getStageName());
         try {
-            ReportStats reportStatsForNrEntity = null;
+            AbstractReportStats reportStatsForNrEntity = null;
 
-            Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            Iterable<NeutralRecord> records = null;
+            try {
+                records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            } catch (MongoException me) {
+                // Add collection name to job resources for later error reporting, if not already there.
+                NewBatchJob savedJob = batchJobDAO.findBatchJobById(job.getId());
+                if (savedJob.getResourceEntry(collectionNameAsStaged) == null) {
+                    ResourceEntry resourceEntry = new ResourceEntry();
+                    resourceEntry.setResourceId(collectionNameAsStaged);
+                    job.addResourceEntry(resourceEntry);
+                    batchJobDAO.saveBatchJob(job);
+                }
+                databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0015, collectionNameAsStaged);
+                LogUtil.error(LOG, "MongoException when attempting to extract " + collectionNameAsStaged
+                        + " NeutralRecords from staging db", me);
+                throw (me);
+            }
+
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
             // UN: Added the records to the recordHashStore
             for (NeutralRecord neutralRecord : records) {
                 if (reportStatsForNrEntity == null) {
-                    reportStatsForNrEntity = createReportStats(job.getId(), neutralRecord.getSourceFile(), stage.getStageName());
+                    reportStatsForNrEntity = createReportStats(job.getId(), neutralRecord.getSourceFile(),
+                            stage.getStageName());
                 }
                 recordHashStore.add(neutralRecord);
             }
@@ -251,7 +279,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
                 List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
                 for (NeutralRecord neutralRecord : records) {
-                    reportStatsForCollection = createReportStats(job.getId(), neutralRecord.getSourceFile(), stage.getStageName());
+                    reportStatsForCollection = createReportStats(job.getId(), neutralRecord.getSourceFile(),
+                            stage.getStageName());
                     Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
                     if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
@@ -277,7 +306,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                 try {
                     if (persist.size() > 0) {
-                        List<Entity> failed = entityPersistHandler.handle(persist, databaseMessageReport, reportStatsForNrEntity);
+                        List<Entity> failed = entityPersistHandler.handle(persist, databaseMessageReport,
+                                reportStatsForNrEntity);
                         for (Entity entity : failed) {
                             NeutralRecord record = recordStore.get(persist.indexOf(entity));
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
@@ -297,14 +327,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 }
             }
         } catch (Exception e) {
-            String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
-                    + collectionNameAsStaged + "\n";
             databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0005, collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
-            ResourceEntry resourceEntry = new ResourceEntry();
-            resourceEntry.setResourceId(collectionNameAsStaged);
-            job.addResourceEntry(resourceEntry);
-            batchJobDAO.saveBatchJob(job);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
@@ -315,15 +339,17 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /*
-     * persist self-referencing entities immediately, rather than bulk (and sort in dependency-honoring
+     * persist self-referencing entities immediately, rather than bulk (and sort in
+     * dependency-honoring
      * order) because this
      * entity can have references to entities of the same type.
      * otherwise, id normalization could be attempted while the dependent entity is waiting for
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private ReportStats persistSelfReferencingEntity(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
-            ReportStats reportStatsForCollection, ReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
+    private AbstractReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
+            Map<String, Metrics> perFileMetrics, AbstractReportStats reportStatsForCollection,
+            AbstractReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -333,22 +359,22 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
         }
 
-        ReportStats returnValue = reportStatsForCollection;
+        AbstractReportStats returnValue = reportStatsForCollection;
         for (NeutralRecord neutralRecord : sortedNrList) {
-            LOG.info("transforming and persisting {}: {}",
-                    collectionNameAsStaged,
+            LOG.info("transforming and persisting {}: {}", collectionNameAsStaged,
                     getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
 
-            //returnValue = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), returnValue.getSource().getStageName());
+            // returnValue = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
+            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), returnValue.getSource()
+                    .getStageName());
             Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
-            SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job),
-                    returnValue);
+            SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job), returnValue);
 
             if (xformedEntity != null) {
                 try {
-                    Entity saved = entityPersistHandler.handle(xformedEntity, databaseMessageReport, reportStatsForNrEntity);
+                    Entity saved = entityPersistHandler.handle(xformedEntity, databaseMessageReport,
+                            reportStatsForNrEntity);
                     if (saved != null) {
                         upsertRecordHash(neutralRecord);
                     }
@@ -374,8 +400,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * @return
      */
     // TODO: make this generic for all self-referencing entities
-    protected static List<NeutralRecord> sortNrListByDependency(List<NeutralRecord> unsortedRecords, String collectionNameAsStaged)
-            throws IllegalStateException {
+    protected static List<NeutralRecord> sortNrListByDependency(List<NeutralRecord> unsortedRecords,
+            String collectionNameAsStaged) throws IllegalStateException {
 
         List<NeutralRecord> sortedRecords = new ArrayList<NeutralRecord>();
 
@@ -395,8 +421,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     // FIXME: make this algo iterative rather than recursive
     private static void insertMyDependenciesAndMe(NeutralRecord me, List<NeutralRecord> unsortedRecords,
-            List<NeutralRecord> sortedRecords, Set<String> idsInStack,
-            String collectionNameAsStaged) throws IllegalStateException {
+            List<NeutralRecord> sortedRecords, Set<String> idsInStack, String collectionNameAsStaged)
+            throws IllegalStateException {
         SelfRefEntityConfig selfRefConfig = SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged);
         if (me != null && !sortedRecords.contains(me)) {
 
@@ -414,7 +440,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             // detect cycles
             if (idsInStack.contains(parentId)) {
                 LOG.error(
-                        "cycle detected in " + collectionNameAsStaged + " reference hierarchy. {} references an entity already a part of this dependency hierarchy {}",
+                        "cycle detected in "
+                                + collectionNameAsStaged
+                                + " reference hierarchy. {} references an entity already a part of this dependency hierarchy {}",
                         myId, idsInStack);
                 throw new IllegalStateException("cycle detected in " + collectionNameAsStaged + " reference hierarchy.");
             } else {
@@ -431,7 +459,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private static NeutralRecord findNeutralRecordByIdAttr(String objectiveId, List<NeutralRecord> records, String idPath) {
+    private static NeutralRecord findNeutralRecordByIdAttr(String objectiveId, List<NeutralRecord> records,
+            String idPath) {
         if (objectiveId != null) {
             for (NeutralRecord sortedNr : records) {
                 if (objectiveId.equals(getByPath(idPath, sortedNr.getAttributes()))) {
@@ -442,7 +471,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         return null;
     }
 
-    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, /*ErrorReport errorReport*/ ReportStats reportStats) {
+    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, AbstractReportStats reportStats) {
         LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
         record.setRecordType(record.getRecordType().replaceFirst("_transformed", ""));
@@ -509,9 +538,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      *            current resource id.
      * @return database logging error report.
      */
-    private ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
+    private AbstractReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
         Source dbErrorSource = new SimpleSource(batchJobId, resourceId, stageName);
-        ReportStats reportStats =  new SimpleReportStats(dbErrorSource);
+        AbstractReportStats reportStats = new SimpleReportStats(dbErrorSource);
         return reportStats;
     }
 
@@ -632,9 +661,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         /*
          * metaData: {
-         *     ...
-         *     "rhData": [ {"rhId": <blahId0>, "rhHash": <blahHash0>}, {"rhId": <blahId1>, "rhHash": <blahHash1>}, ... ],
-         *     "rhTenantId": <tenantId>
+         * ...
+         * "rhData": [ {"rhId": <blahId0>, "rhHash": <blahHash0>}, {"rhId": <blahId1>, "rhHash":
+         * <blahHash1>}, ... ],
+         * "rhTenantId": <tenantId>
          * }
          */
         if (!recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
@@ -677,8 +707,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.batchJobDAO = batchJobDAO;
     }
 
-    public BatchJobDAO getBatchJobDAO()
-    {
+    public BatchJobDAO getBatchJobDAO() {
         return this.batchJobDAO;
     }
 
