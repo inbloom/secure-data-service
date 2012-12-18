@@ -2,7 +2,7 @@
 logger_output: STDOUT
 
 # Log level. Levels are DEBUG, INFO, WARN, ERROR, FATAL.
-logger_level: WARN
+logger_level:  DEBUG
 
 # Node-id that is prefixed to the hostname. This is valuable in determine  
 node_id: oplogagent-1-
@@ -18,7 +18,8 @@ heartbeat_period: 10
 # Combined host and port of the MongoDB installation that the oplog agent 
 # should connect to. For a replica set multiple host/port pairs should be provided as
 # a comma separated list. 
-mongo_host: localhost:10001, localhost:10002, localhost:10003
+#mongo_host: localhost:10001, localhost:10002, localhost:10003
+mongo_host : localhost:27017
 #mongo_port: 10001
 
 # Database that the oplog agent should follow. 'local' is the default name, so this 
