@@ -44,8 +44,8 @@ import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
@@ -89,7 +89,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     private AbstractMessageReport errorReport;
-    private ReportStats reportStats;
+    private AbstractReportStats reportStats;
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -102,7 +102,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
         return recordsPerisisted;
     }
 
-    private SmooksEdFiVisitor(String beanId, String batchJobId, AbstractMessageReport report, ReportStats reportStats, IngestionFileEntry fe) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, AbstractMessageReport report,
+            AbstractReportStats reportStats, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
         this.errorReport = report;
@@ -114,7 +115,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, AbstractMessageReport report,
-            ReportStats reportStats, IngestionFileEntry fe) {
+            AbstractReportStats reportStats, IngestionFileEntry fe) {
         return new SmooksEdFiVisitor(beanId, batchJobId, report, reportStats, fe);
     }
 
@@ -126,8 +127,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
-        visitAfterLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitAfterColumnNumber = locator==null ? -1 : locator.getColumnNumber();
+        visitAfterLineNumber = (locator == null ? -1 : locator.getLineNumber());
+        visitAfterColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
 
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
@@ -137,7 +138,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
 
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, errorReport, reportStats)) {
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver,
+                        errorReport, reportStats)) {
                     queueNeutralRecordForWriting(neutralRecord);
 
                 } else {
@@ -253,8 +255,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        visitBeforeLineNumber = locator==null ? -1 : locator.getLineNumber();
-        visitBeforeColumnNumber = locator==null ? -1 : locator.getColumnNumber();
+        visitBeforeLineNumber = (locator == null ? -1 : locator.getLineNumber());
+        visitBeforeColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
     }
 
     @Override

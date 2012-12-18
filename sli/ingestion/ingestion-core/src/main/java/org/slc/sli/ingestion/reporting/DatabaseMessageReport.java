@@ -41,27 +41,30 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    protected void reportError(ReportStats reportStats, MessageCode code, Object... args) {
+    protected void reportError(AbstractReportStats reportStats, MessageCode code, Object... args) {
         String message = getMessage(code, args);
         logError(message);
 
-        if (reportStats != null && reportStats.getSource() != null) {
-            Source source = reportStats.getSource();
+        Source source = reportStats.getSource();
 
-            persistFault(FaultType.TYPE_ERROR, message, source);
-        }
+        persistFault(FaultType.TYPE_ERROR, message, source);
     }
 
     @Override
-    protected void reportWarning(ReportStats reportStats, MessageCode code, Object... args) {
+    protected void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args) {
         String message = getMessage(code, args);
         logWarning(message);
 
-        if (reportStats != null && reportStats.getSource() != null) {
-            Source source = reportStats.getSource();
+        Source source = reportStats.getSource();
 
-            persistFault(FaultType.TYPE_WARNING, message, source);
-        }
+        persistFault(FaultType.TYPE_WARNING, message, source);
+
+    }
+
+    @Override
+    protected void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        String message = getMessage(code, args);
+        logInfo(message);
     }
 
     private void persistFault(FaultType faultType, String message, Source source) {
@@ -78,6 +81,10 @@ public class DatabaseMessageReport extends AbstractMessageReport {
 
     protected void logWarning(String message) {
         LOG.warn(message);
+    }
+
+    protected void logInfo(String message) {
+        LOG.info(message);
     }
 
 }

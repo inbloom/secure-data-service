@@ -18,14 +18,10 @@ package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.milyn.assertion.AssertArgument;
@@ -36,7 +32,6 @@ import org.milyn.delivery.ContentDeliveryConfig;
 import org.milyn.delivery.Filter;
 import org.milyn.delivery.FilterBypass;
 import org.milyn.delivery.Visitor;
-import org.milyn.delivery.sax.SmooksSAXFilter;
 import org.milyn.event.ExecutionEventListener;
 import org.milyn.event.types.FilterLifecycleEvent;
 import org.milyn.javabean.context.BeanContext;
@@ -98,7 +93,7 @@ import org.xml.sax.SAXException;
  *
  */
 public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
-    private static final Logger logger = LoggerFactory.getLogger(SliSmooks.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SliSmooks.class);
     /**
      * A SmooksEdFiVisitor that has been initialized and added.
      */
@@ -152,6 +147,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      * @param targetSelector The message fragment target selector.
      * @param targetSelectorNS The message fragment target selector namespace.
      */
+    @Override
     public SmooksResourceConfiguration addVisitor(Visitor visitor, String targetSelector, String targetSelectorNS) {
         if (visitor instanceof SmooksEdFiVisitor) {
             edFiVisitor = (SmooksEdFiVisitor) visitor;
@@ -170,6 +166,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      * @param results          The filter Results.
      * @throws SmooksException Failed to filter.
      */
+    @Override
     public final void filterSource(final ExecutionContext executionContext, final Source source, Result... results) throws SmooksException {
         AssertArgument.isNotNull(source, "source");
         AssertArgument.isNotNull(executionContext, "executionContext");
@@ -178,12 +175,12 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
             Thread.currentThread().setContextClassLoader(super.getClassLoader());
             try {
-                _filter(executionContext, source, results);
+                filter(executionContext, source, results);
             } finally {
                 Thread.currentThread().setContextClassLoader(contextClassLoader);
             }
         } else {
-            _filter(executionContext, source, results);
+            filter(executionContext, source, results);
         }
     }
 
@@ -195,7 +192,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      * @param source
      * @param results
      */
-    private void _filter(final ExecutionContext executionContext, Source source, Result... results) {
+    private void filter(final ExecutionContext executionContext, Source source, Result... results) {
         ExecutionEventListener eventListener = executionContext.getEventListener();
 
         try {
@@ -211,8 +208,8 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
                     FilterBypass filterBypass = deliveryConfig.getFilterBypass();
                     if (filterBypass != null && filterBypass.bypass(executionContext, source, results[0])) {
                         // We're done... a filter bypass was applied...
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("FilterBypass '" + filterBypass.getClass().getName() + "' applied.");
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("FilterBypass '{}' applied.", filterBypass.getClass().getName());
                         }
                         return;
                     }

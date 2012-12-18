@@ -20,8 +20,6 @@ require_relative "./EntityWriter"
 require_relative "./interchangeGenerator"
 require_relative "../../Shared/util"
 
-Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
-
 # event-based staff association interchange generator 
 class StaffAssociationGenerator < InterchangeGenerator
 
@@ -33,6 +31,7 @@ class StaffAssociationGenerator < InterchangeGenerator
     @header, @footer = build_header_footer( "StaffAssociation" )    
     @writers[ Staff ] = EntityWriter.new("staff.mustache")
     @writers[ StaffEducationOrgAssignmentAssociation ] = EntityWriter.new("staff_ed_org_assignment_association.mustache")
+    @writers[ StaffProgramAssociation ] = EntityWriter.new("staff_program_association.mustache")
     @writers[ Teacher ] = EntityWriter.new("teacher.mustache")
     @writers[ TeacherSchoolAssociation ] = EntityWriter.new("teacher_school_association.mustache")
     @writers[ TeacherSectionAssociation ] = EntityWriter.new("teacher_section_association.mustache")

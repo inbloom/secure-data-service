@@ -53,6 +53,7 @@ end
 Before do
   DB_NAME = PropLoader.getProps['api_database_name']
   DB_HOST = PropLoader.getProps['DB_HOST']
+  DB_PORT = PropLoader.getProps['DB_PORT']
 end
 
 ###############################################################################
@@ -98,7 +99,7 @@ Given /^I drop the "([^\"]*)" collection$/ do |collection|
   #    | #{collection}  |
   #}
 
-  @conn = Mongo::Connection.new(DB_HOST)
+  @conn = Mongo::Connection.new(DB_HOST, DB_PORT)
   @db = @conn[DB_NAME]
 
   entity_collection = @db[collection]
@@ -119,7 +120,7 @@ Then /^there should be (\d+) records in the "([^\"]*)" collection$/ do |count, c
   #    | #{collection}  | #{count} |
   #}
 
-  @conn = Mongo::Connection.new(DB_HOST)
+  @conn = Mongo::Connection.new(DB_HOST, DB_PORT)
   @db = @conn[DB_NAME]
 
   @entity_collection = @db[collection]

@@ -46,8 +46,6 @@ public class AggregationPostProcessor implements Processor {
         LOG.info("Aggregation completed for current tier. Will now remove entities in tier from processing pool.");
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         String jobId = workNote.getBatchJobId();
-        @SuppressWarnings("unchecked")
-
         boolean isEmpty = batchJobDAO.removeAllPersistedStagedEntitiesFromJob(jobId);
 
         exchange.getIn().setHeader("jobId", jobId);

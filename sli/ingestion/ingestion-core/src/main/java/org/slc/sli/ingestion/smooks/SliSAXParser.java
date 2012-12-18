@@ -28,7 +28,6 @@ import org.milyn.delivery.AbstractParser;
 import org.milyn.delivery.ContentDeliveryConfig;
 import org.milyn.delivery.XMLReaderHierarchyChangeListener;
 import org.milyn.xml.hierarchy.HierarchyChangeReader;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
@@ -107,7 +106,7 @@ public class SliSAXParser extends AbstractParser {
             configureReader(saxReader, saxHandler, executionContext, source);
             if (executionContext != null) {
                 if (saxReader instanceof HierarchyChangeReader) {
-                    ((HierarchyChangeReader)saxReader).setHierarchyChangeListener(new XMLReaderHierarchyChangeListener(executionContext));
+                    ((HierarchyChangeReader) saxReader).setHierarchyChangeListener(new XMLReaderHierarchyChangeListener(executionContext));
                 }
                 saxReader.parse(createInputSource(saxReader, source, executionContext.getContentEncoding()));
             } else {
@@ -116,7 +115,7 @@ public class SliSAXParser extends AbstractParser {
         } finally {
             try {
                 if (executionContext != null && saxReader instanceof HierarchyChangeReader) {
-                    ((HierarchyChangeReader)saxReader).setHierarchyChangeListener(null);
+                    ((HierarchyChangeReader) saxReader).setHierarchyChangeListener(null);
                 }
             } finally {
                 try {
