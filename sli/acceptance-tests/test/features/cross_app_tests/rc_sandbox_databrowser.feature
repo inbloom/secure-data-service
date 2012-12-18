@@ -9,8 +9,10 @@ Feature: Data Browser
   Scenario: All-in-one scenario
     Given I have an open web browser
     When I navigate to the Portal home page
+    Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     And I was redirected to the "Simple" IDP Login page
-    When I submit the developer credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the impersonation login page
+    When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
@@ -41,6 +43,8 @@ Feature: Data Browser
     Then I should be on the detailed page for an LEA
     Then I log out of Databrowser 
     And I navigate to the Portal home page
+    Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
@@ -68,6 +72,8 @@ Feature: Data Browser
     Then I am redirected to a page that page lists all of the "2012-02-15" entity's fields
     Then I log out of Databrowser 
     And I navigate to the Portal home page
+    Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
@@ -106,6 +112,8 @@ Feature: Data Browser
     Then I see a "There were no entries matching your search" alert box
     Then I log out of Databrowser
     And I navigate to the Portal home page
+    Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
@@ -118,6 +126,8 @@ Feature: Data Browser
     Then I am notified that "You are not authorized to use this app."
     When I navigate to the Portal home page
     And I click on log out
+    Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 

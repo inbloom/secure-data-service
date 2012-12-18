@@ -8,8 +8,10 @@ Background: None
 Scenario: All-in-one scenario
     Given I have an open web browser
     When I navigate to the Portal home page
+    Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     And I was redirected to the "Simple" IDP Login page
-    When I submit the developer credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the impersonation login page
+    When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
@@ -41,6 +43,8 @@ Scenario: All-in-one scenario
 	 |Student          |Grade    |School                     |
 	 |Rudolph Krinsky  |12       |Daybreak Central High      |
 	And I click on log out
+	Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
@@ -142,6 +146,8 @@ Scenario: All-in-one scenario
 	|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
 	|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
 	And I click on log out
+	Then I will be redirected to realm selector web page
+    When I click on the "Sandbox" realm in "Sandbox"
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 

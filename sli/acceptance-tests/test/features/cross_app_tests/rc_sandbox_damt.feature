@@ -68,6 +68,8 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And the "Success" message is displayed
       When I exit out of the iframe
       And I click on log out
+      Then I will be redirected to realm selector web page
+      When I click on the "Sandbox" realm in "Sandbox"
       Then I should be redirected to the impersonation page
       When I click on the simple-idp logout link
       Then I was redirected to the "Simple" IDP Login page
