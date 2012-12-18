@@ -87,8 +87,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
                 if (ie != null) {
                     entities.add(ie);
                     index(ie);
-                } else {
-                    logger.info("Unsupported message type. Ignoring.");
                 }
             } catch (Exception e) {
                 logger.info("Unable to process an oplog entry, skipping");
@@ -101,7 +99,9 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         Action action = OplogConverter.getAction(opLogMap);
         Meta meta = OplogConverter.getMeta(opLogMap);
         Map<String, Object> entity = OplogConverter.getEntity(action, opLogMap);
-        return (entity == null) ? null : indexEntityConverter.fromEntity(meta.getIndex(), action, OplogConverter.getEntity(action, opLogMap));
+        if (action == Action.INDEX)
+            action = Action.UPDATE; 
+        return (entity == null) ? null : indexEntityConverter.fromEntity(meta.getIndex(), action, entity);
     }
 
     protected void index(IndexEntity ie) {
