@@ -48,11 +48,12 @@ class EntityTracker
   def display
     pattern = "%-45s%10i\n"
     "-------------------------------------------------------\n" +
-    "Ed-fi entity counts:" +
+    "Ed-fi entity counts: \n" +
     "-------------------------------------------------------\n" +
     @counts.sort.map{|type, count|
       pattern % ["#{type}:", count]
     }.inject(:+) +
+    "-------------------------------------------------------\n" +
     pattern % ["Total entity count:", @counts.values.inject(:+)] +
     "-------------------------------------------------------"
   end
