@@ -25,6 +25,7 @@
   <name>Ingestion Offline Validation Tool</name>
 
    <modules>
+      <module>edfi-schema</module>
       <module>ingestion-base</module>
       <module>ingestion-validation</module>
    </modules>
@@ -37,7 +38,11 @@
             <artifactId>ingestion-base</artifactId>
             <version>${project.version}</version>
          </dependency>
-
+         <dependency>
+            <groupId>org.slc.sli.schema</groupId>
+            <artifactId>edfi-schema</artifactId>
+            <version>${project.version}</version>
+         </dependency>
       </dependencies>
 
    </dependencyManagement>
