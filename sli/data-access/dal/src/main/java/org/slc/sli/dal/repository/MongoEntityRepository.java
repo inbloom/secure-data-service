@@ -35,7 +35,7 @@ import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntity;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
-import org.slc.sli.dal.versioning.SliSchemaVersionValidator;
+import org.slc.sli.dal.versioning.SliSchemaVersionValidatorProvider;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -88,7 +88,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private Denormalizer denormalizer;
 
     @Autowired
-    protected SliSchemaVersionValidator schemaVersionData;
+    protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
     
     @Override
     public void afterPropertiesSet() {
@@ -260,7 +260,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
-        this.schemaVersionData.insertVersionInformation(entity);
+        this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
 
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).create(entity);
@@ -285,7 +285,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public List<Entity> insert(List<Entity> records, String collectionName) {
 
         for (Entity entity : records) {
-            this.schemaVersionData.insertVersionInformation(entity);
+            this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
         }
         
         if (subDocs.isSubDoc(collectionName)) {
