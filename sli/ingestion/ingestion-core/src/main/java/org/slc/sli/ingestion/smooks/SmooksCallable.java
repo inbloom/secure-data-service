@@ -139,7 +139,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
         } catch (SmooksException se) {
             LogUtil.error(LOG, "smooks exception - encountered problem with " + fe.getFile().getName(), se);
-            fe.getMessageReport().error(fe.getReportStats(), CoreMessageCode.CORE_0018);
+            fe.getMessageReport().error(fe.getReportStats(), CoreMessageCode.CORE_0020, fe.getFile().getName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
