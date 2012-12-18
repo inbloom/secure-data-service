@@ -115,14 +115,14 @@ public class ResourceEndPointTest {
     public void testLoadNameSpace() throws IOException {
         String json = "[" +
                 "{\n" +
-                "    \"nameSpace\":\"v6\",\n" +
+                "    \"nameSpace\": [\"v6.0\", \"v6.1\"],\n" +
                 "    \"resources\":[\n" +
                 "        {\n" +
                 "            \"path\":\"/reportCards\",\n" +
                 "            \"doc\":\"some doc.\"\n" +
                 "        }]}," +
                 "{\n" +
-                "    \"nameSpace\":\"v7\",\n" +
+                "    \"nameSpace\": [\"v7.0\"],\n" +
                 "    \"resources\":[\n" +
                 "        {\n" +
                 "            \"path\":\"/schools\",\n" +
@@ -135,13 +135,16 @@ public class ResourceEndPointTest {
         assertEquals("Should match", 2, nameSpaces.length);
 
         ApiNameSpace nameSpace = nameSpaces[0];
-        assertEquals("Should match", "v6", nameSpace.getNameSpace());
+        assertEquals("Should match", 2, nameSpace.getNameSpace().length);
+        assertEquals("Should match", "v6.0", nameSpace.getNameSpace()[0]);
+        assertEquals("Should match", "v6.1", nameSpace.getNameSpace()[1]);
         assertEquals("Should match", 1, nameSpace.getResources().size());
         assertEquals("Should match", "/reportCards", nameSpace.getResources().get(0).getPath());
         assertEquals("Should match", "some doc.", nameSpace.getResources().get(0).getDoc());
 
         nameSpace = nameSpaces[1];
-        assertEquals("Should match", "v7", nameSpace.getNameSpace());
+        assertEquals("Should match", 1, nameSpace.getNameSpace().length);
+        assertEquals("Should match", "v7.0", nameSpace.getNameSpace()[0]);
         assertEquals("Should match", 1, nameSpace.getResources().size());
         assertEquals("Should match", "/schools", nameSpace.getResources().get(0).getPath());
         assertEquals("Should match", "some school doc.", nameSpace.getResources().get(0).getDoc());

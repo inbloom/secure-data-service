@@ -89,13 +89,16 @@ public class ResourceDocumentation {
         }
     }
 
-    private Map<String, ResourceEndPointTemplate> getResourceMap(final String namespace,
+    private Map<String, ResourceEndPointTemplate> getResourceMap(final String[] namespaces,
                                                                  final List<ResourceEndPointTemplate> resources) {
         final Map<String, ResourceEndPointTemplate> resourceMap = new HashMap<String, ResourceEndPointTemplate>();
-        for (final ResourceEndPointTemplate resource : resources) {
-            resourceMap.put(namespace + resource.getPath(), resource);
-            if (resource.getSubResources() != null && resource.getSubResources().size() > 0) {
-                resourceMap.putAll(getResourceMap(namespace + resource.getPath(), resource.getSubResources()));
+
+        for (String namespace : namespaces) {
+            for (final ResourceEndPointTemplate resource : resources) {
+                resourceMap.put(namespace + resource.getPath(), resource);
+                if (resource.getSubResources() != null && resource.getSubResources().size() > 0) {
+                    //resourceMap.putAll(getResourceMap(namespace + resource.getPath(), resource.getSubResources()));
+                }
             }
         }
 

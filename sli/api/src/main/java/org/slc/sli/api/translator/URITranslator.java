@@ -36,6 +36,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
+import javax.ws.rs.core.PathSegment;
+
 
 /**
  * This class aligns request uri with dataModel
@@ -81,13 +83,20 @@ public class URITranslator {
 
     public void translate(ContainerRequest request) {
         String uri = request.getPath();
+        List<PathSegment> segments = request.getPathSegments();
+        String version = PathConstants.V1;
+
+        if (!segments.isEmpty()) {
+            version = segments.get(0).getPath();
+        }
+
         for (Map.Entry<String, URITranslation> entry : uriTranslationMap.entrySet()) {
             String key = entry.getKey();
             if (uri.contains(key)) {
                 String newPath = uriTranslationMap.get(key).translate(request.getPath());
                 if (!newPath.equals(uri)) {
-                request.setUris(request.getBaseUri(),
-                        request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
+                    request.setUris(request.getBaseUri(),
+                        request.getBaseUriBuilder().path(version).path(newPath).build());
                 }
             }
         }

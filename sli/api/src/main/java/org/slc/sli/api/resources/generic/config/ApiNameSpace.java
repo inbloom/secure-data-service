@@ -25,14 +25,14 @@ import java.util.List;
  */
 public class ApiNameSpace {
 
-    private String nameSpace;
+    private String[] nameSpace;
     private List<ResourceEndPointTemplate> resources;
 
-    public String getNameSpace() {
+    public String[] getNameSpace() {
         return nameSpace;
     }
 
-    public void setNameSpace(String nameSpace) {
+    public void setNameSpace(String[] nameSpace) {
         this.nameSpace = nameSpace;
     }
 

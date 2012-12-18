@@ -1,5 +1,5 @@
 [{
-  "nameSpace": "v1",
+  "nameSpace": ["v1.0","v1.1"],
   "resources": [
     {
       "path": "/reportCards",

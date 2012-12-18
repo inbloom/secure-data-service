@@ -138,9 +138,9 @@ public class UriMutator {
             if (!shouldSkipMutationToEnableSearch(segments, mutated.getQueryParameters())) {
                 if (segments.size() == 1) {
                     // api/v1
-                    mutated = mutateBaseUri(ResourceNames.HOME, mutated.getQueryParameters(), user);
+                    mutated = mutateBaseUri(segments.get(0).getPath(), ResourceNames.HOME, mutated.getQueryParameters(), user);
                 } else {
-                    mutated = mutateBaseUri(segments.get(1).getPath(), mutated.getQueryParameters(), user);
+                    mutated = mutateBaseUri(segments.get(0).getPath(), segments.get(1).getPath(), mutated.getQueryParameters(), user);
                 }
             }
         } else {
@@ -835,14 +835,14 @@ public class UriMutator {
      * @param user     entity representing user making API call.
      * @return Mutated String representing new API call, or null if no mutation takes place.
      */
-    public MutatedContainer mutateBaseUri(String resource, final String queryParameters, Entity user) {
+    public MutatedContainer mutateBaseUri(String version, String resource, final String queryParameters, Entity user) {
         MutatedContainer mutated = new MutatedContainer();
         mutated.setQueryParameters(queryParameters);
         if (mutated.getQueryParameters() == null) {
             mutated.setQueryParameters("");
         }
 
-        mutated.setPath(rootSearchMutator.mutatePath(resource, mutated.getQueryParameters()));
+        mutated.setPath(rootSearchMutator.mutatePath(version, resource, mutated.getQueryParameters()));
         if (mutated.getPath() == null && isTeacher(user)) {
             return this.mutateBaseUriForTeacher(resource, mutated.getQueryParameters(), user);
         } else if (mutated.getPath() == null && isStaff(user)) {
