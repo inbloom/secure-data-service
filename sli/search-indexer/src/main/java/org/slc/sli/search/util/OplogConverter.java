@@ -105,15 +105,20 @@ public class OplogConverter {
     public static Map<String, Object> merge(Map<String, Object> o, Map<String, Object> entityMap) {
         if (o.containsKey(OPERATOR_SET)) {
             mergeSet(o, entityMap);
-        } else if (o.containsKey(OPERATOR_PUSH)) {
+        } 
+        if (o.containsKey(OPERATOR_PUSH)) {
             mergePush(o, entityMap, (Map<String, Object>) o.get(OPERATOR_PUSH));
-        } else if (o.containsKey(OPERATOR_PUSH_ALL)) {
+        }
+        if (o.containsKey(OPERATOR_PUSH_ALL)) {
             mergePush(o, entityMap, (Map<String, Object>) o.get(OPERATOR_PUSH_ALL));
-        } else if (o.containsKey(OPERATOR_PULL)) {
+        }
+        if (o.containsKey(OPERATOR_PULL)) {
             mergePull(o, entityMap, (Map<String, Object>) o.get(OPERATOR_PULL));
-        } else if (o.containsKey(OPERATOR_PULL_ALL)) {
+        }
+        if (o.containsKey(OPERATOR_PULL_ALL)) {
             mergePull(o, entityMap, (Map<String, Object>) o.get(OPERATOR_PULL_ALL));
-        } else if (o.containsKey(OPERATOR_ADD_TO_SET)) {
+        }
+        if (o.containsKey(OPERATOR_ADD_TO_SET)) {
             mergeAddToSet(o, entityMap);
         }
         return entityMap;

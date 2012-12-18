@@ -75,7 +75,8 @@ public class GenericTransformer {
                     }
                 }
             }
-            NestedMapUtil.put(entry.getKey(), value, entity);
+            if (value != null)
+                NestedMapUtil.put(entry.getKey(), value, entity);
         }
     }
     
