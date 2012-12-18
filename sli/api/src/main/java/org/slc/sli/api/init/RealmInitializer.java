@@ -52,21 +52,6 @@ public class RealmInitializer {
     @Value("${bootstrap.admin.realm.redirectEndpoint}")
     private String adminRedirectEndpoint;
 
-    @Value("${bootstrap.sandbox.realm.uniqueId}")
-    private String sandboxUniqueId;
-
-    @Value("${bootstrap.sandbox.realm.name}")
-    private String sandboxRealmName;
-
-    @Value("${bootstrap.sandbox.realm.idpId}")
-    private String sandboxIdpId;
-
-    @Value("${bootstrap.sandbox.realm.redirectEndpoint}")
-    private String sandboxRedirectEndpoint;
-
-    @Value("${bootstrap.sandbox.createSandboxRealm}")
-    private boolean createSandboxRealm;
-
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
@@ -87,19 +72,6 @@ public class RealmInitializer {
         } else {
             info("Creating Admin realm.");
             repository.create(REALM_RESOURCE, bootstrapAdminRealmBody);
-        }
-
-        // if sandbox mode, bootstrap the sandbox realm
-        if (createSandboxRealm) {
-            Entity existingSandboxRealm = findRealm(sandboxUniqueId);
-            Map<String, Object> bootstrapSandboxRealmBody = createSandboxRealmBody();
-            if (existingSandboxRealm != null) {
-                info("Sandbox realm already exists --> updating if necessary.");
-                updateRealmIfNecessary(existingSandboxRealm, bootstrapSandboxRealmBody);
-            } else {
-                info("Creating Sandbox realm.");
-                repository.create(REALM_RESOURCE, bootstrapSandboxRealmBody);
-            }
         }
     }
     
@@ -136,23 +108,6 @@ public class RealmInitializer {
         body.put("saml", saml);
         return body;
     }
-
-    protected Map<String, Object> createSandboxRealmBody() {
-        Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, "", null, false, sandboxIdpId,
-                sandboxRedirectEndpoint);
-        Map<String, Object> saml = new HashMap<String, Object>();
-        saml.put("field", getSandboxFields());
-        body.put("saml", saml);
-        return body;
-    }
-
-    public Map<String, Object> createRealmBody(String tenantId, String uniqueId, String realmName, String idpId, String redirectEndpoint) {
-        Map<String, Object> body = createRealmBody(uniqueId, realmName, tenantId, null, false, idpId, redirectEndpoint);
-        Map<String, Object> saml = new HashMap<String, Object>();
-        saml.put("field", getSandboxFields());
-        body.put("saml", saml);
-        return body;
-    }
     
     private Map<String, Object> createRealmBody(String uniqueId, String name, String tenantId, String edOrg,
             boolean admin, String idpId, String redirectEndpoint) {
@@ -182,16 +137,7 @@ public class RealmInitializer {
         toReturn.add(createField("edOrg", "(.+)"));
         toReturn.add(createField("userId", "(.+)"));
         toReturn.add(createField("userName", "(.+)"));
-        return toReturn;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private List getSandboxFields() {
-        List toReturn = new ArrayList();
-        toReturn.add(createField("roles", "(.+)"));
-        toReturn.add(createField("tenant", "(.+)"));
-        toReturn.add(createField("userId", "(.+)"));
-        toReturn.add(createField("userName", "(.+)"));
+        toReturn.add(createField("isAdmin", "(.+)"));
         return toReturn;
     }
 

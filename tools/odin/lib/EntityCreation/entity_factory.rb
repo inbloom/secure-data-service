@@ -34,13 +34,16 @@ class EntityFactory
 
       case [type]
         when [SeaEducationOrganization]
-          rval << SeaEducationOrganization.new(work_order[:id], @prnd)
+          rval << SeaEducationOrganization.new(@prnd, work_order[:id], work_order[:programs])
 
         when [LeaEducationOrganization]
-          rval << LeaEducationOrganization.new(work_order[:id], work_order[:parent], @prnd)
+          rval << LeaEducationOrganization.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs])
 
         when [SchoolEducationOrganization]
-          rval << SchoolEducationOrganization.new(work_order[:id], work_order[:parent], work_order[:classification])
+          rval << SchoolEducationOrganization.new(work_order[:id], work_order[:parent], work_order[:classification], work_order[:programs])
+
+        when [Program]
+          rval << Program.new(@prnd, work_order[:id], work_order[:program_type], work_order[:sponsor])
 
         when [Session]
           rval << Session.new(work_order[:name], work_order[:year], work_order[:term], work_order[:interval], work_order[:edOrg], work_order[:gradingPeriods])
@@ -67,6 +70,9 @@ class EntityFactory
           rval << StaffEducationOrgAssignmentAssociation.new(work_order[:id], work_order[:edOrg], work_order[:classification], work_order[:title],
                                                              work_order[:beginDate], work_order[:endDate])
 
+        when [StaffProgramAssociation]
+          rval << StaffProgramAssociation.new(work_order[:staff], work_order[:program], work_order[:begin_date], work_order[:access], work_order[:end_date])
+
         when [Teacher]
           rval << Teacher.new(work_order[:id], work_order[:year], work_order[:name])
 
@@ -85,5 +91,4 @@ class EntityFactory
     end
 
   end
-
 end

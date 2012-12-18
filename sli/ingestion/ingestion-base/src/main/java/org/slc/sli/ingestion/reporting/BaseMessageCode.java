@@ -36,12 +36,11 @@ public enum BaseMessageCode implements MessageCode {
     BASE_0010,
     BASE_0011,
     BASE_0012,
-    SL_ERR_MSG11,
-    SL_ERR_MSG12,
-    SL_ERR_MSG13,
-    SL_ERR_MSG15,
-    SL_ERR_MSG18,
-    XSD_VALIDATION_ERROR;
+    BASE_0013,
+    BASE_0014,
+    BASE_0015,
+    BASE_0016,
+    BASE_0017;
 
     @Override
     public String getCode() {

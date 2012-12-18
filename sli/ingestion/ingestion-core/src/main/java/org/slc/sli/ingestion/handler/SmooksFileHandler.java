@@ -35,8 +35,8 @@ import org.xml.sax.SAXException;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -60,25 +60,27 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
         /*
-        try {
-
-            //generateNeutralRecord(fileEntry, errorReport, errorReport, fileProcessStatus);
-
-        } catch (IOException e) {
-            LOG.error("IOException: Could not instantiate smooks, unable to read configuration file", e);
-            errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
-                    SmooksFileHandler.class);
-        } catch (SAXException e) {
-            LOG.error("SAXException: Could not instantiate smooks, problem parsing configuration file", e);
-            errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
-                    SmooksFileHandler.class);
-        }
-    */
+         * try {
+         *
+         * //generateNeutralRecord(fileEntry, errorReport, errorReport, fileProcessStatus);
+         *
+         * } catch (IOException e) {
+         * LOG.error("IOException: Could not instantiate smooks, unable to read configuration file",
+         * e);
+         * errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
+         * SmooksFileHandler.class);
+         * } catch (SAXException e) {
+         * LOG.error("SAXException: Could not instantiate smooks, problem parsing configuration file"
+         * , e);
+         * errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
+         * SmooksFileHandler.class);
+         * }
+         */
         return fileEntry;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats,
-            FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
@@ -109,7 +111,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
         try {
 
             generateNeutralRecord(item, report, reportStats, fileProcessStatus);
@@ -125,7 +127,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
     }

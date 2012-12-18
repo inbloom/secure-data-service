@@ -37,8 +37,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -74,7 +74,7 @@ public class TransformationProcessor implements Processor {
     @Autowired
     private AbstractMessageReport databaseMessageReport;
 
-    private ReportStats reportStats;
+    private AbstractReportStats reportStats;
 
     /**
      * Camel Exchange process callback method
