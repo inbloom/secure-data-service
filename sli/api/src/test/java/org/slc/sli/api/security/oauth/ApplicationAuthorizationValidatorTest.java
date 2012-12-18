@@ -174,7 +174,6 @@ public class ApplicationAuthorizationValidatorTest {
         principal.setEntity(null);
         principal.setEdOrg("SOMETHING");
         principal.setRealm(sliRealm.getEntityId());
-        principal.setAdminRealmAuthenticated(true);
         List<String> ids = validator.getAuthorizedApps(principal);
 
         assertFalse("Cannot see autoApp", ids.contains(autoApp.getEntityId()));

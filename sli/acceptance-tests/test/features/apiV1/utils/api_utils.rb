@@ -96,6 +96,15 @@ When /^I set the "([^"]*)" to "([^"]*)"$/ do |property,value|
   step "\"#{property}\" is \"#{value}\""
 end
 
+When /^I navigate to PUT "([^<>"]*)"$/ do |url|
+  @result = @fields if !defined? @result
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+
 When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
   @result = @fields if !defined? @result
   @result.update(@fields)

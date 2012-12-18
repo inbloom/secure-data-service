@@ -317,7 +317,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                         .getEntity());
                                 principal.setSessionId(sessionEntity.getEntityId());
                                 Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
-                                        principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated());
+                                        principal.getRealm(), principal.getRoles());
                                 PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                         principal, accessToken, authorities);
                                 userToken.setAuthenticated(true);
@@ -383,8 +383,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm,
-                                                            final List<String> roleNames, boolean isAdmin) {
-        return resolver.resolveRoles(tenantId, realm, roleNames, isAdmin);
+                                                            final List<String> roleNames) {
+        return resolver.resolveRoles(tenantId, realm, roleNames);
     }
 
     private OAuth2Authentication createAnonymousAuth() {

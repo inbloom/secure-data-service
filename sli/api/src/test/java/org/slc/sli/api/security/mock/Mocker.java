@@ -140,7 +140,7 @@ public class Mocker {
         rights.add(Right.READ_GENERAL);
         when(
                 rolesToRightsResolver.resolveRoles("42", DEFAULT_REALM_ID,
-                        Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }), false)).thenReturn(rights);
+                        Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
         return rolesToRightsResolver;
     }
 }
