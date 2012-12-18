@@ -28,6 +28,7 @@
   </properties>
 
   <modules>
+    <module>edfi-schema</module>
     <module>ingestion-base</module>
     <module>ingestion-validation</module>
   </modules>
@@ -35,6 +36,12 @@
   <dependencyManagement>
 
     <dependencies>
+
+      <dependency>
+        <groupId>org.slc.sli.schema</groupId>
+        <artifactId>edfi-schema</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>org.slc.sli.ingestion</groupId>
