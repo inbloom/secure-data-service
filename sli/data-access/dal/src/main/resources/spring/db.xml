@@ -14,6 +14,10 @@
 
   <!-- SHARED CONFIG -->
   <tx:annotation-driven />
+  
+   <bean id="migrationConfigResource" class="org.springframework.core.io.ClassPathResource">
+      <constructor-arg index="0" value="migration/migration-config.json" />
+   </bean>
 
   <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="location" value="file:${sli.conf}" />
@@ -86,7 +90,9 @@
   <alias alias="securityRepo" name="validationRepo" />
   <bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
 
-  <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" />
+  <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" >
+    <property name="mongoTemplate" ref="mongoTemplate" />
+  </bean>
 
   <bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
@@ -108,6 +114,12 @@
       </map>
     </property>
   </bean>
+
+  <bean id="migrationRunner" class="org.slc.sli.dal.migration.config.MigrationRunner" factory-method="aspectOf">
+    <property name="sliSchemaVersionValidator" ref="sliSchemaVersionValidator" />
+    <property name="repository" ref="mongoEntityRepository" />
+  </bean>
+
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
   

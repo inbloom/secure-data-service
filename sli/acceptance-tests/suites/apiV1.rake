@@ -273,6 +273,7 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/security")
 end
 
