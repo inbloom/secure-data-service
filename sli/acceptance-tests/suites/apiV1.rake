@@ -20,6 +20,13 @@ task :crudAutoTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud_auto")
 end
 
+task :writeValidationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  #Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/security/write_validation.feature")
+end
+
 task :apiV1AssociationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/crud/assoc_crud.feature")
@@ -273,6 +280,7 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/security")
 end
 

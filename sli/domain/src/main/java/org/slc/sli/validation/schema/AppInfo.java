@@ -202,7 +202,7 @@ public class AppInfo extends Annotation {
             return Integer.parseInt(values.get(SCHEMA_VERSION));
         }
 
-        return DEFAULT_SCHEMA_VERSION;
+        return NOT_VERSIONED;
     }
 
     public String getValue(String key) {
