@@ -202,7 +202,7 @@
             <executions>
               <execution>
                 <configuration>
-                  <finalName>OfflineValidationTool-Src</finalName>
+                  <finalName>OfflineValidationTool-src</finalName>
                   <descriptors>
                     <descriptor>${project.parent.basedir}/ingestion-validation/assembly/package.xml</descriptor>
                   </descriptors>
