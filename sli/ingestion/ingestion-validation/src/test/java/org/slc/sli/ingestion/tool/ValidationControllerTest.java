@@ -215,11 +215,21 @@ public class ValidationControllerTest {
     }
 
     @Test
-    public void testValidProcessControlFile() throws IOException {
+    public void testValidProcessControlFile() throws IOException, NoSuchFieldException {
         Resource ctlFileResource = new ClassPathResource(controlFileName);
         File ctlFile = ctlFileResource.getFile();
 
         ValidationController vc = Mockito.spy(validationController);
+
+        Source source = Mockito.mock(Source.class);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
+        Mockito.when(reportStats.getSource()).thenReturn(source);
+        Mockito.when(reportStats.hasErrors()).thenReturn(false);
+
+        AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
+
+        PrivateAccessor.setField(validationController, "reportStats", reportStats);
+        PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
         vc.processControlFile(ctlFile);
 
