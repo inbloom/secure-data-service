@@ -20,6 +20,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+/**
+ * Provides runtime access to SliSchemaVersionValidator
+ * 
+ * @author sashton
+ * 
+ */
 @Component
 public class SliSchemaVersionValidatorProvider implements ApplicationContextAware {
 
