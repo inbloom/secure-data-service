@@ -105,6 +105,7 @@ public class SearchResourceService {
 
 	private EntityDefinition searchEntityDefinition;
 
+
 	// keep parameters for ElasticSearch
 	// "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
 	private static final List<String> whiteListParameters = Arrays
@@ -486,6 +487,9 @@ public class SearchResourceService {
 		@Value(value = "${sli.search.embedded:false}")
 		private boolean embeddedEnabled;
 
+	    @Value("${sli.search.embedded.http.port:9200}")
+	    private int elasticSearchHttpPort;
+
 		@PostConstruct
 		public void init() {
 			if (embeddedEnabled) {
@@ -500,6 +504,7 @@ public class SearchResourceService {
 				Settings settings = ImmutableSettings
 						.settingsBuilder()
 						.put("node.http.enabled", true)
+						.put("http.port", this.elasticSearchHttpPort)
 						.put("path.data",
 								elasticsearchDir.getAbsolutePath()
 										+ "/data")

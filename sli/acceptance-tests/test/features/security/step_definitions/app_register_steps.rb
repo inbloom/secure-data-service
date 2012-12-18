@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../apiV1/utils/api_utils.rb'
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"d0b2ded4-89a9-db4a-8f80-aaece6fda529" if arg2 == "Testing App"
@@ -26,15 +27,10 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id
 end
 
-When /^I navigate to POST "([^"]*)"$/ do |arg1|
+When /^I have a valid application entity$/ do
   @format = "application/json"
-  dataObj = DataProvider.getValidAppData()
-  dataObj.delete "registration"
-  data = prepareData("application/json", dataObj)
-
-  restHttpPost(arg1, data)
-
-  assert(@res != nil, "Response from POST operation was null")
+  @fields = DataProvider.getValidAppData()
+  @fields.delete "registration"
 end
 
 Then /^I should receive the data for the specified application entry$/ do
@@ -54,7 +50,7 @@ def parseApplicationResult(creator)
   @registration = result["registration"]
 end
 
-When /^I navigate to PUT "([^"]*)"$/ do |arg1|
+When /^(AR) I navigate to PUT "([^"]*)"$/ do |arg1|
   @format = "application/json"
   dataObj = DataProvider.getValidAppData()
   dataObj["description"] = "New and Improved"

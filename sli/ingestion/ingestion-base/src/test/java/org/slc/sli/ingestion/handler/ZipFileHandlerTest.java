@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.handler;
 
 import java.io.File;
@@ -23,11 +22,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 
 /**
  * ZipFileHandler unit tests.
@@ -42,18 +44,16 @@ public class ZipFileHandlerTest {
     @Autowired
     private ZipFileHandler zipHandler;
 
-    @Autowired
-    private MessageSource messageSource;
-
     @Test
     public void testZipHandling() {
         File zip = new File("src/test/resources/zip/ValidZip.zip");
 
-        FaultsReport errorReport = new FaultsReport();
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
 
-        File ctlFile = zipHandler.handle(zip, errorReport);
+        File ctlFile = zipHandler.handle(zip, report, reportStats);
 
-        Assert.assertFalse(errorReport.hasErrors());
+        Assert.assertFalse(reportStats.hasErrors());
         Assert.assertNotNull(ctlFile);
         Assert.assertTrue(ctlFile.exists());
     }
@@ -62,11 +62,12 @@ public class ZipFileHandlerTest {
     public void testAbsenceOfZipHandling() {
         File zip = new File("src/test/resources/zip/NoControlFile.zip");
 
-        FaultsReport errorReport = new FaultsReport();
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
 
-        File ctlFile = zipHandler.handle(zip, errorReport);
+        File ctlFile = zipHandler.handle(zip, report, reportStats);
 
-        Assert.assertTrue(errorReport.hasErrors());
+        Assert.assertTrue(reportStats.hasErrors());
         Assert.assertNull(ctlFile);
     }
 
@@ -74,13 +75,12 @@ public class ZipFileHandlerTest {
     public void testIOExceptionHandling() {
         File zip = new File("src/test/resources/zip/NoControlFile2.zip");
 
-        zipHandler.setMessageSource(messageSource);
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
 
-        FaultsReport errorReport = new FaultsReport();
+        File ctlFile = zipHandler.handle(zip, report, reportStats);
 
-        File ctlFile = zipHandler.handle(zip, errorReport);
-
-        Assert.assertTrue(errorReport.hasErrors());
+        Assert.assertTrue(reportStats.hasErrors());
         Assert.assertNull(ctlFile);
     }
 

@@ -33,7 +33,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * EdFi to SLI transformer based on Smooks
@@ -122,24 +121,6 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     public void setSmooksConfigs(Map<String, Smooks> smooksConfigs) {
         this.smooksConfigs = smooksConfigs;
-    }
-
-    @Override
-    public List<List<SimpleEntity>> handle(List<NeutralRecord> items, ErrorReport errorReport) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.ingestion.handler.Handler#handle(java.lang.Object,
-     * org.slc.sli.ingestion.validation.ErrorReport)
-     */
-    @Override
-    public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /*

@@ -25,9 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
 
 /**
  * Validates file's checksum using MD5 algorithm.
@@ -38,42 +37,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class ChecksumValidator extends IngestionFileValidator {
 
     private Logger log = LoggerFactory.getLogger(ChecksumValidator.class);
-
-    @Override
-    public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
-        IngestionFileEntry fe = item.getFileItem();
-
-        if (StringUtils.isBlank(fe.getChecksum())) {
-            fail(callback, getFailureMessage("BASE_0007", fe.getFileName()));
-
-            return false;
-        }
-
-        String actualMd5Hex;
-
-        try {
-            // and the attributes match
-            actualMd5Hex = item.getLandingZone().getMd5Hex(fe.getFile());
-        } catch (IOException e) {
-            actualMd5Hex = null;
-        }
-
-        if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
-
-            String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
-            log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
-
-            fail(callback, getFailureMessage("BASE_0006", fe.getFileName()));
-
-            return false;
-        }
-
-        return true;
-    }
-
-    protected boolean checksumsMatch(String actualMd5Hex, String recordedMd5Hex) {
-        return !StringUtils.isBlank(actualMd5Hex) && actualMd5Hex.equalsIgnoreCase(recordedMd5Hex);
-    }
 
     @Override
     public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
@@ -105,6 +68,10 @@ public class ChecksumValidator extends IngestionFileValidator {
         }
 
         return true;
+    }
+
+    protected boolean checksumsMatch(String actualMd5Hex, String recordedMd5Hex) {
+        return !StringUtils.isBlank(actualMd5Hex) && actualMd5Hex.equalsIgnoreCase(recordedMd5Hex);
     }
 
 }

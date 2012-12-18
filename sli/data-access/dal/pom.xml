@@ -27,7 +27,6 @@
       <dependency>
           <groupId>org.slc.sli</groupId>
           <artifactId>encryption-tool</artifactId>
-          <version>1.0-SNAPSHOT</version>
      </dependency>
 
 		<!-- Spring Framework -->
@@ -56,7 +55,7 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        
+
         <!-- Jackson json -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -86,14 +85,14 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
-		
+
 		<!-- Elasticsearch -->
 		<dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>
         </dependency>
-		
+
 	</dependencies>
 
 	<properties>

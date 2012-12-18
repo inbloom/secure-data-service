@@ -19,7 +19,7 @@
 		<freemarker.version>2.3.18</freemarker.version>
 		<gson.version>2.0</gson.version>
 		<powermock.version>1.4.10</powermock.version>
-		
+
         <sli.home>${project.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
@@ -29,13 +29,13 @@
 
 	<dependencies>
 		<!-- Servlet dependencies -->
-        
+
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
         </dependency>
-        
+
         <dependency>
 	        <groupId>commons-lang</groupId>
 	        <artifactId>commons-lang</artifactId>
@@ -51,13 +51,13 @@
 		    <artifactId>joda-time</artifactId>
 		    <version>2.1</version>
 	    </dependency>
-		    
+
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 			<version>2.5.2</version>
 		</dependency>
-            
+
         <dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -107,7 +107,6 @@
         <dependency>
             <groupId>org.slc.sli</groupId>
             <artifactId>encryption-tool</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 
 		<!-- Freemarker -->
@@ -182,7 +181,7 @@
 			<artifactId>spring-expression</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -258,7 +257,7 @@
 	            </goals>
 	            <phase>process-resources</phase>
 	          </execution>
-	        </executions>        
+	        </executions>
 	        <configuration>
 	          <jswarn>false</jswarn>
 	          <nosuffix>true</nosuffix>
@@ -266,7 +265,7 @@
 	          <aggregations>
 	            <aggregation>
 	                <removeIncluded>true</removeIncluded>
-	                
+
 	                <insertNewLine>true</insertNewLine>
 	                <output>${basedir}/target/dashboard/static/js/widgets.js</output>
 	                <includes>
@@ -284,7 +283,7 @@
 	            </aggregation>
 	            <aggregation>
 	                <removeIncluded>true</removeIncluded>
-	                
+
 	                <insertNewLine>true</insertNewLine>
 	                <output>${basedir}/target/dashboard/static/js/SLC.js</output>
 	                <includes>
@@ -293,10 +292,10 @@
 	                    <include>**/controller/SLC.dataProxy.js</include>
 	                    <include>**/controller/SLC.util.js</include>
 	                </includes>
-	            </aggregation>                         
+	            </aggregation>
 	            <aggregation>
 	                <removeIncluded>false</removeIncluded>
-	                
+
 	                <insertNewLine>true</insertNewLine>
 	                <output>${basedir}/target/dashboard/builder/js/builder.js</output>
 	                <includes>
@@ -307,7 +306,7 @@
 	                    <include>**/SLC.builder.filters.js</include>
 	                    <include>**/SLC.builder.services.js</include>
 	                </includes>
-	            </aggregation>                         
+	            </aggregation>
 	          </aggregations>
 	        </configuration>
 	      </plugin>

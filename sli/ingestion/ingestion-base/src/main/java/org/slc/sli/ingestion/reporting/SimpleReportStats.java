@@ -51,4 +51,14 @@ public final class SimpleReportStats extends AbstractReportStats {
         return warningCount > 0;
     }
 
+    @Override
+    public long getErrorCount() {
+        return errorCount;
+    }
+
+    @Override
+    public long getWarningCount() {
+        return warningCount;
+    }
+
 }

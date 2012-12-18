@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.File;
 import java.io.Serializable;
 
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -43,7 +41,6 @@ public class IngestionFileEntry implements Serializable {
     private File neutralRecordFile;
     private File deltaNeutralRecordFile;
     private String checksum;
-    private FaultsReport faultsReport;
     private String topLevelLandingZonePath;
 
     private AbstractMessageReport errorReport;
@@ -58,19 +55,20 @@ public class IngestionFileEntry implements Serializable {
         this(fileFormat, fileType, fileName, checksum, null);
     }
 
-    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum, String topLevelLandingZonePath) {
+    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum,
+            String topLevelLandingZonePath) {
         this.fileFormat = fileFormat;
         this.fileType = fileType;
         this.fileName = fileName;
         this.checksum = checksum;
-        this.faultsReport = new FaultsReport();
         this.topLevelLandingZonePath = topLevelLandingZonePath;
     }
 
     // Methods
 
     /**
-     * @param reportStats the reportStats to set
+     * @param reportStats
+     *            the reportStats to set
      */
     public void setReportStats(AbstractReportStats reportStats) {
         this.reportStats = reportStats;
@@ -194,10 +192,6 @@ public class IngestionFileEntry implements Serializable {
         this.deltaNeutralRecordFile = deltaNeutralRecordFile;
     }
 
-    public FaultsReport getFaultsReport() {
-        return this.faultsReport;
-    }
-
     public String getBatchJobId() {
         return batchJobId;
     }
@@ -214,7 +208,8 @@ public class IngestionFileEntry implements Serializable {
     }
 
     /**
-     * @param topLevelLandingZonePath the topLevelLandingZonePath to set
+     * @param topLevelLandingZonePath
+     *            the topLevelLandingZonePath to set
      */
     public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
         this.topLevelLandingZonePath = topLevelLandingZonePath;
@@ -228,7 +223,8 @@ public class IngestionFileEntry implements Serializable {
     }
 
     /**
-     * @param databaseMessageReport the databaseMessageReport to set
+     * @param databaseMessageReport
+     *            the databaseMessageReport to set
      */
     public void setMessageReport(AbstractMessageReport databaseMessageReport) {
         this.errorReport = databaseMessageReport;

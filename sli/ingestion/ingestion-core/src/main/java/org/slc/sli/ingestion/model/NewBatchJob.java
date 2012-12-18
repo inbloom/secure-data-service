@@ -30,7 +30,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
@@ -354,12 +353,6 @@ public class NewBatchJob implements Job {
         resourceEntry.setTopLevelLandingZonePath(ingestionFileEntry.getTopLevelLandingZonePath());
 
         return resourceEntries.add(resourceEntry);
-    }
-
-    @Override
-    public FaultsReport getFaultsReport() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

@@ -9,6 +9,8 @@ Given I have an open web browser
 Scenario: App developer Registers, Approves, and Enables a new Installed app and Full window web app. Educators and IT Administrators can see the apps.
 #Installed App
 When I navigate to the Portal home page
+Then I will be redirected to realm selector web page
+When I click on the "Admin" realm in "Sandbox"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
@@ -65,6 +67,8 @@ When I click on Save
 Then the "Schlemiel" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
+Then I will be redirected to realm selector web page
+When I click on the "Sandbox" realm in "Sandbox"
 Then I should be redirected to the impersonation page
 And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
