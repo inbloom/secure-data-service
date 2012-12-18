@@ -62,6 +62,9 @@ INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
+ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
+ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -2181,6 +2184,11 @@ def checkForContentInFileGivenPrefix(message, prefix)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message, contents were:\n#{file_contents}")
       end
@@ -2217,6 +2225,11 @@ def checkForNullContentInFileGivenPrefix(message, prefix)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2263,6 +2276,11 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2299,6 +2317,11 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
       file_contents = IO.readlines(landing_zone + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end

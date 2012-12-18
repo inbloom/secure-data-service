@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -237,7 +239,24 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         try {
             AbstractReportStats reportStatsForNrEntity = null;
 
-            Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            Iterable<NeutralRecord> records = null;
+            try {
+                records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            } catch (MongoException me) {
+                // Add collection name to job resources for later error reporting, if not already there.
+                NewBatchJob savedJob = batchJobDAO.findBatchJobById(job.getId());
+                if (savedJob.getResourceEntry(collectionNameAsStaged) == null) {
+                    ResourceEntry resourceEntry = new ResourceEntry();
+                    resourceEntry.setResourceId(collectionNameAsStaged);
+                    job.addResourceEntry(resourceEntry);
+                    batchJobDAO.saveBatchJob(job);
+                }
+                databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0015, collectionNameAsStaged);
+                LogUtil.error(LOG, "MongoException when attempting to extract " + collectionNameAsStaged
+                        + " NeutralRecords from staging db", me);
+                throw (me);
+            }
+
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
             // UN: Added the records to the recordHashStore
@@ -308,14 +327,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 }
             }
         } catch (Exception e) {
-            String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
-                    + collectionNameAsStaged + "\n";
             databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0005, collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
-            ResourceEntry resourceEntry = new ResourceEntry();
-            resourceEntry.setResourceId(collectionNameAsStaged);
-            job.addResourceEntry(resourceEntry);
-            batchJobDAO.saveBatchJob(job);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
