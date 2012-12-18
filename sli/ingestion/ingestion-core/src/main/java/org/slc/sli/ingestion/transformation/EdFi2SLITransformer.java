@@ -215,9 +215,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         try {
             naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
         } catch (NaturalKeyValidationException e1) {
-            StringBuilder message = new StringBuilder("An entity is missing one or more required natural key fields"
-                    + "\n" + "       Entity     " + entity.getType() + "\n" + "       Instance   "
-                    + entity.getRecordNumber());
+            StringBuilder message = new StringBuilder("");
 
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
