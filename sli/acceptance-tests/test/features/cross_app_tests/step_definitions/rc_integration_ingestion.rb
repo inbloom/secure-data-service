@@ -45,67 +45,6 @@ end
 # TEST SETUP FUNCTIONS
 ############################################################
 
-def processPayloadFile(file_name)
-  path_name = file_name[0..-5]
-  file_name = file_name.split('/')[-1] if file_name.include? '/'
-
-  # copy everything into a new directory (to avoid touching git tracked files)
-  path_delim = ""
-  if path_name.include? '/'
-    folders = path_name.split '/'
-    if folders.size > 0
-      folders[0...-1].each { |path| path_delim += path + '/'}
-      path_name = folders[-1]
-    end
-  end
-  zip_dir = @local_file_store_path + "temp-" + path_name + "/"
-  p zip_dir
-  if Dir.exists?(zip_dir)
-    FileUtils.rm_r zip_dir
-  end
-
-  FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
-
-  ctl_template = nil
-  Dir.foreach(zip_dir) do |file|
-    if /.*.ctl$/.match file
-      ctl_template = file
-    end
-  end
-
-  # for each line in the ctl file, recompute the md5 hash
-  new_ctl_file = File.open(zip_dir + ctl_template + "-tmp", "w")
-  File.open(zip_dir + ctl_template, "r") do |ctl_file|
-    ctl_file.each_line do |line|
-      if line.chomp.length == 0
-        next
-      end
-      entries = line.chomp.split ","
-      if entries.length < 3
-        puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
-        new_ctl_file.puts line.chomp
-        next
-      end
-      payload_file = entries[2]
-      md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
-      if entries[3] != md5.to_s
-        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
-      end
-      # swap out the md5 unless we encounter the special all zero md5 used for unhappy path tests
-      entries[3] = md5 unless entries[3] == "00000000000000000000000000000000"
-      new_ctl_file.puts entries.join ","
-    end
-  end
-  new_ctl_file.close
-  FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
-
-  runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
-  FileUtils.rm_r zip_dir
-
-  file_name = @local_file_store_path + path_delim + file_name
-  return file_name
-end
-
 ############################################################
 # REMOTE INGESTION FUNCTIONS
 ############################################################
@@ -125,12 +64,8 @@ def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_passwor
       puts "lz_password = " + lz_password 
       puts "lz_port_number = " + lz_port_number.to_s
     
-      Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
-        #puts "clearing lz for old log files"
-        clear_remote_lz(sftp)
-        puts "attempting to remote copy " + srcPath + " to " + destPath
-        sftp.upload!(srcPath, destPath)
-      end
+      clearRemoteLz(@landing_zone_path, lz_server_url, lz_username, lz_port_number, lz_password)
+      remoteLzCopy(srcPath, destPath, lz_server_url, lz_username, lz_port_number, lz_password)
     rescue Exception => e
       e.backtrace.inspect
     end
@@ -149,12 +84,7 @@ def lzContainsFile(pattern, landingZone, lz_server_url = nil, lz_username = nil,
     puts "lz_username = " + lz_username
     puts "lz_password = " + lz_password
     puts "lz_port_number = " + lz_port_number.to_s
-    Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
-      sftp.dir.glob(landingZone, pattern) do |entry|
-        return true
-      end
-    end
-    return false
+    return remoteLzContainsFile(pattern, landingZone, lz_server_url, lz_username, lz_port_number, lz_password)
   end
 end
 
@@ -178,26 +108,7 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
     puts "lz_username = " + lz_username
     puts "lz_password = " + lz_password
     puts "lz_port_number = " + lz_port_number.to_s
-    Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
-      sftp.dir.glob(landingZone, prefix + "*") do |entry|
-        next if entry.name == '.' or entry.name == '..'
-        entryPath = File.join(landingZone, entry.name)
-
-        if !sftp.stat!(entryPath).directory?
-          puts "found file " + entryPath
-
-          #download file contents to a string
-          file_contents = sftp.download!(entryPath)
-
-          #check file contents for message
-          if (file_contents.rindex(message) != nil)
-            puts "Found message " + message
-            return true
-          end
-        end
-      end
-    end
-    return false
+    return remoteFileContainsMessage(prefix, message, landingZone, lz_server_url, lz_username, lz_port_number, lz_password)
   end
 end
 
@@ -205,16 +116,6 @@ def clear_local_lz
   Dir.foreach(@landing_zone_path) do |file|
     if (/.*.log$/.match file) || (/.done$/.match file)
       FileUtils.rm_rf @landing_zone_path+file
-    end
-  end
-end
-
-def clear_remote_lz(sftp)
-  sftp.dir.foreach(@landing_zone_path) do |entry|
-    next if entry.name == '.' or entry.name == '..'
-    entryPath = File.join(@landing_zone_path, entry.name)
-    if !sftp.stat!(entryPath).directory?
-      sftp.remove!(entryPath)
     end
   end
 end
@@ -276,7 +177,8 @@ end
 
 Given /^I drop the file "(.*?)" into the landingzone$/ do |arg1|
   if !@hasNoLandingZone
-    source_path = processPayloadFile arg1
+    path_delim = ""
+    source_path = @local_file_store_path + path_delim + processPayloadFile(arg1) 
     dest_path = @landing_zone_path + arg1
     lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
   end
@@ -299,25 +201,26 @@ Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/
 end
 
 Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg1|
-  result = fileContainsMessage("", arg1, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
-  assert result
+  assert fileContainsMessage("", arg1, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
 end
 
 Given /^a landing zone$/ do
-  if RUN_ON_RC && (@mode == "SANDBOX")
+  if RUN_ON_RC
     steps %Q{
         Given I am using local data store
         And I am using default landing zone
-        And I am using the tenant "<SANDBOX_TENANT>"
-        And I use the landingzone user name "<DEVELOPER_SB_EMAIL>" and password "<DEVELOPER_SB_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
     }
-  elsif RUN_ON_RC
-    steps %Q{
-        Given I am using local data store
-        And I am using default landing zone
-        And I am using the tenant "<TENANT>"
-        And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
-    }
+    if (@mode == "SANDBOX")
+      steps %Q{
+          And I am using the tenant "<SANDBOX_TENANT>"
+          And I use the landingzone user name "<DEVELOPER_SB_EMAIL>" and password "<DEVELOPER_SB_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
+      }
+    else
+      steps %Q{
+          And I am using the tenant "<TENANT>"
+          And I use the landingzone user name "<PRIMARY_EMAIL>" and password "<PRIMARY_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
+      }
+    end
   else
     steps %Q{
         Given I am using local data store
