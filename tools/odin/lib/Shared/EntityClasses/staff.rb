@@ -29,6 +29,7 @@ class Staff < BaseEntity
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino, :highestLevelOfEducationCompleted
 
   def initialize(id, year_of, name = nil)
+    super
     @id = DataUtility.get_staff_unique_state_id(id) if id.kind_of? Integer
     @id = id if id.kind_of? String
     @year_of = year_of
@@ -43,46 +44,46 @@ class Staff < BaseEntity
 
   def buildStaff
     @staffIdentificationCode = @rand.rand(10000).to_s
-    @identificationSystem = choose(@@demographics['identificationSystem'])
-    @highestLevelOfEducationCompleted = choose(@@demographics['highestLevelOfEducationCompleted'])
+    @identificationSystem = choose(BaseEntity.demographics['identificationSystem'])
+    @highestLevelOfEducationCompleted = choose(BaseEntity.demographics['highestLevelOfEducationCompleted'])
  
     if @name.nil?
-      @sex = choose(@@demographics['sex'])
+      @sex = choose(BaseEntity.demographics['sex'])
       @prefix = sex == "Male?" ? "Mr" : "Ms"
-      @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-      @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-      @lastName = choose(@@demographics['lastNames'])
-      @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+      @firstName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] :BaseEntity. demographics['femaleNames'])
+      @middleName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+      @lastName = choose(BaseEntity.demographics['lastNames'])
+      @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
     else
       @firstName, @lastName = parse_name(@name)
-      if @@demographics['maleNames'].include?(@firstName)
+      if BaseEntity.demographics['maleNames'].include?(@firstName)
         @sex = "Male"
         @prefix = "Mr"
-        @middleName = choose(@@demographics['maleNames'])
-        @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
-      elsif @@demographics['femaleNames'].include?(@firstName)
+        @middleName = choose(BaseEntity.demographics['maleNames'])
+        @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+      elsif BaseEntity.demographics['femaleNames'].include?(@firstName)
         @sex = "Female"
         @prefix = "Ms"
-        @middleName = choose(@@demographics['femaleNames'])
-        @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+        @middleName = choose(BaseEntity.demographics['femaleNames'])
+        @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
       else
-        @sex = choose(@@demographics['sex'])
+        @sex = choose(BaseEntity.demographics['sex'])
         @prefix = sex == "Male?" ? "Mr" : "Ms"
-        @firstName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-        @middleName = choose(sex == "Male" ? @@demographics['maleNames'] : @@demographics['femaleNames'])
-        @lastName = choose(@@demographics['lastNames'])
-        @suffix = wChoose(@@demographics['nameSuffix']) == "Jr" ? "Jr" : nil
+        @firstName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+        @middleName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+        @lastName = choose(BaseEntity.demographics['lastNames'])
+        @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
       end
     end
     @birthDay = (Date.new(@year_of, 1, 1) + @rand.rand(365)).to_s
-    @email = @rand.rand(10000).to_s + @@demographics['emailSuffix']
+    @email = @rand.rand(10000).to_s + BaseEntity.demographics['emailSuffix']
     @loginId = email
-    @address = @rand.rand(999).to_s + " " + choose(@@demographics['street'])
-    @city = @@demographics['city']
-    @state = @@demographics['state']
-    @postalCode = @@demographics['postalCode']
-    @race = wChoose(@@demographics['raceDistribution'])
-    @hispanicLatino = wChoose(@@demographics['hispanicLatinoDist'])
+    @address = @rand.rand(999).to_s + " " + choose(BaseEntity.demographics['street'])
+    @city = BaseEntity.demographics['city']
+    @state = BaseEntity.demographics['state']
+    @postalCode = BaseEntity.demographics['postalCode']
+    @race = wChoose(BaseEntity.demographics['raceDistribution'])
+    @hispanicLatino = wChoose(BaseEntity.demographics['hispanicLatinoDist'])
   end
 
   # currently parses two 'word' names (first name and last name)

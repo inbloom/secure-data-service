@@ -2,6 +2,7 @@
 @RALLY_US308
 @RALLY_US309
 @RALLY_US2292
+@RALLY_US4911
 Feature: Negative Ingestion Testing
 
 Background: I have a landing zone route configured
@@ -31,7 +32,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "valueTypeNotMatchAttributeType.zip" is completed in database
-  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      ENUMERATION_MISMATCH" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
   And I should see "     Instance   1" in the resulting error log file
@@ -88,7 +89,7 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordHasMoreAttributes.zip" is completed in database
-  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
   And I should see "     Instance   1" in the resulting error log file
@@ -109,7 +110,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
-  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "       Entity     student" in the resulting error log file
   And I should see "       Instance   1" in the resulting error log file
@@ -297,3 +298,61 @@ Scenario: Post an zip file where the control file has extra properties
   And a batch job for file "ControlFileHasExtraProperty.zip" is completed in database
   And I should see "ERROR  Failed to parse ctl file. Invalid control file entry at line number" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
+
+Scenario: Post a zip file containing error CalendarDate with ID References job: Clean Database
+Given I post "Error_Report1.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+     | collectionName               |
+     | calendarDate                 |
+     | course                       |
+     | educationOrganization        |
+     | gradebookEntry               |
+     | gradingPeriod                |
+     | learningObjective            |
+     | learningStandard             |
+     | gradingPeriod                |
+     | section                      |
+     | session                      |
+     | calendarDate                 |
+     | student                      |
+     | courseOffering               |
+     | competencyLevelDescriptor    |
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName               | count   |
+     | calendarDate                 |   0     |
+     | session                      |  10     |
+  And I should see "Processed 29 records." in the resulting batch job file
+  And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 10" in the resulting batch job file
+  And I should see "Failed to resolve a deterministic id" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+  And I should see "Not all records were processed completely due to errors" in the resulting batch job file
+
+Scenario: Post a zip file containing attendance but no session data: Clean Database
+Given I post "Error_Report2.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+     | collectionName               |
+     | calendarDate                 |
+     | course                       |
+     | educationOrganization        |
+     | gradebookEntry               |
+     | gradingPeriod                |
+     | learningObjective            |
+     | learningStandard             |
+     | gradingPeriod                |
+     | section                      |
+     | session                      |
+     | attendance                   |
+     | calendarDate                 |
+     | student                      |
+     | courseOffering               |
+     | competencyLevelDescriptor    |
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName               | count   |
+     | calendarDate                 |   0     |
+     | session                      |   0     |
+     | attendance                   |   0     |
+  And I should see "Processed 5 records." in the resulting batch job file
+  And I should see "attendance events are not processed, because they are not within any school year" in the resulting warning log file for "StudentAttendanceEvents.xml"

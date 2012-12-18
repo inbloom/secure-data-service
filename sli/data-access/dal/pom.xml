@@ -24,6 +24,12 @@
 			<artifactId>domain</artifactId>
 		</dependency>
 
+      <dependency>
+          <groupId>org.slc.sli</groupId>
+          <artifactId>encryption-tool</artifactId>
+          <version>1.0-SNAPSHOT</version>
+     </dependency>
+
 		<!-- Spring Framework -->
 
 		<!-- Spring Core dependency -->
@@ -43,6 +49,19 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 		</dependency>
+
+        <!--  Spring web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        
+        <!-- Jackson json -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
 
 		<!-- Persistence Framework -->
 
@@ -67,11 +86,20 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
+		
+		<!-- Elasticsearch -->
+		<dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+		
 	</dependencies>
 
 	<properties>
 		<sli.home>${project.parent.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+        <elasticsearch.version>0.19.9</elasticsearch.version>
 	</properties>
 </project>

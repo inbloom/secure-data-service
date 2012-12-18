@@ -36,7 +36,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.util.MD5;
 
 /**
@@ -72,12 +72,11 @@ public class IdRefResolutionHandlerTest {
             public void execute(File file) throws Throwable {
 
                 AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
-                ReportStats reportStats = Mockito.mock(ReportStats.class);
+                AbstractReportStats reportStats = Mockito.mock(AbstractReportStats.class);
 
                 Set<String> result = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler,
-                        "findIDRefsToResolve",
-                        new Class[] { File.class, AbstractMessageReport.class, ReportStats.class }, new Object[] {
-                                file, report, reportStats });
+                        "findIDRefsToResolve", new Class[] { File.class, AbstractMessageReport.class,
+                                AbstractReportStats.class }, new Object[] { file, report, reportStats });
 
                 Assert.assertNotNull(result);
                 Assert.assertEquals(1, result.size());
@@ -97,7 +96,7 @@ public class IdRefResolutionHandlerTest {
             @Override
             public void execute(File file) throws Throwable {
                 AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
-                ReportStats reportStats = Mockito.mock(ReportStats.class);
+                AbstractReportStats reportStats = Mockito.mock(AbstractReportStats.class);
 
                 FileProcessStatus fileProcessStatus = Mockito.mock(FileProcessStatus.class);
                 String beforeHash = MD5.calculate(inputFile);

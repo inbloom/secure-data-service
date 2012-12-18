@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.milyn.Smooks;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -29,10 +31,10 @@ import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.xml.sax.SAXException;
 
 /**
  * Factory class for Smooks
@@ -54,22 +56,22 @@ public class SliSmooksFactory {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
-    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) throws IOException, SAXException {
+    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, AbstractReportStats reportStats) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
         if (sliSmooksConfig != null) {
 
-            return createSmooksFromConfig(sliSmooksConfig, errorReport, ingestionFileEntry.getBatchJobId(),
+            return createSmooksFromConfig(sliSmooksConfig, errorReport, reportStats, ingestionFileEntry.getBatchJobId(),
                     ingestionFileEntry);
 
         } else {
-            errorReport.fatal("File type not supported : " + fileType, SliSmooksFactory.class);
+            errorReport.error(reportStats, CoreMessageCode.CORE_0013, fileType);
             throw new IllegalArgumentException("File type not supported : " + fileType);
         }
     }
 
-    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, ErrorReport errorReport, String batchJobId,
+    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, AbstractMessageReport errorReport, AbstractReportStats reportStats, String batchJobId,
             IngestionFileEntry fe) throws IOException, SAXException {
 
         SliSmooks smooks = new SliSmooks(sliSmooksConfig.getConfigFileName());
@@ -79,14 +81,14 @@ public class SliSmooksFactory {
         if (targetSelectorList != null) {
 
             // just one visitor instance that can be added with multiple target selectors
-            SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport, fe);
+            SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport, reportStats, fe);
 
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDIdGeneratorStrategy(dIdStrategy);
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDIdResolver(dIdResolver);
+            smooksEdFiVisitor.setNrMongoStagingWriter(nrMongoStagingWriter);
+            smooksEdFiVisitor.setBatchJobDAO(batchJobDAO);
+            smooksEdFiVisitor.setDIdGeneratorStrategy(dIdStrategy);
+            smooksEdFiVisitor.setDIdResolver(dIdResolver);
 
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
+            smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
 
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);

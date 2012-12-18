@@ -23,15 +23,15 @@ import java.io.Serializable;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 
 /**
  * Represents an Ingestion File Entry which includes the file to ingest along with its
  * metainformation.
  *
  */
-public class IngestionFileEntry implements Serializable, ErrorReportSupport {
+public class IngestionFileEntry implements Serializable {
 
     private static final long serialVersionUID = 8326156381009199389L;
 
@@ -45,6 +45,10 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private String checksum;
     private FaultsReport faultsReport;
     private String topLevelLandingZonePath;
+
+    private AbstractMessageReport errorReport;
+
+    private AbstractReportStats reportStats;
 
     // will only be set when this is added to a BatchJob
     private String batchJobId;
@@ -64,6 +68,20 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     }
 
     // Methods
+
+    /**
+     * @param reportStats the reportStats to set
+     */
+    public void setReportStats(AbstractReportStats reportStats) {
+        this.reportStats = reportStats;
+    }
+
+    /**
+     * @return the reportStats
+     */
+    public AbstractReportStats getReportStats() {
+        return reportStats;
+    }
 
     /**
      * Set the Ingestion file format.
@@ -180,11 +198,6 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         return this.faultsReport;
     }
 
-    @Override
-    public ErrorReport getErrorReport() {
-        return getFaultsReport();
-    }
-
     public String getBatchJobId() {
         return batchJobId;
     }
@@ -206,4 +219,19 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
         this.topLevelLandingZonePath = topLevelLandingZonePath;
     }
+
+    /**
+     * @return the databaseMessageReport
+     */
+    public AbstractMessageReport getMessageReport() {
+        return errorReport;
+    }
+
+    /**
+     * @param databaseMessageReport the databaseMessageReport to set
+     */
+    public void setMessageReport(AbstractMessageReport databaseMessageReport) {
+        this.errorReport = databaseMessageReport;
+    }
+
 }

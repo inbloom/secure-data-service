@@ -9,14 +9,18 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
         | collectionName              |
-        | student                     |   
+        | student                     |  
+        | parent                      | 
 	When zip file is scp to ingestion landing zone
 	And I am willing to wait upto 60 seconds for ingestion to complete
 	And a batch job log has been created
-	Then I should see "Processed 1 records." in the resulting batch job file
+	And I should not see a warning log file created
+	And I should not see an error log file created
+	Then I should see "Processed 2 records." in the resulting batch job file
 	 	And I should see following map of entry counts in the corresponding collections:
 	        | collectionName              | count |
-	        | student                     | 1    |
+	        | student                     | 1     |
+	        | parent                      | 1     |
 	    And I find a record in "student" with "body.studentUniqueStateId" equal to "530425896"
 		# UNENCRYPTED FIELDS
 		And the field "body.studentUniqueStateId" has value "530425896"
@@ -40,7 +44,11 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 		And the field "body.cohortYears[0].cohortYearType" has value "First grade"
 		And the field "body.studentIndicators[0].indicatorName" has value "At risk"
 		And the field "body.studentIndicators[0].indicator" has value "At risk"
+		And the field "body.studentIdentificationCode[0].identificationSystem" has value "SSN"
+		And the field "body.studentIdentificationCode[0].assigningOrganizationCode" has value "Federal"
+
 		# ENCRYPTED FIELDS
+		And the field "body.studentIdentificationCode[0].identificationCode" with value "555-55-5555" is encrypted
 		And the field "body.name.firstName" with value "Rhonda" is encrypted
 		And the field "body.name.middleName" with value "Shannon" is encrypted
 		And the field "body.name.lastSurname" with value "Delgado" is encrypted
@@ -58,15 +66,33 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 		And the field "body.electronicMail[0].emailAddress" with value "rsd@summer.nc.edu" is encrypted
 		And the field "body.loginId" with value "rsd" is encrypted
 
+		And I find a record in "parent" with "body.parentUniqueStateId" equal to "9870036500"
+        #UNENCRYPTED FIELDS
+		And the field "body.loginId" has value "rle"
+        # ENCRYPTED FIELDS
+		And the field "body.name.firstName" with value "Richard" is encrypted
+		And the field "body.name.middleName" with value "Lee" is encrypted
+		And the field "body.name.lastSurname" with value "Le" is encrypted
+		And the field "body.sex" with value "Male" is encrypted
+		And the field "body.address[0].streetNumberName" with value "23 Rue Lecourbe" is encrypted
+		And the field "body.address[0].city" with value "Paris" is encrypted
+		And the field "body.address[0].postalCode" with value "75229" is encrypted
+		And the field "body.address[0].stateAbbreviation" with value "IL" is encrypted
+		And the field "body.telephone[0].telephoneNumber" with value "+33 (1) 45.23.35.48.12" is encrypted
+		And the field "body.electronicMail[0].emailAddress" with value "rle@summer.nc.edu" is encrypted
+
 Scenario: Ingested Student data should be encrypted: Populated Database
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
 	And I am willing to wait upto 30 seconds for ingestion to complete
 	And a batch job log has been created
-	Then I should see "Processed 1 records." in the resulting batch job file
+	Then I should see "Processed 2 records." in the resulting batch job file
+	And I should not see a warning log file created
+	And I should not see an error log file created
 	 	And I should see following map of entry counts in the corresponding collections:
 	        | collectionName              | count |
-	        | student                     | 1    |
+	        | student                     | 1     |
+	        | parent                      | 1     |
 	    And I find a record in "student" with "body.studentUniqueStateId" equal to "530425896"
 		# UNENCRYPTED FIELDS
 		And the field "body.studentUniqueStateId" has value "530425896"
@@ -90,7 +116,10 @@ Scenario: Ingested Student data should be encrypted: Populated Database
 		And the field "body.cohortYears[0].cohortYearType" has value "First grade"
 		And the field "body.studentIndicators[0].indicatorName" has value "At risk"
 		And the field "body.studentIndicators[0].indicator" has value "At risk"
+		And the field "body.studentIdentificationCode[0].identificationSystem" has value "SSN"
+		And the field "body.studentIdentificationCode[0].assigningOrganizationCode" has value "Federal"
 		# ENCRYPTED FIELDS
+		And the field "body.studentIdentificationCode[0].identificationCode" with value "555-55-5555" is encrypted
 		And the field "body.name.firstName" with value "Rhonda" is encrypted
 		And the field "body.name.middleName" with value "Shannon" is encrypted
 		And the field "body.name.lastSurname" with value "Delgado" is encrypted
@@ -107,3 +136,19 @@ Scenario: Ingested Student data should be encrypted: Populated Database
 		And the field "body.telephone[0].telephoneNumber" with value "919-555-8765" is encrypted
 		And the field "body.electronicMail[0].emailAddress" with value "rsd@summer.nc.edu" is encrypted
 		And the field "body.loginId" with value "rsd" is encrypted
+
+		And I find a record in "parent" with "body.parentUniqueStateId" equal to "9870036500"
+        # UNENCRYPTED FIELDS
+		And the field "body.loginId" has value "rle"
+        # ENCRYPTED FIELDS
+		And the field "body.name.firstName" with value "Richard" is encrypted
+		And the field "body.name.middleName" with value "Lee" is encrypted
+		And the field "body.name.lastSurname" with value "Le" is encrypted
+		And the field "body.sex" with value "Male" is encrypted
+		And the field "body.address[0].streetNumberName" with value "23 Rue Lecourbe" is encrypted
+		And the field "body.address[0].city" with value "Paris" is encrypted
+		And the field "body.address[0].postalCode" with value "75229" is encrypted
+		And the field "body.address[0].stateAbbreviation" with value "IL" is encrypted
+		And the field "body.telephone[0].telephoneNumber" with value "+33 (1) 45.23.35.48.12" is encrypted
+		And the field "body.electronicMail[0].emailAddress" with value "rle@summer.nc.edu" is encrypted
+		

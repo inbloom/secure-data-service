@@ -32,8 +32,10 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Resolver for deterministic id resolution.
@@ -58,7 +60,8 @@ public class DeterministicIdResolver {
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
 
-    public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
+    public void resolveInternalIds(Entity entity, String tenantId, AbstractMessageReport report,
+            AbstractReportStats reportStats) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -83,13 +86,13 @@ public class DeterministicIdResolver {
                 handleDeterministicIdForReference(entity, didRefSource, tenantId);
 
             } catch (IdResolutionException e) {
-                handleException(sourceRefPath, entity.getType(), referenceEntityType, e, errorReport);
+                handleException(sourceRefPath, entity.getType(), referenceEntityType, e, report, reportStats);
             }
         }
     }
 
     private DidEntityConfig getEntityConfig(String entityType) {
-        //use the json config if there is one
+        // use the json config if there is one
         DidEntityConfig entityConfig = didConfigReader.getDidEntityConfiguration(entityType);
 
         if (entityConfig == null) {
@@ -103,8 +106,8 @@ public class DeterministicIdResolver {
         return didSchemaParser.getRefConfigs().get(refType);
     }
 
-    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource,
-                                                   String tenantId) throws IdResolutionException {
+    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String tenantId)
+            throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -115,19 +118,20 @@ public class DeterministicIdResolver {
             return;
         }
 
-        //handle case of references within embedded lists of objects (for assessments)
-        //split source ref path and look for lists in embedded objects
+        // handle case of references within embedded lists of objects (for assessments)
+        // split source ref path and look for lists in embedded objects
         String strippedRefPath = sourceRefPath.replaceFirst(BODY_PATH, "");
         String[] pathParts = strippedRefPath.split(PATH_SEPARATOR);
-        String refObjName = pathParts[pathParts.length-1];
+        String refObjName = pathParts[pathParts.length - 1];
 
-        //get a list of the parentNodes
+        // get a list of the parentNodes
         List<Map<String, Object>> parentNodes = new ArrayList<Map<String, Object>>();
         extractReferenceParentNodes(parentNodes, entity.getBody(), pathParts, 0);
 
-        //resolve and set all the parentNodes
+        // resolve and set all the parentNodes
         for (Map<String, Object> node : parentNodes) {
-            Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), didRefConfig, tenantId);
+            Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), didRefConfig,
+                    tenantId);
             if (resolvedRef != null) {
                 node.put(refObjName, resolvedRef);
             }
@@ -136,12 +140,14 @@ public class DeterministicIdResolver {
 
     /**
      * Recursive extraction of all parent nodes in the entity that contain the reference
+     *
      * @throws IdResolutionException
      */
     @SuppressWarnings("unchecked")
-    private void extractReferenceParentNodes(List<Map<String, Object>> parentNodes, Map<String, Object> curNode, String[] pathParts, int level) throws IdResolutionException {
+    private void extractReferenceParentNodes(List<Map<String, Object>> parentNodes, Map<String, Object> curNode,
+            String[] pathParts, int level) throws IdResolutionException {
         String nextNodeName = pathParts[level];
-        if (level >= pathParts.length-1) {
+        if (level >= pathParts.length - 1) {
             parentNodes.add(curNode);
         } else {
             Object nextNode = curNode.get(nextNodeName);
@@ -149,11 +155,11 @@ public class DeterministicIdResolver {
                 List<Object> nodeList = (List<Object>) nextNode;
                 for (Object nodeObj : nodeList) {
                     if (nodeObj instanceof Map) {
-                        extractReferenceParentNodes(parentNodes, (Map<String, Object>) nodeObj, pathParts, level+1);
+                        extractReferenceParentNodes(parentNodes, (Map<String, Object>) nodeObj, pathParts, level + 1);
                     }
                 }
             } else if (nextNode instanceof Map) {
-                extractReferenceParentNodes(parentNodes, (Map<String, Object>) nextNode, pathParts, level+1);
+                extractReferenceParentNodes(parentNodes, (Map<String, Object>) nextNode, pathParts, level + 1);
             }
         }
     }
@@ -222,13 +228,9 @@ public class DeterministicIdResolver {
     }
 
     private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
-            ErrorReport errorReport) {
+            AbstractMessageReport report, AbstractReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        String errorMessage = "ERROR: Failed to resolve a deterministic id" + "\n       Entity " + entityType
-                + ": Reference to " + referenceType
-                + " is incomplete because the following reference field is not resolved: " + sourceRefPath;
-
-        errorReport.error(errorMessage, this);
+        report.error(reportStats, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }
 
     // function which, given reference type map (source object) and refConfig, return a did

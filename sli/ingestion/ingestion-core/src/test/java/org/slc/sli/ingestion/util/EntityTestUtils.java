@@ -45,21 +45,24 @@ import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
 import org.mockito.Mockito;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
-import org.xml.sax.SAXException;
-
 
 /**
  *
@@ -72,17 +75,20 @@ public class EntityTestUtils {
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
 
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
-                String targetSelector, Set<String> recordLevelDeltaEnabledEntityNames,
-                DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver) throws IOException, SAXException, SmooksException {
+            String targetSelector, Set<String> recordLevelDeltaEnabledEntityNames,
+            DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver)
+            throws IOException, SAXException, SmooksException {
 
         BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
         when(batchJobDAO.findRecordHash((String) any(), (String) any())).thenReturn(null);
 
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
-        ErrorReport errorReport = Mockito.mock(ErrorReport.class);
+        AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
         SliSmooks smooks = new SliSmooks(smooksConfig);
-        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport, null);
+        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport,
+                reportStats, null);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
 
         smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
@@ -150,7 +156,8 @@ public class EntityTestUtils {
      */
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
             String testData, Set<String> recordLevelDeltaEnabledEntityNames,
-            DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver) throws IOException, SAXException {
+            DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver)
+            throws IOException, SAXException {
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
         NeutralRecord neutralRecord = null;
@@ -177,11 +184,12 @@ public class EntityTestUtils {
      */
     public static List<NeutralRecord> smooksGetNeutralRecords(String smooksXmlConfigFilePath, String targetSelector,
             String testData, Set<String> recordLevelDeltaEnabledEntityNames,
-            DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver) throws IOException, SAXException {
+            DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver)
+            throws IOException, SAXException {
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
-        return EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
-                targetSelector, recordLevelDeltaEnabledEntityNames, didGeneratorStrategy, didResolver);
+        return EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector,
+                recordLevelDeltaEnabledEntityNames, didGeneratorStrategy, didResolver);
     }
 
     @SuppressWarnings("unchecked")
@@ -279,6 +287,7 @@ public class EntityTestUtils {
     public static InputStream getResourceAsStream(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
     }
+
     private static final class DummyResourceWriter implements ResourceWriter<NeutralRecord> {
 
         private List<NeutralRecord> neutralRecordList;

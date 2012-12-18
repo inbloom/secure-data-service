@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.smooks;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
-import org.milyn.Smooks;
 import org.milyn.SmooksException;
-import org.milyn.delivery.ContentHandlerConfigMapTable;
-import org.milyn.delivery.VisitorConfigMap;
-import org.milyn.delivery.sax.SAXVisitAfter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
@@ -48,8 +42,10 @@ import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * The Smooks of the future..
@@ -91,10 +87,10 @@ public class SmooksCallable implements Callable<Boolean> {
         stage.addMetrics(metrics);
 
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
-        ErrorReport errorReport = fe.getErrorReport();
+        AbstractMessageReport errorReport = fe.getMessageReport();
 
         // actually do the processing
-        processFileEntry(fe, errorReport, fileProcessStatus);
+        processFileEntry(fe, errorReport, fe.getReportStats(), fileProcessStatus);
 
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
 
@@ -107,13 +103,14 @@ public class SmooksCallable implements Callable<Boolean> {
         return (errorCount > 0);
     }
 
-    public void processFileEntry(IngestionFileEntry fe, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    public void processFileEntry(IngestionFileEntry fe, AbstractMessageReport errorReport,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
 
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
             if (fileFormat == FileFormat.EDFI_XML) {
 
-                doHandling(fe, errorReport, fileProcessStatus);
+                doHandling(fe, errorReport, reportStats, fileProcessStatus);
 
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
@@ -123,29 +120,28 @@ public class SmooksCallable implements Callable<Boolean> {
         }
     }
 
-    private void doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    private void doHandling(IngestionFileEntry fileEntry, AbstractMessageReport errorReport,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
         try {
 
-            generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
+            generateNeutralRecord(fileEntry, errorReport, reportStats, fileProcessStatus);
 
         } catch (IOException e) {
             LogUtil.error(LOG,
                     "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
                     e);
-            errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
-                    SmooksCallable.class);
+            errorReport.error(reportStats, CoreMessageCode.CORE_0016);
         } catch (SAXException e) {
             LogUtil.error(LOG, "Could not instantiate smooks, problem parsing configuration file", e);
-            errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
-                    SmooksCallable.class);
+            errorReport.error(reportStats, CoreMessageCode.CORE_0017);
         }
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
-        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
+        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
@@ -157,7 +153,9 @@ public class SmooksCallable implements Callable<Boolean> {
         } catch (SmooksException se) {
             LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
-            errorReport.error("SmooksException encountered while filtering input.", SmooksCallable.class);
+            // errorReport.error("SmooksException encountered while filtering input.",
+            // SmooksCallable.class);
+            errorReport.error(reportStats, CoreMessageCode.CORE_0018);
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
@@ -166,10 +164,10 @@ public class SmooksCallable implements Callable<Boolean> {
     private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
             IngestionFileEntry ingestionFileEntry) {
 
-        SmooksEdFiVisitor visitAfter = smooks.getFirstSmooksEdFiVisitor();
+        SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
-        int recordsPersisted = visitAfter.getRecordsPerisisted();
-        Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+        int recordsPersisted = edFiVisitor.getRecordsPerisisted();
+        Map<String, Long> duplicateCounts = edFiVisitor.getDuplicateCounts();
 
         fileProcessStatus.setTotalRecordCount(recordsPersisted);
         fileProcessStatus.setDuplicateCounts(duplicateCounts);

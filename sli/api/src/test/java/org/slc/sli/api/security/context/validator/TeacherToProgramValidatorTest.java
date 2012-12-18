@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -72,7 +71,7 @@ public class TeacherToProgramValidatorTest {
     public void testCanValidate() {
         setupCurrentUser(teacher1);
         Assert.assertTrue(validator.canValidate(EntityNames.PROGRAM, false));
-        Assert.assertTrue(validator.canValidate(EntityNames.PROGRAM, true));
+        Assert.assertFalse(validator.canValidate(EntityNames.PROGRAM, true));
         
         injector.setStaffContext();
         Assert.assertFalse(validator.canValidate(EntityNames.PROGRAM, false));

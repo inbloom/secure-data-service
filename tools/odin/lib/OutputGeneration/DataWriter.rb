@@ -18,6 +18,8 @@ limitations under the License.
 
 require 'json'
 require 'logger'
+require_relative '../Shared/scenario'
+require_relative 'entity_tracker'
 
 Dir["#{File.dirname(__FILE__)}/../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
@@ -25,21 +27,31 @@ Dir["#{File.dirname(__FILE__)}/../Shared/EntityClasses/*.rb"].each { |f| load(f)
 # -> keeps all entities written in memory
 # -> useful for small simulations
 class DataWriter
+  attr_accessor :tracker
   
   # default constructor for data writer class
-  def initialize
+  def initialize(scenario)
     $stdout.sync = true
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
 
     @entities = Hash.new     # leave default value of nil for hash key not existing
-    @counts   = Hash.new(0)  # set default value (when key doesn't exist in hash) to be zero
+    @tracker = EntityTracker.new
+    @scenario = Scenario.new(scenario)
   end
 
-  def << (entity)
-    initialize_entity(entity)
+  def << (to_write)
+    ((to_write.is_a? Array) ? to_write : [to_write]).each{|entity|
+      if @scenario.include_entity?(entity)
+        initialize_entity(entity)
+        write_one_entity(entity) 
+        @tracker.track entity
+      end
+    }
+  end
+
+  def write_one_entity (entity)
     @entities[entity.class.name] << entity
-    increment_count(entity)
   end
 
   # if the specified entity (which should be a symbol used to identify the ed-fi entity) does not
@@ -48,22 +60,12 @@ class DataWriter
   def initialize_entity(entity)
     if @entities[entity.class.name].nil?
       @entities[entity.class.name] = []
-      @counts[entity.class.name]   = 0
     end
   end
   
-  def increment_count(entity,n=1)
-    @counts[entity.class.name] = @counts[entity.class.name] + n
-  end
-
   # displays the counts for entities created
   def display_entity_counts
-    @log.info "-------------------------------------------------------"
-    @log.info "Entity counts:"
-    @log.info "-------------------------------------------------------"
-    @log.info JSON.pretty_generate(@counts)
-    @log.info "Total entity count: #{@counts.values.inject(:+)}"
-    @log.info "-------------------------------------------------------"
+    @log.info @tracker.display
   end
 
   # get the entities created
@@ -73,18 +75,17 @@ class DataWriter
 
   # gets the number of entities created of specified entity 'type'
   def get_entity_count(type)
-    @counts[type.name]
+    @tracker.count(type)
   end
 
   # get counts for all entities --> return counts hash
   def get_counts_for_all_entities
-    @counts
+    @tracker.counts
   end
 
   # clear entity and count hash
   def finalize
     @entities.clear
-    @counts.clear
   end
 
 end

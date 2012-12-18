@@ -112,7 +112,7 @@ class ProgramType
 
   # translates the specified Symbol into the ed-fi compliant String representation of the program type
   # -> returns nil if the Symbol doesn't exist
-  def self.get(key)
+  def self.to_string(key)
     const_get(key)
   end
 

@@ -51,6 +51,8 @@
         <xerces.version>2.4.0</xerces.version>
         <avro.version>1.6.1</avro.version>
         <commons.schema.version>1.4.7</commons.schema.version>
+        <!-- ElasticSearch Versions -->
+		<elasticsearch.version>0.19.9</elasticsearch.version>
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <!-- Rest Services (JAX-RS) Framework Versions -->
@@ -125,8 +127,8 @@
             </activation>
             <properties>
                 <sli.env>local</sli.env>
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <!-- Remote dev/demo database profile -->
@@ -134,8 +136,8 @@
             <id>dev</id>
             <properties>
                 <sli.env>dev</sli.env>
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <!-- Profile to use during continuous integration -->
@@ -143,8 +145,8 @@
             <id>ci</id>
             <properties>
                 <sli.env>ci</sli.env>
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <!-- Profile to use to deploy to stable build environment (currently devopenam2.slidev.org) -->
@@ -152,8 +154,8 @@
             <id>devapp1</id>
             <properties>
                 <sli.env>devapp1</sli.env>
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <!-- Profile to use to deploy to acceptance test build environment -->
@@ -162,8 +164,8 @@
             <properties>
                 <sli.env>acceptance-tests</sli.env>
                 <!-- Use the ci keystore for now, we can always changes this later if necessary -->
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <!-- Profile to use to deploy to acceptance test build environment -->
@@ -172,8 +174,8 @@
             <properties>
                 <sli.env>nxbuild2</sli.env>
                 <!-- Use the ci keystore for now, we can always changes this later if necessary -->
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <profile>
@@ -181,18 +183,18 @@
             <properties>
                 <sli.env>team</sli.env>
                 <!-- Use the ci keystore for now, we can always changes this later if necessary -->
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <profile>
             <id>sandbox</id>
             <properties>
                 <sli.env>sandbox</sli.env>
-                <!--                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties> -->
-                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
+                <!--                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties> -->
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
         <!-- Add additional profiles here. For example: integration, production,
@@ -212,6 +214,7 @@
         <module>dashboard</module>
         <module>simple-idp</module>
         <module>sif</module>
+        <module>search-indexer</module>
     </modules>
     <dependencyManagement>
         <dependencies>

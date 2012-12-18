@@ -208,35 +208,6 @@ public class SecurityUtil {
     }
 
     /**
-     * Hosted users are those who are hosted in the SLI's IDP.
-     * e.g. Developers, operators LEA/SEA admins
-     *
-     * @return true if the user is hosted, false otherwise
-     */
-    public static boolean isHostedUser(final Repository<Entity> repo, SLIPrincipal principal) {
-        final String realmId = principal.getRealm();
-
-        Entity entity = runWithAllTenants(new SecurityTask<Entity>() {
-
-            @Override
-            public Entity execute() {
-                return repo.findById("realm", realmId);
-            }
-        });
-
-        if (entity != null) {
-            Boolean admin = (Boolean) entity.getBody().get("admin");
-            Boolean developer = (Boolean) entity.getBody().get("developer");
-            admin = admin != null ? admin : false;
-            developer = developer != null ? developer : false;
-            
-            return (admin || developer);
-        } else {
-            throw new IllegalArgumentException("Could not find realm " + realmId);
-        }
-    }
-
-    /**
      * Encapsulates the SecurityUtil static methods, enabling them to be mocked out for testing.
      * Add more as you need them.
      */

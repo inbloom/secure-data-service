@@ -19,6 +19,8 @@
     <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
     <property name="ignoreResourceNotFound" value="true" />
 
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+
     <property name="locations">
       <list>
         <value>file:${sli.conf}</value>
@@ -121,6 +123,7 @@
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
+    <property name="recordLvlHashNeutralRecordTypes" ref="recordLvlHashNeutralRecordTypes" />
   </bean>
 
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />

@@ -37,8 +37,11 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.DummyErrorReport;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -73,13 +76,14 @@ public class SmooksEdiFiVisitorTest {
 
         // set up objects
         final String recordType = "otherType";
-        final DummyErrorReport errorReport = new DummyErrorReport();
+        final DummyMessageReport errorReport = new DummyMessageReport();
+        final AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("TestSource", "resourceId", "stageName"));
         final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
         final String beanId = "ABeanId";
         final DeterministicUUIDGeneratorStrategy mockUUIDStrategy = Mockito
                 .mock(DeterministicUUIDGeneratorStrategy.class);
         final ExecutionContext mockExecutionContext = Mockito.mock(ExecutionContext.class);
-        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry);
+        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, reportStats, mockFileEntry);
         visitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
         visitor.setBatchJobDAO(batchJobDAO);
         visitor.setDIdGeneratorStrategy(mockDIdStrategy);

@@ -23,7 +23,7 @@ import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 
 /**
  *
@@ -34,7 +34,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private AbstractMessageReport report;
 
-    private ReportStats reportStats;
+    private AbstractReportStats reportStats;
 
     /**
      * Report a SAX parsing warning.
@@ -45,6 +45,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void warning(SAXParseException ex) {
 
+        // TODO: remove after migrating to new calls
         reportWarning(ex);
     }
 
@@ -71,11 +72,17 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void fatalError(SAXParseException ex) throws SAXException {
 
+        // TODO: remove after migrating to new calls
         reportWarning(ex);
 
         throw ex;
     }
 
+    /**
+     * Incorporate the SAX error message into an ingestion error message.
+     *
+     * @return Error message returned by Ingestion
+     */
     private void reportWarning(SAXParseException ex) {
         if (report != null) {
 
@@ -83,15 +90,14 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
             String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
             File parseFile = new File(fullParsefilePathname);
 
-            report.warning(reportStats, BaseMessageCode.XSD_VALIDATION_ERROR, parseFile.getName(),
+            report.warning(reportStats, BaseMessageCode.BASE_0017, parseFile.getName(),
                     String.valueOf(ex.getLineNumber()), String.valueOf(ex.getColumnNumber()), ex.getMessage());
         }
     }
 
     @Override
-    public void setReportAndStats(AbstractMessageReport report, ReportStats reportStats) {
+    public void setReportAndStats(AbstractMessageReport report, AbstractReportStats reportStats) {
         this.report = report;
         this.reportStats = reportStats;
     }
-
 }

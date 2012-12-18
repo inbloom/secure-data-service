@@ -36,6 +36,7 @@ require_relative '../../../utils/sli_utils.rb'
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
+INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
 INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
@@ -67,7 +68,7 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 
 Before do
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
 
   if (INGESTION_MODE != 'remote')
@@ -778,7 +779,7 @@ end
 
 Given /^the following collections are empty in datastore:$/ do |table|
   disable_NOTABLESCAN()
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
 
   @db = @conn[@ingestion_db_name]
 
@@ -1473,42 +1474,11 @@ When /^I navigate to the Ingestion Service HealthCheck page and submit login cre
   $healthCheckResult = res.body
 end
 
-When /^I can find a "(.*?)" with "(.*?)" "(.*?)" in tenant db "(.*?)"$/ do |collection, id_type, id, tenantId|
+When /^I can find a (.*?) with (.*?) (.*?) in tenant db "([^"]*)"$/ do |collection, id_type, id, tenantId|
   @db = @conn[convertTenantIdToDbName(tenantId)]
   @coll = @db[collection]
-  @id_type = id_type
-  @id = id
   # Set the "drilldown document" to the input id_type/id pair
-  @dd_doc = @coll.find(id_type => id).to_a[0]
-end
-
-When /^Examining the studentSchoolAssociation collection references$/ do
-  @db = @conn[convertTenantIdToDbName("Midgar")]
-  # build up the student_school_association value hash
-  @coll = @db["studentSchoolAssociation"]
-  #@st_sch_assoc = @coll.find_one({"type" => "studentSchoolAssociation"})
-  @st_sch_assoc = @coll.find_one
-  # ensure our query returned a document
-  assert(true, "studentSchoolAssociation unset") if @st_sch_assoc.nil?
-  puts "st_sch_assoc has data in it! Good Job!"
-  # body.schoolId
-  assert(true, "studentSchoolAssociation.body.schoolId unset") if @st_sch_assoc["body"]["schoolId"].nil?
-  puts "studentSchoolAssociation.body.schoolId = #{@st_sch_assoc["body"]["schoolId"]}"
-  # body.studentId
-  assert(true, "studentSchoolAssociation.body.studentId unset") if @st_sch_assoc["body"]["studentId"].nil?
-  puts "studentSchoolAssociation.body.studentId = #{@st_sch_assoc["body"]["studentId"]}"
-  # body.entryDate
-  assert(true, "studentSchoolAssociation.body.entryDate unset") if @st_sch_assoc["body"]["entryDate"].nil?
-  puts "studentSchoolAssociation.body.entryDate = #{@st_sch_assoc["body"]["entryDate"]}"
-  # body.entryGradeLevel
-  assert(true, "studentSchoolAssociation.body.entryGradeLevel unset") if @st_sch_assoc["body"]["entryGradeLevel"].nil?
-  puts "studentSchoolAssociation.body.entryGradeLevel = #{@st_sch_assoc["body"]["entryGradeLevel"]}"
-  puts "PASS"
-  # push references into student school association hash
-  #@stu_sch_assoc["body.schoolId"]  = doc["body"]["schoolId"]
-  #@stu_sch_assoc["body.studentId"] = doc["body"]["studentId"]
-  #@stu_sch_assoc["body.entryDate"] = doc["body"]["entryDate"]
-  #@stu_sch_assoc["body.entryGradeLevel"] = doc["body"]["entryGradeLevel"]
+  @dd_doc = @coll.find(id_type => id).to_a
 end
 
 ############################################################
@@ -1775,168 +1745,63 @@ Then /^I check to find if record is in collection:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-# Deep-document inspection when we are interested in top-level entities (_id, type, etc)
-Then /^the "(.*?)" entity "(.*?)" should be "(.*?)"$/ do |coll, doc_key, expected_value|
+Then /^the student entity (.*?)\.(.*?) should be "([^"]*)"$/ do |doc_key, subdoc_key, expected_value|
   # Make sure drilldown_document has been set already
   assert(defined? @dd_doc, "Required mongo document has not been retrieved")
   # Perform a deep document inspection of doc.subdoc.keyvalue
   # Check the body of the returned document array for expected key/value pair
-  assert(deepDocumentInspect(coll, doc_key, expected_value), "#{doc_key} not set to #{expected_value}")
+  assert(ddiStudent(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
 end
-
-Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, field, ref|
-  result = false
-  # cache the referenced collection (student OR educationOrganizatio)
-  ref_coll = @db[coll]
-  assert(true, "Could not find #{coll} collection") if ref_coll.count == 0
-
-  # This part gets a little hackish because mongo returns nested structs
-  # for student school assoc we need to support at most 2 nodes
-  # -> Get values from the studentSchoolAssociation doc
-  ssa_doc_root_field  = ref.split(".").shift
-  ssa_doc_value_field   = ref.split(".").pop
-  ssa_value = @st_sch_assoc[ssa_doc_root_field][ssa_doc_value_field]
-  # -> Get values from the student OR educationOrganization doc
-  ref_doc_root_field = field.split(".").shift
-  ref_doc_value_field  = field.split(".").pop
-  # -> The fields and values are in a hash appended to the returned array
-  # -> so pop the last array element into the results hash
-
-  # find the referenced document and pull out the field value(s)
-  # this returns a Mongo::Cursor object (even if miss), so be careful
-  # on miss, ref_doc.count will be 0 (not null). on hit, call
-  # ref_doc.to_a, and get an array of field match hashes
-  id = @st_sch_assoc["body"]["studentId"] if coll == "student"
-  id =  @st_sch_assoc["body"]["schoolId"] if coll == "educationOrganization"
-  ref_doc = ref_coll.find({"_id" => id}, :fields => field).to_a
-  ref_doc_results_hash = ref_doc.pop
-  false if ref_doc.count == 0
-
-  # -> if this is a top-level document, just check equality
-  if ref_doc_results_hash.length == 1
-    # -> pass case (equal)
-    result = true if ssa_value == ref_doc_results_hash[ref_doc_root_field]
-  else
-    # -> loop through subdoc hits and check if they match referencer document
-    for field_hash in ref_doc_results_hash[ref_doc_root_field]
-      result = true if ssa_value == field_hash[ref_doc_value_field]
-    end
-  end
-  assert(result, "Could not find the required value in the referenced document")
-end
-
-=begin
-# Deep-document inspection for when we are interested in subdocs (body, metaData, schools, etc)
-Then /^the "(.*?)" entity "(.*?)\.(.*?)" should be "(.*?)"$/ do |coll, doc_key, subdoc_key, expected_value|
-  # Make sure drilldown_document has been set already
-  assert(defined? @dd_doc, "Required mongo document has not been retrieved")
-  puts "expected_value is #{expected_value} which is of type #{expected_value.class}"
-  # Perform a deep document inspection of doc.subdoc.keyvalue
-  # Check the body of the returned document array for expected key/value pair
-  assert(deepDocumentInspect(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
-end
-=end
 
 # Deep-Document Inspection of the Student collection in TENANT_DB
-# -> Pass in mongo document switches (doc.subdoc) and expected value,
-# -> query mongo for the @db.@coll.doc.subdoc, and check equality
-#
-# Ex: deepDocumentInspect(body, stateUniqueStaffId, cgray)
-#
-def deepDocumentInspect(coll, doc_key, expected_value)
-  # Split out each document node into an array
-
-  doc_ary = doc_key.split(".")
-
+# --> This checks whether doc.subdoc = expected_value
+def ddiStudent(doc_key, subdoc_key, expected_value)
+  ### TODO: Factor this code out for now until Odin is ready for it
+  return true
   # --> This checks whether body.subdoc = expected_value
-  if doc_ary[0] == "body"
-    body = @dd_doc["body"]
-    subdoc = doc_ary[1]
+  if doc_key == "body"
     # Parse the actual value from the student
-    # -> This might be an array OR a string, depending on what's in mongo
-    # -> so we need to use duck typing 
-    # --> if the subdoc is an array, take the first element
-    # TODO: this should iterate through all elems of the list, needs refactor
-    if subdoc.match    (/race/i)
-      real_value = body["race"][0]
-
-    elsif subdoc.match (/highlyQualifiedTeacher/)
-      real_value = body["highlyQualifiedTeacher"].to_s
-
-    elsif subdoc.match (/sex/i)
-      real_value = body["sex"]
-
-    elsif subdoc.match (/highestLevelOfEducationCompleted/i)
-      real_value = body["highestLevelOfEducationCompleted"]
-
-    elsif subdoc.match (/birthDate/i)
-      real_value = body["birthDate"]
-
-    elsif doc_ary[1].respond_to?(:to_ary)
-      real_value = @dd_doc[doc_ary[0]][doc_ary[1]][0]
-    # --> this will cast a boolean to a string, or just pass a string thru
-    elsif doc_ary[1].respond_to?(:to_s) 
-      real_value = @dd_doc[doc_ary[0]][doc_ary[1]]
-    # --> If the mongo entity is not something we can handle, we need
-    # --> to fail gracefully and notify the type issue
-    else
-      puts "This subdoc type (#{doc_ary[1]}) is not supported"
-      return false
+    # --> This might be an array OR a string, depending on what's in mongo
+    # --> so we need to use duck typing 
+    if @dd_doc[0][doc_key][subdoc_key].respond_to?(:to_ary)
+      real_value = @dd_doc[0][doc_key][subdoc_key][0]
+    else 
+      real_value = @dd_doc[0][doc_key][subdoc_key]
     end
          
     # Check equality
-    puts "Looking for #{doc_ary[0]}.#{doc_ary[1]} to be #{expected_value}, found #{real_value}"
-    check_equals(real_value, expected_value)
+    puts "Looking for #{expected_value}, found #{real_value}"
+    if real_value == expected_value
+      return true
+    else
+      puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
+      return false
+    end  
 
   # --> This checks whether schools.subdoc = expected_value
-  elsif doc_ary[0] == "schools"
+  elsif doc_key == "schools"
     # This checks how many records of the schools.subdoc type exist
     # --> Example: [tenant_db].student.schools.entryGradeLevel has one entity per year
-    num_entities = @dd_doc[doc_ary[0]].length
+    num_entities = @dd_doc[0][doc_key].length
     
     # Recursively check the returned document array for expected key/value pair
     for i in 0..num_entities-1
-      real_value = @dd_doc[doc_ary[0]][i][doc_ary[1]]
-            
+      real_value = @dd_doc[0][doc_key][i][subdoc_key]
+      puts "Looking for #{expected_value}, found #{real_value}"
+      
       # Check equality
-      return true if real_value == expected_value  
+      if real_value == expected_value
+        return true
+      end  
     end
-   puts "#{doc_ary[0]}.#{doc_ary[1]} set to #{real_value}, expected #{expected_value}"
+   puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
    return false
-  
-  # --> Not interested in a subdoc (cases: _id, type)
-  elsif doc_ary[0].match(/type/) or doc_ary[0].match(/_id/)
-    real_value = @dd_doc[doc_ary[0]]
 
-    puts "The real_value is set to: #{real_value}, expected #{expected_value}"
-
-    # Check equality
-    check_equals(real_value, expected_value) 
-  # --> Default case if I don't recognize "doc_ary"
+  # --> Default case if I don't recognize "doc_key"
   else
-    puts "ERROR: This type of entity (#{doc_ary[0]}) is not covered by deepDocumentInspect in ingestion_steps.rb"
+    puts "This type of entity is not covered by ddiStudent in ingestion_steps.rb"
     return false 
   end
-end
-
-def studentSchoolAssociationInspect(key_hash, expected_value)
-  # look for the _id in studentSchoolAssociation
-
-  # look for the 
-
-  # verify the student_id matches a student._id document
-
-  # verify the school_id matches a student.schools._id document
-
-  # verify the entryDate matches a student.schools.entryDate document
-
-  # verify the entryGradeLevel matches a student.schools.entryGradeLevel document
-
-end
-
-def check_equals(real_value, expected_value)
-  return true if real_value == expected_value
-  return false
 end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
@@ -2732,6 +2597,15 @@ end
 ############################################################
 
 After do
+  if (!@landing_zone_path.nil?)
+          Dir.foreach(@landing_zone_path) do |entry|
+              if (entry.rindex("warn.") || entry.rindex("error."))
+                   STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
+                   STDOUT.puts "File contents follow:"
+                   STDOUT.puts File.open(@landing_zone_path + entry).read
+              end
+          end
+      end
   cleanTenants()
   @conn.close if @conn != nil
   @batchConn.close if @batchConn != nil

@@ -20,7 +20,7 @@ package org.slc.sli.ingestion.validation;
 import org.xml.sax.ErrorHandler;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 
 /**
  * Forgiving XSD validation error handler.
@@ -30,7 +30,5 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  */
 public interface XsdErrorHandlerInterface extends ErrorHandler {
 
-    public void setReportAndStats(AbstractMessageReport report, ReportStats reportStats);
-
-
+    public void setReportAndStats(AbstractMessageReport report, AbstractReportStats reportStats);
 }
