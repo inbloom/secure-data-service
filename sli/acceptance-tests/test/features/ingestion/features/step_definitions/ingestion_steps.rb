@@ -28,6 +28,7 @@ require 'rbconfig'
 
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../odin/step_definitions/data_generation_steps'
 
 ############################################################
 # ENVIRONMENT CONFIGURATION
@@ -2402,7 +2403,7 @@ end
 def checkForErrorWarnLogFile(landing_zone, prefix)
   # prefix is either 'error' or 'warn' in lower case
   if (INGESTION_MODE == 'remote')
-    if !remoteLzContainsFile("#{prefix}.*", landing_zone)
+    if remoteLzContainsFile("#{prefix}.*", landing_zone)
       assert(true, "No #{prefix} files created.")
     else
       assert(false, "#{prefix} files created.")
@@ -2754,6 +2755,7 @@ Then /^I check that references were resolved correctly:$/ do |table|
 	end
 	enable_NOTABLESCAN()
 end
+
 
 ############################################################
 # STEPS: AFTER

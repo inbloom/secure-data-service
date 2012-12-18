@@ -68,4 +68,15 @@ Then /^I should see (.*?) has been generated$/ do |filename|
   raise "#{filename} does not exist" if !File.exist?("#{@gen_path}#{filename}")
 end
 
+Given /^the edfi manifest that was generated in the '([^\']*)' directory$/ do |dir|
+  @manifest = "#{@odin_working_path}#{dir}/manifest.json"
+end
 
+Given /^the tenant is '([^\']*)'$/ do |tenant_id|
+  @tenant_id = tenant_id
+end
+
+Then /^the sli\-verify script completes successfully$/ do
+  results = `bundle exec ruby #{@odin_working_path}sli-verify.rb #{@tenant_id} #{@manifest}`
+  assert(results == "All expected entities found\n", "verification script failed, results are #{results}")
+end
