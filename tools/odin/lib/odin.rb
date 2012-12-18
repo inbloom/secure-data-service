@@ -40,6 +40,7 @@ require_relative 'Shared/EntityClasses/student'
 
 require_relative 'EntityCreation/entity_factory'
 require_relative 'EntityCreation/work_order_queue'
+
 # offline data integration nexus --> ODIN
 class Odin
   def initialize
