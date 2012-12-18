@@ -47,23 +47,22 @@
 
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
-<link href="resources/globalStyles.css" rel="stylesheet"/>
 </head>
 
 <body onload="document.login_form.user_id.focus();">
-<div class="container">
-	<div class="row">
-		<div class="span12">
-			<div class="brandContainer sandBanner">
-				<div class="row">
-					<div class="span2"> <img src="resources/SLC-Logo-text.png"> </div>
-					<div class="span8">
-						<h1>${fn:escapeXml(subTitle)}</h1>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="container">
+		
+      <div class="hero-unit">
+      	<div class="row">
+      		<div class="span2">
+      			<img src="resources/default.png" alt="SLC IDP Logo"/>
+      		</div><!-- end span2 -->
+      		<div class="span8">
+      			<h1>Shared Learning Collaborative</h1>
+      			<h2>${fn:escapeXml(subTitle)}</h2>
+      		</div><!-- end span7 -->
+      	</div><!-- end row -->
+      </div><!-- end hero-unit -->
 		
 		<c:if test="${msg!=null}">
 			<div class="alert alert-success"><c:out value="${msg}"/></div>
@@ -74,6 +73,9 @@
 		
 		<div class='form-container'>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
+				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+				<input type="hidden" name="isForgotPasswordVisible" value="${fn:escapeXml(isForgotPasswordVisible)}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="user_id" class="control-label">Email Address:</label>
