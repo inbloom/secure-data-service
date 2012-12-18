@@ -209,15 +209,13 @@ public class XsdValidatorTest {
         List<String> warnings = memoryMessageReport.getWarnings();
 
         // Check stateEducationAgency reference
-        // TODO update to assertTrue once id-ref for edorg has been removed
         String invalidStateEducationAgencyRefMessage = String.format(REF_ERROR_FORMAT, "StateEducationAgencyReference");
-        Assert.assertFalse("Should see warning for stateEducationAgency reference",
+        Assert.assertTrue("Should see warning for stateEducationAgency reference",
                 containsStringPartial(warnings, invalidStateEducationAgencyRefMessage));
 
         // Check localEducationAgency reference
-        // TODO update to assertTrue once id-ref for edorg has been removed
         String invalidLocalEducationAgencyRefMessage = String.format(REF_ERROR_FORMAT, "LocalEducationAgencyReference");
-        Assert.assertFalse("Should see warning for localEducationAgency reference",
+        Assert.assertTrue("Should see warning for localEducationAgency reference",
                 containsStringPartial(warnings, invalidLocalEducationAgencyRefMessage));
     }
 
