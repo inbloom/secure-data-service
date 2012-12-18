@@ -1474,15 +1474,18 @@ When /^I navigate to the Ingestion Service HealthCheck page and submit login cre
 end
 
 When /^I can find a "(.*?)" with "(.*?)" "(.*?)" in tenant db "(.*?)"$/ do |collection, id_type, id, tenantId|
+  disable_NOTABLESCAN()
   @db = @conn[convertTenantIdToDbName(tenantId)]
   @coll = @db[collection]
   @id_type = id_type
   @id = id
   # Set the "drilldown document" to the input id_type/id pair
   @dd_doc = @coll.find(id_type => id).to_a[0]
+  enable_NOTABLESCAN()  
 end
-
+=begin
 When /^Examining the studentSchoolAssociation collection references$/ do
+  disable_NOTABLESCAN()
   @db = @conn[convertTenantIdToDbName("Midgar")]
   # build up the student_school_association value hash
   @coll = @db["studentSchoolAssociation"]
@@ -1503,12 +1506,95 @@ When /^Examining the studentSchoolAssociation collection references$/ do
   # body.entryGradeLevel
   assert(true, "studentSchoolAssociation.body.entryGradeLevel unset") if @st_sch_assoc["body"]["entryGradeLevel"].nil?
   puts "studentSchoolAssociation.body.entryGradeLevel = #{@st_sch_assoc["body"]["entryGradeLevel"]}"
-  puts "PASS"
-  # push references into student school association hash
-  #@stu_sch_assoc["body.schoolId"]  = doc["body"]["schoolId"]
-  #@stu_sch_assoc["body.studentId"] = doc["body"]["studentId"]
-  #@stu_sch_assoc["body.entryDate"] = doc["body"]["entryDate"]
-  #@stu_sch_assoc["body.entryGradeLevel"] = doc["body"]["entryGradeLevel"]
+  enable_NOTABLESCAN()
+end
+=end
+When /^Examining the studentSchoolAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the student_school_association value hash
+  @coll = @db["studentSchoolAssociation"]
+  #@st_sch_assoc = @coll.find_one({"type" => "studentSchoolAssociation"})
+  @ref_doc = @coll.find_one
+
+  # ensure our query returned a document
+  raise "studentSchoolAssociation unset" if @ref_doc.nil?
+  puts "ref_doc has data in it! Good Job!"
+
+  # body.schoolId
+  raise "studentSchoolAssociation.body.schoolId unset" if @ref_doc["body"]["schoolId"].nil?
+  puts "studentSchoolAssociation.body.schoolId = #{@ref_doc["body"]["schoolId"]}"
+  @ref_doc.[]="educationOrganization", @ref_doc["body"]["schoolId"]
+
+  # body.studentId
+  raise "studentSchoolAssociation.body.studentId unset" if @ref_doc["body"]["studentId"].nil?
+  puts "studentSchoolAssociation.body.studentId = #{@ref_doc["body"]["studentId"]}"
+  @ref_doc.[]="student", @ref_doc["body"]["studentId"]
+
+  # body.entryDate
+  raise "studentSchoolAssociation.body.entryDate unset" if @ref_doc["body"]["entryDate"].nil?
+  puts "studentSchoolAssociation.body.entryDate = #{@ref_doc["body"]["entryDate"]}"
+
+  # body.entryGradeLevel
+  raise "studentSchoolAssociation.body.entryGradeLevel unset" if @ref_doc["body"]["entryGradeLevel"].nil?
+  puts "studentSchoolAssociation.body.entryGradeLevel = #{@ref_doc["body"]["entryGradeLevel"]}"
+end
+
+When /^Examining the staffEducationOrganizationAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the staffEducationOrganizationAssociation value hash
+  @coll = @db["staffEducationOrganizationAssociation"]
+  @ref_doc = @coll.find_one
+
+  # ensure our query returned a document
+  assert(false, "staffEducationOrganizationAssociation unset") if @ref_doc.nil?
+  
+  # body.staffReference
+  if @ref_doc["body"]["staffReference"].nil?
+    raise "staffEducationOrganizationAssociation.body.schoolId unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.schoolId = #{@ref_doc["body"]["staffReference"]}"
+  @ref_doc.[]="staff", @ref_doc["body"]["staffReference"]
+ 
+  # set edOrg _id to body.educationOrganizationReference
+  if @ref_doc["body"]["educationOrganizationReference"].nil?
+    raise "staffEducationOrganizationAssociation.body.studentId unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.studentId = #{@ref_doc["body"]["educationOrganizationReference"]}"
+  @ref_doc.[]="educationOrganization", @ref_doc["body"]["educationOrganizationReference"]
+  
+
+  # body.staffClassification
+  if @ref_doc["body"]["staffClassification"].nil?
+    raise "staffEducationOrganizationAssociation.body.staffClassification unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.staffClassification = #{@ref_doc["body"]["staffClassification"]}"
+
+  # body.positionTitle
+  if @ref_doc["body"]["positionTitle"].nil?
+    raise "staffEducationOrganizationAssociation.body.positionTitle unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.positionTitle = #{@ref_doc["body"]["positionTitle"]}"
+end
+
+When /^Examining the teacherSchoolAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the teacherSchoolAssociation value hash
+  @coll = @db["teacherSchoolAssociation"]
+  @ref_doc = @coll.find_one
+  
+  # ensure our query returned a document
+  raise "teacherSchoolAssociation unset" if @ref_doc.nil?
+  
+  # body.staffReference
+  raise "teacherSchoolAssociation.body.teacherId unset" if @ref_doc["body"]["teacherId"].nil?
+  puts "teacherSchoolAssociation.body.teacherId = #{@ref_doc["body"]["teacherId"]}"
+  @ref_doc.[]="staff", @ref_doc["body"]["teacherId"]
+
+
+  # set edOrg _id to body.schoolId
+  raise "teacherSchoolAssociation.body.schoolId unset" if @ref_doc["body"]["schoolId"].nil?
+  puts "teacherSchoolAssociation.body.schoolId = #{@ref_doc["body"]["schoolId"]}"
+  @ref_doc.[]="educationOrganization", @ref_doc["body"]["schoolId"]
 end
 
 ############################################################
@@ -1777,18 +1863,21 @@ end
 
 # Deep-document inspection when we are interested in top-level entities (_id, type, etc)
 Then /^the "(.*?)" entity "(.*?)" should be "(.*?)"$/ do |coll, doc_key, expected_value|
+  disable_NOTABLESCAN()
   # Make sure drilldown_document has been set already
   assert(defined? @dd_doc, "Required mongo document has not been retrieved")
   # Perform a deep document inspection of doc.subdoc.keyvalue
   # Check the body of the returned document array for expected key/value pair
   assert(deepDocumentInspect(coll, doc_key, expected_value), "#{doc_key} not set to #{expected_value}")
+  enable_NOTABLESCAN()
 end
 
 Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, field, ref|
+  disable_NOTABLESCAN()
   result = false
   # cache the referenced collection (student OR educationOrganizatio)
   ref_coll = @db[coll]
-  assert(true, "Could not find #{coll} collection") if ref_coll.count == 0
+  raise "Could not find #{coll} collection" if ref_coll.count == 0
 
   # This part gets a little hackish because mongo returns nested structs
   # for student school assoc we need to support at most 2 nodes
@@ -1809,8 +1898,8 @@ Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do
   id = @st_sch_assoc["body"]["studentId"] if coll == "student"
   id =  @st_sch_assoc["body"]["schoolId"] if coll == "educationOrganization"
   ref_doc = ref_coll.find({"_id" => id}, :fields => field).to_a
+  raise "Could not find #{coll} document with _id #{id}" if ref_doc.count == 0
   ref_doc_results_hash = ref_doc.pop
-  false if ref_doc.count == 0
 
   # -> if this is a top-level document, just check equality
   if ref_doc_results_hash.length == 1
@@ -1823,7 +1912,66 @@ Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do
     end
   end
   assert(result, "Could not find the required value in the referenced document")
+  enable_NOTABLESCAN()
 end
+
+
+Then /^the document references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, src_field, ref_field|
+  disable_NOTABLESCAN()
+  result = false
+  # Nomenclature:
+  # -> ref_doc: reference document - tests check these referential values against "real" values
+  # --> (example: studentSchollAssociation, staffEdOrgAssociation, etc)
+  # -> src_doc : source document (the reference source, tests "target" these as "real" values)
+  # --> (example: student, staff, educationOrgainization, etc)
+  #
+  # cache the target collection
+  src_coll = @db[coll]
+  raise "Could not find #{coll} collection" if src_coll.count == 0
+
+  # -> Get values from the source document
+  src_id = @ref_doc[coll]
+  # -> find the referenced document and pull out the field value(s)
+  src_doc = src_coll.find({"_id" => src_id}, :fields => src_field).to_a
+  raise "Could not find #{coll} document with _id #{src_id}" if src_doc.count == 0
+  src_doc_hash = src_doc.pop
+
+  # -> Get values from the source document
+  src_value = extractNestedDoc(src_doc_hash, src_field)
+  # -> Get values from the reference document
+  ref_value = extractNestedDoc(@ref_doc, ref_field)
+  
+  # if doc is an array, we need to iterate over doc
+  # special thanks to the idiot mongo BSON::OrderedHash
+  if src_value.kind_of?(Array)
+    i = 0
+    for value in src_value
+      result = true if value[value.keys[i]] == ref_value
+      i += 1
+    end
+  else
+    result = true if src_value == ref_value
+  end
+
+  assert(result, "Could not find the source value in the referenced document")
+  enable_NOTABLESCAN()
+end
+
+class BSON::OrderedHash
+  include Enumerable
+end
+
+def extractNestedDoc(doc, doc_tree)
+
+  # determine the length of the tree
+  doc_tree.split(".").collect do |i|
+    return doc if doc.kind_of?(Array)
+    doc = doc[i]
+  end
+  # return the value from the final node
+  return doc
+end
+
 
 =begin
 # Deep-document inspection for when we are interested in subdocs (body, metaData, schools, etc)

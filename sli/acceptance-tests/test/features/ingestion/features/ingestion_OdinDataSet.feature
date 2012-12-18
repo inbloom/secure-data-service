@@ -183,15 +183,24 @@ Scenario: Verify specific staff document for Linda Kim ingested correctly: Popul
     And the "staff" entity "body.sex" should be "Female"  
     And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate" 
     And the "staff" entity "body.birthDate" should be "1984-05-17" 
-
-Scenario: Verify superdoc studentSchoolAssociation for specific _id ingested correctly: Populated Database
-  #When I can find a "studentSchoolAssociation" with "_id" "bbe01f0a3de4e1b35d86397a26ddd0007fd8296a_id" in tenant db "Midgar"
+    
+Scenario: Verify superdoc studentSchoolAssociation references ingested correctly: Populated Database
   When Examining the studentSchoolAssociation collection references
-    Then the studentSchoolAssociation references "educationOrganization" "_id" with "body.schoolId"
-    And the studentSchoolAssociation references "student" "_id" with "body.studentId"
-    And the studentSchoolAssociation references "student" "schools._id" with "body.schoolId"
-    And the studentSchoolAssociation references "student" "schools.entryDate" with "body.entryDate"
-    And the studentSchoolAssociation references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
+    Then the document references "educationOrganization" "_id" with "body.schoolId"
+    And the document references "student" "_id" with "body.studentId"
+    And the document references "student" "schools._id" with "body.schoolId"
+    And the document references "student" "schools.entryDate" with "body.entryDate"
+    And the document references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
+
+Scenario: Verify staffEducationOrganizationAssociation references ingested correctly: Populated Database
+  When Examining the staffEducationOrganizationAssociation collection references
+    Then the document references "educationOrganization" "_id" with "body.educationOrganizationReference"
+     And the document references "staff" "_id" with "body.staffReference"
+
+Scenario: Verify teacherSchoolAssociation references ingested correctly: Populated Database
+  When Examining the teacherSchoolAssociation collection references
+    Then the document references "educationOrganization" "_id" with "body.schoolId"
+     And the document references "staff" "_id" with "body.teacherId"
 
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
   When I can find a "student" with "_id" "9e54047cbfeeee26fed86b0667e98286a2b72791_id" in tenant db "Midgar"
