@@ -177,8 +177,8 @@ end
 
 Given /^I drop the file "(.*?)" into the landingzone$/ do |arg1|
   if !@hasNoLandingZone
+    path_delim = ""
     source_path = @local_file_store_path + path_delim + processPayloadFile(arg1) 
-    file_name = @local_file_store_path + path_delim + file_name
     dest_path = @landing_zone_path + arg1
     lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
   end
