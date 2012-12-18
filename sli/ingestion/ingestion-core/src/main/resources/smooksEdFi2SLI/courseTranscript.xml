@@ -34,6 +34,7 @@
         <jb:value property="courseRepeatCode" data="attributes courseRepeatCode"></jb:value>
         <jb:value property="gradeType" data="attributes gradeType"></jb:value>
         <jb:value property="courseId" data="attributes CourseReference"></jb:value>
+	<jb:value property="educationOrganizationReference" data="attributes EducationOrganizationReference"></jb:value>
         <jb:value property="studentAcademicRecordId" data="attributes StudentAcademicRecordReference"></jb:value>
     </jb:bean>
 
