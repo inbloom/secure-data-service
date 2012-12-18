@@ -29,13 +29,14 @@ require_relative '../../../utils/sli_utils.rb'
 
 MONGO_PERFORMANCE_DB_NAME = "mongo_performance"
 MONGO_PERFORMANCE_DB = PropLoader.getProps['ingestion_db']
+MONGO_PERFORMANCE_DB_PORT = PropLoader.getProps['ingestion_db_port']
 
 ############################################################
 # STEPS: BEFORE
 ############################################################
 
 Before do
-  @conn = Mongo::Connection.new(MONGO_PERFORMANCE_DB)
+  @conn = Mongo::Connection.new(MONGO_PERFORMANCE_DB, MONGO_PERFORMANCE_DB_PORT)
 end
 
 ############################################################

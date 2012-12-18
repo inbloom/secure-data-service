@@ -33,6 +33,7 @@ require_relative '../../../utils/sli_utils.rb'
 
 SIF_DB_NAME= PropLoader.getProps['sif_database_name']
 SIF_DB = PropLoader.getProps['sif_db']
+SIF_PORT = PropLoader.getProps['sif_port']
 SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
@@ -44,7 +45,7 @@ MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 ############################################################
 
 Before do
-  @conn = Mongo::Connection.new(SIF_DB)
+  @conn = Mongo::Connection.new(SIF_DB, SIF_PORT)
   @db = @conn.db(convertTenantIdToDbName('Midgar'))
 
   @postUri = SIF_ZIS_ADDRESS_TRIGGER
