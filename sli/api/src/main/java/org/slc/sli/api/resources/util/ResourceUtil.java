@@ -87,6 +87,29 @@ public class ResourceUtil {
                 "getDisciplineActionsAsAssignedSchool");
         LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.DISCIPLINE_ACTIONS + LINK, BLANK);
     }
+    
+    /**
+     * Extracts the API version from the provided URI info.
+     * 
+     * @param uriInfo URI requested by user (version is part of the URI)
+     * @return version referenced by UriInfo
+     */
+    public static String getApiVersion(final UriInfo uriInfo) {
+        if (uriInfo != null) {
+            String uriPath = uriInfo.getPath();
+            if (uriPath != null) {
+                int indexOfSlash = uriPath.indexOf("/");
+                if (indexOfSlash >= 0 ) {
+                    String version = uriPath.substring(0, indexOfSlash);
+                    return version;
+                } else {
+                    return uriPath;
+                }
+            }
+        }
+        
+        return null;
+    }
 
     /**
      * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
@@ -131,7 +154,7 @@ public class ResourceUtil {
      */
     public static EmbeddedLink getSelfLinkForEntity(final UriInfo uriInfo, final String entityId,
             final EntityDefinition defn) {
-        return new EmbeddedLink(ResourceConstants.SELF, defn.getType(), getURI(uriInfo, PathConstants.V1,
+        return new EmbeddedLink(ResourceConstants.SELF, defn.getType(), getURI(uriInfo, getApiVersion(uriInfo),
                 PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId).toString());
     }
 
@@ -147,7 +170,7 @@ public class ResourceUtil {
      * @return the custom entity link
      */
     public static EmbeddedLink getCustomLink(final UriInfo uriInfo, final String entityId, final EntityDefinition defn) {
-        return new EmbeddedLink(ResourceConstants.CUSTOM, defn.getType(), getURI(uriInfo, PathConstants.V1,
+        return new EmbeddedLink(ResourceConstants.CUSTOM, defn.getType(), getURI(uriInfo, getApiVersion(uriInfo),
                 PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId, PathConstants.CUSTOM_ENTITIES).toString());
     }
 
@@ -246,21 +269,21 @@ public class ResourceUtil {
                 AssociationDefinition assoc = (AssociationDefinition) definition;
                 if (assoc.getSourceEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), getURI(uriInfo,
-                            PathConstants.V1, defn.getResourceName(), id,
+                            getApiVersion(uriInfo), defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
 
                     links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), getURI(
-                            uriInfo, PathConstants.V1, defn.getResourceName(), id,
+                            uriInfo, getApiVersion(uriInfo), defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getTargetEntity().getResourceName()).toString()));
 
                 } else if (assoc.getTargetEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), getURI(uriInfo,
-                            PathConstants.V1, defn.getResourceName(), id,
+                            getApiVersion(uriInfo), defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
 
                     links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), getURI(
-                            uriInfo, PathConstants.V1, defn.getResourceName(), id,
+                            uriInfo, getApiVersion(uriInfo), defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getSourceEntity().getResourceName()).toString()));
                 }
@@ -271,7 +294,7 @@ public class ResourceUtil {
                             referenceFieldName, false);
 
                     if (!linkName.isEmpty()) {
-                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, getApiVersion(uriInfo),
                                 PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
                                 + "?" + referenceFieldName + "=" + id));
                     }
@@ -287,12 +310,12 @@ public class ResourceUtil {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
 
         String sourceLink = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getSourceEntity().getResourceName());
-        links.add(new EmbeddedLink(sourceLink, assoc.getSourceEntity().getType(), getURI(uriInfo, PathConstants.V1,
+        links.add(new EmbeddedLink(sourceLink, assoc.getSourceEntity().getType(), getURI(uriInfo, getApiVersion(uriInfo),
                 PathConstants.TEMP_MAP.get(assoc.getResourceName()), id,
                 PathConstants.TEMP_MAP.get(assoc.getSourceEntity().getResourceName())).toString()));
 
         String targetLink = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getTargetEntity().getResourceName());
-        links.add(new EmbeddedLink(targetLink, assoc.getTargetEntity().getType(), getURI(uriInfo, PathConstants.V1,
+        links.add(new EmbeddedLink(targetLink, assoc.getTargetEntity().getType(), getURI(uriInfo, getApiVersion(uriInfo),
                 PathConstants.TEMP_MAP.get(assoc.getResourceName()), id,
                 PathConstants.TEMP_MAP.get(assoc.getTargetEntity().getResourceName())).toString()));
         return links;
@@ -327,7 +350,7 @@ public class ResourceUtil {
                                 linkName = linkName + "[" + count + "]";
                             }
                             if (!linkName.isEmpty()) {
-                                links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, getApiVersion(uriInfo),
                                         PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
                             }
 

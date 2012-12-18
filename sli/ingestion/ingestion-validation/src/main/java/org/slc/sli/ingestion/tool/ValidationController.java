@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.tool;
 
 import java.io.File;
@@ -27,7 +26,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -51,7 +50,7 @@ public class ValidationController {
     private AbstractMessageReport messageReport;
 
     private Source source = null;
-    private ReportStats reportStats = null;
+    private AbstractReportStats reportStats = null;
 
     /*
      * retrieve zip file or control file from the input directory and invoke
@@ -115,12 +114,12 @@ public class ValidationController {
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
             controlFilevalidator.isValid(cfd, messageReport, reportStats);
-                processValidators(cfile);
+            processValidators(cfile);
 
         } catch (IOException e) {
             messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0008);
         } catch (SubmissionLevelException exception) {
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0010 , exception.getMessage());
+            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0010, exception.getMessage());
         } finally {
             messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0009, ctlFile.getAbsolutePath());
         }

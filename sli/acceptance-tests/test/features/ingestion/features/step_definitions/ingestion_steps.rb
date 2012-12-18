@@ -36,6 +36,7 @@ require_relative '../../../utils/sli_utils.rb'
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
+INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
 INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
@@ -61,13 +62,16 @@ INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
+ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
+ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
 
 Before do
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
 
   if (INGESTION_MODE != 'remote')
@@ -274,18 +278,18 @@ end
 # REMOTE INGESTION FUNCTIONS
 ############################################################
 
-def remoteLzCopy(srcPath, destPath)
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+def remoteLzCopy(srcPath, destPath, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     puts "attempting to remote copy " + srcPath + " to " + destPath
     sftp.upload(srcPath, destPath)
   end
 end
 
-def clearRemoteLz(landingZone)
+def clearRemoteLz(landingZone, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
 
   puts "clear landing zone " + landingZone
 
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     sftp.dir.foreach(landingZone) do |entry|
       next if entry.name == '.' or entry.name == '..'
 
@@ -302,10 +306,10 @@ def remoteDirContainsFile(pattern, dir)
   return remoteLzContainsFile(pattern, dir)
 end
 
-def remoteLzContainsFile(pattern, landingZone)
+def remoteLzContainsFile(pattern, landingZone, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
   puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     sftp.dir.glob(landingZone, pattern) do |entry|
       return true
     end
@@ -342,11 +346,12 @@ def searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, complet
   return (results != nil && results != "")
 end
 
-def remoteFileContainsMessage(prefix, message, landingZone)
+def remoteFileContainsMessage(prefix, message, landingZone, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
   found = false;
   puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     sftp.dir.glob(landingZone, prefix + "*") do |entry|
+      next if entry.name == '.' or entry.name == '..'
       entryPath = File.join(landingZone, entry.name)
       puts "found file " + entryPath
 
@@ -413,8 +418,7 @@ def lzFileRmWait(file, wait_time)
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  initializeLandingZone(@ingestion_lz_identifer_map['Midgar-Daybreak'])
-  initializeTenantDatabase('Midgar-Daybreak')
+  steps "Given I am using preconfigured Ingestion Landing Zone for \"Midgar-Daybreak\""
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
@@ -778,7 +782,7 @@ end
 
 Given /^the following collections are empty in datastore:$/ do |table|
   disable_NOTABLESCAN()
-  @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
 
   @db = @conn[@ingestion_db_name]
 
@@ -820,27 +824,6 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
     puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
     if @entity_collection.count.to_s != "0"
-      @result = "false"
-    end
-  end
-  ensureBatchJobIndexes(@batchConn)
-  assert(@result == "true", "Some collections were not cleared successfully.")
-  enable_NOTABLESCAN()
-end
-
-Given /^the following collections are completely empty in batch job datastore$/ do |table|
-  disable_NOTABLESCAN()
-  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove()
-
-    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
-
-    if @entity_collection.find().count.to_s != "0"
       @result = "false"
     end
   end
@@ -1144,82 +1127,9 @@ When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |l
   puts "Waited for #{INGESTION_TIMEOUT_OVERRIDE.to_i} seconds in addition to the timeout"
 end
 
-When /^a batch job log has been created$/ do
-  if !@hasNoLandingZone
-    intervalTime = 3 #seconds
-                     #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-    @maxTimeout ? @maxTimeout : @maxTimeout = 900
-
-    iters = (1.0*@maxTimeout/intervalTime).ceil
-    found = false
-    if (INGESTION_MODE == 'remote')
-      sleep(5)
-      iters.times do |i|
-        if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
-          puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-          found = true
-          break
-        else
-          sleep(intervalTime)
-        end
-      end
-    else
-      sleep(3) # waiting to poll job file removes race condition (windows-specific)
-      iters.times do |i|
-        if dirContainsBatchJobLog? @landing_zone_path
-          puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-          found = true
-          break
-        else
-          sleep(intervalTime)
-        end
-      end
-    end
-
-    if found
-      assert(true, "")
-    else
-      assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
-    end
-  end
-end
-
-When /^a batch job log has not been created$/ do
-  intervalTime = 3 #seconds
-                   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
-  iters = (1.0*@maxTimeout/intervalTime).ceil
-  found = false
-  if (INGESTION_MODE == 'remote')
-    iters.times do |i|
-
-      if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
-    iters.times do |i|
-      if dirContainsBatchJobLog? @landing_zone_path
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  end
-
-  if found
-    assert(false, "")
-  else
-    assert(true, "Batch log was never created")
-  end
-
+When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
+  should_has_log = (has_or_has_not == "has not")? false : true
+  checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
@@ -1318,7 +1228,7 @@ When /^a batch job log has been created for "([^"]*)"$/ do |lz_key|
   checkForBatchJobLog(lz)
 end
 
-def checkForBatchJobLog(landing_zone)
+def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
@@ -1348,11 +1258,11 @@ def checkForBatchJobLog(landing_zone)
     end
   end
 
-  if found
-    sleep(2) # give JobReportingProcessor time to finish the job
-    assert(true, "")
+  sleep(2)
+  if should_has_log
+    assert(found == true, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   else
-    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+    assert(found == false, "Batch log should not be created")
   end
 end
 
@@ -1444,13 +1354,6 @@ end
 When /^zip files are scped to the ingestion landing zone$/ do
   scpFileToLandingZone @source_file_name1
   scpFileToLandingZone @source_file_name2
-end
-
-
-When /^local zip file is moved to ingestion landing zone$/ do
-  scpFileToLandingZone @source_file_name
-
-  assert(true, "File Not Uploaded")
 end
 
 When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"]*)" stops$/ do |instance_name, instance_source, port|
@@ -1997,6 +1900,11 @@ def checkForContentInFileGivenPrefix(message, prefix)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message, contents were:\n#{file_contents}")
       end
@@ -2033,6 +1941,11 @@ def checkForNullContentInFileGivenPrefix(message, prefix)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2079,6 +1992,11 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2115,6 +2033,11 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
       file_contents = IO.readlines(landing_zone + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2131,6 +2054,7 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
 end
 
 Then /^I should not see "([^"]*)" in the resulting batch job file$/ do |message|
+  # Why is this exactly the same as above?
   prefix = "job-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
 end
@@ -2178,86 +2102,42 @@ Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ 
 end
 
 Then /^I should not see an error log file created$/ do
-  if !@hasNoLandingZone
-    if (INGESTION_MODE == 'remote')
-      if remoteLzContainsFile("error.*", @landing_zone_path)
-        assert(false, "Error files created.")
-      else
-        assert(true, "No error files created.")
-      end
-
-    else
-      @error_filename_component = "error."
-
-      @error_status_filename = ""
-      Dir.foreach(@landing_zone_path) do |entry|
-        if (entry.rindex(@error_filename_component))
-          puts File.open(@landing_zone_path + entry).read
-          # LAST ENTRY IS OUR FILE
-          @error_status_filename = entry
-        end
-      end
-
-      puts "STATUS FILENAME = " + @landing_zone_path + @error_status_filename
-      assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
-    end
-  end
+  checkForErrorWarnLogFile(@landing_zone_path, "error") if !@hasNoLandingZone
 end
 
 And /^I should not see a warning log file created$/ do
-  if !@hasNoLandingZone
-    if (INGESTION_MODE == 'remote')
-      if remoteLzContainsFile("warn.*", @landing_zone_path)
-        assert(false, "Warn files created.")
-      else
-        assert(true, "No warn files created.")
-      end
-
-    else
-      @warn_filename_component = "warn."
-
-      @warn_status_filename = ""
-      Dir.foreach(@landing_zone_path) do |entry|
-        if (entry.rindex(@warn_filename_component))
-          puts File.open(@landing_zone_path + entry).read
-          # LAST ENTRY IS OUR FILE
-          @warn_status_filename = entry
-        end
-      end
-
-      puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
-      assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
-    end
-  end
+  checkForErrorWarnLogFile(@landing_zone_path, "warn") if !@hasNoLandingZone
 end
 
 
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
-  checkForErrorLogFile(lz)
+  checkForErrorWarnLogFile(lz, "error")
 end
 
-def checkForErrorLogFile(landing_zone)
+def checkForErrorWarnLogFile(landing_zone, prefix)
+  # prefix is either 'error' or 'warn' in lower case
   if (INGESTION_MODE == 'remote')
-    if remoteLzContainsFile("error.*", landing_zone)
-      assert(true, "No error files created.")
+    if remoteLzContainsFile("#{prefix}.*", landing_zone)
+      assert(true, "No #{prefix} files created.")
     else
-      assert(false, "Error files created.")
+      assert(false, "#{prefix} files created.")
     end
 
   else
-    @error_filename_component = "error."
+    @filename_component = "#{prefix}."
 
-    @error_status_filename = ""
+    @status_filename = ""
     Dir.foreach(landing_zone) do |entry|
-      if (entry.rindex(@error_filename_component))
+      if (entry.rindex(@filename_component))
+        puts File.open(landing_zone + entry).read
         # LAST ENTRY IS OUR FILE
-        @error_status_filename = entry
+        @status_filename = entry
       end
     end
 
-    puts "STATUS FILENAME = " + landing_zone + @error_status_filename
-    assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
+    puts "STATUS FILENAME = " + landing_zone + @status_filename
+    assert(@status_filename == "", "File " + @status_filename + " exists")
   end
 end
 
@@ -2592,7 +2472,7 @@ Then /^I check that references were resolved correctly:$/ do |table|
 end
 
 ############################################################
-# STEPS: BEFORE
+# STEPS: AFTER
 ############################################################
 
 After do

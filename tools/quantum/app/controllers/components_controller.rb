@@ -1,8 +1,7 @@
 class ComponentsController < ApplicationController
 
 	def index
-		start_time = 0 # Catch all... if date filter not specified, grab all events since 1970-01-01
-		start_time = Time.now - params[:time_filter].to_i unless (params[:time_filter] == nil || params[:time_filter] == "0")
+		start_time = get_time_filter_value
 
 		@components = []
 		Failure.all.distinct(:component).each do |component|

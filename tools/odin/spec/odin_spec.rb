@@ -60,8 +60,7 @@ describe "Odin" do
     end
 
     describe "#md5" do
-      it "generates the same data for each run" do
-        sha1 = odin.md5()
+      it "generates the same data for each run" do sha1 = odin.md5()
         odin.generate( "10students" )
         odin.md5().should eq sha1
       end
@@ -79,14 +78,30 @@ describe "Odin" do
           @interchanges[line.split(',')[1]] = line
         end
       end
+
+      it "will generate a valid control file with the correct number of interchanges" do     
+        @interchanges.length.should eq(10)
+      end
+      
+      it "will generate a valid control file with Student as a type" do
+        @interchanges["StudentParent"].should match(/StudentParent.xml/)
+      end
+      
+      it "will generate a valid control file with EducationOrganization as a type" do
+        @interchanges["EducationOrganization"].should match(/EducationOrganization.xml/)
+      end
+      
+      it "will generate a valid control file with EducationOrgCalendar as a type" do
+        @interchanges["EducationOrgCalendar"].should match(/EducationOrgCalendar.xml/)
+      end
       
       describe "#generate" do
         it "will generate lists of 10 students" do
           student.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
         end
         
-        it "will generate a valid control file with 8 interchanges" do     
-          @interchanges.length.should eq(9)
+        it "will generate a valid control file with the correct number of interchanges" do     
+          @interchanges.length.should eq(10)
         end
         
         it "will generate a valid control file with Student as a type" do
@@ -133,6 +148,20 @@ describe "Odin" do
         
       end
     end
+    context "with the data set's manifest" do
+      let(:manifest) {JSON.parse(File.new("#{File.dirname(__FILE__)}/../generated/manifest.json").read)}
+      let(:interchanges) {read_interchanges}
+      it "will show 10 students" do
+        manifest['Student'].should eq 10
+      end
+
+      it "will have the number of ed-fi entities specified in the manifest" do
+        manifest.each{|type, count|
+          entity_count = count_entities(interchanges, type)
+          entity_count.should eq(count), "expected #{count} of type #{type}, but got #{entity_count}"
+        }
+      end
+    end
   end
 
   context "with a 1000 student configuration" do
@@ -151,17 +180,27 @@ describe "Odin" do
     let(:odin) {Odin.new}
     before {odin.generate "1000studentsOnly"}
     let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
-    let(:interchanges) {Dir.new("#{File.dirname(__FILE__)}/../generated/").select{|f| f.match(/xml$/)}}
+    let(:interchanges) {read_interchanges}
 
     describe "#generate" do
       it "will generate lists of 1000 students" do
-        student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
+        student.select{|l| l.match("<Student>")}.length.should eq(1000)
       end
       it "will not generate any other entity" do
-        student.readlines.select{|l| l.match("<Parent>")}.length.should eq(0)
+        student.select{|l| l.match("<Parent>")}.length.should eq(0)
         interchanges.should have(1).items
       end
     end
   end
 
+end
+
+def read_interchanges
+  directory = "#{File.dirname(__FILE__)}/../generated/"
+  Dir.entries(directory).select{|f| f.match(/xml$/)}.map{|f| File.new(directory + f).readlines}
+end
+
+
+def count_entities(interchanges, entity)
+  interchanges.map{|i| i.select{|l| l.match("<#{entity}>$")}.count}.inject(:+)
 end
