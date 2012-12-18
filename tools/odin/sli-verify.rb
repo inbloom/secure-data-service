@@ -89,7 +89,7 @@ def count(entity_type)
     if where[:subdoc].nil?
       docs.count
     else
-      docs.map{|d| value_in(d, where[:subdoc]).count}.inject(:+)
+      docs.map{|d| (value_in(d, where[:subdoc]) or []).count}.inject(:+)
     end
   end
 end
