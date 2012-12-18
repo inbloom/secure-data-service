@@ -23,32 +23,12 @@ require 'builder'
 require 'rexml/document'
 require 'uri'
 include REXML
-require_relative '../../../../utils/sli_utils.rb'
-require_relative '../../../utils/api_utils.rb'
-
-###############################################################################
-# TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
-###############################################################################
-
-Transform /^<([^"]*)>$/ do |human_readable_id|
-
-  #general
-  id = @entityUri                               if human_readable_id == "ENTITY URI"
-  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
-  id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
-
-  #return the translated value
-  id
-end
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../apiV1/utils/api_utils.rb'
 
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
-
-
-Given /^entity URI "([^"]*)"$/ do |arg1|
-  @entityUri = arg1
-end
 
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
@@ -138,11 +118,11 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "uniqueCourseId" => "Chinese-1-10"
   },
   "courseOffering" => {
-    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008",
+    "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
     "localCourseCode" => "LCCMA1",
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002",
+    "sessionId" => "4d796afd-b1ac-4f16-9e0d-6db47d445b55",
     "localCourseTitle" => "Math 1 - Intro to Mathematics",
-    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"
+    "courseId" => "9bd92e8e-df8e-4af9-95e7-2efed847d03d"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -358,120 +338,99 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         "objective" => "Phonemic Awareness",
         "studentCompetencyObjectiveId" => "SCO-K-1",
         "educationOrganizationId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+    },
+    "studentProgramAssociation" => {
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
+       "programId" => "9b8cafdc-8fd5-11e1-86ec-0021701f543f_id",
+       "beginDate" => "2011-05-01",
+       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    },
+    "studentSectionAssociation" => {
+    "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
+    "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
+    "beginDate" => "2012-05-01"
+    },
+    "studentSchoolAssociation" => {
+    "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
+    "schoolId"  => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "entryDate" => "2012-01-01",
+    "entryGradeLevel" => "Kindergarten"
+    },
+    "courseTranscript" => {
+    "courseAttemptResult" => "Pass",
+    "creditsEarned" => {"credit" => 3.0},
+    "courseId" => "9bd92e8e-df8e-4af9-95e7-2efed847d03d",
+    "gradeType" => "Final",
+    "studentAcademicRecordId" => "56afc8d4-6c91-48f9-8a11-de527c1131b7"
     }
 }
   @fields = @entityData[arg1]
+  @type = arg1
 end
+
 
 #line 342, graduationplan
 #invalid-       "educationOrganizationId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
 #valid+       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
 
-When /^I create an association of type "([^"]*)"$/ do |type|
-  @assocData = {
-    "studentCohortAssocation" => {
-       "cohortId" => @newId,
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-       "endDate" => "2020-01-15",
-       "beginDate" => "2011-04-01"
-    },
-    "courseOffering" => {
-      "localCourseCode" => "LCC7252GR2",
-      "localCourseTitle" => "German 2 - Outro to German",
-      "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
-      "courseId" => @newId,
-      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772"
-    },
-    "section" => {
-       "educationalEnvironment" => "Classroom",
-       "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
-       "populationServed" => "Regular Students",
-       "sequenceOfCourse" => 3,
-       "uniqueSectionCode" => "Motorcycle Repair 101",
-       "mediumOfInstruction" => "Independent study",
-       "programReference" => [],
-       "courseOfferingId" => @assocId,
-       "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
-       "availableCredit" => nil
-    },
-    "studentDisciplineIncidentAssociation" => {
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-       "disciplineIncidentId" => @newId,
-       "studentParticipationCode" => "Reporter"
-    },
-    "studentParentAssociation" => {
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-       "parentId" => @newId,
-       "livesWith" => true,
-       "primaryContactStatus" => true,
-       "relation" => "Father",
-       "contactPriority" => 0,
-       "emergencyContactStatus" => true
-    },
-    "studentProgramAssociation" => {
-       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-       "programId" => @newId,
-       "beginDate" => "2011-05-01",
-       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
-    },
-    "studentSectionAssociation" => {
-      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-      "sectionId" => @newId,
-      "beginDate" => "2012-05-01"
-    },
-    "staffEducationOrganizationAssociation" => {
-      "educationOrganizationReference" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-      "staffReference" => @newId,
-      "beginDate" => "2000-01-01",
-      "positionTitle" => "Hall monitor",
-      "staffClassification" => "School Administrative Support Staff"
-    },
-    "staffEducationOrganizationAssociation2" => {
-      "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
-      "staffReference" => @newId,
-      "beginDate" => "2000-01-01",
-      "positionTitle" => "Hall monitor",
-      "staffClassification" => "School Administrative Support Staff"
-    },
-    "studentSectionAssociation2" => {
-      "studentId" => @newId,
-      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
-      "beginDate" => "2012-05-01"
-    },
-    "teacherSchoolAssociation" => {
-      "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-      "programAssignment" => "Regular Education",
-      "teacherId" => @newId,
-      "instructionalGradeLevels" => ["First grade"],
-      "academicSubjects" => ["Composite"]
-    },
-    "teacherSchoolAssociation2" => {
-      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
-      "programAssignment" => "Regular Education",
-      "teacherId" => @newId,
-      "instructionalGradeLevels" => ["First grade"],
-      "academicSubjects" => ["Composite"]
-    },
-    "studentParentAssociation2" => {
-      "parentId" => @newId,
-      "studentId" => "737dd4c1-86bd-4892-b9e0-0f24f76210be_id",
-      "livesWith" => true,
-      "primaryContactStatus" => true,
-      "relation" => "Father",
-      "contactPriority" => 0,
-      "emergencyContactStatus" => true
-    },
-    "staffProgramAssociation" => {
-      "programId" => @newId,
-      "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
-      "beginDate" => "2012-01-01"
-    }
-  }
-  @fields = @assocData[type]
-end
-
 
 Then /^I should receive a new entity URI$/ do
   step "I should receive an ID for the newly created entity"
   assert(@newId != nil, "After POST, URI is nil")
+end
+
+When /^the entities referenced or associated edorg is out of my context$/ do
+  case @type
+    when "attendance" then @fields["schoolId"] = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
+    when "cohort" then @fields["educationOrgId"] = "eb3b8c35-f582-df23-e406-6947249a19f2"
+    when "course" then @fields["schoolId"] = "eb3b8c35-f582-df23-e406-6947249a19f2"
+    when "courseOffering" then @fields["schoolId"] = "67ce204b-9999-4a11-aaab-000000000008"
+    when "disciplineAction" then @fields["responsibilitySchoolId"] = "67ce204b-9999-4a11-aaab-000000000008"
+    when "disciplineIncident" then @fields["schoolId"] = "67ce204b-9999-4a11-aaab-000000000008"
+    when "gradebookEntry" then @fields["sectionId"] = "17a8658c-6fcb-4ece-99d1-b2dea1afd987_id"
+    when "graduationPlan" then @fields["educationOrganizationId"] = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
+    when "section" then @fields["schoolId"] = "eb3b8c35-f582-df23-e406-6947249a19f2"
+    when "session" then @fields["schoolId"] = "17a8658c-6fcb-4ece-99d1-b2dea1afd987_id"
+    when "studentGradebookEntry" then @fields["sectionId"] = "17a8658c-6fcb-4ece-99d1-b2dea1afd987_id"
+    when "studentProgramAssociation" then @fields["educationOrganizationId"] = "eb3b8c35-f582-df23-e406-6947249a19f2"
+    when "studentSectionAssociation" then @fields["sectionId"] = "17a8658c-6fcb-4ece-99d1-b2dea1afd987_id"
+    when "studentSchoolAssociation" then @fields["schoolId"] = "67ce204b-9999-4a11-aaab-000000000008"
+    when "courseTranscript" then @fields["courseId"] = "5c7aa39b-3193-4865-a10f-5e1e3c7dc7ea"
+  end
+end
+
+When /^the entities referenced or associated edorg is in my context$/ do
+  # no op. entities already contains valid reference
+end
+
+When /^I try to update the previously created entity with an invalid reference$/ do
+  step "the entities referenced or associated edorg is out of my context"
+  step "I navigate to PUT \"/v1/#@entityUri/#@newId\""
+end
+
+When /^I post the entity$/ do
+  step "I navigate to POST \"/v1/#@entityUri\""
+end
+
+When /^I try to delete an entity that is out of my write context$/ do
+  nop = false
+  case @type
+    when "attendance" then id = "4beb72d4-0f76-4071-92b4-61982dba7a7b"
+    when "cohort" then id = "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826_id"
+    when "course" then id = "5c7aa39b-3193-4865-a10f-5e1e3c7dc7ea"
+    when "courseOffering" then id = "119ecc01-d1ea-473d-bafd-51382158800e"
+    when "courseTranscript" then id = "09eced61-edd9-4826-a7bc-137ffecda877"
+    when "disciplineAction" then id = "db7f1d4b-9689-b2f4-9281-d88d65999423"
+    when "disciplineIncident" then id = "0e26de79-22ea-5d67-9201-5113ad50a03b"
+    when "gradebookEntry" then nop = true
+    when "graduationPlan" then id = "04e3a07a-a95f-4ac8-88f3-gradplan1115"
+    when "section" then id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id"
+    when "session" then id = "c2b11399-1519-44b7-848d-085f268170d2"
+    when "studentGradebookEntry" then id = "7f05ef51-c974-4071-b91b-f644f9b087cf"
+    when "studentProgramAssociation" then nop = true
+    when "studentSectionAssociation" then id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f_ide4bbd30f-6e98-4798-a200-5a71fd658fe6_id"
+    when "studentSchoolAssociation" then id = "7c6f61e8-3716-4648-8860-170b62a8f460"
+  end
+
+  step "I navigate to DELETE \"/v1/#@entityUri/#{id}\"" unless nop
 end
