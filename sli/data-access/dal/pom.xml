@@ -24,6 +24,11 @@
 			<artifactId>domain</artifactId>
 		</dependency>
 
+      <dependency>
+          <groupId>org.slc.sli</groupId>
+          <artifactId>encryption-tool</artifactId>
+     </dependency>
+
 		<!-- Spring Framework -->
 
 		<!-- Spring Core dependency -->
@@ -50,7 +55,7 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        
+
         <!-- Jackson json -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -80,14 +85,14 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
-		
+
 		<!-- Elasticsearch -->
 		<dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>
         </dependency>
-		
+
 	</dependencies>
 
 	<properties>

@@ -22,6 +22,8 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -33,20 +35,22 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.AppInfo;
-import org.slc.sli.validation.schema.NeutralSchema;
-
 /**
  * Tests for schema version checking logic.
- *
- *
+ * 
+ * 
  * @author kmyers
- *
+ * 
  */
 public class SliSchemaVersionValidatorTest {
 
@@ -65,6 +69,8 @@ public class SliSchemaVersionValidatorTest {
     @Before
     public void setUp() throws Exception {
         sliSchemaVersionValidator = new SliSchemaVersionValidator();
+        sliSchemaVersionValidator.migrationConfigResource = new ClassPathResource(
+                "migration/test-migration-config.json");
         MockitoAnnotations.initMocks(this);
     }
 
@@ -94,25 +100,42 @@ public class SliSchemaVersionValidatorTest {
         BasicDBObject studentDbObject = new BasicDBObject();
         studentDbObject.put(SliSchemaVersionValidator.ID, STUDENT);
         studentDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
+        studentDbObject.put(SliSchemaVersionValidator.MONGO_SV, new Double(0.0));
         BasicDBObject sectionDbObject = new BasicDBObject();
         sectionDbObject.put(SliSchemaVersionValidator.ID, SECTION);
         sectionDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
+        sectionDbObject.put(SliSchemaVersionValidator.MONGO_SV, new Double(0.0));
 
         final List<DBObject> findOnes = new ArrayList<DBObject>();
         findOnes.add(studentDbObject);
         findOnes.add(sectionDbObject);
         findOnes.add(null);
 
-        when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.eq(SliSchemaVersionValidator.METADATA_COLLECTION))).thenAnswer(new Answer<DBObject>() {
+        when(
+                mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class),
+                        Mockito.eq(SliSchemaVersionValidator.METADATA_COLLECTION))).thenAnswer(new Answer<DBObject>() {
             @Override
             public DBObject answer(InvocationOnMock invocation) throws Throwable {
                 return findOnes.remove(0);
             }
         });
 
-        this.sliSchemaVersionValidator.validate();
+        this.sliSchemaVersionValidator.initMigration();
 
-        Mockito.verify(mongoTemplate, Mockito.times(1)).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.any(String.class));
+        Mockito.verify(mongoTemplate, Mockito.times(1)).updateFirst(Mockito.any(Query.class),
+                Mockito.any(Update.class), Mockito.any(String.class));
         Mockito.verify(mongoTemplate, Mockito.times(1)).insert(Mockito.any(Object.class), Mockito.any(String.class));
+
+    }
+
+    @Test
+    public void shouldCreateAddStrategy() {
+        this.sliSchemaVersionValidator.initMigration();
+
+        List<MigrationStrategy> transforms = this.sliSchemaVersionValidator.getMigrationStrategies("student", 2);
+
+        Assert.assertEquals(1, transforms.size());
+        MigrationStrategy strategy = transforms.get(0);
+        Assert.assertTrue("Expected AddStrategy", strategy instanceof AddStrategy);
     }
 }

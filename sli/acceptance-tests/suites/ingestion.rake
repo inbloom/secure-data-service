@@ -80,6 +80,11 @@ task :ingestionIDReferenceResolutionTest do
   runTests("test/features/ingestion/features/ingestion_IDRef.feature")
 end
 
+desc "Run Ingestion Error Report Interface Test"
+task :ingestionErrorReportTest do
+  runTests("test/features/ingestion/features/ingestion_ErrorReport.feature")
+end
+
 # This task SHOULD NOT BE ADDED to the general ingestion test suite
 desc "Run Ingestion Performance Tests"
 task :ingestionPerformanceTest do

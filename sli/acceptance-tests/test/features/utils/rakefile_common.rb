@@ -38,7 +38,7 @@ end
 
 def allLeaAllowAppForTenant(appName, tenantName)
   disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
   appId = appColl.find_one({"body.name" => appName})["_id"]

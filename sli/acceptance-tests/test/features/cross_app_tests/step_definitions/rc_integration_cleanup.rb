@@ -30,7 +30,8 @@ limitations under the License.
 
 Given /^I have a connection to Mongo$/ do
   host = PropLoader.getProps['ingestion_db']
-  @conn = Mongo::Connection.new(host)
+  port = PropLoader.getProps['ingestion_db_port']
+  @conn = Mongo::Connection.new(host, port)
 end
 
 ###############################################################################

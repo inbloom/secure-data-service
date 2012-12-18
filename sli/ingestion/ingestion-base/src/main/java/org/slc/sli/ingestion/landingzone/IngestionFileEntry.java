@@ -24,7 +24,7 @@ import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 
 /**
  * Represents an Ingestion File Entry which includes the file to ingest along with its
@@ -48,7 +48,7 @@ public class IngestionFileEntry implements Serializable {
 
     private AbstractMessageReport errorReport;
 
-    private ReportStats reportStats;
+    private AbstractReportStats reportStats;
 
     // will only be set when this is added to a BatchJob
     private String batchJobId;
@@ -72,14 +72,14 @@ public class IngestionFileEntry implements Serializable {
     /**
      * @param reportStats the reportStats to set
      */
-    public void setReportStats(ReportStats reportStats) {
+    public void setReportStats(AbstractReportStats reportStats) {
         this.reportStats = reportStats;
     }
 
     /**
      * @return the reportStats
      */
-    public ReportStats getReportStats() {
+    public AbstractReportStats getReportStats() {
         return reportStats;
     }
 

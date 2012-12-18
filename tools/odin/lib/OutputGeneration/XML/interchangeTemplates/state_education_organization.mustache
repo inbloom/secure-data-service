@@ -16,7 +16,7 @@ limitations under the License.
 {{#entity}}
   <StateEducationAgency>
     <StateOrganizationId>{{state_org_id}}</StateOrganizationId>
-    <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
+    <NameOfInstitution>{{state_org_id}} (State Education Agency)</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -26,5 +26,12 @@ limitations under the License.
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
+    {{#programs}}
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>{{.}}</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    {{/programs}}
   </StateEducationAgency>
 {{/entity}}

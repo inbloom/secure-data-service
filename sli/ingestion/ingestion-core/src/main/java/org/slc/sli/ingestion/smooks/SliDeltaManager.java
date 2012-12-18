@@ -38,7 +38,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -46,7 +46,7 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
 /**
  * @author unavani
  *
- * Static class implementation of SliDeltaManager
+ *         Static class implementation of SliDeltaManager
  *
  */
 public final class SliDeltaManager {
@@ -58,7 +58,8 @@ public final class SliDeltaManager {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
 
-    private SliDeltaManager() { }
+    private SliDeltaManager() {
+    }
 
     public static final String NRKEYVALUEFIELDNAMES = "neutralRecordKeyValueFieldNames";
     public static final String OPTIONALNRKEYVALUEFIELDNAMES = "optionalNeutralRecordKeyValueFieldNames";
@@ -73,7 +74,8 @@ public final class SliDeltaManager {
      * @return
      */
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
-            DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver, AbstractMessageReport report, ReportStats reportStats) {
+            DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver,
+            AbstractMessageReport report, AbstractReportStats reportStats) {
         boolean isPrevIngested = false;
         String tenantId = TenantContext.getTenantId();
 
@@ -89,18 +91,21 @@ public final class SliDeltaManager {
         // Determine the neutralrecord key fields from smooks config
         // TODOs
         // 1. DE2260 Do deterministic id processing here directly on the neutralrecord,
-        //    however after attempting this is was determined there are non-trivial dependencies
-        //    in the existing ingestion pipeline in transformation and quite possibly other areas
-        //    that still depend on non-dId resolved reference structures.
-        // 2. DE2261 The natural key fields should be mapped deterministically from the "source of truth" rather than smooks-all-xml.
-        //    This is problematic right now since the current "source of truth" is the SLI schema which does not match up
-        //    to neutral record fields here which are based on SLI-Ed-Fi.
+        // however after attempting this is was determined there are non-trivial dependencies
+        // in the existing ingestion pipeline in transformation and quite possibly other areas
+        // that still depend on non-dId resolved reference structures.
+        // 2. DE2261 The natural key fields should be mapped deterministically from the
+        // "source of truth" rather than smooks-all-xml.
+        // This is problematic right now since the current "source of truth" is the SLI schema which
+        // does not match up
+        // to neutral record fields here which are based on SLI-Ed-Fi.
         Map<String, String> naturalKeys = new HashMap<String, String>();
 
         NeutralRecord neutralRecordResolved = null;
 
         if ("attendance".equals(n.getRecordType())) {
-            // HACK didResolver requires transformed entities to be transformed so use the unresolved references
+            // HACK didResolver requires transformed entities to be transformed so use the
+            // unresolved references
             // to calculate record delta hash dId
             neutralRecordResolved = n;
         } else {
@@ -138,7 +143,8 @@ public final class SliDeltaManager {
             LOG.warn(e.getMessage());
             isPrevIngested = false;
         } catch (NaturalKeyValidationException e) {
-            // If we can't determine the natural key values, don't include it in recordHash processing
+            // If we can't determine the natural key values, don't include it in recordHash
+            // processing
             // Errors will be logged by normal (non-recordHash) processing
             LOG.warn(e.getMessage());
             isPrevIngested = false;
@@ -147,28 +153,32 @@ public final class SliDeltaManager {
         return isPrevIngested;
     }
 
-
-    private static void populateNaturalKeys(NeutralRecord n, Map<String, String> naturalKeys) throws NoNaturalKeysDefinedException {
+    private static void populateNaturalKeys(NeutralRecord n, Map<String, String> naturalKeys)
+            throws NoNaturalKeysDefinedException {
         addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), NRKEYVALUEFIELDNAMES), false);
-        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), OPTIONALNRKEYVALUEFIELDNAMES), true);
+        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), OPTIONALNRKEYVALUEFIELDNAMES),
+                true);
     }
 
-    private static void addFieldsToNaturalKeysImpl(NeutralRecord n, Map<String, String> naturalKeys, String fieldNames, boolean optional) throws NoNaturalKeysDefinedException {
+    private static void addFieldsToNaturalKeysImpl(NeutralRecord n, Map<String, String> naturalKeys, String fieldNames,
+            boolean optional) throws NoNaturalKeysDefinedException {
 
         String recordType = n.getRecordType();
 
-        //TODO: this needs cleanup
+        // TODO: this needs cleanup
         if (fieldNames == null) {
             if (optional) {
                 return;
             } else {
-                throw new NoNaturalKeysDefinedException("A mapping for \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
+                throw new NoNaturalKeysDefinedException("A mapping for \"" + NRKEYVALUEFIELDNAMES
+                        + "\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
             }
         }
         StringTokenizer fieldNameTokenizer = new StringTokenizer(fieldNames, ",");
         while (fieldNameTokenizer.hasMoreElements()) {
             String fieldName = (String) fieldNameTokenizer.nextElement();
-            // TODO: Use NaturalKeyExtractor or an impl of the interface once we annotate SLC-Ed-Fi.xml
+            // TODO: Use NaturalKeyExtractor or an impl of the interface once we annotate
+            // SLC-Ed-Fi.xml
             Object value = null;
             try {
                 value = PropertyUtils.getProperty(n.getAttributes(), fieldName);
@@ -191,8 +201,9 @@ public final class SliDeltaManager {
 
     private static void handleFieldAccessException(String fieldName, NeutralRecord n, boolean optional) {
         if (!optional) {
-            String message = "The \"" + n.getRecordType() + "\" entity at location " + n.getLocationInSourceFile() + " in file \"" + n.getSourceFile()
-                    + "\" is missing a value for required natural key field \"" + fieldName + "\" as specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml.";
+            String message = "The \"" + n.getRecordType() + "\" entity at location " + n.getLocationInSourceFile()
+                    + " in file \"" + n.getSourceFile() + "\" is missing a value for required natural key field \""
+                    + fieldName + "\" as specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml.";
 
             throw new NaturalKeyValidationException(message);
         }

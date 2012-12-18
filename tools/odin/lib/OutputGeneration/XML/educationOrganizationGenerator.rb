@@ -17,11 +17,8 @@ limitations under the License.
 =end
 
 require_relative "./EntityWriter"
-require_relative "interchangeGenerator.rb"
-require_relative "../../Shared/data_utility.rb"
-require_relative "../../Shared/util.rb"
-
-Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
+require_relative "./interchangeGenerator"
+require_relative "../../Shared/util"
 
 # event-based education organization interchange generator
 class EducationOrganizationGenerator < InterchangeGenerator
@@ -33,11 +30,11 @@ class EducationOrganizationGenerator < InterchangeGenerator
 
     @header, @footer = build_header_footer("EducationOrganization")
 
-    @writers[SeaEducationOrganization] = EntityWriter.new("state_education_organization.mustache")
-    @writers[LeaEducationOrganization] = EntityWriter.new("local_education_organization.mustache")
-    @writers[SchoolEducationOrganization] = EntityWriter.new("school.mustache")
-    @writers[Course] = EntityWriter.new("course.mustache")
-    @writers[Program] = EntityWriter.new("program.mustache")
+    @writers[ SeaEducationOrganization ] = EntityWriter.new("state_education_organization.mustache")
+    @writers[ LeaEducationOrganization ] = EntityWriter.new("local_education_organization.mustache")
+    @writers[ SchoolEducationOrganization ] = EntityWriter.new("school.mustache")
+    @writers[ Course ] = EntityWriter.new("course.mustache")
+    @writers[ Program ] = EntityWriter.new("program.mustache")
   end
 
 end

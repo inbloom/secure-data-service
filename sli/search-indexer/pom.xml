@@ -14,7 +14,6 @@
         <sli.home>${project.parent.basedir}</sli.home>
         <spring.version>3.0.7.RELEASE</spring.version>
         <sli.conf>../config/properties/sli.properties</sli.conf>
-        <sli.encryption.keyStore>./../data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
     </properties>
 
     <dependencies>
@@ -60,12 +59,10 @@
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>sli-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slc.sli.domain</groupId>
             <artifactId>domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -76,13 +73,16 @@
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>common-encrypt</artifactId>
-            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>encryption-tool</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.slc.sli.dal</groupId>
             <artifactId>dal</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

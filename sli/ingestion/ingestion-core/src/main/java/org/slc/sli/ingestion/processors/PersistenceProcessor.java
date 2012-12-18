@@ -59,8 +59,8 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -234,10 +234,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
-        ReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
+        AbstractReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
                 stage.getStageName());
         try {
-            ReportStats reportStatsForNrEntity = null;
+            AbstractReportStats reportStatsForNrEntity = null;
 
             Iterable<NeutralRecord> records = null;
             try {
@@ -347,8 +347,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private ReportStats persistSelfReferencingEntity(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
-            ReportStats reportStatsForCollection, ReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
+    private AbstractReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
+            Map<String, Metrics> perFileMetrics, AbstractReportStats reportStatsForCollection,
+            AbstractReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -358,7 +359,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
         }
 
-        ReportStats returnValue = reportStatsForCollection;
+        AbstractReportStats returnValue = reportStatsForCollection;
         for (NeutralRecord neutralRecord : sortedNrList) {
             LOG.info("transforming and persisting {}: {}", collectionNameAsStaged,
                     getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
@@ -470,10 +471,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         return null;
     }
 
-    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, /*
-                                                                                        * ErrorReport
-                                                                                        * errorReport
-                                                                                        */ReportStats reportStats) {
+    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, AbstractReportStats reportStats) {
         LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
         record.setRecordType(record.getRecordType().replaceFirst("_transformed", ""));
@@ -540,9 +538,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      *            current resource id.
      * @return database logging error report.
      */
-    private ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
+    private AbstractReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
         Source dbErrorSource = new SimpleSource(batchJobId, resourceId, stageName);
-        ReportStats reportStats = new SimpleReportStats(dbErrorSource);
+        AbstractReportStats reportStats = new SimpleReportStats(dbErrorSource);
         return reportStats;
     }
 
