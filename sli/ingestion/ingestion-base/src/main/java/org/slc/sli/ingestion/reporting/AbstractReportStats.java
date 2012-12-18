@@ -56,9 +56,23 @@ public abstract class AbstractReportStats {
     public abstract void incError();
 
     /**
+     * Get the number of errors tracked.
+     *
+     * @return
+     */
+    public abstract long getErrorCount();
+
+    /**
      * Increase the warning count by one.
      */
     public abstract void incWarning();
+
+    /**
+     * Get the number of warnings tracked.
+     *
+     * @return
+     */
+    public abstract long getWarningCount();
 
     /**
      * Report whether any errors have been reported for this context;

@@ -14,26 +14,14 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.util;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
-import java.util.List;
-
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.Fault;
-import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
  * Utilities for BatchJob
@@ -43,41 +31,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  */
 public final class BatchJobUtils {
 
-    private BatchJobUtils() { }
-
-    public static void writeErrorsWithDAO(String batchId, String resourceId, BatchJobStageType stage,
-            FaultsReport errorReport, BatchJobDAO batchJobDAO) {
-        if (errorReport.hasErrors()) {
-            String severity;
-            List<Fault> faults = errorReport.getFaults();
-            for (Fault fault : faults) {
-                if (fault.isError()) {
-                    severity = FaultType.TYPE_ERROR.getName();
-                } else if (fault.isWarning()) {
-                    severity = FaultType.TYPE_WARNING.getName();
-                } else {
-                    // TODO consider adding this to FaultType
-                    severity = "UNKNOWN";
-                }
-                Error error = Error.createIngestionError(batchId, resourceId, stage.getName(), null, null, null,
-                        severity, null, fault.getMessage());
-                batchJobDAO.saveError(error);
-            }
-        }
-    }
-
-    public static void writeWarningssWithDAO(String batchId, String resourceId, BatchJobStageType stage,
-            FaultsReport errorReport, BatchJobDAO batchJobDAO) {
-        String severity;
-        List<Fault> faults = errorReport.getFaults();
-        for (Fault fault : faults) {
-            if (fault.isWarning()) {
-                severity = FaultType.TYPE_WARNING.getName();
-                Error error = Error.createIngestionError(batchId, resourceId, stage.getName(), null, null, null,
-                        severity, null, fault.getMessage());
-                batchJobDAO.saveError(error);
-            }
-        }
+    private BatchJobUtils() {
     }
 
     public static void completeStageAndJob(Stage stage, NewBatchJob job) {

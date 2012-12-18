@@ -74,12 +74,6 @@ public interface Job {
     boolean addFile(IngestionFileEntry ingestionFileEntry);
 
     /**
-     *
-     * @return
-     */
-    FaultsReport getFaultsReport();
-
-    /**
      * Return the tenantId for this job.
      *
      * @return

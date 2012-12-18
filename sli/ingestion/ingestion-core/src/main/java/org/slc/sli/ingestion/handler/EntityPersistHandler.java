@@ -48,7 +48,6 @@ import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -100,17 +99,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
         entityRepository.setReferenceCheck(referenceCheckEnabled);
-    }
-
-    @Override
-    protected Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-        return null;
-    }
-
-    @Override
-    protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
-        return null;
     }
 
     /**

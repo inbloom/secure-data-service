@@ -97,10 +97,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             if (objective != null && academicSubject != null && objectiveGradeLevel != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject,
                         objectiveGradeLevel))) {
-                    super.getErrorReport(lo.getSourceFile()).error(
-                            "Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. Objective: "
-                                    + objective + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel"
-                                    + objectiveGradeLevel, this);
+                    reportError(lo.getSourceFile(), CoreMessageCode.CORE_0037, objective, academicSubject,
+                            objectiveGradeLevel);
                     continue;
                 }
                 learningObjectiveIdMap
@@ -159,7 +157,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     // add this entity to our NR working set
                     transformedLearningObjectives.add(childEntityNR);
                 } else {
-                    super.reportError(parentLO.getSourceFile(), CoreMessageCode.CORE_0034, objective, academicSubject, objectiveGradeLevel);
+                    super.reportError(parentLO.getSourceFile(), CoreMessageCode.CORE_0034, objective, academicSubject,
+                            objectiveGradeLevel);
                 }
             }
         }
@@ -190,7 +189,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         if (childLearningStdRefs != null) {
             for (Map<String, Object> learnStdRef : childLearningStdRefs) {
                 if (learnStdRef == null) {
-                    super.reportError(parentLO.getSourceFile(), CoreMessageCode.CORE_0031, getByPath(LO_ID_CODE_PATH, parentLO.getAttributes()));
+                    super.reportError(parentLO.getSourceFile(), CoreMessageCode.CORE_0031,
+                            getByPath(LO_ID_CODE_PATH, parentLO.getAttributes()));
                 } else {
                     String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
                     String csn = getByPath(LS_CONTENT_STANDARD_NAME_PATH, learnStdRef);
@@ -235,7 +235,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             } else if (obj instanceof Map) {
                 pathMap = (Map<String, Object>) obj;
             } else {
-               return null;
+                return null;
             }
         }
         return null;

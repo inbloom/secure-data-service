@@ -48,7 +48,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
@@ -57,7 +56,6 @@ import org.slc.sli.ingestion.reporting.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -138,7 +136,6 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateStudentEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
 
         // Student search.
         NeutralQuery query = new NeutralQuery();
@@ -171,7 +168,7 @@ public class EntityPersistHandlerTest {
         verify(entityRepository).createWithRetries(studentEntity.getType(), null, studentEntity.getBody(),
                 studentEntity.getMetaData(), "student", totalRetries);
 
-        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
     /**
@@ -328,8 +325,10 @@ public class EntityPersistHandlerTest {
          * when validation fails for an entity, we should not try to persist
          */
 
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
+
         SimpleEntity mockedEntity = mock(SimpleEntity.class);
-        ErrorReport mockedErrorReport = mock(ErrorReport.class);
 
         String expectedType = "student";
         when(mockedEntity.getType()).thenReturn(expectedType);
@@ -342,9 +341,7 @@ public class EntityPersistHandlerTest {
         expectedMetaData.put(EXTERNAL_ID_FIELD, STUDENT_ID);
         when(mockedEntity.getMetaData()).thenReturn(expectedMetaData);
 
-        when(mockedErrorReport.hasErrors()).thenReturn(true);
-
-        entityPersistHandler.handle(mockedEntity, mockedErrorReport);
+        entityPersistHandler.handle(mockedEntity, report, reportStats);
 
         verify(mockedEntityRepository, never()).create(expectedType, expectedMap, expectedMetaData, expectedType);
     }

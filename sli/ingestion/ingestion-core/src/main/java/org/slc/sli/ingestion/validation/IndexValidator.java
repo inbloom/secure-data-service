@@ -47,14 +47,6 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     private DbIndexValidator batchJobDbIndexValidator;
 
     @Override
-    public boolean isValid(Object object, ErrorReport callback) {
-
-        verifyIndexes();
-
-        return true;
-    }
-
-    @Override
     public boolean isValid(Object object, AbstractMessageReport report, AbstractReportStats reportStats) {
 
         verifyIndexes();
