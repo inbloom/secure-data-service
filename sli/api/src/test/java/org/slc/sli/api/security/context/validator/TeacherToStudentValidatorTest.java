@@ -164,19 +164,19 @@ public class TeacherToStudentValidatorTest {
 	@Test
 	public void testCantGetAccessThroughManyStudents() throws Exception {
 
-		for (int i = 0; i < 100; ++i) {
-			helper.generateTSA(TEACHER_ID, "" + i, false);
+		for (int i = 0; i < 2; ++i) {
+			helper.generateTSA(TEACHER_ID, String.valueOf(i), false);
 		}
 
-		for (int i = 0; i < 100; ++i) {
-			for (int j = -1; j > -31; --j) {
-				helper.generateSSA(String.valueOf(j), "" + i, false);
+		for (int i = 0; i < 2; ++i) {
+			for (int j = -1; j > -2; --j) {
+				helper.generateSSA(String.valueOf(j), String.valueOf(i), false);
 				studentIds.add(String.valueOf(j));
 			}
 		}
 
-		helper.generateSSA("101", "101", false);
-		studentIds.add("101");
+		helper.generateSSA("100", "6", false);
+		studentIds.add("100");
 
 		assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
 	}
@@ -327,6 +327,24 @@ public class TeacherToStudentValidatorTest {
 			helper.generateStudentProgram(i + "", programId, false);
 			studentIds.add(i + "");
 		}
+		assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+	}
+	
+	@Test
+	public void testCanNotGetAccessThroughWithOneDeniedProgram() throws Exception {
+		String edOrgId = helper.generateEdorgWithProgram(
+				Arrays.asList(programId)).getEntityId();
+		helper.generateTeacherSchool(TEACHER_ID, edOrgId);
+
+		helper.generateStaffProgram(TEACHER_ID, programId, false, true);
+		for (int i = 0; i < 10; ++i) {
+			helper.generateStudentProgram(i + "", programId, false);
+			studentIds.add(i + "");
+		}
+		
+		helper.generateStudentProgram("-32", "101", false);
+		studentIds.add("-32");
+		
 		assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
 	}
 
