@@ -7,6 +7,8 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
     Given I have an open web browser
     And I am running in Sandbox mode
     When I navigate to the Portal home page
+    Then I will be redirected to realm selector web page
+    When I click on the "Admin" realm in "Sandbox"
     And I was redirected to the "Simple" IDP Login page
 
     Scenario: Creating a developer account using DAMT
@@ -72,6 +74,8 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
 
       # Switch account and verify admin links
       When I navigate to the Portal home page
+      Then I will be redirected to realm selector web page
+      When I click on the "Admin" realm in "Sandbox"
       And I was redirected to the "Simple" IDP Login page
       When I submit the credentials "<DEVELOPER2_SB_EMAIL>" "<DEVELOPER2_SB_EMAIL_PASS>" for the "Simple" login page
       Then I should be on Portal home page
