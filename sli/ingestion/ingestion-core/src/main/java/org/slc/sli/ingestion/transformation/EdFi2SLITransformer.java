@@ -63,6 +63,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected static final String METADATA_BLOCK = "metaData";
 
+    private static final String EDORGS = "edOrgs";
+
     protected static final String ID = "_id";
 
     private DeterministicIdResolver dIdResolver;
@@ -108,6 +110,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
                 if (entity.getMetaData() == null) {
                     entity.setMetaData(new HashMap<String, Object>());
+                }
+
+                if (item.getMetaData().get(EDORGS) != null) {
+                    entity.getMetaData().put(EDORGS, item.getMetaData().get(EDORGS));
                 }
 
                 try {
@@ -168,6 +174,22 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             // Entity exists in data store.
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
+
+            @SuppressWarnings("unchecked")
+            List<String> edOrgs = (List<String>) entity.getMetaData().get(EDORGS);
+
+            if (edOrgs != null && edOrgs.size() > 0) {
+                @SuppressWarnings("unchecked")
+                List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get(EDORGS);
+                if (matchedEdOrgs != null) {
+                    for (String edOrg : edOrgs) {
+                        if (!matchedEdOrgs.contains(edOrg)) {
+                            matchedEdOrgs.add(edOrg);
+                        }
+                    }
+                    matched.getMetaData().put(EDORGS, matchedEdOrgs);
+                }
+            }
             entity.getMetaData().putAll(matched.getMetaData());
         }
     }
@@ -193,9 +215,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         try {
             naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
         } catch (NaturalKeyValidationException e1) {
-            StringBuilder message = new StringBuilder("An entity is missing one or more required natural key fields"
-                    + "\n" + "       Entity     " + entity.getType() + "\n" + "       Instance   "
-                    + entity.getRecordNumber());
+            StringBuilder message = new StringBuilder("");
 
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);

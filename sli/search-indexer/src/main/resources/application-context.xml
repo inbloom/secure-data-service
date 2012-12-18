@@ -28,6 +28,14 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 	
 	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher"></bean>
+    
+    <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" >
+        <property name="mongoTemplate" ref="dataMongoTemplate" />
+    </bean>
+    
+    <bean id="migrationConfigResource" class="org.springframework.core.io.ClassPathResource">
+      <constructor-arg index="0" value="migration/migration-config.json" />
+    </bean>
 	
 	<mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
 		<mongo:custom-converters>

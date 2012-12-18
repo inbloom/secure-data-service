@@ -184,7 +184,7 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   And verify that "metaData.created" is equal to "metaData.updated"
   Given I am using preconfigured Ingestion Landing Zone
   And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
-  And the following collections are completely empty in batch job datastore
+  And the following collections are empty in batch job datastore:
         | collectionName              |
         | recordHash                  |
   When zip file is scp to ingestion landing zone
