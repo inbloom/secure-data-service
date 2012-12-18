@@ -82,7 +82,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningObjective                        |                  0|
      | learningStandard                         |                  0|
      | parent                                   |                 20|
-     | program                                  |                  0|
+     | program                                  |                 70|
      | reportCard                               |                  0|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 75|
@@ -90,26 +90,26 @@ Then I should see following map of entry counts in the corresponding collections
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 70|
+     | staff                                    |                 68|
      | staffCohortAssociation                   |                 27|
-     | staffEducationOrganizationAssociation    |                168|
-     | staffProgramAssociation                  |                  0|
+     | staffEducationOrganizationAssociation    |                166|
+     | staffProgramAssociation                  |                660|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 32|
+     | studentCohortAssociation                 |                 33|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
      | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                  0|
+     | studentProgramAssociation                |                102|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
-     | teacherSchoolAssociation                 |                 21|
+     | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 2214 records." in the resulting batch job file
+    And I should see "Processed 3035 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 

@@ -3,7 +3,7 @@
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <StateEducationAgency>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-    <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
+    <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -13,6 +13,31 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>prgm-0000000066</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>prgm-0000000067</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>prgm-0000000068</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>prgm-0000000069</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>prgm-0000000070</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
   </StateEducationAgency>
   <Course>
     <CourseTitle>Kindergarten</CourseTitle>
@@ -728,6 +753,566 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </EducationOrganizationReference>
     <UniqueCourseId>crse-0000000034</UniqueCourseId>
   </Course>
+  <Program>
+    <ProgramId>prgm-0000000066</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000066</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000067</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000067</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000068</ProgramId>
+    <ProgramType>Remedial Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000068</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000069</ProgramId>
+    <ProgramType>Bilingual Summer</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000069</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000070</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000070</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000050</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000050</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000051</ProgramId>
+    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000051</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000052</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000052</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000053</ProgramId>
+    <ProgramType>Vocational Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000053</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000054</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000054</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000055</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000055</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000056</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000056</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000057</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000057</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000058</ProgramId>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000058</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000059</ProgramId>
+    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000059</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000060</ProgramId>
+    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000060</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000061</ProgramId>
+    <ProgramType>Bilingual Summer</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000061</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000062</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000062</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000063</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000063</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000064</ProgramId>
+    <ProgramType>College Preparatory</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000064</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000065</ProgramId>
+    <ProgramType>IDEA</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000065</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000001</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000001</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000002</ProgramId>
+    <ProgramType>Extended Day/Child Care Services</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000002</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000003</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000003</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000004</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000004</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000005</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000005</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000006</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000006</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000007</ProgramId>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000007</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000008</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000008</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000009</ProgramId>
+    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000009</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000010</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000010</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000011</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000011</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000012</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000012</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000013</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000013</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000014</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000014</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000015</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000015</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000016</ProgramId>
+    <ProgramType>Counseling Services</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000016</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000017</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000017</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000018</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000018</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000019</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000019</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000020</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000020</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000021</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000021</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000022</ProgramId>
+    <ProgramType>Alternative Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000022</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000023</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000023</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000024</ProgramId>
+    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000024</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000025</ProgramId>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000025</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000026</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000026</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000027</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000027</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000028</ProgramId>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000028</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000029</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000029</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000030</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000030</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000031</ProgramId>
+    <ProgramType>Other</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000031</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000032</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000032</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000033</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000033</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000034</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000034</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000035</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000035</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000036</ProgramId>
+    <ProgramType>Other</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000036</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000037</ProgramId>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000037</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000038</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000038</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000039</ProgramId>
+    <ProgramType>Alternative Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000039</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000040</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000040</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000041</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000041</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000042</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000042</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000043</ProgramId>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000043</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000044</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000044</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000045</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000045</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000046</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000046</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000047</ProgramId>
+    <ProgramType>Counseling Services</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000047</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000048</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000048</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>prgm-0000000049</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:prgm-0000000049</CodeValue>
+    </Services>
+  </Program>
   <LocalEducationAgency>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
     <NameOfInstitution>School District IL-DAYBREAK</NameOfInstitution>

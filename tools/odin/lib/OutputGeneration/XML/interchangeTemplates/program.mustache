@@ -14,12 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
-<Program>
-  <ProgramId>{{id}}</ProgramId>
-  <ProgramType>{{type}}</ProgramType>
-  <ProgramSponsor>{{sponsor}}</ProgramSponsor>
-  {{#services}}
-  <Services><CodeValue>{{.}}</CodeValue></Services>
-  {{/services}}
-</Program>
+  <Program>
+    <ProgramId>{{id}}</ProgramId>
+    <ProgramType>{{type}}</ProgramType>
+    <ProgramSponsor>{{sponsor}}</ProgramSponsor>
+    {{#services}}
+    <Services>
+      <CodeValue>{{.}}</CodeValue>
+    </Services>
+    {{/services}}
+  </Program>
 {{/entity}}

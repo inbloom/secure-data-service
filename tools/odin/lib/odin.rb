@@ -40,6 +40,7 @@ require_relative 'Shared/EntityClasses/student'
 
 require_relative 'EntityCreation/entity_factory'
 require_relative 'EntityCreation/work_order_queue'
+
 # offline data integration nexus --> ODIN
 class Odin
   def initialize
@@ -48,15 +49,22 @@ class Odin
     @log.level = Logger::INFO
     @workOrderQueue = nil
     @entityQueue = nil
+
   end
 
   def generate( scenario )
+
+    scenarioYAML, prng = getScenario(scenario)
+
+    demographics = scenarioYAML['demographics'] || File.join("#{File.dirname(__FILE__)}", '../scenarios/defaults/demographics.yml')
+    choices = scenarioYAML['choices'] || File.join("#{File.dirname(__FILE__)}", '../scenarios/defaults/choices.yml')
+
+    BaseEntity.initializeDemographics(demographics, choices)
 
     clean
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-    scenarioYAML, prng = getScenario(scenario)
     output             = scenarioYAML['DATA_OUTPUT']
 
     if output == "xml"
@@ -87,6 +95,12 @@ class Odin
     edOrgs = WorldBuilder.new(prng, scenarioYAML, @workOrderQueue, pre_requisites).build
     display_world_summary(edOrgs)
     display_pre_requisites_after_world_building(pre_requisites)
+
+    writer.display_entity_counts
+
+    File.open("#{scenarioYAML["DIRECTORY"] or 'generated/'}manifest.json", 'w'){ |f|
+      writer.tracker.write_edfi_manifest(f)
+    }
 
     # clean up writer
     # -> xml  data writer: writes any entities that are still queued and closes file handles

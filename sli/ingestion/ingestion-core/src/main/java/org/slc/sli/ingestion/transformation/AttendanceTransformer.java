@@ -47,6 +47,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
@@ -224,8 +225,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         long numAttendance = attendances.size();
         if (numAttendance != numAttendancesIngested) {
             long remainingAttendances = numAttendance - numAttendancesIngested;
-            super.getErrorReport(attendances.values().iterator().next().getSourceFile())
-                .warning(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG1",Long.toString(remainingAttendances) ) , this);
+            super.reportWarnings(attendances.values().iterator().next().getSourceFile(), CoreMessageCode.CORE_0028, Long.toString(remainingAttendances));
         }
 
         LOG.info("Finished transforming attendance data");
@@ -301,6 +301,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         updateAttendanceRecordHashMetaData(studentId, schoolId, attendanceRhData);
     }
 
+    /**
+     * updateAttendanceRecordHashMetaData
+     *
+     * Update the identified attendance_transformed entity by adding record delta hash data to its metaData
+     *
+     * @param studentId - identifier for the student whose attendance_transformed entity will be updating
+     * @param schoolId - identifier for the school to which the attendance_transformed entity to be updated is associated
+     * @param attendanceRhData - attendance record hash data to update the attendance_transformed entity with
+     */
     private void updateAttendanceRecordHashMetaData(String studentId, String schoolId,
             List<Map<String, Object>> attendanceRhData) {
         NeutralQuery query = new NeutralQuery(1);
@@ -310,10 +319,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
         Map<String, Object> attendanceEventDeltaHashValuesToPush = new HashMap<String, Object>();
         attendanceEventDeltaHashValuesToPush.put("metaData.rhData", attendanceRhData.toArray());
-        Map<String, Object> update = new HashMap<String, Object>();
-        update.put("pushAll", attendanceEventDeltaHashValuesToPush);
+        Map<String, Object> updateOfDeltaHashValues = new HashMap<String, Object>();
+        updateOfDeltaHashValues.put("pushAll", attendanceEventDeltaHashValuesToPush);
 
-        getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
+        getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, updateOfDeltaHashValues,
                 ATTENDANCE_TRANSFORMED);
 
     }
@@ -625,8 +634,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         numAttendancesIngested += processedAttendances.size();
 
         if (sessions.entrySet().size() == 0 && attendance.size() > 0) {
-            super.getErrorReport(attendances.values().iterator().next().getSourceFile())
-                .warning(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG4",studentId,schoolId), this);
+            super.reportWarnings(attendances.values().iterator().next().getSourceFile(), CoreMessageCode.CORE_0029, studentId, schoolId);
         }
 
         // Step 2: retrieve sli SchoolYearAttendances

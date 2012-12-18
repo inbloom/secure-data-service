@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.domain.QueryParseException;
 
 /**
- * Hander for Query Parsing errors
+ * Handler for Query Parsing errors
  */
 @Provider
 @Component
@@ -37,6 +37,6 @@ public class QueryParseExceptionHandler implements ExceptionMapper<QueryParseExc
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                        "Error Parsing the Query: " + e.getMessage() + ", query:" + e.getQueryString())).build();
+                        "Error Parsing the Query: " + e.getMessage())).build();
     }
 }
