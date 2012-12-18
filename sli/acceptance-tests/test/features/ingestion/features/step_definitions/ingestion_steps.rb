@@ -2402,7 +2402,7 @@ end
 def checkForErrorWarnLogFile(landing_zone, prefix)
   # prefix is either 'error' or 'warn' in lower case
   if (INGESTION_MODE == 'remote')
-    if remoteLzContainsFile("#{prefix}.*", landing_zone)
+    if !remoteLzContainsFile("#{prefix}.*", landing_zone)
       assert(true, "No #{prefix} files created.")
     else
       assert(false, "#{prefix} files created.")
