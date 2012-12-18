@@ -33,6 +33,9 @@ import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
+import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntity;
+import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
+import org.slc.sli.dal.versioning.SliSchemaVersionValidatorProvider;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -57,7 +60,7 @@ import org.springframework.util.Assert;
  * @author Dong Liu dliu@wgen.net
  */
 
-public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
+public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean, ValidationWithoutNaturalKeys {
 
     @Autowired
     private EntityValidator validator;
@@ -84,6 +87,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private Denormalizer denormalizer;
 
+    @Autowired
+    protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
+    
     @Override
     public void afterPropertiesSet() {
         setWriteConcern(writeConcern);
@@ -180,6 +186,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         boolean result = false;
         Entity entity = new MongoEntity(type, id, newValues, null);
         validator.validatePresent(entity);
+        validator.validateNaturalKeys(entity, false);
         keyEncoder.encodeEntityKey(entity);
         if (subDocs.isSubDoc(collectionName)) {
 
@@ -221,6 +228,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         return internalCreate(type, null, body, metaData, collectionName);
     }
+    
 
     /*
      * This method should be private, but is used via mockito in the tests, thus
@@ -247,10 +255,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         MongoEntity entity = new MongoEntity(type, id, body, metaData);
+        validator.validateNaturalKeys(entity, true);
         validator.validate(entity);
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
+        this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
 
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).create(entity);
@@ -274,6 +284,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
 
+        for (Entity entity : records) {
+            this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
+        }
+        
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).insert(records);
 
@@ -297,8 +311,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).insert(records);
             }
-            if(denormalizer.isCached(collectionName)) {
-                denormalizer.addToCache(results,collectionName);
+            if (denormalizer.isCached(collectionName)) {
+                denormalizer.addToCache(results, collectionName);
             }
 
             return results;
@@ -306,6 +320,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    @MigrateEntity
     public Entity findOne(String collectionName, Query query) {
         if (subDocs.isSubDoc(collectionName)) {
             List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
@@ -376,10 +391,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
     }
+    
+    @Override
+    public boolean updateWithoutValidatingNaturalKeys(String collection, Entity entity) {
+        return this.update(collection, entity, false);
+    }
 
     @Override
     public boolean update(String collection, Entity entity) {
+        return this.update(collection, entity, true);
+    }
+
+    private boolean update(String collection, Entity entity, boolean validateNaturalKeys) {
+        if (validateNaturalKeys) {
+            validator.validateNaturalKeys(entity, true);
+        }
         validator.validate(entity);
+        
         this.updateTimestamp(entity);
 
         if (denormalizer.isDenormalizedDoc(collection)) {
@@ -389,7 +417,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collection).create(entity);
         }
 
-        return update(collection, entity, null); // body);
+        return super.update(collection, entity, null); // body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */
@@ -412,11 +440,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    @MigrateEntity
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).findById(id);
-            // return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id),
-            // null);
         }
         return super.findById(collectionName, id);
     }
@@ -441,6 +468,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    @MigrateEntityCollection
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
             this.addDefaultQueryParams(neutralQuery, collectionName);
@@ -504,6 +532,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      */
     @Override
     @Deprecated
+    @MigrateEntityCollection
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
 
         if (query == null) {
@@ -520,6 +549,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    @MigrateEntity
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
         FindAndModifyOptions options = new FindAndModifyOptions();
