@@ -323,7 +323,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName               | count   |
      | session                      |  10     |
   And I should see "Processed 29 records." in the resulting batch job file
-  And I should see "An entity is missing one or more required natural key fields" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+  And I should see "Failed to resolve a deterministic id" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
 
 Scenario: Post a zip file containing attendance but no session data: Clean Database
 Given I post "Error_Report2.zip" file as the payload of the ingestion job
