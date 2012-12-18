@@ -79,33 +79,23 @@ class XmlDataWriter < DataWriter
   # flush all queued entities from event-based interchange generators, then
   # close file handles
   def finalize
+    super
     @writers.each { |writer| writer.finalize }    
-    display_entity_counts
   end
 
   def write_one_entity(entity)
-    if entity.is_a?(Array)
-      entity.each do |e|
-        write_one_entity(e)
-      end
-    else
-      initialize_entity(entity.class)
-
-      found = false
-      @writers.each do |writer|
-        if writer.can_write?(entity.class)
-          writer << entity
-          increment_count(entity)
-          found = true
-          break
-        end
-      end
-
-      if found == false
-        puts "<<<< #{entity}: writer not registered for type #{entity.class}"
-        exit -1
+    found = false
+    @writers.each do |writer|
+      if writer.can_write?(entity.class)
+        writer << entity
+        found = true
+        break
       end
     end
-    increment_count(entity)
+
+    if found == false
+      puts "<<<< #{entity}: writer not registered for type #{entity.class}"
+      exit -1
+    end
   end
 end
