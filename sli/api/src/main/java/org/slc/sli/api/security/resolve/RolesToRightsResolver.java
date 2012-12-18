@@ -36,7 +36,7 @@ public interface RolesToRightsResolver {
      * @param roleNames
      * @return
      */
-    public Set<Role> mapRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm);
+    public Set<Role> mapRoles(String tenantId, String realmId, List<String> roleNames);
     
     /**
      * Resolve roles to rights
@@ -45,5 +45,5 @@ public interface RolesToRightsResolver {
      * @param roleNames
      * @return
      */
-    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm);
+    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames);
 }
