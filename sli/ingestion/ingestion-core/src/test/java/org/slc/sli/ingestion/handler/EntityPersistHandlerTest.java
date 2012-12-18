@@ -48,7 +48,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
@@ -137,7 +136,6 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateStudentEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
 
         // Student search.
         NeutralQuery query = new NeutralQuery();
@@ -170,7 +168,7 @@ public class EntityPersistHandlerTest {
         verify(entityRepository).createWithRetries(studentEntity.getType(), null, studentEntity.getBody(),
                 studentEntity.getMetaData(), "student", totalRetries);
 
-        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
     /**
