@@ -17,6 +17,7 @@
 package org.slc.sli.dal.repository;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -59,6 +60,8 @@ import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.encryption.tool.Encryptor;
+
 /**
  * elasticsearch connector
  */
@@ -78,24 +81,29 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     private String esPassword;
 
+    private Encryptor encryptor;
+
+    private String dalKeyAlias;
+
+    private String keyStorePass;
+
+    private boolean enableEncryption;
+
     // transport client is used for a query builder. The actual connection is over http.
     private Client esClient;
 
     private LoadingCache<String, Boolean> availableTypesCache = CacheBuilder.newBuilder()
-            .expireAfterAccess(10, TimeUnit.MINUTES)
-            .build(
-                new CacheLoader<String, Boolean>() {
-                  @Override
-                  public Boolean load(String key) {
-                      // not overly efficient but will do for this small cache
-                      // TODO: check for type will be available in ES .20
-                      try {
-                          return ReadConverter.fromMappingJson(queryForMapping()).contains(key);
-                      }
-                      catch (Exception e) {
-                          return Boolean.FALSE;
-                      }
-                  }
+            .expireAfterAccess(10, TimeUnit.MINUTES).build(new CacheLoader<String, Boolean>() {
+                @Override
+                public Boolean load(String key) {
+                    // not overly efficient but will do for this small cache
+                    // TODO: check for type will be available in ES .20
+                    try {
+                        return ReadConverter.fromMappingJson(queryForMapping()).contains(key);
+                    } catch (Exception e) {
+                        return Boolean.FALSE;
+                    }
+                }
             });
 
     private Client getClient() {
@@ -104,7 +112,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by init-method
-     *
+     * 
      * @throws Exception
      */
     public void init() throws Exception {
@@ -113,7 +121,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by destroy-method
-     *
+     * 
      * @throws Exception
      */
     public void destroy() throws Exception {
@@ -127,17 +135,27 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Send REST query to elasticsearch server
-     *
+     * 
      * @param query
      * @return
      */
     private HttpEntity<String> query(String url, HttpMethod method, String query, Object[] params) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json;charset=utf-8");
 
         // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
-            headers.set("Authorization",
-                    "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
+            try {
+                headers.set(
+                        "Authorization",
+                        "Basic "
+                                + Base64.encodeBase64String(((this.enableEncryption ? this.encryptor.decrypt(
+                                        this.dalKeyAlias, this.keyStorePass, this.esUsername) : this.esUsername) + ":" + (this.enableEncryption ? this.encryptor
+                                        .decrypt(this.dalKeyAlias, this.keyStorePass, this.esPassword)
+                                        : this.esPassword)).getBytes()));
+            } catch (Exception e) {
+                ElasticSearchRepository.LOG.error("Error decrypting", e);
+            }
         }
         long start = System.currentTimeMillis();
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
@@ -155,12 +173,13 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Get ES Query
+     * 
      * @param neutralQuery
      * @return query topost as a body
      */
     private String getQuery(NeutralQuery neutralQuery, boolean noFields) {
-        SearchRequestBuilder srb = getClient().prepareSearch(
-                TenantContext.getTenantId().toLowerCase()).setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
+        SearchRequestBuilder srb = getClient().prepareSearch(TenantContext.getTenantId().toLowerCase()).setSearchType(
+                SearchType.DFS_QUERY_THEN_FETCH);
         srb.setQuery(converter.getQuery(neutralQuery));
         if (noFields) {
             srb.setNoFields();
@@ -171,11 +190,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     private HttpEntity<String> queryForSearch(String query) {
-        return query(esUri + "/{tenantId}/_search", HttpMethod.POST, query, new Object[] {getIndex()});
+        return query(esUri + "/{tenantId}/_search", HttpMethod.POST, query, new Object[] { getIndex() });
     }
 
     private HttpEntity<String> queryForMapping() {
-        return query(esUri + "/{tenantId}/_mapping", HttpMethod.GET, null, new Object[] {getIndex()});
+        return query(esUri + "/{tenantId}/_mapping", HttpMethod.GET, null, new Object[] { getIndex() });
     }
 
     public void setSearchUrl(String esUrl) {
@@ -194,6 +213,21 @@ public class ElasticSearchRepository implements Repository<Entity> {
         this.esPassword = esPassword;
     }
 
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
+    }
+
+    public void setDalKeyAlias(String dalKeyAlias) {
+        this.dalKeyAlias = dalKeyAlias;
+    }
+
+    public void setKeyStorePass(String keyStorePass) {
+        this.keyStorePass = keyStorePass;
+    }
+
+    public void setEnableEncryption(boolean enableEncryption) {
+        this.enableEncryption = enableEncryption;
+    }
 
     // Unimplemented methods
 
@@ -273,7 +307,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findByQuery(String collectionName, org.springframework.data.mongodb.core.query.Query query, int skip, int max) {
+    public Iterable<Entity> findByQuery(String collectionName, org.springframework.data.mongodb.core.query.Query query,
+            int skip, int max) {
         throw new UnsupportedOperationException("ElasticSearchRepository.findByQuery not implemented");
     }
 
@@ -316,7 +351,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
         throw new UnsupportedOperationException("ElasticSearchRepository.patch not implemented");
     }
 
-
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         throw new UnsupportedOperationException("ElasticSearchRepository.findAndUpdate not implemented");
@@ -332,9 +366,10 @@ public class ElasticSearchRepository implements Repository<Entity> {
         private static JsonNode getHitsNode(HttpEntity<String> response) throws JsonProcessingException, IOException {
             return objectMapper.readTree(response.getBody()).get("hits");
         }
+
         /**
          * Converts elasticsearch http response to collection of entities
-         *
+         * 
          * @param response
          * @return
          */
@@ -405,10 +440,9 @@ public class ElasticSearchRepository implements Repository<Entity> {
         }
     }
 
-
     /**
      * Simple adapter for SearchHits to Entity
-     *
+     * 
      */
     static final class SearchHitEntity implements Entity {
         private Map<String, Object> body;

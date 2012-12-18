@@ -58,8 +58,8 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -114,7 +114,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         String controlFileName = "control_file";
 
-        ReportStats reportStats = null;
+        AbstractReportStats reportStats = null;
 
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
@@ -212,7 +212,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     }
 
     private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
-            ReportStats reportStats, String batchJobId) {
+            AbstractReportStats reportStats, String batchJobId) {
         if (!reportStats.hasErrors() && controlFileDescriptor != null) {
             exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
         } else {
@@ -269,7 +269,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      *            Exception thrown during control file parsing.
      * @param controlFileName
      */
-    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats) {
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception,
+            AbstractReportStats reportStats) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
@@ -285,7 +286,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ReportStats reportStats) {
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, AbstractReportStats reportStats) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
         if (reportStats.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());

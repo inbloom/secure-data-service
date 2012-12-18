@@ -28,7 +28,7 @@ Transform /^realm "([^"]*)"$/ do |arg1|
   id = "45b03fa0-1bad-4606-a936-09ab71af37fe" if arg1 == "Another Fake Realm"
   if arg1 == "Sandbox"
     disable_NOTABLESCAN
-    conn = Mongo::Connection.new('localhost')
+    conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
     db = conn.db('sli')
     coll = db.collection('realm')
     sandboxRealm = coll.find_one({"body.uniqueIdentifier" => "Shared Learning Collaborative"})

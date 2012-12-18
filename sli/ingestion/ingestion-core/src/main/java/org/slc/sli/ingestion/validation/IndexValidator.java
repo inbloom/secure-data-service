@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.validation.indexes.DbIndexValidator;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -55,7 +55,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
     }
 
     @Override
-    public boolean isValid(Object object, AbstractMessageReport report, ReportStats reportStats) {
+    public boolean isValid(Object object, AbstractMessageReport report, AbstractReportStats reportStats) {
 
         verifyIndexes();
 

@@ -25,7 +25,7 @@ import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -107,7 +107,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
     }
 
     @Override
-    public boolean isValid(ControlFileDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+    public boolean isValid(ControlFileDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
         ControlFile controlFile = item.getFileItem();
 
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
@@ -153,7 +153,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         return isValid;
     }
 
-    protected boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats) {
+    protected boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
         for (IngestionFileValidator validator : ingestionFileValidators) {
             if (!validator.isValid(item, report, reportStats)) {
                 return false;

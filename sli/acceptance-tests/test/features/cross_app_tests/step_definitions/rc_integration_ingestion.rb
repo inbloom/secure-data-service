@@ -231,8 +231,9 @@ Given /^I have a local configured landing zone for my tenant$/ do
   @local_lz = true
 
   host = PropLoader.getProps['ingestion_db']
+  port = PropLoader.getProps['ingestion_db_port']
   db_name = PropLoader.getProps['ingestion_database_name']
-  conn = Mongo::Connection.new(host)
+  conn = Mongo::Connection.new(host, port)
   db = conn.db(db_name)
 
   if (@mode == "SANDBOX")

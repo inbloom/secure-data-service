@@ -39,12 +39,16 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
+     * @throws NullPointerException
+     *             if reportStats is <code>null</code>
      */
-    public void error(ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incError();
+    public void error(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        if (reportStats == null) {
+            throw new NullPointerException();
         }
+
+        reportStats.incError();
+
         reportError(reportStats, code, args);
     }
 
@@ -58,12 +62,16 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
+     * @throws NullPointerException
+     *             if reportStats is <code>null</code>
      */
-    public void warning(ReportStats reportStats, MessageCode code, Object... args) {
-
-        if (reportStats != null) {
-            reportStats.incWarning();
+    public void warning(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        if (reportStats == null) {
+            throw new NullPointerException();
         }
+
+        reportStats.incWarning();
+
         reportWarning(reportStats, code, args);
     }
 
@@ -76,8 +84,13 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
+     * @throws NullPointerException
+     *             if reportStats is <code>null</code>
      */
-    public void info(ReportStats reportStats, MessageCode code, Object... args) {
+    public void info(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        if (reportStats == null) {
+            throw new NullPointerException();
+        }
 
         reportInfo(reportStats, code, args);
     }
@@ -95,11 +108,11 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
         return messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
     }
 
-    protected abstract void reportError(ReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportError(AbstractReportStats reportStats, MessageCode code, Object... args);
 
-    protected abstract void reportWarning(ReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args);
 
-    protected abstract void reportInfo(ReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

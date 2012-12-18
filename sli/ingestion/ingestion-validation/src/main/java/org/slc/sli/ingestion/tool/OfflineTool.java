@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.tool;
 
 import java.io.File;
@@ -26,7 +25,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -60,7 +59,7 @@ public class OfflineTool {
 
     private Source source = null;
 
-    private ReportStats reportStats = null;
+    private AbstractReportStats reportStats = null;
 
     private void start(String[] args) {
         LoggerUtil.logToConsole();
@@ -88,7 +87,8 @@ public class OfflineTool {
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
 
-        String logFilePath = file.getAbsoluteFile().getParent() + File.separator + file.getName() + "-" + time.getTime() + ".log";
+        String logFilePath = file.getAbsoluteFile().getParent() + File.separator + file.getName() + "-"
+                + time.getTime() + ".log";
         LoggerUtil.logToFile(logFilePath);
 
         controller.doValidation(file);
@@ -117,7 +117,6 @@ public class OfflineTool {
     public int getInputArgumentCount() {
         return inputArgumentCount;
     }
-
 
     public void setMessageReport(AbstractMessageReport messageReport) {
         this.messageReport = messageReport;
