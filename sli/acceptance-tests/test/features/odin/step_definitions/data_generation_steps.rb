@@ -58,7 +58,7 @@ end
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
 Then /^I should see ([0-9]+) xml interchange files$/ do |file_count|
-  count = Dir["#{@gen_path}*"].length
+  count = Dir["#{@gen_path}*xml"].length
   file_count = file_count.to_i
   puts "Expected to see #{file_count} files, found #{count}"
   raise "Did not find expected number of Interchange files (found #{count}, expected #{file_count})" if file_count.to_i != count

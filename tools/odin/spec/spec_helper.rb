@@ -19,6 +19,7 @@ limitations under the License.
 require 'simplecov'
 require 'factory_girl'
 require 'yaml'
+require_relative '../lib/Shared/EntityClasses/baseEntity'
 
 SimpleCov.start do
   add_filter '/spec/'
@@ -44,9 +45,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     SimpleCov.command_name "RSpec #{rand(100000)}"
-    BaseEntity.initializeDemographics(
-        File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/demographics.yml"),
-        File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/choices.yml"))
   end
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
@@ -76,3 +74,7 @@ class StringIO
     "testfile"
   end
 end
+
+BaseEntity.initializeDemographics(
+    File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/demographics.yml"),
+    File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/choices.yml"))
