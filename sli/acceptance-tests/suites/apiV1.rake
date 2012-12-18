@@ -265,6 +265,11 @@ task :apiPerformanceTests => [:realmInit] do
   runTests("test/features/apiV1/performance/performance.feature")
 end
 
+desc "Run API JMeter Tests"
+task :apiJMeterTests do
+  runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -275,6 +280,7 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/security")
 end
 

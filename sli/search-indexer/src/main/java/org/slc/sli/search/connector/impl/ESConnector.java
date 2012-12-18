@@ -15,6 +15,8 @@
  */
 package org.slc.sli.search.connector.impl;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
 import org.apache.commons.codec.binary.Base64;
@@ -29,15 +31,17 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestOperations;
 
+import org.slc.sli.dal.repository.ElasticSearchRepository;
+import org.slc.sli.encryption.tool.Encryptor;
 import org.slc.sli.search.util.RecoverableIndexerException;
 import org.slc.sli.search.util.SearchEngineException;
 
 /**
  * Indexer is responsible for building elastic search index requests and
  * sending them to the elastic search server for processing.
- *
+ * 
  * @author dwu
- *
+ * 
  */
 public abstract class ESConnector {
 
@@ -49,9 +53,17 @@ public abstract class ESConnector {
 
     private String esPassword;
 
+    private Encryptor encryptor;
+
+    private String dalKeyAlias;
+
+    private String keyStorePass;
+
+    private boolean enableEncryption;
+
     /**
      * Send REST query to elasticsearch server
-     *
+     * 
      * @param query
      * @return
      */
@@ -61,8 +73,17 @@ public abstract class ESConnector {
 
         // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
-            headers.set("Authorization",
-                    "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
+            try {
+                headers.set(
+                        "Authorization",
+                        "Basic "
+                                + Base64.encodeBase64String(((this.enableEncryption ? this.encryptor.decrypt(
+                                        this.dalKeyAlias, this.keyStorePass, this.esUsername) : this.esUsername) + ":" + (this.enableEncryption ? this.encryptor
+                                        .decrypt(this.dalKeyAlias, this.keyStorePass, this.esPassword) : this.esPassword))
+                                        .getBytes()));
+            } catch (Exception e) {
+                logger.error("Error decrypting", e);
+            }
         }
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
         if (logger.isDebugEnabled()) {
@@ -79,7 +100,6 @@ public abstract class ESConnector {
             return new ResponseEntity<String>(rce.getMessage(), rce.getStatusCode());
         }
     }
-
 
     public String executeGet(String url, Object... uriParams) {
         return sendRESTCall(HttpMethod.GET, url, null, uriParams).getBody();
@@ -115,5 +135,21 @@ public abstract class ESConnector {
 
     public void setSearchTemplate(RestOperations searchTemplate) {
         this.searchTemplate = searchTemplate;
+    }
+
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
+    }
+
+    public void setDalKeyAlias(String dalKeyAlias) {
+        this.dalKeyAlias = dalKeyAlias;
+    }
+
+    public void setKeyStorePass(String keyStorePass) {
+        this.keyStorePass = keyStorePass;
+    }
+
+    public void setEnableEncryption(boolean enableEncryption) {
+        this.enableEncryption = enableEncryption;
     }
 }

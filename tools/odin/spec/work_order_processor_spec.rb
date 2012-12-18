@@ -21,6 +21,8 @@ require 'timeout'
 require_relative 'spec_helper'
 require_relative '../lib/Shared/demographics.rb'
 require_relative '../lib/Shared/EntityClasses/enum/GradeLevelType.rb'
+require_relative '../lib/Shared/EntityClasses/enum/ProgramType.rb'
+require_relative '../lib/Shared/EntityClasses/enum/ProgramSponsorType.rb'
 require_relative '../lib/Shared/EntityClasses/studentSchoolAssociation.rb'
 require_relative '../lib/Shared/EntityClasses/studentSectionAssociation.rb'
 require_relative '../lib/Shared/EntityClasses/student_cohort.rb'
@@ -48,7 +50,7 @@ describe "WorkOrderProcessor" do
       class Factory
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
-          :parents, :parent_associations, :cohort_associations
+          :parents, :parent_associations, :cohort_associations, :program_associations
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -58,6 +60,7 @@ describe "WorkOrderProcessor" do
           @assessment_items = to_build.select{|a| a.kind_of? StudentAssessmentItem}
           @parents = to_build.select{|a| a.kind_of? Parent}
           @parent_associations = to_build.select{|a| a.kind_of? StudentParentAssociation}
+          @program_associations = to_build.select{|a| a.kind_of? StudentProgramAssociation}
           @cohort_associations = to_build.select{|a| a.kind_of? StudentCohortAssociation}
         end
       end
@@ -68,10 +71,12 @@ describe "WorkOrderProcessor" do
 
     context 'With a simple work order' do
       let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
-      let(:ed_org) {{'id' => 64, 'sessions' => [{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)},
-                                                {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)}]}}
+      let(:ed_org) {{'id' => 64, 'parent' => 2, 'sessions' => [{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)},
+                                                               {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)}],
+                                 'programs' => [{:id => 1, :type => :IDEA, :sponsor => :SCHOOL}]}}
+      let(:programs) {[{:id => 2, :type => :IDEA, :sponsor => :LOCAL_EDUCATION_AGENCY, :ed_org_id => 2}]}
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001,
-                                             :edOrg => ed_org, :section_factory => section_factory,
+                                             :edOrg => ed_org, :section_factory => section_factory, :programs => programs,
                                              :assessment_factory => AssessmentFactory.new(scenario), :scenario => scenario)}
       let(:assessment_factory) {AssessmentFactory.new(scenario)}
       before {

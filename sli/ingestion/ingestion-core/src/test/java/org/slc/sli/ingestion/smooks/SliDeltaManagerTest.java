@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
@@ -61,7 +61,7 @@ public class SliDeltaManagerTest {
 
     private static final String RECORD_DID = "theRecordId";
 
-    ReportStats reportStats = new SimpleReportStats(new SimpleSource("TestJob", "Resource", "StageName"));
+    AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("TestJob", "Resource", "StageName"));
 
     @Before
     public void setup() {

@@ -228,7 +228,8 @@ private
 
 def tenant_exists(tenant_name = PropLoader.getProps['tenant'])
   host = PropLoader.getProps['ingestion_db']
-  conn = Mongo::Connection.new(host)
+  port = PropLoader.getProps['ingestion_db_port']
+  conn = Mongo::Connection.new(host, port)
   sli_db = conn.db(PropLoader.getProps['sli_database_name'])
   (sli_db['tenant'].find("body.tenantId" => tenant_name).count == 0) ? false : true
 end

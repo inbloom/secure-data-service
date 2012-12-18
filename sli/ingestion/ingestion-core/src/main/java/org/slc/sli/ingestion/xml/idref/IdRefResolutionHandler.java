@@ -56,8 +56,8 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -99,7 +99,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
 
         if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
             LOG.info("Not resolving id-references for file: {} (type: {})", fileEntry.getFileName(), fileEntry
@@ -117,7 +117,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return fileEntry;
     }
 
-    protected File process(File xml, AbstractMessageReport report, ReportStats reportStats) {
+    protected File process(File xml, AbstractMessageReport report, AbstractReportStats reportStats) {
         bucketCache.flushBucket(namespace);
         namespace = batchJobId + "_" + xml.getName() + "_pass_" + (++passCount);
 
@@ -154,7 +154,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
 
     protected Set<String> findIDRefsToResolve(final File xml, final AbstractMessageReport report,
-            final ReportStats reportStats) {
+            final AbstractReportStats reportStats) {
         final Set<String> idRefs = new HashSet<String>();
 
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
@@ -204,12 +204,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         };
         browse(xml, collectIdRefsToResolve, report, reportStats);
 
-
         return idRefs;
     }
 
     protected void findAndCacheEntityXmlForIds(final Set<String> idsToResolve, final File xml,
-            final AbstractMessageReport report, final ReportStats reportStats) {
+            final AbstractMessageReport report, final AbstractReportStats reportStats) {
 
         XmlEventVisitor collectRefContent = new XmlEventVisitor() {
 
@@ -243,7 +242,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
 
     private String getXmlContentForId(XMLEvent xmlEvent, XMLEventReader eventReader,
-            final AbstractMessageReport report, final ReportStats reportStats) {
+            final AbstractMessageReport report, final AbstractReportStats reportStats) {
 
         String xmlSnippetString = null;
         XMLEventWriter writer = null;
@@ -363,7 +362,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return xmlSnippetString;
     }
 
-    protected File resolveIdRefs(final File xml, final AbstractMessageReport report, final ReportStats reportStats) {
+    protected File resolveIdRefs(final File xml, final AbstractMessageReport report,
+            final AbstractReportStats reportStats) {
 
         File newXml = null;
 
@@ -461,7 +461,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 }
 
                 private String resolveRefs(String currentXPath, TransformableXmlString cachedContent, String id,
-                        AbstractMessageReport report, ReportStats reportStats) {
+                        AbstractMessageReport report, AbstractReportStats reportStats) {
 
                     String transformedContent = cachedContent.string;
                     ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
@@ -487,7 +487,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             browse(xml, replaceRefContent, report, reportStats);
 
-
             writer.flush();
 
         } catch (Exception e) {
@@ -504,7 +503,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return newXml;
     }
 
-    private void browse(final File xml, XmlEventVisitor browser, AbstractMessageReport report, ReportStats reportStats) {
+    private void browse(final File xml, XmlEventVisitor browser, AbstractMessageReport report,
+            AbstractReportStats reportStats) {
 
         BufferedInputStream xmlStream = null;
         XMLEventReader eventReader = null;
@@ -672,7 +672,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -29,6 +29,7 @@ require_relative '../../utils/api_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 API_DB = PropLoader.getProps['DB_HOST']
+API_DB_PORT = PropLoader.getProps['DB_PORT']
 
 DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar";
 API_DB_NAME = convertTenantIdToDbName(DB_NAME);
@@ -62,7 +63,7 @@ end
 ###############################################################################
 
 Given /^no record exists in "([^\"]*)" with a "([^\"]*)" of "([^\"]*)"$/ do |collection, field, value|
-  conn = Mongo::Connection.new(API_DB)
+  conn = Mongo::Connection.new(API_DB, API_DB_PORT)
   db = conn[API_DB_NAME]
   col = db.collection(collection)
   resp = col.remove({field => value});
@@ -234,7 +235,7 @@ end
 ###############################################################################
 
 Then /^I find a mongo record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
-  conn = Mongo::Connection.new(API_DB)
+  conn = Mongo::Connection.new(API_DB, API_DB_PORT)
   db = conn[API_DB_NAME]
   col = db.collection(collection)
 
