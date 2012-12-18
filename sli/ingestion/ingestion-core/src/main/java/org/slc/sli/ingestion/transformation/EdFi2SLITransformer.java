@@ -247,7 +247,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             AbstractMessageReport report, AbstractReportStats reportStats) {
         Query query = new Query();
 
-        StringBuilder errorMessage = new StringBuilder("ERROR: Invalid key fields for an entity\n");
+        StringBuilder errorMessage = new StringBuilder("");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             report.error(reportStats, CoreMessageCode.CORE_0011);
         } else {

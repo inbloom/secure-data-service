@@ -207,7 +207,8 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         DummyMessageReport errorReport = mock(DummyMessageReport.class);
         Mockito.doCallRealMethod().when(errorReport)
-                .error(Mockito.any(AbstractReportStats.class), Mockito.any(CoreMessageCode.class), Mockito.anyString());
+                .error(Mockito.any(AbstractReportStats.class), Mockito.any(CoreMessageCode.class), Mockito.anyString()
+                        , Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(), Mockito.any());
 
         AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
 
@@ -229,12 +230,9 @@ public class EntityPersistHandlerTest {
         entityPersistHandler.doHandling(studentEntity, errorReport, reportStats);
 
         Assert.assertTrue("Error report should contain errors", reportStats.hasErrors());
-        String message = "ERROR: There has been a data validation error when saving an entity\n"
-                + "       Error      REQUIRED_FIELD_MISSING\n" + "       Entity     student\n"
-                + "       Instance   0\n" + "       Field      field\n" + "       Value      null\n"
-                + "       Expected   [String]\n";
         Mockito.verify(errorReport, Mockito.times(1)).error(Matchers.any(AbstractReportStats.class),
-                Matchers.eq(CoreMessageCode.CORE_0006), Matchers.any(String.class));
+                Matchers.eq(CoreMessageCode.CORE_0006), Matchers.any(String.class),
+                Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.any(), Matchers.any());
     }
 
     /**

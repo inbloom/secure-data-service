@@ -153,9 +153,8 @@ public class SmooksCallable implements Callable<Boolean> {
         } catch (SmooksException se) {
             LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
-            // errorReport.error("SmooksException encountered while filtering input.",
-            // SmooksCallable.class);
-            errorReport.error(reportStats, CoreMessageCode.CORE_0018);
+
+            errorReport.error(reportStats, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
