@@ -9,8 +9,6 @@ Background:
 
 Scenario: App developer deletes installed app
   When I navigate to the Portal home page
-  Then I will be redirected to realm selector web page
-  When I click on the "Admin" realm in "Sandbox"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
@@ -33,8 +31,6 @@ Scenario: App developer deletes installed app
 
 Scenario: slcoperator deletes SB Dev1 and Dev2
     When I navigate to the Portal home page
-    Then I will be redirected to realm selector web page
-    When I click on the "Admin" realm in "Sandbox"
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
