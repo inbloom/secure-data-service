@@ -65,13 +65,18 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
-      <version>${spring.version}</version>
+
+    </dependency>
+
+    <dependency>
+      <groupId>junit-addons</groupId>
+      <artifactId>junit-addons</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
     </dependency>
 
   </dependencies>
@@ -155,7 +160,7 @@
       <id>NotOpenSource</id>
       <activation>
         <file>
-           <exists>./assembly/pom-top.xml</exists>
+          <exists>./assembly/super-pom.xml</exists>
         </file>
       </activation>
       <properties>
@@ -170,7 +175,7 @@
           <plugin>
             <groupId>org.eclipse.m2e</groupId>
             <artifactId>lifecycle-mapping</artifactId>
-            <version>${lifecycle.mapping.version}</version>
+
             <configuration>
               <lifecycleMappingMetadata>
                 <pluginExecutions>
