@@ -108,7 +108,7 @@ tenant: RCTestTenant
 edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
-ci_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=IL-Daybreak
+ci_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com
