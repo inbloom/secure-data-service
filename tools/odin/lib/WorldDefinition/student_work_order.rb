@@ -195,7 +195,7 @@ class StudentWorkOrder
 
   def grade_wide_student_assessments(grade, session)
     unless @assessment_factory.nil?
-      times_taken = @scenario['ASSESSMENTS_TAKEN']['grade_wide']
+      times_taken = @scenario['ASSESSMENTS_TAKEN']['GRADE_WIDE_ASSESSMENTS']
 
       @assessment_factory.grade_wide_assessments(grade, session['year']).map{ |assessment|
         #TODO this is going to be a busy first couple of days of school, might want to spread them out

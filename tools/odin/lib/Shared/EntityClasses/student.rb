@@ -23,7 +23,6 @@ class Student < BaseEntity
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
                 :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood
   def initialize(id, year_of)
-    super
     @id = id
     @year_of = year_of
     @rand = Random.new(@id)
