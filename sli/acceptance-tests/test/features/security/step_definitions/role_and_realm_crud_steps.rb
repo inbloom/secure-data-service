@@ -31,7 +31,7 @@ Transform /^realm "([^"]*)"$/ do |arg1|
     conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
     db = conn.db('sli')
     coll = db.collection('realm')
-    sandboxRealm = coll.find_one({"body.uniqueIdentifier" => "Shared Learning Collaborative"})
+    sandboxRealm = coll.find_one({"body.uniqueIdentifier" => "SandboxIDP"})
     id = sandboxRealm["_id"]
     enable_NOTABLESCAN
   end

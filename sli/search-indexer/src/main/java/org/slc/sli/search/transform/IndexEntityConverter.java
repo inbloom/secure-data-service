@@ -74,7 +74,10 @@ public class IndexEntityConverter {
             String id = (String)entityMap.get("_id");
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
             Action finalAction = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
-            return new IndexEntity(finalAction, indexName, indexType, id, (Map<String, Object>)entityMap.get("body"));
+            body = (Map<String, Object>)entityMap.get("body");
+            if (body == null && action != Action.DELETE)
+                return null;
+            return new IndexEntity(finalAction, indexName, indexType, id, body );
 
         } catch (Exception e) {
             throw new SearchIndexerException("Unable to convert entity", e);

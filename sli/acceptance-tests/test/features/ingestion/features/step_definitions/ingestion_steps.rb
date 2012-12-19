@@ -28,6 +28,7 @@ require 'rbconfig'
 
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../odin/step_definitions/data_generation_steps'
 
 ############################################################
 # ENVIRONMENT CONFIGURATION
@@ -61,6 +62,9 @@ TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGE
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
+
+ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
+ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 
 ############################################################
 # STEPS: BEFORE
@@ -275,18 +279,18 @@ end
 # REMOTE INGESTION FUNCTIONS
 ############################################################
 
-def remoteLzCopy(srcPath, destPath)
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+def remoteLzCopy(srcPath, destPath, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     puts "attempting to remote copy " + srcPath + " to " + destPath
     sftp.upload(srcPath, destPath)
   end
 end
 
-def clearRemoteLz(landingZone)
+def clearRemoteLz(landingZone, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
 
   puts "clear landing zone " + landingZone
 
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     sftp.dir.foreach(landingZone) do |entry|
       next if entry.name == '.' or entry.name == '..'
 
@@ -303,10 +307,10 @@ def remoteDirContainsFile(pattern, dir)
   return remoteLzContainsFile(pattern, dir)
 end
 
-def remoteLzContainsFile(pattern, landingZone)
+def remoteLzContainsFile(pattern, landingZone, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
   puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     sftp.dir.glob(landingZone, pattern) do |entry|
       return true
     end
@@ -343,11 +347,12 @@ def searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, complet
   return (results != nil && results != "")
 end
 
-def remoteFileContainsMessage(prefix, message, landingZone)
+def remoteFileContainsMessage(prefix, message, landingZone, lz_url = LZ_SERVER_URL, username = INGESTION_USERNAME, port = LZ_SFTP_PORT, password = INGESTION_PASSWORD)
   found = false;
   puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-  Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
+  Net::SFTP.start(lz_url, username, :port => port, :password => password) do |sftp|
     sftp.dir.glob(landingZone, prefix + "*") do |entry|
+      next if entry.name == '.' or entry.name == '..'
       entryPath = File.join(landingZone, entry.name)
       puts "found file " + entryPath
 
@@ -414,8 +419,7 @@ def lzFileRmWait(file, wait_time)
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  initializeLandingZone(@ingestion_lz_identifer_map['Midgar-Daybreak'])
-  initializeTenantDatabase('Midgar-Daybreak')
+  steps "Given I am using preconfigured Ingestion Landing Zone for \"Midgar-Daybreak\""
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
@@ -829,27 +833,6 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Given /^the following collections are completely empty in batch job datastore$/ do |table|
-  disable_NOTABLESCAN()
-  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove()
-
-    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
-
-    if @entity_collection.find().count.to_s != "0"
-      @result = "false"
-    end
-  end
-  ensureBatchJobIndexes(@batchConn)
-  assert(@result == "true", "Some collections were not cleared successfully.")
-  enable_NOTABLESCAN()
-end
-
 When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
@@ -1145,82 +1128,9 @@ When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |l
   puts "Waited for #{INGESTION_TIMEOUT_OVERRIDE.to_i} seconds in addition to the timeout"
 end
 
-When /^a batch job log has been created$/ do
-  if !@hasNoLandingZone
-    intervalTime = 3 #seconds
-                     #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-    @maxTimeout ? @maxTimeout : @maxTimeout = 900
-
-    iters = (1.0*@maxTimeout/intervalTime).ceil
-    found = false
-    if (INGESTION_MODE == 'remote')
-      sleep(5)
-      iters.times do |i|
-        if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
-          puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-          found = true
-          break
-        else
-          sleep(intervalTime)
-        end
-      end
-    else
-      sleep(3) # waiting to poll job file removes race condition (windows-specific)
-      iters.times do |i|
-        if dirContainsBatchJobLog? @landing_zone_path
-          puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-          found = true
-          break
-        else
-          sleep(intervalTime)
-        end
-      end
-    end
-
-    if found
-      assert(true, "")
-    else
-      assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
-    end
-  end
-end
-
-When /^a batch job log has not been created$/ do
-  intervalTime = 3 #seconds
-                   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
-  iters = (1.0*@maxTimeout/intervalTime).ceil
-  found = false
-  if (INGESTION_MODE == 'remote')
-    iters.times do |i|
-
-      if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
-    iters.times do |i|
-      if dirContainsBatchJobLog? @landing_zone_path
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  end
-
-  if found
-    assert(false, "")
-  else
-    assert(true, "Batch log was never created")
-  end
-
+When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
+  should_has_log = (has_or_has_not == "has not")? false : true
+  checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
@@ -1319,7 +1229,7 @@ When /^a batch job log has been created for "([^"]*)"$/ do |lz_key|
   checkForBatchJobLog(lz)
 end
 
-def checkForBatchJobLog(landing_zone)
+def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
@@ -1349,11 +1259,11 @@ def checkForBatchJobLog(landing_zone)
     end
   end
 
-  if found
-    sleep(2) # give JobReportingProcessor time to finish the job
-    assert(true, "")
+  sleep(2)
+  if should_has_log
+    assert(found == true, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   else
-    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+    assert(found == false, "Batch log should not be created")
   end
 end
 
@@ -1447,13 +1357,6 @@ When /^zip files are scped to the ingestion landing zone$/ do
   scpFileToLandingZone @source_file_name2
 end
 
-
-When /^local zip file is moved to ingestion landing zone$/ do
-  scpFileToLandingZone @source_file_name
-
-  assert(true, "File Not Uploaded")
-end
-
 When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"]*)" stops$/ do |instance_name, instance_source, port|
   runShellCommand("#{instance_source}/activemq-admin stop  --jmxurl service:jmx:rmi:///jndi/rmi://localhost:#{port}/jmxrmi #{instance_name}" )
 end
@@ -1474,11 +1377,128 @@ When /^I navigate to the Ingestion Service HealthCheck page and submit login cre
   $healthCheckResult = res.body
 end
 
-When /^I can find a (.*?) with (.*?) (.*?) in tenant db "([^"]*)"$/ do |collection, id_type, id, tenantId|
+When /^I can find a "(.*?)" with "(.*?)" "(.*?)" in tenant db "(.*?)"$/ do |collection, id_type, id, tenantId|
+  disable_NOTABLESCAN()
   @db = @conn[convertTenantIdToDbName(tenantId)]
   @coll = @db[collection]
+  @id_type = id_type
+  @id = id
   # Set the "drilldown document" to the input id_type/id pair
-  @dd_doc = @coll.find(id_type => id).to_a
+  @dd_doc = @coll.find(id_type => id).to_a[0]
+  enable_NOTABLESCAN()  
+end
+=begin
+When /^Examining the studentSchoolAssociation collection references$/ do
+  disable_NOTABLESCAN()
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the student_school_association value hash
+  @coll = @db["studentSchoolAssociation"]
+  #@st_sch_assoc = @coll.find_one({"type" => "studentSchoolAssociation"})
+  @st_sch_assoc = @coll.find_one
+  # ensure our query returned a document
+  assert(true, "studentSchoolAssociation unset") if @st_sch_assoc.nil?
+  puts "st_sch_assoc has data in it! Good Job!"
+  # body.schoolId
+  assert(true, "studentSchoolAssociation.body.schoolId unset") if @st_sch_assoc["body"]["schoolId"].nil?
+  puts "studentSchoolAssociation.body.schoolId = #{@st_sch_assoc["body"]["schoolId"]}"
+  # body.studentId
+  assert(true, "studentSchoolAssociation.body.studentId unset") if @st_sch_assoc["body"]["studentId"].nil?
+  puts "studentSchoolAssociation.body.studentId = #{@st_sch_assoc["body"]["studentId"]}"
+  # body.entryDate
+  assert(true, "studentSchoolAssociation.body.entryDate unset") if @st_sch_assoc["body"]["entryDate"].nil?
+  puts "studentSchoolAssociation.body.entryDate = #{@st_sch_assoc["body"]["entryDate"]}"
+  # body.entryGradeLevel
+  assert(true, "studentSchoolAssociation.body.entryGradeLevel unset") if @st_sch_assoc["body"]["entryGradeLevel"].nil?
+  puts "studentSchoolAssociation.body.entryGradeLevel = #{@st_sch_assoc["body"]["entryGradeLevel"]}"
+  enable_NOTABLESCAN()
+end
+=end
+When /^Examining the studentSchoolAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the student_school_association value hash
+  @coll = @db["studentSchoolAssociation"]
+  #@st_sch_assoc = @coll.find_one({"type" => "studentSchoolAssociation"})
+  @ref_doc = @coll.find_one
+
+  # ensure our query returned a document
+  raise "studentSchoolAssociation unset" if @ref_doc.nil?
+  puts "ref_doc has data in it! Good Job!"
+
+  # body.schoolId
+  raise "studentSchoolAssociation.body.schoolId unset" if @ref_doc["body"]["schoolId"].nil?
+  puts "studentSchoolAssociation.body.schoolId = #{@ref_doc["body"]["schoolId"]}"
+  @ref_doc.[]="educationOrganization", @ref_doc["body"]["schoolId"]
+
+  # body.studentId
+  raise "studentSchoolAssociation.body.studentId unset" if @ref_doc["body"]["studentId"].nil?
+  puts "studentSchoolAssociation.body.studentId = #{@ref_doc["body"]["studentId"]}"
+  @ref_doc.[]="student", @ref_doc["body"]["studentId"]
+
+  # body.entryDate
+  raise "studentSchoolAssociation.body.entryDate unset" if @ref_doc["body"]["entryDate"].nil?
+  puts "studentSchoolAssociation.body.entryDate = #{@ref_doc["body"]["entryDate"]}"
+
+  # body.entryGradeLevel
+  raise "studentSchoolAssociation.body.entryGradeLevel unset" if @ref_doc["body"]["entryGradeLevel"].nil?
+  puts "studentSchoolAssociation.body.entryGradeLevel = #{@ref_doc["body"]["entryGradeLevel"]}"
+end
+
+When /^Examining the staffEducationOrganizationAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the staffEducationOrganizationAssociation value hash
+  @coll = @db["staffEducationOrganizationAssociation"]
+  @ref_doc = @coll.find_one
+
+  # ensure our query returned a document
+  assert(false, "staffEducationOrganizationAssociation unset") if @ref_doc.nil?
+  
+  # body.staffReference
+  if @ref_doc["body"]["staffReference"].nil?
+    raise "staffEducationOrganizationAssociation.body.schoolId unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.schoolId = #{@ref_doc["body"]["staffReference"]}"
+  @ref_doc.[]="staff", @ref_doc["body"]["staffReference"]
+ 
+  # set edOrg _id to body.educationOrganizationReference
+  if @ref_doc["body"]["educationOrganizationReference"].nil?
+    raise "staffEducationOrganizationAssociation.body.studentId unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.studentId = #{@ref_doc["body"]["educationOrganizationReference"]}"
+  @ref_doc.[]="educationOrganization", @ref_doc["body"]["educationOrganizationReference"]
+  
+
+  # body.staffClassification
+  if @ref_doc["body"]["staffClassification"].nil?
+    raise "staffEducationOrganizationAssociation.body.staffClassification unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.staffClassification = #{@ref_doc["body"]["staffClassification"]}"
+
+  # body.positionTitle
+  if @ref_doc["body"]["positionTitle"].nil?
+    raise "staffEducationOrganizationAssociation.body.positionTitle unset"
+  end
+  puts "staffEducationOrganizationAssociation.body.positionTitle = #{@ref_doc["body"]["positionTitle"]}"
+end
+
+When /^Examining the teacherSchoolAssociation collection references$/ do
+  @db = @conn[convertTenantIdToDbName("Midgar")]
+  # build up the teacherSchoolAssociation value hash
+  @coll = @db["teacherSchoolAssociation"]
+  @ref_doc = @coll.find_one
+  
+  # ensure our query returned a document
+  raise "teacherSchoolAssociation unset" if @ref_doc.nil?
+  
+  # body.staffReference
+  raise "teacherSchoolAssociation.body.teacherId unset" if @ref_doc["body"]["teacherId"].nil?
+  puts "teacherSchoolAssociation.body.teacherId = #{@ref_doc["body"]["teacherId"]}"
+  @ref_doc.[]="staff", @ref_doc["body"]["teacherId"]
+
+
+  # set edOrg _id to body.schoolId
+  raise "teacherSchoolAssociation.body.schoolId unset" if @ref_doc["body"]["schoolId"].nil?
+  puts "teacherSchoolAssociation.body.schoolId = #{@ref_doc["body"]["schoolId"]}"
+  @ref_doc.[]="educationOrganization", @ref_doc["body"]["schoolId"]
 end
 
 ############################################################
@@ -1745,63 +1765,230 @@ Then /^I check to find if record is in collection:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Then /^the student entity (.*?)\.(.*?) should be "([^"]*)"$/ do |doc_key, subdoc_key, expected_value|
+# Deep-document inspection when we are interested in top-level entities (_id, type, etc)
+Then /^the "(.*?)" entity "(.*?)" should be "(.*?)"$/ do |coll, doc_key, expected_value|
+  disable_NOTABLESCAN()
   # Make sure drilldown_document has been set already
   assert(defined? @dd_doc, "Required mongo document has not been retrieved")
   # Perform a deep document inspection of doc.subdoc.keyvalue
   # Check the body of the returned document array for expected key/value pair
-  assert(ddiStudent(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
+  assert(deepDocumentInspect(coll, doc_key, expected_value), "#{doc_key} not set to #{expected_value}")
+  enable_NOTABLESCAN()
 end
 
+Then /^the studentSchoolAssociation references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, field, ref|
+  disable_NOTABLESCAN()
+  result = false
+  # cache the referenced collection (student OR educationOrganizatio)
+  ref_coll = @db[coll]
+  raise "Could not find #{coll} collection" if ref_coll.count == 0
+
+  # This part gets a little hackish because mongo returns nested structs
+  # for student school assoc we need to support at most 2 nodes
+  # -> Get values from the studentSchoolAssociation doc
+  ssa_doc_root_field  = ref.split(".").shift
+  ssa_doc_value_field   = ref.split(".").pop
+  ssa_value = @st_sch_assoc[ssa_doc_root_field][ssa_doc_value_field]
+  # -> Get values from the student OR educationOrganization doc
+  ref_doc_root_field = field.split(".").shift
+  ref_doc_value_field  = field.split(".").pop
+  # -> The fields and values are in a hash appended to the returned array
+  # -> so pop the last array element into the results hash
+
+  # find the referenced document and pull out the field value(s)
+  # this returns a Mongo::Cursor object (even if miss), so be careful
+  # on miss, ref_doc.count will be 0 (not null). on hit, call
+  # ref_doc.to_a, and get an array of field match hashes
+  id = @st_sch_assoc["body"]["studentId"] if coll == "student"
+  id =  @st_sch_assoc["body"]["schoolId"] if coll == "educationOrganization"
+  ref_doc = ref_coll.find({"_id" => id}, :fields => field).to_a
+  raise "Could not find #{coll} document with _id #{id}" if ref_doc.count == 0
+  ref_doc_results_hash = ref_doc.pop
+
+  # -> if this is a top-level document, just check equality
+  if ref_doc_results_hash.length == 1
+    # -> pass case (equal)
+    result = true if ssa_value == ref_doc_results_hash[ref_doc_root_field]
+  else
+    # -> loop through subdoc hits and check if they match referencer document
+    for field_hash in ref_doc_results_hash[ref_doc_root_field]
+      result = true if ssa_value == field_hash[ref_doc_value_field]
+    end
+  end
+  assert(result, "Could not find the required value in the referenced document")
+  enable_NOTABLESCAN()
+end
+
+
+Then /^the document references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, src_field, ref_field|
+  disable_NOTABLESCAN()
+  result = false
+  # Nomenclature:
+  # -> ref_doc: reference document - tests check these referential values against "real" values
+  # --> (example: studentSchollAssociation, staffEdOrgAssociation, etc)
+  # -> src_doc : source document (the reference source, tests "target" these as "real" values)
+  # --> (example: student, staff, educationOrgainization, etc)
+  #
+  # cache the target collection
+  src_coll = @db[coll]
+  raise "Could not find #{coll} collection" if src_coll.count == 0
+
+  # -> Get values from the source document
+  src_id = @ref_doc[coll]
+  # -> find the referenced document and pull out the field value(s)
+  src_doc = src_coll.find({"_id" => src_id}, :fields => src_field).to_a
+  raise "Could not find #{coll} document with _id #{src_id}" if src_doc.count == 0
+  src_doc_hash = src_doc.pop
+
+  # -> Get values from the source document
+  src_value = extractNestedDoc(src_doc_hash, src_field)
+  # -> Get values from the reference document
+  ref_value = extractNestedDoc(@ref_doc, ref_field)
+  
+  # if doc is an array, we need to iterate over doc
+  # special thanks to the idiot mongo BSON::OrderedHash
+  if src_value.kind_of?(Array)
+    i = 0
+    for value in src_value
+      result = true if value[value.keys[i]] == ref_value
+      i += 1
+    end
+  else
+    result = true if src_value == ref_value
+  end
+
+  assert(result, "Could not find the source value in the referenced document")
+  enable_NOTABLESCAN()
+end
+
+class BSON::OrderedHash
+  include Enumerable
+end
+
+def extractNestedDoc(doc, doc_tree)
+
+  # determine the length of the tree
+  doc_tree.split(".").collect do |i|
+    return doc if doc.kind_of?(Array)
+    doc = doc[i]
+  end
+  # return the value from the final node
+  return doc
+end
+
+
+=begin
+# Deep-document inspection for when we are interested in subdocs (body, metaData, schools, etc)
+Then /^the "(.*?)" entity "(.*?)\.(.*?)" should be "(.*?)"$/ do |coll, doc_key, subdoc_key, expected_value|
+  # Make sure drilldown_document has been set already
+  assert(defined? @dd_doc, "Required mongo document has not been retrieved")
+  puts "expected_value is #{expected_value} which is of type #{expected_value.class}"
+  # Perform a deep document inspection of doc.subdoc.keyvalue
+  # Check the body of the returned document array for expected key/value pair
+  assert(deepDocumentInspect(doc_key, subdoc_key, expected_value), "#{doc_key}.#{subdoc_key} not set to #{expected_value}")
+end
+=end
+
 # Deep-Document Inspection of the Student collection in TENANT_DB
-# --> This checks whether doc.subdoc = expected_value
-def ddiStudent(doc_key, subdoc_key, expected_value)
-  ### TODO: Factor this code out for now until Odin is ready for it
-  return true
+# -> Pass in mongo document switches (doc.subdoc) and expected value,
+# -> query mongo for the @db.@coll.doc.subdoc, and check equality
+#
+# Ex: deepDocumentInspect(body, stateUniqueStaffId, cgray)
+#
+def deepDocumentInspect(coll, doc_key, expected_value)
+  # Split out each document node into an array
+
+  doc_ary = doc_key.split(".")
+
   # --> This checks whether body.subdoc = expected_value
-  if doc_key == "body"
+  if doc_ary[0] == "body"
+    body = @dd_doc["body"]
+    subdoc = doc_ary[1]
     # Parse the actual value from the student
-    # --> This might be an array OR a string, depending on what's in mongo
-    # --> so we need to use duck typing 
-    if @dd_doc[0][doc_key][subdoc_key].respond_to?(:to_ary)
-      real_value = @dd_doc[0][doc_key][subdoc_key][0]
-    else 
-      real_value = @dd_doc[0][doc_key][subdoc_key]
+    # -> This might be an array OR a string, depending on what's in mongo
+    # -> so we need to use duck typing 
+    # --> if the subdoc is an array, take the first element
+    # TODO: this should iterate through all elems of the list, needs refactor
+    if subdoc.match    (/race/i)
+      real_value = body["race"][0]
+
+    elsif subdoc.match (/highlyQualifiedTeacher/)
+      real_value = body["highlyQualifiedTeacher"].to_s
+
+    elsif subdoc.match (/sex/i)
+      real_value = body["sex"]
+
+    elsif subdoc.match (/highestLevelOfEducationCompleted/i)
+      real_value = body["highestLevelOfEducationCompleted"]
+
+    elsif subdoc.match (/birthDate/i)
+      real_value = body["birthDate"]
+
+    elsif doc_ary[1].respond_to?(:to_ary)
+      real_value = @dd_doc[doc_ary[0]][doc_ary[1]][0]
+    # --> this will cast a boolean to a string, or just pass a string thru
+    elsif doc_ary[1].respond_to?(:to_s) 
+      real_value = @dd_doc[doc_ary[0]][doc_ary[1]]
+    # --> If the mongo entity is not something we can handle, we need
+    # --> to fail gracefully and notify the type issue
+    else
+      puts "This subdoc type (#{doc_ary[1]}) is not supported"
+      return false
     end
          
     # Check equality
-    puts "Looking for #{expected_value}, found #{real_value}"
-    if real_value == expected_value
-      return true
-    else
-      puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
-      return false
-    end  
+    puts "Looking for #{doc_ary[0]}.#{doc_ary[1]} to be #{expected_value}, found #{real_value}"
+    check_equals(real_value, expected_value)
 
   # --> This checks whether schools.subdoc = expected_value
-  elsif doc_key == "schools"
+  elsif doc_ary[0] == "schools"
     # This checks how many records of the schools.subdoc type exist
     # --> Example: [tenant_db].student.schools.entryGradeLevel has one entity per year
-    num_entities = @dd_doc[0][doc_key].length
+    num_entities = @dd_doc[doc_ary[0]].length
     
     # Recursively check the returned document array for expected key/value pair
     for i in 0..num_entities-1
-      real_value = @dd_doc[0][doc_key][i][subdoc_key]
-      puts "Looking for #{expected_value}, found #{real_value}"
-      
+      real_value = @dd_doc[doc_ary[0]][i][doc_ary[1]]
+            
       # Check equality
-      if real_value == expected_value
-        return true
-      end  
+      return true if real_value == expected_value  
     end
-   puts "#{doc_key}.#{subdoc_key} set to #{real_value}, expected #{expected_value}"
+   puts "#{doc_ary[0]}.#{doc_ary[1]} set to #{real_value}, expected #{expected_value}"
    return false
+  
+  # --> Not interested in a subdoc (cases: _id, type)
+  elsif doc_ary[0].match(/type/) or doc_ary[0].match(/_id/)
+    real_value = @dd_doc[doc_ary[0]]
 
-  # --> Default case if I don't recognize "doc_key"
+    puts "The real_value is set to: #{real_value}, expected #{expected_value}"
+
+    # Check equality
+    check_equals(real_value, expected_value) 
+  # --> Default case if I don't recognize "doc_ary"
   else
-    puts "This type of entity is not covered by ddiStudent in ingestion_steps.rb"
+    puts "ERROR: This type of entity (#{doc_ary[0]}) is not covered by deepDocumentInspect in ingestion_steps.rb"
     return false 
   end
+end
+
+def studentSchoolAssociationInspect(key_hash, expected_value)
+  # look for the _id in studentSchoolAssociation
+
+  # look for the 
+
+  # verify the student_id matches a student._id document
+
+  # verify the school_id matches a student.schools._id document
+
+  # verify the entryDate matches a student.schools.entryDate document
+
+  # verify the entryGradeLevel matches a student.schools.entryGradeLevel document
+
+end
+
+def check_equals(real_value, expected_value)
+  return true if real_value == expected_value
+  return false
 end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
@@ -1998,6 +2185,11 @@ def checkForContentInFileGivenPrefix(message, prefix)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message, contents were:\n#{file_contents}")
       end
@@ -2034,6 +2226,11 @@ def checkForNullContentInFileGivenPrefix(message, prefix)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2080,6 +2277,11 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2116,6 +2318,11 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
       file_contents = IO.readlines(landing_zone + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
 
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
@@ -2132,6 +2339,7 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
 end
 
 Then /^I should not see "([^"]*)" in the resulting batch job file$/ do |message|
+  # Why is this exactly the same as above?
   prefix = "job-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
 end
@@ -2179,86 +2387,42 @@ Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ 
 end
 
 Then /^I should not see an error log file created$/ do
-  if !@hasNoLandingZone
-    if (INGESTION_MODE == 'remote')
-      if remoteLzContainsFile("error.*", @landing_zone_path)
-        assert(false, "Error files created.")
-      else
-        assert(true, "No error files created.")
-      end
-
-    else
-      @error_filename_component = "error."
-
-      @error_status_filename = ""
-      Dir.foreach(@landing_zone_path) do |entry|
-        if (entry.rindex(@error_filename_component))
-          puts File.open(@landing_zone_path + entry).read
-          # LAST ENTRY IS OUR FILE
-          @error_status_filename = entry
-        end
-      end
-
-      puts "STATUS FILENAME = " + @landing_zone_path + @error_status_filename
-      assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
-    end
-  end
+  checkForErrorWarnLogFile(@landing_zone_path, "error") if !@hasNoLandingZone
 end
 
 And /^I should not see a warning log file created$/ do
-  if !@hasNoLandingZone
-    if (INGESTION_MODE == 'remote')
-      if remoteLzContainsFile("warn.*", @landing_zone_path)
-        assert(false, "Warn files created.")
-      else
-        assert(true, "No warn files created.")
-      end
-
-    else
-      @warn_filename_component = "warn."
-
-      @warn_status_filename = ""
-      Dir.foreach(@landing_zone_path) do |entry|
-        if (entry.rindex(@warn_filename_component))
-          puts File.open(@landing_zone_path + entry).read
-          # LAST ENTRY IS OUR FILE
-          @warn_status_filename = entry
-        end
-      end
-
-      puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
-      assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
-    end
-  end
+  checkForErrorWarnLogFile(@landing_zone_path, "warn") if !@hasNoLandingZone
 end
 
 
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
-  checkForErrorLogFile(lz)
+  checkForErrorWarnLogFile(lz, "error")
 end
 
-def checkForErrorLogFile(landing_zone)
+def checkForErrorWarnLogFile(landing_zone, prefix)
+  # prefix is either 'error' or 'warn' in lower case
   if (INGESTION_MODE == 'remote')
-    if remoteLzContainsFile("error.*", landing_zone)
-      assert(true, "No error files created.")
+    if !remoteLzContainsFile("#{prefix}.*", landing_zone)
+      assert(true, "No #{prefix} files created.")
     else
-      assert(false, "Error files created.")
+      assert(false, "#{prefix} files created.")
     end
 
   else
-    @error_filename_component = "error."
+    @filename_component = "#{prefix}."
 
-    @error_status_filename = ""
+    @status_filename = ""
     Dir.foreach(landing_zone) do |entry|
-      if (entry.rindex(@error_filename_component))
+      if (entry.rindex(@filename_component))
+        puts File.open(landing_zone + entry).read
         # LAST ENTRY IS OUR FILE
-        @error_status_filename = entry
+        @status_filename = entry
       end
     end
 
-    puts "STATUS FILENAME = " + landing_zone + @error_status_filename
-    assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
+    puts "STATUS FILENAME = " + landing_zone + @status_filename
+    assert(@status_filename == "", "File " + @status_filename + " exists")
   end
 end
 
@@ -2592,8 +2756,9 @@ Then /^I check that references were resolved correctly:$/ do |table|
 	enable_NOTABLESCAN()
 end
 
+
 ############################################################
-# STEPS: BEFORE
+# STEPS: AFTER
 ############################################################
 
 After do

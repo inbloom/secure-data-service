@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-
-package org.slc.sli.ingestion.validation;
+package org.slc.sli.dal.migration.strategy;
 
 /**
- * Type's errors are reportable.
- *
- * @author dduran
+ * An exception that occurs during migration of data from one version to another.
+ * 
+ * @author kmyers
  *
  */
-public interface ErrorReportSupport {
-
+public class MigrationException extends RuntimeException {
+    
+    private Exception e;
+    
     /**
-     * Provides the ErrorReport for this type.
-     *
-     * @return ErrorReport instance.
+     * 
+     * @param e
      */
-    ErrorReport getErrorReport();
-
+    public MigrationException(Exception e) {
+        this.e = e;
+    }
+    
+    public Exception getUnderlyingException() {
+        return this.e;
+    }
 }

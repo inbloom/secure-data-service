@@ -14,25 +14,65 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.validation.spring;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.SimpleValidator;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Abstract validator with Spring MessageSource support.
  *
  * @author okrook
  *
- * @param <T> Type of the object being validated
+ * @param <T>
+ *            Type of the object being validated
  */
-public abstract class SimpleValidatorSpring<T> extends SimpleValidator<T> implements MessageSourceAware {
+public abstract class SimpleValidatorSpring<T> implements Validator<T>, MessageSourceAware {
 
     private MessageSource messageSource;
+
+    /**
+     * Helper to report errors.
+     *
+     * @param report
+     *            report implementation for tracking and persisting errors.
+     * @param reportStats
+     *            statistics to be updated
+     * @param code
+     *            code associated with this error.
+     * @param args
+     *            optional arguments for substitution into message.
+     */
+    protected void error(AbstractMessageReport report, AbstractReportStats reportStats, MessageCode code,
+            Object... args) {
+        if (report != null) {
+            report.error(reportStats, code, args);
+        }
+    }
+
+    /**
+     * Helper to report warnings.
+     *
+     * @param report
+     *            report implementation for tracking and persisting warnings.
+     * @param reportStats
+     *            statistics to be updated
+     * @param code
+     *            code associated with this warning.
+     * @param args
+     *            optional arguments for substitution into message.
+     */
+    protected void warn(AbstractMessageReport report, AbstractReportStats reportStats, MessageCode code, Object... args) {
+        if (report != null) {
+            report.warning(reportStats, code, args);
+        }
+    }
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

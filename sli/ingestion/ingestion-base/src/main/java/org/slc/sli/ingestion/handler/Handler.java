@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Generic interface for handlers that requires handle methods with and without error support.
@@ -35,38 +34,29 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public interface Handler<T, O> {
 
     /**
-     * Handle the provided item.
-     *
-     * @param item
-     *            the object we want to handle
-     * @return object defined in concrete implementation
-     */
-    O handle(T item);
-
-    /**
      * Handle the provided type and utilize the provided ErrorReport to track errors.
      *
      * @param item
-     *            the object we want to handle
-     * @param errorReport
-     *            an ErrorReport implementation in which errors can be tracked
-     * @return object defined in concrete implementation
+     *            object to be handled
+     * @param report
+     *            receive messages from the handling of item
+     * @param reportStats
+     *            track statistics for report messages
+     * @return
      */
-    O handle(T item, ErrorReport errorReport);
+    O handle(T item, AbstractMessageReport report, AbstractReportStats reportStats);
 
     /**
      * Handle the provided items.
      *
-     * @param items
-     *            list of items to be handled.
-     * @param errorReport
-     *            an ErrorReport implementation in which errors can be tracked
-     * @return list of objects defined in concrete implementation
+     * @param item
+     *            object to be handled
+     * @param report
+     *            receive messages from the handling of item
+     * @param reportStats
+     *            track statistics for report messages
+     * @return
      */
-    List<O> handle(List<T> items, ErrorReport errorReport);
-
-    O handle(T item, AbstractMessageReport report, AbstractReportStats reportStats);
-
     List<O> handle(List<T> items, AbstractMessageReport report, AbstractReportStats reportStats);
 
 }
