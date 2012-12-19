@@ -17,10 +17,12 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -34,14 +36,17 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class TeacherToCourseOfferingValidator extends AbstractContextValidator {
+public class TransitiveTeacherToCourseOfferingValidator extends AbstractContextValidator {
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    
+    @Resource
+    private StudentValidatorHelper helpme;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTeacher() && EntityNames.COURSE_OFFERING.equals(entityType) && !isTransitive;
+        return isTeacher() && EntityNames.COURSE_OFFERING.equals(entityType) && isTransitive;
     }
     
     @Override
@@ -49,18 +54,17 @@ public class TeacherToCourseOfferingValidator extends AbstractContextValidator {
         if (!areParametersValid(EntityNames.COURSE_OFFERING, entityType, ids)) {
             return false;
         }
-        Set<String> edorgs = getTeacherEdorgLineage();
-        Set<String> validIds = new HashSet<String>();
-        // Validate each ID by either section or session
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.CRITERIA_IN, ids));
-        Iterable<Entity> cos = repo.findAll(EntityNames.COURSE_OFFERING, basicQuery);
-        for (Entity co : cos) {
-            if (edorgs.contains((String) co.getBody().get(ParameterConstants.SCHOOL_ID))) {
-                validIds.add(co.getEntityId());
-            }
+        
+        List<String> students = helpme.getStudentIds();
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("courseOfferingId", "in", ids));
+        nq.addCriteria(new NeutralCriteria("studentSectionAssociation.body.studentId", "in", students,false));
+        Iterable<Entity> results = repo.findAll(EntityNames.SECTION, nq);
+        
+        Set<String> fin = new HashSet<String>(ids);
+        for(Entity e : results) {
+        	fin.remove(e.getBody().get("courseOfferingId"));
         }
-
-        return ids.size() == validIds.size();
+        
+        return fin.isEmpty();
     }
 }

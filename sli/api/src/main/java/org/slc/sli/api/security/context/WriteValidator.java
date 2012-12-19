@@ -69,6 +69,7 @@ public class WriteValidator {
             put(EntityNames.COHORT, "educationOrgId");
             put(EntityNames.COURSE, "schoolId");
             put(EntityNames.COURSE_OFFERING, "schoolId");
+            put(EntityNames.DISCIPLINE_ACTION, "responsibilitySchoolId");
             put(EntityNames.DISCIPLINE_INCIDENT, "schoolId");
             put(EntityNames.GRADUATION_PLAN, "educationOrganizationId");
             put(EntityNames.SECTION, ParameterConstants.SCHOOL_ID);
@@ -81,8 +82,7 @@ public class WriteValidator {
                 new ComplexValidation(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.SECTION_ID, EntityNames.SECTION),
                 new ComplexValidation(EntityNames.STUDENT_GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID, EntityNames.GRADEBOOK_ENTRY),
                 new ComplexValidation(EntityNames.GRADEBOOK_ENTRY, ParameterConstants.SECTION_ID, EntityNames.SECTION),
-                new ComplexValidation(EntityNames.COURSE_TRANSCRIPT, ParameterConstants.COURSE_ID, EntityNames.COURSE),
-                new ComplexValidation(EntityNames.DISCIPLINE_ACTION, ParameterConstants.DISCIPLINE_INCIDENT_ID, EntityNames.DISCIPLINE_INCIDENT)
+                new ComplexValidation(EntityNames.COURSE_TRANSCRIPT, ParameterConstants.COURSE_ID, EntityNames.COURSE)
         );
 
         complexValidationMap = new HashMap<String, ComplexValidation>();
@@ -122,7 +122,7 @@ public class WriteValidator {
                 }
             }
 
-            if (isValid && entityBody != null) {
+            if (isValid && entityBody != null && !entityBody.isEmpty()) {
                 isValid = isEntityValidForEdOrgWrite(entityBody, def.getType(), principal);
             }
         }

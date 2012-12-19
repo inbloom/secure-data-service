@@ -19,7 +19,6 @@ nav,
 section {
   display: block;
 }
-
 audio, canvas, video {
   display: inline-block;
   *display: inline;
@@ -92,7 +91,6 @@ input[type="search"] {
 input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
-
 textarea {
   overflow: auto;
   vertical-align: top;
@@ -2050,35 +2048,6 @@ table .span12 {
 }
 .btn-inverse:active, .btn-inverse.active {
   background-color: #0c0c0c \9;
-}
-.btn-link,
-.btn-link:active,
-.btn-link[disabled] {
-  background-color: transparent;
-  background-image: none;
-  -webkit-box-shadow: none;
-     -moz-box-shadow: none;
-          box-shadow: none;
-}
-
-.btn-link {
-  color: #0088cc;
-  cursor: pointer;
-  border-color: transparent;
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
-}
-
-.btn-link:hover {
-  color: #005580;
-  text-decoration: underline;
-  background-color: transparent;
-}
-
-.btn-link[disabled]:hover {
-  color: #333333;
-  text-decoration: none;
 }
 button.btn, input[type="submit"].btn {
   *padding-top: 2px;

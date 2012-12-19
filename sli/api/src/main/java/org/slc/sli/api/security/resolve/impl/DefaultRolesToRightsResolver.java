@@ -49,15 +49,15 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     private Repository<Entity> repo;
 
     @Override
-    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm) {
+    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = null;
 
-        Collection<Role> roles = mapRoles(tenantId, realmId, roleNames, isAdminRealm);
+        Collection<Role> roles = mapRoles(tenantId, realmId, roleNames);
         for (Role role : roles) {
             if (auths ==  null) {
                 auths = new HashSet<GrantedAuthority>(role.getRights());
             } else {
-                if (isAdminRealm) {
+                if (isAdminRealm(realmId)) {
                     auths.addAll(role.getRights());
                 } else {
                     //When the user is coming from a federated realm this prevents the user from getting
@@ -76,13 +76,29 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         return auths;
     }
 
+    private boolean isAdminRealm(final String realmId) {
+
+        Entity entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+            @Override
+            public Entity execute() {
+                return repo.findById("realm", realmId);
+            }
+        });
+
+        if (entity != null && entity.getBody() != null) {
+            Boolean admin = (Boolean) entity.getBody().get("admin");
+            return admin != null ? admin : false;
+        }
+        return false;
+    }
+
 
     @Override
     public Set<Role> mapRoles(String tenantId, String realmId,
-            List<String> roleNames, boolean isAdminRealm) {
+            List<String> roleNames) {
         Set<Role> roles = new HashSet<Role>();
 
-        if (isAdminRealm) {
+        if (isAdminRealm(realmId)) {
             roles.addAll(roleRightAccess.findAdminRoles(roleNames));
             debug("Mapped admin roles {} to {}.", roleNames, roles);
         } else {
