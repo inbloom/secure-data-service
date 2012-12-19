@@ -14,7 +14,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Realm Management"
+And under System Tools, I click on "Manage Realm"
 And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
@@ -51,7 +51,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 #Create a new installed App
 Then I am redirected to the Application Registration Tool page
@@ -69,7 +69,7 @@ And the client ID and shared secret fields are present
 And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 #Create a new web full window app
@@ -97,7 +97,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Registration"
+And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table
@@ -131,7 +131,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on "Application Authorization"
+And under System Tools, I click on "Authorize Applications"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
