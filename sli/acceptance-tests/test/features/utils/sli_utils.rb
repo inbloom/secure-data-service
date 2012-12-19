@@ -318,6 +318,9 @@ def makeHeaders(verb,sessionId,format)
   end
 
   headers.store(:Authorization, "bearer "+sessionId)
+  if !headers.has_key?(:content_type)
+    headers.store("Content-Type", "application/json")
+  end
   return headers
 end
 
