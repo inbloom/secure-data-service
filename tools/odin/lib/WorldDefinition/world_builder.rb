@@ -68,24 +68,24 @@ class WorldBuilder
   # -> out of scope: Program, StaffProgramAssociation, StudentProgramAssociation, Cohort, StaffCohortAssociation, StudentCohortAssociation
   # -> returns education organization structure built
   def build()
-    if !@scenarioYAML["studentCount"].nil?
+    if !@scenarioYAML["STUDENT_COUNT"].nil?
       build_world_from_students
-    #elsif !@scenarioYAML["schoolCount"].nil?
+    #elsif !@scenarioYAML["SCHOOL_COUNT"].nil?
     #  build_world_from_edOrgs()
     #  --> not supported yet	
     else
-      @log.error "studentCount or schoolCount must be set for a world to be created --> Exiting..."
+      @log.error "STUDENT_COUNT or SCHOOL_COUNT must be set for a world to be created --> Exiting..."
     end
 
     return @world
   end
 
   # Builds world using the specified number of students as the driving criteria
-  # -> ignores schoolCount, if specified in yml file
+  # -> ignores SCHOOL_COUNT, if specified in yml file
   # -> creates elementary, middle, and high schools from number of students
   # -> walks back up ed-fi graph to create LEAs and SEA(s) from created schools
   def build_world_from_students
-    num_students = @scenarioYAML["studentCount"]
+    num_students = @scenarioYAML["STUDENT_COUNT"]
     @log.info "Creating world from initial number of students: #{num_students}"
 
     # create grade breakdown from total number of students
@@ -156,7 +156,7 @@ class WorldBuilder
     update_districts_with_states(num_districts)
 
     # re-shuffle breakdown so that it is representative of actual student distribution (this is primarly for scaled down scenarios)
-    update_breakdown_based_on_student_distribution(@scenarioYAML["beginYear"])
+    update_breakdown_based_on_student_distribution(@scenarioYAML["BEGIN_YEAR"])
 
     # choose the feeder schools
     WorldBuilder.choose_feeders(@world['elementary'], @world['middle'], @world['high'])
@@ -224,7 +224,7 @@ class WorldBuilder
       @schools << school_id if school_id.kind_of? String
       
       staff, teachers    = create_staff_and_teachers_for_school(members)
-      begin_year         = @scenarioYAML["beginYear"]
+      begin_year         = @scenarioYAML["BEGIN_YEAR"]
 
       @world[tag]       << {
         "id" => school_id, 
@@ -258,7 +258,7 @@ class WorldBuilder
   # number of students per section, to assemble 'waves' of students by grade
   def self.get_students_per_grade(grades, num_students)
     num_grades = grades.count
-    students_per_grade = Hash[*grades.zip([num_students/num_grades].cycle).flatten]
+    students_per_grade = Hash[*grades.zip([num_students/num_grades].cycle(num_grades)).flatten]
     (0..(num_students % num_grades)-1).each{|i| students_per_grade[grades[i]] += 1 }
     students_per_grade
   end
@@ -302,7 +302,7 @@ class WorldBuilder
         "staff" => create_staff_for_local_education_agency(members),
         "programs" => create_programs_for_education_organization("leas", :LOCAL_EDUCATION_AGENCY)
       }
-      school_counter += num_schools_in_this_district
+      school_counter    += num_schools_in_this_district
     end
     district_counter
   end
@@ -441,8 +441,8 @@ class WorldBuilder
   end
 
   def build_world_from_edOrgs()
-  	#num_schools = @scenarioYAML["schoolCount"]
-    #@log.info "Creating world from initial number of schools: #{num_schools}"
+  	num_schools = @scenarioYAML["SCHOOL_COUNT"]
+    @log.info "Creating world from initial number of schools: #{num_schools}"
     # NOT CURRENTLY SUPPORTED
     # update structure with time information
     #add_time_information_to_edOrgs
@@ -450,26 +450,26 @@ class WorldBuilder
   end
 
   # creates sessions for each local education agency
-  # -> uses 'beginYear' and 'numYears' properties specified in yaml configuration file (defaults to current year and 1, respectively, if not specified)
+  # -> uses 'BEGIN_YEAR' and 'NUMBER_OF_YEARS' properties specified in yaml configuration file (defaults to current year and 1, respectively, if not specified)
   # -> iterates from begin year to (begin year + num years), creating Sessions, Grading Periods, and Calendar Dates
   # -> each Session stores a date interval (contains start date, end date, number of instructional days, and holidays for that interval)
   def add_time_information_to_edOrgs
-    begin_year   = @scenarioYAML["beginYear"]
-    num_years    = @scenarioYAML["numYears"]
+    begin_year   = @scenarioYAML["BEGIN_YEAR"]
+    num_years    = @scenarioYAML["NUMBER_OF_YEARS"]
     
     if begin_year.nil?
       this_year = Date.today.year
-      @log.info "Property: beginYear --> not set for scenario. Using default: #{this_year}"
+      @log.info "Property: BEGIN_YEAR --> not set for scenario. Using default: #{this_year}"
       begin_year = this_year
     else
-      @log.info "Property: beginYear --> Set in configuration: #{begin_year}"
+      @log.info "Property: BEGIN_YEAR --> Set in configuration: #{begin_year}"
     end
 
     if num_years.nil?
-      @log.info "Property: numYears --> not set for scenario. Using default: 1"
+      @log.info "Property: NUMBER_OF_YEARS --> not set for scenario. Using default: 1"
       num_years = 1
     else
-      @log.info "Property: numYears  --> Set in configuration: #{num_years}"
+      @log.info "Property: NUMBER_OF_YEARS  --> Set in configuration: #{num_years}"
     end
 
     # loop over years updating infrastructure and population
@@ -585,8 +585,8 @@ class WorldBuilder
       school = @world[type][index]
       students_by_year = school["students"]
       @world[type][index]["students"][year] = shuffle_students_forward_at_school(school["students"][year - 1]) if school["students"][year].nil?
+      end
     end
-  end
 
   # ripples number of students forward to next year
   # -> allows 1st graders to become 2nd graders, 2nd graders to become 3rd graders, ...
@@ -780,13 +780,13 @@ class WorldBuilder
     end
 
     # write local education agencies
-    @world["leas"].each { |edOrg|
+    @world["leas"].each       { |edOrg|
       @queue.push_work_order({ :type => LeaEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]) })
       create_program_work_orders(edOrg["programs"])
     }
 
     # write elementary, middle, and high schools 
-    ["elementary", "middle", "high"].each{ |classification|
+    ["elementary", "middle", "high"].each{|classification|
       @world[classification].each { |edOrg|
         @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
         create_program_work_orders(edOrg["programs"])
@@ -1178,13 +1178,13 @@ class WorldBuilder
 
   def create_assessments(begin_year, num_years)
     factory = AssessmentFactory.new(@scenarioYAML)
-    (begin_year..(begin_year + num_years -1)).each{|year|
-      gen_parent = true
-      GradeLevelType.get_ordered_grades.each{|grade|
-        @queue.push_work_order GradeWideAssessmentWorkOrder.new(grade, year, gen_parent, factory)
-        gen_parent = false
+      (begin_year..(begin_year + num_years -1)).each{|year|
+        gen_parent = true
+        GradeLevelType.get_ordered_grades.each{|grade|
+          @queue.push_work_order GradeWideAssessmentWorkOrder.new(grade, year, gen_parent, factory)
+          gen_parent = false
+        }
       }
-    }
-  end
+    end
 
 end

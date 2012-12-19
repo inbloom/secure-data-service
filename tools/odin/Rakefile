@@ -71,11 +71,11 @@ task :date_utility do
   end
 end
 
-desc "Run odin tests"
-task :odin do
-  RSpec::Core::RakeTask.new(:odin) do |t|
+desc "Run integration tests"
+task :integration do
+  RSpec::Core::RakeTask.new(:integration) do |t|
     t.rspec_opts = %w{--colour --format progress}
-    t.pattern = 'spec/odin_spec.rb'
+    t.pattern = 'spec/*integration_spec.rb'
     t.rspec_path = 'rspec'
   end
 end

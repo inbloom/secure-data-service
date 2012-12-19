@@ -43,7 +43,7 @@ class AssessmentFactory
   end
 
   def grade_wide_assessments(grade, year, family = nil)
-    item_count = @item_counts['grade_wide']
+    item_count = @item_counts['GRADE_WIDE_ASSESSMENTS']
     (1..@assessments_per_grade).map{|i|
       Assessment.new("#{year}-#{GradeLevelType.get(grade)} Assessment #{i}", year, grade, item_count, family)
     }

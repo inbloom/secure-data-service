@@ -280,12 +280,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, AbstractMessageReport report,
             AbstractReportStats reportStats) {
         for (ValidationError err : errors) {
-
-            String message = "       Error      " + err.getType().name() + "\n" + "       Entity     "
-                    + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber() + "\n"
-                    + "       Field      " + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue()
-                    + "\n" + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
-            report.error(reportStats, CoreMessageCode.CORE_0006, message);
+            report.error(reportStats, CoreMessageCode.CORE_0006, err.getType().name(), entity.getType(),
+                    Long.toString(entity.getRecordNumber()), err.getFieldName(), err.getFieldValue(), Arrays.toString(err.getExpectedTypes()));
         }
     }
 
