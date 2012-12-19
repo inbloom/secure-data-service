@@ -15,8 +15,8 @@ end
 
 DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
-DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
+dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
+SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['dB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
@@ -137,7 +137,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   if isSystemCollection(collectionName)
     db_used = SYSTEM_DB_NAME
   else
-    db_used = DB_NAME
+    db_used = dB_NAME
   end
 
   if TODROP
@@ -153,7 +153,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
     end
   end
 
-  #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
+  #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{dB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
   sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{db_used} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
@@ -162,8 +162,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
     else
       puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
     end
-  endile
-
+  end
 end
 
 def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
@@ -242,7 +241,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   if isSystemCollection(collectionName)
     db_used = SYSTEM_DB_NAME
   else
-    db_used = DB_NAME
+    db_used = dB_NAME
   end
 
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
@@ -262,7 +261,7 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   if isSystemCollection(collectionName)
     db_used = SYSTEM_DB_NAME
   else
-    db_used = DB_NAME
+    db_used = dB_NAME
   end
 
   if specificTenants != nil
@@ -271,7 +270,7 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
   end
 
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{dB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
 #  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.getLastError()\""
 end
 
@@ -281,7 +280,7 @@ end
 def swap_realm_ids()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(SYSTEM_DB_NAME)
-  @dbTenant = @conn.db(DB_NAME)
+  @dbTenant = @conn.db(dB_NAME)
   realm_col = @db.collection('realm')
   user_sessions = @db.collection('userSession')
   custom_roles = @dbTenant.collection('customRole')
@@ -364,43 +363,43 @@ task :realmInit => [:appInit] do
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "anotherfakerealm")
   setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "chaos_mokey_org")
   setFixture("customRole", "customRole_chaos_mokey_org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "developer-email@slidev.org")
   setFixture("customRole", "customRole_developer-email@slidev.org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "fakedev_zork_net")
   setFixture("customRole", "customRole_fakedev_zork_net_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator@slidev.org")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "sandboxadministrator@slidev.org")
   setFixture("customRole", "customRole_sandboxadministrator@slidev.org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper@slidev.org")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "anothersandboxdeveloper@slidev.org")
   setFixture("customRole", "customRole_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Security")
   setFixture("customRole", "customRole_Security_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Zork")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Zork")
   setFixture("customRole", "customRole_Zork_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Hyrule")
   setFixture("customRole", "customRole_Hyrule_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
   setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
   swap_realm_ids()
 
@@ -420,17 +419,17 @@ task :appInit do
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
   cleanseCollectionWithTenantID("applicationAuthorization", "Midgar")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Hyrule")
   setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "fakedev_zork_net")
   setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "chaos_mokey_org")
   setFixture("applicationAuthorization", "applicationAuthorization_chaos_fixture.json")
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
   setFixture("userSession", "oauth_authentication_tokens.json")
   swap_app_ids(convertTenantIdToDbName("Midgar"))
   swap_app_ids(convertTenantIdToDbName("Hyrule"))
@@ -993,12 +992,12 @@ task :exportStoriedData do
   if $SUCCESS
     $collectionSet.each do |collection|
       sh "rm -f test/data/storied_data/Hyrule/sds_#{collection}.json"
-      DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/Hyrule/sds_#{collection}.json"
+      dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Hyrule")
+      sh "#{MONGO_BIN}mongoexport -d #{dB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/Hyrule/sds_#{collection}.json"
 
       sh "rm -f test/data/storied_data/sds_#{collection}.json"
-      DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
+      dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
+      sh "#{MONGO_BIN}mongoexport -d #{dB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
     if ENV['FORCE_COLOR']
@@ -1012,14 +1011,14 @@ end
 
 desc "Import Storied Data Set"
 task :importStoriedData do
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Hyrule")
   hyruleHash = Hash[]
   $collectionSet.each do |collection|
     hyruleHash["#{collection}"] = "storied_data/Hyrule/sds_#{collection}.json"
   end
   setMultipleFixtureFiles(hyruleHash)
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
   testHash = Hash[]
   $collectionSet.each do |collection|
     testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
@@ -1078,7 +1077,7 @@ task :importSecuredData do
 
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
 
   testHash = Hash[
@@ -1100,10 +1099,10 @@ task :importSecuredData do
 
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Other"}).nil?
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Other")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Other")
   setMultipleFixtureFiles(testHash)
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
 
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
@@ -1174,11 +1173,11 @@ end
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
   Rake::Task["importSandboxMidgarData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Hyrule")
   Rake::Task["importSandboxHyruleData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
 
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
@@ -1193,9 +1192,9 @@ task :importZorkSandboxData do
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json",
 
    ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "fakedev_zork_net")
   setMultipleFixtureFiles(testHash)
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
 
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
@@ -1210,9 +1209,9 @@ task :importChaosSandboxData do
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json",
 
    ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "chaos_mokey_org")
   setMultipleFixtureFiles(testHash)
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  dB_NAME = convertTenantIdToDbName(ENV['dB_NAME'] ? ENV['dB_NAME'] : "Midgar")
 
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
@@ -1284,7 +1283,7 @@ cmd>rake DB_HOST=myNewDbHost.domain.name api_server_url=my.API.server.com produc
 The properties available to override are as follows:
 
 DB_HOST                This property selects which mongo instance to set the fixture to (default: localhost)
-DB_NAME                This property selects which mongo db to set the fixture to (default: sli)
+dB_NAME                This property selects which mongo db to set the fixture to (default: sli)
 api_server_url         This property selects which running instance of the API to run tests against (default: localhost)
 admintools_server_url  This property selects which running instance of the Admin Tools to run tests against (default: localhost)
 DEBUG                  This property tells the test code to display debug output in the console
@@ -1318,3 +1317,4 @@ class ShardType1UUIDPKFactory
     doc
   end
 end
+
