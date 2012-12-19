@@ -32,7 +32,10 @@ default:
         # Set the maximum size of an in clause for security (CHANGE AT OWN
         # RISK)
         sli.security.in_clause_size: 100000
-        
+
+        # Enables write validation on PUT POST PATCH UPDATE DELETE
+        sli.security.writeValidation: true
+
         sli.api.cookieDomain: .slidev.org
 
         # Sandbox settings
