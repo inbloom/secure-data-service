@@ -34,15 +34,12 @@ import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Base TransformationStrategy.
@@ -70,9 +67,6 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     @Autowired
     private MongoEntityRepository mongoEntityRepository;
-
-    @Autowired
-    private BatchJobDAO batchJobDAO;
 
     @Autowired
     private AbstractMessageReport databaseMessageReport;
@@ -111,11 +105,6 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     public String getBatchJobId() {
         return batchJobId;
-    }
-
-    public ErrorReport getErrorReport(String fileName) {
-        return new DatabaseLoggingErrorReport(this.batchJobId, BatchJobStageType.TRANSFORMATION_PROCESSOR, fileName,
-                this.batchJobDAO);
     }
 
     public AbstractReportStats getReportStats(String fileName) {

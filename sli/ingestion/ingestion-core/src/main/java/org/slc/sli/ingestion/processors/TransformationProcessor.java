@@ -27,11 +27,9 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -167,9 +165,7 @@ public class TransformationProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
-                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0027, error.getErrorDetail());
+            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0027, exception.getMessage());
         }
     }
 

@@ -15,11 +15,10 @@
  */
 package org.slc.sli.search.connector.impl;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Arrays;
-
 import org.apache.commons.codec.binary.Base64;
+import org.slc.sli.encryption.tool.Encryptor;
+import org.slc.sli.search.util.RecoverableIndexerException;
+import org.slc.sli.search.util.SearchEngineException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -31,17 +30,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestOperations;
 
-import org.slc.sli.dal.repository.ElasticSearchRepository;
-import org.slc.sli.encryption.tool.Encryptor;
-import org.slc.sli.search.util.RecoverableIndexerException;
-import org.slc.sli.search.util.SearchEngineException;
+import java.util.Arrays;
 
 /**
  * Indexer is responsible for building elastic search index requests and
  * sending them to the elastic search server for processing.
- * 
+ *
  * @author dwu
- * 
  */
 public abstract class ESConnector {
 
@@ -63,13 +58,13 @@ public abstract class ESConnector {
 
     /**
      * Send REST query to elasticsearch server
-     * 
+     *
      * @param query
      * @return
      */
     private ResponseEntity<String> sendRESTCall(HttpMethod method, String url, String query, Object... uriParams) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json;charset=utf-8");
+        headers.set("content-type", "application/json;charset=utf-8");
 
         // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
@@ -78,9 +73,9 @@ public abstract class ESConnector {
                         "Authorization",
                         "Basic "
                                 + Base64.encodeBase64String(((this.enableEncryption ? this.encryptor.decrypt(
-                                        this.dalKeyAlias, this.keyStorePass, this.esUsername) : this.esUsername) + ":" + (this.enableEncryption ? this.encryptor
-                                        .decrypt(this.dalKeyAlias, this.keyStorePass, this.esPassword) : this.esPassword))
-                                        .getBytes()));
+                                this.dalKeyAlias, this.keyStorePass, this.esUsername) : this.esUsername) + ":" + (this.enableEncryption ? this.encryptor
+                                .decrypt(this.dalKeyAlias, this.keyStorePass, this.esPassword) : this.esPassword))
+                                .getBytes()));
             } catch (Exception e) {
                 logger.error("Error decrypting", e);
             }

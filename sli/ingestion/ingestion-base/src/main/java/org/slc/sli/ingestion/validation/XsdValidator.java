@@ -41,8 +41,8 @@ import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -63,11 +63,6 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 
-    @Override
-    public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
-        return true;
-    }
-
     public Map<String, Resource> getXsd() {
         return xsd;
     }
@@ -77,7 +72,8 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
     }
 
     @Override
-    public boolean isValid(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
+            AbstractReportStats reportStats) {
         errorHandler.setReportAndStats(report, reportStats);
 
         InputStream is = null;

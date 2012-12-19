@@ -29,7 +29,6 @@ class Staff < BaseEntity
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino, :highestLevelOfEducationCompleted
 
   def initialize(id, year_of, name = nil)
-    super
     @id = DataUtility.get_staff_unique_state_id(id) if id.kind_of? Integer
     @id = id if id.kind_of? String
     @year_of = year_of

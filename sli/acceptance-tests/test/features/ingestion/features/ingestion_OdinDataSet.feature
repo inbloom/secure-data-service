@@ -1,7 +1,7 @@
 @RALLY_US4816
 Feature: Odin Data Set Ingestion Correctness and Fidelity
 Background: I have a landing zone route configured
-Given I am using odin data store
+Given I am using odin data store 
 
 Scenario: Post Odin Sample Data Set
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -157,11 +157,67 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 1                   | _id                                      | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
      | studentParentAssociation    | 2                   | body.studentId                           | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
 
+Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database
+  When I can find a "staff" with "body.teacherUniqueStateId" "rbraverman" in tenant db "Midgar"
+    Then the "staff" entity "type" should be "teacher"
+    And the "staff" entity "body.race" should be "White"
+    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+    And the "staff" entity "body.sex" should be "Female"  
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate"
+    And the "staff" entity "body.birthDate" should be "1959-07-22" 
+
+Scenario: Verify specific staff document for Charles Gray ingested correctly: Populated Database
+  When I can find a "staff" with "body.teacherUniqueStateId" "cgray" in tenant db "Midgar"
+    Then the "staff" entity "type" should be "teacher"
+    And the "staff" entity "body.race" should be "White"
+    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+    And the "staff" entity "body.sex" should be "Male"  
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate" 
+    And the "staff" entity "body.birthDate" should be "1952-04-22" 
+
+Scenario: Verify specific staff document for Linda Kim ingested correctly: Populated Database
+  When I can find a "staff" with "body.teacherUniqueStateId" "linda.kim" in tenant db "Midgar"
+    Then the "staff" entity "type" should be "teacher"
+    And the "staff" entity "body.race" should be "White"
+    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+    And the "staff" entity "body.sex" should be "Female"  
+    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "No Degree" 
+    And the "staff" entity "body.birthDate" should be "1970-08-04" 
+    
+Scenario: Verify superdoc studentSchoolAssociation references ingested correctly: Populated Database
+  When Examining the studentSchoolAssociation collection references
+    Then the document references "educationOrganization" "_id" with "body.schoolId"
+    And the document references "student" "_id" with "body.studentId"
+    And the document references "student" "schools._id" with "body.schoolId"
+    And the document references "student" "schools.entryDate" with "body.entryDate"
+    And the document references "student" "schools.entryGradeLevel" with "body.entryGradeLevel"
+
+Scenario: Verify staffEducationOrganizationAssociation references ingested correctly: Populated Database
+  When Examining the staffEducationOrganizationAssociation collection references
+    Then the document references "educationOrganization" "_id" with "body.educationOrganizationReference"
+     And the document references "staff" "_id" with "body.staffReference"
+
+Scenario: Verify teacherSchoolAssociation references ingested correctly: Populated Database
+  When Examining the teacherSchoolAssociation collection references
+    Then the document references "educationOrganization" "_id" with "body.schoolId"
+     And the document references "staff" "_id" with "body.teacherId"
+
 Scenario: Verify entities in specific student document ingested correctly: Populated Database
-  When I can find a student with _id 9e54047cbfeeee26fed86b0667e98286a2b72791_id in tenant db "Midgar"
-    Then the student entity body.race should be "White"
-    And the student entity body.limitedEnglishProficiency should be "NotLimited"
-    And the student entity body.schoolFoodServicesEligibility should be "Reduced price"  
-    And the student entity schools.entryGradeLevel should be "Kindergarten"
-    And the student entity schools.entryGradeLevel should be "First grade" 
-    And the student entity schools.entryGradeLevel should be "Second grade" 
+  When I can find a "student" with "_id" "9e54047cbfeeee26fed86b0667e98286a2b72791_id" in tenant db "Midgar"
+    Then the "student" entity "body.race" should be "White"
+    And the "student" entity "body.limitedEnglishProficiency" should be "NotLimited"
+    And the "student" entity "body.schoolFoodServicesEligibility" should be "Reduced price"  
+    And the "student" entity "schools.entryGradeLevel" should be "Kindergarten"
+    And the "student" entity "schools.entryGradeLevel" should be "First grade" 
+    And the "student" entity "schools.entryGradeLevel" should be "Second grade" 
+
+Scenario: Verify entities in student school association were ingested correctly
+    And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
+     | graduationPlan              | 1                   | _id                                      | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+     | studentSchoolAssociation    | 5                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+
+Scenario: Verify the sli verification script confirms everything ingested correctly
+    Given the edfi manifest that was generated in the 'generated' directory
+    And the tenant is 'Midgar'
+    Then the sli-verify script completes successfully

@@ -24,6 +24,7 @@ import junit.framework.Assert;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slc.sli.search.process.Admin;
 
@@ -63,6 +64,7 @@ public class RemoteCommandServiceTest {
     }
 
     @Test
+    @Ignore
     public void testConnectionFail() {
         Socket clientSocket = null;
         try {
@@ -74,6 +76,7 @@ public class RemoteCommandServiceTest {
     }
 
     @Test(timeout = 60000)
+    @Ignore
     public void testCommands() throws Throwable {
         testHELP();
         testIncorrectCommand();

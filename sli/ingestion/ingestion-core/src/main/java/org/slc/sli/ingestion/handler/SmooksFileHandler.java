@@ -40,7 +40,6 @@ import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * smooks handler for edfi files
@@ -57,26 +56,19 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
-        /*
-         * try {
-         *
-         * //generateNeutralRecord(fileEntry, errorReport, errorReport, fileProcessStatus);
-         *
-         * } catch (IOException e) {
-         * LOG.error("IOException: Could not instantiate smooks, unable to read configuration file",
-         * e);
-         * errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
-         * SmooksFileHandler.class);
-         * } catch (SAXException e) {
-         * LOG.error("SAXException: Could not instantiate smooks, problem parsing configuration file"
-         * , e);
-         * errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
-         * SmooksFileHandler.class);
-         * }
-         */
-        return fileEntry;
+    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
+            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        try {
+
+            generateNeutralRecord(item, report, reportStats, fileProcessStatus);
+
+        } catch (IOException e) {
+            report.error(reportStats, CoreMessageCode.CORE_0016);
+        } catch (SAXException e) {
+            report.error(reportStats, CoreMessageCode.CORE_0017);
+        }
+
+        return item;
     }
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
@@ -101,28 +93,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
-    }
-
-    @Override
-    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
-        return null;
-    }
-
-    @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        try {
-
-            generateNeutralRecord(item, report, reportStats, fileProcessStatus);
-
-        } catch (IOException e) {
-            report.error(reportStats, CoreMessageCode.CORE_0016);
-        } catch (SAXException e) {
-            report.error(reportStats, CoreMessageCode.CORE_0017);
-        }
-
-        return item;
     }
 
     @Override
