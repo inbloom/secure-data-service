@@ -23,7 +23,7 @@ class ChartController < ApplicationController
     #  f.series(:name => 'max', :data => [173, 324, 538, 695, 917, 1137, 1565, 2151, 1542, 1612])
     #end
 
-    file = File.read("#{Rails.root}/../result/result.json")
+    file = File.read("#{Rails.root}/../multinode/result.json")
     json = JSON.parse(file)
     @charts = []
     @table = {}
@@ -74,6 +74,8 @@ class ChartController < ApplicationController
       row[:data].each do |data|
         @transposed_tables[scenario] << data
       end
+      size = @transposed_tables[scenario].max { |r1, r2| r1.size <=> r2.size }.size
+      @transposed_tables[scenario].each { |r| r[size - 1] ||= nil }
       @transposed_tables[scenario] = @transposed_tables[scenario].transpose
     end
   end
