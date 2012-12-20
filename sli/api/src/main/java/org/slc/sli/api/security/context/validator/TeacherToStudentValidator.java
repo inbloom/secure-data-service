@@ -52,7 +52,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     @Autowired
     private AssociativeContextHelper helper;
 
-    @Value("${sli.IdsPerAPICall:10}")
+    @Value("${sli.IdsPerAPICall:20}")
     private int idsPerAPICall;
 
     @Override
@@ -66,90 +66,122 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         return ids.size() != 0 &&
                 (validatedWithSections(ids) || validatedWithCohorts(ids) || validatedWithPrograms(ids));
     }
+    
+    @Override
+    public Set<String> getValid(String entityType, Set<String> ids) {
+    	Set<String> originalIds = new HashSet<String>(ids);
+    	Set<String> validated = getValidatedWithSections(originalIds);
+    	    	
+    	originalIds.removeAll(validated);
+    	
+    	validated.addAll(getValidatedWithCohorts(originalIds));
+    	
+    	originalIds.removeAll(validated);
+
+    	validated.addAll(getValidatedWithPrograms(originalIds));
+    	
+    	originalIds.removeAll(validated);
+    	
+		return validated;
+    }
 
     private boolean validatedWithSections(Set<String> ids) {
-	    
-	    if (ids.size() == 0) {
-	    	return false;
-	    }
-	    
-	    Set<String> teacherSections = getTeacherSections();
-	    
-	    Map<String, List<String>> studentSectionIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.SECTION_ID,
-                EntityNames.STUDENT_SECTION_ASSOCIATION);
-	    
-	    if (studentSectionIds.size() == 0) {
-	    	// students not found by program
-	    	return false;
-	    }
-	    
-	    Set<String> tempSet = new HashSet<String>(teacherSections);
-	    for (String studentId : studentSectionIds.keySet()) {
-	        List<String> studentSections = studentSectionIds.get(studentId);
-	
-	        tempSet.retainAll(studentSections);
-	        if (tempSet.isEmpty()) {
-	            return false;
-	        }
-
-	        tempSet.clear();
-	        tempSet.addAll(teacherSections);
-	    }
-	    
-	    return true;
+	    return ids.size() == getValidatedWithSections(ids).size();
 	}
 
+    private Set<String> getValidatedWithSections(Set<String> ids) {
+    	
+    	Set<String> result = new HashSet<String>();
+    	
+    	if (ids.size() == 0) {
+    		return result;
+    	}
+    	
+    	Set<String> teacherSections = getTeacherSections();
+    	
+    	Map<String, List<String>> studentSectionIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.SECTION_ID,
+    			EntityNames.STUDENT_SECTION_ASSOCIATION);
+    	
+    	if (studentSectionIds.size() == 0) {
+    		// students not found by program
+    		return result;
+    	}
+    	
+    	Set<String> tempSet = new HashSet<String>(teacherSections);
+    	for (String studentId : studentSectionIds.keySet()) {
+    		List<String> studentSections = studentSectionIds.get(studentId);
+    		
+    		tempSet.retainAll(studentSections);
+    		if (!tempSet.isEmpty()) {
+    			result.add(studentId);
+    		}
+    		
+    		tempSet.clear();
+    		tempSet.addAll(teacherSections);
+    	}
+    	
+    	return result;
+    }
+
 	private boolean validatedWithCohorts(Set<String> ids) {
-	    boolean match;
-	    Set<String> staffCohortIds = getStaffCohortIds();
+		return getValidatedWithCohorts(ids).containsAll(ids);
+	}
 	
-	    Iterable<Entity> studentList =
-	            helper.getEntitiesWithDenormalizedReference(EntityNames.STUDENT, "cohort", new ArrayList<String>(staffCohortIds));
-	    Set<String> studentIds = new HashSet<String>();
-	    for (Entity student : studentList) {
-	        List<Map<String, Object>> cohortList = student.getDenormalizedData().get("cohort");
-	        for (Map<String, Object> cohort : cohortList) {
-	            String cohortRefId = (String) cohort.get("_id");
-	            if (staffCohortIds.contains(cohortRefId)) {
-	                if (!isFieldExpired(cohort, ParameterConstants.END_DATE, false)) {
-	                    studentIds.add(student.getEntityId());
-	                    break;
-	                }
-	            }
-	        }
-	    }
-	    match = studentIds.containsAll(ids);
-	    return match;
+	private Set<String> getValidatedWithCohorts(Set<String> ids) {
+		Set<String> staffCohortIds = getStaffCohortIds();
+		
+		Iterable<Entity> studentList =
+				helper.getEntitiesWithDenormalizedReference(EntityNames.STUDENT, "cohort", new ArrayList<String>(staffCohortIds));
+		Set<String> studentIds = new HashSet<String>();
+		for (Entity student : studentList) {
+			List<Map<String, Object>> cohortList = student.getDenormalizedData().get("cohort");
+			for (Map<String, Object> cohort : cohortList) {
+				String cohortRefId = (String) cohort.get("_id");
+				if (staffCohortIds.contains(cohortRefId)) {
+					if (!isFieldExpired(cohort, ParameterConstants.END_DATE, false)) {
+						studentIds.add(student.getEntityId());
+						break;
+					}
+				}
+			}
+		}
+		return studentIds;
 	}
 
 	private boolean validatedWithPrograms(Set<String> ids) {
-	    if (ids.size() == 0) {
-	    	return false;
-	    }
-	    
-	    Set<String> staffProgramIds = getStaffPrograms();
-	    
-	    Map<String, List<String>> studentProgramIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.PROGRAM_ID, EntityNames.STUDENT_PROGRAM_ASSOCIATION);
-	    
-	    if (studentProgramIds.size() == 0) {
-	    	// students not found by program
-	    	return false;
-	    }
-	    
-	    Set<String> tempSet = new HashSet<String>(staffProgramIds);
-	    // Get studentProgramAssociations
-	    for (String studentId : studentProgramIds.keySet()) {
-	    	tempSet.retainAll(studentProgramIds.get(studentId));
-	        
-	        if (tempSet.size() == 0) {
-	            return false;
-	        }
-	        
-	        tempSet.clear();
-	        tempSet.addAll(staffProgramIds);
-	    }
-	    
-	    return true;
+		return ids.size() == getValidatedWithPrograms(ids).size();
+	}
+	
+	private Set<String> getValidatedWithPrograms(Set<String> ids) {
+		Set<String> result = new HashSet<String>();
+		
+		if (ids.size() == 0) {
+			return result;
+		}	
+		
+		Set<String> staffProgramIds = getStaffPrograms();
+		
+		Map<String, List<String>> studentProgramIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.PROGRAM_ID, EntityNames.STUDENT_PROGRAM_ASSOCIATION);
+		
+		if (studentProgramIds.size() == 0) {
+			// students not found by program
+			return result;
+		}
+		
+		Set<String> tempSet = new HashSet<String>(staffProgramIds);
+		// Get studentProgramAssociations
+		for (String studentId : studentProgramIds.keySet()) {
+			tempSet.retainAll(studentProgramIds.get(studentId));
+			
+			if (!tempSet.isEmpty()) {
+				result.add(studentId);
+			}
+			
+			tempSet.clear();
+			tempSet.addAll(staffProgramIds);
+		}
+		
+		return result;
 	}
 
 	private Map<String, List<String>> getStudentParameterIds(List<String> ids, String parameter, String entityName) {
