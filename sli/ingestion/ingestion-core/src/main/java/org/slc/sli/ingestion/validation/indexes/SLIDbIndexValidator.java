@@ -16,11 +16,7 @@
 
 package org.slc.sli.ingestion.validation.indexes;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import java.util.Set;
 
 import org.slc.sli.ingestion.util.IndexFileParser;
 import org.slc.sli.ingestion.util.MongoIndex;
@@ -34,23 +30,8 @@ public class SLIDbIndexValidator extends DbIndexValidator {
 
     private static final String INDEX_FILE = "sli_indexes.js";
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    @Value ("${sli.mongodb.database}")
-    private String dbName;
-
     @Override
-    protected List<MongoIndex> parseFile(String indexFile) {
-        return IndexFileParser.parseJSFile(indexFile);
+    protected Set<MongoIndex> loadExpectedIndexes() {
+        return IndexFileParser.parseJSFile(INDEX_FILE);
     }
-
-    @Override
-    public void verifyIndexes() {
-        List<MongoIndex> indexes = IndexFileParser.parseJSFile(INDEX_FILE);
-            for (MongoIndex index : indexes) {
-                checkIndexes(index, mongoTemplate.getDb().getSisterDB(dbName));
-            }
-    }
-
 }

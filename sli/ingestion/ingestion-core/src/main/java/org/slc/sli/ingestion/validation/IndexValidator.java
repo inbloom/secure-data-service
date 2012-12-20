@@ -16,14 +16,10 @@
 
 package org.slc.sli.ingestion.validation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mongodb.DB;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.validation.indexes.DbIndexValidator;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  * Checks if the indexes are present for all the dbs before processing this job.
@@ -33,36 +29,17 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  * @author unavani
  *
  */
-public class IndexValidator extends SimpleValidatorSpring<Object> {
-
-    private static final Logger LOG = LoggerFactory.getLogger(IndexValidator.class);
-
-    @Autowired
-    private DbIndexValidator tenantDBIndexValidator;
-
-    @Autowired
-    private DbIndexValidator sliDbIndexValidator;
-
-    @Autowired
-    private DbIndexValidator batchJobDbIndexValidator;
+public class IndexValidator extends ComplexValidator<DB> {
 
     @Override
-    public boolean isValid(Object object, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats) {
+        boolean isValid = true;
 
-        verifyIndexes();
+        for (Validator<DB> validator : this.getValidators()) {
+            isValid &= validator.isValid(db, report, reportStats);
+        }
 
-        return true;
-    }
-
-    private void verifyIndexes() {
-        LOG.info("Validating indexes for sli database....");
-        sliDbIndexValidator.verifyIndexes();
-
-        LOG.info("Validating indexes for batch job database....");
-        batchJobDbIndexValidator.verifyIndexes();
-
-        LOG.info("Validating indexes for tenant databases....");
-        tenantDBIndexValidator.verifyIndexes();
+        return isValid;
     }
 
 }

@@ -16,12 +16,14 @@
 package org.slc.sli.ingestion.validation.indexes;
 
 import java.util.List;
+import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.mongodb.DB;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.IndexFileParser;
 import org.slc.sli.ingestion.util.MongoIndex;
@@ -33,63 +35,26 @@ import org.slc.sli.ingestion.util.MongoIndex;
  */
 public class TenantDBIndexValidator extends DbIndexValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TenantDBIndexValidator.class);
-
     private static final String INDEX_FILE = "tenantDB_indexes.txt";
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
     @Autowired
     private TenantDA tenantDA;
+
     @Override
-    protected List<MongoIndex> parseFile(String indexFile) {
-        return IndexFileParser.parseTxtFile(indexFile);
+    protected Set<MongoIndex> loadExpectedIndexes() {
+        return IndexFileParser.parseTxtFile(INDEX_FILE);
     }
 
-
     @Override
-    public void verifyIndexes() {
-        List<MongoIndex> indexes = IndexFileParser.parseTxtFile(INDEX_FILE);
+    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats) {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
 
+        boolean isValid = true;
+
         for (String tenantDb : tenantDbs) {
-            LOG.info("Validating indexes for {} database", tenantDb);
-            for (MongoIndex index : indexes) {
-                checkIndexes(index, mongoTemplate.getDb().getSisterDB(tenantDb));
-            }
+            isValid &= isValid(db.getSisterDB(tenantDb), report, reportStats);
         }
+
+        return isValid;
     }
-
-    /**
-     * @return the mongoTemplate
-     */
-    public MongoTemplate getMongoTemplate() {
-        return mongoTemplate;
-    }
-
-
-    /**
-     * @param mongoTemplate the mongoTemplate to set
-     */
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
-
-
-    /**
-     * @return the tenantDA
-     */
-    public TenantDA getTenantDA() {
-        return tenantDA;
-    }
-
-
-    /**
-     * @param tenantDA the tenantDA to set
-     */
-    public void setTenantDA(TenantDA tenantDA) {
-        this.tenantDA = tenantDA;
-    }
-
-
 }

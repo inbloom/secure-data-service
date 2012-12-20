@@ -25,9 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -56,7 +55,7 @@ public final class IndexFileParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(IndexFileParser.class);
 
-    public static List<MongoIndex> parseJSFile(String fileName) {
+    public static Set<MongoIndex> parseJSFile(String fileName) {
 
         Map<String, Object> indexMap = null;
 
@@ -64,7 +63,7 @@ public final class IndexFileParser {
         FileInputStream fstream = null;
         BufferedReader br = null;
 
-        List<MongoIndex> indexes = new ArrayList<MongoIndex>();
+        Set<MongoIndex> indexes = new HashSet<MongoIndex>();
 
         try {
             URL resourceURL = Thread.currentThread().getContextClassLoader().getResource(fileName);
@@ -113,8 +112,8 @@ public final class IndexFileParser {
      * @param indexFile : the name of the index file
      * @return a list MongoIndexes for all the indexes
      */
-    public static List<MongoIndex> parseTxtFile(String indexFile) {
-        List<MongoIndex> indexes = new ArrayList<MongoIndex>();
+    public static Set<MongoIndex> parseTxtFile(String indexFile) {
+        Set<MongoIndex> indexes = new HashSet<MongoIndex>();
 
         Set<String> indexSet = readIndexes(indexFile);
         for (String index : indexSet) {
