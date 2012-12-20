@@ -1,6 +1,5 @@
 package org.slc.sli.api.security.context.validator;
 
-import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
