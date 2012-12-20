@@ -11,34 +11,10 @@
 <script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
 
 <style type="text/css">
-.tenant {
-	/* color: #438746 */
-}
-
-.realm-name {
-	padding: 30px;
-	background-color: #EEE;
-	border: thick;
-	-webkit-border-radius: 6px;
-	-mox-border-radius: 6px;
-	border-radius: 6px;
-	margin-top: 30px;
-}
 
 .form-container {
 	margin: 10px;
 	margin-top: 30px;
-}
-
-.tool-tip-link {
-	margin-left:140px;
-	color:rgb(0, 102, 153);
-	font-size:11px; 
-}
-
-.custom-role {
-    margin-left: 140px;
-    margin-top: 20px;
 }
 
 .top-gap {
@@ -78,29 +54,38 @@
 .brandContainer h1 { font-size: 36px; color: #512B73; }
 
 </style>
+
+<link href="resources/bootstrap.css" rel="stylesheet"/>
+<link href="resources/globalStyles.css" rel="stylesheet"/>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#manualUserDiv").hide();
+	//$("#sampleUserDiv").hide();
+	//$("#impersonationModeDiv").hide();
 	datasetChanged();
 });
 
   function disableTextbox() {
-	  select = document.getElementById("selected_roles")
-	  textbox = document.getElementById("customRoles")
+	  select = document.getElementById("selected_roles");
+	  textbox = document.getElementById("customRoles");
 	  if (select.selectedIndex > 0) {
-		  textbox.value = ""
+		  textbox.value = "";
 	  } 
   }
   
   function disableSelect() {
-	   select = document.getElementById("selected_roles")
-	   textbox = document.getElementById("customRoles")
+	   select = document.getElementById("selected_roles");
+	   textbox = document.getElementById("customRoles");
 	   if (textbox.value.length > 0) {
-		   select.selectedIndex = 0
+		   select.selectedIndex = 0;
 	   } 
 	  
   }
-  
+  function showImpersonation(){
+	  showSampleUsers();
+	  $("#impersonationModeDiv").show();
+  }
   function datasetChanged(){
 	  $(".userListDiv").hide();
 	  $(".userList").prop("disabled", true);
@@ -110,9 +95,9 @@ $(document).ready(function() {
   }
   function showSampleUsers(){
 	  $("#manualUserDiv").hide();
-	  $("#manualUserBtn").removeClass("active");
+	  $("#manualUserBtn").toggleClass("active");
 	  $("#sampleUserDiv").show();
-	  $("#sampleUserBtn").addClass("active");
+	  $("#sampleUserBtn").toggleClass("active");
   }  
   function showManualConfig(){
 	  $("#manualUserDiv").show();
@@ -125,24 +110,25 @@ $(document).ready(function() {
 </head>
 
 <body>
-    <div class="container">
-      <div class="brandContainer">
-	    	<div class="row">
-	    	    <div class="span2">
-		            <img src="resources/SLC-Logo-text.png">
-		        </div>
-		        <div class="span8">
-		            	<h1>Developer Sandbox</h1>
-		        </div>
-		    </div>
-	    </div>
-      <h3>Test your application</h3>
+<div class="container">
+	<div class="row">
+		<div class="span12">
+			<div class="brandContainer sandBanner">
+				<div class="row">
+					<div class="span2"> <img src="resources/SLC-Logo-text.png"> </div>
+					<div class="span8">
+						<h1>Developer Sandbox</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
       
       	<form id="logout_form" name="logout_form" action="logout" method="post" class="form-horizontal">
-      		<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>      
+      		<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+      		<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>      
       		<div class="alert alert-success">You are currently logged into your developer account as: 
       			<strong id="">${sessionScope.user_session_key.userId}</strong>
-				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
 				<a  id="logoutLink" class="pull-right" href="#" onclick="javascript:document.forms['logout_form'].submit();">Logout</a>
       		</div>
 		</form>
@@ -152,83 +138,104 @@ $(document).ready(function() {
 		</c:if>
 
       <div class="row">
-      	<div class="span8 offset4">
-      		<div class="btn-group" data-toggle="buttons-radio">
-      			<button type="button" class="btn btn-primary active" id="sampleUserBtn" onclick="showSampleUsers()">Use a Sample User</button>
-      			<button type="button" class="btn btn-primary" id="manualUserBtn" onclick="showManualConfig()">Manually Specify a User</button>
-      		</div>
-      	</div><!-- end span8 offset4 -->
-      </div> <!-- end row -->
-      <div class="whitespacesm"></div>      
-
-	<div id="sampleUserDiv">
-		<form id="impersonate_form" name="impersonate_form" action="impersonate" method="post" class="form-horizontal">
-			<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
-			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
-			<input type="hidden" name="manualConfig" value="false"/>
-			<div class="control-group">
-				<label for="datasets" class="control-label">Select your sample dataset</label>
-				<div class="controls">
-				<select id="datasets" name="datasets" class="input-xlarge " onchange="datasetChanged()">
-                             <option> </option>
-					<c:forEach items="${datasets}" var="dataset">
-						<option value="${dataset.key}">${dataset.displayName}</option>
-					</c:forEach>
-				</select>
+		<div class="span6">
+			<h3>Administer my Sandbox</h3>
+			<p>Administering your sandbox allows you to ingest test data, register applications  and manage accounts on your sandbox.</p>
+			<div class="whitespacesm"></div>
+			<a id="adminLink" href="admin" class="btn btn-primary">Next</a>
+		</div>
+		<!-- end span6 -->
+		<div class="span6">
+			<div class="row">
+				<div class="span6">
+					<h3>Test Applications in my Sandbox</h3>
+					<p>The sandbox gives you a safe place to test your applications while you're developing them.</p>
+					<!--<div class="whitespacesm"></div>
+					 <a id="testNext" href="#" class="btn btn-primary" onclick="showImpersonation()">Next</a>
+					 -->
 				</div>
 			</div>
-			<c:forEach items="${datasets}" var="dataset">
-				<div class="control-group userListDiv" id="${dataset.key}-usersDiv">
-					<label for="${dataset.key}" class="control-label">Select a test user</label>
+			<div class="whitespacesm impersonate"></div>
+			<div id="impersonationModeDiv" class="row impersonate">
+				<div class="span5 offset1">
+	      		<div class="btn-group" data-toggle="buttons-radio">
+	      			<button type="button" class="btn btn-primary active" id="sampleUserBtn" onclick="showSampleUsers()">Use a Sample User</button>
+	      			<button type="button" class="btn btn-primary" id="manualUserBtn" onclick="showManualConfig()">Manually Specify a User</button>
+	      		</div>
+	      	</div><!-- end span8 offset4 -->
+	      </div> <!-- end row -->
+	      <div class="whitespacesm"></div>      
+	
+		  <div id="sampleUserDiv">
+			<form id="impersonate_form" name="impersonate_form" action="impersonate" method="post" class="form-horizontal">
+				<input type="hidden" name="manualConfig" value="false"/>
+				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+      			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+				<div class="control-group">
+					<label for="datasets" class="control-label">Select your sample dataset</label>
 					<div class="controls">
-					<select id="${dataset.key}" name="userList" class="input-xlarge userList" onchange="">
-						<c:forEach items='<%=request.getAttribute(((Dataset)pageContext.getAttribute("dataset")).getKey())%>' var="user">
-                              	 <option value="${user.userId}">${user.name} - ${user.role} at ${user.association}</option>
+					<select id="datasets" name="datasets" class="input-xlarge " onchange="datasetChanged()">
+	                             <option> </option>
+						<c:forEach items="${datasets}" var="dataset" varStatus="status">
+							<option value="${dataset.key}" ${status.index == 0 ? "selected='true'" : ""}>${dataset.displayName}</option>
 						</c:forEach>
 					</select>
 					</div>
 				</div>
-			</c:forEach>
-			<div class="control-group">
-				<div class="controls">
-					<input id="sampleUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+				<c:forEach items="${datasets}" var="dataset">
+					<div class="control-group userListDiv" id="${dataset.key}-usersDiv">
+						<label for="${dataset.key}" class="control-label">Select a test user</label>
+						<div class="controls">
+						<select id="${dataset.key}" name="userList" class="input-xlarge userList" onchange="">
+							<c:forEach items='<%=request.getAttribute(((Dataset)pageContext.getAttribute("dataset")).getKey())%>' var="user">
+	                              	 <option value="${user.userId}">${user.name} - ${user.role} at ${user.association}</option>
+							</c:forEach>
+						</select>
+						</div>
+					</div>
+				</c:forEach>
+				<div class="control-group">
+					<div class="controls">
+						<input id="sampleUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+					</div>
 				</div>
-			</div>
-		</form>
-	</div>
-	
-	<div id="manualUserDiv">
-		<form id="impersonate_form" name="impersonate_form" action="impersonate" method="post" class="form-horizontal">
-			<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
-			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
-			<input type="hidden" name="manualConfig" value="true"/>
-			<div class="control-group">
-				<label for="impersonate_user" class="control-label">Login as User</label>
-				<div class="controls">
-					<input type="text" id="impersonate_user" name="impersonate_user" value="${impersonate_user}"/>
+			</form>
+		  </div>
+		
+		  <div id="manualUserDiv">
+			<form id="impersonate_form" name="impersonate_form" action="impersonate" method="post" class="form-horizontal">
+				<input type="hidden" name="manualConfig" value="true"/>
+				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+      			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+				<div class="control-group">
+					<label for="impersonate_user" class="control-label">Login as User</label>
+					<div class="controls">
+						<input type="text" id="impersonate_user" name="impersonate_user" value="${impersonate_user}"/>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label for="selected_roles" class="control-label">Test as this Role</label>
-				<div class="controls">
-					<select id="selected_roles" name="selected_roles" class="input-xlarge " onchange="disableTextbox();">
-                              <option> </option>
-						<c:forEach items="${roles}" var="role">
-							<option value="${role.id}">${role.name}</option>
-						</c:forEach>
-					</select>
-                         </div>
-                         <div class="control-group top-gap">
-                             <label for='customRoles' class="control-label">Or Custom Role</label>
-                             <div class="controls"><input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" /></div>
-                         </div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<input id="manualUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+				<div class="control-group">
+					<label for="selected_roles" class="control-label">Test as this Role</label>
+					<div class="controls">
+						<select id="selected_roles" name="selected_roles" class="input-xlarge " onchange="disableTextbox();">
+	                              <option> </option>
+							<c:forEach items="${roles}" var="role">
+								<option value="${role.id}">${role.name}</option>
+							</c:forEach>
+						</select>
+	                         </div>
+	                         <div class="control-group top-gap">
+	                             <label for='customRoles' class="control-label">Or Custom Role</label>
+	                             <div class="controls"><input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" /></div>
+	                         </div>
 				</div>
-			</div>
-		</form>
+				<div class="control-group">
+					<div class="controls">
+						<input id="manualUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+					</div>
+				</div>
+			</form>
+		  </div>
+	  </div>
 	</div>
 </body>
 </html>

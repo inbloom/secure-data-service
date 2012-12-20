@@ -1,0 +1,179 @@
+/* Global Styles - add to styles presented out of the box with bootstrap. */
+
+/* Header styles */
+.navDivider {
+	margin-top: 10px;
+}
+
+.verticalRule {
+	border-left: 1px solid #A9A9A9; 
+	min-height: 150px;
+}
+
+.logoText {
+	padding-left: 5px;
+	font-family: Arial, Helvetica, Verdana, sans-serif;
+	font-weight: bold;
+	font-size: 16px;
+	color: white;
+}
+/* End Header styles */
+
+/* footer styles */
+
+.footer {
+  padding: 20px 0;
+  margin-top: 70px;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f5f5f5;
+}
+.footer p {
+  margin-bottom: 0;
+  color: #777;
+}
+.footer-links {
+  margin: 10px 0;
+}
+.footer-links li {
+  display: inline;
+  margin-right: 10px;
+}
+/* end footer styles */
+
+/* styles that overwrite bootstrap to match SLC brand */
+
+/* Styles for the login page*/
+/* a class for the top of an SLC styled container when no bottom is required*/ 
+.brandContainer{
+	padding: 30px;
+	margin-bottom: 30px;
+	background-color: #F6F3EA;
+	border-left: 3px solid #ECE7D8;
+	border-top: 3px solid #ECE7D8;
+	border-right: 3px solid #ECE7D8;
+	border-bottom: 3px solid #ECE7D8;
+	-webkit-border-radius: 6px 6px 6px 6px;
+   	   -moz-border-radius: 6px 6px 6px 6px;
+            border-radius: 6px 6px 6px 6px;
+}
+
+.prodBanner{
+	color: rgb(0, 112, 150);
+}
+
+.sandBanner{
+	color: rgb(81, 43, 115);
+}
+
+
+/* a class for the top of an SLC styled container*/ 
+.brandContainerTop{
+	padding: 30px;
+	background-color: #F6F3EA;
+	border-left: 3px solid #ECE7D8;
+	border-top: 3px solid #ECE7D8;
+	border-right: 3px solid #ECE7D8;
+	-webkit-border-radius: 6px 6px 0px 0px;
+   	   -moz-border-radius: 6px 6px 0px 0px;
+            border-radius: 6px 6px 0px 0px;
+}
+
+/* a class for the bottom of an SLC styled container*/ 
+.brandContainerBottom {
+	padding: 30px;
+	background-color: #FFFFFF;
+	border: 3px solid #ECE7D8;
+	-webkit-border-radius: 0px 0px 6px 6px;
+   	   -moz-border-radius: 0px 0px 6px 6px;
+            border-radius: 0px 0px 6px 6px;
+}
+
+/* end login page styles */
+
+
+.headerText {
+	/* font-size: 26px;
+	font-weight: normal;
+	font-style: normal;
+	font-family: 'HelveticaNeueLT25UltLightRg'; */
+	color: #333;
+	margin-bottom: 50px;
+}
+
+.systemToolsA {
+	padding-left: 3px;
+}
+
+/* end SLC brand styles */
+
+.horizontalRule {
+	border-top: 2px solid #E5E5E5;
+}
+
+.whitespace {
+	min-height: 100px;
+}
+
+.whitespacesm {
+	min-height: 30px;
+}
+
+
+
+.appContainer {
+	display: block;
+	padding: 9.5px;
+	margin: 0 0 10px;
+	font-size: 13px;
+	line-height: 20px;
+	word-wrap: normal;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.overwriteHorizontalForm {
+	width:auto!important; 
+	clear:none !important; 
+	display:inline-block !important;
+} /* to be used in form-horizontal forms to display help icons inline next to their label */
+
+.appItem {
+	margin: 10px;
+}
+
+.appURL{
+	padding-left: 5px;
+}
+
+.horzFormFields {
+	margin-left: 30px;
+}
+
+.checkboxColumn {
+	width: 15px;
+}
+
+.onboardingContainer {
+	display: block;
+	padding: 9.5px;
+	margin: 0 0 10px;
+	font-size: 13px;
+	line-height: 20px;
+	word-wrap: normal;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.helpIcon {
+	margin: 7px 10px;
+}
+
+
