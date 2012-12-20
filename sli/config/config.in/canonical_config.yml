@@ -1425,6 +1425,7 @@ test-local:
 
         # ElasticSearch
         sli.search.embedded.http.port: 19200
+        sli.search.url: http://localhost:19200
 
 test-team:
     test:
@@ -1462,6 +1463,7 @@ test-team:
 
         # ElasticSearch
         sli.search.embedded.http.port: 19200
+        sli.search.url: http://localhost:19200
 
 test-perf:
     ingestion:
@@ -1480,6 +1482,7 @@ test-perf:
 
         # ElasticSearch
         sli.search.embedded.http.port: 19200
+        sli.search.url: http://localhost:19200
 
 sandbox:
     api:
