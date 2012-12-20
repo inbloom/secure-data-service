@@ -145,7 +145,8 @@ public class SearchResourceService {
             // warn("Error retrieving results from ES: " + hsce.getMessage());
             // if item not indexed, throw Illegal
             if (hsce.getStatusCode() == HttpStatus.NOT_FOUND || hsce.getStatusCode().value() >= 500) {
-                throw new IllegalArgumentException("Search is not available for the user at this moment.", hsce);
+                throw (IllegalArgumentException) new IllegalArgumentException(
+                        "Search is not available for the user at this moment.").initCause(hsce);
             }
             throw hsce;
         }
@@ -211,7 +212,7 @@ public class SearchResourceService {
             
             // call BasicService to query the elastic search repo
             entityBodies = (List<EntityBody>) getService().list(apiQuery);
-            debug("Got {} entities back", entityBodies.size());
+            debug("Got " + entityBodies.size() + " entities back");
             int lastSize = entityBodies.size();
             finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
             
@@ -467,7 +468,9 @@ public class SearchResourceService {
                 File elasticsearchDir = new File(tmpDir, ES_DIR);
                 debug(String.format("ES data tmp dir is %s", elasticsearchDir.getAbsolutePath()));
                 
-                deleteDirectory(elasticsearchDir);
+                if (elasticsearchDir.exists()) {
+                    deleteDirectory(elasticsearchDir);
+                }
                 
                 Settings settings = ImmutableSettings.settingsBuilder().put("node.http.enabled", true)
                         .put("http.port", this.elasticSearchHttpPort)
@@ -496,7 +499,7 @@ public class SearchResourceService {
                 if (folder.exists()) {
                     warn("Unable to delete data directory for embedded elasticsearch");
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 error("Unable to delete data directory for embedded elasticsearch", e);
             }
         }
