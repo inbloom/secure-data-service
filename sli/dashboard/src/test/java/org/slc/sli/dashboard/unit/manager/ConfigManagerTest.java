@@ -16,13 +16,13 @@
 
 package org.slc.sli.dashboard.unit.manager;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
@@ -46,9 +46,6 @@ public class ConfigManagerTest {
 
     ConfigManagerImpl configManager;
     APIClient apiClient = null;
-
-    @Rule
-    public ExpectedException expectedException= ExpectedException.none();
 
     @Before
     public void setup() {
@@ -142,10 +139,14 @@ public class ConfigManagerTest {
 
     @Test
     public void testNonexistentConfig() {
-        expectedException.expect(DashboardException.class);
-        expectedException.expectMessage("Unable to read config for fakeConfigId");
-        configManager.getComponentConfig("1", new EdOrgKey("2012zj-0b0711a4-e000-11e1-9f3b-3c07546832b4"),
-                "fakeConfigId");
+        try {
+            configManager.getComponentConfig("1", new EdOrgKey("2012zj-0b0711a4-e000-11e1-9f3b-3c07546832b4"),
+                    "fakeConfigId");
+            fail();
+        } catch (DashboardException de) {
+            assertTrue(de.getMessage().contains("Unable to read config for fakeConfigId"));
+        }
+        
     }
 
     @Test

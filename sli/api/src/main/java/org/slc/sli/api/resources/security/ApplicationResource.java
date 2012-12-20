@@ -469,9 +469,9 @@ public class ApplicationResource extends UnversionedResource {
         for (EntityBody auth : auths) {
             List<String> appsIds = (List) auth.get("appIds");
             // Clear out all duplicates and make sure there is only one of the one we need.
-            while ((appsIds.remove(uuid))) 
-                {}
-            
+            while ((appsIds.contains(uuid))) {
+                appsIds.remove(uuid);
+            }
             appsIds.add(uuid);
             auth.put("appIds", appsIds);
             service.update((String) auth.get("id"), auth);

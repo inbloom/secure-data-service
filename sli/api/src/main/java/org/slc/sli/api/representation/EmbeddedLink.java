@@ -82,9 +82,7 @@ public class EmbeddedLink {
         }
         
         EmbeddedLink other = (EmbeddedLink) obj;
-        return strEqual(href, other.href) &&
-               strEqual(rel, other.rel) &&
-               strEqual(type, other.type);
+        return strEqual(href, other.href) && strEqual(rel, other.rel) && strEqual(type, other.type);
     }
 
     private boolean strEqual(String s1, String s2) {

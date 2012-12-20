@@ -27,7 +27,7 @@ import java.util.Map;
 @Component
 public class WriteValidator {
 
-    private HashMap<String, String> ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION;
+    private HashMap<String, String> entitiesNeedingEdOrgWriteValidation;
     private List<ComplexValidation> complexValidationList;
     private Map<String, ComplexValidation> complexValidationMap;
 
@@ -65,9 +65,11 @@ public class WriteValidator {
     }
 
 
+    @SuppressWarnings("serial")
     @PostConstruct
     private void init() {
-        ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION = new HashMap<String, String>() {{
+        entitiesNeedingEdOrgWriteValidation = new HashMap<String, String>() {
+        {
             put(EntityNames.ATTENDANCE, "schoolId");
             put(EntityNames.COHORT, "educationOrgId");
             put(EntityNames.COURSE, "schoolId");
@@ -135,8 +137,8 @@ public class WriteValidator {
 
     private boolean isEntityValidForEdOrgWrite(Map<String, Object> entityBody, String entityType, SLIPrincipal principal) {
         boolean isValid = true;
-        if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType) != null) {
-            String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType));
+        if (entitiesNeedingEdOrgWriteValidation.get(entityType) != null) {
+            String edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
             isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
         } else if (complexValidationMap.containsKey(entityType)) {
             ComplexValidation validation = complexValidationMap.get(entityType);

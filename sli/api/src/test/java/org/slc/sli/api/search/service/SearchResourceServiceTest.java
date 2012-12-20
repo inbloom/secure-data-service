@@ -69,6 +69,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.enums.Right;
 
+/**
+ * Tests for the search resource/service.
+ * 
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class,
@@ -83,47 +89,42 @@ public class SearchResourceServiceTest {
     Embedded embedded;
 
     static Client client;
-
+    
     @Before
     public void setup() {
-    	client = embedded.getClient();
+        client = embedded.getClient();
     }
-
+    
     private void indexData(String index, String type, Collection<Map<String, Object>> data) throws Exception {
-    	if (!client.admin().indices().prepareExists(index).execute().actionGet().isExists()) {
-    		client.admin().indices().prepareCreate(index).execute().actionGet();
-    	}
-    	client.admin().indices().preparePutMapping(index).setType(type).setSource(
-    			jsonBuilder()
-    			.startObject()
-    			.startObject(type)
-    			.startObject("properties")
-    			.startObject("context")
-    			.startObject("properties")
-    			.startObject("schoolId")
-    			.field("type", "string")
-    			.field("index", "not_analyzed")
-    			.endObject()
-    			.endObject()
-    			.endObject()
-    			.endObject()
-				.endObject()).execute().actionGet();
-    	BulkRequestBuilder bulkRequest = client.prepareBulk();
-    	for (Map<String, Object> object : data) {
-    		bulkRequest.add(client.prepareIndex(index, type).setId((String)object.get("_id")).setSource(object));
-    	}
-    	BulkResponse bulkResponse = bulkRequest.execute().actionGet();
-    	if (bulkResponse.hasFailures()) {
-    		throw new RuntimeException("Unable to index provided data " + bulkResponse.buildFailureMessage());
-    	}
-    	client.admin().indices().prepareFlush(index).execute().actionGet();
+        if (!client.admin().indices().prepareExists(index).execute().actionGet().isExists()) {
+            client.admin().indices().prepareCreate(index).execute().actionGet();
+        }
+        client.admin()
+                .indices()
+                .preparePutMapping(index)
+                .setType(type)
+                .setSource(
+                        jsonBuilder().startObject().startObject(type).startObject("properties").startObject("context")
+                                .startObject("properties").startObject("schoolId").field("type", "string")
+                                .field("index", "not_analyzed").endObject().endObject().endObject().endObject()
+                                .endObject()).execute().actionGet();
+        BulkRequestBuilder bulkRequest = client.prepareBulk();
+        for (Map<String, Object> object : data) {
+            bulkRequest.add(client.prepareIndex(index, type).setId((String) object.get("_id")).setSource(object));
+        }
+        BulkResponse bulkResponse = bulkRequest.execute().actionGet();
+        if (bulkResponse.hasFailures()) {
+            throw new RuntimeException("Unable to index provided data " + bulkResponse.buildFailureMessage());
+        }
+        client.admin().indices().prepareFlush(index).execute().actionGet();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void indexData(String index, String type, Map<String, Object> object) throws Exception {
+        indexData(index, type, Arrays.asList(object));
     }
 
     @SuppressWarnings("unchecked")
-	private void indexData(String index, String type, Map<String, Object> object) throws Exception {
-    	indexData(index, type, Arrays.asList(object));
-    }
-
     @Test
     public void testResponse() throws Exception {
         setupAuth(EntityNames.TEACHER);
@@ -152,7 +153,7 @@ public class SearchResourceServiceTest {
             @Override
             public List<EntityBody> answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();
-                return (List<EntityBody>)args[0];
+                return (List<EntityBody>) args[0];
             }
         });
 
@@ -161,7 +162,7 @@ public class SearchResourceServiceTest {
         Assert.assertEquals(1L, serviceResponse.getEntityCount());
         EntityBody studentBody = serviceResponse.getEntityBodyList().get(0);
         Assert.assertEquals("david'sid", studentBody.get("_id"));
-        Assert.assertEquals("≠", ((Map<String, Object>)studentBody.get("name")).get("middleName"));
+        Assert.assertEquals("≠", ((Map<String, Object>) studentBody.get("name")).get("middleName"));
 
         serviceResponse = rs.list(resource, null, new URI("http://local.slidev.org:8080/api/rest/v1/search?name.firstName=davId"), false);
         Assert.assertEquals(1L, serviceResponse.getEntityCount());
@@ -320,11 +321,12 @@ public class SearchResourceServiceTest {
         return entities;
     }
 
+    @SuppressWarnings("unused")
     private Set<String> getEntitiesIds() {
         // set up entities
         Set<String> entities = new HashSet<String>();
-        for (EntityBody eb: getEntities()) {
-            entities.add((String)eb.get("id"));
+        for (EntityBody eb : getEntities()) {
+            entities.add((String) eb.get("id"));
         }
         return entities;
     }
@@ -368,7 +370,7 @@ public class SearchResourceServiceTest {
             @Override
             public List<EntityBody> answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();
-                return getResults((List<EntityBody>)args[0], filterNum);
+                return getResults((List<EntityBody>) args[0], filterNum);
             }
         });
         ApiQuery apiQuery = rs.prepareQuery(new Resource("v1", "student"), null, queryUri);

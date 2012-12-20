@@ -99,7 +99,7 @@ public class ResourceUtil {
             String uriPath = uriInfo.getPath();
             if (uriPath != null) {
                 int indexOfSlash = uriPath.indexOf("/");
-                if (indexOfSlash >= 0 ) {
+                if (indexOfSlash >= 0) {
                     String version = uriPath.substring(0, indexOfSlash);
                     return version;
                 } else {

@@ -28,7 +28,6 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.translator.URITranslator;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
