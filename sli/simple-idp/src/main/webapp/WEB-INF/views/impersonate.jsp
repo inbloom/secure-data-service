@@ -139,13 +139,6 @@ $(document).ready(function() {
 
       <div class="row">
 		<div class="span6">
-			<h3>Administer my Sandbox</h3>
-			<p>Administering your sandbox allows you to ingest test data, register applications  and manage accounts on your sandbox.</p>
-			<div class="whitespacesm"></div>
-			<a id="adminLink" href="admin" class="btn btn-primary">Next</a>
-		</div>
-		<!-- end span6 -->
-		<div class="span6">
 			<div class="row">
 				<div class="span6">
 					<h3>Test Applications in my Sandbox</h3>
@@ -236,6 +229,13 @@ $(document).ready(function() {
 			</form>
 		  </div>
 	  </div>
+	  	<div class="span6">
+			<h3>Administer my Sandbox</h3>
+			<p>Administering your sandbox allows you to ingest test data, register applications  and manage accounts on your sandbox.</p>
+			<div class="whitespacesm"></div>
+			<a id="adminLink" href="admin" class="btn btn-link">Administer my Sandbox</a>
+		</div>
+		<!-- end span6 -->
 	</div>
 </body>
 </html>
