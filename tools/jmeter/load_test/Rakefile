@@ -1,0 +1,107 @@
+$:.unshift File.dirname(__FILE__)
+require 'jmeter_runner'
+
+API_LOAD_TEST_HOME = File.dirname(File.absolute_path(__FILE__))
+CONFIG_HOME = API_LOAD_TEST_HOME.split('/')[0..-2].join('/')
+
+desc "Clean Result directory"
+task :clean do
+  if Dir.exists? "#{API_LOAD_TEST_HOME}/result"
+    FileUtils.remove_dir("#{API_LOAD_TEST_HOME}/result")
+  end
+end
+
+desc "Run one thread per JMX file and check for errors"
+task :verifyJmxFileLocal => [:checkJmeterHome, :checkServerProcesses] do
+  current_dir = File.dirname(__FILE__)
+  test_dir = "#{API_LOAD_TEST_HOME}/test"
+  if Dir.exists? test_dir
+    FileUtils.remove_dir(test_dir)
+  end
+  runner = ApiLoadTest::Runner.new(
+      {
+          :jmeter_exec => @jmeter_exec,
+          :max_threads => 0,
+          :result_dir => test_dir
+      }
+  )
+  runner.collect_all_data("#{current_dir}/..", 0)
+  errors = runner.collect_all_errors("#{current_dir}/..")
+  contains_error = false
+  errors.each do |scenario, scenario_errors|
+    unless scenario_errors.empty?
+      puts "Scenario = #{scenario}:\t Error Count = #{scenario_errors.size}"
+      contains_error = true
+    end
+  end
+  if contains_error
+    raise "Error exists!"
+  else
+    puts "No error found"
+  end
+end
+
+desc "Run Load Tests"
+task :runLoadTests => [:verifyJmxFileLocal] do
+  result_dir = "#{API_LOAD_TEST_HOME}/load_test_result/single_node"
+  runner = ApiLoadTest::Runner.new(
+      {
+          :jmeter_exec => @jmeter_exec,
+          :jmeter_prop => "#{CONFIG_HOME}/local.properties",
+          :result_dir => result_dir
+      }
+  )
+  runner.collect_all_data(CONFIG_HOME, 20)
+  File.open("#{result_dir}/result.json", "w") do |f|
+    f.write(runner.aggregate_all_result().to_json)
+  end
+end
+
+desc "Run Multiple Jmeter Nodes Load Tests"
+task :runMultiNodesTests => [:checkJmeterHome] do
+  result_dir = "#{API_LOAD_TEST_HOME}/result/result-4jmeter-1api-60timeout"
+  runner = ApiLoadTest::Runner.new(
+      {
+          :jmeter_exec => @jmeter_exec,
+          :jmeter_prop => "#{CONFIG_HOME}/local.properties",
+          :result_dir => result_dir,
+          :remote => true,
+          :remote_servers => ["localhost"]
+      }
+  )
+  #runner.collect_all_data(CONFIG_HOME, 20)
+  File.open("#{result_dir}/result.json", "w") do |f|
+    f.write(runner.aggregate_all_result().to_json)
+  end
+end
+
+desc "Aggregate Multi Node Test Results"
+task :aggregateMultiNodeTestResults do
+  result_dir = "#{API_LOAD_TEST_HOME}/multinode"
+  runner = ApiLoadTest::Runner.new({:result_dir => result_dir})
+  File.open("#{result_dir}/result.json", "w") do |f|
+    f.write(runner.aggregate_multinode_test_result().to_json)
+  end
+end
+
+task :checkServerProcesses do
+  {   8080 => "API",
+      8082 => "SimpleIDP"
+  }.each do |port, server|
+    processId = `lsof -P -i:#{port} -sTCP:LISTEN -t`
+    raise "#{server} should be running" if processId.empty?
+  end
+end
+
+task :checkJmeterHome do
+  if ENV["JMETER_HOME"].nil?
+    raise <<END
+Please set environment variable JMETER_HOME to your JMeter root. For example,
+  export JMETER_HOME="/opt/apache-jmeter"
+END
+  else
+    @jmeter_exec = "#{ENV["JMETER_HOME"]}/bin/jmeter"
+  end
+end
+
+task :default => :runLoadTests

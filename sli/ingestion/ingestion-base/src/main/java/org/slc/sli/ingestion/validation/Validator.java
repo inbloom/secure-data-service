@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.validation;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -25,19 +24,22 @@ import org.slc.sli.ingestion.reporting.AbstractReportStats;
  *
  * @author okrook
  *
- * @param <T> Type of the object being validated
+ * @param <T>
+ *            Type of the object being validated
  */
 public interface Validator<T> {
 
     /**
      * Validates the object.
      *
-     * @param object Object to validate
-     * @param callback validation report callback
-     * @return true if valid; false otherwise
+     * @param object
+     *            thing to be validated
+     * @param report
+     *            receives messages resulting from the validation
+     * @param reportStats
+     *            track statistics for this validation
+     * @return <code>true</code> if the object is valid
      */
-    boolean isValid(T object, ErrorReport callback);
-
     boolean isValid(T object, AbstractMessageReport report, AbstractReportStats reportStats);
 
 }

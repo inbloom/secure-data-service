@@ -32,6 +32,7 @@ Feature: Entity versioning and migration strategies
     And "name" should not exist
     And "nameData" should exist
 
+  @DB_MIGRATION_AFTER_UPVERSIONING
   Scenario: A posted entity has the correct version number after being saved to database
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/vnd.slc+json"  

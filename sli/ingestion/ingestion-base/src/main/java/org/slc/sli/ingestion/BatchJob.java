@@ -27,8 +27,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
 
 /**
  * Batch Job class.
@@ -37,7 +35,7 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
  * @deprecated
  */
 @Deprecated
-public final class BatchJob implements Serializable, ErrorReportSupport, Job {
+public final class BatchJob implements Serializable, Job {
 
     private static final long serialVersionUID = -340538024579162600L;
 
@@ -60,11 +58,6 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
      * stores configuration properties for the Job
      */
     private Properties configProperties;
-
-    /**
-     * holds references to errors/warnings associated with this job
-     */
-    private FaultsReport faults;
 
     /**
      * non-public constructor; use factory methods
@@ -95,7 +88,6 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
 
         job.configProperties = new Properties();
         job.files = new ArrayList<IngestionFileEntry>();
-        job.faults = new FaultsReport();
         return job;
     }
 
@@ -129,21 +121,6 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
      */
     public Date getCreationDate() {
         return creationDate;
-    }
-
-    @Override
-    public ErrorReport getErrorReport() {
-        return getFaultsReport();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.ingestion.Job#getFaultsReport()
-     */
-    @Override
-    public FaultsReport getFaultsReport() {
-        return faults;
     }
 
     /*

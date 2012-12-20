@@ -15,7 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
 # Enable tailcall optimizations to reduce overall stack size.
 RubyVM::InstructionSequence.compile_option = {
   :tailcall_optimization => true,
@@ -163,7 +162,7 @@ class Odin
     if displayed_title
       @log.info "To guarantee that all members of the staff catalog be created, It is recommended that you:"
       @log.info " -> increase the number of students in the scenario (property in yaml: numStudents)"
-      @log.info " -> increase the number of years in the scenario (property in yaml: numYears)"
+      @log.info " -> increase the number of years in the scenario (property in yaml: NUMBER_OF_YEARS)"
       @log.info " -> tune the cardinality of entities (there are several properties to control this)"
     end
   end

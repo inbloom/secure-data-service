@@ -163,7 +163,6 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
       puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
     end
   end
-
 end
 
 def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
@@ -1318,3 +1317,4 @@ class ShardType1UUIDPKFactory
     doc
   end
 end
+

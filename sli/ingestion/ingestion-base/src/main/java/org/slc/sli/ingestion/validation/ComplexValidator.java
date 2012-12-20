@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.validation;
 
 import java.util.List;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
- * Abstract validator.
+ * Abstract validator
  *
  * @author okrook
  *
+ * @param <T>
  */
-public class ComplexValidator<T> extends SimpleValidator<T> {
+public class ComplexValidator<T> extends SimpleValidatorSpring<T> {
     private List<? extends Validator<T>> validators;
 
     public List<? extends Validator<T>> getValidators() {
@@ -37,30 +38,6 @@ public class ComplexValidator<T> extends SimpleValidator<T> {
 
     public void setValidators(List<? extends Validator<T>> validators) {
         this.validators = validators;
-    }
-
-    @Override
-    public boolean isValid(T object, ErrorReport callback) {
-        for (Validator<T> validator : validators) {
-            if (!validator.isValid(object, callback)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Helper to report a validation failure.
-     *
-     * @param report Validation report callback
-     * @param message Validation message
-     */
-    @Override
-    protected void fail(ErrorReport report, String message) {
-        if (report != null) {
-            report.error(message, this);
-        }
     }
 
     @Override
