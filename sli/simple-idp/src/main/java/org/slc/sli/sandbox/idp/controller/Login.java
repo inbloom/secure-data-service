@@ -105,15 +105,14 @@ public class Login {
      *
      */
     @RequestMapping(value = "/logout")
-    public ModelAndView logout(HttpSession httpSession) {
-        httpSession.removeAttribute(USER_SESSION_KEY);        
-        if(httpSession.getAttribute("SAMLRequest")!=null){
-            ModelAndView mav = form((String)httpSession.getAttribute("SAMLRequest"), (String)httpSession.getAttribute("realm"), httpSession);
+    public ModelAndView logout(@RequestParam(value="SAMLRequest", required=false) String encodedSamlRequest,
+            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
+        httpSession.removeAttribute(USER_SESSION_KEY);
+        if(encodedSamlRequest!=null){
+            ModelAndView mav = form(encodedSamlRequest, realm, httpSession);
             mav.addObject("msg", "You are now logged out");
             return mav;
         }else{
-            httpSession.removeAttribute("SAMLRequest");
-            httpSession.removeAttribute("realm");
             return new ModelAndView("loggedOut");
         }
             
@@ -128,16 +127,19 @@ public class Login {
             @RequestParam("realm") String realm, HttpSession httpSession) {
 
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
-        httpSession.setAttribute("SAMLRequest", encodedSamlRequest);
-        httpSession.setAttribute("realm", realm);
         
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
         if (user != null){
             if(isSandboxImpersonationEnabled){
-                if(!requestInfo.isForceAuthn() && user.getImpersonationUser() != null){
-                    LOG.debug("Sandbox impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication and impersonation and using: " + user.getImpersonationUser().getUserId());
-                    return handleNoAuthRequired(user.getImpersonationUser(), requestInfo, httpSession);
+                if(!requestInfo.isForceAuthn()){
+                    if(user.getImpersonationUser() == null){
+                        LOG.debug("Sandbox Login request with existing session (" + user.getUserId() + ") skipping authentication and automatically logging in admin using: " + user.getUserId());
+                        return handleNoAuthRequired(user, requestInfo, httpSession);   
+                    }else{
+                        LOG.debug("Sandbox impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication and impersonation and using: " + user.getImpersonationUser().getUserId());
+                        return handleNoAuthRequired(user.getImpersonationUser(), requestInfo, httpSession);
+                    }
                 }else{
                     LOG.debug("Sandbox Login request with existing session (" + user.getUserId() + ") skipping authentication, going to impersonation");
                     return buildImpersonationModelAndView(realm, "");
@@ -146,7 +148,7 @@ public class Login {
                 LOG.debug("Login request with existing session, skipping authentication");
                 return handleNoAuthRequired(user, requestInfo, httpSession);
             }else{
-                httpSession.setAttribute(USER_SESSION_KEY, null);
+                httpSession.removeAttribute(USER_SESSION_KEY);
                 user = null;
             }
         }
@@ -163,8 +165,6 @@ public class Login {
                 user.getAttributes(), requestInfo);
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
-        httpSession.removeAttribute("realm");
-        httpSession.removeAttribute("SAMLRequest");
         return mav;
     }
     
@@ -182,10 +182,9 @@ public class Login {
     }
 
     @RequestMapping(value= "/admin", method = RequestMethod.GET)
-    public ModelAndView admin(HttpSession httpSession){
+    public ModelAndView admin(@RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam("realm") String realm, HttpSession httpSession){
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-        String encodedSamlRequest = (String) httpSession.getAttribute("SAMLRequest");
-        String realm = (String)httpSession.getAttribute("realm");
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         user.getAttributes().put("isAdmin", "true");
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -202,12 +201,11 @@ public class Login {
     public ModelAndView login(
             @RequestParam("user_id") String userId,
             @RequestParam("password") String password,
+            @RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam("realm") String realm,
             HttpSession httpSession,
             HttpServletRequest request) {
 
-        String realm = (String)httpSession.getAttribute("realm");
-        
-        String encodedSamlRequest = (String) httpSession.getAttribute("SAMLRequest");
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
@@ -310,6 +308,8 @@ public class Login {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @RequestMapping(value = "/impersonate", method = RequestMethod.POST)
     public ModelAndView impersonate(
+            @RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam("realm") String realm,
             @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
             @RequestParam(value = "selected_roles", required = false) List<String> roles,
             @RequestParam(value = "customRoles", required = false) String customRoles,
@@ -342,8 +342,6 @@ public class Login {
                 impersonationUser.setRoles(Arrays.asList(defaultUser.getRole()));
             }
         }
-        String encodedSamlRequest = (String) httpSession.getAttribute("SAMLRequest");
-        String realm = (String)httpSession.getAttribute("realm");
         
         if(impersonationUser.getUserId()==null){
             if (selectedRoles == null || selectedRoles.size() == 0) {
