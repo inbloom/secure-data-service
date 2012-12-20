@@ -45,7 +45,7 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
             return false;
         }
 
-        List<String> schools = helper.getDirectEdOrgAssociations(SecurityUtil.getSLIPrincipal().getEntity());
+        Set<String> schools = getTeacherEdorgLineage();
 
         
         //TODO: currently adding districts so that teachers can update school entities without the
