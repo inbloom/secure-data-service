@@ -129,7 +129,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
       
         //created for internally track unified account status 
         adminRoles.put(PROD_LOGIN_USER, 
-                RoleBuilder.makeRole(PROD_LOGIN_USER).addRight(Right.PRODUCTION_LOGIN).build());
+                RoleBuilder.makeRole(PROD_LOGIN_USER).addRight(Right.PRODUCTION_LOGIN).setAdmin(true).build());
     }
 
     @Override

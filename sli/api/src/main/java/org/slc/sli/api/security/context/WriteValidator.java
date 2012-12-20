@@ -9,6 +9,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +27,12 @@ import java.util.Map;
 @Component
 public class WriteValidator {
 
-    private HashMap<String, String> ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION;
+    private HashMap<String, String> entitiesNeedingEdOrgWriteValidation;
     private List<ComplexValidation> complexValidationList;
     private Map<String, ComplexValidation> complexValidationMap;
 
+    @Value("${sli.security.writeValidation}")
+    private boolean isWriteValidationEnabled;
 
     @Autowired
     private EntityDefinitionStore store;
@@ -62,13 +65,16 @@ public class WriteValidator {
     }
 
 
+    @SuppressWarnings("serial")
     @PostConstruct
     private void init() {
-        ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION = new HashMap<String, String>() {{
+        entitiesNeedingEdOrgWriteValidation = new HashMap<String, String>() {
+        {
             put(EntityNames.ATTENDANCE, "schoolId");
             put(EntityNames.COHORT, "educationOrgId");
             put(EntityNames.COURSE, "schoolId");
             put(EntityNames.COURSE_OFFERING, "schoolId");
+            put(EntityNames.DISCIPLINE_ACTION, "responsibilitySchoolId");
             put(EntityNames.DISCIPLINE_INCIDENT, "schoolId");
             put(EntityNames.GRADUATION_PLAN, "educationOrganizationId");
             put(EntityNames.SECTION, ParameterConstants.SCHOOL_ID);
@@ -81,8 +87,7 @@ public class WriteValidator {
                 new ComplexValidation(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.SECTION_ID, EntityNames.SECTION),
                 new ComplexValidation(EntityNames.STUDENT_GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID, EntityNames.GRADEBOOK_ENTRY),
                 new ComplexValidation(EntityNames.GRADEBOOK_ENTRY, ParameterConstants.SECTION_ID, EntityNames.SECTION),
-                new ComplexValidation(EntityNames.COURSE_TRANSCRIPT, ParameterConstants.COURSE_ID, EntityNames.COURSE),
-                new ComplexValidation(EntityNames.DISCIPLINE_ACTION, ParameterConstants.DISCIPLINE_INCIDENT_ID, EntityNames.DISCIPLINE_INCIDENT)
+                new ComplexValidation(EntityNames.COURSE_TRANSCRIPT, ParameterConstants.COURSE_ID, EntityNames.COURSE)
         );
 
         complexValidationMap = new HashMap<String, ComplexValidation>();
@@ -95,7 +100,7 @@ public class WriteValidator {
 
     public void validateWriteRequest(EntityBody entityBody, UriInfo uriInfo, SLIPrincipal principal) {
 
-        if (!isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
+        if (isWriteValidationEnabled && !isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
             throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
         }
 
@@ -122,7 +127,7 @@ public class WriteValidator {
                 }
             }
 
-            if (isValid && entityBody != null) {
+            if (isValid && entityBody != null && !entityBody.isEmpty()) {
                 isValid = isEntityValidForEdOrgWrite(entityBody, def.getType(), principal);
             }
         }
@@ -132,8 +137,8 @@ public class WriteValidator {
 
     private boolean isEntityValidForEdOrgWrite(Map<String, Object> entityBody, String entityType, SLIPrincipal principal) {
         boolean isValid = true;
-        if (ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType) != null) {
-            String edOrgId = (String) entityBody.get(ENTITIES_NEEDING_ED_ORG_WRITE_VALIDATION.get(entityType));
+        if (entitiesNeedingEdOrgWriteValidation.get(entityType) != null) {
+            String edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
             isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
         } else if (complexValidationMap.containsKey(entityType)) {
             ComplexValidation validation = complexValidationMap.get(entityType);

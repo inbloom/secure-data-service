@@ -1,2 +1,2 @@
 # Overrides for base_scenario properties
-studentCount: 1000000
+STUDENT_COUNT: 1000000

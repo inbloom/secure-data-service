@@ -9,6 +9,8 @@ Background:
 
   Scenario: Ingestion User Provisions LZ and Pre-loads Small Sample Dataset
 	When I navigate to the Portal home page
+    Then I will be redirected to realm selector web page
+    When I click on the "Admin" realm in "Sandbox"
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page  
     Then I should be on Portal home page
@@ -25,7 +27,7 @@ Scenario: Verify Small Sample Dataset was Successfully Preloaded
 
     Given a landing zone
     And I check for the file "job*.log" every "30" seconds for "600" seconds
-    Then the landing zone should contain a file with the message "Processed 4251 records"
+    Then the landing zone should contain a file with the message "Processed 4254 records"
     And the landing zone should contain a file with the message "All records processed successfully."
     And I should not see an error log file created
     And I should not see a warning log file created
@@ -61,7 +63,7 @@ Scenario: Verify Small Sample Dataset was Successfully Preloaded
          | sessionCourseAssociation                 |                  0|
          | staff                                    |                 14|
          | staffCohortAssociation                   |                  3|
-         | staffEducationOrganizationAssociation    |                 10|
+         | staffEducationOrganizationAssociation    |                 11|
          | staffProgramAssociation                  |                  7|
          | student                                  |                 78|
          | studentAcademicRecord                    |                117|

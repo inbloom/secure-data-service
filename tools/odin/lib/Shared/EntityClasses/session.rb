@@ -24,33 +24,22 @@ require_relative "enum/GradingPeriodType.rb"
 # creates session
 class Session < BaseEntity
 
-  attr_accessor :name, :school_year, :ed_org_id;
+  attr_accessor :name, :school_year, :ed_org_id, :begin_date, :end_date, :num_school_days, :holidays;
 
   def initialize(name, year, term, interval, ed_org_id, grading_periods)
   	@name            = name
   	@school_year     = year.to_s + "-" + (year+1).to_s
   	@term            = term
-    @begin_date = interval.get_begin_date.to_s
-    @end_date = interval.get_end_date.to_s
-    @num_days = interval.get_num_school_days
+    @begin_date      = interval.get_begin_date
+    @end_date        = interval.get_end_date
+    @num_school_days = interval.get_num_school_days
+    @holidays        = interval.get_holidays
   	@ed_org_id       = ed_org_id
     @grading_periods = grading_periods
   end
 
   def term
     SchoolTerm.to_string(@term)
-  end
-
-  def begin_date
-  	@begin_date
-  end
-
-  def end_date
-  	@end_date
-  end
-
-  def num_school_days
-  	@num_days
   end
 
   def grading_periods

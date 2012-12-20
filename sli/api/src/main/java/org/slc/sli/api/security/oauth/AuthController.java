@@ -113,24 +113,8 @@ public class AuthController {
 
         // Only one realm, so let's bypass the realm selection and direct them straight to that
         // realm
-        if (map.size() == 1){
-            String realmId = map.keySet().iterator().next();
-            return ssoInit( realmId, sessionId, redirectUri, clientId, state, res, model);
-        }
-        // More than one realm, but we're in sandbox mode so find the SandboxIDP realm
-        if(sandboxEnabled) {
-            String realmId = null;
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                if (entry.getValue().equals(RealmInitializer.ADMIN_REALM_ID)) {
-                    realmId = entry.getKey();
-                }
-            }
-
-            if(realmId==null){
-                error("No Sandbox/Admin Simple-IDP Realm is defined which is required when in sandbox mode");
-                throw new IllegalStateException("No Sandbox/Admin Simple-IDP Realm is defined which is required when in sandbox mode");
-            }
-            return ssoInit( realmId, sessionId, redirectUri, clientId, state, res, model);
+        if (map.size() == 1) {
+            return ssoInit(map.keySet().iterator().next(), sessionId, redirectUri, clientId, state, res, model);
         }
 
         model.addAttribute("redirect_uri", redirectUri != null ? redirectUri : "");

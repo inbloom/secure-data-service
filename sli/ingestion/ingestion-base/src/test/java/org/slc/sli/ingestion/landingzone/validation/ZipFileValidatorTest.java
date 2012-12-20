@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.File;
@@ -28,11 +27,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.IngestionTest;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 
 /**
  * Tests for zip file validator.
+ *
  * @author npandey
  *
  */
@@ -43,31 +47,36 @@ public class ZipFileValidatorTest {
     @Autowired
     ZipFileValidator zipFileValidator;
 
-    private FaultsReport errorReport = new FaultsReport();
     File file;
 
     @Test
     public void zipFileHasPath() throws FileNotFoundException {
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
 
         file = IngestionTest.getFile("zip/ZipWithPath.zip");
-        boolean isValid = zipFileValidator.isValid(file, errorReport);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
         Assert.assertFalse(isValid);
-        Assert.assertEquals("ERROR: .zip archive ZipWithPath.zip contains a directory.", errorReport.getFaults().get(0).toString());
+
     }
 
     @Test
     public void noControlFile() throws FileNotFoundException {
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
 
         file = IngestionTest.getFile("zip/NoControlFile.zip");
-        boolean isValid = zipFileValidator.isValid(file, errorReport);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
         Assert.assertFalse(isValid);
-        Assert.assertEquals("ERROR: No manifest file found in .zip archive " + file.getName() + ". Please resubmit.", errorReport.getFaults().get(0).toString());
     }
 
     @Test
     public void validZip() throws FileNotFoundException {
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
+
         file = IngestionTest.getFile("zip/ValidZip.zip");
-        boolean isValid = zipFileValidator.isValid(file, errorReport);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
         Assert.assertTrue(isValid);
     }
 

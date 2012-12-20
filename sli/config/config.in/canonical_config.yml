@@ -32,7 +32,10 @@ default:
         # Set the maximum size of an in clause for security (CHANGE AT OWN
         # RISK)
         sli.security.in_clause_size: 100000
-        
+
+        # Enables write validation on PUT POST PATCH UPDATE DELETE
+        sli.security.writeValidation: true
+
         sli.api.cookieDomain: .slidev.org
 
         # Sandbox settings
@@ -1189,6 +1192,7 @@ team:
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
         sli.api.performance.tracking: false
+
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -1438,6 +1442,10 @@ test-local:
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 1000
 
+        # ElasticSearch
+        sli.search.embedded.http.port: 19200
+        sli.search.url: http://localhost:19200
+
 test-team:
     test:
         # team/data-access/test.properties
@@ -1472,6 +1480,10 @@ test-team:
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
 
+        # ElasticSearch
+        sli.search.embedded.http.port: 19200
+        sli.search.url: http://localhost:19200
+
 test-perf:
     ingestion:
         # perf/ingestion/test.properties
@@ -1486,6 +1498,10 @@ test-perf:
 
         sli.ingestion.lz.pollInterval: 1000
         sli.ingestion.lz.readLockCheckInterval: 2000
+
+        # ElasticSearch
+        sli.search.embedded.http.port: 19200
+        sli.search.url: http://localhost:19200
 
 sandbox:
     api:

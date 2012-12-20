@@ -74,7 +74,7 @@ public class DefaultRolesToRightsResolverTest {
     
     @Test
     public void sandboxAdminBecomeDeveloperInDevRealm() {
-        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, sandboxRole, false);
+        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, sandboxRole);
         assertTrue("sandbox admin is not mapped to developer in developer realm", 
                     roles.containsAll(defaultRoles.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER))));
         assertTrue("sandbox admin is only mapped to developer in developer realm", 
@@ -83,7 +83,7 @@ public class DefaultRolesToRightsResolverTest {
     
     @Test
     public void sandboxAdminstaysSandboxAdminInAdminRealm() {
-        Set<Role> roles = resolver.mapRoles(null, ADMIN_REALM_ID, sandboxRole, false);
+        Set<Role> roles = resolver.mapRoles(null, ADMIN_REALM_ID, sandboxRole);
         assertTrue("sandbox admin is changed in admin realm", 
                     roles.containsAll(defaultRoles.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.SANDBOX_ADMINISTRATOR))));
         assertTrue("sandbox admin is only mapped to sandbox admin in admin realm", 
@@ -92,7 +92,7 @@ public class DefaultRolesToRightsResolverTest {
     
     @Test
     public void roleWithoutProdLoginIsChangedToEmptyGroupInDevRealm() {
-        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, otherRole, false);
+        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, otherRole);
         assertTrue("other admin is not mapped to developer in developer realm", roles.isEmpty());
     }
     

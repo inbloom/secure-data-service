@@ -36,14 +36,16 @@ Then /^I should not see Admin link$/ do
   assert(adminLink.length == 0, "Admin link was found")
 end
 
-#This logout step is for clicking the logout link from the portal header
+#This logout step is for clicking the exit/logout link from the portal header
 Then /^I click on log out$/ do
+  menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
+  menu = menuList.find_element(:id,"menulink")
+  menu.click
   begin
-    menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
-    menu = menuList.find_element(:id,"menulink")
-    menu.click
-    menuList.find_element(:xpath, "/html/body/div[2]/div/div[2]/div/div/div/div/div/div/div/div/div/ul/li/ul/li[2]/a").click
+    menuList.find_element(:link_text, "Exit").click
   rescue
+    menuList.find_element(:link_text, "Logout").click
+  ensure
     assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
   end
 end
@@ -53,9 +55,10 @@ Then /^I should be on Portal home page$/ do
   home = @driver.find_elements(:class, "sli_home_title")
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
   if (@driver.page_source.include?("d_popup"))
-    accept = @driver.find_element(:xpath, "//input[@value='Agree']")
+    accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
     puts "EULA is present"
     accept.click
+    sleep 2
   else
     puts "EULA has already been accepted"
   end

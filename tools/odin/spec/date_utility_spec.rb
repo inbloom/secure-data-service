@@ -123,6 +123,26 @@ describe "DateUtility" do
   	  	end
   	  end
   	end
+    describe "--> checking if user-specified date is a weekend day" do
+      it "will return true if the specified date is a saturday or sunday" do
+        date1 = Date.new(2012, 12, 15)
+        date2 = Date.new(2012, 12, 16)
+        DateUtility.is_weekend_day(date1).should be_true
+        DateUtility.is_weekend_day(date2).should be_true
+      end
+      it "will return false if the specified date is not a saturday or sunday" do
+        date1 = Date.new(2012, 12, 17)
+        date2 = Date.new(2012, 12, 18)
+        date3 = Date.new(2012, 12, 19)
+        date4 = Date.new(2012, 12, 20)
+        date5 = Date.new(2012, 12, 21)
+        DateUtility.is_weekend_day(date1).should be_false
+        DateUtility.is_weekend_day(date2).should be_false
+        DateUtility.is_weekend_day(date3).should be_false
+        DateUtility.is_weekend_day(date4).should be_false
+        DateUtility.is_weekend_day(date5).should be_false
+      end
+    end
   end
 
   describe "--> requests for sets of dates" do

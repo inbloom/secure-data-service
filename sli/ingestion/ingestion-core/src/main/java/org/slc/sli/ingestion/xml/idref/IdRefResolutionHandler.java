@@ -60,7 +60,6 @@ import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * @author okrook
@@ -90,12 +89,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @Autowired
     private BucketCache bucketCache;
-
-    @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
-        return null;
-    }
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
@@ -661,13 +654,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         public String toString() {
             return "TransformableXmlString [string=" + string + ", isTransformed=" + isTransformed + "]";
         }
-    }
-
-    @Override
-    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

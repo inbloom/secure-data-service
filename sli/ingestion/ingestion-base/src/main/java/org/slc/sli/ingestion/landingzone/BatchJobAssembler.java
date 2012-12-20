@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 import java.util.Enumeration;
@@ -25,6 +24,11 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
 
 /**
  *
@@ -87,8 +91,12 @@ public class BatchJobAssembler {
             job.setProperty(key, controlFile.configProperties.getProperty(key));
         }
 
+        AbstractMessageReport report = new DummyMessageReport();
+        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(job.getId(),
+                controlFile.getFileName(), "BatchJobAssembler"));
+
         if (job.getProperty(AttributeType.PURGE.getName()) == null) {
-            if (validator.isValid(fileDesc, ((BatchJob) job).getFaultsReport())) {
+            if (validator.isValid(fileDesc, report, reportStats)) {
                 for (IngestionFileEntry entry : controlFile.getFileEntries()) {
                     if (entry.getFile() != null) {
                         ((BatchJob) job).addFile(entry);

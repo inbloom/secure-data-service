@@ -113,10 +113,6 @@ public class SamlFederationResource {
     private String apiCookieDomain;
 
     @Autowired
-    @Value("${sli.sandbox.enabled}")
-    private boolean sandboxEnabled;
-    
-    @Autowired
     private RealmHelper realmHelper;
     
     @Context
@@ -257,31 +253,27 @@ public class SamlFederationResource {
         Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
         isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
         
-        if (isAdminRealm && sandboxEnabled) {
-            // Sandbox mode using the SimpleIDP
-            //reset isAdminRealm based on the value of the saml isAdmin attribute
-            //since this same realm is used for impersonation and admin logins
-            isAdminRealm = Boolean.valueOf(attributes.getFirst("isAdmin"));
-            // accept the tenantId from the Sandbox-IDP or if none then it's an admin user
-            if (isAdminRealm){
-                tenant = null; //operator admin
-            }else{
-                //impersonation login, require tenant in the saml 
-                if(samlTenant != null) {
-                    tenant = samlTenant;
-                }else{
-                    error("Attempted login by a user in sandbox mode but no tenant was specified in the saml message.");
-                    throw new AccessDeniedException("Invalid user configuration."); 
-                }
+        if (realmTenant == null || realmTenant.length() < 1) {
+            // Sandbox impersonation case: accept the tenantId from the IDP if and only if the
+            // realm's tenantId is null
+            tenant = samlTenant;
+            if (tenant == null) {
+                generateSamlValidationError(MessageFormat.format(
+                        "No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}", issuer,
+                        inResponseTo));
             }
-        }else if(isAdminRealm || isDevRealm){
-            //Prod mode, admin login
-            tenant = null;
-        }else {
-            //regular IDP login
-            tenant = realmTenant;
+        } else {
+            if (isAdminRealm || isDevRealm) {
+                if (samlTenant != null) {
+                    tenant = samlTenant;
+                } else {
+                    tenant = null;
+                }
+            } else {
+                tenant = realmTenant;
+            }
         }
-        debug("Authenticating user is an admin: " + isAdminRealm);
+
         principal = users.locate(tenant, attributes.getFirst("userId"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
@@ -298,7 +290,7 @@ public class SamlFederationResource {
 
         List<String> roles = attributes.get("roles");
         if (roles == null || roles.isEmpty()) {
-            error("Attempted login by a user that did not include any roles in the SAML Assertion.");
+            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
@@ -316,19 +308,18 @@ public class SamlFederationResource {
             throw new AccessDeniedException("User is not associated with realm.");
         }
 
-        Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles, isAdminRealm);
+        Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles);
         List<String> sliRoleList = new ArrayList<String>();
-        boolean isAdminUser = true;
+        boolean isAdmin = true;
         for (Role role : sliRoleSet) {
             sliRoleList.add(role.getName());
             if (!role.isAdmin()) {
-                isAdminUser = false;
+                isAdmin = false;
                 break;
             }
         }
         principal.setRoles(sliRoleList);
-        principal.setAdminUser(isAdminUser);
-        principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
+        principal.setAdminUser(isAdmin);
 
         if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
@@ -358,7 +349,7 @@ public class SamlFederationResource {
 
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
         if (requestedRealmId == null || !requestedRealmId.equals(realm.getEntityId())) {
-            generateSamlValidationError("Requested Realm (id=" + requestedRealmId +") does not match the realm the user authenticated against (id="+realm.getEntityId()+")");
+            generateSamlValidationError("Invalid realm for user.");
         }
 
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
