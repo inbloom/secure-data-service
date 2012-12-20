@@ -137,6 +137,7 @@ public class SecuritySessionResource {
             sessionDetails.put("email", getUserEmail(principal));
             sessionDetails.put("rights", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
             sessionDetails.put("isAdminUser", principal.isAdminUser());
+            sessionDetails.put("userType", principal.getEntity().getType());
 
         } else {
             sessionDetails.put("authenticated", false);
