@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.reporting;
 
+import java.util.List;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
@@ -98,14 +100,24 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     /**
      * Look up the corresponding message for a MessageCode.
      *
+     * @param reportStats
      * @param code
      * @param args
      * @return Message String mapped to the provided MessageCode, if one exists, with any args
      *         provided substituted in. If no message is mapped for this code, return #?CODE?# were
      *         CODE is the MessageCode provided.
      */
-    protected String getMessage(MessageCode code, Object... args) {
-        return messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
+    protected String getMessage(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        String msg = messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
+        Source source = reportStats.getSource();
+        if (source != null) {
+            List<ElementLocationInfo> locationInfoList = source.getElementLocationInfo();
+            for (ElementLocationInfo info : locationInfoList) {
+                // TO DO: append location info on msg
+            }
+            locationInfoList.clear(); // must clear the list so that it won't overlap with the next message
+        }
+        return msg;
     }
 
     protected abstract void reportError(AbstractReportStats reportStats, MessageCode code, Object... args);
