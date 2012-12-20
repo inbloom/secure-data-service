@@ -260,8 +260,8 @@ public class SearchResourceServiceTest {
         SearchResourceService rs = Mockito.spy(resourceService);
 
         // for staff, list of entities should not change
-        Mockito.doReturn(getSet("1", "2")).when(rs).FilterOutInaccessibleIds(Mockito.eq("student"), Mockito.anySet());
-        Mockito.doReturn(getSet("3")).when(rs).FilterOutInaccessibleIds(Mockito.eq("section"), Mockito.anySet());
+        Mockito.doReturn(getSet("1", "2")).when(rs).filterOutInaccessibleIds(Mockito.eq("student"), Mockito.anySet());
+        Mockito.doReturn(getSet("3")).when(rs).filterOutInaccessibleIds(Mockito.eq("section"), Mockito.anySet());
         Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities(), 0, 10);
         Assert.assertEquals(3, result.size());
     }
@@ -274,9 +274,9 @@ public class SearchResourceServiceTest {
 
         // test varied accessibility
         SearchResourceService rs = Mockito.spy(resourceService);
-        Mockito.doReturn(getSet("1", "3", "5")).when(rs).FilterOutInaccessibleIds(Mockito.eq("student"), Mockito.anySet());
-        Mockito.doReturn(getSet("3")).when(rs).FilterOutInaccessibleIds(Mockito.eq("section"), Mockito.anySet());
-        Mockito.doReturn(getSet("1")).when(rs).FilterOutInaccessibleIds(Mockito.eq("someRandomType"), Mockito.anySet());
+        Mockito.doReturn(getSet("1", "3", "5")).when(rs).filterOutInaccessibleIds(Mockito.eq("student"), Mockito.anySet());
+        Mockito.doReturn(getSet("3")).when(rs).filterOutInaccessibleIds(Mockito.eq("section"), Mockito.anySet());
+        Mockito.doReturn(getSet("1")).when(rs).filterOutInaccessibleIds(Mockito.eq("someRandomType"), Mockito.anySet());
         Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities(), 0, 10);
 
         Assert.assertEquals(2, result.size());
@@ -285,7 +285,7 @@ public class SearchResourceServiceTest {
         Assert.assertTrue(contains(result, "section", "3"));
 
         // test when all entities are inaccessible
-        Mockito.doReturn(getSet()).when(rs).FilterOutInaccessibleIds(Mockito.anyString(), Mockito.anySet());
+        Mockito.doReturn(getSet()).when(rs).filterOutInaccessibleIds(Mockito.anyString(), Mockito.anySet());
         result = rs.filterResultsBySecurity(getEntities(), 0, 10);
         Assert.assertEquals(0, result.size());
 

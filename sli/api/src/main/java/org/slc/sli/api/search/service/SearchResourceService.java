@@ -108,7 +108,7 @@ public class SearchResourceService {
 
 	// keep parameters for ElasticSearch
 	// "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
-	private static final List<String> whiteListParameters = Arrays
+	private static final List<String> WHITE_LIST_PARAMETERS = Arrays
 			.asList(new String[] { "q" });
 
 	@PostConstruct
@@ -151,8 +151,8 @@ public class SearchResourceService {
 			// if item not indexed, throw Illegal
 			if (hsce.getStatusCode() == HttpStatus.NOT_FOUND
 					|| hsce.getStatusCode().value() >= 500) {
-				throw new IllegalArgumentException(
-						"Search is not available for the user at this moment.");
+				throw (IllegalArgumentException) new IllegalArgumentException(
+						"Search is not available for the user at this moment.").initCause(hsce); 
 			}
 			throw hsce;
 		}
@@ -339,7 +339,7 @@ public class SearchResourceService {
 			Map<String, EntityBody> row;
 			for (String type : entitiesByType.rowKeySet()) {
 				row = entitiesByType.row(type);
-				accessible = FilterOutInaccessibleIds(type, row.keySet());
+				accessible = filterOutInaccessibleIds(type, row.keySet());
 				for (String id : accessible) {
 					if (row.containsKey(id)) {
 						filterMap.put(id, type, row.get(id));
@@ -385,7 +385,7 @@ public class SearchResourceService {
 	 * @param ids
 	 * @return
 	 */
-	public Set<String> FilterOutInaccessibleIds(String toType, Set<String> ids) {
+	public Set<String> filterOutInaccessibleIds(String toType, Set<String> ids) {
 
 		// get validator
 		IContextValidator validator = contextValidator.findValidator(toType,
@@ -412,7 +412,7 @@ public class SearchResourceService {
 			boolean doFilter = false;
 			List<NeutralCriteria> removalList = new LinkedList<NeutralCriteria>();
 			for (NeutralCriteria criteria : criterias) {
-				if (!whiteListParameters.contains(criteria.getKey())) {
+				if (!WHITE_LIST_PARAMETERS.contains(criteria.getKey())) {
 					removalList.add(criteria);
 
 				} else if ("q".equals(criteria.getKey())) {
