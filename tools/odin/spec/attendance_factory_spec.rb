@@ -50,7 +50,7 @@ describe "AttendanceFactory" do
         
         events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary")
         present_events = events.select {|event| event.category == :PRESENT }
-        absent_events  = events.select {|event| event.category == :ABSENT  }
+        absent_events  = events.select {|event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE }
         
         events.size.should eq 8
         present_events.size.should eq 8
@@ -88,7 +88,7 @@ describe "AttendanceFactory" do
         
         events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary")
         present_events = events.select {|event| event.category == :PRESENT }
-        absent_events  = events.select {|event| event.category == :ABSENT  }
+        absent_events  = events.select {|event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE }
         
         events.size.should eq 8
         present_events.size.should eq 0
@@ -122,7 +122,7 @@ describe "AttendanceFactory" do
       it "will produce attendance event work orders that match the breakdown" do
         events.size.should eq 100
         present_events = events.select { |event| event.category == :PRESENT }
-        absent_events  = events.select { |event| event.category == :ABSENT  }
+        absent_events  = events.select { |event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE }
         tardy_events   = events.select { |event| event.category == :TARDY   }
         present_events.size.should eq 96
         absent_events.size.should eq 4

@@ -40,7 +40,7 @@ class AttendanceFactory
       # set up present, absent, tardy attendance events array
       events = Array.new(100, :PRESENT)
       if absent == 100
-        events = Array.new(100, :ABSENT)
+        events = Array.new(100, :EXCUSED_ABSENCE)
         # ignore tardy events
       else
         # add tardy and absent events
@@ -52,7 +52,7 @@ class AttendanceFactory
           absent_indexes = DataUtility.select_num_from_options(prng, absent, choices)
         end while (tardy_indexes & absent_indexes).size > 0
         tardy_indexes.each  { |index| events[index - 1] = :TARDY  }
-        absent_indexes.each { |index| events[index - 1] = :ABSENT }
+        absent_indexes.each { |index| events[index - 1] = :EXCUSED_ABSENCE }
       end
 
       begin_date = session['interval'].get_begin_date
@@ -89,7 +89,7 @@ class AttendanceFactory
   # -> returns nil if attendance event is not tardy or absent
   def get_attendance_event_reason(category)
     return "Missed school bus" if category == :TARDY
-    return "Excused: sick"     if category == :ABSENT
+    return "Excused: sick"     if category == :EXCUSED_ABSENCE
     return nil
   end
 end

@@ -63,7 +63,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 78|
-     | attendance                               |                  0|
+     | attendance                               |                 14|
      | calendarDate                             |               1161|
      | cohort                                   |                  9|
      | competencyLevelDescriptor                |                  0|
@@ -97,12 +97,12 @@ Then I should see following map of entry counts in the corresponding collections
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 33|
+     | studentCohortAssociation                 |                 28|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
      | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                102|
+     | studentProgramAssociation                |                 89|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
@@ -217,6 +217,7 @@ Scenario: Verify entities in student school association were ingested correctly
      | graduationPlan              | 1                   | _id                                      | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
      | studentSchoolAssociation    | 5                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
 
+@stan
 Scenario: Verify the sli verification script confirms everything ingested correctly
     Given the edfi manifest that was generated in the 'generated' directory
     And the tenant is 'Midgar'
