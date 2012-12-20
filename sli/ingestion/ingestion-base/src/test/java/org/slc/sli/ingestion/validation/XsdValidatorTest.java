@@ -38,8 +38,8 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.SimpleSource;
 
@@ -515,12 +515,12 @@ public class XsdValidatorTest {
 
         @Override
         protected void reportError(AbstractReportStats reportStats, MessageCode code, Object... args) {
-            errors.add(getMessage(code, args));
+            errors.add(getMessage(reportStats, code, args));
         }
 
         @Override
         protected void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args) {
-            warnings.add(getMessage(code, args));
+            warnings.add(getMessage(reportStats, code, args));
         }
 
         @Override

@@ -9,6 +9,7 @@ Background: Make a connection to Mongo
 
 Scenario: Delete tenant from sli.tenant and drop tenant database
   When I get the database name
+  And I clean my tenant's landing zone
   Then I will drop the whole database
   And I will drop the tenant document from the collection
   And I will delete the applications "Schlemiel,NotTheAppYoureLookingFor" from the collection
