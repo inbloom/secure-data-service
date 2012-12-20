@@ -371,6 +371,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             } else {
                 LOG.error(LOG_MESSAGE_AUTH_EXCEPTION_INVALID_ROLES);
             }
+            authList.add(new GrantedAuthorityImpl(json.get(Constants.ATTR_USER_TYPE).getAsString()));
 
             SecurityContextHolder.getContext().setAuthentication(
                     new PreAuthenticatedAuthenticationToken(principal, token, authList));
