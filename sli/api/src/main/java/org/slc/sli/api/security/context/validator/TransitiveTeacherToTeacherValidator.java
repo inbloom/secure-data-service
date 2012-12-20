@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -52,22 +53,27 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
 			throw new IllegalArgumentException("Incoming list of ids cannot be null");
 		}
 
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("teacherId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-		Iterable<Entity> tsa = getRepo().findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, "=", SecurityUtil
+                .getSLIPrincipal().getEntity().getEntityId()));
+        Iterable<Entity> tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
 
 		List<String> schools = new ArrayList<String>();
 		for (Entity e : tsa) {
-			schools.add((String) e.getBody().get("schoolId"));
+            if (!isFieldExpired(e.getBody(), ParameterConstants.END_DATE, false)) {
+                schools.add((String) e.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+            }
 		}
 
-		nq = new NeutralQuery(new NeutralCriteria("schoolId", "in", schools));
-		nq.addCriteria(new NeutralCriteria("teacherId", "in", ids));
+        nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, "in", schools));
+        nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, "in", ids));
 
-		tsa = getRepo().findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
+        tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
 
 		Set<String> fin = new HashSet<String>(ids);
 		for (Entity e : tsa) {
-			fin.remove(e.getBody().get("teacherId"));
+            if (!isFieldExpired(e.getBody(), ParameterConstants.END_DATE, false)) {
+                fin.remove(e.getBody().get(ParameterConstants.STAFF_REFERENCE));
+            }
 		}
 
 		fin.remove(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
