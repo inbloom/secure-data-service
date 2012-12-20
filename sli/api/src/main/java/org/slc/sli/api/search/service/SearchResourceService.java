@@ -499,7 +499,9 @@ public class SearchResourceService {
 				File elasticsearchDir = new File(tmpDir, ES_DIR);
 				debug(String.format("ES data tmp dir is %s", elasticsearchDir.getAbsolutePath()));
 
-				deleteDirectory(elasticsearchDir);
+				if (elasticsearchDir.exists()) {
+				    deleteDirectory(elasticsearchDir);
+				}
 
 				Settings settings = ImmutableSettings
 						.settingsBuilder()
