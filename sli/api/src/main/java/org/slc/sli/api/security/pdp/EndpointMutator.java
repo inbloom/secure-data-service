@@ -67,8 +67,10 @@ public class EndpointMutator {
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
 
-        if (usingV1Api(segments)) {
-            request.getProperties().put(REQUESTED_PATH, request.getPath());
+        if (usingVersionedApi(segments)) {
+            if (!request.getProperties().containsKey(REQUESTED_PATH)) {
+                request.getProperties().put(REQUESTED_PATH, request.getPath());
+            }
             MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
             String version = segments.get(0).getPath();
 
@@ -126,8 +128,8 @@ public class EndpointMutator {
      *            List of path segments.
      * @return True if using the v1 API, false otherwise.
      */
-    protected boolean usingV1Api(List<PathSegment> segments) {
-        return segments.get(0).getPath().contains(PathConstants.V1);
+    protected boolean usingVersionedApi(List<PathSegment> segments) {
+        return segments.get(0).getPath().startsWith(PathConstants.V);
     }
 
 }

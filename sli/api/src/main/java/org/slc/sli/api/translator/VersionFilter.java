@@ -20,6 +20,8 @@ import java.util.SortedSet;
 @Component
 public class VersionFilter implements ContainerRequestFilter {
 
+    private static final String REQUESTED_PATH = "requestedPath";
+
     @Autowired
     private ResourceEndPoint resourceEndPoint;
 
@@ -37,9 +39,10 @@ public class VersionFilter implements ContainerRequestFilter {
                 //remove the version
                 segments.remove(0);
 
+                String newVersion = version + "." + minorVersions.last();
+
                 //add the new version
-                UriBuilder builder = containerRequest.getBaseUriBuilder().path(
-                        version + "." + minorVersions.last());
+                UriBuilder builder = containerRequest.getBaseUriBuilder().path(newVersion);
 
                 //add the rest of the request
                 for (PathSegment segment : segments) {
@@ -51,6 +54,9 @@ public class VersionFilter implements ContainerRequestFilter {
                     builder.replaceQuery(containerRequest.getRequestUri().getQuery());
                 }
 
+                info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
+
+                containerRequest.getProperties().put(REQUESTED_PATH, containerRequest.getPath());
                 containerRequest.setUris(containerRequest.getBaseUri(), builder.build());
             }
         }
