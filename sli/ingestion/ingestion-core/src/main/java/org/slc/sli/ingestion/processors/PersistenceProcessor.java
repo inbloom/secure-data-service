@@ -27,13 +27,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -67,7 +67,6 @@ import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 
 /**
  * Ingestion Persistence Processor.
@@ -81,7 +80,7 @@ import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
  * @author shalka
  */
 @Component
-public class PersistenceProcessor implements Processor, MessageSourceAware {
+public class PersistenceProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
@@ -108,8 +107,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private BatchJobDAO batchJobDAO;
 
     private Set<String> recordLvlHashNeutralRecordTypes;
-
-    private MessageSource messageSource;
 
     @Autowired
     private AbstractMessageReport databaseMessageReport;
@@ -237,7 +234,24 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         try {
             AbstractReportStats reportStatsForNrEntity = null;
 
-            Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            Iterable<NeutralRecord> records = null;
+            try {
+                records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            } catch (MongoException me) {
+                // Add collection name to job resources for later error reporting, if not already there.
+                NewBatchJob savedJob = batchJobDAO.findBatchJobById(job.getId());
+                if (savedJob.getResourceEntry(collectionNameAsStaged) == null) {
+                    ResourceEntry resourceEntry = new ResourceEntry();
+                    resourceEntry.setResourceId(collectionNameAsStaged);
+                    job.addResourceEntry(resourceEntry);
+                    batchJobDAO.saveBatchJob(job);
+                }
+                databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0015, collectionNameAsStaged);
+                LogUtil.error(LOG, "MongoException when attempting to extract " + collectionNameAsStaged
+                        + " NeutralRecords from staging db", me);
+                throw (me);
+            }
+
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
             // UN: Added the records to the recordHashStore
@@ -308,14 +322,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 }
             }
         } catch (Exception e) {
-            String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
-                    + collectionNameAsStaged + "\n";
             databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0005, collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
-            ResourceEntry resourceEntry = new ResourceEntry();
-            resourceEntry.setResourceId(collectionNameAsStaged);
-            job.addResourceEntry(resourceEntry);
-            batchJobDAO.saveBatchJob(job);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
@@ -502,21 +510,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /**
-     * Creates an error report for the specified batch job id and resource id.
-     *
-     * @param batchJobId
-     *            current batch job.
-     * @param resourceId
-     *            current resource id.
-     * @return database logging error report.
-     */
-    private DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
-        DatabaseLoggingErrorReport dbErrorReport = new DatabaseLoggingErrorReport(batchJobId, BATCH_JOB_STAGE,
-                resourceId, batchJobDAO);
-        return dbErrorReport;
-    }
-
-    /**
      * Creates an error source for the specified batch job id and resource id.
      *
      * @param batchJobId
@@ -633,11 +626,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         query.addCriteria(limiter);
 
         return neutralRecordMongoAccess.getRecordRepository().findAllByQuery(collectionName, query);
-    }
-
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     private static enum EntityPipelineType {

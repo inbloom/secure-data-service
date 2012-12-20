@@ -1,0 +1,17 @@
+source :rubygems
+source "http://rubygems.org"
+source :rubyforge
+source "http://gems.rubyforge.org"
+source :gemcutter
+source "http://gemcutter.org"
+
+gem "nokogiri"
+gem "aquarium"
+gem "mongo"
+gem 'stomp'
+gem 'systemu'
+gem 'oauth2'
+gem 'cucumber'
+gem 'rest-client'
+gem 'googlecharts'
+gem 'lazy_high_charts'

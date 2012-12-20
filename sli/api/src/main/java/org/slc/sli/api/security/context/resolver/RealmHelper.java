@@ -52,8 +52,20 @@ public class RealmHelper {
     EdOrgHelper edorgHelper;
 
     public String getSandboxRealmId() {
-        //sandbox and admin realm are the same
-        return getAdminRealmId();
+        Entity realm = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+
+            @Override
+            public Entity execute() {
+                NeutralQuery realmQuery = new NeutralQuery();
+                realmQuery.addCriteria(new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, sandboxUniqueId));
+                return repo.findOne("realm", realmQuery);
+            }
+        });
+
+        if (realm != null) {
+            return realm.getEntityId();
+        }
+        return null;
     }
 
     public String getAdminRealmId() {
@@ -127,7 +139,7 @@ public class RealmHelper {
     public boolean isUserAllowedLoginToRealm(Entity userEntity, Entity realm) {
 
         //Always allow sandbox realm
-        if (isSandboxEnabled) {
+        if (realm.getBody().get("uniqueIdentifier").equals(sandboxUniqueId)) {
             return true;
         }
 

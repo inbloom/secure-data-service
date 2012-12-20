@@ -5,7 +5,6 @@
         <h1>Manage Administrator Accounts</h1>
     <% end %>
 </div>
-<p></p>
 
 <script type="text/javascript" charset="utf-8">
   var is_lea = <%= @is_lea%> 
@@ -14,9 +13,6 @@
   var my_edorg = '<%= @login_user_edorg_name -%>'
   var self_editing = false
 </script>
-
-<h4>Manage users that have access to your <% if APP_CONFIG['is_sandbox'] %>sandbox<% else %>production<% end %> environment.</h4>
-<p>&nbsp;</p>
 
 <% if flash[:notice]%>  
 <p id="notice"><%= flash[:notice] %></p>

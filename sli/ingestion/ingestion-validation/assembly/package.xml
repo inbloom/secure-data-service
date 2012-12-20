@@ -25,19 +25,20 @@
   <fileSets>
     <fileSet>
       <directory>${project.parent.basedir}/ingestion-validation/</directory>
-      <outputDirectory>/OfflineValidationTool/ingestion-validation</outputDirectory>
+      <outputDirectory>/OfflineValidationTool/ingestion/ingestion-validation</outputDirectory>
       <excludes>
         <exclude>**/target/**</exclude>
         <exclude>**/.*</exclude>
         <exclude>**/.*/**</exclude>
         <exclude>**/*IT.java</exclude>
         <exclude>**/assembly/package.xml</exclude>
-        <exclude>**/assembly/pom-top.xml</exclude>
+        <exclude>**/assembly/ingestion-pom.xml</exclude>
+        <exclude>**/assembly/super-pom.xml</exclude>
       </excludes>
     </fileSet>
     <fileSet>
       <directory>${project.parent.basedir}/ingestion-base/</directory>
-      <outputDirectory>/OfflineValidationTool/ingestion-base</outputDirectory>
+      <outputDirectory>/OfflineValidationTool/ingestion/ingestion-base</outputDirectory>
       <excludes>
         <exclude>**/target/**</exclude>
         <exclude>**/.*</exclude>
@@ -57,27 +58,15 @@
   </fileSets>
 
   <files>
-<!--   <file>
-    <source>${project.parent.basedir}/ingestion-validation/assembly/pom-ingestion-validation.xml</source>
-    <outputDirectory>/OfflineValidationTool/ingestion-validation</outputDirectory>
-    <destName>pom.xml</destName>
-  </file>
- -->  <file>
-    <source>${project.parent.basedir}/ingestion-validation/assembly/pom-top.xml</source>
-    <outputDirectory>/OfflineValidationTool/</outputDirectory>
-    <destName>pom.xml</destName>
-  </file>
-<!--   <file>
-    <source>${project.parent.basedir}/ingestion-base/pom.xml</source>
-    <outputDirectory>/OfflineValidationTool/ingestion-base</outputDirectory>
-    <destName>pom.xml</destName>
-  </file>
- -->
-<!--     <file>
-    <source>${project.parent.parent.basedir}/edfi-schema/pom.xml</source>
-    <outputDirectory>/OfflineValidationTool/edfi-schema</outputDirectory>
-    <destName>pom.xml</destName>
-  </file>
- -->
+    <file>
+      <source>${project.parent.basedir}/ingestion-validation/assembly/super-pom.xml</source>
+      <outputDirectory>/OfflineValidationTool/</outputDirectory>
+      <destName>pom.xml</destName>
+    </file>
+    <file>
+      <source>${project.parent.basedir}/ingestion-validation/assembly/ingestion-pom.xml</source>
+      <outputDirectory>/OfflineValidationTool/ingestion/</outputDirectory>
+      <destName>pom.xml</destName>
+    </file>
   </files>
 </assembly>

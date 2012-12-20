@@ -66,11 +66,13 @@ public class ApplicationAuthorizationValidator {
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
 
+        boolean isHostedUser = SecurityUtil.isHostedUser(repo, principal);
+
         //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
-        List<Entity> districts = principal.isAdminRealmAuthenticated() ? new ArrayList<Entity>() : findUsersDistricts(principal);
+        List<Entity> districts = isHostedUser ? new ArrayList<Entity>() : findUsersDistricts(principal);
 
         Set<String> bootstrapApps = getDefaultAllowedApps();
-        Set<String> results = principal.isAdminRealmAuthenticated() ? new HashSet<String>() : getDefaultAuthorizedApps();
+        Set<String> results = isHostedUser ? new HashSet<String>() : getDefaultAuthorizedApps();
 
         for (Entity district : districts) {
             debug("User is in district {}.", district.getEntityId());
@@ -98,7 +100,7 @@ public class ApplicationAuthorizationValidator {
             }
         }
 
-        if (principal.isAdminRealmAuthenticated()) {
+        if (isHostedUser) {
 
             NeutralQuery adminVisible = new NeutralQuery(0);
             adminVisible.addCriteria(new NeutralCriteria("admin_visible", "=", true));

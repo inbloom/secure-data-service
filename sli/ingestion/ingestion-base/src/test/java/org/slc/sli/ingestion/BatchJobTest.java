@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -70,18 +68,6 @@ public class BatchJobTest {
 
         assertEquals("dolly", job.getProperty("hello"));
         assertEquals("dolly", job.getProperty("hello", "world"));
-    }
-
-    @Test
-    public void testFaults() {
-        FaultsReport fr = new FaultsReport();
-        assertEquals(0, fr.getFaults().size());
-        fr.warning("this is a warning", this);
-        assertEquals(1, fr.getFaults().size());
-        assertFalse(fr.hasErrors());
-        fr.error("this is an error", this);
-        assertEquals(2, fr.getFaults().size());
-        assertTrue(fr.hasErrors());
     }
 
     @Test

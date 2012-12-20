@@ -9,6 +9,8 @@
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
 
+<link href="resources/bootstrap.css" rel="stylesheet"/>
+<link href="resources/bootstrap-responsive.min.css" rel="stylesheet"/>
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
@@ -30,9 +32,8 @@
 }
 
 .tool-tip-link {
-	margin-left:140px;
 	color:rgb(0, 102, 153);
-	font-size:11px; 
+	font-size:14px; 
 }
 
 .custom-role {
@@ -44,26 +45,58 @@
     margin-top: 10px;
 }
 
+.brandContainer {
+    background-color: #F6F3EA;
+    border-color: #ECE7D8;
+    border-left: 3px solid #ECE7D8;
+    border-radius: 6px 6px 6px 6px;
+    border-style: solid;
+    border-width: 3px;
+    color: #007096;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    padding: 30px;
+}
+.brandContainerTop {
+    background-color: #F6F3EA;
+    border-left: 3px solid #ECE7D8;
+    border-radius: 6px 6px 0 0;
+    border-right: 3px solid #ECE7D8;
+    border-top: 3px solid #ECE7D8;
+    padding: 30px;
+}
+.brandContainerBottom {
+    background-color: #FFFFFF;
+    border: 3px solid #ECE7D8;
+    border-radius: 0 0 6px 6px;
+    padding: 30px;
+}
+
+.brandContainer h1 { font-size: 36px; }
+.brandContainer h1.prodTitle { color: #007096; }
+.brandContainer h1.sandboxTitle { color: #512B73;}
 
 </style>
-<link href="resources/bootstrap.css" rel="stylesheet"/>
-<link href="resources/globalStyles.css" rel="stylesheet"/>
 </head>
 
 <body onload="document.login_form.user_id.focus();">
-<div class="container">
-	<div class="row">
-		<div class="span12">
-			<div class="brandContainer sandBanner">
-				<div class="row">
-					<div class="span2"> <img src="resources/SLC-Logo-text.png"> </div>
-					<div class="span8">
-						<h1>${fn:escapeXml(subTitle)}</h1>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="container">
+		
+      	<div class="brandContainer">
+	    	<div class="row">
+	    	    <div class="span2">
+		            <img src="resources/SLC-Logo-text.png">
+		        </div>
+		        <div class="span8">
+		        	<c:if test="${!isSandbox}">
+		            	<h1 class="prodTitle">${fn:escapeXml(subTitle)}</h1>
+		            </c:if>
+		            <c:if test="${isSandbox}">
+		            	<h1 class="sandboxTitle">Developer Sandbox</h1>
+		            </c:if>
+		        </div>
+		    </div>
+	    </div>
 		
 		<c:if test="${msg!=null}">
 			<div class="alert alert-success"><c:out value="${msg}"/></div>
@@ -74,6 +107,9 @@
 		
 		<div class='form-container'>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
+				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+				<input type="hidden" name="isForgotPasswordVisible" value="${fn:escapeXml(isForgotPasswordVisible)}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="user_id" class="control-label">Email Address:</label>
@@ -89,12 +125,14 @@
 					</div>
 					<c:if test="${isForgotPasswordVisible}">
 						<div class="control-group">
-							<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
+							<div class="controls">
+								<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
+							</div>
 						</div>
 					</c:if>
 					<div class="control-group">
 						<div class="controls">
-							<input id="login_button" name="commit" type="submit" value="Login" class="btn btn-primary" />
+							<input id="login_button" name="commit" type="submit" value="Sign in" class="btn btn-primary" />
 						</div>
 					</div>
 				</fieldset>

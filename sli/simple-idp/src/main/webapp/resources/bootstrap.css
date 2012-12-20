@@ -19,7 +19,6 @@ nav,
 section {
   display: block;
 }
-
 audio, canvas, video {
   display: inline-block;
   *display: inline;
@@ -92,7 +91,6 @@ input[type="search"] {
 input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
-
 textarea {
   overflow: auto;
   vertical-align: top;
@@ -109,7 +107,7 @@ textarea {
 }
 body {
 	margin: 0;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size: 13px;
 	line-height: 18px;
 	color: #333333;
@@ -291,9 +289,9 @@ a:hover {
 p {
 	margin: 0 0 9px;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 18px;
-	color: #999;
+	color: #333;
 }
 p small {
   font-size: 11px;
@@ -311,9 +309,9 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0;
+  margin: 10px 0;
   font-weight: bold;
-  color: #333333;
+  color: inherit;
   text-rendering: optimizelegibility;
 }
 h1 small,
@@ -548,7 +546,7 @@ input,
 button,
 select,
 textarea {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 18px;
 }
@@ -569,11 +567,11 @@ select,
 .uneditable-input {
   display: inline-block;
   width: 210px;
-  height: 18px;
+  height: 20px;
   padding: 4px;
   margin-bottom: 9px;
-  font-size: 13px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 20px;
   color: #555555;
   border: 1px solid #ccc;
   -webkit-border-radius: 3px;
@@ -1769,9 +1767,9 @@ table .span12 {
 }
 .btn {
   display: inline-block;
-  padding: 4px 10px 4px;
+  padding: 6px 14px;
   margin-bottom: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px;
   color: #333333;
   text-align: center;
@@ -2050,35 +2048,6 @@ table .span12 {
 }
 .btn-inverse:active, .btn-inverse.active {
   background-color: #0c0c0c \9;
-}
-.btn-link,
-.btn-link:active,
-.btn-link[disabled] {
-  background-color: transparent;
-  background-image: none;
-  -webkit-box-shadow: none;
-     -moz-box-shadow: none;
-          box-shadow: none;
-}
-
-.btn-link {
-  color: #0088cc;
-  cursor: pointer;
-  border-color: transparent;
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
-}
-
-.btn-link:hover {
-  color: #005580;
-  text-decoration: underline;
-  background-color: transparent;
-}
-
-.btn-link[disabled]:hover {
-  color: #333333;
-  text-decoration: none;
 }
 button.btn, input[type="submit"].btn {
   *padding-top: 2px;

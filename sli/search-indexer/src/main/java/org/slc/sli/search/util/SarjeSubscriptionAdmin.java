@@ -212,7 +212,7 @@ public class SarjeSubscriptionAdmin {
 
     @Document
     public static class SubscriptionTrigger {
-        private static final String REG_PREFIX = "^(?!is\\.)^[^.]+[.]";
+        private static final String REG_PREFIX = "^(?!staging)^[^.]+[.]";
         private static final String REG_SUFFIX = "$";
         private String ns;
 

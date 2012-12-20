@@ -68,11 +68,6 @@ When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
     raise "IDP type '#{arg1}' not implemented yet"
   end
 end
-When /^I submit the developer credentials "([^"]*)" "([^"]*)" for the impersonation login page$/ do |user, pass|
-  @driver.find_element(:id, "user_id").send_keys user
-  @driver.find_element(:id, "password").send_keys pass
-  @driver.find_element(:id, "login_button").click
-end
 
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
   disable_NOTABLESCAN
@@ -92,10 +87,6 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:id, "user_id").send_keys user
     @driver.find_element(:id, "password").send_keys pass
     @driver.find_element(:id, "login_button").click
-    if @driver.title=="Sandbox User Impersonation"
-      #handle sandbox admin/impersonation chooser page
-  	  @driver.find_element(:id, "adminLink").click
-    end
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end

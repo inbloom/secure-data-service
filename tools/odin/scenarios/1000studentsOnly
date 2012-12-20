@@ -1,4 +1,4 @@
-studentCount: 1000
-beginYear: 2012
+STUDENT_COUNT: 1000
+BEGIN_YEAR: 2012
 
 ENTITY_WHITELIST: ['Student']

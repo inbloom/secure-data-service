@@ -53,7 +53,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String edOrgId;
     private boolean adminUser;
     private Set<String> subEdOrgHierarchy;
-    private boolean adminRealmAuthenticated;
+
 
     public String getSessionId() {
         return sessionId;
@@ -214,16 +214,8 @@ public class SLIPrincipal implements Principal, Serializable {
             return Collections.emptySet();
         }
     }
-    
+
     public void setSubEdOrgHierarchy(Collection<String> subEdOrgHierarchy) {
         this.subEdOrgHierarchy = new TreeSet<String>(subEdOrgHierarchy);
-    }
-    
-    public boolean isAdminRealmAuthenticated() {
-        return adminRealmAuthenticated;
-    }
-
-    public void setAdminRealmAuthenticated(boolean adminRealmAuthenticated) {
-        this.adminRealmAuthenticated = adminRealmAuthenticated;
     }
 }
