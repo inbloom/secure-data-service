@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 3035 records." in the resulting batch job file
+    And I should see "Processed 3031 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
