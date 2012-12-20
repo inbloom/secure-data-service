@@ -32,6 +32,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -145,7 +146,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 failed.add(entity);
             }
         } catch (MongoException e) {
-            reportWarnings(e.getCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), report,
+            NestedRuntimeException wrapper = new NestedRuntimeException("Mongo Exception", e) {
+                private static final long serialVersionUID = 1L;
+            };
+            reportWarnings(wrapper.getMostSpecificCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), report,
                     reportStats);
         }
 
