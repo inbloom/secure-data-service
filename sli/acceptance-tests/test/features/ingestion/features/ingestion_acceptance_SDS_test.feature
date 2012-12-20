@@ -660,13 +660,10 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | Sunset Central High School | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
-<<<<<<< HEAD
-    And I should see "Processed 342 records." in the resulting batch job file
+
+    And I should see "Processed 343 records." in the resulting batch job file
     #TODO - this test data generates a warn file
     #And I should not see a warning log file created
-=======
-    And I should see "Processed 343 records." in the resulting batch job file
->>>>>>> Adjusting acceptance tests counts
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 105" in the resulting batch job file
