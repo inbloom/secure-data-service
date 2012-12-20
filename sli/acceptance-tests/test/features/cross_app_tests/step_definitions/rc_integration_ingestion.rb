@@ -120,6 +120,17 @@ def clear_local_lz
   end
 end
 
+def clear_remote_lz(sftp)
+   sftp.dir.foreach(@landing_zone_path) do |entry|
+     next if entry.name == '.' or entry.name == '..'
+     entryPath = File.join(@landing_zone_path, entry.name)
+     if !sftp.stat!(entryPath).directory?
+       sftp.remove!(entryPath)
+     end
+   end
+end
+
+
 ########
 # Cucumber steps
 ########
