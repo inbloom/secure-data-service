@@ -48,10 +48,8 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -471,8 +469,9 @@ public class ApplicationResource extends UnversionedResource {
         for (EntityBody auth : auths) {
             List<String> appsIds = (List) auth.get("appIds");
             // Clear out all duplicates and make sure there is only one of the one we need.
-            while ((appsIds.remove(uuid)))
-                ;
+            while ((appsIds.remove(uuid))) 
+                {}
+            
             appsIds.add(uuid);
             auth.put("appIds", appsIds);
             service.update((String) auth.get("id"), auth);
