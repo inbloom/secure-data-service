@@ -65,8 +65,6 @@ When I click on Save
 Then the "Schlemiel" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
-Then I will be redirected to realm selector web page
-When I click on the "Sandbox" realm in "Sandbox"
 Then I should be redirected to the impersonation page
 And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
