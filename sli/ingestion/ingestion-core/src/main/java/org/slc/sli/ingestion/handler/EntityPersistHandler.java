@@ -45,6 +45,7 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
@@ -169,6 +170,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             NestedRuntimeException wrapper = new NestedRuntimeException("Mongo Exception", e) {
                 private static final long serialVersionUID = 1L;
             };
+
+            Throwable piiSafeException = LogUtil.createLoggingException(e, false);
+            LogUtil.warn(LOG, "Mongo Exception while updating records", piiSafeException);
+
             reportWarnings(wrapper.getMostSpecificCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), errorReport);
         }
 
