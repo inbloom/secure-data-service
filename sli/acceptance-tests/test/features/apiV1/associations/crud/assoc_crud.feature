@@ -160,7 +160,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
       | courseOffering                         | courseOfferings                          | 39    | "/schools/@ids/courseOfferings" |
       | staffCohortAssociation                 | staffCohortAssociations                  | 0     | "/staff/@ids/staffCohortAssociations" |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 0     | "/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations" |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     | "/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 0     | "/staff/@ids/staffProgramAssociations" |
       | studentAssessment           | studentAssessments                       | 3     | "/sections/@ids/studentSectionAssociations/students/studentAssessments" |
       | studentCohortAssociation               | studentCohortAssociations                | 0     | "/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations" |

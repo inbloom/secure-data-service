@@ -9,6 +9,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,8 @@ public class WriteValidator {
     private List<ComplexValidation> complexValidationList;
     private Map<String, ComplexValidation> complexValidationMap;
 
+    @Value("${sli.security.writeValidation}")
+    private boolean isWriteValidationEnabled;
 
     @Autowired
     private EntityDefinitionStore store;
@@ -95,7 +98,7 @@ public class WriteValidator {
 
     public void validateWriteRequest(EntityBody entityBody, UriInfo uriInfo, SLIPrincipal principal) {
 
-        if (!isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
+        if (isWriteValidationEnabled && !isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
             throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
         }
 

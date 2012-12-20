@@ -55,7 +55,9 @@ Then /^I should be on Portal home page$/ do
   home = @driver.find_elements(:class, "sli_home_title")
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
   if (@driver.page_source.include?("d_popup"))
-    accept = @driver.find_element(:xpath, "//input[@value='Agree']")
+    accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
+    puts accept.to_s
+    #accept = @driver.find_element(:xpath, "//input[@value='Agree']")
     puts "EULA is present"
     accept.click
   else

@@ -16,11 +16,12 @@ limitations under the License.
 
 =end
 
-require_relative 'world_builder'
-require_relative './assessment_work_order'
 require_relative '../Shared/data_utility'
 require_relative '../Shared/EntityClasses/studentAssessment'
+require_relative 'assessment_work_order'
+require_relative 'attendance_factory'
 require_relative 'graduation_plan_factory'
+require_relative 'world_builder'
 
 # student work order factory creates student work orders
 class StudentWorkOrderFactory
@@ -30,6 +31,7 @@ class StudentWorkOrderFactory
     @section_factory = section_factory
     @next_id = 0
     @assessment_factory = AssessmentFactory.new(@scenario)
+    @attendance_factory = AttendanceFactory.new(@scenario)
     sea = world['seas'][0] unless world['seas'].nil?
     @graduation_plans = GraduationPlanFactory.new(sea['id'], @scenario).build unless sea.nil?
   end
@@ -48,6 +50,7 @@ class StudentWorkOrderFactory
                                              programs: find_programs_above_school(edOrg),
                                              section_factory: @section_factory,
                                              assessment_factory: @assessment_factory,
+                                             attendance_factory: @attendance_factory,
                                              graduation_plans: @graduation_plans)
         }
       }
@@ -88,6 +91,7 @@ class StudentWorkOrder
     @section_factory = opts[:section_factory]
     @scenario = (opts[:scenario] or Scenario.new({}))
     @assessment_factory = opts[:assessment_factory]
+    @attendance_factory = opts[:attendance_factory]
     @graduation_plans = opts[:graduation_plans]
     @other_programs = opts[:programs]
     @enrollment = []
@@ -127,9 +131,16 @@ class StudentWorkOrder
         generated += generate_grade_wide_assessment_info(grade, session)
         generated += generate_program_associations(session, curr_type, schools[0])
         generated += generate_cohorts(school, curr_type, session)
+        generated += generate_attendances(session, curr_type, school)
       end
     }
     generated
+  end
+
+  # generates attendance events for the student in the specified session
+  def generate_attendances(session, type, school)
+    return @attendance_factory.generate_attendance_events(@rand, @id, school, session, type) if @attendance_factory.nil? == false
+    return []
   end
 
   # generates student -> program associations for the specified 'session' at the current school of specified 'type'
