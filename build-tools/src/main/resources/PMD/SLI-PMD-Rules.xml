@@ -59,9 +59,24 @@
    <rule ref="rulesets/strictexception.xml/AvoidCatchingNPE">
       <priority>1</priority>
    </rule>
-   <rule ref="rulesets/strictexception.xml/AvoidThrowingRawExceptionTypes">
-      <priority>3</priority>
-   </rule>
+   <!-- <rule ref="rulesets/strictexception.xml/AvoidThrowingRawExceptionTypes">
+         <priority>3</priority>
+      </rule> -->
+	<rule name="CustomAvoidThrowingRawExceptionTypes" message="Avoid throwing raw exception types." class="net.sourceforge.pmd.rules.XPathRule">
+		<description>Avoid throwing raw exception types. Rather than throw a raw Throwable, Exception, or Error, use a subclassed exception or error instead.</description>
+		<properties>
+			<property name="xpath">
+				<value><![CDATA[//AllocationExpression/ClassOrInterfaceType[(@Image='Throwable' and count(//ImportDeclaration/Name[ends-with(@Image,'Throwable')]) = 0) or (@Image='Exception' and count(//ImportDeclaration/Name[ends-with(@Image,'Exception')]) = 0)	or (@Image='Error'  and count(//ImportDeclaration/Name[ends-with(@Image,'Error')]) = 0)] ]]></value>
+			</property>
+		</properties>
+		<example><![CDATA[ public class Foo {
+		public void bar() throws Exception {
+		  throw new Exception();
+		 }
+		} ]]></example>
+		<priority>3</priority>
+	</rule>
+
    <rule ref="rulesets/strictexception.xml/AvoidThrowingNullPointerException">
       <priority>3</priority>
    </rule>

@@ -80,7 +80,7 @@ describe "Odin" do
       end
 
       it "will generate a valid control file with the correct number of interchanges" do     
-        @interchanges.length.should eq(10)
+        @interchanges.length.should eq(11)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -101,7 +101,7 @@ describe "Odin" do
         end
         
         it "will generate a valid control file with the correct number of interchanges" do     
-          @interchanges.length.should eq(10)
+          @interchanges.length.should eq(11)
         end
         
         it "will generate a valid control file with Student as a type" do
@@ -126,6 +126,10 @@ describe "Odin" do
 
         it "will generate a valid control file with StaffAssociation as a type" do
           @interchanges["StudentEnrollment"].should match(/StudentEnrollment.xml/)
+        end
+
+        it "will generate a valid control file with Attendance as a type" do
+          @interchanges["Attendance"].should match(/Attendance.xml/)
         end
         
         it "will generate a zip file of the included interchanges" do

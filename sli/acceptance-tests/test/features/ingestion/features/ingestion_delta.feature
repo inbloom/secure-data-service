@@ -70,7 +70,7 @@ And I should see "InterchangeStudentProgram.xml studentProgramAssociation 6 delt
 And I should see "InterchangeStaffAssociation.xml teacherSchoolAssociation 3 deltas!" in the resulting batch job file
 And I should see "InterchangeStaffAssociation.xml staff 11 deltas!" in the resulting batch job file
 And I should see "InterchangeStaffAssociation.xml teacherSectionAssociation 11 deltas!" in the resulting batch job file
-And I should see "InterchangeStaffAssociation.xml staffEducationOrganizationAssociation 10 deltas!" in the resulting batch job file
+And I should see "InterchangeStaffAssociation.xml staffEducationOrganizationAssociation 13 deltas!" in the resulting batch job file
 And I should see "InterchangeStaffAssociation.xml teacher 3 deltas!" in the resulting batch job file
 And I should see "InterchangeStaffAssociation.xml staffProgramAssociation 7 deltas!" in the resulting batch job file
 And I should see "InterchangeStudentEnrollment.xml studentSchoolAssociation 167 deltas!" in the resulting batch job file
