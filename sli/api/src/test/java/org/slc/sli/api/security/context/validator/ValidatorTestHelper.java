@@ -100,12 +100,12 @@ public class ValidatorTestHelper {
         }
     }
 
-    public void generateTeacherSchool(String teacherId, String edorgId) {
+    public Entity generateTeacherSchool(String teacherId, String edorgId) {
         Map<String, Object> tsaBody = new HashMap<String, Object>();
         tsaBody.put(ParameterConstants.TEACHER_ID, teacherId);
         tsaBody.put(ParameterConstants.SCHOOL_ID, edorgId);
 
-        repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
+        return repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
     }
 
     public Entity generateTSA(String teacherId, String sectionId, boolean isExpired) {
