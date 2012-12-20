@@ -93,3 +93,13 @@
       </div>
     </fieldset>
 <% end %>
+
+<script type="text/javascript">
+    $("#user_account_registration_password").popover({
+        title: "Password Policy",
+        html: true,
+        content: "<ul> <%= APP_CONFIG["password_policy"].collect {|line| "<li>#{line}</li>"}.join.html_safe %> </ul>",
+        trigger: "focus",
+        template: '<div class="popover" style="width:auto"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+    });
+</script>
