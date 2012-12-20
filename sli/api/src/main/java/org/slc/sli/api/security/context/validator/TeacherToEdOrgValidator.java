@@ -44,7 +44,8 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
         if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
             return false;
         }
-        List<String> schools = helper.getDirectEdOrgAssociations(SecurityUtil.getSLIPrincipal().getEntity());
+
+        Set<String> schools = getTeacherEdorgLineage();
         
         //TODO: currently adding districts so that teachers can update school entities without the
         //parent edorg ref causing problems.  Once ed-org write restrictions are in place,
