@@ -16,13 +16,16 @@
 
 package org.slc.sli.api.resources.generic.util;
 
-import javax.ws.rs.core.UriInfo;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
+/**
+ * Tests that a changed URI can still indicate a path (for other components who are dependent on that).
+ * 
+ * @author kmyers
+ *
+ */
 public class ChangedUriInfoTest {
     
     @Test
