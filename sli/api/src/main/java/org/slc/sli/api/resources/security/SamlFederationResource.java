@@ -244,6 +244,7 @@ public class SamlFederationResource {
 
         SLIPrincipal principal;
         String tenant;
+        String sandboxTenant = null; //for developers coming from developer realm
         String realmTenant = (String) realm.getBody().get("tenantId");
         String samlTenant = attributes.getFirst("tenant");
         
@@ -253,7 +254,7 @@ public class SamlFederationResource {
         Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
         isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
         
-        if (realmTenant == null || realmTenant.length() < 1) {
+        if ((!isDevRealm) && (realmTenant == null || realmTenant.length() < 1)) {
             // Sandbox impersonation case: accept the tenantId from the IDP if and only if the
             // realm's tenantId is null
             tenant = samlTenant;
@@ -263,12 +264,16 @@ public class SamlFederationResource {
                         inResponseTo));
             }
         } else {
-            if (isAdminRealm || isDevRealm) {
+            if (isAdminRealm) {
                 if (samlTenant != null) {
                     tenant = samlTenant;
                 } else {
                     tenant = null;
                 }
+            } else if (isDevRealm) {
+                tenant = null;
+                sandboxTenant = samlTenant; 
+                samlTenant = null;
             } else {
                 tenant = realmTenant;
             }
@@ -341,6 +346,10 @@ public class SamlFederationResource {
                 debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(),
                         principal.getTenantId());
             }
+        }
+        
+        if (sandboxTenant != null && isDevRealm) {
+            principal.setSandboxTenant(sandboxTenant);
         }
 
         TenantContext.setIsSystemCall(true);

@@ -56,6 +56,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String lastName;
     private String vendor;
     private Set<String> subEdOrgHierarchy;
+    private String sandboxTenant;
 
 
     public String getSessionId() {
@@ -244,5 +245,13 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public void setSubEdOrgHierarchy(Collection<String> subEdOrgHierarchy) {
         this.subEdOrgHierarchy = new TreeSet<String>(subEdOrgHierarchy);
+    }
+
+    public String getSandboxTenant() {
+        return sandboxTenant;
+    }
+
+    public void setSandboxTenant(String sandboxTenant) {
+        this.sandboxTenant = sandboxTenant;
     }
 }
