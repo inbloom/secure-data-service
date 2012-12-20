@@ -39,12 +39,22 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public String getPath() {
-        // No op
+        String uriPath = this.uri.getPath();
+        if (uriPath != null) {
+            String removeString = "/rest/";
+            if (uriPath.startsWith(removeString)) {
+                return uriPath.substring(removeString.length());
+            }
+            
+            return uriPath;
+        }
+
         return null;
     }
     
     @Override
     public String getPath(boolean decode) {
+        
         // No op
         return null;
     }
