@@ -48,6 +48,8 @@ input {
     font-size: 13px;
 }
 
+.input-large { width: 200px; }
+
 .color-column-blue {
 	color: #0064C8 !important;
 	font-weight: bold !important;

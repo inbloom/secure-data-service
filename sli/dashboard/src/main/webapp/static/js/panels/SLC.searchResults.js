@@ -117,12 +117,7 @@ SLC.namespace('SLC.searchResults', (function () {
 				noSearchResults();
 			}
 
-			if (schoolId === "" || schoolId === undefined) {
-				$("#searchResultsSection").hide();
-			}
-			else {
-				$("#searchResultsSection").show();
-			}
+
 		}
 		
 		function gotoURL(id) {
@@ -147,7 +142,7 @@ SLC.namespace('SLC.searchResults', (function () {
 			// If no dropdown option selected, then it will take school id from query string.
 			schoolIdParam = $("#schoolSelect").val() || schoolId;
 
-			params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&schoolId=' + schoolIdParam + '&pageNumber=' + postPageNum +
+			params = 'name=' + dataModel.name + '&schoolId=' + schoolIdParam + '&pageNumber=' + postPageNum +
 			'&pageSize=' + postPageSize;
 			
 			SLC.util.goToLayout('studentSearch', null, params);
