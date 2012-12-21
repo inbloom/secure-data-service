@@ -31,7 +31,7 @@ import org.slc.sli.dal.repository.tenancy.TenantCall;
  *
  */
 public class TenantAwareCallAspectTest {
-    Logger log = LoggerFactory.getLogger(TenantAwareCallAspectTest.class);
+    private static final Logger log = LoggerFactory.getLogger(TenantAwareCallAspectTest.class);
 
     @Test
     public void testTenantCall() {

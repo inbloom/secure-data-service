@@ -235,7 +235,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      * This method should be private, but is used via mockito in the tests, thus
      * it's public. (S. Altmueller)
      */
-    protected Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> origMetaData,
+    Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> origMetaData,
             String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         Map<String, Object> metaData = origMetaData == null ? new HashMap<String, Object>() : origMetaData;

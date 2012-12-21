@@ -179,8 +179,8 @@ public class MongoTrackingAspect {
             }
 
             // Init map for stats.
-            collection = collection.replaceAll("\\.", "DOT");
-            String statsKey = String.format("%s#%s#%s", db, function, collection);
+            String collectionKeyName = collection.replaceAll("\\.", "DOT");
+            String statsKey = String.format("%s#%s#%s", db, function, collectionKeyName);
             stats.get(jobId).getRight().get(currJobInterval)
                     .putIfAbsent(statsKey, Pair.of(new AtomicLong(0), new AtomicLong(0)));
 
@@ -189,7 +189,7 @@ public class MongoTrackingAspect {
             pair.getLeft().incrementAndGet();
             pair.getRight().addAndGet(elapsed);
 
-            PERF_LOG.info(function + "," + db + "," + collection + "," + elapsed);
+            PERF_LOG.info(function + "," + db + "," + collectionKeyName + "," + elapsed);
         }
     }
 
