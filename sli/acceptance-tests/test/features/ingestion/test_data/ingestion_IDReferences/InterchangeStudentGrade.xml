@@ -408,7 +408,7 @@
                 <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_1"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_2">
         <GradebookEntryType>funeral homework 2</GradebookEntryType>
@@ -436,7 +436,7 @@
                 <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_2"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_3">
         <GradebookEntryType>funeral homework 3</GradebookEntryType>
@@ -464,7 +464,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_3"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_4">
         <GradebookEntryType>funeral homework 4</GradebookEntryType>
@@ -492,7 +492,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_4"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_5">
         <GradebookEntryType>funeral homework 5</GradebookEntryType>
@@ -520,7 +520,7 @@
                 <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_101"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_6">
         <GradebookEntryType>funeral homework 6</GradebookEntryType>
@@ -548,7 +548,7 @@
                 <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_5"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_7">
         <GradebookEntryType>funeral homework 7</GradebookEntryType>
@@ -576,7 +576,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_6"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_8">
         <GradebookEntryType>funeral homework 8</GradebookEntryType>
@@ -604,7 +604,7 @@
                 <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_102"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_9">
         <GradebookEntryType>funeral homework 9</GradebookEntryType>
@@ -632,7 +632,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_7"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_10">
         <GradebookEntryType>funeral homework 10</GradebookEntryType>
@@ -660,7 +660,7 @@
                 <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_103"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_11">
         <GradebookEntryType>funeral homework 11</GradebookEntryType>
@@ -688,7 +688,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_104"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_12">
         <GradebookEntryType>funeral homework 12</GradebookEntryType>
@@ -716,7 +716,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_8"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_13">
         <GradebookEntryType>funeral homework 13</GradebookEntryType>
@@ -744,7 +744,7 @@
                 <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_105"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_14">
         <GradebookEntryType>funeral homework 14</GradebookEntryType>
@@ -772,7 +772,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_106"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_15">
         <GradebookEntryType>funeral homework 15</GradebookEntryType>
@@ -800,7 +800,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_107"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_16">
         <GradebookEntryType>funeral homework 16</GradebookEntryType>
@@ -828,7 +828,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_108"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_101">
         <GradebookEntryType>funeral homework 17</GradebookEntryType>
@@ -856,7 +856,7 @@
                 <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_1"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_102">
         <GradebookEntryType>funeral homework 18</GradebookEntryType>
@@ -884,7 +884,7 @@
                 <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_2"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_103">
         <GradebookEntryType>funeral homework 19</GradebookEntryType>
@@ -912,7 +912,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_3"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <GradebookEntry id="GE_104">
         <GradebookEntryType>funeral homework 20</GradebookEntryType>
@@ -940,7 +940,7 @@
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_4"/>
+        <GradingPeriodReference/>
     </GradebookEntry>
     <CompetencyLevelDescriptor id="CL_1">
         <CodeValue>Barely Competent 1</CodeValue>

@@ -22,7 +22,7 @@
         <BeginDate>2010-11-08</BeginDate>
         <EndDate>2011-01-09</EndDate>
         <TotalInstructionalDays>27</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20100823Instructionalday"/>
+        <CalendarDateReference/>
     </GradingPeriod>
     <Session>
         <SessionName>Fall 2010 IL-DAYBREAK</SessionName>

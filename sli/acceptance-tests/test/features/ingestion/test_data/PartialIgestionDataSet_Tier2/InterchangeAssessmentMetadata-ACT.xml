@@ -4,15 +4,15 @@
     <ObjectiveAssessment id="ActEng">
         <IdentificationCode>ACT-English</IdentificationCode>
         <MaxRawScore>36</MaxRawScore>
-        <ObjectiveAssessmentReference ref="ActEngUsage"/>
-        <ObjectiveAssessmentReference ref="ActEngRhetorical"/>
+        <ObjectiveAssessmentReference/>
+        <ObjectiveAssessmentReference/>
     </ObjectiveAssessment>
     <ObjectiveAssessment id="ActMath">
         <IdentificationCode>ACT-Mathematics</IdentificationCode>
         <MaxRawScore>36</MaxRawScore>
-        <ObjectiveAssessmentReference ref="ActMathPreAlgebra"/>
-        <ObjectiveAssessmentReference ref="ActMathAlgebra"/>
-        <ObjectiveAssessmentReference ref="ActMathGeometry"/>
+        <ObjectiveAssessmentReference/>
+        <ObjectiveAssessmentReference/>
+        <ObjectiveAssessmentReference/>
     </ObjectiveAssessment>
     <ObjectiveAssessment id="ActReading">
         <IdentificationCode>ACT-Reading</IdentificationCode>
@@ -24,8 +24,8 @@
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
-        <ObjectiveAssessmentReference ref="ActReadingSocial"/>
-        <ObjectiveAssessmentReference ref="ActReadingArts"/>
+        <ObjectiveAssessmentReference/>
+        <ObjectiveAssessmentReference/>
     </ObjectiveAssessment>
     <ObjectiveAssessment id="ActScience">
         <IdentificationCode>ACT-Science</IdentificationCode>
@@ -60,8 +60,8 @@
         <IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
         <MaxRawScore>18</MaxRawScore>
         <!-- Commenting out circular reference -->
-        <!-- ObjectiveAssessmentReference ref="ActReadingSocial"></ObjectiveAssessmentReference -->
-        <ObjectiveAssessmentReference ref="ActReadingArts"/>
+        <!-- ObjectiveAssessmentReference></ObjectiveAssessmentReference -->
+        <ObjectiveAssessmentReference/>
     </ObjectiveAssessment>
     <ObjectiveAssessment id="ActReadingArts">
         <IdentificationCode>ACT-Reading-Arts</IdentificationCode>

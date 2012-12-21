@@ -10,8 +10,8 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
-		<LearningStandardReference ref="LS_101" />
-		<LearningObjectiveReference ref="LO_2" />
+		<LearningStandardReference />
+		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective id="LO_2">
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -21,8 +21,8 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="LS_2" />
-		<LearningObjectiveReference ref="LO_101" />
+		<LearningStandardReference />
+		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective id="LO_3">
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -32,8 +32,8 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
-		<LearningStandardReference id="LS_1" ref="LS_1" />
-		<LearningObjectiveReference ref="LO_3" />
+		<LearningStandardReference id="LS_1" />
+		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective id="LO_4">
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -43,8 +43,8 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="LS_2" />
-		<LearningObjectiveReference ref="LO_2" />
+		<LearningStandardReference />
+		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective id="LO_5">
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -54,8 +54,8 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="LS_2" />
-		<LearningObjectiveReference ref="LO_3" />
+		<LearningStandardReference />
+		<LearningObjectiveReference />
 	</LearningObjective>
 
 	<LearningStandard id="LS_1">

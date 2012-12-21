@@ -250,13 +250,18 @@ public class MongoQueryConverter {
         this.operatorImplementations.put("=~", new MongoCriteriaGenerator() {
             @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
-                if (criteria != null) {
-                    criteria.regex((String) neutralCriteria.getValue());
 
-                    return criteria;
-                } else {
-                    return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
+                if (neutralCriteria.getValue() instanceof String) {
+                    if (criteria != null) {
+                        criteria.regex((String) neutralCriteria.getValue());
+
+                        return criteria;
+                    } else {
+                        return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
+                    }
                 }
+                
+                throw new QueryParseException("Attempted to query against a non-string field", neutralCriteria.toString());
             }
         });
 
@@ -402,6 +407,10 @@ public class MongoQueryConverter {
 
             if (fieldSchema != null) {
                 if (!operator.equals("exists")) {
+                    if (!fieldSchema.isSimple() && operator.equals(NeutralCriteria.CRITERIA_REGEX)) {
+                        throw new QueryParseException("Cannot query on intermediate data structures, only fields", neutralCriteria.toString());
+                    }
+
                     value = fieldSchema.convert(neutralCriteria.getValue());
                 }
                 if (fieldSchema.isPii()) {

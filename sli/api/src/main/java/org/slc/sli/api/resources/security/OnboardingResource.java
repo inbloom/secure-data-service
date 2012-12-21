@@ -93,7 +93,7 @@ public class OnboardingResource {
      * @QueryParam stateOrganizationId -- the unique identifier for this ed org
      */
     @POST
-    @RightsAllowed({Right.INGEST_DATA})
+    @RightsAllowed({Right.INGEST_DATA })
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
         String orgId = reqBody.get(STATE_EDORG_ID);
         Response r = createEdOrg(orgId);

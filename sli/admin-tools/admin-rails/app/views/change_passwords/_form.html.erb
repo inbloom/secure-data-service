@@ -76,3 +76,11 @@
   </div>
 <% end %>
 
+<script type="text/javascript">
+    $("#change_password_new_pass").popover({
+        html: true,
+        content: "<%= APP_CONFIG['password_policy'].join("<br/>").html_safe %>",
+        trigger: "focus",
+        template: '<div class="popover" style="width:auto"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"><p></p></div></div></div>'
+    });
+</script>

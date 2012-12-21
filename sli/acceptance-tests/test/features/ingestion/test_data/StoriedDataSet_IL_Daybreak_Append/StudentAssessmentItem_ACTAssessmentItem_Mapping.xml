@@ -34,7 +34,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>9</Result> 
        </ScoreResults> 
-       <StudentAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
@@ -46,7 +46,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>14</Result> 
        </ScoreResults> 
-       <StudentAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
@@ -58,7 +58,7 @@
    		<AssessmentResponse>False</AssessmentResponse>
    		<AssessmentItemResult>Incorrect</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
+   		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
@@ -71,7 +71,7 @@
    		<AssessmentResponse>False</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Plane-Geometry_1"/>
+   		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
@@ -84,7 +84,7 @@
    		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
+   		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
@@ -97,7 +97,23 @@
    		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Incorrect</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentAssessmentReference ref="saa_1"/>
+      <StudentAssessmentReference> 
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2011-05-02</AdministrationDate> 
+          <StudentReference> 
+              <StudentIdentity> 
+                  <StudentUniqueStateId>900000000</StudentUniqueStateId> 
+             </StudentIdentity> 
+          </StudentReference> 
+          <AssessmentReference> 
+             <AssessmentIdentity> 
+                  <AssessmentTitle>ACT</AssessmentTitle>
+                  <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                  <Version>1</Version>
+             </AssessmentIdentity> 
+          </AssessmentReference> 
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference> 
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
@@ -109,12 +125,28 @@
    		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentAssessmentReference ref="saa_1"/>
-   		<AssessmentItemReference>
+      <StudentAssessmentReference> 
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2011-05-02</AdministrationDate> 
+          <StudentReference> 
+              <StudentIdentity> 
+                  <StudentUniqueStateId>900000000</StudentUniqueStateId> 
+             </StudentIdentity> 
+          </StudentReference> 
+          <AssessmentReference> 
+             <AssessmentIdentity> 
+                  <AssessmentTitle>ACT</AssessmentTitle>
+                  <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                  <Version>1</Version>
+             </AssessmentIdentity> 
+          </AssessmentReference> 
+        </StudentAssessmentIdentity>
+       </StudentAssessmentReference> 
+   	  	<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
    			</AssessmentItemIdentity>
-   		</AssessmentItemReference>
+   		 </AssessmentItemReference>
    </StudentAssessmentItem>
    
 </InterchangeStudentAssessment>

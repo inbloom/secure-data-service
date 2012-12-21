@@ -113,6 +113,7 @@ public class ResourceEndPointTest {
 
     @Test
     public void testLoadNameSpace() throws IOException {
+
         String json = "[" +
                 "{\n" +
                 "    \"nameSpace\": [\"v6.0\", \"v6.1\"],\n" +

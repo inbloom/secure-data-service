@@ -58,12 +58,12 @@ public class ValidatorTestHelper {
         return past.toString(fmt);
     }
 
-    public void generateStaffEdorg(String staffId, String edOrgId, boolean isExpired) {
+    public Entity generateStaffEdorg(String staffId, String edOrgId, boolean isExpired) {
         Map<String, Object> staffEdorg = new HashMap<String, Object>();
         staffEdorg.put(ParameterConstants.STAFF_REFERENCE, staffId);
         staffEdorg.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
         expireAssociation(isExpired, staffEdorg);
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffEdorg);
+        return repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffEdorg);
     }
 
     public Entity generateEdorgWithParent(String parentId) {
@@ -100,12 +100,14 @@ public class ValidatorTestHelper {
         }
     }
 
-    public void generateTeacherSchool(String teacherId, String edorgId) {
+
+    public Entity generateTeacherSchool(String teacherId, String edorgId) {
+        generateStaffEdorg(teacherId, edorgId, false);
         Map<String, Object> tsaBody = new HashMap<String, Object>();
         tsaBody.put(ParameterConstants.TEACHER_ID, teacherId);
         tsaBody.put(ParameterConstants.SCHOOL_ID, edorgId);
 
-        repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
+        return repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
     }
 
     public Entity generateTSA(String teacherId, String sectionId, boolean isExpired) {
