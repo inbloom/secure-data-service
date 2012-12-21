@@ -34,8 +34,6 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -69,7 +67,6 @@ import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 
 /**
  * Ingestion Persistence Processor.
@@ -83,7 +80,7 @@ import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
  * @author shalka
  */
 @Component
-public class PersistenceProcessor implements Processor, MessageSourceAware {
+public class PersistenceProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
@@ -110,8 +107,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private BatchJobDAO batchJobDAO;
 
     private Set<String> recordLvlHashNeutralRecordTypes;
-
-    private MessageSource messageSource;
 
     @Autowired
     private AbstractMessageReport databaseMessageReport;
@@ -515,21 +510,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /**
-     * Creates an error report for the specified batch job id and resource id.
-     *
-     * @param batchJobId
-     *            current batch job.
-     * @param resourceId
-     *            current resource id.
-     * @return database logging error report.
-     */
-    private DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
-        DatabaseLoggingErrorReport dbErrorReport = new DatabaseLoggingErrorReport(batchJobId, BATCH_JOB_STAGE,
-                resourceId, batchJobDAO);
-        return dbErrorReport;
-    }
-
-    /**
      * Creates an error source for the specified batch job id and resource id.
      *
      * @param batchJobId
@@ -646,11 +626,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         query.addCriteria(limiter);
 
         return neutralRecordMongoAccess.getRecordRepository().findAllByQuery(collectionName, query);
-    }
-
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     private static enum EntityPipelineType {

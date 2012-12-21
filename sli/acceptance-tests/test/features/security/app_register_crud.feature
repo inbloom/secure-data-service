@@ -101,9 +101,9 @@ Scenario: CRUD operations on Applications In production as an Operator
 	When I navigate to GET "/apps/"
 	 Then I should receive a return code of 200
      And I should only see "PENDING" and "APPROVED" applications
-    When (AR) I navigate to PUT "/apps/<Testing App>" to update an application to "UNREGISTERED"
+    When I navigate to PUT "/apps/<Testing App>" to update an application to "UNREGISTERED"
      Then I should receive a return code of 204
-    When (AR) I navigate to PUT "/apps/<Testing App>" to update an application's name
+    When I navigate to PUT "/apps/<Testing App>" to update an application's name
      Then I should receive a return code of 400
 	When I navigate to DELETE "/apps/<Testing App>"
 	Then I should receive a return code of 403
@@ -127,7 +127,7 @@ Scenario: CRUD operations on Applications In production as an Operator
 	When I navigate to GET "/apps/"
 	 Then I should receive a return code of 200
      And I should only see "APPROVED" applications
-    When (AR) I navigate to PUT "/apps/<Testing App>" to update an application's name
+    When I navigate to PUT "/apps/<Testing App>" to update an application's name
      Then I should receive a return code of 400
 	When I navigate to DELETE "/apps/<Testing App>"
 	Then I should receive a return code of 400

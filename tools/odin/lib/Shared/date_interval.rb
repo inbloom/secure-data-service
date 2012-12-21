@@ -16,19 +16,17 @@ limitations under the License.
 
 =end
 
-require "date"
-require "logger"
+require 'date'
+require 'logger'
 
-require_relative "date_utility.rb"
+require_relative 'date_utility.rb'
 
 # Date Interval class
 class DateInterval
 
   # class method for creating date interval from start date and number of instructional days
   def self.create_using_start_and_num_days(random, start_date, num_instructional_days, only_school_days = true, with_holidays = true)
-    if num_instructional_days <= 0
-      raise(ArgumentError, ":num_instructional_days cannot be less than or equal to zero.")
-    end
+    raise(ArgumentError, ":num_instructional_days cannot be less than or equal to zero.") if num_instructional_days <= 0
 
   	if with_holidays
   	  holidays = DateUtility.get_school_holidays(random, start_date.year)
@@ -42,9 +40,7 @@ class DateInterval
 
   # class method for creating date interval from start date and end date
   def self.create_using_start_and_end_dates(random, start_date, end_date, only_school_days = true, with_holidays = true)
-    if start_date > end_date
-      raise(ArgumentError, ":start_date must be before (or equal to) :end_date.")
-    end
+    raise(ArgumentError, ":start_date must be before (or equal to) :end_date.") if start_date > end_date
 
     if only_school_days and (start_date.wday == 0 or start_date.wday == 6)
       raise(ArgumentError, "creating an interval of one day with :only_school_days set to true cannot start on a weekend day.")

@@ -39,7 +39,7 @@ Given /^I navigate to databrowser home page$/ do
 end
 
 Then /^I will be redirected to realm selector web page$/ do
-  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
+  assertWithWait("Failed to navigate to Realm chooser") {@driver.find_element(:class, "brandContainer") != nil}
 end
 
 When /^I enter the credentials "([^"]*)" "([^"]*)" for the Simple IDP$/ do |arg1, arg2|

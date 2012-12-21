@@ -222,5 +222,22 @@ class DateUtility
     dates
   end
 
+  # checks if the specified 'date' is a weekend day
+  # -> returns false if the 'date' is a week day
+  # -> returns true if the 'date' is a weekend day
+  def self.is_weekend_day(date)
+    is_saturday(date) or is_sunday(date)
+  end
+
+  # returns true if the specified day is a Saturday, and false otherwise
+  def self.is_saturday(date)
+    date.wday == 6
+  end
+
+  # returns true if the specified day is a Sunday, and false otherwise
+  def self.is_sunday(date)
+    date.wday == 0
+  end
+
   # add school days function?
 end

@@ -42,7 +42,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
 
     @Override
     protected void reportError(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        String message = getMessage(code, args);
+        String message = getMessage(reportStats, code, args);
         logError(message);
 
         Source source = reportStats.getSource();
@@ -52,7 +52,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
 
     @Override
     protected void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        String message = getMessage(code, args);
+        String message = getMessage(reportStats, code, args);
         logWarning(message);
 
         Source source = reportStats.getSource();
@@ -63,7 +63,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
 
     @Override
     protected void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        String message = getMessage(code, args);
+        String message = getMessage(reportStats, code, args);
         logInfo(message);
     }
 

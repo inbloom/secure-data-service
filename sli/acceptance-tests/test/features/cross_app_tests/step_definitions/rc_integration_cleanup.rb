@@ -92,6 +92,14 @@ Then /^I will drop the whole database$/ do
   assert(tenant_dropped, "Tenant DB not dropped.")
 end
 
+Then /^I will clean my tenants recordHash documents from ingestion_batch_job db$/ do
+  host = PropLoader.getProps['ingestion_batchjob_db']
+  port = PropLoader.getProps['ingestion_batchjob_db_port']
+  batchJobconn = Mongo::Connection.new(host, port)
+  batchJobDb = batchJobconn.db(PropLoader.getProps['ingestion_batchjob_database_name'])
+  batchJobDb['recordHash'].remove("t" => @tenant_name)
+end
+
 Then /^I clean my tenant's landing zone$/ do
 if RUN_ON_RC
     steps %Q{

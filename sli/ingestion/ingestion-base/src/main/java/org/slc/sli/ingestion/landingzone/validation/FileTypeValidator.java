@@ -24,9 +24,8 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
 
 /**
  * File Type validator.
@@ -37,12 +36,12 @@ public class FileTypeValidator extends IngestionFileValidator {
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
         IngestionFileEntry entry = item.getFileItem();
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
-            fail(callback, getFailureMessage("BASE_0005", entry.getFileName(), "type"));
+            error(report, reportStats, BaseMessageCode.BASE_0005, entry.getFileName(), "type");
 
             return false;
         }
@@ -73,24 +72,6 @@ public class FileTypeValidator extends IngestionFileValidator {
         }
 
         return isNotXML;
-    }
-
-    @Override
-    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
-        IngestionFileEntry entry = item.getFileItem();
-        FileType fileType = entry.getFileType();
-
-        if (fileType == null) {
-            error(report, reportStats, BaseMessageCode.BASE_0005, entry.getFileName(), "type");
-
-            return false;
-        }
-
-        if (isNotXMLFile(entry)) {
-            return false;
-        }
-
-        return true;
     }
 
 }

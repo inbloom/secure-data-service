@@ -20,6 +20,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -37,6 +39,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.dal.repository.ValidationWithoutNaturalKeys;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -90,35 +95,12 @@ public class SliSchemaVersionValidatorTest {
     @Test
     public void test() {
 
-        List<NeutralSchema> neutralSchemas = new ArrayList<NeutralSchema>();
-        neutralSchemas.add(this.createMockSchema(STUDENT, 1));
-        neutralSchemas.add(this.createMockSchema(SECTION, 2));
-        neutralSchemas.add(this.createMockSchema(TEACHER, 1));
+        List<EntityVersionData> data = Arrays.asList(new EntityVersionData[] {
+                new EntityVersionData(STUDENT, 1, new CollectionVersionData(1, 0)),
+                new EntityVersionData(SECTION, 2, new CollectionVersionData(1, 0)),
+                new EntityVersionData(TEACHER, 1, null) });
 
-        when(entitySchemaRepository.getSchemas()).thenReturn(neutralSchemas);
-
-        BasicDBObject studentDbObject = new BasicDBObject();
-        studentDbObject.put(SliSchemaVersionValidator.ID, STUDENT);
-        studentDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
-        studentDbObject.put(SliSchemaVersionValidator.MONGO_SV, new Double(0.0));
-        BasicDBObject sectionDbObject = new BasicDBObject();
-        sectionDbObject.put(SliSchemaVersionValidator.ID, SECTION);
-        sectionDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
-        sectionDbObject.put(SliSchemaVersionValidator.MONGO_SV, new Double(0.0));
-
-        final List<DBObject> findOnes = new ArrayList<DBObject>();
-        findOnes.add(studentDbObject);
-        findOnes.add(sectionDbObject);
-        findOnes.add(null);
-
-        when(
-                mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class),
-                        Mockito.eq(SliSchemaVersionValidator.METADATA_COLLECTION))).thenAnswer(new Answer<DBObject>() {
-            @Override
-            public DBObject answer(InvocationOnMock invocation) throws Throwable {
-                return findOnes.remove(0);
-            }
-        });
+        setupMockVersions(data);
 
         this.sliSchemaVersionValidator.initMigration();
 
@@ -138,4 +120,109 @@ public class SliSchemaVersionValidatorTest {
         MigrationStrategy strategy = transforms.get(0);
         Assert.assertTrue("Expected AddStrategy", strategy instanceof AddStrategy);
     }
+
+    @Test
+    public void shouldAddVersion() {
+        List<NeutralSchema> neutralSchemas = new ArrayList<NeutralSchema>();
+        neutralSchemas.add(this.createMockSchema(STUDENT, 2));
+
+        List<EntityVersionData> data = Arrays.asList(new EntityVersionData[] { new EntityVersionData(STUDENT, 2,
+                new CollectionVersionData(1, 0)) });
+
+        setupMockVersions(data);
+
+        this.sliSchemaVersionValidator.initMigration();
+
+        Entity student = new MongoEntity("student", new HashMap<String, Object>());
+        this.sliSchemaVersionValidator.insertVersionInformation(student);
+
+        Assert.assertEquals(2, student.getMetaData().get("version"));
+    }
+
+    @Test
+    public void shouldMigrateEntities() {
+
+        ValidationWithoutNaturalKeys mockRepo = Mockito.mock(ValidationWithoutNaturalKeys.class);
+
+        List<NeutralSchema> neutralSchemas = new ArrayList<NeutralSchema>();
+        neutralSchemas.add(this.createMockSchema(STUDENT, 2));
+
+        List<EntityVersionData> data = Arrays.asList(new EntityVersionData[] { new EntityVersionData(STUDENT, 2,
+                new CollectionVersionData(1, 0)) });
+
+        setupMockVersions(data);
+
+        this.sliSchemaVersionValidator.initMigration();
+
+        List<Entity> students = new ArrayList<Entity>();
+        students.add(new MongoEntity("student", new HashMap<String, Object>()));
+        students.add(new MongoEntity("student", new HashMap<String, Object>()));
+        students.add(new MongoEntity("student", new HashMap<String, Object>()));
+
+        Iterable<Entity> result = sliSchemaVersionValidator.migrate("student", students, mockRepo);
+
+        for (Entity e : result) {
+            Assert.assertEquals("yellow", e.getBody().get("favoriteColor"));
+        }
+
+    }
+
+    private void setupMockVersions(List<EntityVersionData> enitityData) {
+
+        List<NeutralSchema> neutralSchemas = new ArrayList<NeutralSchema>();
+
+        for (EntityVersionData data : enitityData) {
+            neutralSchemas.add(this.createMockSchema(data.entityType, data.schemaVersion));
+        }
+
+        when(entitySchemaRepository.getSchemas()).thenReturn(neutralSchemas);
+
+        final List<DBObject> findOnes = new ArrayList<DBObject>();
+        for (EntityVersionData data : enitityData) {
+
+            BasicDBObject dbObject = null;
+            if (data.collectionVersion != null) {
+                dbObject = new BasicDBObject();
+                dbObject.put(SliSchemaVersionValidator.ID, data.entityType);
+                dbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(data.collectionVersion.dalVersion));
+                dbObject.put(SliSchemaVersionValidator.MONGO_SV, new Double(data.collectionVersion.mongoVersion));
+            }
+
+            findOnes.add(dbObject);
+        }
+
+        when(
+                mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class),
+                        Mockito.eq(SliSchemaVersionValidator.METADATA_COLLECTION))).thenAnswer(new Answer<DBObject>() {
+            @Override
+            public DBObject answer(InvocationOnMock invocation) throws Throwable {
+                return findOnes.remove(0);
+            }
+        });
+    }
+
+    private class EntityVersionData {
+        public final String entityType;
+        public final int schemaVersion;
+        public final CollectionVersionData collectionVersion;
+
+        public EntityVersionData(String entityType, int schemaVersion, CollectionVersionData collectionVersion) {
+            super();
+            this.entityType = entityType;
+            this.schemaVersion = schemaVersion;
+            this.collectionVersion = collectionVersion;
+        }
+    }
+
+    private class CollectionVersionData {
+        public final int dalVersion;
+        public final int mongoVersion;
+
+        public CollectionVersionData(int dalVersion, int mongoVersion) {
+            super();
+            this.dalVersion = dalVersion;
+            this.mongoVersion = mongoVersion;
+        }
+    }
+
 }

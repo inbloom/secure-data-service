@@ -43,7 +43,6 @@ import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
@@ -81,11 +80,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     @Autowired
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
-
-    @Override
-    public List<SimpleEntity> handle(NeutralRecord item) {
-        return handle(item, new DummyErrorReport());
-    }
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, AbstractMessageReport report, AbstractReportStats reportStats) {
@@ -247,7 +241,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             AbstractMessageReport report, AbstractReportStats reportStats) {
         Query query = new Query();
 
-        StringBuilder errorMessage = new StringBuilder("ERROR: Invalid key fields for an entity\n");
+        StringBuilder errorMessage = new StringBuilder("");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             report.error(reportStats, CoreMessageCode.CORE_0011);
         } else {
