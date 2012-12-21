@@ -1194,7 +1194,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         // get results from api
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", "250");
-        List<GenericEntity> students = getApiClient().searchStudents(token, name, params);
+        List<GenericEntity> students = getApiClient().searchStudents(token, name.replaceAll(" ", "%20"), params);
 
         // optionally (but typically), it should also contain pagination
         // information
@@ -1233,8 +1233,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
-        // sort students by last & first name
-        Collections.sort(enhancedStudents, STUDENT_COMPARATOR);
 
         // fill the search map with results
         // TODO: figure out pagination values
