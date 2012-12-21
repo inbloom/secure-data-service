@@ -1,4 +1,4 @@
-package org.slc.sli.api.translator;
+package org.slc.sli.api.jersey;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
