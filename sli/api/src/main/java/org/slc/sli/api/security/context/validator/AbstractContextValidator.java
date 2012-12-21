@@ -25,9 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -37,6 +34,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class that all context validators must extend.
@@ -276,14 +275,21 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected Set<String> getTeacherEdorgLineage() {
-        Iterable<Entity> tsas = getTeacherSchoolAssociations();
+        Set<String> edorgs = getDirectEdorgs();
+        edorgs = getEdorgLineage(edorgs);
+        return edorgs;
+    }
+
+    protected Set<String> getDirectEdorgs() {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         Set<String> edorgs = new HashSet<String>();
         for(Entity tsa : tsas) {
             if (!isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
                 edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
             }
         }
-        edorgs = getEdorgLineage(edorgs);
         return edorgs;
     }
 

@@ -45,8 +45,7 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
             return false;
         }
 
-        Set<String> schools = getTeacherEdorgLineage();
-
+        Set<String> schools = getDirectEdorgs();
         
         //TODO: currently adding districts so that teachers can update school entities without the
         //parent edorg ref causing problems.  Once ed-org write restrictions are in place,
