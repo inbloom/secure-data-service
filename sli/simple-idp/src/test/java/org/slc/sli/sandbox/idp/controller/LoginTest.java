@@ -97,6 +97,8 @@ public class LoginTest {
         ModelAndView mov = loginController.form("SAMLRequest", "realm", httpSession);
         assertEquals("Mock IDP for realm", mov.getModel().get("subTitle"));
         assertEquals("login", mov.getViewName());
+        assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
+        assertEquals("realm", mov.getModel().get("realm"));
     }
     
     @Test
@@ -225,6 +227,8 @@ public class LoginTest {
         ModelAndView mov = loginController.form("SAMLRequest", "SLIAdmin", httpSession);
         assertEquals("Developer Sandbox", mov.getModel().get("subTitle"));
         assertEquals("login", mov.getViewName());
+        assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
+        assertEquals("SLIAdmin", mov.getModel().get("realm"));
     }
     
     @Test
@@ -235,17 +239,18 @@ public class LoginTest {
         attributes.put("Tenant", "mytenant");
         User user = new User("userId", roles, attributes);
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
-        Mockito.when(httpSession.getAttribute("realm")).thenReturn("");
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRequestId()).thenReturn("req1234");
-        Mockito.when(reqInfo.getRealm()).thenReturn("");
+        Mockito.when(reqInfo.getRealm()).thenReturn("SLIAdmin");
         Mockito.when(reqInfo.isForceAuthn()).thenReturn(true);
-        Mockito.when(authRequestService.processRequest("SAMLRequest", "")).thenReturn(reqInfo);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "SLIAdmin")).thenReturn(reqInfo);
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.form("SAMLRequest", "", httpSession);
+        ModelAndView mov = loginController.form("SAMLRequest", "SLIAdmin", httpSession);
         assertEquals("impersonate", mov.getViewName());
+        assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
+        assertEquals("SLIAdmin", mov.getModel().get("realm"));
     }
     
     @Test
@@ -259,13 +264,13 @@ public class LoginTest {
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRequestId()).thenReturn("req1234");
-        Mockito.when(reqInfo.getRealm()).thenReturn("");
+        Mockito.when(reqInfo.getRealm()).thenReturn("SLIAdmin");
         Mockito.when(reqInfo.isForceAuthn()).thenReturn(false);
-        Mockito.when(authRequestService.processRequest("SAMLRequest", "")).thenReturn(reqInfo);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "SLIAdmin")).thenReturn(reqInfo);
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion(Mockito.matches("linda.kim"), Mockito.same(roles), Mockito.anyMap(), Mockito.same(reqInfo))).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.form("SAMLRequest", "", httpSession);
+        ModelAndView mov = loginController.form("SAMLRequest", "SLIAdmin", httpSession);
         assertEquals("post", mov.getViewName());
         SamlAssertion saml = (SamlAssertion) mov.getModel().get("samlAssertion");
         assertEquals("SAMLResponse", saml.getSamlResponse());

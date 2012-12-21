@@ -115,7 +115,6 @@ public class Login {
         }else{
             return new ModelAndView("loggedOut");
         }
-            
     }
     
     /**
@@ -124,7 +123,7 @@ public class Login {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam("realm") String realm, HttpSession httpSession) {
+            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
 
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         
@@ -142,7 +141,7 @@ public class Login {
                     }
                 }else{
                     LOG.debug("Sandbox Login request with existing session (" + user.getUserId() + ") skipping authentication, going to impersonation");
-                    return buildImpersonationModelAndView(realm, "");
+                    return buildImpersonationModelAndView(realm, encodedSamlRequest, "");
                 }
             }else if (!requestInfo.isForceAuthn()) {
                 LOG.debug("Login request with existing session, skipping authentication");
@@ -157,6 +156,8 @@ public class Login {
         mav.addObject("subTitle", buildSubTitle(realm));
         mav.addObject("adminUrl", adminUrl);
         mav.addObject("isForgotPasswordVisible", realm.equals(sliAdminRealmName));
+        mav.addObject("realm", realm);
+        mav.addObject("SAMLRequest", encodedSamlRequest);
         return mav;
     }
     
@@ -181,9 +182,9 @@ public class Login {
         }
     }
 
-    @RequestMapping(value= "/admin", method = RequestMethod.GET)
+    @RequestMapping(value= "/admin", method = RequestMethod.POST)
     public ModelAndView admin(@RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam("realm") String realm, HttpSession httpSession){
+            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession){
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         user.getAttributes().put("isAdmin", "true");
@@ -192,8 +193,6 @@ public class Login {
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
         user.getAttributes().put("isAdmin", null);
-        httpSession.removeAttribute("realm");
-        httpSession.removeAttribute("SAMLRequest");
         return mav;
     }
     
@@ -202,7 +201,7 @@ public class Login {
             @RequestParam("user_id") String userId,
             @RequestParam("password") String password,
             @RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam("realm") String realm,
+            @RequestParam(value = "realm", required = false) String realm,
             HttpSession httpSession,
             HttpServletRequest request) {
 
@@ -246,7 +245,9 @@ public class Login {
                 mav.addObject("errorMsg", "Invalid User Name or password");
                 mav.addObject("isForgotPasswordVisible", sliAdminRealmName.equals(realm));
                 mav.addObject("adminUrl", adminUrl);
-    
+                mav.addObject("realm", realm);
+                mav.addObject("SAMLRequest", encodedSamlRequest);
+                
                 // if a user with this userId exists, get his info and roles/groups and
                 // log that information as a failed login attempt.
                 String edOrg = "UnknownEdOrg";
@@ -277,7 +278,7 @@ public class Login {
 
         //sandbox mode and it is the admin/sandbox realm so allow impersonation
         if (isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm)) {
-            ModelAndView mav =  buildImpersonationModelAndView(realm, "");
+            ModelAndView mav =  buildImpersonationModelAndView(realm, encodedSamlRequest, "");
             return mav;
         } else {
             //otherwise it's either not sandbox mode or it's a mock realm in sandbox mode
@@ -286,15 +287,15 @@ public class Login {
             
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlAssertion", samlAssertion);
-            httpSession.removeAttribute("realm");
-            httpSession.removeAttribute("SAMLRequest");
             return mav;
             
         }
     }
 
-    private ModelAndView buildImpersonationModelAndView(String realm, String impersonateUserName) {
+    private ModelAndView buildImpersonationModelAndView(String realm, String samlRequest, String impersonateUserName) {
         ModelAndView mav = new ModelAndView("impersonate");
+        mav.addObject("realm", realm);
+        mav.addObject("SAMLRequest", samlRequest);
         mav.addObject("impersonate_user", impersonateUserName);
         mav.addObject("roles", roleService.getAvailableRoles());
         List<Dataset> datasets = defaultUsersService.getAvailableDatasets();
@@ -309,7 +310,7 @@ public class Login {
     @RequestMapping(value = "/impersonate", method = RequestMethod.POST)
     public ModelAndView impersonate(
             @RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam("realm") String realm,
+            @RequestParam(value = "realm", required = false) String realm,
             @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
             @RequestParam(value = "selected_roles", required = false) List<String> roles,
             @RequestParam(value = "customRoles", required = false) String customRoles,
@@ -345,7 +346,7 @@ public class Login {
         
         if(impersonationUser.getUserId()==null){
             if (selectedRoles == null || selectedRoles.size() == 0) {
-                ModelAndView mav = buildImpersonationModelAndView(realm, impersonateUser);
+                ModelAndView mav = buildImpersonationModelAndView(realm, encodedSamlRequest, impersonateUser);
                 mav.addObject("errorMsg", "Please select or enter one role to impersonate.");
                 return mav;
             } 
@@ -357,7 +358,7 @@ public class Login {
         
         String tenant = user.getAttributes().get("tenant");
         if (tenant == null || tenant.length() == 0) {
-            ModelAndView mav = buildImpersonationModelAndView(realm, impersonateUser);
+            ModelAndView mav = buildImpersonationModelAndView(realm, encodedSamlRequest, impersonateUser);
             mav.addObject("errorMsg", "User account not properly configured for impersonation.");
             return mav;
         }

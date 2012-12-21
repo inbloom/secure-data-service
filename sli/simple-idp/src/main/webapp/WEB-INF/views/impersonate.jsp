@@ -9,60 +9,13 @@
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
-
-<style type="text/css">
-
-.form-container {
-	margin: 10px;
-	margin-top: 30px;
-}
-
-.top-gap {
-    margin-top: 10px;
-}
-
-.whitespacesm {
-	min-height: 30px;
-}
-.brandContainer {
-    background-color: #F6F3EA;
-    border-color: #ECE7D8;
-    border-left: 3px solid #ECE7D8;
-    border-radius: 6px 6px 6px 6px;
-    border-style: solid;
-    border-width: 3px;
-    color: #007096;
-    margin-top: 60px;
-    margin-bottom: 30px;
-    padding: 30px;
-}
-.brandContainerTop {
-    background-color: #F6F3EA;
-    border-left: 3px solid #ECE7D8;
-    border-radius: 6px 6px 0 0;
-    border-right: 3px solid #ECE7D8;
-    border-top: 3px solid #ECE7D8;
-    padding: 30px;
-}
-.brandContainerBottom {
-    background-color: #FFFFFF;
-    border: 3px solid #ECE7D8;
-    border-radius: 0 0 6px 6px;
-    padding: 30px;
-}
-
-.brandContainer h1 { font-size: 36px; color: #512B73; }
-
-</style>
-
 <link href="resources/bootstrap.css" rel="stylesheet"/>
+<link href="resources/bootstrap-responsive.min.css" rel="stylesheet"/>
 <link href="resources/globalStyles.css" rel="stylesheet"/>
 
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#manualUserDiv").hide();
-	//$("#sampleUserDiv").hide();
-	//$("#impersonationModeDiv").hide();
 	datasetChanged();
 });
 
@@ -82,10 +35,7 @@ $(document).ready(function() {
 	   } 
 	  
   }
-  function showImpersonation(){
-	  showSampleUsers();
-	  $("#impersonationModeDiv").show();
-  }
+
   function datasetChanged(){
 	  $(".userListDiv").hide();
 	  $(".userList").prop("disabled", true);
@@ -143,9 +93,6 @@ $(document).ready(function() {
 				<div class="span6">
 					<h3>Test Applications in my Sandbox</h3>
 					<p>The sandbox gives you a safe place to test your applications while you're developing them.</p>
-					<!--<div class="whitespacesm"></div>
-					 <a id="testNext" href="#" class="btn btn-primary" onclick="showImpersonation()">Next</a>
-					 -->
 				</div>
 			</div>
 			<div class="whitespacesm impersonate"></div>
@@ -233,7 +180,11 @@ $(document).ready(function() {
 			<h3>Administer my Sandbox</h3>
 			<p>Administering your sandbox allows you to ingest test data, register applications  and manage accounts on your sandbox.</p>
 			<div class="whitespacesm"></div>
-			<a id="adminLink" href="admin" class="btn btn-link">Administer my Sandbox</a>
+			<form id="admin_form" name="admin_form" action="admin" method="post" class="form-horizontal">
+	      		<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+	      		<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>      
+				<a id="adminLink" href="#" onclick="javascript:document.forms['admin_form'].submit();">Administer my Sandbox</a>
+			</form>
 		</div>
 		<!-- end span6 -->
 	</div>
