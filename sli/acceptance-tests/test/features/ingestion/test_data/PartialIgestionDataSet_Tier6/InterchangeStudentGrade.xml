@@ -1892,7 +1892,7 @@
             </StudentIdentity>
         </StudentReference>
         <!-- id does not exist in this file-->
-        <!-- GradingPeriodReference ref="GRDP_20070527"/-->
+        <!-- GradingPeriodReference/-->
         <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <EducationalOrgReference>
@@ -4106,7 +4106,7 @@
             </StudentIdentity>
         </StudentReference>
         <!-- id does not exist in this file -->
-        <!-- GradingPeriodReference ref="GRDP_20070527"/-->
+        <!-- GradingPeriodReference/-->
         <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <EducationalOrgReference>
