@@ -48,6 +48,7 @@ import org.slc.sli.dal.MongoStat;
  *
  */
 @Aspect
+@SuppressWarnings("PMD")
 public class MongoTrackingAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
