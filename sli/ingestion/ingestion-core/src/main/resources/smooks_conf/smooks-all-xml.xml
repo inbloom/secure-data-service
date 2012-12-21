@@ -2318,7 +2318,7 @@
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:value property="gradeType" data="GradeType" />
     <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType" property="CourseReference"/>
-    <jb:wiring beanIdRef="CourseTranscript_EdOrgReference" property="EducationOrganizationReference"/>
+    <jb:wiring beanIdRef="CourseTranscript_EdOrgReferenceArray" property="EducationOrganizationReference"/>
     <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" property="StudentAcademicRecordReference"/>
   </jb:bean>
 
@@ -2388,7 +2388,11 @@
     <jb:value property="additionalCreditType" data="CourseTranscript/AdditionalCredits/AdditionalCreditType" />
   </jb:bean>
   
-   <jb:bean beanId="CourseTranscript_EdOrgReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference">
+    <jb:bean beanId="CourseTranscript_EdOrgReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:wiring property="EducationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReference" />
+  </jb:bean>
+  
+   <jb:bean beanId="CourseTranscript_EdOrgReference" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference">
     <jb:wiring property="EducationalOrgIdentity" beanIdRef="CourseTranscript_EdOrgReference_EdOrgIdentity" />
   </jb:bean>
 
