@@ -19,12 +19,7 @@
 
     <jb:bean beanId="graduationPlan" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'graduationPlan'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="graduationPlanMetaData" />
         <jb:wiring property="body" beanIdRef="graduationPlanBody" />
-    </jb:bean>
-
-    <jb:bean beanId="graduationPlanMetaData" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes localId" />
     </jb:bean>
 
     <jb:bean beanId="graduationPlanBody" class="java.util.HashMap" createOnElement="attributes">
