@@ -30,7 +30,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>18</Result> 
        </ScoreResults> 
-       <StudentAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math</ObjectiveAssessmentIdentificationCode> 
@@ -42,7 +42,7 @@
 	  <AssessmentResponse>True</AssessmentResponse>
 	  <AssessmentItemResult>Correct</AssessmentItemResult>
 	  <RawScoreResult>5</RawScoreResult>
-	  <StudentAssessmentReference ref="saa_212" />
+	  <StudentAssessmentReference />
 	  <AssessmentItemReference>
 	    <AssessmentItemIdentity>
 	      <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>

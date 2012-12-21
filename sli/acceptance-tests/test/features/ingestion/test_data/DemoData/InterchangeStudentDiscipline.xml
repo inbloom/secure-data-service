@@ -126,7 +126,7 @@
          <StudentUniqueStateId>288598192</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="whack-a-mole" />
+    <DisciplineIncidentReference/>
     <StudentParticipationCode>Witness</StudentParticipationCode>
     <Behaviors><CodeValue>BEH03</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>
@@ -137,7 +137,7 @@
          <StudentUniqueStateId>178875887</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="whack-a-mole" />
+    <DisciplineIncidentReference/>
     <StudentParticipationCode>Victim</StudentParticipationCode>
   </StudentDisciplineIncidentAssociation>
 
@@ -147,7 +147,7 @@
           <StudentUniqueStateId>453827023</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="whack-a-mole" />
+    <DisciplineIncidentReference/>
     <StudentParticipationCode>Perpetrator</StudentParticipationCode>
     <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>
@@ -158,7 +158,7 @@
           <StudentUniqueStateId>91919008</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="waterboard" />
+    <DisciplineIncidentReference/>
     <StudentParticipationCode>Perpetrator</StudentParticipationCode>
     <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>

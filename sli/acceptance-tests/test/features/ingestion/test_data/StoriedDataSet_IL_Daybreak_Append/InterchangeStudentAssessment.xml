@@ -121,7 +121,7 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentAssessmentReference ref="saa_id_2"/>
+		<StudentAssessmentReference/>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math</ObjectiveAssessmentIdentificationCode>
@@ -161,7 +161,7 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentAssessmentReference ref="saa_id_2"/>
+		<StudentAssessmentReference/>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Writing</ObjectiveAssessmentIdentificationCode>
@@ -201,7 +201,7 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentAssessmentReference ref="saa_id_2"/>
+		<StudentAssessmentReference/>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Critical Reading</ObjectiveAssessmentIdentificationCode>
@@ -297,7 +297,7 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentAssessmentReference ref="saa_id_2"/>
+		<StudentAssessmentReference/>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
@@ -309,7 +309,7 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentAssessmentReference ref="saa_id_2"/>
+		<StudentAssessmentReference/>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
@@ -321,7 +321,7 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentAssessmentReference ref="saa_id_2"/>
+		<StudentAssessmentReference/>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
@@ -363,7 +363,7 @@
 		 <Result>9</Result> 
 	   </ScoreResults>
 	   <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
-	   <StudentAssessmentReference ref="saa_act_1"/> 
+	   <StudentAssessmentReference/> 
 	   <ObjectiveAssessmentReference> 
 		   <ObjectiveAssessmentIdentity> 
 			   <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
@@ -375,7 +375,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>14</Result> 
        </ScoreResults> 
-       <StudentAssessmentReference ref="saa_act_1"/> 
+       <StudentAssessmentReference/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
@@ -384,7 +384,7 @@
    </StudentObjectiveAssessment> -->
 <!--originally been commented -->
 <!--	<StudentAssessmentItem id="SAI_1">
-   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
+   		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>True</AssessmentItemResult>
    		<AssessmentResponse>False</AssessmentResponse>
    		<RawScoreResult>5</RawScoreResult>
@@ -396,7 +396,7 @@
    </StudentAssessmentItem>
    
    <StudentAssessmentItem id="SAI_2">
-   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Plane-Geometry_1"/>
+   		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>False</AssessmentItemResult>
    		<AssessmentResponse>False</AssessmentResponse>
    		<RawScoreResult>5</RawScoreResult>
@@ -408,7 +408,7 @@
    </StudentAssessmentItem>
    
    <StudentAssessmentItem id="SAI_3">
-   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
+   		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>True</AssessmentItemResult>
    		<AssessmentResponse>True</AssessmentResponse>
    		<RawScoreResult>5</RawScoreResult>
@@ -424,7 +424,7 @@
 		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-		<StudentAssessmentReference ref="saa_act_1" />
+		<StudentAssessmentReference />
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
@@ -436,7 +436,7 @@
 		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-		<StudentAssessmentReference ref="saa_act_1" />
+		<StudentAssessmentReference />
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>

@@ -6,8 +6,8 @@
 	<ObjectiveAssessment id="ActEng">
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActEngUsage"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActEngRhetorical"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
 	<!-- Assessment Item Section -->
