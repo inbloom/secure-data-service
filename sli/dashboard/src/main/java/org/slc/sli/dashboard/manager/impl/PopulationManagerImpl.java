@@ -1276,7 +1276,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
         }
 
-        setStudentSearchEntity(studentSearch, students, name, null, null, students.size(), 1, 1, 1, null);
+        setStudentSearchEntity(studentSearch, enhancedStudents, name, null, null, students.size(), 1, 1, 1, null);
         return studentSearch;
     }
 
