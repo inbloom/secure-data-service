@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * @author jstokes
  */
-public class EntityManipulator {
+public final class EntityManipulator {
 
     // prevent instantiation
     private EntityManipulator() { }
@@ -37,8 +37,12 @@ public class EntityManipulator {
      * @param toRemoveList list of fields to be removed
      */
     public static void removeFields(final Map<String, Object> toRemoveFrom, final List<String> toRemoveList) {
-        if (toRemoveList == null || toRemoveList.isEmpty()) return;
-        if (toRemoveFrom == null) return;
+        if (toRemoveList == null || toRemoveList.isEmpty()) {
+			return;
+		}
+        if (toRemoveFrom == null) {
+			return;
+		}
 
         for (final String toStrip : toRemoveList) {
             removeField(toRemoveFrom, toStrip);
@@ -74,7 +78,10 @@ public class EntityManipulator {
 
     @SuppressWarnings("unchecked")
     private static void removeField(final Object obj, final String toRemove) {
-        if (obj instanceof Map) removeField((Map<String, Object>) obj, toRemove);
-        else if (obj instanceof List) removeField((List<Object>) obj, toRemove);
+        if (obj instanceof Map) {
+			removeField((Map<String, Object>) obj, toRemove);
+		} else if (obj instanceof List) {
+			removeField((List<Object>) obj, toRemove);
+		}
     }
 }

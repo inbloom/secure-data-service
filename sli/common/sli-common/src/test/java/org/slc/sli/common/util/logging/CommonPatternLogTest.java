@@ -23,18 +23,18 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Simple test to help debug the common pattern.
- * 
+ *
  * @author smelody
- * 
+ *
  */
 public class CommonPatternLogTest {
-    
-    private Logger log = LoggerFactory.getLogger(CommonPatternLogTest.class);
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(CommonPatternLogTest.class);
+
     @Test
     public void testSomething() {
-        log.warn("Something fishy");
-        
+        LOG.warn("Something fishy");
+
     }
-    
+
 }
