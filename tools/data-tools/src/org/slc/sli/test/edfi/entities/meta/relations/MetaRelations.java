@@ -119,19 +119,6 @@ public final class MetaRelations {
 
     public static boolean EXCLUDE_PARENTS=false;
 
-    public static boolean School_Ref=false;
-    public static boolean Session_Ref=false;
-    public static boolean StudentAssessment_Ref=false;
-    public static boolean StateEducationAgency_Ref=false;
-    public static boolean LocalEducationAgency_Ref=false;
-    public static boolean StudentParentAssociation_Ref=false;
-    public static boolean TeacherSectionAssociation_Ref=false;
-    public static boolean TeacherSchoolAssociation_Ref=false;
-    public static boolean StaffProgramAssociation_Ref=false;
-    public static boolean StaffEducationOrgAssignment_Ref=false;
-    public static boolean GradingPeriod_Ref=false;
-    public static boolean InterchangeStudentGrade_Ref=false;
-
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
 
     // TODO: do we need maps? maybe just use Collections?
@@ -284,35 +271,7 @@ public final class MetaRelations {
 
         EXCLUDE_PARENTS = Boolean.parseBoolean(properties.getProperty("EXCLUDE_PARENTS").trim());
 
-        School_Ref = Boolean.parseBoolean(properties
-                .getProperty("School_Ref").trim());
-        Session_Ref = Boolean.parseBoolean(properties
-                .getProperty("Session_Ref").trim());
-        StudentAssessment_Ref = Boolean.parseBoolean(properties
-                .getProperty("StudentAssessment_Ref").trim());
-        StateEducationAgency_Ref = Boolean.parseBoolean(properties
-                .getProperty("StateEducationAgency_Ref").trim());
-        LocalEducationAgency_Ref = Boolean.parseBoolean(properties
-                .getProperty("LocalEducationAgency_Ref").trim());
-
-        StudentParentAssociation_Ref = Boolean.parseBoolean(properties
-                .getProperty("StudentParentAssociation_Ref").trim());
-        TeacherSectionAssociation_Ref = Boolean.parseBoolean(properties
-                .getProperty("TeacherSectionAssociation_Ref").trim());
-        TeacherSchoolAssociation_Ref = Boolean.parseBoolean(properties
-                .getProperty("TeacherSchoolAssociation_Ref").trim());
-        StaffProgramAssociation_Ref =  Boolean.parseBoolean(properties
-                .getProperty("StaffProgramAssociation_Ref").trim());
-        StaffEducationOrgAssignment_Ref = Boolean.parseBoolean(properties
-                .getProperty("StaffEducationOrgAssignment_Ref").trim());
-        GradingPeriod_Ref = Boolean.parseBoolean(properties
-                .getProperty("GradingPeriod_Ref").trim());
-        InterchangeStudentGrade_Ref = Boolean.parseBoolean(properties
-                .getProperty("InterchangeStudentGrade_Ref").trim());
-
         ID_DELIMITER = properties.getProperty("ID_DELIMITER");
-
-
 
         StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
 
@@ -373,7 +332,7 @@ public final class MetaRelations {
 
         buildLeasForSea(seaMeta, staffForSea);
 
-        buildEscsForSea(seaMeta);        
+        buildEscsForSea(seaMeta);
     }
 
     /**
@@ -772,7 +731,7 @@ public final class MetaRelations {
 
         Object[] programMetas = programsForSchool.values().toArray();
         int programCounter = 0;
-        
+
        // for (SessionMeta sessionMeta : sessionsForSchool.values()) {
 
             for (CourseOfferingMeta courseOfferingMeta : courseOfferingsForSchool.values()) {
