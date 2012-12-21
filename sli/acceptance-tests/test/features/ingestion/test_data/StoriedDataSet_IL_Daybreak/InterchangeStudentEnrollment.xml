@@ -8063,7 +8063,7 @@
     <HomeroomIndicator>true</HomeroomIndicator>
   </StudentSectionAssociation>
 
- <GraduationPlan id="GP-STANDARD">
+ <GraduationPlan>
     <GraduationPlanType>Standard</GraduationPlanType>
     <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
@@ -8118,7 +8118,7 @@
     </EducationOrganizationReference>
 </GraduationPlan>
 
-<GraduationPlan id="GP-MINIMUM">
+<GraduationPlan>
     <GraduationPlanType>Minimum</GraduationPlanType>
     <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
@@ -8174,7 +8174,7 @@
     </EducationOrganizationReference>
 </GraduationPlan>
 
-<GraduationPlan id="GP-MINIMUM2">
+<GraduationPlan>
     <GraduationPlanType>Minimum</GraduationPlanType>
     <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
@@ -8225,7 +8225,7 @@
     </CreditsBySubject>
 </GraduationPlan>
 
-<GraduationPlan id="GP-ADVANCED">
+<GraduationPlan>
     <GraduationPlanType>Distinguished</GraduationPlanType>
     <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">

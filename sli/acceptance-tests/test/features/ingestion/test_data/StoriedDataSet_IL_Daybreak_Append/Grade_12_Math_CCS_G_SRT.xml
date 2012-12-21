@@ -15,7 +15,7 @@
 		</LearningObjectiveReference>
 	</LearningObjective> -->
 	
-	<LearningObjective id="Similarity-Right-Triangle-Trig">
+	<LearningObjective>
 		<LearningObjectiveId>
 			<IdentificationCode>G-SRT</IdentificationCode>
 		</LearningObjectiveId>
@@ -79,7 +79,7 @@
 		</LearningStandardReference>
 	</LearningObjective>
 		
-	<LearningStandard id="G-SRT-1">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.1</IdentificationCode>
 		</LearningStandardId>
@@ -93,7 +93,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-2">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.2</IdentificationCode>
 		</LearningStandardId>
@@ -105,7 +105,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-3">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.3</IdentificationCode>
 		</LearningStandardId>
@@ -117,7 +117,7 @@
 	</LearningStandard>
 	
 	
-	<LearningStandard id="G-SRT-4">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.4</IdentificationCode>
 		</LearningStandardId>
@@ -129,7 +129,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-5">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.5</IdentificationCode>
 		</LearningStandardId>
@@ -140,7 +140,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-6">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.6</IdentificationCode>
 		</LearningStandardId>
@@ -151,7 +151,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-7">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.7</IdentificationCode>
 		</LearningStandardId>
@@ -162,7 +162,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-8">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.8</IdentificationCode>
 		</LearningStandardId>
@@ -173,7 +173,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-9">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.9</IdentificationCode>
 		</LearningStandardId>
@@ -185,7 +185,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-10">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.10</IdentificationCode>
 		</LearningStandardId>
@@ -196,7 +196,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-SRT-11">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-SRT.11</IdentificationCode>
 		</LearningStandardId>

@@ -2,7 +2,7 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-    <Assessment id="AP-1">
+    <Assessment>
         <AssessmentTitle>English Literature and Composition</AssessmentTitle>
         <AssessmentIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -56,7 +56,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
     </Assessment>
     <!-- ============================================== -->
 
-    <Assessment id="AP-2">
+    <Assessment>
         <AssessmentTitle>English Language and Composition</AssessmentTitle>
         <AssessmentIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -111,14 +111,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
     
     <!-- Assessment Family Section -->
     
-    <AssessmentFamily id="AP">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP</ID>
         </AssessmentFamilyIdentificationCode>
     </AssessmentFamily>
     
-    <AssessmentFamily id="AP-Eng">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP Eng</ID>
@@ -130,7 +130,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyReference>
     </AssessmentFamily>
     
-    <AssessmentFamily id="AP-Eng-and-Literature">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP-Eng-and-Literature</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP-Eng-and-Literature</ID>
@@ -142,7 +142,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyReference>
     </AssessmentFamily>
     
-    <AssessmentFamily id="AP-Lang-and-Literature">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP-Lang-and-Literature</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP-Lang-and-Literature</ID>
@@ -154,7 +154,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyReference>
     </AssessmentFamily>
     
-    <Assessment id="SAT-1">
+    <Assessment>
 		<AssessmentTitle>SAT</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -187,13 +187,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</Assessment>
 	
-	<ObjectiveAssessment id="SatWriting">
+	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Writing</IdentificationCode>
 		<MaxRawScore>800</MaxRawScore>
 		<PercentOfAssessment>33</PercentOfAssessment>
 	</ObjectiveAssessment>
 
-	<ObjectiveAssessment id="SatMath">
+	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Math</IdentificationCode>
 		<MaxRawScore>800</MaxRawScore>
 		<PercentOfAssessment>33</PercentOfAssessment>
@@ -214,25 +214,25 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
     </ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
-	<ObjectiveAssessment id="SatMathArithmetic">
+	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Math-Arithmetic</IdentificationCode>
 	</ObjectiveAssessment>
 
-	<ObjectiveAssessment id="SatMathAlgebra">
+	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Math-Algebra</IdentificationCode>
 	</ObjectiveAssessment>
 
-	<ObjectiveAssessment id="SatMathGeometry">
+	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Math-Geometry</IdentificationCode>
 	</ObjectiveAssessment>
 
-	<ObjectiveAssessment id="SatCritRead">
+	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Critical Reading</IdentificationCode>
 		<MaxRawScore>800</MaxRawScore>
 		<PercentOfAssessment>33</PercentOfAssessment>
 	</ObjectiveAssessment>
 	
-	<AssessmentFamily id="SAT-Family">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>SAT</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -240,7 +240,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyIdentificationCode>
 	</AssessmentFamily>
 	
-	<Assessment id="READ2-Next-Kindergarten-1-BOY">
+	<Assessment>
 		<AssessmentTitle>READ2-Next-Kindergarten BOY</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -271,7 +271,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</Assessment>
 
-	<Assessment id="READ2-Next-Kindergarten-1-MOY">
+	<Assessment>
 		<AssessmentTitle>READ2-Next-Kindergarten MOY</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -302,7 +302,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</Assessment>
 
-	<Assessment id="READ2-Next-Kindergarten-1-EOY">
+	<Assessment>
 		<AssessmentTitle>READ2-Next-Kindergarten EOY</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -333,7 +333,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</Assessment>
 
-	<AssessmentFamily id="DIEBLS">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ2</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -341,7 +341,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyIdentificationCode>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="DIEBLS6th">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ2 6th Edition</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -354,7 +354,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="READ2Next">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -367,7 +367,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="READ2NextK">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -380,7 +380,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="READ2Next1">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -393,7 +393,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="READ2Next2">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ 2.0 Grade 2</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -406,7 +406,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="READ2Next3">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ 2.0 Grade 3</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -419,7 +419,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentPeriodDescriptor id="apd_boy">
+	<AssessmentPeriodDescriptor>
 		<CodeValue>BOY</CodeValue>
 		<Description>Assessment period at the beginning of the school year</Description>
 		<ShortDescription>Beginning of the Year assessment period</ShortDescription>
@@ -427,7 +427,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<EndDate>2005-02-01</EndDate>
 	</AssessmentPeriodDescriptor>
 
-	<AssessmentPeriodDescriptor id="apd_moy">
+	<AssessmentPeriodDescriptor>
 		<CodeValue>MOY</CodeValue>
 		<Description>Assessment period in the middle of the school year</Description>
 		<ShortDescription>Middle of the Year assessment period</ShortDescription>
@@ -435,7 +435,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<EndDate>2005-05-01</EndDate>
 	</AssessmentPeriodDescriptor>
 
-	<AssessmentPeriodDescriptor id="apd_eoy">
+	<AssessmentPeriodDescriptor>
 		<CodeValue>EOY</CodeValue>
 		<Description>Assessment period at the end of the school year</Description>
 		<ShortDescription>End of the Year assessment period</ShortDescription>

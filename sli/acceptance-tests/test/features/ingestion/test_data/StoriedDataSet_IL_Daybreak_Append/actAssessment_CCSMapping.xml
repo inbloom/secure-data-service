@@ -61,13 +61,13 @@
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </Assessment>
-    <AssessmentFamily id="ACT-Family">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>ACT</ID>
         </AssessmentFamilyIdentificationCode>
     </AssessmentFamily>
-    <ObjectiveAssessment id="ACTEnglish">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-English</IdentificationCode>
         <ObjectiveAssessmentReference>
             <ObjectiveAssessmentIdentity>
@@ -80,13 +80,13 @@
             </ObjectiveAssessmentIdentity>
         </ObjectiveAssessmentReference>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTEnglishUsage">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-English-Usage</IdentificationCode>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTEnglishRhetorical">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-English-Rhetorical</IdentificationCode>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTMathematics">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Mathematics</IdentificationCode>
         <ObjectiveAssessmentReference>
             <ObjectiveAssessmentIdentity>
@@ -104,18 +104,18 @@
             </ObjectiveAssessmentIdentity>
         </ObjectiveAssessmentReference>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTMathematicsPreAlgebra">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
         <AssessmentItemReference/>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTMathemacticsAlgebra">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Math-Algebra</IdentificationCode>
         <!--		
 		<AssessmentItemReference></AssessmentItemReference>
 		<AssessmentItemReference></AssessmentItemReference>
 -->
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
         <!--
 		<AssessmentItemReference></AssessmentItemReference>
@@ -128,7 +128,7 @@
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </ObjectiveAssessment>
-    <AssessmentItem id="AssessmentItem-1">
+    <AssessmentItem>
 		<AssessmentReference>
 			<AssessmentIdentity>
 				<AssessmentTitle>ACT</AssessmentTitle>
@@ -151,7 +151,7 @@
             </LearningStandardIdentity>
         </LearningStandardReference>
     </AssessmentItem>
-    <AssessmentItem id="AssessmentItem-2">
+    <AssessmentItem>
 		<AssessmentReference>
 			<AssessmentIdentity>
 				<AssessmentTitle>ACT</AssessmentTitle>
@@ -174,7 +174,7 @@
             </LearningStandardIdentity>
         </LearningStandardReference>
     </AssessmentItem>
-    <AssessmentItem id="AssessmentItem-3">
+    <AssessmentItem>
 		<AssessmentReference>
 			<AssessmentIdentity>
 				<AssessmentTitle>ACT</AssessmentTitle>
@@ -192,7 +192,7 @@
             </LearningStandardIdentity>
         </LearningStandardReference>
     </AssessmentItem>
-    <AssessmentItem id="AssessmentItem-4">
+    <AssessmentItem>
 		<AssessmentReference>
 			<AssessmentIdentity>
 				<AssessmentTitle>ACT</AssessmentTitle>
@@ -210,7 +210,7 @@
             </LearningStandardIdentity>
         </LearningStandardReference>
     </AssessmentItem>
-    <ObjectiveAssessment id="ACTReading">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Reading</IdentificationCode>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
@@ -230,7 +230,7 @@
             </ObjectiveAssessmentIdentity>
         </ObjectiveAssessmentReference>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTReadingSocialStudies">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
@@ -240,7 +240,7 @@
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTReadingArts">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Reading-Arts</IdentificationCode>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
@@ -250,10 +250,10 @@
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTScience">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Science</IdentificationCode>
     </ObjectiveAssessment>
-    <ObjectiveAssessment id="ACTWriting">
+    <ObjectiveAssessment>
         <IdentificationCode>ACT-Writing</IdentificationCode>
     </ObjectiveAssessment>
 </InterchangeAssessmentMetadata>
