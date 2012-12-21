@@ -48,7 +48,7 @@ import org.slc.sli.dal.MongoStat;
  *
  */
 @Aspect
-@SuppressWarnings("PMD")
+@SuppressWarnings("PMD.MoreThanOneLogger")
 public class MongoTrackingAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
