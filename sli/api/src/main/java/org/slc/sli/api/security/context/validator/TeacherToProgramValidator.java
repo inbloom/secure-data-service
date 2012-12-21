@@ -1,12 +1,14 @@
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Validates teacher's direct access to given programs
@@ -29,8 +31,14 @@ public class TeacherToProgramValidator extends AbstractContextValidator {
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("staffId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         nq.addCriteria(new NeutralCriteria("programId", "in", ids));
         addEndDateToQuery(nq, false);
-        long result = getRepo().count(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
-        return result==ids.size();
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
+
+        Set<String> validIds = new HashSet<String>();
+        for (Entity entity : entities) {
+            validIds.add((String) entity.getBody().get("programId"));
+        }
+
+        return validIds.containsAll(ids);
     }
 
 }

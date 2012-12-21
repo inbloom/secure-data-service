@@ -53,6 +53,83 @@ public class MongoQueryConverterTest {
     @Autowired
     private MongoQueryConverter mongoQueryConverter; //class under test
 
+    /**
+     * Use of a regular expression against an integer (any non-string field) is not permitted at this time.
+     */
+    @Test(expected = QueryParseException.class)
+    public void testRegexForInt() {
+        convertToRegexMongoQueryString("section", "sequenceOfCourse", "1");
+    }
+
+    /**
+     * Use of a regular expression against a double (any non-string field) is not permitted at this time.
+     */
+    @Test(expected = QueryParseException.class)
+    public void testRegexForDouble() {
+        convertToRegexMongoQueryString("reportCard", "gpaGivenGradingPeriod", "1");
+    }
+
+    /**
+     * Use of a regular expression against a boolean (any non-string field) is not permitted at this time.
+     */
+    @Test(expected = QueryParseException.class)
+    public void testRegexForBoolean() {
+        convertToRegexMongoQueryString("studentSectionAssociation", "homeroomIndicator", "true");
+    }
+
+    /**
+     * Internal structures that hold other fields (such as an array) do not allow regular expressions.
+     */
+    @Test(expected = QueryParseException.class)
+    public void testRegexForInternalArray() {
+        convertToRegexMongoQueryString("student", "address", "foo");
+    }
+
+    /**
+     * Internal structures that hold other fields (such as a map) do not allow regular expressions.
+     */
+    @Test(expected = QueryParseException.class)
+    public void testRegexForInternalMap() {
+        convertToRegexMongoQueryString("learningStandard", "learningStandardId", "foo");
+    }
+
+    /**
+     * Regular expressions against String (text) based fields should be permitted to become regex mongo queries.
+     */
+    @Test
+    public void testRegexForString() {
+
+        String entityType = "educationOrganization";
+        String field = "nameOfInstitution";
+        String value = "whatever";
+
+        String regexMongoQueryString = convertToRegexMongoQueryString(entityType, field, value);
+        String desiredRegex = "{ \"body." + field + "\" : { \"$regex\" : \"" + value + "\"}}";
+
+        assertTrue(regexMongoQueryString.contains(desiredRegex));
+    }
+
+    /**
+     * Takes in an entity type, field and value, and uses the mongo query converter to create a Query
+     * that regex's against that field, and then returns that query as a String.
+     *
+     * This method will throw exceptions if the field is an array or map, OR if the field being
+     * regexed is not of type String.
+     *
+     * @param entityType
+     * @param field
+     * @param value
+     * @return
+     */
+    private String convertToRegexMongoQueryString(String entityType, String field, String value) throws QueryParseException {
+
+        NeutralCriteria neutralCriteria = new NeutralCriteria(field, "=~", value);
+        NeutralQuery neutralQuery = new NeutralQuery(neutralCriteria);
+        Query query = mongoQueryConverter.convert(entityType, neutralQuery); //this is what might throw it
+
+        return query.getQueryObject().toString();
+    }
+
     @Test
     public void testKeyPrefixing() {
 

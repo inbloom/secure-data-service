@@ -50,7 +50,7 @@ def parseApplicationResult(creator)
   @registration = result["registration"]
 end
 
-When /^(AR) I navigate to PUT "([^"]*)"$/ do |arg1|
+When /^\(AR\) I navigate to PUT "([^"]*)"$/ do |arg1|
   @format = "application/json"
   dataObj = DataProvider.getValidAppData()
   dataObj["description"] = "New and Improved"

@@ -86,12 +86,12 @@ public class AssessmentFamilyTest {
                 + "<Version>2002</Version>"
                 + "<RevisionDate>2002-09-01</RevisionDate>"
                 + "<Nomenclature>the nomenclature</Nomenclature>"
-                + "<AssessmentPeriods id=\"theid\" ref=\"theref\">"
+                + "<AssessmentPeriods id=\"theid\">"
                 + "  <CodeValue>code value</CodeValue>"
                 + "  <ShortDescription>short desc</ShortDescription>"
                 + "  <Description>descript</Description>"
                 + "</AssessmentPeriods>"
-                + "<AssessmentPeriods id=\"theid2\" ref=\"theref2\">"
+                + "<AssessmentPeriods id=\"theid2\">"
                 + "  <CodeValue>code value2</CodeValue>"
                 + "  <ShortDescription>short desc2</ShortDescription>"
                 + "  <Description>descript2</Description>"
@@ -99,7 +99,7 @@ public class AssessmentFamilyTest {
                 + "<AssessmentFamilyIdentificationCode IdentificationSystem=\"secondIdentificationSystem\" AssigningOrganizationCode=\"secondAssigningOrganizationCode\" >"
                 + "  <ID>secondId</ID>"
                 + "</AssessmentFamilyIdentificationCode>"
-                + "<AssessmentFamilyReference id=\"tk31\" ref=\"TAKSReading3-1\">"
+                + "<AssessmentFamilyReference id=\"tk31\">"
                 + "  <AssessmentFamilyIdentity>"
                 + "    <AssessmentFamilyIdentificationCode IdentificationSystem=\"firstRefIdentificationSystem\" AssigningOrganizationCode=\"firstRefAssigningOrganizationCode\" >"
                 + "      <ID>firstRefId</ID>"
@@ -191,7 +191,6 @@ public class AssessmentFamilyTest {
         assertFalse("empty AssessmentPeriods list", assessmentPeriodsList.isEmpty());
         Map firstAssesmentPeriod = (Map) assessmentPeriodsList.get(0);
         EntityTestUtils.assertObjectInMapEquals(firstAssesmentPeriod, "id", "theid");
-        EntityTestUtils.assertObjectInMapEquals(firstAssesmentPeriod, "ref", "theref");
         List firstCodeValueChoiceList = (List) firstAssesmentPeriod.get("CodeValues");
         if (!firstCodeValueChoiceList.isEmpty()) {
             assertEquals("code value", firstCodeValueChoiceList.get(0));
@@ -208,7 +207,6 @@ public class AssessmentFamilyTest {
         if (assessmentPeriodsList.size() > 1) {
             Map secondAssesmentPeriod = (Map) assessmentPeriodsList.get(1);
             EntityTestUtils.assertObjectInMapEquals(secondAssesmentPeriod, "id", "theid2");
-            EntityTestUtils.assertObjectInMapEquals(secondAssesmentPeriod, "ref", "theref2");
             List secondCodeValueChoiceList = (List) secondAssesmentPeriod.get("CodeValues");
             if (!secondCodeValueChoiceList.isEmpty()) {
                 assertEquals("code value2", secondCodeValueChoiceList.get(0));

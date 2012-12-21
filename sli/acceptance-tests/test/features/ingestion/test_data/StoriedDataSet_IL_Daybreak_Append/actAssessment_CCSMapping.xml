@@ -106,19 +106,19 @@
     </ObjectiveAssessment>
     <ObjectiveAssessment id="ACTMathematicsPreAlgebra">
         <IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
-        <AssessmentItemReference ref="AssessmentItem-2"/>
+        <AssessmentItemReference/>
     </ObjectiveAssessment>
     <ObjectiveAssessment id="ACTMathemacticsAlgebra">
         <IdentificationCode>ACT-Math-Algebra</IdentificationCode>
         <!--		
-		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
+		<AssessmentItemReference></AssessmentItemReference>
+		<AssessmentItemReference></AssessmentItemReference>
 -->
     </ObjectiveAssessment>
     <ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
         <IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
         <!--
-		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
+		<AssessmentItemReference></AssessmentItemReference>
 -->
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>

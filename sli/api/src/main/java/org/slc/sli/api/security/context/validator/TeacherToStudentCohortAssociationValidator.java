@@ -48,8 +48,14 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, cohortIds));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
         
-        long result = getRepo().count(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
-        return result == ids.size();
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
+
+        Set<String> validCohortIds = new HashSet<String>();
+        for (Entity entity : entities) {
+            validCohortIds.add((String) entity.getBody().get(ParameterConstants.COHORT_ID));
+        }
+
+        return validCohortIds.containsAll(cohortIds);
     }
 
 }

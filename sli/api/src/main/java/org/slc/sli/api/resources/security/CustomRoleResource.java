@@ -105,7 +105,7 @@ public class CustomRoleResource {
     }
     
     @GET
-    @RightsAllowed({Right.CRUD_ROLE})
+    @RightsAllowed({Right.CRUD_ROLE })
     public Response readAll(@Context final UriInfo uriInfo) {
         
         if (uriInfo.getQueryParameters() != null) {
@@ -130,7 +130,7 @@ public class CustomRoleResource {
     
     @GET
     @Path("{id}")
-    @RightsAllowed({Right.CRUD_ROLE})
+    @RightsAllowed({Right.CRUD_ROLE })
     public Response read(@PathParam("id") String id, @Context final UriInfo uriInfo) {
 
         EntityBody customRole = service.get(id);
@@ -143,7 +143,7 @@ public class CustomRoleResource {
     }
     
     @POST
-    @RightsAllowed({Right.CRUD_ROLE})
+    @RightsAllowed({Right.CRUD_ROLE })
     public Response createCustomRole(EntityBody newCustomRole, @Context final UriInfo uriInfo) {
 
         Response res = validateRights(newCustomRole);
@@ -187,7 +187,7 @@ public class CustomRoleResource {
     
     @PUT
     @Path("{id}")
-    @RightsAllowed({Right.CRUD_ROLE})
+    @RightsAllowed({Right.CRUD_ROLE })
     public Response updateCustomRole(@PathParam("id") String id, EntityBody updated, @Context final UriInfo uriInfo) {
         
         Response res = validateRights(updated);
@@ -234,7 +234,7 @@ public class CustomRoleResource {
     
     @DELETE
     @Path("{id}")
-    @RightsAllowed({Right.CRUD_ROLE})
+    @RightsAllowed({Right.CRUD_ROLE })
     public Response deleteCustomRole(@PathParam("id") String id, @Context final UriInfo uriInfo) {
         service.delete(id);
         audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
