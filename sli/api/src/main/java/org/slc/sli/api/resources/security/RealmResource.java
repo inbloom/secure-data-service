@@ -119,7 +119,7 @@ public class RealmResource {
     @PUT
     @Path("{realmId}")
     @Consumes("application/json")
-    @RightsAllowed({Right.CRUD_REALM})
+    @RightsAllowed({Right.CRUD_REALM })
     public Response updateRealm(@PathParam("realmId") String realmId, EntityBody updatedRealm,
             @Context final UriInfo uriInfo) {
 
@@ -154,7 +154,7 @@ public class RealmResource {
 
     @DELETE
     @Path("{realmId}")
-    @RightsAllowed({Right.CRUD_REALM})
+    @RightsAllowed({Right.CRUD_REALM })
     public Response deleteRealm(@PathParam("realmId") String realmId, @Context final UriInfo uriInfo) {
         EntityBody deletedRealm = service.get(realmId);
         service.delete(realmId);
@@ -165,7 +165,7 @@ public class RealmResource {
     }
 
     @POST
-    @RightsAllowed({Right.CRUD_REALM})
+    @RightsAllowed({Right.CRUD_REALM })
     public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
 
         if (!canEditCurrentRealm(newRealm)) {
@@ -197,14 +197,14 @@ public class RealmResource {
 
     @GET
     @Path("{realmId}")
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({Right.ADMIN_ACCESS })
     public Response readRealm(@PathParam("realmId") String realmId) {
         EntityBody result = service.get(realmId);
         return Response.ok(result).build();
     }
 
     @GET
-    @RightsAllowed({Right.ADMIN_ACCESS})
+    @RightsAllowed({Right.ADMIN_ACCESS })
     public Response getRealms(@QueryParam(REALM) @DefaultValue("") String realm, @Context UriInfo info) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

@@ -37,7 +37,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- Happy path B: resolving to 1 course, using multiple fields: -->
     <CourseTranscript>
@@ -60,7 +60,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- Happy path C: resolving to 1 course, using multiple fields, one of which doesn't match: -->
     <CourseTranscript>
@@ -83,7 +83,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- Sad path A: resolving to 0 course -->
     <CourseTranscript>
@@ -103,7 +103,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- Sad path B: resolving to 0 course, multiple fields, mangled field values -->
     <CourseTranscript>
@@ -126,7 +126,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- Sad path C: resolving to 3 courses, multiple fields -->
     <CourseTranscript>
@@ -152,6 +152,6 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
 </InterchangeStudentGrade>

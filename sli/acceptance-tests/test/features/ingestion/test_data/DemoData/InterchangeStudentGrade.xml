@@ -131,9 +131,9 @@
                 <SessionName>Fall 2010 Daybreak Central High</SessionName>
             </SessionIdentity>
         </SessionReference>
-        <ReportCardReference id="ID097" ref="ID000"/>
-        <ReportCardReference id="ID099" ref="ID095"/>
-        <DiplomaReference id="ID101" ref="ID044"/>
+        <ReportCardReference id="ID097"/>
+        <ReportCardReference id="ID099"/>
+        <DiplomaReference id="ID101"/>
     </StudentAcademicRecord>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -158,7 +158,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919021-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919001-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -198,7 +198,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919001-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919002-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -238,7 +238,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919002-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919002-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -278,7 +278,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919002-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919003-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -318,7 +318,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919003-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919003-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -358,7 +358,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919003-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919004-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -398,7 +398,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919004-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919004-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -438,7 +438,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919004-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919005-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -478,7 +478,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919005-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919005-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -518,7 +518,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919005-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919006-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -558,7 +558,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919006-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919006-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -598,7 +598,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919006-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919007-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -638,7 +638,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919007-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919007-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -678,7 +678,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919007-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919008-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -718,7 +718,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919008-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919008-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -758,7 +758,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919008-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919009-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -798,7 +798,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919009-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919009-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -838,7 +838,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919009-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919010-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -878,7 +878,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919010-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919010-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -918,7 +918,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919010-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919011-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -958,7 +958,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919011-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919011-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -998,7 +998,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919011-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919012-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1038,7 +1038,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919012-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919012-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1078,7 +1078,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919012-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919013-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1118,7 +1118,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919013-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919013-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1158,7 +1158,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919013-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919014-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1198,7 +1198,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919014-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -1223,7 +1223,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919014-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919015-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1263,7 +1263,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919015-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!--
     <StudentAcademicRecord id="SAR-91919001-1">
@@ -1301,7 +1301,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
+      <StudentAcademicRecordReference/>  
     </CourseTranscript>
 -->
     <StudentAcademicRecord id="SAR-91919016-1">
@@ -1342,7 +1342,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919016-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1382,7 +1382,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919017-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1422,7 +1422,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919017-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919017-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1462,7 +1462,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919017-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919018-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1502,7 +1502,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919018-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919018-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1542,7 +1542,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919018-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919019-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1582,7 +1582,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919019-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919019-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1622,7 +1622,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919019-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919020-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1662,7 +1662,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919020-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-91919020-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -1702,7 +1702,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919020-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentGradebookEntry>
         <DateFulfilled>2011-09-15</DateFulfilled>
@@ -4202,7 +4202,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-453827070-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-453827070-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4257,7 +4257,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-943715230-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-943715230-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4297,7 +4297,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-943715230-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-164420088-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4337,7 +4337,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-164420088-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-164420088-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4377,7 +4377,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-164420088-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-505331723-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4417,7 +4417,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-505331723-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-505331723-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4457,7 +4457,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-505331723-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-530425896-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4497,7 +4497,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-530425896-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-530425896-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4537,7 +4537,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-530425896-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-429526969-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4577,7 +4577,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-429526969-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-429526969-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4617,7 +4617,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-429526969-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-178828452-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4657,7 +4657,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-178828452-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-178828452-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4697,7 +4697,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-178828452-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-525878920-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4737,7 +4737,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-525878920-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-525878920-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4777,7 +4777,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-525878920-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-510152105-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4817,7 +4817,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-510152105-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-510152105-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4857,7 +4857,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-510152105-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-802709591-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4897,7 +4897,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-802709591-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-802709591-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4937,7 +4937,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-802709591-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-437680177-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -4977,7 +4977,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-437680177-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-437680177-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5032,7 +5032,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-170011136-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-170011136-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5072,7 +5072,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-170011136-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-547028299-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5112,7 +5112,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-547028299-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-547028299-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5152,7 +5152,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-547028299-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-258392050-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5192,7 +5192,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-258392050-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -5217,7 +5217,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-258392050-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-178875887-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5257,7 +5257,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-178875887-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -5282,7 +5282,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-178875887-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-100644447-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5322,7 +5322,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-100644447-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-100644447-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5362,7 +5362,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-100644447-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-376191021-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5402,7 +5402,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-376191021-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-376191021-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5442,7 +5442,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-376191021-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-336344132-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5482,7 +5482,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-336344132-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-336344132-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5522,7 +5522,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-336344132-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-711411586-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5562,7 +5562,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-711411586-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-711411586-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5602,7 +5602,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-711411586-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-131758477-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5642,7 +5642,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-131758477-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-131758477-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5682,7 +5682,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-131758477-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-670703438-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5722,7 +5722,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-670703438-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-670703438-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5762,7 +5762,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-670703438-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-851123275-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5802,7 +5802,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-851123275-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-851123275-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5842,7 +5842,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-851123275-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-423037202-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5882,7 +5882,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-423037202-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-423037202-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5922,7 +5922,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-423037202-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-250918988-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -5962,7 +5962,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-250918988-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-250918988-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -6002,7 +6002,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-250918988-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-421216329-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -6042,7 +6042,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-421216329-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-421216329-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -6082,7 +6082,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-421216329-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentGradebookEntry>
         <DateFulfilled>2011-09-29</DateFulfilled>

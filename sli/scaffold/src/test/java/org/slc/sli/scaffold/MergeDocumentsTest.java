@@ -17,7 +17,6 @@
 
 package org.slc.sli.scaffold;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.DOMException;
 

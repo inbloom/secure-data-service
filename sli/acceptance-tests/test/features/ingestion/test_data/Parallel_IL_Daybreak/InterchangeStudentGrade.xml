@@ -13114,7 +13114,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000000-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000000-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13155,7 +13155,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000000-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000001-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13196,7 +13196,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000001-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000001-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13237,7 +13237,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000001-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000002-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13278,7 +13278,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000002-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000002-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13319,7 +13319,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000002-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000003-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13360,7 +13360,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000003-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000003-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13401,7 +13401,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000003-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000004-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13442,7 +13442,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000004-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000004-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13483,7 +13483,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000004-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000005-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13524,7 +13524,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000005-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000005-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13565,7 +13565,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000005-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000006-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13606,7 +13606,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000006-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000006-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13647,7 +13647,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000006-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000007-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13688,7 +13688,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000007-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000007-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13729,7 +13729,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000007-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000008-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13770,7 +13770,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000008-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000008-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13811,7 +13811,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000008-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000009-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13852,7 +13852,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000009-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000009-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13893,7 +13893,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000009-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000010-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13934,7 +13934,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000010-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000010-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -13975,7 +13975,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000010-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000011-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14016,7 +14016,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000011-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000011-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14057,7 +14057,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000011-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000012-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14098,7 +14098,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000012-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000012-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14139,7 +14139,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000012-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000013-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14180,7 +14180,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000013-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000013-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14221,7 +14221,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000013-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000014-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14262,7 +14262,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000014-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000014-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14303,7 +14303,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000014-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000015-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14344,7 +14344,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000015-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000015-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14385,7 +14385,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000015-2"/>
+        <StudentAcademicRecordReference/>
         <StudentUniqueStateId>800000015</StudentUniqueStateId>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000016-1">
@@ -14427,7 +14427,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14451,7 +14451,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14475,7 +14475,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14499,7 +14499,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14523,7 +14523,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14547,7 +14547,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000016-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14588,7 +14588,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14612,7 +14612,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14636,7 +14636,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14660,7 +14660,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14684,7 +14684,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -14708,7 +14708,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000017-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14749,7 +14749,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000017-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000017-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14790,7 +14790,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000017-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000018-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14831,7 +14831,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000018-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000018-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14872,7 +14872,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000018-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000019-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14913,7 +14913,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000019-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000019-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14954,7 +14954,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000019-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000020-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -14995,7 +14995,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000020-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000020-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15036,7 +15036,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000020-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000021-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15077,7 +15077,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000021-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000021-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15118,7 +15118,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000021-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000022-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15159,7 +15159,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000022-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000022-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15200,7 +15200,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000022-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000023-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15241,7 +15241,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000023-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000023-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15282,7 +15282,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000023-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000024-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15323,7 +15323,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000024-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000024-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15364,7 +15364,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000024-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000026-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15405,7 +15405,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000026-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000026-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15446,7 +15446,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000026-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000027-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15487,7 +15487,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000027-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000027-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15528,7 +15528,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000027-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- grading history for cgray's 11th and 12th graders. Refers to courses already completed. -->
     <StudentAcademicRecord id="SAR-900000000-1">
@@ -15570,7 +15570,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000000-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000000-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15611,7 +15611,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000000-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000001-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15652,7 +15652,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000001-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000001-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15693,7 +15693,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000001-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000002-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15734,7 +15734,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000002-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000002-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15775,7 +15775,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000002-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000003-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15816,7 +15816,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000003-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000003-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15857,7 +15857,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000003-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000004-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15898,7 +15898,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000004-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000004-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15939,7 +15939,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000004-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000005-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -15980,7 +15980,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000005-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000005-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16021,7 +16021,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000005-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000006-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16062,7 +16062,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000006-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000006-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16103,7 +16103,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000006-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000007-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16144,7 +16144,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000007-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000007-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16185,7 +16185,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000007-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000008-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16226,7 +16226,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000008-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000008-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16267,7 +16267,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000008-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000009-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16308,7 +16308,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000009-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000009-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16349,7 +16349,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000009-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000010-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16390,7 +16390,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000010-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000010-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16431,7 +16431,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000010-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000011-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16472,7 +16472,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000011-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000011-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16513,7 +16513,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000011-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000012-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16554,7 +16554,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000012-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000012-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16595,7 +16595,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000012-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000013-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16636,7 +16636,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000013-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000013-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16677,7 +16677,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000013-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000014-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16718,7 +16718,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000014-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000014-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16759,7 +16759,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000014-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000015-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16800,7 +16800,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000015-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000015-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16841,7 +16841,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000015-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000016-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -16882,7 +16882,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -16906,7 +16906,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -16930,7 +16930,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -16954,7 +16954,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -16978,7 +16978,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17002,7 +17002,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000016-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17043,7 +17043,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17067,7 +17067,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17091,7 +17091,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17115,7 +17115,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17139,7 +17139,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17163,7 +17163,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000017-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17204,7 +17204,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000017-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000017-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17245,7 +17245,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000017-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000018-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17286,7 +17286,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000018-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000018-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17327,7 +17327,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000018-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000019-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17368,7 +17368,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000019-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000019-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17409,7 +17409,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000019-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000020-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17450,7 +17450,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000020-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000020-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17491,7 +17491,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000020-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000021-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17532,7 +17532,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000021-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000021-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17573,7 +17573,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000021-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000022-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17614,7 +17614,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000022-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000022-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17655,7 +17655,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000022-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000023-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17696,7 +17696,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000023-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000023-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17737,7 +17737,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000023-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000024-1">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17778,7 +17778,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000024-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000024-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -17819,7 +17819,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000024-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- more transcript history for Carmen Ortiz, grades 8 and 9 -->
     <StudentAcademicRecord id="SAR-900000016-3">
@@ -17860,7 +17860,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17884,7 +17884,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17908,7 +17908,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17932,7 +17932,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17956,7 +17956,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -17980,7 +17980,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000016-4">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -18020,7 +18020,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18044,7 +18044,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18068,7 +18068,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18092,7 +18092,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18116,7 +18116,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18140,7 +18140,7 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000016-5">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -18180,7 +18180,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18204,7 +18204,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18228,7 +18228,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18252,7 +18252,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18276,7 +18276,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18300,7 +18300,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000016-6">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -18340,7 +18340,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18364,7 +18364,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18388,7 +18388,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18412,7 +18412,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18436,7 +18436,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18460,7 +18460,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-900000016-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- StudentAcademicRecords and CourseTranscripts for Matt Sollars grade 4-7 -->
     <StudentAcademicRecord id="SAR-800000025-1">
@@ -18501,7 +18501,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18525,7 +18525,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18549,7 +18549,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18573,7 +18573,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18597,7 +18597,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18621,7 +18621,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-1"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000025-2">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -18661,7 +18661,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18685,7 +18685,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18709,7 +18709,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18733,7 +18733,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18757,7 +18757,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18781,7 +18781,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-2"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000025-3">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -18821,7 +18821,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18845,7 +18845,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18869,7 +18869,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18893,7 +18893,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18917,7 +18917,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -18941,7 +18941,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-3"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000025-4">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -18981,7 +18981,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19005,7 +19005,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19029,7 +19029,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19053,7 +19053,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19077,7 +19077,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19101,7 +19101,7 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-4"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000025-5">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -19141,7 +19141,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19165,7 +19165,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19189,7 +19189,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19213,7 +19213,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19237,7 +19237,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19261,7 +19261,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-5"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000025-6">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -19301,7 +19301,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19325,7 +19325,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19349,7 +19349,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19373,7 +19373,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19397,7 +19397,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19421,7 +19421,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-6"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000025-7">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -19461,7 +19461,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-7"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19485,7 +19485,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-7"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19509,7 +19509,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-7"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19533,7 +19533,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-7"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19557,7 +19557,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-7"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19581,7 +19581,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-7"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-800000025-8">
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
@@ -19621,7 +19621,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-8"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19645,7 +19645,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-8"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19669,7 +19669,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-8"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19693,7 +19693,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-8"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19717,7 +19717,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-8"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -19741,7 +19741,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-8"/>
+        <StudentAcademicRecordReference/>
     </CourseTranscript>
     <!-- ReportCard and StudentCompetency records for Matt Sollars grade 3 -->
     <ReportCard>
@@ -20616,7 +20616,7 @@
                 <StudentUniqueStateId>800000025</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <!--  <GradingPeriodReference ref="GRDP_20070527"/> -->
+        <!--  <GradingPeriodReference/> -->
         <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <GradingPeriod>End of Year</GradingPeriod>
@@ -21547,7 +21547,7 @@
                 <SessionName>Spring 2011 South Daybreak Elementary</SessionName>
             </SessionIdentity>
         </SessionReference>
-        <ReportCardReference ref="RC-GK-100000017-1"/>
+        <ReportCardReference/>
     </StudentAcademicRecord>
     <ReportCard id="RC-GK-100000017-1">
         <StudentCompetencyReference>
@@ -22584,7 +22584,7 @@
                 <StudentUniqueStateId>100000017</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <!-- GradingPeriodReference ref="GRDP_20110527" -->
+        <!-- GradingPeriodReference -->
         <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <GradingPeriod>End of Year</GradingPeriod>

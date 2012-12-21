@@ -18,7 +18,7 @@
                 <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
-		<ObjectiveAssessmentReference ref="ActEng"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
@@ -30,8 +30,8 @@
 	<ObjectiveAssessment id="ActEng">
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActEngUsage"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActEngRhetorical"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
 	<!-- Assessment Item Section -->

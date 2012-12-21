@@ -82,7 +82,7 @@ public class ApprovedApplicationResource {
     private DelegationUtil delegationUtil;
 
     @GET
-    @RightsAllowed(any=true)
+    @RightsAllowed(any = true)
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
         List<String> allowedApps = getAllowedAppIds();
         List<EntityBody> results = new ArrayList<EntityBody>();

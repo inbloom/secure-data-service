@@ -38,17 +38,17 @@ public class LoggingMessageReport extends AbstractMessageReport {
 
     @Override
     protected void reportError(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        logger.error(getMessage(code, args));
+        logger.error(getMessage(reportStats, code, args));
     }
 
     @Override
     protected void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        logger.warn(getMessage(code, args));
+        logger.warn(getMessage(reportStats, code, args));
     }
 
     @Override
     protected void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        logger.info(getMessage(code, args));
+        logger.info(getMessage(reportStats, code, args));
     }
 
     public void setLogger(Logger logger) {

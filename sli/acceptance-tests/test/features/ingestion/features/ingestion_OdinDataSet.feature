@@ -63,7 +63,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 78|
-     | attendance                               |                  0|
+     | attendance                               |                 14|
      | calendarDate                             |               1161|
      | cohort                                   |                  9|
      | competencyLevelDescriptor                |                  0|
@@ -97,19 +97,19 @@ Then I should see following map of entry counts in the corresponding collections
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 33|
+     | studentCohortAssociation                 |                 28|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
      | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                102|
+     | studentProgramAssociation                |                 89|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
      | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 3035 records." in the resulting batch job file
+    And I should see "Processed 3031 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 

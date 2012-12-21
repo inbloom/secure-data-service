@@ -31,7 +31,7 @@
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120223Instructionalday"/>
+        <CalendarDateReference/>
     </GradingPeriod>
 
     <GradingPeriod id="GRDP_20110104">
@@ -43,7 +43,7 @@
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120224Instructionalday"/>
+        <CalendarDateReference/>
     </GradingPeriod>
 
     <GradingPeriod id="GRDP_20110222">
@@ -55,7 +55,7 @@
       <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120225Holiday"/>
+        <CalendarDateReference/>
     </GradingPeriod>
 
     <GradingPeriod id="GRDP_20110411">
@@ -67,7 +67,7 @@
       <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120226Holiday"/>
+        <CalendarDateReference/>
     </GradingPeriod>
 
     <GradingPeriod id="GRDP_20101108">
@@ -79,7 +79,7 @@
       <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120227Instructionalday"/>
+        <CalendarDateReference/>
     </GradingPeriod>
 
     <Session>
@@ -94,9 +94,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Baker School</SessionName>
@@ -110,9 +110,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Charlie School</SessionName>
@@ -126,9 +126,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Dog School</SessionName>
@@ -142,9 +142,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Echo School</SessionName>
@@ -158,9 +158,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 
@@ -176,9 +176,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Baker School</SessionName>
@@ -192,9 +192,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
         <Session>
         <SessionName>Spring 2012 Baker School</SessionName>
@@ -208,9 +208,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
         <Session>
         <SessionName>Spring 2012 Baker School</SessionName>
@@ -224,9 +224,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
         <Session>
         <SessionName>Spring 2012 Baker School</SessionName>
@@ -240,9 +240,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 </InterchangeEducationOrgCalendar>
