@@ -106,7 +106,7 @@ public class UserResource {
 
     
     @POST
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response create(final User newUser) {
         Response result = validateUserCreate(newUser, secUtil.getTenantId());
         if (result != null) {
@@ -127,7 +127,7 @@ public class UserResource {
     }
 
     @GET
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response readAll() {
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
@@ -162,7 +162,7 @@ public class UserResource {
     }
 
     @PUT
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response update(final User updateUser) {
         Response result = validateUserUpdate(updateUser, secUtil.getTenantId());
         if (result != null) {
@@ -177,7 +177,7 @@ public class UserResource {
 
     @DELETE
     @Path("{uid}")
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response delete(@PathParam("uid") final String uid) {
         Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
@@ -198,7 +198,7 @@ public class UserResource {
      */
     @GET
     @Path("edorgs")
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response getEdOrgs() {
         String tenant = secUtil.getTenantId();
 

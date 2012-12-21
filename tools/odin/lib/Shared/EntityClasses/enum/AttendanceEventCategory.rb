@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of attendance event categories. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="AttendanceEventCategoryType">
 #   <xs:annotation>
@@ -39,4 +41,16 @@ class AttendanceEventCategory
   AttendanceEventCategory.define :PRESENT, "In Attendance"
   AttendanceEventCategory.define :TARDY, "Tardy"
   AttendanceEventCategory.define :UNEXCUSED_ABSENCE, "Unexcused Absence"
+
+  # translates the specified Symbol into the ed-fi compliant String representation of the attendance event category
+  # -> returns nil if the Symbol doesn't exist
+  def self.to_string(key)
+    const_get(key)
+  end
+
+  # translates the specified String representation of the attendance event category into a Symbol
+  # -> returns nil if the String representation doesn't map to a Symbol
+  def self.to_symbol(value)
+    get_key(value)
+  end
 end

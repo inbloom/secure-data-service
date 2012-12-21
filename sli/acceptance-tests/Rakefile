@@ -494,7 +494,7 @@ task :loadDefaultIngestionTenants do
       lz_server = lz["ingestionServer"]
       lz["ingestionServer"].replace(lz_server.gsub(hostname_placeholder, hostname))
       lz_path = lz["path"]
-      Dir.mkdir(parent_lz_path) if !Dir.exists?(parent_lz_path)
+      FileUtils.mkdir_p(parent_lz_path) if !Dir.exists?(parent_lz_path)
       Dir.chdir(parent_lz_path) do
         new_path = Dir.getwd.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
         if new_path.start_with?("c:")
