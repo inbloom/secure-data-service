@@ -1178,17 +1178,44 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         // TODO: pre-process and/or validate query string if necessary
 
+        String[] queryArray;
+        
+        queryArray=(String[])query;
+        
+        String name=queryArray[0];
         // get results from api
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", "250");
-        List<GenericEntity> students = getApiClient().searchStudents(token, (String) query, params);
+        List<GenericEntity> students = getApiClient().searchStudents(token, name, params);
 
         // post-process
-
+        // get detail information for each student
+        List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
+        HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
+        GenericEntity school;
+        for(GenericEntity student:students) {
+            student = entityManager.getStudent(token, student.getId());
+            addFullName(student);
+            String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
+            if (schoolId != null && !schoolId.equals("")) {
+                if (retrievedSchools.containsKey(schoolId)) {
+                    school = retrievedSchools.get(schoolId);
+                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                } else {
+                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap());
+                    retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
+                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                }
+            }
+            GenericEntityEnhancer.enhanceStudent(student);
+            enhancedStudents.add(student);
+        }
+        // sort students by last & first name
+        Collections.sort(enhancedStudents, STUDENT_COMPARATOR);
 
         // fill the search map with results
         // TODO: figure out pagination values
-        setStudentSearchEntity(studentSearch, students, (String) query, null, null, students.size(), 1,
+        setStudentSearchEntity(studentSearch, students, name, null, null, students.size(), 1,
                 1, 1, null);
         return studentSearch;
     }
