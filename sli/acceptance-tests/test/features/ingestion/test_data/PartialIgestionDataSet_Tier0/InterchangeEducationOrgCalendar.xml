@@ -5,7 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
 	<!-- CalendarDates for the 2010-2011 school year -->
-	<CalendarDate id="CLND_20100823Instructionalday">
+	<CalendarDate>
 		<Date>2010-08-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -14,7 +14,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100824Instructionalday">
+	<CalendarDate>
 		<Date>2010-08-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -23,7 +23,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100825Instructionalday">
+	<CalendarDate>
 		<Date>2010-08-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -32,7 +32,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100826Instructionalday">
+	<CalendarDate>
 		<Date>2010-08-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -41,7 +41,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100827Instructionalday">
+	<CalendarDate>
 		<Date>2010-08-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -50,7 +50,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100828Holiday">
+	<CalendarDate>
 		<Date>2010-08-28</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -59,7 +59,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100829Holiday">
+	<CalendarDate>
 		<Date>2010-08-29</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -68,7 +68,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100830Instructionalday">
+	<CalendarDate>
 		<Date>2010-08-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -77,7 +77,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100831Instructionalday">
+	<CalendarDate>
 		<Date>2010-08-31</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -86,7 +86,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100901Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -95,7 +95,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100902Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -104,7 +104,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100903Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -113,7 +113,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100904Holiday">
+	<CalendarDate>
 		<Date>2010-09-04</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -122,7 +122,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100905Holiday">
+	<CalendarDate>
 		<Date>2010-09-05</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -131,7 +131,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100906Holiday">
+	<CalendarDate>
 		<Date>2010-09-06</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -140,7 +140,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100907Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -149,7 +149,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100908Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -158,7 +158,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100909Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -167,7 +167,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100910Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -176,7 +176,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100911Holiday">
+	<CalendarDate>
 		<Date>2010-09-11</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -185,7 +185,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100912Holiday">
+	<CalendarDate>
 		<Date>2010-09-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -194,7 +194,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100913Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -203,7 +203,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100914Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -212,7 +212,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100915Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -221,7 +221,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100916Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -230,7 +230,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100917Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -239,7 +239,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100918Holiday">
+	<CalendarDate>
 		<Date>2010-09-18</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -248,7 +248,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100919Holiday">
+	<CalendarDate>
 		<Date>2010-09-19</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -257,7 +257,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100920Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -266,7 +266,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100921Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -275,7 +275,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100922Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -284,7 +284,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100923Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -293,7 +293,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100924Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -302,7 +302,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100925Holiday">
+	<CalendarDate>
 		<Date>2010-09-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -311,7 +311,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100926Holiday">
+	<CalendarDate>
 		<Date>2010-09-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -320,7 +320,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100927Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -329,7 +329,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100928Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -338,7 +338,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100929Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -347,7 +347,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20100930Instructionalday">
+	<CalendarDate>
 		<Date>2010-09-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -356,7 +356,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101001Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -365,7 +365,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101002Holiday">
+	<CalendarDate>
 		<Date>2010-10-02</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -374,7 +374,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101003Holiday">
+	<CalendarDate>
 		<Date>2010-10-03</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -383,7 +383,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101004Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -392,7 +392,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101005Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -401,7 +401,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101006Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -410,7 +410,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101007Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -419,7 +419,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101008Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -428,7 +428,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101009Holiday">
+	<CalendarDate>
 		<Date>2010-10-09</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -437,7 +437,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101010Holiday">
+	<CalendarDate>
 		<Date>2010-10-10</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -446,7 +446,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101011Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -455,7 +455,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101012Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -464,7 +464,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101013Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -473,7 +473,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101014Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -482,7 +482,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101015Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -491,7 +491,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101016Holiday">
+	<CalendarDate>
 		<Date>2010-10-16</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -500,7 +500,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101017Holiday">
+	<CalendarDate>
 		<Date>2010-10-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -509,7 +509,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101018Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -518,7 +518,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101019Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -527,7 +527,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101020Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -536,7 +536,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101021Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -545,7 +545,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101022Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -554,7 +554,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101023Holiday">
+	<CalendarDate>
 		<Date>2010-10-23</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -563,7 +563,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101024Holiday">
+	<CalendarDate>
 		<Date>2010-10-24</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -572,7 +572,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101025Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -581,7 +581,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101026Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -590,7 +590,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101027Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -599,7 +599,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101028Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -608,7 +608,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101029Instructionalday">
+	<CalendarDate>
 		<Date>2010-10-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -617,7 +617,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101030Holiday">
+	<CalendarDate>
 		<Date>2010-10-30</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -626,7 +626,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101031Holiday">
+	<CalendarDate>
 		<Date>2010-10-31</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -635,7 +635,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101101Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -644,7 +644,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101102Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -653,7 +653,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101103Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -662,7 +662,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101104Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -671,7 +671,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101105Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -680,7 +680,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101106Holiday">
+	<CalendarDate>
 		<Date>2010-11-06</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -689,7 +689,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101107Holiday">
+	<CalendarDate>
 		<Date>2010-11-07</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -698,7 +698,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101108Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -707,7 +707,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101109Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -716,7 +716,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101110Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -725,7 +725,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101111Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -734,7 +734,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101112Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -743,7 +743,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101113Holiday">
+	<CalendarDate>
 		<Date>2010-11-13</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -752,7 +752,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101114Holiday">
+	<CalendarDate>
 		<Date>2010-11-14</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -761,7 +761,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101115Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -770,7 +770,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101116Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -779,7 +779,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101117Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -788,7 +788,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101118Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -797,7 +797,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101119Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -806,7 +806,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101120Holiday">
+	<CalendarDate>
 		<Date>2010-11-20</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -815,7 +815,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101121Holiday">
+	<CalendarDate>
 		<Date>2010-11-21</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -824,7 +824,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101122Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -833,7 +833,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101123Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -842,7 +842,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101124Holiday">
+	<CalendarDate>
 		<Date>2010-11-24</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -851,7 +851,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101125Holiday">
+	<CalendarDate>
 		<Date>2010-11-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -860,7 +860,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101126Holiday">
+	<CalendarDate>
 		<Date>2010-11-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -869,7 +869,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101127Holiday">
+	<CalendarDate>
 		<Date>2010-11-27</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -878,7 +878,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101128Holiday">
+	<CalendarDate>
 		<Date>2010-11-28</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -887,7 +887,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101129Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -896,7 +896,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101130Instructionalday">
+	<CalendarDate>
 		<Date>2010-11-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -905,7 +905,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101201Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -914,7 +914,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101202Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -923,7 +923,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101203Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -932,7 +932,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101204Holiday">
+	<CalendarDate>
 		<Date>2010-12-04</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -941,7 +941,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101205Holiday">
+	<CalendarDate>
 		<Date>2010-12-05</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -950,7 +950,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101206Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -959,7 +959,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101207Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -968,7 +968,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101208Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -977,7 +977,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101209Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -986,7 +986,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101210Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -995,7 +995,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101211Holiday">
+	<CalendarDate>
 		<Date>2010-12-11</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1004,7 +1004,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101212Holiday">
+	<CalendarDate>
 		<Date>2010-12-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1013,7 +1013,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101213Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1022,7 +1022,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101214Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1031,7 +1031,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101215Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1040,7 +1040,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101216Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1049,7 +1049,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101217Instructionalday">
+	<CalendarDate>
 		<Date>2010-12-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1058,7 +1058,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101218Holiday">
+	<CalendarDate>
 		<Date>2010-12-18</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1067,7 +1067,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101219Holiday">
+	<CalendarDate>
 		<Date>2010-12-19</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1076,7 +1076,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101220Holiday">
+	<CalendarDate>
 		<Date>2010-12-20</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1085,7 +1085,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101221Holiday">
+	<CalendarDate>
 		<Date>2010-12-21</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1094,7 +1094,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101222Holiday">
+	<CalendarDate>
 		<Date>2010-12-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1103,7 +1103,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101223Holiday">
+	<CalendarDate>
 		<Date>2010-12-23</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1112,7 +1112,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101224Holiday">
+	<CalendarDate>
 		<Date>2010-12-24</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1121,7 +1121,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101225Holiday">
+	<CalendarDate>
 		<Date>2010-12-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1130,7 +1130,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101226Holiday">
+	<CalendarDate>
 		<Date>2010-12-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1139,7 +1139,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101227Holiday">
+	<CalendarDate>
 		<Date>2010-12-27</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1148,7 +1148,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101228Holiday">
+	<CalendarDate>
 		<Date>2010-12-28</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1157,7 +1157,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101229Holiday">
+	<CalendarDate>
 		<Date>2010-12-29</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1166,7 +1166,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101230Holiday">
+	<CalendarDate>
 		<Date>2010-12-30</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1175,7 +1175,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20101231Holiday">
+	<CalendarDate>
 		<Date>2010-12-31</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1184,7 +1184,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110101Holiday">
+	<CalendarDate>
 		<Date>2011-01-01</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1193,7 +1193,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110102Holiday">
+	<CalendarDate>
 		<Date>2011-01-02</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1202,7 +1202,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110103Holiday">
+	<CalendarDate>
 		<Date>2011-01-03</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1211,7 +1211,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110104Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1220,7 +1220,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110105Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1229,7 +1229,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110106Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1238,7 +1238,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110107Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1247,7 +1247,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110108Holiday">
+	<CalendarDate>
 		<Date>2011-01-08</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1256,7 +1256,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110109Holiday">
+	<CalendarDate>
 		<Date>2011-01-09</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1265,7 +1265,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110110Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1274,7 +1274,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110111Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1283,7 +1283,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110112Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1292,7 +1292,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110113Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1301,7 +1301,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110114Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1310,7 +1310,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110115Holiday">
+	<CalendarDate>
 		<Date>2011-01-15</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1319,7 +1319,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110116Holiday">
+	<CalendarDate>
 		<Date>2011-01-16</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1328,7 +1328,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110117Holiday">
+	<CalendarDate>
 		<Date>2011-01-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1337,7 +1337,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110118Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1346,7 +1346,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110119Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1355,7 +1355,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110120Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1364,7 +1364,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110121Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1373,7 +1373,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110122Holiday">
+	<CalendarDate>
 		<Date>2011-01-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1382,7 +1382,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110123Holiday">
+	<CalendarDate>
 		<Date>2011-01-23</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1391,7 +1391,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110124Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1400,7 +1400,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110125Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1409,7 +1409,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110126Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1418,7 +1418,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110127Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1427,7 +1427,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110128Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1436,7 +1436,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110129Holiday">
+	<CalendarDate>
 		<Date>2011-01-29</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1445,7 +1445,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110130Holiday">
+	<CalendarDate>
 		<Date>2011-01-30</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1454,7 +1454,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110131Instructionalday">
+	<CalendarDate>
 		<Date>2011-01-31</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1463,7 +1463,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110201Holiday">
+	<CalendarDate>
 		<Date>2011-02-01</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1472,7 +1472,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110202Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1481,7 +1481,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110203Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1490,7 +1490,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110204Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1499,7 +1499,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110205Holiday">
+	<CalendarDate>
 		<Date>2011-02-05</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1508,7 +1508,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110206Holiday">
+	<CalendarDate>
 		<Date>2011-02-06</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1517,7 +1517,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110207Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1526,7 +1526,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110208Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1535,7 +1535,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110209Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1544,7 +1544,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110210Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1553,7 +1553,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110211Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1562,7 +1562,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110212Holiday">
+	<CalendarDate>
 		<Date>2011-02-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1571,7 +1571,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110213Holiday">
+	<CalendarDate>
 		<Date>2011-02-13</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1580,7 +1580,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110214Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1589,7 +1589,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110215Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1598,7 +1598,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110216Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1607,7 +1607,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110217Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1616,7 +1616,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110218Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1625,7 +1625,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110219Holiday">
+	<CalendarDate>
 		<Date>2011-02-19</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1634,7 +1634,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110220Holiday">
+	<CalendarDate>
 		<Date>2011-02-20</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1643,7 +1643,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110221Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1652,7 +1652,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110222Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1661,7 +1661,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110223Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1670,7 +1670,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110224Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1679,7 +1679,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110225Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1688,7 +1688,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110226Holiday">
+	<CalendarDate>
 		<Date>2011-02-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1697,7 +1697,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110227Holiday">
+	<CalendarDate>
 		<Date>2011-02-27</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1706,7 +1706,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110228Instructionalday">
+	<CalendarDate>
 		<Date>2011-02-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1715,7 +1715,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110301Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1724,7 +1724,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110302Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1733,7 +1733,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110303Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1742,7 +1742,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110304Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1751,7 +1751,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110305Holiday">
+	<CalendarDate>
 		<Date>2011-03-05</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1760,7 +1760,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110306Holiday">
+	<CalendarDate>
 		<Date>2011-03-06</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1769,7 +1769,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110307Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1778,7 +1778,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110308Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1787,7 +1787,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110309Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1796,7 +1796,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110310Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1805,7 +1805,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110311Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1814,7 +1814,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110312Holiday">
+	<CalendarDate>
 		<Date>2011-03-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1823,7 +1823,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110313Holiday">
+	<CalendarDate>
 		<Date>2011-03-13</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1832,7 +1832,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110314Holiday">
+	<CalendarDate>
 		<Date>2011-03-14</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1841,7 +1841,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110315Holiday">
+	<CalendarDate>
 		<Date>2011-03-15</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1850,7 +1850,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110316Holiday">
+	<CalendarDate>
 		<Date>2011-03-16</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1859,7 +1859,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110317Holiday">
+	<CalendarDate>
 		<Date>2011-03-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1868,7 +1868,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110318Holiday">
+	<CalendarDate>
 		<Date>2011-03-18</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1877,7 +1877,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110319Holiday">
+	<CalendarDate>
 		<Date>2011-03-19</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1886,7 +1886,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110320Holiday">
+	<CalendarDate>
 		<Date>2011-03-20</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1895,7 +1895,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110321Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1904,7 +1904,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110322Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1913,7 +1913,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110323Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1922,7 +1922,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110324Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1931,7 +1931,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110325Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1940,7 +1940,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110326Holiday">
+	<CalendarDate>
 		<Date>2011-03-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1949,7 +1949,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110327Holiday">
+	<CalendarDate>
 		<Date>2011-03-27</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1958,7 +1958,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110328Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1967,7 +1967,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110329Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1976,7 +1976,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110330Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1985,7 +1985,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110331Instructionalday">
+	<CalendarDate>
 		<Date>2011-03-31</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1994,7 +1994,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110401Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2003,7 +2003,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110402Holiday">
+	<CalendarDate>
 		<Date>2011-04-02</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2012,7 +2012,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110403Holiday">
+	<CalendarDate>
 		<Date>2011-04-03</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2021,7 +2021,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110404Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2030,7 +2030,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110405Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2039,7 +2039,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110406Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2048,7 +2048,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110407Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2057,7 +2057,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110408Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2066,7 +2066,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110409Holiday">
+	<CalendarDate>
 		<Date>2011-04-09</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2075,7 +2075,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110410Holiday">
+	<CalendarDate>
 		<Date>2011-04-10</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2084,7 +2084,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110411Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2093,7 +2093,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110412Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2102,7 +2102,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110413Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2111,7 +2111,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110414Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2120,7 +2120,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110415Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2129,7 +2129,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110416Holiday">
+	<CalendarDate>
 		<Date>2011-04-16</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2138,7 +2138,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110417Holiday">
+	<CalendarDate>
 		<Date>2011-04-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2147,7 +2147,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110418Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2156,7 +2156,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110419Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2165,7 +2165,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110420Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2174,7 +2174,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110421Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2183,7 +2183,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110422Holiday">
+	<CalendarDate>
 		<Date>2011-04-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2192,7 +2192,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110423Holiday">
+	<CalendarDate>
 		<Date>2011-04-23</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2201,7 +2201,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110424Holiday">
+	<CalendarDate>
 		<Date>2011-04-24</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2210,7 +2210,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110425Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2219,7 +2219,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110426Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2228,7 +2228,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110427Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2237,7 +2237,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110428Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2246,7 +2246,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110429Instructionalday">
+	<CalendarDate>
 		<Date>2011-04-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2255,7 +2255,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110430Holiday">
+	<CalendarDate>
 		<Date>2011-04-30</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2264,7 +2264,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110501Holiday">
+	<CalendarDate>
 		<Date>2011-05-01</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2273,7 +2273,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110502Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2282,7 +2282,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110503Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2291,7 +2291,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110504Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2300,7 +2300,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110505Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2309,7 +2309,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110506Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2318,7 +2318,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110507Holiday">
+	<CalendarDate>
 		<Date>2011-05-07</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2327,7 +2327,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110508Holiday">
+	<CalendarDate>
 		<Date>2011-05-08</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2336,7 +2336,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110509Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2345,7 +2345,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110510Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2354,7 +2354,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110511Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2363,7 +2363,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110512Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2372,7 +2372,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110513Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2381,7 +2381,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110514Holiday">
+	<CalendarDate>
 		<Date>2011-05-14</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2390,7 +2390,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110515Holiday">
+	<CalendarDate>
 		<Date>2011-05-15</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2399,7 +2399,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110516Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2408,7 +2408,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110517Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2417,7 +2417,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110518Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2426,7 +2426,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110519Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2435,7 +2435,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110520Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2444,7 +2444,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110521Holiday">
+	<CalendarDate>
 		<Date>2011-05-21</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2453,7 +2453,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110522Holiday">
+	<CalendarDate>
 		<Date>2011-05-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2462,7 +2462,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110523Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2471,7 +2471,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110524Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2480,7 +2480,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110525Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2489,7 +2489,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110526Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2498,7 +2498,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110527Instructionalday">
+	<CalendarDate>
 		<Date>2011-05-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2508,7 +2508,7 @@
 		</EducationOrgReference>
 	</CalendarDate>
 	<!-- CalendarDates for the 2011-2012 school year -->
-	<CalendarDate id="CLND_20110822Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2517,7 +2517,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110823Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2526,7 +2526,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110824Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2535,7 +2535,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110825Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2544,7 +2544,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110826Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2553,7 +2553,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110827Holiday">
+	<CalendarDate>
 		<Date>2011-08-27</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2562,7 +2562,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110828Holiday">
+	<CalendarDate>
 		<Date>2011-08-28</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2571,7 +2571,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110829Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2580,7 +2580,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110830Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2589,7 +2589,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110831Instructionalday">
+	<CalendarDate>
 		<Date>2011-08-31</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2598,7 +2598,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110901Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2607,7 +2607,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110902Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2616,7 +2616,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110903Holiday">
+	<CalendarDate>
 		<Date>2011-09-03</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2625,7 +2625,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110904Holiday">
+	<CalendarDate>
 		<Date>2011-09-04</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2634,7 +2634,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110905Holiday">
+	<CalendarDate>
 		<Date>2011-09-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2643,7 +2643,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110906Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2652,7 +2652,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110907Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2661,7 +2661,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110908Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2670,7 +2670,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110909Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2679,7 +2679,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110910Holiday">
+	<CalendarDate>
 		<Date>2011-09-10</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2688,7 +2688,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110911Holiday">
+	<CalendarDate>
 		<Date>2011-09-11</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2697,7 +2697,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110912Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2706,7 +2706,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110913Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2715,7 +2715,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110914Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2724,7 +2724,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110915Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2733,7 +2733,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110916Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2742,7 +2742,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110917Holiday">
+	<CalendarDate>
 		<Date>2011-09-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2751,7 +2751,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110918Holiday">
+	<CalendarDate>
 		<Date>2011-09-18</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2760,7 +2760,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110919Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2769,7 +2769,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110920Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2778,7 +2778,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110921Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2787,7 +2787,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110922Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2796,7 +2796,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110923Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2805,7 +2805,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110924Holiday">
+	<CalendarDate>
 		<Date>2011-09-24</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2814,7 +2814,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110925Holiday">
+	<CalendarDate>
 		<Date>2011-09-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2823,7 +2823,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110926Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2832,7 +2832,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110927Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2841,7 +2841,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110928Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2850,7 +2850,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110929Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2859,7 +2859,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20110930Instructionalday">
+	<CalendarDate>
 		<Date>2011-09-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2868,7 +2868,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111001Holiday">
+	<CalendarDate>
 		<Date>2011-10-01</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2877,7 +2877,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111002Holiday">
+	<CalendarDate>
 		<Date>2011-10-02</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2886,7 +2886,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111003Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2895,7 +2895,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111004Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2904,7 +2904,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111005Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2913,7 +2913,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111006Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2922,7 +2922,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111007Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2931,7 +2931,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111008Holiday">
+	<CalendarDate>
 		<Date>2011-10-08</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2940,7 +2940,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111009Holiday">
+	<CalendarDate>
 		<Date>2011-10-09</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -2949,7 +2949,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111010Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2958,7 +2958,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111011Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2967,7 +2967,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111012Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2976,7 +2976,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111013Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2985,7 +2985,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111014Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -2994,7 +2994,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111015Holiday">
+	<CalendarDate>
 		<Date>2011-10-15</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3003,7 +3003,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111016Holiday">
+	<CalendarDate>
 		<Date>2011-10-16</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3012,7 +3012,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111017Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3021,7 +3021,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111018Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3030,7 +3030,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111019Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3039,7 +3039,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111020Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3048,7 +3048,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111021Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3057,7 +3057,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111022Holiday">
+	<CalendarDate>
 		<Date>2011-10-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3066,7 +3066,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111023Holiday">
+	<CalendarDate>
 		<Date>2011-10-23</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3075,7 +3075,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111024Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3084,7 +3084,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111025Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3093,7 +3093,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111026Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3102,7 +3102,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111027Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3111,7 +3111,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111028Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3120,7 +3120,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111029Holiday">
+	<CalendarDate>
 		<Date>2011-10-29</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3129,7 +3129,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111030Holiday">
+	<CalendarDate>
 		<Date>2011-10-30</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3138,7 +3138,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111031Instructionalday">
+	<CalendarDate>
 		<Date>2011-10-31</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3147,7 +3147,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111101Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3156,7 +3156,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111102Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3165,7 +3165,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111103Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3174,7 +3174,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111104Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3183,7 +3183,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111105Holiday">
+	<CalendarDate>
 		<Date>2011-11-05</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3192,7 +3192,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111106Holiday">
+	<CalendarDate>
 		<Date>2011-11-06</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3201,7 +3201,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111107Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3210,7 +3210,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111108Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3219,7 +3219,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111109Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3228,7 +3228,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111110Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3237,7 +3237,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111111Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3246,7 +3246,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111112Holiday">
+	<CalendarDate>
 		<Date>2011-11-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3255,7 +3255,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111113Holiday">
+	<CalendarDate>
 		<Date>2011-11-13</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3264,7 +3264,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111114Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3273,7 +3273,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111115Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3282,7 +3282,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111116Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3291,7 +3291,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111117Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3300,7 +3300,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111118Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3309,7 +3309,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111119Holiday">
+	<CalendarDate>
 		<Date>2011-11-19</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3318,7 +3318,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111120Holiday">
+	<CalendarDate>
 		<Date>2011-11-20</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3327,7 +3327,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111121Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3336,7 +3336,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111122Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3345,7 +3345,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111123Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3354,7 +3354,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111124Holiday">
+	<CalendarDate>
 		<Date>2011-11-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3363,7 +3363,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111125Holiday">
+	<CalendarDate>
 		<Date>2011-11-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3372,7 +3372,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111126Holiday">
+	<CalendarDate>
 		<Date>2011-11-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3381,7 +3381,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111127Holiday">
+	<CalendarDate>
 		<Date>2011-11-27</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3390,7 +3390,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111128Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3399,7 +3399,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111129Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3408,7 +3408,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111130Instructionalday">
+	<CalendarDate>
 		<Date>2011-11-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3417,7 +3417,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111201Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3426,7 +3426,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111202Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3435,7 +3435,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111203Holiday">
+	<CalendarDate>
 		<Date>2011-12-03</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3444,7 +3444,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111204Holiday">
+	<CalendarDate>
 		<Date>2011-12-04</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3453,7 +3453,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111205Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3462,7 +3462,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111206Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3471,7 +3471,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111207Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3480,7 +3480,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111208Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3489,7 +3489,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111209Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3498,7 +3498,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111210Holiday">
+	<CalendarDate>
 		<Date>2011-12-10</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3507,7 +3507,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111211Holiday">
+	<CalendarDate>
 		<Date>2011-12-11</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3516,7 +3516,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111212Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3525,7 +3525,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111213Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3534,7 +3534,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111214Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3543,7 +3543,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111215Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3552,7 +3552,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111216Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3561,7 +3561,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111217Holiday">
+	<CalendarDate>
 		<Date>2011-12-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3570,7 +3570,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111218Holiday">
+	<CalendarDate>
 		<Date>2011-12-18</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3579,7 +3579,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111219Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3588,7 +3588,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111220Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3597,7 +3597,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111221Instructionalday">
+	<CalendarDate>
 		<Date>2011-12-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3606,7 +3606,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111222Holiday">
+	<CalendarDate>
 		<Date>2011-12-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3615,7 +3615,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111223Holiday">
+	<CalendarDate>
 		<Date>2011-12-23</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3624,7 +3624,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111224Holiday">
+	<CalendarDate>
 		<Date>2011-12-24</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3633,7 +3633,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111225Holiday">
+	<CalendarDate>
 		<Date>2011-12-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3642,7 +3642,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111226Holiday">
+	<CalendarDate>
 		<Date>2011-12-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3651,7 +3651,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111227Holiday">
+	<CalendarDate>
 		<Date>2011-12-27</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3660,7 +3660,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111228Holiday">
+	<CalendarDate>
 		<Date>2011-12-28</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3669,7 +3669,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111229Holiday">
+	<CalendarDate>
 		<Date>2011-12-29</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3678,7 +3678,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111230Holiday">
+	<CalendarDate>
 		<Date>2011-12-30</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3687,7 +3687,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20111231Holiday">
+	<CalendarDate>
 		<Date>2011-12-31</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3696,7 +3696,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120101Holiday">
+	<CalendarDate>
 		<Date>2012-01-01</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3705,7 +3705,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120102Holiday">
+	<CalendarDate>
 		<Date>2012-01-02</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3714,7 +3714,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120103Holiday">
+	<CalendarDate>
 		<Date>2012-01-03</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3723,7 +3723,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120104Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3732,7 +3732,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120105Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3741,7 +3741,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120106Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3750,7 +3750,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120107Holiday">
+	<CalendarDate>
 		<Date>2012-01-07</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3759,7 +3759,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120108Holiday">
+	<CalendarDate>
 		<Date>2012-01-08</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3768,7 +3768,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120109Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3777,7 +3777,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120110Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3786,7 +3786,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120111Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3795,7 +3795,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120112Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3804,7 +3804,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120113Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3813,7 +3813,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120114Holiday">
+	<CalendarDate>
 		<Date>2012-01-14</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3822,7 +3822,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120115Holiday">
+	<CalendarDate>
 		<Date>2012-01-15</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3831,7 +3831,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120116Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3840,7 +3840,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120117Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3849,7 +3849,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120118Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3858,7 +3858,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120119Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3867,7 +3867,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120120Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3876,7 +3876,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120121Holiday">
+	<CalendarDate>
 		<Date>2012-01-21</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3885,7 +3885,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120122Holiday">
+	<CalendarDate>
 		<Date>2012-01-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3894,7 +3894,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120123Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3903,7 +3903,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120124Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3912,7 +3912,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120125Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3921,7 +3921,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120126Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3930,7 +3930,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120127Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3939,7 +3939,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120128Holiday">
+	<CalendarDate>
 		<Date>2012-01-28</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3948,7 +3948,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120129Holiday">
+	<CalendarDate>
 		<Date>2012-01-29</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -3957,7 +3957,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120130Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3966,7 +3966,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120131Instructionalday">
+	<CalendarDate>
 		<Date>2012-01-31</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3975,7 +3975,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120201Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3984,7 +3984,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120202Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -3993,7 +3993,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120203Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4002,7 +4002,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120204Holiday">
+	<CalendarDate>
 		<Date>2012-02-04</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4011,7 +4011,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120205Holiday">
+	<CalendarDate>
 		<Date>2012-02-05</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4020,7 +4020,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120206Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4029,7 +4029,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120207Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4038,7 +4038,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120208Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4047,7 +4047,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120209Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4056,7 +4056,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120210Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4065,7 +4065,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120211Holiday">
+	<CalendarDate>
 		<Date>2012-02-11</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4074,7 +4074,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120212Holiday">
+	<CalendarDate>
 		<Date>2012-02-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4083,7 +4083,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120213Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4092,7 +4092,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120214Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4101,7 +4101,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120215Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4110,7 +4110,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120216Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4119,7 +4119,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120217Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4128,7 +4128,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120218Holiday">
+	<CalendarDate>
 		<Date>2012-02-18</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4137,7 +4137,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120219Holiday">
+	<CalendarDate>
 		<Date>2012-02-19</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4146,7 +4146,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120220Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4155,7 +4155,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120221Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4164,7 +4164,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120222Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4173,7 +4173,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120223Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4182,7 +4182,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120224Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4191,7 +4191,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120225Holiday">
+	<CalendarDate>
 		<Date>2012-02-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4200,7 +4200,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120226Holiday">
+	<CalendarDate>
 		<Date>2012-02-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4209,7 +4209,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120227Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4218,7 +4218,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120228Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4227,7 +4227,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120229Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4236,7 +4236,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120301Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4245,7 +4245,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120302Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4254,7 +4254,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120303Holiday">
+	<CalendarDate>
 		<Date>2012-03-03</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4263,7 +4263,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120304Holiday">
+	<CalendarDate>
 		<Date>2012-03-04</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4272,7 +4272,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120305Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4281,7 +4281,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120306Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4290,7 +4290,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120307Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4299,7 +4299,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120308Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4308,7 +4308,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120309Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4317,7 +4317,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120310Holiday">
+	<CalendarDate>
 		<Date>2012-03-10</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4326,7 +4326,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120311Holiday">
+	<CalendarDate>
 		<Date>2012-03-11</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4335,7 +4335,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120312Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4344,7 +4344,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120313Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4353,7 +4353,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120314Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4362,7 +4362,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120315Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4371,7 +4371,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120316Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4380,7 +4380,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120317Holiday">
+	<CalendarDate>
 		<Date>2012-03-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4389,7 +4389,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120318Holiday">
+	<CalendarDate>
 		<Date>2012-03-18</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4398,7 +4398,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120319Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4407,7 +4407,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120320Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4416,7 +4416,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120321Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4425,7 +4425,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120322Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4434,7 +4434,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120323Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4443,7 +4443,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120324Holiday">
+	<CalendarDate>
 		<Date>2012-03-24</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4452,7 +4452,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120325Holiday">
+	<CalendarDate>
 		<Date>2012-03-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4461,7 +4461,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120326Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4470,7 +4470,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120327Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4479,7 +4479,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120328Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-28</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4488,7 +4488,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120329Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-29</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4497,7 +4497,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120330Instructionalday">
+	<CalendarDate>
 		<Date>2012-03-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4506,7 +4506,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120331Holiday">
+	<CalendarDate>
 		<Date>2012-03-31</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4515,7 +4515,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120401Holiday">
+	<CalendarDate>
 		<Date>2012-04-01</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4524,7 +4524,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120402Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4533,7 +4533,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120403Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4542,7 +4542,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120404Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4551,7 +4551,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120405Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-05</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4560,7 +4560,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120406Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-06</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4569,7 +4569,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120407Holiday">
+	<CalendarDate>
 		<Date>2012-04-07</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4578,7 +4578,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120408Holiday">
+	<CalendarDate>
 		<Date>2012-04-08</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4587,7 +4587,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120409Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4596,7 +4596,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120410Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4605,7 +4605,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120411Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4614,7 +4614,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120412Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-12</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4623,7 +4623,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120413Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4632,7 +4632,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120414Holiday">
+	<CalendarDate>
 		<Date>2012-04-14</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4641,7 +4641,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120415Holiday">
+	<CalendarDate>
 		<Date>2012-04-15</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4650,7 +4650,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120416Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4659,7 +4659,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120417Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4668,7 +4668,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120418Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4677,7 +4677,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120419Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4686,7 +4686,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120420Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-20</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4695,7 +4695,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120421Holiday">
+	<CalendarDate>
 		<Date>2012-04-21</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4704,7 +4704,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120422Holiday">
+	<CalendarDate>
 		<Date>2012-04-22</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4713,7 +4713,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120423Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4722,7 +4722,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120424Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4731,7 +4731,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120425Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4740,7 +4740,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120426Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-26</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4749,7 +4749,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120427Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4758,7 +4758,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120428Holiday">
+	<CalendarDate>
 		<Date>2012-04-28</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4767,7 +4767,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120429Holiday">
+	<CalendarDate>
 		<Date>2012-04-29</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4776,7 +4776,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120430Instructionalday">
+	<CalendarDate>
 		<Date>2012-04-30</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4785,7 +4785,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120501Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-01</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4794,7 +4794,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120502Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4803,7 +4803,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120503Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-03</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4812,7 +4812,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120504Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-04</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4821,7 +4821,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120505Holiday">
+	<CalendarDate>
 		<Date>2012-05-05</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4830,7 +4830,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120506Holiday">
+	<CalendarDate>
 		<Date>2012-05-06</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4839,7 +4839,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120507Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-07</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4848,7 +4848,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120508Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-08</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4857,7 +4857,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120509Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4866,7 +4866,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120510Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-10</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4875,7 +4875,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120511Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-11</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4884,7 +4884,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120512Holiday">
+	<CalendarDate>
 		<Date>2012-05-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4893,7 +4893,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120513Holiday">
+	<CalendarDate>
 		<Date>2012-05-13</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4902,7 +4902,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120514Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-14</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4911,7 +4911,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120515Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4920,7 +4920,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120516Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-16</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4929,7 +4929,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120517Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-17</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4938,7 +4938,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120518Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4947,7 +4947,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120519Holiday">
+	<CalendarDate>
 		<Date>2012-05-19</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4956,7 +4956,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120520Holiday">
+	<CalendarDate>
 		<Date>2012-05-20</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -4965,7 +4965,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120521Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-21</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4974,7 +4974,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120522Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4983,7 +4983,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120523Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -4992,7 +4992,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120524Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -5001,7 +5001,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120525Instructionalday">
+	<CalendarDate>
 		<Date>2012-05-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>

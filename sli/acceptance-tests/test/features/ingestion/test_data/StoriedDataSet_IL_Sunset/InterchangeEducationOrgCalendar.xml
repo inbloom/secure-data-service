@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-    <CalendarDate id="CLND_20110922Instructionalday">
+    <CalendarDate>
         <Date>2011-09-22</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
         <EducationOrgReference>
@@ -10,7 +10,7 @@
 			</EducationalOrgIdentity>
         </EducationOrgReference>
     </CalendarDate>
-    <GradingPeriod id="GP_1_SCHS">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
         <EducationOrganizationReference>
@@ -21,7 +21,7 @@
         <BeginDate>2011-09-01</BeginDate>
         <EndDate>2011-12-01</EndDate>
         <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20110922Instructionalday"/>
+        <CalendarDateReference/>
     </GradingPeriod>
     <Session>
         <SessionName>Fall 2011 Sunset Central High School</SessionName>

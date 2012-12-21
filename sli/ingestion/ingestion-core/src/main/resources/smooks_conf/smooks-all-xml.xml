@@ -1419,7 +1419,6 @@
   <jb:bean beanId="ObjectiveAssessmentReferenceType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference">
     <jb:value property="id" data="ObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
-    <jb:value property="ref" data="ObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
   </jb:bean>
 
   <!-- AssessmentPerformanceLevelsType -->
@@ -1568,7 +1567,6 @@
 
   <jb:bean beanId="assessmentPeriodType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
     <jb:value property="id" data="Assessment/AssessmentPeriod/@id" />
-    <jb:value property="ref" data="Assessment/AssessmentPeriod/@ref" />
     <jb:wiring property="codeValues" beanIdRef="codeValueChoiceArray" />
     <jb:wiring property="shortDescriptions" beanIdRef="shortDescriptionChoiceArray" />
     <jb:wiring property="descriptions" beanIdRef="descriptionChoiceArray" />
@@ -1591,7 +1589,6 @@
   <jb:bean beanId="objectiveAssessmentReferenceType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/Assessment/ObjectiveAssessmentReference">
     <jb:value property="id" data="ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
-    <jb:value property="ref" data="ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
   </jb:bean>
 
   <jb:bean beanId="assessmentFamilyReferenceType" class="java.util.HashMap"
@@ -1607,7 +1604,6 @@
   </jb:bean>
   <jb:bean beanId="sectionReferenceType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment/SectionReference">
     <jb:value property="id" data="SectionReference/@id" />
-    <jb:value property="ref" data="SectionReference/@ref" />
     <jb:wiring property="sectionIdentity" beanIdRef="sectionIdentityType" />
   </jb:bean>
   <jb:bean beanId="sectionIdentityType" class="java.util.HashMap"
@@ -1772,7 +1768,6 @@
   <jb:bean beanId="AssessmentFamily_AssessmentPeriodType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods">
     <jb:value property="id" data="AssessmentFamily/AssessmentPeriods/@id" />
-    <jb:value property="ref" data="AssessmentFamily/AssessmentPeriods/@ref" />
     <jb:wiring property="CodeValues" beanIdRef="AssessmentFamily_CodeValueChoiceArray" />
     <jb:wiring property="ShortDescriptions" beanIdRef="AssessmentFamily_ShortDescriptionChoiceArray" />
     <jb:wiring property="Descriptions" beanIdRef="AssessmentFamily_DescriptionChoiceArray" />
@@ -1946,7 +1941,6 @@
 
   <jb:bean beanId="studentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:value property="id" data="InterchangeStudentAssessment/StudentAssessment/StudentReference/@id" />
-    <jb:value property="ref" data="InterchangeStudentAssessment/StudentAssessment/StudentReference/@ref" />
     <jb:wiring property="StudentIdentity" beanIdRef="studentIdentityType" />
   </jb:bean>
   <jb:bean beanId="studentIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference">
@@ -2023,7 +2017,6 @@
 
   <jb:bean beanId="assessmentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:value property="id" data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/@id" />
-    <jb:value property="ref" data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/@ref" />
     <jb:wiring property="AssessmentIdentity" beanIdRef="assessmentIdentityType" />
   </jb:bean>
   <jb:bean beanId="assessmentIdentityType" class="java.util.HashMap"
