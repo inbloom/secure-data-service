@@ -55,10 +55,6 @@ public abstract class RetryMongoCommand {
         while (retryCounter++ < noOfRetries) {
             try {
                 return execute();
-            } catch (DuplicateKey ex) {
-                //we are not retrying on this exception
-                throw ex;
-
             } catch (MongoException ex) {
                 handleException(retryCounter, noOfRetries, ex);
 

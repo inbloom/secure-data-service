@@ -91,7 +91,7 @@ public class MongoQueryConverter {
             try {
                 idList = (Collection<String>) rawValues;
             } catch (ClassCastException cce) {
-                throw new RuntimeException("IDs must be List<String>");
+                throw new RuntimeException("IDs must be List<String>", cce);
             }
 
         } else if (rawValues instanceof String) {
@@ -166,7 +166,7 @@ public class MongoQueryConverter {
                              return Criteria.where(prefixKey(neutralCriteria)).in((Collection<Object>) neutralCriteria.getValue());
                          }
                      } catch (ClassCastException cce) {
-                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString(), cce);
                      }
                  }
              }
@@ -184,7 +184,7 @@ public class MongoQueryConverter {
                     try {
                         return Criteria.where(prefixKey(neutralCriteria)).nin(neutralCriteria.getValue());
                     } catch (ClassCastException cce) {
-                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString(), cce);
                     }
                 }
             }
@@ -541,16 +541,17 @@ public class MongoQueryConverter {
     }
 
     private NeutralSchema getFieldSchema(NeutralSchema schema, String dottedField) {
+    	NeutralSchema tempSchema = schema;
         for (String field : dottedField.split("\\.")) {
-            schema = this.getNestedSchema(schema, field);
-            if (schema != null) {
-                LOG.debug("nested schema type is {}", schema.getSchemaType());
+            tempSchema = this.getNestedSchema(schema, field);
+            if (tempSchema != null) {
+                LOG.debug("nested schema type is {}", tempSchema.getSchemaType());
             } else {
                 LOG.debug("nested schema type is {}", "NULL");
             }
         }
 
-        return schema;
+        return tempSchema;
     }
 
 }
