@@ -5,8 +5,10 @@ Feature: User requests for a developer account in production or sandbox environm
 Background:
   Given I have an open web browser
 
-Scenario: As an app developer I request a production account and  I want to verify my registration email
+Scenario: As an app developer I request a sandbox account and I want to verify my registration email
   And I go to the account registration page
+  Then I am redirected to the developer get-started page
+  Then I go to the mini sandbox account registration page
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
   And I fill out the field "Vendor" as "WGEN RC"
