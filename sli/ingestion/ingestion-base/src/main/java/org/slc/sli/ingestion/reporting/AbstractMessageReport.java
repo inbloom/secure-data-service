@@ -16,8 +16,6 @@
 
 package org.slc.sli.ingestion.reporting;
 
-import java.util.List;
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
@@ -36,6 +34,78 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * reportStats. Will also log the error message if the implementation supports logging.
      *
      * @param reportStats
+     *            statistics state
+     * @param source
+     *            source where the error is from
+     * @param code
+     *            message defined by a code
+     * @param args
+     *            additional arguments for the message
+     * @throws NullPointerException
+     *             if reportStats is <code>null</code>
+     */
+    public void error(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        if (reportStats == null || source == null) {
+            throw new NullPointerException();
+        }
+
+        reportStats.incError();
+
+        reportError(reportStats, source, code, args);
+    }
+
+    /**
+     * Reports an message as a warning and updates the wider-scope warning state in the provided
+     * reportStats. Will also log the warning message if the implementation supports logging.
+     *
+     * @param reportStats
+     *            statistics state
+     * @param source
+     *            source where the warning is from
+     * @param code
+     *            message defined by a code
+     * @param args
+     *            additional arguments for the message
+     * @throws NullPointerException
+     *             if reportStats is <code>null</code>
+     */
+    public void warning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        if (reportStats == null) {
+            throw new NullPointerException();
+        }
+
+        reportStats.incWarning();
+
+        reportWarning(reportStats, source, code, args);
+    }
+
+    /**
+     * Reports an message as a info
+     *
+     * @param reportStats
+     *            statistics state
+     * @param source
+     *            source where the info is from
+     * @param code
+     *            message defined by a code
+     * @param args
+     *            additional arguments for the message
+     * @throws NullPointerException
+     *             if reportStats is <code>null</code>
+     */
+    public void info(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        if (reportStats == null) {
+            throw new NullPointerException();
+        }
+
+        reportInfo(reportStats, source, code, args);
+    }
+
+    /**
+     * Reports an message as an error and updates the wider-scope error state in the provided
+     * reportStats. Will also log the error message if the implementation supports logging.
+     *
+     * @param reportStats
      *            statistics state and source
      * @param code
      *            message defined by a code
@@ -45,13 +115,14 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *             if reportStats is <code>null</code>
      */
     public void error(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        // TODO: this method should be removed and its current usage should be refactored
         if (reportStats == null) {
             throw new NullPointerException();
         }
 
         reportStats.incError();
 
-        reportError(reportStats, code, args);
+        reportError(reportStats, null, code, args);
     }
 
     /**
@@ -68,13 +139,14 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *             if reportStats is <code>null</code>
      */
     public void warning(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        // TODO: this method should be removed and its current usage should be refactored
         if (reportStats == null) {
             throw new NullPointerException();
         }
 
         reportStats.incWarning();
 
-        reportWarning(reportStats, code, args);
+        reportWarning(reportStats, null, code, args);
     }
 
     /**
@@ -90,41 +162,38 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *             if reportStats is <code>null</code>
      */
     public void info(AbstractReportStats reportStats, MessageCode code, Object... args) {
+        // TODO: this method should be removed and its current usage should be refactored
         if (reportStats == null) {
             throw new NullPointerException();
         }
 
-        reportInfo(reportStats, code, args);
+        reportInfo(reportStats, null, code, args);
     }
 
     /**
      * Look up the corresponding message for a MessageCode.
      *
      * @param reportStats
+     * @param source
      * @param code
      * @param args
      * @return Message String mapped to the provided MessageCode, if one exists, with any args
      *         provided substituted in. If no message is mapped for this code, return #?CODE?# were
      *         CODE is the MessageCode provided.
      */
-    protected String getMessage(AbstractReportStats reportStats, MessageCode code, Object... args) {
+    protected String getMessage(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         String msg = messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
-        Source source = reportStats.getSource();
-        if (source != null) {
-            List<ElementLocationInfo> locationInfoList = source.getElementLocationInfo();
-            for (ElementLocationInfo info : locationInfoList) {
-                // TO DO: append location info on msg
-            }
-            locationInfoList.clear(); // must clear the list so that it won't overlap with the next message
-        }
+        // TODO:
+        //String sourceMsg = source.getUserFriendlyMessage(); valid after refactoring when source!=null
+        // TODO: format msg, sourceMsg and code into final message
         return msg;
     }
 
-    protected abstract void reportError(AbstractReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args);
 
-    protected abstract void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args);
 
-    protected abstract void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

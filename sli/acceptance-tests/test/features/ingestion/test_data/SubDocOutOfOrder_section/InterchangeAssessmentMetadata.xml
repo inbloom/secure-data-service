@@ -2,7 +2,7 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 	
-	<LearningObjective id="LO_1">
+	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective1</IdentificationCode>
 		</LearningObjectiveId>
@@ -13,7 +13,7 @@
 		<LearningStandardReference />
 		<LearningObjectiveReference />
 	</LearningObjective>
-	<LearningObjective id="LO_2">
+	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective2</IdentificationCode>
 		</LearningObjectiveId>
@@ -24,7 +24,7 @@
 		<LearningStandardReference />
 		<LearningObjectiveReference />
 	</LearningObjective>
-	<LearningObjective id="LO_3">
+	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective3</IdentificationCode>
 		</LearningObjectiveId>
@@ -32,10 +32,10 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
-		<LearningStandardReference id="LS_1" />
+		<LearningStandardReference />
 		<LearningObjectiveReference />
 	</LearningObjective>
-	<LearningObjective id="LO_4">
+	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective4</IdentificationCode>
 		</LearningObjectiveId>
@@ -46,7 +46,7 @@
 		<LearningStandardReference />
 		<LearningObjectiveReference />
 	</LearningObjective>
-	<LearningObjective id="LO_5">
+	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective5</IdentificationCode>
 		</LearningObjectiveId>
@@ -58,7 +58,7 @@
 		<LearningObjectiveReference />
 	</LearningObjective>
 
-	<LearningStandard id="LS_1">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>Standard1</IdentificationCode>
 		</LearningStandardId>
@@ -67,7 +67,7 @@
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
-	<LearningStandard id="LS_2">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>Standard2</IdentificationCode>
 		</LearningStandardId>
@@ -76,7 +76,7 @@
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
-	<LearningStandard id="LS_3">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>Standard3</IdentificationCode>
 		</LearningStandardId>
@@ -85,7 +85,7 @@
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
-	<LearningStandard id="LS_4">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>Standard4</IdentificationCode>
 		</LearningStandardId>
@@ -94,7 +94,7 @@
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
-	<LearningStandard id="LS_5">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>Standard5</IdentificationCode>
 		</LearningStandardId>
@@ -103,7 +103,7 @@
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
-	<LearningStandard id="LS_6">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>Standard6</IdentificationCode>
 		</LearningStandardId>

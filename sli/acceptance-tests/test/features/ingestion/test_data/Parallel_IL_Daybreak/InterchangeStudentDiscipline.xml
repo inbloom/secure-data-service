@@ -73,7 +73,7 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </DisciplineDescriptor>
-    <DisciplineIncident id="whack-a-mole">
+    <DisciplineIncident>
         <IncidentIdentifier>Whack-a-mole</IncidentIdentifier>
         <IncidentDate>2011-02-01</IncidentDate>
         <IncidentTime>15:23:02</IncidentTime>
@@ -98,7 +98,7 @@
             </StaffIdentity>
         </StaffReference>
     </DisciplineIncident>
-    <DisciplineIncident id="waterboard">
+    <DisciplineIncident>
         <IncidentIdentifier>Underwater cruise</IncidentIdentifier>
         <IncidentDate>2011-09-06</IncidentDate>
         <IncidentTime>10:22:00</IncidentTime>

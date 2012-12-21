@@ -17,7 +17,6 @@
 
 package org.slc.sli.ingestion.reporting;
 
-import java.util.List;
 
 /**
  * Represents a source of the report.
@@ -33,9 +32,5 @@ public interface Source {
 
     String getStageName();
 
-    void addElementLocationInfo(ElementLocationInfo info);
-
-    List<ElementLocationInfo> getElementLocationInfo();
-
-    void clearElementLocationInfo();
+    String getUserFriendlyMessage();
 }

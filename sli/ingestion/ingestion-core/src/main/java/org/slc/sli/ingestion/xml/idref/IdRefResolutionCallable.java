@@ -29,8 +29,8 @@ import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
 
 /**
@@ -69,7 +69,7 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
         this.job = job;
         this.report = report;
 
-        Source source = new SimpleSource(job.getId(), fileEntry.getFileName(),
+        Source source = new JobSource(job.getId(), fileEntry.getFileName(),
                 BatchJobStageType.XML_FILE_PROCESSOR.getName());
         this.reportStats = new SimpleReportStats(source);
     }

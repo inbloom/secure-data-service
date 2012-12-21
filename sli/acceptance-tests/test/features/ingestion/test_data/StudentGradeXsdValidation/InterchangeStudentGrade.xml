@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
     <!-- GradebookEntry objects for rbraverman's class -->
-    <GradebookEntry id="GBE-1st_Grade-1">
+    <GradebookEntry>
         <GradebookEntryType>Assignment</GradebookEntryType>
         <DateAssigned>2011-09-15</DateAssigned>
         <SectionReference>
