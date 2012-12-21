@@ -25,6 +25,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -42,15 +52,6 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -89,7 +90,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Autowired
     protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
-    
+
     @Override
     public void afterPropertiesSet() {
         setWriteConcern(writeConcern);
@@ -228,18 +229,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         return internalCreate(type, null, body, metaData, collectionName);
     }
-    
+
 
     /*
      * This method should be private, but is used via mockito in the tests, thus
      * it's public. (S. Altmueller)
      */
-    Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+    protected Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> origMetaData,
             String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
-        if (metaData == null) {
-            metaData = new HashMap<String, Object>();
-        }
+        Map<String, Object> metaData = origMetaData == null ? new HashMap<String, Object>() : origMetaData;
 
         if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
@@ -287,7 +286,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         for (Entity entity : records) {
             this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
         }
-        
+
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).insert(records);
 
@@ -391,7 +390,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
     }
-    
+
     @Override
     public boolean updateWithoutValidatingNaturalKeys(String collection, Entity entity) {
         return this.update(collection, entity, false);
@@ -407,7 +406,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             validator.validateNaturalKeys(entity, true);
         }
         validator.validate(entity);
-        
+
         this.updateTimestamp(entity);
 
         if (denormalizer.isDenormalizedDoc(collection)) {
@@ -451,12 +450,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
-            if (neutralQuery == null) {
-                neutralQuery = new NeutralQuery();
-            }
-            neutralQuery.setIncludeFieldString("_id");
-            addDefaultQueryParams(neutralQuery, collectionName);
-            Query q = getQueryConverter().convert(collectionName, neutralQuery);
+        	NeutralQuery subDocNeutralQuery = neutralQuery == null ? new NeutralQuery() : neutralQuery;
+        	subDocNeutralQuery.setIncludeFieldString("_id");
+            addDefaultQueryParams(subDocNeutralQuery, collectionName);
+            Query q = getQueryConverter().convert(collectionName, subDocNeutralQuery);
 
             List<String> ids = new LinkedList<String>();
             for (Entity e : subDocs.subDoc(collectionName).findAll(q)) {
@@ -533,11 +530,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     @Deprecated
     @MigrateEntityCollection
-    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
-
-        if (query == null) {
-            query = new Query();
-        }
+    public Iterable<Entity> findByQuery(String collectionName, Query origQuery, int skip, int max) {
+    	Query query = origQuery == null ? new Query() : origQuery;
 
         query.skip(skip).limit(max);
 
