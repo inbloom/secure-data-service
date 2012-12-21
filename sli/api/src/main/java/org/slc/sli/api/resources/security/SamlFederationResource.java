@@ -285,7 +285,6 @@ public class SamlFederationResource {
             principal.setName(userName);
         } else {
             if (isAdminRealm || isDevRealm) {
-                debug("set principal names to {}", new Object[]{attributes.getFirst("givenName"), attributes.getFirst("sn"), attributes.getFirst("vendor")});
                 principal.setFirstName(attributes.getFirst("givenName"));
                 principal.setLastName(attributes.getFirst("sn"));
                 principal.setVendor(attributes.getFirst("vendor"));
