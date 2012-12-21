@@ -14,7 +14,7 @@ ingestion_db_port: 27018
 ingestion_database_name: "sli"
 ingestion_batchjob_db: "localhost"
 ingestion_batchjob_database_name: "ingestion_batch_job"
-ingestion_batchjob_db_port: 27018
+ingestion_batchjob_db_port: 27019
 lz_server_url: "sulu-lz.slidev.org"
 lz_sftp_port: "443"
 ingestion_server_url: "devpantheon.slidev.org"
@@ -119,7 +119,7 @@ tenant: RCTestTenant
 edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
-ci_idp_redirect_url: https://sulu-sidp.slidev.org/sliidp?realm=IL-Daybreak
+ci_idp_redirect_url: https://sulu-sidp.slidev.org/sliidp?realm=RCTestTenant
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com

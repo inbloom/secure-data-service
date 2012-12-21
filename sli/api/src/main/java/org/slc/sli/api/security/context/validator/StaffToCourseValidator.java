@@ -16,12 +16,14 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Resolves which course(s) any given staff can access.
@@ -43,6 +45,14 @@ public class StaffToCourseValidator extends AbstractContextValidator {
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
         nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, lineage));
-        return getRepo().count(EntityNames.COURSE, nq) == ids.size();
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE, nq);
+
+        Set<String> validIds = new HashSet<String>();
+        for (Entity entity : entities) {
+            validIds.add(entity.getEntityId());
+        }
+
+        return validIds.containsAll(ids);
+
     }
 }

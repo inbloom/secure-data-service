@@ -90,16 +90,16 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <CompetencyLevels id="CL-G1-1">
+    <CompetencyLevels>
       <Description>Express complete thoughts.</Description>
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-2">
+    <CompetencyLevels>
       <Description>Write multiple sentences about the same topic.</Description>
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-3">
+    <CompetencyLevels>
       <Description>Add on to writing in response to questions.</Description>
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-4">
+    <CompetencyLevels>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
     <UniqueCourseId>1st-Grade-Homeroom-1</UniqueCourseId>

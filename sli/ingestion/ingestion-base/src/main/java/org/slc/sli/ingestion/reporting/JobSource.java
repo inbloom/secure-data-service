@@ -16,19 +16,19 @@
 
 package org.slc.sli.ingestion.reporting;
 
+
 /**
  *
  * @author npandey
  *
  */
-
-public class SimpleSource implements Source {
+public class JobSource implements Source {
 
     private String batchJobId;
     private String resourceId;
     private String stageName;
 
-    public SimpleSource(String batchJobId, String resourceId, String stageName) {
+    public JobSource(String batchJobId, String resourceId, String stageName) {
         this.batchJobId = batchJobId;
         this.resourceId = resourceId;
         this.stageName = stageName;
@@ -47,6 +47,11 @@ public class SimpleSource implements Source {
     @Override
     public String getStageName() {
         return stageName;
+    }
+
+    @Override
+    public String getUserFriendlyMessage() {
+        return "";
     }
 
 }

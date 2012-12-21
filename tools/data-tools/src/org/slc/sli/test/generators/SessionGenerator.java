@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.generators;
 
 import java.text.SimpleDateFormat;
@@ -67,14 +66,14 @@ public class SessionGenerator {
         // System.out.println("this is school year Type :" +
         // gpit.getSchoolYear());
 
-//        SLCEducationalOrgIdentityType eoit2 = new SLCEducationalOrgIdentityType();
-//        for (String stateOrgId : stateOrgIds) {
-//            eoit2.setStateOrganizationId(stateOrgId);
-//        }
-//        SLCEducationalOrgReferenceType eort2 = new SLCEducationalOrgReferenceType();
-//        eort.setEducationalOrgIdentity(eoit2);
-//        gpit.setEducationalOrgReference(eort2);
-//        // System.out.println("this is state org Id :" +
+        // SLCEducationalOrgIdentityType eoit2 = new SLCEducationalOrgIdentityType();
+        // for (String stateOrgId : stateOrgIds) {
+        // eoit2.setStateOrganizationId(stateOrgId);
+        // }
+        // SLCEducationalOrgReferenceType eort2 = new SLCEducationalOrgReferenceType();
+        // eort.setEducationalOrgIdentity(eoit2);
+        // gpit.setEducationalOrgReference(eort2);
+        // // System.out.println("this is state org Id :" +
         // gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().get(0)
         // );
         // System.out.println("this is state org Id :" +
@@ -121,38 +120,37 @@ public class SessionGenerator {
         }
     }
 
-    public static SLCSession generateLowFi(String id, String schoolId, List<String> calendarList, List<Integer> gradingPeriodNums) {
+    public static SLCSession generateLowFi(String id, String schoolId, List<String> calendarList,
+            List<Integer> gradingPeriodNums) {
         SLCSession session = new SLCSession();
         Random random = new Random(31);
-        int roll = 1;//random.nextInt(30) + 1;
+        int roll = 1;// random.nextInt(30) + 1;
         session.setSessionName(id);
         session.setSchoolYear("2011-2012");
         session.setTerm(TermType.SPRING_SEMESTER);
-        String finalRoll = "0" ;
-//        if (roll < 10 ) {
-//        	finalRoll = finalRoll + roll;
-//            session.setBeginDate("2012-01-" + finalRoll );
-//        }
-//        else
-//        	session.setBeginDate("2012-01-" + roll );
-//
-//        if (roll < 10 ) {
-//            session.setEndDate("2012-06-" + finalRoll );
-//        }
-//        else
-//        	session.setEndDate("2012-06-" + + roll);
+        String finalRoll = "0";
+        // if (roll < 10 ) {
+        // finalRoll = finalRoll + roll;
+        // session.setBeginDate("2012-01-" + finalRoll );
+        // }
+        // else
+        // session.setBeginDate("2012-01-" + roll );
+        //
+        // if (roll < 10 ) {
+        // session.setEndDate("2012-06-" + finalRoll );
+        // }
+        // else
+        // session.setEndDate("2012-06-" + + roll);
 
-        //lina
+        // lina
         session.setBeginDate("2012-01-01");
         session.setEndDate("2012-12-31");
 
-
-//        session.setBeginDate("2012-01-01");
-//        session.setEndDate("2012-06-21");
+        // session.setBeginDate("2012-01-01");
+        // session.setEndDate("2012-06-21");
         session.setTotalInstructionalDays(120);
 
-
-        //session.getGradingPeriodReference().add(new GradingPeriodReferenceType());
+        // session.getGradingPeriodReference().add(new GradingPeriodReferenceType());
 
         // construct and add the school reference
         SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
@@ -161,33 +159,27 @@ public class SessionGenerator {
         SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
 
-        //should really have gradingPeriod meta data to build this up from
-        //restrict grading periods so that refs are unique
+        // should really have gradingPeriod meta data to build this up from
+        // restrict grading periods so that refs are unique
 
         for (Integer gradingPeriodNum : gradingPeriodNums) {
-            if (MetaRelations.Session_Ref) {
-                // id refs are no longer supported
-//                Ref gpRef = new Ref(calendarList.get(0) + "-" + gradingPeriodNum.intValue());
-//                SLCGradingPeriodReferenceType gprt = new SLCGradingPeriodReferenceType();
-//                gprt.setRef(gpRef);
-//                session.getGradingPeriodReference().add(gprt);
-            } else {
-                SLCGradingPeriodIdentityType gpit = new SLCGradingPeriodIdentityType();
 
-                SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
-                eoit.setStateOrganizationId(schoolId);
-                SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
-                eort.setEducationalOrgIdentity(eoit);
-                gpit.setEducationalOrgReference(eort);
+            SLCGradingPeriodIdentityType gpit = new SLCGradingPeriodIdentityType();
 
-                gpit.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
-                gpit.setBeginDate("2011-03-04");
+            SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+            eoit.setStateOrganizationId(schoolId);
+            SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
+            eort.setEducationalOrgIdentity(eoit);
+            gpit.setEducationalOrgReference(eort);
 
-                SLCGradingPeriodReferenceType gprt = new SLCGradingPeriodReferenceType();
-                gprt.setGradingPeriodIdentity(gpit);
-                //gprt.setBeginDate("2012-09-01");
-                session.getGradingPeriodReference().add(gprt);
-            }
+            gpit.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
+            gpit.setBeginDate("2011-03-04");
+
+            SLCGradingPeriodReferenceType gprt = new SLCGradingPeriodReferenceType();
+            gprt.setGradingPeriodIdentity(gpit);
+            // gprt.setBeginDate("2012-09-01");
+            session.getGradingPeriodReference().add(gprt);
+
         }
 
         session.setEducationOrganizationReference(schoolRef);
@@ -199,56 +191,21 @@ public class SessionGenerator {
         SessionGenerator sg = new SessionGenerator();
 
         SLCSession s = sg.sessionGenerator("100200200");
-        String sessionString = "\n\n" + " 1" + ".\n" + "sessionName : "
-                + s.getSessionName()
-                + ",\n"
-                + "schoolYear : "
-                + s.getSchoolYear()
-                + ",\n"
-                + "totalInstructionDays : "
-                + s.getTotalInstructionalDays()
-                + ",\n"
-                + "startDate : "
-                + s.getBeginDate()
-                + ",\n"
-                + "endDate : "
-                + s.getEndDate()
-                + ",\n"
-                + "term : "
-                + s.getTerm()
-                + ",\n"
-                + "getGradingPeriodReference : "
-                + s.getGradingPeriodReference().size()
-                + ",\n"
+        String sessionString = "\n\n" + " 1" + ".\n" + "sessionName : " + s.getSessionName() + ",\n" + "schoolYear : "
+                + s.getSchoolYear() + ",\n" + "totalInstructionDays : " + s.getTotalInstructionalDays() + ",\n"
+                + "startDate : " + s.getBeginDate() + ",\n" + "endDate : " + s.getEndDate() + ",\n" + "term : "
+                + s.getTerm() + ",\n" + "getGradingPeriodReference : " + s.getGradingPeriodReference().size() + ",\n"
                 + "getEducationalOrgIdentity : "
-                + s.getEducationOrganizationReference().getEducationalOrgIdentity().
-                getStateOrganizationId();
+                + s.getEducationOrganizationReference().getEducationalOrgIdentity().getStateOrganizationId();
         System.out.println(sessionString + ",\n");
 
         SLCSession s1 = sg.sessionGenerator("400200200");
 
-        String sessionString1 = "\n\n" + " 2" + ".\n" + "sessionName : "
-                + s1.getSessionName()
-                + ",\n"
-                + "schoolYear : "
-                + s1.getSchoolYear()
-                + ",\n"
-                + "totalInstructionDays : "
-                + s1.getTotalInstructionalDays()
-                + ",\n"
-                + "startDate : "
-                + s1.getBeginDate()
-                + ",\n"
-                + "endDate : "
-                + s1.getEndDate()
-                + ",\n"
-                + "term : "
-                + s1.getTerm()
-                + ",\n"
-                + "getGradingPeriodReference : "
-                + s1.getGradingPeriodReference().size()
-                + ",\n"
-                + "getEducationalOrgIdentity : "
+        String sessionString1 = "\n\n" + " 2" + ".\n" + "sessionName : " + s1.getSessionName() + ",\n"
+                + "schoolYear : " + s1.getSchoolYear() + ",\n" + "totalInstructionDays : "
+                + s1.getTotalInstructionalDays() + ",\n" + "startDate : " + s1.getBeginDate() + ",\n" + "endDate : "
+                + s1.getEndDate() + ",\n" + "term : " + s1.getTerm() + ",\n" + "getGradingPeriodReference : "
+                + s1.getGradingPeriodReference().size() + ",\n" + "getEducationalOrgIdentity : "
                 + s1.getEducationOrganizationReference().getEducationalOrgIdentity().getStateOrganizationId();
         System.out.println(sessionString1);
 
@@ -270,12 +227,8 @@ public class SessionGenerator {
         return ref;
     }
 
-    public static SLCSessionReferenceType getSessionReferenceType(
-            String stateOrganizationId,
-            String sessionName
-    )
-    {
-        SLCSessionReferenceType  ref = new SLCSessionReferenceType();
+    public static SLCSessionReferenceType getSessionReferenceType(String stateOrganizationId, String sessionName) {
+        SLCSessionReferenceType ref = new SLCSessionReferenceType();
         SLCSessionIdentityType sessionIdentity = new SLCSessionIdentityType();
         ref.setSessionIdentity(sessionIdentity);
 
@@ -284,7 +237,8 @@ public class SessionGenerator {
             sessionIdentity.setEducationalOrgReference(edOrgRef);
         }
 
-        if(sessionName != null) sessionIdentity.setSessionName(sessionName);
+        if (sessionName != null)
+            sessionIdentity.setSessionName(sessionName);
         return ref;
     }
 

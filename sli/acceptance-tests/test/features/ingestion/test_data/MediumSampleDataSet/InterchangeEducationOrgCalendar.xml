@@ -550,7 +550,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</Session>
-	<GradingPeriod id="CAP0-D0-HSch0-ses0-0-0">
+	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -572,7 +572,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch0-ses0-0-1">
+	<GradingPeriod>
 		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -594,7 +594,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch0-ses0-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -616,7 +616,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch0-ses0-1-1">
+	<GradingPeriod>
 		<GradingPeriod>First Semester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -638,7 +638,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch0-ses1-0-0">
+	<GradingPeriod>
 		<GradingPeriod>First Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -660,7 +660,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch0-ses1-0-1">
+	<GradingPeriod>
 		<GradingPeriod>First Summer Session</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -682,7 +682,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch0-ses1-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Trimester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -704,7 +704,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch0-ses1-1-1">
+	<GradingPeriod>
 		<GradingPeriod>Fourth Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -726,7 +726,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses0-0-0">
+	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -748,7 +748,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses0-0-1">
+	<GradingPeriod>
 		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -770,7 +770,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses0-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -792,7 +792,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses0-1-1">
+	<GradingPeriod>
 		<GradingPeriod>First Semester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -814,7 +814,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses1-0-0">
+	<GradingPeriod>
 		<GradingPeriod>First Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -836,7 +836,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses1-0-1">
+	<GradingPeriod>
 		<GradingPeriod>First Summer Session</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -858,7 +858,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses1-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Trimester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -880,7 +880,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch1-ses1-1-1">
+	<GradingPeriod>
 		<GradingPeriod>Fourth Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -902,7 +902,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses0-0-0">
+	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -924,7 +924,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses0-0-1">
+	<GradingPeriod>
 		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -946,7 +946,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses0-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -968,7 +968,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses0-1-1">
+	<GradingPeriod>
 		<GradingPeriod>First Semester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -990,7 +990,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses1-0-0">
+	<GradingPeriod>
 		<GradingPeriod>First Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1012,7 +1012,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses1-0-1">
+	<GradingPeriod>
 		<GradingPeriod>First Summer Session</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1034,7 +1034,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses1-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Trimester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1056,7 +1056,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch2-ses1-1-1">
+	<GradingPeriod>
 		<GradingPeriod>Fourth Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1078,7 +1078,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses0-0-0">
+	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1100,7 +1100,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses0-0-1">
+	<GradingPeriod>
 		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1122,7 +1122,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses0-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1144,7 +1144,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses0-1-1">
+	<GradingPeriod>
 		<GradingPeriod>First Semester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1166,7 +1166,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses1-0-0">
+	<GradingPeriod>
 		<GradingPeriod>First Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1188,7 +1188,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses1-0-1">
+	<GradingPeriod>
 		<GradingPeriod>First Summer Session</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1210,7 +1210,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses1-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Trimester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1232,7 +1232,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch3-ses1-1-1">
+	<GradingPeriod>
 		<GradingPeriod>Fourth Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1254,7 +1254,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses0-0-0">
+	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1276,7 +1276,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses0-0-1">
+	<GradingPeriod>
 		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1298,7 +1298,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses0-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1320,7 +1320,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses0-1-1">
+	<GradingPeriod>
 		<GradingPeriod>First Semester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1342,7 +1342,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses1-0-0">
+	<GradingPeriod>
 		<GradingPeriod>First Six Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1364,7 +1364,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses1-0-1">
+	<GradingPeriod>
 		<GradingPeriod>First Summer Session</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1386,7 +1386,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses1-1-0">
+	<GradingPeriod>
 		<GradingPeriod>First Trimester</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1408,7 +1408,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<GradingPeriod id="CAP0-D0-HSch4-ses1-1-1">
+	<GradingPeriod>
 		<GradingPeriod>Fourth Nine Weeks</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
@@ -1430,7 +1430,7 @@
 			</CalendarDateIdentity>
 		</CalendarDateReference>
 	</GradingPeriod>
-	<CalendarDate id="CAP0-D0-HSch0-ses0-0">
+	<CalendarDate>
 		<Date>2011-03-01</Date>
 		<CalendarEvent>Make-up day</CalendarEvent>
 		<EducationOrgReference>
@@ -1439,7 +1439,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch0-ses0-1">
+	<CalendarDate>
 		<Date>2011-03-02</Date>
 				<CalendarEvent>Other</CalendarEvent>
 		<EducationOrgReference>
@@ -1448,7 +1448,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch0-ses1-0">
+	<CalendarDate>
 		<Date>2011-03-03</Date>
 		<CalendarEvent>Emergency day</CalendarEvent>
 		<EducationOrgReference>
@@ -1457,7 +1457,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch0-ses1-1">
+	<CalendarDate>
 		<Date>2011-03-04</Date>
 		<CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
 		<EducationOrgReference>
@@ -1466,7 +1466,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch1-ses0-0">
+	<CalendarDate>
 		<Date>2011-03-05</Date>
 		<CalendarEvent>Emergency day</CalendarEvent>
 		<EducationOrgReference>
@@ -1475,7 +1475,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch1-ses0-1">
+	<CalendarDate>
 		<Date>2011-03-06</Date>
 		<CalendarEvent>Other</CalendarEvent>
 		<EducationOrgReference>
@@ -1484,7 +1484,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch1-ses1-0">
+	<CalendarDate>
 		<Date>2011-03-07</Date>
 		<CalendarEvent>Emergency day</CalendarEvent>
 		<EducationOrgReference>
@@ -1493,7 +1493,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch1-ses1-1">
+	<CalendarDate>
 		<Date>2011-03-08</Date>
 		<CalendarEvent>Other</CalendarEvent>
 		<EducationOrgReference>
@@ -1502,7 +1502,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch2-ses0-0">
+	<CalendarDate>
 		<Date>2011-03-09</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1511,7 +1511,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch2-ses0-1">
+	<CalendarDate>
 		<Date>2011-03-10</Date>
 		<CalendarEvent>Make-up day</CalendarEvent>
 		<EducationOrgReference>
@@ -1520,7 +1520,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch2-ses1-0">
+	<CalendarDate>
 		<Date>2011-03-11</Date>
 		<CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
 		<EducationOrgReference>
@@ -1529,7 +1529,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch2-ses1-1">
+	<CalendarDate>
 		<Date>2011-03-12</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1538,7 +1538,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch3-ses0-0">
+	<CalendarDate>
 		<Date>2011-03-13</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1547,7 +1547,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch3-ses0-1">
+	<CalendarDate>
 		<Date>2011-03-14</Date>
 		<CalendarEvent>Emergency day</CalendarEvent>
 		<EducationOrgReference>
@@ -1556,7 +1556,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch3-ses1-0">
+	<CalendarDate>
 		<Date>2011-03-15</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1565,7 +1565,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch3-ses1-1">
+	<CalendarDate>
 		<Date>2011-03-16</Date>
 		<CalendarEvent>Emergency day</CalendarEvent>
 		<EducationOrgReference>
@@ -1574,7 +1574,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch4-ses0-0">
+	<CalendarDate>
 		<Date>2011-03-17</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>
@@ -1583,7 +1583,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch4-ses0-1">
+	<CalendarDate>
 		<Date>2011-03-18</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1592,7 +1592,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch4-ses1-0">
+	<CalendarDate>
 		<Date>2011-03-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
@@ -1601,7 +1601,7 @@
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
 	</CalendarDate>
-	<CalendarDate id="CAP0-D0-HSch4-ses1-1">
+	<CalendarDate>
 		<Date>2011-03-20</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 		<EducationOrgReference>

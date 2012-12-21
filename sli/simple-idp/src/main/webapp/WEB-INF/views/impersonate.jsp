@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript"/>
 <title>Sandbox User Impersonation</title>
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
+<link href="resources/bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
 
 <style type="text/css">
@@ -47,9 +48,36 @@
 .whitespacesm {
 	min-height: 30px;
 }
+.brandContainer {
+    background-color: #F6F3EA;
+    border-color: #ECE7D8;
+    border-left: 3px solid #ECE7D8;
+    border-radius: 6px 6px 6px 6px;
+    border-style: solid;
+    border-width: 3px;
+    color: #007096;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    padding: 30px;
+}
+.brandContainerTop {
+    background-color: #F6F3EA;
+    border-left: 3px solid #ECE7D8;
+    border-radius: 6px 6px 0 0;
+    border-right: 3px solid #ECE7D8;
+    border-top: 3px solid #ECE7D8;
+    padding: 30px;
+}
+.brandContainerBottom {
+    background-color: #FFFFFF;
+    border: 3px solid #ECE7D8;
+    border-radius: 0 0 6px 6px;
+    padding: 30px;
+}
+
+.brandContainer h1 { font-size: 36px; color: #512B73; }
 
 </style>
-<link href="resources/bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#manualUserDiv").hide();
@@ -98,17 +126,16 @@ $(document).ready(function() {
 
 <body>
     <div class="container">
-      <div class="hero-unit">
-      	<div class="row">
-      		<div class="span2">
-      			<img src="resources/default.png" alt="SLC IDP Logo"/>
-      		</div><!-- end span2 -->
-      		<div class="span8">
-      			<h1>Shared Learning Collaborative</h1>
-      			<h2>Application Developer Sandbox</h2>
-      		</div><!-- end span7 -->
-      	</div><!-- end row -->
-      </div><!-- end hero-unit -->	
+      <div class="brandContainer">
+	    	<div class="row">
+	    	    <div class="span2">
+		            <img src="resources/SLC-Logo-text.png">
+		        </div>
+		        <div class="span8">
+		            	<h1>Developer Sandbox</h1>
+		        </div>
+		    </div>
+	    </div>
       <h3>Test your application</h3>
       
       	<form id="logout_form" name="logout_form" action="logout" method="post" class="form-horizontal">

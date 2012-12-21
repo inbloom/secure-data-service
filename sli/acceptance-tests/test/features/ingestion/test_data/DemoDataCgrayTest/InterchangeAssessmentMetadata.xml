@@ -2,7 +2,7 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-<Assessment id="Grade 8 2011 StateTest Reading">
+<Assessment>
     <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 8 2011 StateTest Reading</ID>

@@ -17,6 +17,7 @@
 
 package org.slc.sli.ingestion.reporting;
 
+
 /**
  * Represents a source of the report.
  *
@@ -30,4 +31,6 @@ public interface Source {
     String getResourceId();
 
     String getStageName();
+
+    String getUserFriendlyMessage();
 }

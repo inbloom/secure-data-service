@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.generators;
 
 import java.util.ArrayList;
@@ -29,23 +28,20 @@ import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
 import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
-import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.SLCSchool;
 import org.slc.sli.test.edfi.entities.SchoolCategoriesType;
 import org.slc.sli.test.edfi.entities.SchoolCategoryItemType;
 import org.slc.sli.test.edfi.entities.SchoolType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.TitleIPartASchoolDesignationType;
-import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class SchoolGenerator {
 
@@ -119,7 +115,7 @@ public class SchoolGenerator {
         eor.setEducationalOrgIdentity(eoit);
         return eor;
     }
-    
+
     private List<SLCSchool> getNYSchools() {
         try {
             if (ag == null)
@@ -193,13 +189,13 @@ public class SchoolGenerator {
 
             SLCEducationalOrgIdentityType edOrgIdenType = new SLCEducationalOrgIdentityType();
             // TODO remove hardcoded story data value used for testing
-//            EducationOrgIdentificationCode code = new EducationOrgIdentificationCode();
-//            code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
-//            code.setID("SchoolId");
-//            edOrgIdenType.getEducationOrgIdentificationCode().add(code);
+            // EducationOrgIdentificationCode code = new EducationOrgIdentificationCode();
+            // code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
+            // code.setID("SchoolId");
+            // edOrgIdenType.getEducationOrgIdentificationCode().add(code);
             // TODO the LEA StateOrganizationId needs to be available
             edOrgIdenType.setStateOrganizationId("SchoolId");
-            
+
             SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
             edOrgRef.setEducationalOrgIdentity(edOrgIdenType);
             school.setLocalEducationAgencyReference(edOrgRef);
@@ -208,16 +204,15 @@ public class SchoolGenerator {
         return schools;
     }
 
-    public static SLCEducationalOrgReferenceType getEducationalOrgReferenceType(SLCSchool school)
-    {
+    public static SLCEducationalOrgReferenceType getEducationalOrgReferenceType(SLCSchool school) {
         SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
-//        eoit.getEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
+        // eoit.getEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
         // TODO: Confirm StateOrganizationId is already set for the school when this is called
         eoit.setStateOrganizationId(school.getStateOrganizationId());
-        
+
         SLCEducationalOrgReferenceType eor = new SLCEducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
-    	return eor;
+        return eor;
     }
 
     public SLCSchool getSchool(String schoolId) {
@@ -297,38 +292,21 @@ public class SchoolGenerator {
         school.setMagnetSpecialProgramEmphasisSchool(MagnetSpecialProgramEmphasisSchoolType.ALL_STUDENTS_PARTICIPATE);
         school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL);
 
-        // construct and add the SEA reference
-//        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-//        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
-//
-//        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
-//        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
-//
-//        school.setLocalEducationAgencyReference(leaRef);
+        SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
+        edOrgIdentityType.setStateOrganizationId(leaId);
 
-        if(MetaRelations.School_Ref)
-        {
-        	Ref leaRef = new Ref(leaId);
-        	SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
-        	eort.setRef(leaRef);
-        	school.setLocalEducationAgencyReference(eort);
-		} else {
-		    SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
-			edOrgIdentityType.setStateOrganizationId(leaId);
+        SLCEducationalOrgReferenceType leaRef = new SLCEducationalOrgReferenceType();
+        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
-			SLCEducationalOrgReferenceType leaRef = new SLCEducationalOrgReferenceType();
-			leaRef.setEducationalOrgIdentity(edOrgIdentityType);
+        school.setLocalEducationAgencyReference(leaRef);
 
-			school.setLocalEducationAgencyReference(leaRef);
-		}
-
-		if (programId != null) {
-		    SLCProgramIdentityType pit = new SLCProgramIdentityType();
-			pit.setProgramId(programId);
-			SLCProgramReferenceType prt = new SLCProgramReferenceType();
-			prt.setProgramIdentity(pit);
-			school.getProgramReference().add(prt);
-		}
+        if (programId != null) {
+            SLCProgramIdentityType pit = new SLCProgramIdentityType();
+            pit.setProgramId(programId);
+            SLCProgramReferenceType prt = new SLCProgramReferenceType();
+            prt.setProgramIdentity(pit);
+            school.getProgramReference().add(prt);
+        }
 
         return school;
     }

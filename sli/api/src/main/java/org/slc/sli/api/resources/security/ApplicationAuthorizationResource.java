@@ -115,7 +115,7 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorization(@PathParam(UUID) String uuid) {
 
         if (uuid != null) {
@@ -129,7 +129,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @POST
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
         verifyAccess((String) newAppAuth.get(AUTH_ID), null);
 
@@ -141,7 +141,7 @@ public class ApplicationAuthorizationResource {
 
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
 
         EntityBody oldAuth = service.get(uuid);
@@ -177,7 +177,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorizations(@Context UriInfo info) {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         String edOrgId = SecurityUtil.getEdOrgId();
