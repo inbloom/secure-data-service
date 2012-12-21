@@ -220,3 +220,27 @@ Examples:
 | Realm | Username    | Password        | Objective       | Code | 
 | "IL"  | "linda.kim" | "linda.kim1234" | "Learn to read" | 200  | 
 | "IL"  | "cgray"     | "cgray1234"     | "Learn to read" | 403  |
+
+@wip @US4728
+Scenario: A Teacher cannot access data if their required staffEdorgAssignment is in the past.
+	Given I am logged in using "linda.kimadmin" "linda.kimadmin" to realm "IL"
+	And I have a Role attribute that equals "IT Administrator"
+	When I navigate to GET "/v1/sessions"
+		Then I should receive a return code of "200"
+	When I navigate to GET "/v1/students"
+		Then I should receive a return code of "200"
+	When I navigate to GET "/v1/programs"
+		Then I should receive a return code of "200"
+	When I navigate to GET "/v1/cohorts"
+		Then I should receive a return code of "200"
+	When I expire my staffEdorgAssignmentAssociation
+		Then I should receive a return code of "204"
+	When I navigate to GET "/v1/sessions"
+		Then I should receive a return code of "403"
+	When I navigate to GET "/v1/students"
+		Then I should receive a return code of "403"
+	When I navigate to GET "/v1/programs"
+		Then I should receive a return code of "403"
+	When I navigate to GET "/v1/cohorts"
+		Then I should receive a return code of "403"
+	Given I have reset my staffEdorgAssignmentAssociation

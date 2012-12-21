@@ -246,6 +246,12 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected Set<String> getTeacherEdorgLineage() {
+        Set<String> edorgs = getDirectEdorgs();
+        edorgs = getEdorgLineage(edorgs);
+        return edorgs;
+    }
+
+    protected Set<String> getDirectEdorgs() {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
@@ -255,7 +261,6 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
             }
         }
-        edorgs = getEdorgLineage(edorgs);
         return edorgs;
     }
 
