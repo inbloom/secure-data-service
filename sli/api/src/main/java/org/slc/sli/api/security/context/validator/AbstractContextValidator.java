@@ -18,7 +18,6 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +27,6 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -36,8 +34,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.util.*;
 
 /**
  * Abstract class that all context validators must extend.
@@ -250,12 +246,14 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected Set<String> getTeacherEdorgLineage() {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, basicQuery);
+        Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         Set<String> edorgs = new HashSet<String>();
         for(Entity tsa : tsas) {
-            edorgs.add((String) tsa.getBody().get(ParameterConstants.SCHOOL_ID));
+            if (!isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
+                edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+            }
         }
         edorgs = getEdorgLineage(edorgs);
         return edorgs;

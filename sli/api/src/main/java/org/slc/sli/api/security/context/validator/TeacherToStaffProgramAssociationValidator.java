@@ -16,38 +16,32 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.HashSet;
 import java.util.Set;
-
-import javax.annotation.Resource;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
 /**
- * Validates teacher's access to given teachers
+ * Validates teacher's access to given teacherProgramAssociation
+ * Teacher can see his/hers teacherProgramAssociations
  * 
  * @author dkornishev
  * 
  */
 @Component
-public class TransitiveTeacherToTeacherSchoolAssociationValidator extends AbstractContextValidator {
-
-	@Resource
-	private TransitiveTeacherToTeacherValidator val;
+public class TeacherToStaffProgramAssociationValidator extends AbstractContextValidator {
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
-		return EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType) && isTeacher() && isTransitive;
+		return EntityNames.STAFF_PROGRAM_ASSOCIATION.equals(entityType) && isTeacher();
 	}
 
 	@Override
 	public boolean validate(String entityType, Set<String> ids) {
-		if (!this.canValidate(entityType, true)) {
+		if (!this.canValidate(entityType, false)) {
 			throw new IllegalArgumentException(String.format("Asked to validate %s->%s[%s]", SecurityUtil.getSLIPrincipal().getEntity().getType(), entityType, false));
 		}
 
@@ -55,18 +49,11 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidator extends Abstra
 			throw new IllegalArgumentException("Incoming list of ids cannot be null");
 		}
 
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
-		Iterable<Entity> tsa = getRepo().findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
-
-		Set<String> teachers = new HashSet<String>();
-		for (Entity e : tsa) {
-			teachers.add((String) e.getBody().get("teacherId"));
-		}
+		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("staffId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+		nq.addCriteria(new NeutralCriteria("_id", "in", ids));
 		
-		if(teachers.isEmpty()) {
-			return false;
-		}else {
-			return val.validate(EntityNames.TEACHER, teachers);
-		}
+		long count = getRepo().count(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
+		return count == ids.size();
 	}
+
 }

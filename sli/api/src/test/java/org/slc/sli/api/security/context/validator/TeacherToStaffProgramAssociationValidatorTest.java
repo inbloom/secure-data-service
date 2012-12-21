@@ -40,14 +40,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
+public class TeacherToStaffProgramAssociationValidatorTest {
 
-	private static final String CORRECT_ENTITY_TYPE = EntityNames.TEACHER_SCHOOL_ASSOCIATION;
-	private static final String SCHOOL_ID = "Myrran";
+	private static final String CORRECT_ENTITY_TYPE = EntityNames.STAFF_PROGRAM_ASSOCIATION;
 	private static final String USER_ID = "Master of Magic";
+	private static final String PROGRAM_ID = "Nature Node";
 
 	@Resource
-	private TransitiveTeacherToTeacherSchoolAssociationValidator val;
+	private TeacherToStaffProgramAssociationValidator val;
 
 	@Resource
 	private SecurityContextInjector injector;
@@ -72,26 +72,17 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
 
 	@Test
 	public void testSuccessOne() {
-		this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
-
-		Entity tsa = this.vth.generateTeacherSchool("Heru-er", SCHOOL_ID);
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
-
-		tsa = this.vth.generateTeacherSchool("Izida", SCHOOL_ID);
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
-
-		tsa = this.vth.generateTeacherSchool("Ptah", SCHOOL_ID);
+		Entity tsa = this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true);
 		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
 	}
 
 	@Test
 	public void testSuccessMulti() {
-		this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
 		Set<String> ids = new HashSet<String>();
 
 		int random = (int) Math.floor(Math.random() * 100);
 		for (int i = 0; i < random; i++) {
-			ids.add(this.vth.generateTeacherSchool("Thor" + i, SCHOOL_ID).getEntityId());
+			ids.add(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId());
 		}
 
 		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
@@ -108,7 +99,7 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
 	public void testHeterogenousList() {
 		Assert.assertFalse(val.validate(
 				CORRECT_ENTITY_TYPE,
-				new HashSet<String>(Arrays.asList(this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID).getEntityId(), this.vth.generateTeacherSchool("Ssss'ra", "Arcanus").getEntityId(), this.vth.generateTeacherSchool("Kali", "Arcanus")
-						.getEntityId()))));
+				new HashSet<String>(Arrays.asList(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId(), this.vth.generateStaffProgram("Ssss'ra", "Arcanus", false, true).getEntityId(),
+						this.vth.generateStaffProgram("Kali", "Arcanus", false, true).getEntityId()))));
 	}
 }
