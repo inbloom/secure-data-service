@@ -18,6 +18,8 @@ package org.slc.sli.ingestion.validation.indexes;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.ingestion.util.IndexFileParser;
 import org.slc.sli.ingestion.util.MongoIndex;
 
@@ -30,8 +32,11 @@ public class SLIDbIndexValidator extends DbIndexValidator {
 
     private static final String INDEX_FILE = "sli_indexes.js";
 
+    @Autowired
+    private IndexFileParser indexJSFileParser;
+
     @Override
     protected Set<MongoIndex> loadExpectedIndexes() {
-        return IndexFileParser.parseJSFile(INDEX_FILE);
+        return indexJSFileParser.parse(INDEX_FILE);
     }
 }

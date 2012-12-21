@@ -59,4 +59,52 @@ public class MongoIndex {
         this.keys = keys;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((collection == null) ? 0 : collection.hashCode());
+        result = prime * result + ((keys == null) ? 0 : keys.hashCode());
+        result = prime * result + (unique ? 1231 : 1237);
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MongoIndex other = (MongoIndex) obj;
+        if (collection == null) {
+            if (other.collection != null) {
+                return false;
+            }
+        } else if (!collection.equals(other.collection)) {
+            return false;
+        }
+        if (keys == null) {
+            if (other.keys != null) {
+                return false;
+            }
+        } else if (!keys.equals(other.keys)) {
+            return false;
+        }
+        if (unique != other.unique) {
+            return false;
+        }
+        return true;
+    }
+
 }

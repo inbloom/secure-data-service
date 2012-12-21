@@ -38,11 +38,14 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     private static final String INDEX_FILE = "tenantDB_indexes.txt";
 
     @Autowired
+    IndexFileParser indexTxtFileParser;
+
+    @Autowired
     private TenantDA tenantDA;
 
     @Override
     protected Set<MongoIndex> loadExpectedIndexes() {
-        return IndexFileParser.parseTxtFile(INDEX_FILE);
+        return indexTxtFileParser.parse(INDEX_FILE);
     }
 
     @Override
@@ -52,7 +55,7 @@ public class TenantDBIndexValidator extends DbIndexValidator {
         boolean isValid = true;
 
         for (String tenantDb : tenantDbs) {
-            isValid &= isValid(db.getSisterDB(tenantDb), report, reportStats);
+            isValid &= super.isValid(db.getSisterDB(tenantDb), report, reportStats);
         }
 
         return isValid;
