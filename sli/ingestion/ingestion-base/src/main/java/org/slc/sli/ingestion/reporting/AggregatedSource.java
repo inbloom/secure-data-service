@@ -16,30 +16,33 @@
 
 package org.slc.sli.ingestion.reporting;
 
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Dummy implementation of the AbstractMessageReport. Do not report warnings/errors.
  *
- * @author okrook
+ * @author slee
  *
  */
-@Component
-public class DummyMessageReport extends AbstractMessageReport {
+public class AggregatedSource extends JobSource {
 
-    @Override
-    public void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
-        // Do nothing
+    private List<JobSource> aggregatedJobSourceList = new ArrayList<JobSource>();
+
+    public AggregatedSource(String batchJobId, String resourceId, String stageName) {
+        super(batchJobId, resourceId, stageName);
+    }
+
+    public void addSource(JobSource jobSource) {
+        aggregatedJobSourceList.add(jobSource);
     }
 
     @Override
-    public void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
-     // Do nothing
-    }
-
-    @Override
-    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
-
-        // Do nothing
+    public String getUserFriendlyMessage() {
+        String s = "";
+        for (JobSource source : aggregatedJobSourceList) {
+            s += source.getUserFriendlyMessage();
+            s += "\n";
+        }
+        return s;
     }
 }
