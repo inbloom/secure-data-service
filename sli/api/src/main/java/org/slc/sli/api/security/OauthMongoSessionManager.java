@@ -247,8 +247,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
 
         if (!authorizedAppIds.contains(app.getEntityId())) {
-            throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT, "User " + principal.getExternalId()
-                    + " is not authorized to use " + app.getBody().get("name"), (String) session.getBody().get("state"));
+            String message = "User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name");
+            error(message);
+            throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT, message, (String) session.getBody().get("state"));
         }
 
         String token = "";
