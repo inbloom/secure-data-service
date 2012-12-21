@@ -2388,16 +2388,16 @@
     <jb:value property="additionalCreditType" data="CourseTranscript/AdditionalCredits/AdditionalCreditType" />
   </jb:bean>
   
-    <jb:bean beanId="CourseTranscript_EdOrgReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/CourseTranscript">
-    <jb:wiring property="EducationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReference" />
+  <jb:bean beanId="CourseTranscript_EdOrgReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:wiring beanIdRef="CourseTranscript_EdOrgReference" />
   </jb:bean>
   
-   <jb:bean beanId="CourseTranscript_EdOrgReference" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference">
+   <jb:bean beanId="CourseTranscript_EdOrgReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference">
     <jb:wiring property="EducationalOrgIdentity" beanIdRef="CourseTranscript_EdOrgReference_EdOrgIdentity" />
   </jb:bean>
 
   <jb:bean beanId="CourseTranscript_EdOrgReference_EdOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference/EducationalOrgIdentity">
-    <jb:value property="StateOrganizationId"  data="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="StateOrganizationId"  data="CourseTranscript/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <!-- Start Student Parent mapping -->
