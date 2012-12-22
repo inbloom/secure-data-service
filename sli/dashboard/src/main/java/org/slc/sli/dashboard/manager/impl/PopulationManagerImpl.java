@@ -1210,7 +1210,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 pageSize = 50;
             }
         }
-        
+
         // post-process
         // get detail information for each student
         List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
@@ -1273,8 +1273,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
             enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
         }
-
-        setStudentSearchEntity(studentSearch, enhancedStudents, name, null, null, students.size(), 1, 1, 1, null);
+        setStudentSearchEntity(studentSearch, enhancedStudents, name, null, null, numResults, pageNum, pageSize,
+                maxPageNum, null);
         return studentSearch;
     }
 
