@@ -1183,13 +1183,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         try {
             queryArray = (String[]) query;
         } catch (ClassCastException cce) {
-            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1, "");
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", 0, 1, 50, 1);
             return studentSearch;
         }
 
         String name = queryArray[0];
         if (name == null || name.isEmpty()) {
-            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1, "");
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", 0, 1, 50, 1);
             return studentSearch;
         }
         // get results from api
@@ -1273,23 +1273,18 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
             enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
         }
-        setStudentSearchEntity(studentSearch, enhancedStudents, name, null, null, numResults, pageNum, pageSize,
-                maxPageNum, null);
+        setStudentSearchEntity(studentSearch, enhancedStudents, name, numResults, pageNum, pageSize, maxPageNum);
         return studentSearch;
     }
 
     private void setStudentSearchEntity(GenericEntity studentSearch, List<GenericEntity> students, String searchStr,
-            String firstName, String lastName, int numResults, int pageNum, int pageSize, int maxPageNum,
-            String schoolId) {
+            int numResults, int pageNum, int pageSize, int maxPageNum) {
         studentSearch.put(Constants.ATTR_STUDENTS, students);
         studentSearch.put(Constants.ATTR_SEARCH_STRING, searchStr);
-        studentSearch.put(Constants.ATTR_FIRST_NAME, firstName);
-        studentSearch.put(Constants.ATTR_LAST_SURNAME, lastName);
         studentSearch.put(Constants.ATTR_NUM_RESULTS, numResults);
         studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, pageNum);
         studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, pageSize);
         studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, maxPageNum);
-        studentSearch.put(Constants.ATTR_SCHOOL_ID, schoolId);
     }
 
     @SuppressWarnings("unchecked")
