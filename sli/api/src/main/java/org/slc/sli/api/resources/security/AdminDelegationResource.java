@@ -90,7 +90,7 @@ public class AdminDelegationResource {
      * @return A list of admin delegation records.
      */
     @GET
-    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ})
+    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ })
     public Response getDelegations() {
         SecurityUtil.ensureAuthenticated();
         if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
@@ -135,7 +135,7 @@ public class AdminDelegationResource {
      */
     @PUT
     @Path("myEdOrg")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ })
     public Response setLocalDelegation(EntityBody body) {
         //verifyBodyEdOrgMatchesPrincipalEdOrg
         if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
@@ -165,14 +165,14 @@ public class AdminDelegationResource {
     }
 
     @POST
-    @RightsAllowed({Right.EDORG_APP_AUTHZ})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ })
     public Response create(EntityBody body) {
         return setLocalDelegation(body);
     }
 
     @GET
     @Path("myEdOrg")
-    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ})
+    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ })
     public Response getSingleDelegation() {
         EntityBody entity = getEntity();
         if (entity == null) {

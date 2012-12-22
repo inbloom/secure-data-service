@@ -93,3 +93,12 @@
       </div>
     </fieldset>
 <% end %>
+
+<script type="text/javascript">
+    $("#user_account_registration_password").popover({
+        html: true,
+        content: "<%= APP_CONFIG['password_policy'].join("<br/>").html_safe %>",
+        trigger: "focus",
+        template: '<div class="popover" style="width:auto"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"><p></p></div></div></div>'
+    });
+</script>

@@ -28,8 +28,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 
 /**
  * ZipFileHandler unit tests.
@@ -49,7 +49,7 @@ public class ZipFileHandlerTest {
         File zip = new File("src/test/resources/zip/ValidZip.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
         File ctlFile = zipHandler.handle(zip, report, reportStats);
 
@@ -63,7 +63,7 @@ public class ZipFileHandlerTest {
         File zip = new File("src/test/resources/zip/NoControlFile.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
         File ctlFile = zipHandler.handle(zip, report, reportStats);
 
@@ -76,7 +76,7 @@ public class ZipFileHandlerTest {
         File zip = new File("src/test/resources/zip/NoControlFile2.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
         File ctlFile = zipHandler.handle(zip, report, reportStats);
 

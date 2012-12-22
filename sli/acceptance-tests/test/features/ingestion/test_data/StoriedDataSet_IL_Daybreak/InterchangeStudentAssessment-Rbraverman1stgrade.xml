@@ -4,7 +4,7 @@
   
 
 <!-- READ 2.0 -->
-  <StudentAssessment id="saa_id_101">
+  <StudentAssessment>
     <AdministrationDate>2011-08-10</AdministrationDate>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -30,7 +30,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_102">
+  <StudentAssessment>
     <AdministrationDate>2012-03-01</AdministrationDate>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -56,7 +56,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_103">
+  <StudentAssessment>
     <AdministrationDate>2011-08-10</AdministrationDate>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -82,7 +82,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_104">
+  <StudentAssessment>
     <AdministrationDate>2012-03-01</AdministrationDate>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>

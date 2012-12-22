@@ -1,7 +1,7 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-    <Assessment id="AP-1">
+    <Assessment>
         <AssessmentTitle>English Literature and Composition</AssessmentTitle>
         <AssessmentIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -50,7 +50,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
     </Assessment>
     <!-- ============================================== -->
 
-    <Assessment id="AP-2">
+    <Assessment>
         <AssessmentTitle>English Language and Composition</AssessmentTitle>
         <AssessmentIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -100,14 +100,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
     
     <!-- Assessment Family Section -->
     
-    <AssessmentFamily id="AP">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP</ID>
         </AssessmentFamilyIdentificationCode>
     </AssessmentFamily>
     
-    <AssessmentFamily id="AP-Eng">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP Eng</ID>
@@ -119,7 +119,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyReference>
     </AssessmentFamily>
     
-    <AssessmentFamily id="AP-Eng-and-Literature">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP-Eng-and-Literature</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP-Eng-and-Literature</ID>
@@ -131,7 +131,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyReference>
     </AssessmentFamily>
     
-    <AssessmentFamily id="AP-Lang-and-Literature">
+    <AssessmentFamily>
         <AssessmentFamilyTitle>AP-Lang-and-Literature</AssessmentFamilyTitle>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
             <ID>AP-Lang-and-Literature</ID>

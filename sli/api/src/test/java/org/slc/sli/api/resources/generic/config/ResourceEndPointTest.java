@@ -113,21 +113,21 @@ public class ResourceEndPointTest {
 
     @Test
     public void testLoadNameSpace() throws IOException {
-        String json = "[" +
-                "{\n" +
-                "    \"nameSpace\":\"v6\",\n" +
-                "    \"resources\":[\n" +
-                "        {\n" +
-                "            \"path\":\"/reportCards\",\n" +
-                "            \"doc\":\"some doc.\"\n" +
-                "        }]}," +
-                "{\n" +
-                "    \"nameSpace\":\"v7\",\n" +
-                "    \"resources\":[\n" +
-                "        {\n" +
-                "            \"path\":\"/schools\",\n" +
-                "            \"doc\":\"some school doc.\"\n" +
-                "        }]}]";
+        String json = "[" 
+                + "{\n" 
+                + "    \"nameSpace\":\"v6\",\n" 
+                + "    \"resources\":[\n" 
+                + "        {\n"
+                + "            \"path\":\"/reportCards\",\n" 
+                + "            \"doc\":\"some doc.\"\n" 
+                + "        }]},"
+                + "{\n" 
+                + "    \"nameSpace\":\"v7\",\n" 
+                + "    \"resources\":[\n" 
+                + "        {\n"
+                + "            \"path\":\"/schools\",\n" 
+                + "            \"doc\":\"some school doc.\"\n"
+                + "        }]}]";
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes());
 

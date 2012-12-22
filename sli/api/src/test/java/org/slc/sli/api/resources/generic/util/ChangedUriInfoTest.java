@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
+package org.slc.sli.api.resources.generic.util;
 
-package org.slc.sli.test.edfi.entities;
+import org.junit.Test;
 
-public class Ref extends ComplexObjectType {
+import static org.junit.Assert.assertTrue;
 
-    public Ref(String id) {
-        this.id = id;
+/**
+ * Tests that a changed URI can still indicate a path (for other components who are dependent on that).
+ * 
+ * @author kmyers
+ *
+ */
+public class ChangedUriInfoTest {
+    
+    @Test
+    public void testGetPath() {
+        assertTrue(new ChangedUriInfo("/rest/foo/bar", null).getPath().equals("foo/bar"));
     }
 }

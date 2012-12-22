@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of attendance events. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="AttendanceEventType">
 #   <xs:annotation>
@@ -35,4 +37,16 @@ class AttendanceEventType
   AttendanceEventType.define :EXTRACURRICULAR_ATTENDANCE, "Section Attendance"
   AttendanceEventType.define :PROGRAM_ATTENDANCE, "Program Attendance"
   AttendanceEventType.define :SECTION_ATTENDANCE, "Extracurricular Attendance"
+
+  # translates the specified Symbol into the ed-fi compliant String representation of the attendance event type
+  # -> returns nil if the Symbol doesn't exist
+  def self.to_string(key)
+    const_get(key)
+  end
+
+  # translates the specified String representation of the attendance event type into a Symbol
+  # -> returns nil if the String representation doesn't map to a Symbol
+  def self.to_symbol(value)
+    get_key(value)
+  end
 end

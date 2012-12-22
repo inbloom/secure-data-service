@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeMasterSchedule xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
-    <Section id="S_1">
+    <Section>
         <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -26,7 +26,7 @@
                 </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
-        <LocationReference ref="LR_1"/>
+        <LocationReference/>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>Able School</StateOrganizationId>
@@ -43,7 +43,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_2">
+    <Section>
         <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -85,7 +85,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_3">
+    <Section>
         <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -127,7 +127,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_4">
+    <Section>
         <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
         <SequenceOfCourse>2</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -169,7 +169,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_5">
+    <Section>
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
         <SequenceOfCourse>3</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -211,7 +211,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_6">
+    <Section>
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
         <SequenceOfCourse>3</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -253,7 +253,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_7">
+    <Section>
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
         <SequenceOfCourse>3</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -295,7 +295,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_8">
+    <Section>
         <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
         <SequenceOfCourse>4</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -337,7 +337,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_9">
+    <Section>
         <UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -379,7 +379,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_10">
+    <Section>
         <UniqueSectionCode>Sec 923</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -421,7 +421,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_11">
+    <Section>
         <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
         <SequenceOfCourse>3</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -463,7 +463,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_12">
+    <Section>
         <UniqueSectionCode>Reading Group - Red</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -505,7 +505,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_13">
+    <Section>
         <UniqueSectionCode>7th Grade English - Sec. 2</UniqueSectionCode>
         <SequenceOfCourse>2</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -547,7 +547,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_14">
+    <Section>
         <UniqueSectionCode>Reading Group - Blue</UniqueSectionCode>
         <SequenceOfCourse>2</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -589,7 +589,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <Section id="S_15">
+    <Section>
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
         <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -631,7 +631,7 @@
             </SessionIdentity>
         </SessionReference>
     </Section>
-    <CourseOffering id="CO_1">
+    <CourseOffering>
         <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
         <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
         <CourseReference>
@@ -660,7 +660,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </CourseOffering>
-    <CourseOffering id="CO_2">
+    <CourseOffering>
         <LocalCourseCode>8th Grade English</LocalCourseCode>
         <LocalCourseTitle>8th Grade English</LocalCourseTitle>
         <CourseReference>
@@ -689,7 +689,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </CourseOffering>
-    <CourseOffering id="CO_3">
+    <CourseOffering>
         <LocalCourseCode>Club/Team</LocalCourseCode>
         <LocalCourseTitle>Club/Team</LocalCourseTitle>
         <CourseReference>
@@ -718,7 +718,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </CourseOffering>
-    <LocationReference id="LR_1">
+    <LocationReference>
         <LocationIdentity>
             <ClassroomIdentificationCode>Sample Class</ClassroomIdentificationCode>
             <StateOrganizationId>Sample School</StateOrganizationId>
