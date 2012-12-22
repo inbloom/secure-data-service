@@ -81,19 +81,19 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <CompetencyLevels id="CL-G1-1">
+    <CompetencyLevels>
       <CodeValue>CL-G1-1</CodeValue>
       <!--<Description>Express complete thoughts.</Description>-->
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-2">
+    <CompetencyLevels>
       <CodeValue>CL-G1-2</CodeValue>
       <!--<Description>Write multiple sentences about the same topic.</Description>-->
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-3">
+    <CompetencyLevels>
       <CodeValue>CL-G1-3</CodeValue>
       <!--<Description>Add on to writing in response to questions.</Description>-->
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-4">
+    <CompetencyLevels>
       <CodeValue>CL-G1-4</CodeValue>
       <!--<Description>Write for a variety of purposes.</Description>-->
     </CompetencyLevels>

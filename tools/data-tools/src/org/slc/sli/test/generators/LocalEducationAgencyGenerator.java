@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.generators;
 
 import java.util.Collections;
@@ -24,20 +23,18 @@ import java.util.Map;
 
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
+import org.slc.sli.test.edfi.entities.LEACategoryType;
+import org.slc.sli.test.edfi.entities.OperationalStatusType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.LEACategoryType;
 import org.slc.sli.test.edfi.entities.SLCLocalEducationAgency;
-import org.slc.sli.test.edfi.entities.OperationalStatusType;
 import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
 import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
-import org.slc.sli.test.edfi.entities.Ref;
+import org.slc.sli.test.edfi.entities.meta.ESCMeta;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
-import org.slc.sli.test.edfi.entities.meta.ESCMeta;
 import org.slc.sli.test.edfi.entities.meta.SeaMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-
 
 public class LocalEducationAgencyGenerator {
 
@@ -46,9 +43,9 @@ public class LocalEducationAgencyGenerator {
         SLCLocalEducationAgency localEducationAgency = new SLCLocalEducationAgency();
         localEducationAgency.setId(id);
         localEducationAgency.setStateOrganizationId(id);
-        //grammar, middle, high, indenpend study programm
-//        localEducationAgency.setNameOfInstitution("Institution name " + id);
-//        localEducationAgency.setShortNameOfInstitution("Institution " + id);
+        // grammar, middle, high, indenpend study programm
+        // localEducationAgency.setNameOfInstitution("Institution name " + id);
+        // localEducationAgency.setShortNameOfInstitution("Institution " + id);
 
         localEducationAgency.setNameOfInstitution(id);
         localEducationAgency.setShortNameOfInstitution(id);
@@ -66,47 +63,43 @@ public class LocalEducationAgencyGenerator {
         SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
         edOrgIdentityType.setStateOrganizationId(seaId);
 
-
         SLCEducationalOrgReferenceType seaRef = new SLCEducationalOrgReferenceType();
-		seaRef.setEducationalOrgIdentity(edOrgIdentityType);
+        seaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
-		localEducationAgency.setStateEducationAgencyReference(seaRef);
+        localEducationAgency.setStateEducationAgencyReference(seaRef);
 
-
-        //associate this lea with a esCenter. A SEA can have multiple esCenters.
+        // associate this lea with a esCenter. A SEA can have multiple esCenters.
         SeaMeta seaMeta = MetaRelations.SEA_MAP.get(seaId);
-        if(seaMeta != null) {
+        if (seaMeta != null) {
             Map<String, ESCMeta> escMetas = seaMeta.escs;
-            if(escMetas != null) {
+            if (escMetas != null) {
                 int escCount = escMetas.size();
-                if(escCount > 0) {
+                if (escCount > 0) {
                     List<String> escIds = new LinkedList<String>(escMetas.keySet());
                     Collections.shuffle(escIds);
                     String escId = escIds.get(0);
-                    
+
                     SLCEducationalOrgIdentityType escIdentityType = new SLCEducationalOrgIdentityType();
                     escIdentityType.setStateOrganizationId(escId);
-                    
+
                     SLCEducationalOrgReferenceType escRef = new SLCEducationalOrgReferenceType();
-   
+
                 }
             }
         }
-        
+
         return localEducationAgency;
     }
-    
-    
+
     public static SLCLocalEducationAgency generateMedFi(String id, String seaId, LeaMeta leaMeta) {
-    	
-    	
+
         SLCLocalEducationAgency localEducationAgency = new SLCLocalEducationAgency();
         localEducationAgency.setId(id);
         localEducationAgency.setStateOrganizationId(id);
-        
-        //grammar, middle, high, indenpend study programm
-        //localEducationAgency.setNameOfInstitution("Institution name " + id);
-        //localEducationAgency.setShortNameOfInstitution("Institution " + id);
+
+        // grammar, middle, high, indenpend study programm
+        // localEducationAgency.setNameOfInstitution("Institution name " + id);
+        // localEducationAgency.setShortNameOfInstitution("Institution " + id);
 
         localEducationAgency.setNameOfInstitution(id);
         localEducationAgency.setShortNameOfInstitution(id);
@@ -122,47 +115,33 @@ public class LocalEducationAgencyGenerator {
 
         // construct and add the SEA reference
         /*
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+         * EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+         * edOrgIdentityType.setStateOrganizationId(seaId);
+         *
+         * EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
+         * seaRef.setEducationalOrgIdentity(edOrgIdentityType);
+         *
+         * localEducationAgency.setStateEducationAgencyReference(seaRef);
+         */
+
+        SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
         edOrgIdentityType.setStateOrganizationId(seaId);
 
-        EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType seaRef = new SLCEducationalOrgReferenceType();
         seaRef.setEducationalOrgIdentity(edOrgIdentityType);
-
         localEducationAgency.setStateEducationAgencyReference(seaRef);
-        
-        */
-        
-//        	Ref leaRef = new Ref(leaMeta.id);
-//        	EducationalOrgReferenceType eortype = new EducationalOrgReferenceType();
-//        	eortype.setRef(leaRef);
-//        	localEducationAgency.setLocalEducationAgencyReference(eortype);
-        
-       if(MetaRelations.LocalEducationAgency_Ref)
-       {
-        	Ref seaRef = new Ref(seaId);
-        	SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
-        	eort.setRef(seaRef);
-        	localEducationAgency.setStateEducationAgencyReference(eort);
-		} else {
-		    SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
-			edOrgIdentityType.setStateOrganizationId(seaId);
 
-			SLCEducationalOrgReferenceType seaRef = new SLCEducationalOrgReferenceType();
-			seaRef.setEducationalOrgIdentity(edOrgIdentityType);
-			localEducationAgency.setStateEducationAgencyReference(seaRef);
-		}
+        for (String pid : leaMeta.programs.keySet()) {
 
-		for (String pid : leaMeta.programs.keySet()) {
-
-			ProgramMeta pm = leaMeta.programs.get(pid);
-			SLCProgramIdentityType pit = new SLCProgramIdentityType();
-			pit.setProgramId(pm.id);
-			SLCProgramReferenceType prt = new SLCProgramReferenceType();
-			prt.setProgramIdentity(pit);
-			localEducationAgency.getProgramReference().add(prt);
-		}
+            ProgramMeta pm = leaMeta.programs.get(pid);
+            SLCProgramIdentityType pit = new SLCProgramIdentityType();
+            pit.setProgramId(pm.id);
+            SLCProgramReferenceType prt = new SLCProgramReferenceType();
+            prt.setProgramIdentity(pit);
+            localEducationAgency.getProgramReference().add(prt);
+        }
 
         return localEducationAgency;
     }
-    
+
 }

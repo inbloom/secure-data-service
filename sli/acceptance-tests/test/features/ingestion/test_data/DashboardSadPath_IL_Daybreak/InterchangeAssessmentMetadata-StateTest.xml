@@ -3,7 +3,7 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
   <!-- StateTest Section -->
-  <Assessment id="Grade_8_2011_StateTest_Writing">
+  <Assessment>
     <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 8 2011 StateTest Writing</ID>
@@ -58,7 +58,7 @@
     </AssessmentFamilyReference>
   </Assessment>
 
-  <Assessment id="Grade_8_2011_StateTest_Reading">
+  <Assessment>
     <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 8 2011 StateTest Reading</ID>
@@ -113,7 +113,7 @@
     </AssessmentFamilyReference>
   </Assessment>
 
-  <AssessmentFamily id="StateTest">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -121,7 +121,7 @@
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
 
-  <AssessmentFamily id="StateTest_Reading_for_Grades_3-8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -134,7 +134,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="StateTest_Reading_for_Grade_8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest Reading for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -147,7 +147,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="StateTest_Writing_for_Grades_3-8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -160,7 +160,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="StateTest_Writing_for_Grade_8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -172,6 +172,6 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
+  <!-- <PerformanceLevelDescriptor> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     </PerformanceLevelDescriptor> -->
 </InterchangeAssessmentMetadata>

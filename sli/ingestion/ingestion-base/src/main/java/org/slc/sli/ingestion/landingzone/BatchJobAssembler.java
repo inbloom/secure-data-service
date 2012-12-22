@@ -27,8 +27,8 @@ import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 
 /**
  *
@@ -92,7 +92,7 @@ public class BatchJobAssembler {
         }
 
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource(job.getId(),
+        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(job.getId(),
                 controlFile.getFileName(), "BatchJobAssembler"));
 
         if (job.getProperty(AttributeType.PURGE.getName()) == null) {

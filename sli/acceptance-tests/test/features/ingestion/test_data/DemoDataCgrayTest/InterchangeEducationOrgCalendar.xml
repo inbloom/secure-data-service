@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-  <GradingPeriod id="GRDP_20120527_EDJH">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -10,7 +10,7 @@
     <EndDate>2012-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-  <GradingPeriod id="GRDP_20110527_EDJH">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -20,7 +20,7 @@
     <EndDate>2011-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-  <GradingPeriod id="GRDP_20120527_SDE">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -30,7 +30,7 @@
     <EndDate>2012-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-  <GradingPeriod id="GRDP_20110527_SDE">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -40,7 +40,7 @@
     <EndDate>2011-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-  <GradingPeriod id="GRDP_20120527_DCH">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -50,7 +50,7 @@
     <EndDate>2012-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-  <GradingPeriod id="GRDP_20110527_DCH">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -60,7 +60,7 @@
     <EndDate>2011-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-  <GradingPeriod id="GRDP_20120527_SCHS">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>Sunset Central High School</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -70,7 +70,7 @@
     <EndDate>2012-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-  <GradingPeriod id="GRDP_20110527_SCHS">
+  <GradingPeriod>
     <GradingPeriodIdentity>
       <StateOrganizationId>Sunset Central High School</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>

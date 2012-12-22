@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <GradebookEntry id="GBE-8th Grade English-1">
+    <GradebookEntry>
         <GradebookEntryType>Unit test</GradebookEntryType>
         <DateAssigned>2011-09-29</DateAssigned>
         <SectionReference>
@@ -14,7 +14,7 @@
             </SectionIdentity>
         </SectionReference>
     </GradebookEntry>
-    <GradebookEntry id="GBE-8th Grade English-2">
+    <GradebookEntry>
         <GradebookEntryType>Unit test</GradebookEntryType>
         <DateAssigned>2011-10-13</DateAssigned>
         <SectionReference>
@@ -28,7 +28,7 @@
             </SectionIdentity>
         </SectionReference>
     </GradebookEntry>
-    <GradebookEntry id="GBE-8th Grade English-3">
+    <GradebookEntry>
         <GradebookEntryType>Unit test</GradebookEntryType>
         <DateAssigned>2011-10-27</DateAssigned>
         <SectionReference>

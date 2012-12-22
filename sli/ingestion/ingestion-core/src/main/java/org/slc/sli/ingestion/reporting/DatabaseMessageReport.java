@@ -41,29 +41,31 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    protected void reportError(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        String message = getMessage(reportStats, code, args);
+    protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        String message = getMessage(reportStats, source, code, args);
         logError(message);
 
-        Source source = reportStats.getSource();
+        // TODO: refactor needed
+        source = reportStats.getSource();
 
         persistFault(FaultType.TYPE_ERROR, message, source);
     }
 
     @Override
-    protected void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        String message = getMessage(reportStats, code, args);
+    protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        String message = getMessage(reportStats, source, code, args);
         logWarning(message);
 
-        Source source = reportStats.getSource();
+        // TODO: refactor needed
+        source = reportStats.getSource();
 
         persistFault(FaultType.TYPE_WARNING, message, source);
 
     }
 
     @Override
-    protected void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        String message = getMessage(reportStats, code, args);
+    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        String message = getMessage(reportStats, source, code, args);
         logInfo(message);
     }
 
