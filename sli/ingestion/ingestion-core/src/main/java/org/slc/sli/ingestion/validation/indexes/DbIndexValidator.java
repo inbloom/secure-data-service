@@ -58,7 +58,7 @@ public class DbIndexValidator extends SimpleValidatorSpring<DB> {
         return Collections.emptySet();
     }
 
-    private Set<MongoIndex> loadIndexInfoFromDB(DB database) {
+    protected Set<MongoIndex> loadIndexInfoFromDB(DB database) {
         Set<MongoIndex> dbIndexes = new HashSet<MongoIndex>();
 
         Set<String> collectionNames = database.getCollectionNames();
@@ -86,8 +86,7 @@ public class DbIndexValidator extends SimpleValidatorSpring<DB> {
      * @param reportStats
      * @return
      */
-    @SuppressWarnings("static-method")
-    protected boolean isValid(Set<MongoIndex> expectedIndexes, Set<MongoIndex> actualIndexes,
+    protected static boolean isValid(Set<MongoIndex> expectedIndexes, Set<MongoIndex> actualIndexes,
             AbstractMessageReport report, AbstractReportStats reportStats) {
 
         boolean res = true;

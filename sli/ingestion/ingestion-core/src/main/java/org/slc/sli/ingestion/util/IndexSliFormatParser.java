@@ -15,38 +15,34 @@
 */
 package org.slc.sli.ingestion.util;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author tke
  *
  */
-public class IndexUtils {
-    protected static final Logger LOG = LoggerFactory.getLogger(IndexUtils.class);
+public class IndexSliFormatParser implements IndexParser<Set<String>> {
 
-    public static boolean validIndex(String line) {
-        if (line.startsWith("#")) {
-            return false;
+    /**
+     * This
+     */
+    @Override
+    public Set<MongoIndex> parse(Set<String> indexes) {
+        Set<MongoIndex> res = new HashSet<MongoIndex>();
+
+        for(String index : indexes) {
+            if(validIndex(index)) {
+                MongoIndex mongoIndex = parse(index);
+                res.add(mongoIndex);
+            }
         }
-        String[] indexTokens = line.split(",");
-        if (indexTokens.length < 3) {
-            return false;
-        }
-        return true;
+
+        return res;
     }
 
-
-    public static MongoIndex parseIndex(String indexEntry) {
+    public static MongoIndex parse(String indexEntry) {
         MongoIndex mongoIndex = new MongoIndex();
 
         String[] indexTokens = indexEntry.split(",");
@@ -79,25 +75,19 @@ public class IndexUtils {
 
             mongoIndex.getKeys().put(index[0], order);
         }
+
         return mongoIndex;
     }
 
-    public static Map<String, Object> parseJson(String jsonString) {
-
-        JsonFactory factory = new JsonFactory();
-        ObjectMapper mapper = new ObjectMapper(factory);
-
-        TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
-        };
-        try {
-            return mapper.readValue(jsonString, typeRef);
-        } catch (JsonParseException e) {
-            LOG.error("Error validating indexes " + e.getLocalizedMessage());
-        } catch (JsonMappingException e) {
-            LOG.error("Error validating indexes " + e.getLocalizedMessage());
-        } catch (IOException e) {
-            LOG.error("Error validating indexes " + e.getLocalizedMessage());
+    public static boolean validIndex(String line) {
+        if (line.startsWith("#")) {
+            return false;
         }
-        return null;
+        String[] indexTokens = line.split(",");
+        if (indexTokens.length < 3) {
+            return false;
+        }
+        return true;
     }
+
 }

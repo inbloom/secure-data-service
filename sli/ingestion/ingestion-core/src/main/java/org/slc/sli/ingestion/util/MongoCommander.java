@@ -16,7 +16,6 @@
 package org.slc.sli.ingestion.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -40,7 +39,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  */
 public final class MongoCommander {
 
-    private static IndexFileParser indexTxtFileParser = new IndexTxtFileParser();
+    private static IndexParser<String> indexTxtFileParser = new IndexTxtFileParser();
+    private static IndexParser<Set<String>> indexSliFormatParser = new IndexSliFormatParser();
     /**
      * No instance should be created.
      * All methods are static.
@@ -69,11 +69,7 @@ public final class MongoCommander {
             LOG.info("Ensuring {} indexes for {} db", indexes.size(), db);
             DB dbConn = getDB(db, mongoTemplate);
 
-            Set<MongoIndex> indexSet = new HashSet<MongoIndex>();
-            for (String indexEntry : indexes) {
-                MongoIndex index = IndexUtils.parseIndex(indexEntry);
-                indexSet.add(index);
-            }
+            Set<MongoIndex> indexSet = indexSliFormatParser.parse(indexes);
             ensureIndexes(indexSet, dbConn);
         } else {
             throw new IllegalStateException("Indexes configuration not found.");
@@ -103,7 +99,7 @@ public final class MongoCommander {
         options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
 
         try {
-            dbConn.getCollection(index.getCollection()).createIndex(index.getKeys(), options);
+            dbConn.getCollection(index.getCollection()).createIndex(new BasicDBObject(index.getKeys()), options);
         } catch (MongoException e) {
             LOG.error("Failed to ensure index:{}", e.getMessage());
         }
@@ -244,9 +240,12 @@ public final class MongoCommander {
      * @param mongoTemplate
      * @return
      */
-    private static DB getDB(String db, MongoTemplate mongoTemplate) {
+    public static DB getDB(String db, MongoTemplate mongoTemplate) {
         DB dbConn = mongoTemplate.getDb();
+        return getDB(db, dbConn);
+    }
 
+    public static DB getDB(String db, DB dbConn) {
         if (!dbConn.getName().equals(db)) {
             dbConn = dbConn.getSisterDB(db);
         }

@@ -43,6 +43,11 @@ import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.LoggingMessageReport;
+import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
@@ -160,6 +165,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
+    @Autowired
+    private LoggingMessageReport loggingMessageReport;
+
     // Spring's dependency management can confuse camel due to some circular dependencies. Removing
     // this constructor, even if it doesn't look like it will change things, may affect loading
     // order and cause ingestion to fail to start on certain JVMs
@@ -172,7 +180,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
-        boolean indexValidated = systemValidator.isValid(null, null, null);
+        loggingMessageReport.setLogger(LOG);
+        Source source = new SimpleSource(null, null, null);
+        AbstractReportStats reportStats = new SimpleReportStats(source);
+        boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats);
         if (!indexValidated) {
             LOG.error("Indexes could not be verified, check the index file configurations are set");
         }

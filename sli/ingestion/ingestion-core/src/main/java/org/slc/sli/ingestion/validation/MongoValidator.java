@@ -26,9 +26,9 @@ import org.slc.sli.ingestion.reporting.AbstractReportStats;
  * @author tke
  *
  */
-public class MongoValidation extends ComplexValidator<Object> {
+public class MongoValidator extends ComplexValidator<Object> {
 
-    MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Override
     public boolean isValid(Object object, AbstractMessageReport report, AbstractReportStats reportStats) {
@@ -41,5 +41,20 @@ public class MongoValidation extends ComplexValidator<Object> {
 
         return isValid;
     }
+
+    /**
+     * @return the mongoTemplate
+     */
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
+    }
+
+    /**
+     * @param mongoTemplate the mongoTemplate to set
+     */
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
 
 }

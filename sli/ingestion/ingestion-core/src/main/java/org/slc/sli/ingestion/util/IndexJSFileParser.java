@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -32,6 +33,11 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +45,7 @@ import org.slf4j.LoggerFactory;
  * @author tke
  *
  */
-
-public class IndexJSFileParser implements IndexFileParser {
+public class IndexJSFileParser implements IndexParser<String> {
 
     private static final Logger LOG = LoggerFactory.getLogger(IndexJSFileParser.class);
 
@@ -81,7 +86,7 @@ public class IndexJSFileParser implements IndexFileParser {
                             if (indexMatcher.group(3) != null) {
                                 unique = Boolean.parseBoolean(indexMatcher.group(4));
                             }
-                            indexMap = IndexUtils.parseJson(keyJsonString);
+                            indexMap = parseJson(keyJsonString);
                             DBObject keyObj = new BasicDBObject(indexMap);
                             indexes.add(new MongoIndex(collectionName, unique, keyObj));
                         }
@@ -100,11 +105,30 @@ public class IndexJSFileParser implements IndexFileParser {
         return indexes;
     }
 
-    private Matcher ensureIndexStatement(String statement) {
+    private static Matcher ensureIndexStatement(String statement) {
         Pattern ensureIndexPattern = Pattern.compile("^db\\[\"(\\S+)\"]\\.ensureIndex\\((\\{[^}]*\\})(,\\s*\\{\\s*unique\\s*:\\s*(\\S+)\\s*\\})?\\);.*", Pattern.MULTILINE);
         Matcher ensureIndexMatcher = ensureIndexPattern.matcher(statement);
         if (ensureIndexMatcher.matches()) {
             return ensureIndexMatcher;
+        }
+        return null;
+    }
+
+    public static Map<String, Object> parseJson(String jsonString) {
+
+        JsonFactory factory = new JsonFactory();
+        ObjectMapper mapper = new ObjectMapper(factory);
+
+        TypeReference<LinkedHashMap<String, Object>> typeRef = new TypeReference<LinkedHashMap<String, Object>>() {
+        };
+        try {
+            return mapper.readValue(jsonString, typeRef);
+        } catch (JsonParseException e) {
+            LOG.error("Error validating indexes " + e.getLocalizedMessage());
+        } catch (JsonMappingException e) {
+            LOG.error("Error validating indexes " + e.getLocalizedMessage());
+        } catch (IOException e) {
+            LOG.error("Error validating indexes " + e.getLocalizedMessage());
         }
         return null;
     }

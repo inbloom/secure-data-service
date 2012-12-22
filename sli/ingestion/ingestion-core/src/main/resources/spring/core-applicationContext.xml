@@ -42,6 +42,7 @@
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
   <import resource="core-message-context.xml" />
+  <import resource="systemValidator-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="dal-context.xml" />
@@ -69,35 +70,6 @@
   </bean>
 
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-
-  <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
-  <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator" />
-  <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.SLIDbIndexValidator" />
-  <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
-
-    <util:list id="indexValidatorsList" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
-      <ref bean="indexValidator" />
-  </util:list>
-  
-    <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator">
-      <property name="validators" ref="indexValidatorList" />
-  </bean>
-  
-  <util:list id="mongoValidatorsList" value-type="org.slc.sli.ingestion.validation.ComplexValidatorSpring">
-      <ref bean="indexValidator" />
-  </util:list>
-  
-  <bean id="mongoValidator" class="org.slc.sli.ingestion.validation.MongoValidator">
-      <property name="validators" ref="mongoValidatorList" />
-  </bean>
-  
-  <util:list id="systemValidatorsList" value-type="org.slc.sli.ingestion.validation.ComplexValidatorSpring">
-      <ref bean="mongoValidator" />
-  </util:list>
-  
-  <bean id="systemValidator" class="org.slc.sli.ingestion.validation.ComplexValidator" >
-    <property name="validators" ref="systemValidatorsList" />
-  </bean>
   
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 

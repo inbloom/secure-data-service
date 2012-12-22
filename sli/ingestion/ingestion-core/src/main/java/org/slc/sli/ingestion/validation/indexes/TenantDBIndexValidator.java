@@ -20,12 +20,13 @@ import java.util.Set;
 
 import com.mongodb.DB;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.util.IndexFileParser;
+import org.slc.sli.ingestion.util.IndexParser;
 import org.slc.sli.ingestion.util.MongoIndex;
 
 
@@ -35,17 +36,17 @@ import org.slc.sli.ingestion.util.MongoIndex;
  */
 public class TenantDBIndexValidator extends DbIndexValidator {
 
-    private static final String INDEX_FILE = "tenantDB_indexes.txt";
+    private static final Logger LOGGER = LoggerFactory.getLogger(TenantDBIndexValidator.class);
 
-    @Autowired
-    IndexFileParser indexTxtFileParser;
+    private String indexFile;
 
-    @Autowired
+    private IndexParser<String> indexTxtFileParser;
+
     private TenantDA tenantDA;
 
     @Override
     protected Set<MongoIndex> loadExpectedIndexes() {
-        return indexTxtFileParser.parse(INDEX_FILE);
+        return indexTxtFileParser.parse(indexFile);
     }
 
     @Override
@@ -53,11 +54,58 @@ public class TenantDBIndexValidator extends DbIndexValidator {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
 
         boolean isValid = true;
+        Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
 
+        LOGGER.info("Validating indexes for tenant databases..");
         for (String tenantDb : tenantDbs) {
-            isValid &= super.isValid(db.getSisterDB(tenantDb), report, reportStats);
+            LOGGER.info("Validating indexes for tenantDB:" + tenantDb);
+            Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db.getSisterDB(tenantDb));
+            isValid &= super.isValid(expectedIndexes, actualIndexes, report, reportStats);
         }
 
         return isValid;
     }
+
+    /**
+     * @return the indexFile
+     */
+    public String getIndexFile() {
+        return indexFile;
+    }
+
+    /**
+     * @param indexFile the indexFile to set
+     */
+    public void setIndexFile(String indexFile) {
+        this.indexFile = indexFile;
+    }
+
+    /**
+     * @return the indexTxtFileParser
+     */
+    public IndexParser<String> getIndexTxtFileParser() {
+        return indexTxtFileParser;
+    }
+
+    /**
+     * @param indexTxtFileParser the indexTxtFileParser to set
+     */
+    public void setIndexTxtFileParser(IndexParser<String> indexTxtFileParser) {
+        this.indexTxtFileParser = indexTxtFileParser;
+    }
+
+    /**
+     * @return the tenantDA
+     */
+    public TenantDA getTenantDA() {
+        return tenantDA;
+    }
+
+    /**
+     * @param tenantDA the tenantDA to set
+     */
+    public void setTenantDA(TenantDA tenantDA) {
+        this.tenantDA = tenantDA;
+    }
+
 }

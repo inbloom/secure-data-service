@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.reporting;
 
 import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  * MessageReport implementation that is constructed with a logger and uses that logger to act on
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
  * @author npandey
  *
  */
+@Component
 public class LoggingMessageReport extends AbstractMessageReport {
 
     private Logger logger;

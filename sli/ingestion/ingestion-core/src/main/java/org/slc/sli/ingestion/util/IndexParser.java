@@ -24,8 +24,8 @@ import java.util.Set;
  *
  */
 
-public interface IndexFileParser {
+public interface IndexParser<T> {
 
-    public Set<MongoIndex> parse(String fileName);
+    public Set<MongoIndex> parse(T index);
 
 }
