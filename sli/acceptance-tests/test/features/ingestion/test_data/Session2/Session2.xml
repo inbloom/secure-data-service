@@ -3,48 +3,48 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 
-	<CalendarDate id="CLND_20120223Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120224Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120225Holiday">
+	<CalendarDate>
 		<Date>2012-02-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120226Holiday">
+	<CalendarDate>
 		<Date>2012-02-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120227Instructionalday">
+	<CalendarDate>
 		<Date>2012-02-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120223InstructionaldayDuplicate">
+	<CalendarDate>
 		<Date>2012-02-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120224InstructionaldayDuplicate">
+	<CalendarDate>
 		<Date>2012-02-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120225HolidayDuplicate">
+	<CalendarDate>
 		<Date>2012-02-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120226HolidayDuplicate">
+	<CalendarDate>
 		<Date>2012-02-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120227InstructionaldayDuplicate">
+	<CalendarDate>
 		<Date>2012-02-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
 
-	<GradingPeriod id="GRDP_20101004">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -55,7 +55,7 @@
 		<TotalInstructionalDays>25</TotalInstructionalDays>
 		<CalendarDateReference />
 	</GradingPeriod>
-	<GradingPeriod id="GRDP_20110104">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -66,7 +66,7 @@
 		<TotalInstructionalDays>25</TotalInstructionalDays>
 		<CalendarDateReference />
 	</GradingPeriod>
-	<GradingPeriod id="GRDP_20110222">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Third Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -77,7 +77,7 @@
 		<TotalInstructionalDays>25</TotalInstructionalDays>
 		<CalendarDateReference />
 	</GradingPeriod>
-	<GradingPeriod id="GRDP_20110411">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Fourth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -88,7 +88,7 @@
 		<TotalInstructionalDays>25</TotalInstructionalDays>
 		<CalendarDateReference />
 	</GradingPeriod>
-	<GradingPeriod id="GRDP_20101108">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -99,7 +99,7 @@
 		<TotalInstructionalDays>25</TotalInstructionalDays>
 		<CalendarDateReference />
 	</GradingPeriod>
-	<GradingPeriod id="GRDP_20100823">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Sixth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>

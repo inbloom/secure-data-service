@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
 
-  <StudentAssessment id="saa_188">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
@@ -362,7 +362,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_189">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
@@ -723,7 +723,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_190">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>1</SerialNumber>
@@ -1084,7 +1084,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_191">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>8</SerialNumber>
@@ -1445,7 +1445,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_192">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
@@ -1806,7 +1806,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_193">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
@@ -2167,7 +2167,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_194">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
@@ -2531,7 +2531,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_195">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>9</SerialNumber>
@@ -2895,7 +2895,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_196">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
@@ -3256,7 +3256,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_197">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>8</SerialNumber>
@@ -3620,7 +3620,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_198">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>10</SerialNumber>
@@ -3987,7 +3987,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_199">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
@@ -4348,7 +4348,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_200">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
@@ -4709,7 +4709,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_201">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
@@ -5070,7 +5070,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_202">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>1</SerialNumber>
@@ -5431,7 +5431,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_203">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
@@ -5792,7 +5792,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_204">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
@@ -6153,7 +6153,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_205">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>5</SerialNumber>
@@ -6514,7 +6514,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_206">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>3</SerialNumber>
@@ -6875,7 +6875,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_207">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>4</SerialNumber>
@@ -7236,7 +7236,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_208">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>1</SerialNumber>
@@ -7597,7 +7597,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_209">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>3</SerialNumber>
@@ -7961,7 +7961,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_210">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
@@ -8325,7 +8325,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_211">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>8</SerialNumber>
@@ -8686,7 +8686,7 @@
     </ObjectiveAssessmentReference>
   </StudentObjectiveAssessment>
 
-  <StudentAssessment id="saa_212">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>

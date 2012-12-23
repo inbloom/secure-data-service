@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
-    <LearningStandard id="lstd0">
+    <LearningStandard>
         <LearningStandardId ContentStandardName="lstd0Name">
             <IdentificationCode>lstd0</IdentificationCode>
         </LearningStandardId>
@@ -10,7 +10,7 @@
         <SubjectArea>Composite</SubjectArea>
         <CourseTitle>lstd0 CourseTitle</CourseTitle>
     </LearningStandard>
-    <LearningStandard id="lstd1">
+    <LearningStandard>
         <LearningStandardId ContentStandardName="lstd1Name">
             <IdentificationCode>lstd1</IdentificationCode>
         </LearningStandardId>
@@ -20,7 +20,7 @@
         <SubjectArea>Manufacturing</SubjectArea>
         <CourseTitle>lstd1 CourseTitle</CourseTitle>
     </LearningStandard>
-    <LearningStandard id="lstd2">
+    <LearningStandard>
         <LearningStandardId ContentStandardName="lstd2Name">
             <IdentificationCode>lstd2</IdentificationCode>
         </LearningStandardId>
@@ -154,7 +154,7 @@
         <Description>Description for pld1</Description>
         <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     </PerformanceLevelDescriptor>
-    <ObjectiveAssessment id="objas0">
+    <ObjectiveAssessment>
         <IdentificationCode>objas0</IdentificationCode>
         <MaxRawScore>100</MaxRawScore>
         <AssessmentPerformanceLevel>

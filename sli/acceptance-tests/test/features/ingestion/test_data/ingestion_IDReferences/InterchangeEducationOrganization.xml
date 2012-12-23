@@ -307,16 +307,16 @@
         <StateOrganizationId>Dog School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <CompetencyLevels id="CL-G1-1">
+    <CompetencyLevels>
       <Description>Express complete thoughts.</Description>
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-2">
+    <CompetencyLevels>
       <Description>Write multiple sentences about the same topic.</Description>
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-3">
+    <CompetencyLevels>
       <Description>Add on to writing in response to questions.</Description>
     </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-4">
+    <CompetencyLevels>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
     <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId>
@@ -366,12 +366,12 @@
     <UniqueCourseId>Club/Team-6</UniqueCourseId>
   </Course>
     
-    <CompetencyLevelDescriptor id="CL_7">
+    <CompetencyLevelDescriptor>
 		<CodeValue>Barely Competent 7</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
 	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_8">
+	<CompetencyLevelDescriptor>
 		<CodeValue>Barely Competent 8</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>

@@ -3,7 +3,7 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 <!-- READ 2.0-->
-  <Assessment id="READ2-Next-Grade-1-BOY">
+  <Assessment>
     <AssessmentTitle>READ 2.0 Grade 1 BOY Custom</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>READ 2.0 Grade 1 BOY Custom</ID>
@@ -47,7 +47,7 @@
     </AssessmentFamilyReference>
   </Assessment>
 
-  <Assessment id="READ2-Next-Grade-1-MOY">
+  <Assessment>
     <AssessmentTitle>READ 2.0 Grade 1 MOY Custom</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>READ 2.0 Grade 1 MOY Custom</ID>
@@ -91,14 +91,14 @@
     </AssessmentFamilyReference>
   </Assessment>
 
-  <AssessmentFamily id="READ2-Next">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
       <ID>READ 2.0</ID>
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
 
-  <AssessmentFamily id="READ2-Next-Grade-1">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
       <ID>READ 2.0 Grade 1</ID>

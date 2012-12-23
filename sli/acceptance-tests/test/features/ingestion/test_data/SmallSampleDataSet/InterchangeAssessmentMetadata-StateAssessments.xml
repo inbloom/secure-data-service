@@ -3,7 +3,7 @@
                                xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
   <!-- Grade 7 2011 State Reading Test -->
-  <Assessment id="Grade_7_2011_State_Reading">
+  <Assessment>
     <AssessmentTitle>Grade 7 2011 State Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 7 2011 State Reading</ID>
@@ -55,7 +55,7 @@
   </Assessment>
 
   <!-- Grade 7 2011 State Writing Test -->
-  <Assessment id="Grade_7_2011_State_Writing">
+  <Assessment>
     <AssessmentTitle>Grade 7 2011 State Writing</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 7 2011 State Writing</ID>
@@ -107,7 +107,7 @@
   </Assessment>
 
   <!-- Grade 7 2011 State Math Test -->
-  <Assessment id="Grade_7_2011_State_Math">
+  <Assessment>
     <AssessmentTitle>Grade 7 2011 State Math</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 7 2011 State Math</ID>
@@ -159,7 +159,7 @@
   </Assessment>
 
   <!-- Grade 6 2010 State Reading Test -->
-  <Assessment id="Grade_6_2010_State_Reading">
+  <Assessment>
     <AssessmentTitle>Grade 6 2010 State Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 6 2010 State Reading</ID>
@@ -211,7 +211,7 @@
   </Assessment>
 
   <!-- Grade 6 2010 State Math Test -->
-  <Assessment id="Grade_6_2010_State_Math">
+  <Assessment>
     <AssessmentTitle>Grade 6 2010 State Math</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 6 2010 State Math</ID>
@@ -263,7 +263,7 @@
   </Assessment>
 
   <!-- Grade 5 2009 State Reading Test -->
-  <Assessment id="Grade_5_2009_State_Reading">
+  <Assessment>
     <AssessmentTitle>Grade 5 2009 State Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 5 2009 State Reading</ID>
@@ -315,7 +315,7 @@
   </Assessment>
 
   <!-- Grade 5 2009 State Math Test -->
-  <Assessment id="Grade_5_2009_State_Math">
+  <Assessment>
     <AssessmentTitle>Grade 5 2009 State Math</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 5 2009 State Math</ID>
@@ -367,7 +367,7 @@
   </Assessment>
 
   <!-- Grade 4 2008 State Reading Test -->
-  <Assessment id="Grade_4_2008_State_Reading">
+  <Assessment>
     <AssessmentTitle>Grade 4 2008 State Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 4 2008 State Reading</ID>
@@ -419,7 +419,7 @@
   </Assessment>
 
   <!-- Grade 4 2008 State Math Test -->
-  <Assessment id="Grade_4_2008_State_Math">
+  <Assessment>
     <AssessmentTitle>Grade 4 2008 State Math</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 4 2008 State Math</ID>
@@ -471,7 +471,7 @@
   </Assessment>
 
   <!-- Grade 3 2007 State Reading Test -->
-  <Assessment id="Grade_3_2007_State_Reading">
+  <Assessment>
     <AssessmentTitle>Grade 3 2007 State Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 3 2007 State Reading</ID>
@@ -523,7 +523,7 @@
   </Assessment>
 
   <!-- Grade 3 2007 State Writing Test -->
-  <Assessment id="Grade_3_2007_State_Writing">
+  <Assessment>
     <AssessmentTitle>Grade 3 2007 State Writing</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 3 2007 State Writing</ID>
@@ -575,7 +575,7 @@
   </Assessment>
 
   <!-- Grade 3 2007 State Math Test -->
-  <Assessment id="Grade_3_2007_State_Math">
+  <Assessment>
     <AssessmentTitle>Grade 3 2007 State Math</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 3 2007 State Math</ID>
@@ -626,7 +626,7 @@
     </AssessmentFamilyReference>
   </Assessment>
 
-  <AssessmentFamily id="State_Assessments">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -634,7 +634,7 @@
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State_Reading_Assessments">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -647,7 +647,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State_Reading_for_Grades_3-8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -660,7 +660,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State_Reading_for_Grade_8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -672,7 +672,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Reading_for_Grade_7">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading for Grade 7</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -684,7 +684,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Reading_for_Grade_6">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading for Grade 6</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -696,7 +696,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Reading_for_Grade_5">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading for Grade 5</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -708,7 +708,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Reading_for_Grade_4">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading for Grade 4</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -720,7 +720,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Reading_for_Grade_3">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Reading for Grade 3</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -733,7 +733,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State_Writing_Assessments">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -745,7 +745,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Writing_for_Grades_3-8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -757,7 +757,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Writing_for_Grade_8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -769,7 +769,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Writing_for_Grade_7">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing for Grade 7</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -781,7 +781,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Writing_for_Grade_6">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing for Grade 6</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -793,7 +793,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Writing_for_Grade_5">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing for Grade 5</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -805,7 +805,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Writing_for_Grade_4">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing for Grade 4</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -817,7 +817,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Writing_for_Grade_3">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Writing for Grade 3</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -830,7 +830,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State_Math_Assessments">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -842,7 +842,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Math_for_Grades_3-8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -854,7 +854,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Math_for_Grade_8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -866,7 +866,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Math_for_Grade_7">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math for Grade 7</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -878,7 +878,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Math_for_Grade_6">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math for Grade 6</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -890,7 +890,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Math_for_Grade_5">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math for Grade 5</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -902,7 +902,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Math_for_Grade_4">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math for Grade 4</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">
@@ -914,7 +914,7 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  <AssessmentFamily id="State_Math_for_Grade_3">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math for Grade 3</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
             IdentificationSystem="Test Contractor">

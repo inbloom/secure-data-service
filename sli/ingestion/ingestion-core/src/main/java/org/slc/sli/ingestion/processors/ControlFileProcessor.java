@@ -50,8 +50,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
@@ -129,7 +129,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
-            Source source = new SimpleSource(newJob.getId(), cf.getFileName(),
+            Source source = new JobSource(newJob.getId(), cf.getFileName(),
                     BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
             AbstractReportStats reportStats = new SimpleReportStats(source);
 

@@ -4,7 +4,7 @@
 
   <!-- SAT Section -->
 
-  <Assessment id="TA-SAT-Mathematics-1">
+  <Assessment>
     <AssessmentTitle>SAT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>SAT Mathematics</ID>
@@ -25,7 +25,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>750</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-SAT-Reading-1">
+  <Assessment>
     <AssessmentTitle>SAT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>SAT Critical Reading</ID>
@@ -46,7 +46,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>750</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-SAT-Writing-1">
+  <Assessment>
     <AssessmentTitle>SAT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>SAT Writing</ID>
@@ -62,7 +62,7 @@
 
   <!-- PSAT Section -->
 
-  <Assessment id="TA-PSAT-Mathematics-1">
+  <Assessment>
     <AssessmentTitle>PSAT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>PSAT Mathematics</ID>
@@ -83,7 +83,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>80</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-PSAT-CriticalReading-1">
+  <Assessment>
     <AssessmentTitle>PSAT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>PSAT Critical Reading</ID>
@@ -104,7 +104,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>80</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-PSAT-Writing-1">
+  <Assessment>
     <AssessmentTitle>PSAT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>PSAT Writing</ID>
@@ -120,7 +120,7 @@
 
   <!-- ACT Section -->
 
-  <Assessment id="TA-ACT-English-1">
+  <Assessment>
     <AssessmentTitle>ACT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>ACT English</ID>
@@ -141,7 +141,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>25</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-ACT-Math-1">
+  <Assessment>
     <AssessmentTitle>ACT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>ACT Mathematics</ID>
@@ -162,7 +162,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>25</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-ACT-Reading-1">
+  <Assessment>
     <AssessmentTitle>ACT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>ACT Reading</ID>
@@ -183,7 +183,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>25</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-ACT-Science-1">
+  <Assessment>
     <AssessmentTitle>ACT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>ACT Science</ID>
@@ -204,7 +204,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>25</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-ACT-Composite-1">
+  <Assessment>
     <AssessmentTitle>ACT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>ACT Composite</ID>
@@ -225,7 +225,7 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>30</MaxRawScore>
   </Assessment>
-  <Assessment id="TA-ACT-Writing-1">
+  <Assessment>
     <AssessmentTitle>ACT</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>ACT Writing</ID>
@@ -249,7 +249,7 @@
 
   <!-- StateTest Section -->
 
-  <Assessment id="Grade 8 2011 StateTest Writing">
+  <Assessment>
     <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 8 2011 StateTest Writing</ID>
@@ -300,7 +300,7 @@
 	</AssessmentFamilyReference>
   </Assessment>
    
-  <AssessmentFamily id="StateTest">
+  <AssessmentFamily>
 	<AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
 	<AssessmentFamilyIdentificationCode
 		IdentificationSystem="Test Contractor">
@@ -308,7 +308,7 @@
 	</AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
   
-  <AssessmentFamily id="StateTest Reading for Grades 3-8">
+  <AssessmentFamily>
 	<AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
 	<AssessmentFamilyIdentificationCode
 		IdentificationSystem="Test Contractor">
@@ -321,7 +321,7 @@
 	</AssessmentFamilyReference>
   </AssessmentFamily>
   
-  <AssessmentFamily id="StateTest Reading for Grade 8">
+  <AssessmentFamily>
 	<AssessmentFamilyTitle>StateTest Reading for Grade 8</AssessmentFamilyTitle>
 	<AssessmentFamilyIdentificationCode
 		IdentificationSystem="Test Contractor">
@@ -334,7 +334,7 @@
 	</AssessmentFamilyReference>
   </AssessmentFamily>
   
-  <AssessmentFamily id="StateTest Writing for Grades 3-8">
+  <AssessmentFamily>
 	<AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
 	<AssessmentFamilyIdentificationCode
 		IdentificationSystem="Test Contractor">
@@ -347,7 +347,7 @@
 	</AssessmentFamilyReference>
   </AssessmentFamily>
   
-  <AssessmentFamily id="StateTest Writing for Grade 8">
+  <AssessmentFamily>
 	<AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
 	<AssessmentFamilyIdentificationCode
 		IdentificationSystem="Test Contractor">
@@ -364,7 +364,7 @@
 
   <!-- Read2 Section -->
 
-  <Assessment id="READ2-Next-Kindergarten-1">
+  <Assessment>
     <AssessmentTitle>READ2-Next-Kindergarten</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>READ2-Next-Kindergarten</ID>
@@ -386,7 +386,7 @@
     <MaxRawScore>122</MaxRawScore>
   </Assessment>
 
-  <Assessment id="READ2_NEXT_GRADE_1_BOY">
+  <Assessment>
     <AssessmentTitle>READ2-Next Grade 1</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>READ2-Next-Grade-1-BOY</ID>
@@ -408,7 +408,7 @@
 	</AssessmentFamilyReference>
   </Assessment>
 
-  <Assessment id="READ2_NEXT_GRADE_1_MOY">
+  <Assessment>
     <AssessmentTitle>READ2-Next Grade 1</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>READ2-Next-Grade-1-MOY</ID>
@@ -430,14 +430,14 @@
 	</AssessmentFamilyReference>
   </Assessment>
 
-	<AssessmentFamily id="READ2">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ2</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
 			<ID>READ2</ID>
 		</AssessmentFamilyIdentificationCode>
 	</AssessmentFamily>
 	
-  	<AssessmentFamily id="READ2_NEXT">
+  	<AssessmentFamily>
 		<AssessmentFamilyTitle>READ2_NEXT</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
 			<ID>READ2_NEXT</ID>
@@ -464,6 +464,6 @@
 	<EndDate>2012-03-30</EndDate>
   </AssessmentPeriodDescriptor>
 
-  <!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
+  <!-- <PerformanceLevelDescriptor> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     </PerformanceLevelDescriptor> -->
 </InterchangeAssessmentMetadata>

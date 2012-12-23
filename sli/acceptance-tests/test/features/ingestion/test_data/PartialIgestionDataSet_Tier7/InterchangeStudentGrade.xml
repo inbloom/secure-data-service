@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <StudentAcademicRecord id="SAR-800000000-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -65,7 +65,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000000-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -129,7 +129,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000001-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -193,7 +193,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000001-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -257,7 +257,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000002-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -321,7 +321,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000002-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -385,7 +385,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000003-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -449,7 +449,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000003-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -513,7 +513,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000004-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -577,7 +577,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000004-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -641,7 +641,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000005-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -705,7 +705,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000005-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -769,7 +769,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000006-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -833,7 +833,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000006-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -897,7 +897,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000007-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -961,7 +961,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000007-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1025,7 +1025,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000008-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1089,7 +1089,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000008-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1153,7 +1153,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000009-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1217,7 +1217,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000009-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1281,7 +1281,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000010-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1345,7 +1345,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000010-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1409,7 +1409,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000011-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1473,7 +1473,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000011-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1537,7 +1537,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000012-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1601,7 +1601,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000012-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1665,7 +1665,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000013-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1729,7 +1729,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000013-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1793,7 +1793,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000014-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1857,7 +1857,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000014-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1921,7 +1921,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000015-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -1985,7 +1985,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000015-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -2049,7 +2049,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000016-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -2323,7 +2323,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000016-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -2597,7 +2597,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000017-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -2661,7 +2661,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000017-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -2725,7 +2725,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000018-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -2789,7 +2789,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000018-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -2853,7 +2853,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000019-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -2917,7 +2917,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000019-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -2981,7 +2981,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000020-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3045,7 +3045,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000020-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3109,7 +3109,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000021-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3173,7 +3173,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000021-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3237,7 +3237,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000022-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3301,7 +3301,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000022-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3365,7 +3365,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000023-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3429,7 +3429,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000023-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3493,7 +3493,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000024-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3557,7 +3557,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000024-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3621,7 +3621,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000026-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3685,7 +3685,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000026-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3749,7 +3749,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000027-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3813,7 +3813,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000027-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3878,7 +3878,7 @@
         </StudentAcademicRecordReference>
     </CourseTranscript>
     <!-- grading history for cgray's 11th and 12th graders. Refers to courses already completed. -->
-    <StudentAcademicRecord id="SAR-900000000-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -3942,7 +3942,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000000-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4006,7 +4006,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000001-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4070,7 +4070,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000001-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4134,7 +4134,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000002-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4198,7 +4198,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000002-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4262,7 +4262,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000003-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4326,7 +4326,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000003-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4390,7 +4390,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000004-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4454,7 +4454,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000004-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4518,7 +4518,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000005-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4582,7 +4582,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000005-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4646,7 +4646,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000006-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4710,7 +4710,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000006-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4774,7 +4774,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000007-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4838,7 +4838,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000007-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4902,7 +4902,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000008-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -4966,7 +4966,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000008-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5030,7 +5030,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000009-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5094,7 +5094,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000009-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5158,7 +5158,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000010-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5222,7 +5222,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000010-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5286,7 +5286,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000011-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5350,7 +5350,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000011-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5414,7 +5414,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000012-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5478,7 +5478,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000012-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5542,7 +5542,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000013-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5606,7 +5606,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000013-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5670,7 +5670,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000014-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5734,7 +5734,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000014-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5798,7 +5798,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000015-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5862,7 +5862,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000015-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -5926,7 +5926,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000016-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -6200,7 +6200,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000016-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -6474,7 +6474,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000017-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6538,7 +6538,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000017-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6602,7 +6602,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000018-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6666,7 +6666,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000018-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6730,7 +6730,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000019-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6794,7 +6794,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000019-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6858,7 +6858,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000020-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6922,7 +6922,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000020-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -6986,7 +6986,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000021-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7050,7 +7050,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000021-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7114,7 +7114,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000022-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7178,7 +7178,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000022-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7242,7 +7242,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000023-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7306,7 +7306,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000023-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7370,7 +7370,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000024-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7434,7 +7434,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000024-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -7499,7 +7499,7 @@
         </StudentAcademicRecordReference>
     </CourseTranscript>
     <!-- more transcript history for Carmen Ortiz, grades 8 and 9 -->
-    <StudentAcademicRecord id="SAR-900000016-3">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -7772,7 +7772,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000016-4">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -8045,7 +8045,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000016-5">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -8318,7 +8318,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-900000016-6">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -8592,7 +8592,7 @@
         </StudentAcademicRecordReference>
     </CourseTranscript>
     <!-- StudentAcademicRecords and CourseTranscripts for Matt Sollars grade 4-7 -->
-    <StudentAcademicRecord id="SAR-800000025-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -8865,7 +8865,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000025-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -9138,7 +9138,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000025-3">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -9411,7 +9411,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000025-4">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -9684,7 +9684,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000025-5">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -9957,7 +9957,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000025-6">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -10230,7 +10230,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000025-7">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>
@@ -10503,7 +10503,7 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-800000025-8">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
             <Credit>6</Credit>
         </CumulativeCreditsAttempted>

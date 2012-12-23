@@ -1,42 +1,42 @@
 <?xml version="1.0" ?>
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-	<CalendarDate id="CD_1">
+	<CalendarDate>
 		<Date>2010-09-02</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_2">
+	<CalendarDate>
 		<Date>2010-09-03</Date>
 		<CalendarEvent>Teacher only day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_3">
+	<CalendarDate>
 		<Date>2010-09-04</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_4">
+	<CalendarDate>
 		<Date>2010-09-05</Date>
 		<CalendarEvent>Make-up day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_5">
+	<CalendarDate>
 		<Date>2010-09-06</Date>
 		<CalendarEvent>Weather day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_6">
+	<CalendarDate>
 		<Date>2010-09-07</Date>
 		<CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_7">
+	<CalendarDate>
 		<Date>2010-09-08</Date>
 		<CalendarEvent>Emergency day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_8">
+	<CalendarDate>
 		<Date>2010-09-09</Date>
 		<CalendarEvent>Strike</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CD_9">
+	<CalendarDate>
 		<Date>2010-09-10</Date>
 		<CalendarEvent>Other</CalendarEvent>
 	</CalendarDate>
-	<GradingPeriod id="GP_1">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -47,7 +47,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_2">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -58,7 +58,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_3">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -69,7 +69,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_4">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -80,7 +80,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_5">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -91,7 +91,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_6">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -102,7 +102,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_7">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -113,7 +113,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_8">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -124,7 +124,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_9">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
@@ -135,7 +135,7 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_10">
+	<GradingPeriod>
 		<GradingPeriodIdentity>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
