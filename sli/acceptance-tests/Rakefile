@@ -286,7 +286,7 @@ def swap_realm_ids()
   custom_roles = @dbTenant.collection('customRole')
   to_swap = [
         {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
-        {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
+        {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
   ]
 
   to_swap.each do |realm|
