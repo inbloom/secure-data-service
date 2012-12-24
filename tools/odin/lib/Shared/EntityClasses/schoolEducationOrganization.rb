@@ -21,7 +21,7 @@ require_relative "baseEntity.rb"
 require_relative "enum/GradeLevelType.rb"
 
 # creates school
-class SchoolEducationOrganization < BaseEntity
+class School < BaseEntity
 
   attr_accessor :state_org_id, :grades, :parent_id, :programs
 

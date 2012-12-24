@@ -46,7 +46,7 @@ describe "WorldBuilder" do
       end
       it "education organization interchange contains 3 schools" do
         # check individual types of schools below.
-        @queue.count(SchoolEducationOrganization).should eq(3)
+        @queue.count(School).should eq(3)
       end
       it "education organization interchange will contain a single elementary school" do
         @world["elementary"].length.should eq(1)
@@ -137,7 +137,7 @@ describe "WorldBuilder" do
       end
       it "education organization interchange contains many schools" do
         # check individual types of schools below.
-        @queue.count(SchoolEducationOrganization).should be_ > 6
+        @queue.count(School).should be_ > 6
       end
       it "education organization interchange will contain many elementary schools" do
         @world["elementary"].length.should be_> 2

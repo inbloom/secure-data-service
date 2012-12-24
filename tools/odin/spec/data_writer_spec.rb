@@ -71,10 +71,10 @@ describe "DataWriter" do
       end
 
       it "will store a school in-memory" do
-        @writer.get_entity_count(SchoolEducationOrganization).should eq(0)
-        @writer << SchoolEducationOrganization.new(3, 2, "elementary")
-        @writer.get_entity_count(SchoolEducationOrganization).should_not be_nil
-        @writer.get_entity_count(SchoolEducationOrganization).should eq(1)
+        @writer.get_entity_count(School).should eq(0)
+        @writer << School.new(3, 2, "elementary")
+        @writer.get_entity_count(School).should_not be_nil
+        @writer.get_entity_count(School).should eq(1)
       end
 
       it "will store a course in-memory" do
@@ -185,10 +185,10 @@ describe "DataWriter" do
     end
 
     it "will store a school in-memory" do
-      @writer.get_entity_count(SchoolEducationOrganization).should eq(0)
-      @writer << SchoolEducationOrganization.new(3, 2, "elementary")
-      @writer.get_entity_count(SchoolEducationOrganization).should_not be_nil
-      @writer.get_entity_count(SchoolEducationOrganization).should eq(1)
+      @writer.get_entity_count(School).should eq(0)
+      @writer << School.new(3, 2, "elementary")
+      @writer.get_entity_count(School).should_not be_nil
+      @writer.get_entity_count(School).should eq(1)
     end
 
     it "will store a course in-memory" do

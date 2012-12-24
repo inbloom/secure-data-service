@@ -7,7 +7,7 @@ ENTITY_WHITELIST: [
   "StateEducationAgency",
   "Course",
   "LocalEducationAgency",
-  "SchoolEducationOrganization",
+  "School",
   "Session",
   "GradingPeriod",
   "CalendarDate",

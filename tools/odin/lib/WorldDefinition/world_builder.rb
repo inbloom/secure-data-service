@@ -788,7 +788,7 @@ class WorldBuilder
     # write elementary, middle, and high schools 
     ["elementary", "middle", "high"].each{|classification|
       @world[classification].each { |edOrg|
-        @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
+        @queue.push_work_order({ :type => School, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
         create_program_work_orders(edOrg["programs"])
         create_cohorts DataUtility.get_school_id(edOrg['id'], classification)
       }

@@ -32,7 +32,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
 
     @writers[ StateEducationAgency ] = EntityWriter.new("state_education_organization.mustache")
     @writers[ LocalEducationAgency ] = EntityWriter.new("local_education_organization.mustache")
-    @writers[ SchoolEducationOrganization ] = EntityWriter.new("school.mustache")
+    @writers[ School ] = EntityWriter.new("school.mustache")
     @writers[ Course ] = EntityWriter.new("course.mustache")
     @writers[ Program ] = EntityWriter.new("program.mustache")
   end

@@ -41,8 +41,8 @@ class EntityFactory
         when [LocalEducationAgency]
           rval << LocalEducationAgency.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs])
 
-        when [SchoolEducationOrganization]
-          rval << SchoolEducationOrganization.new(work_order[:id], work_order[:parent], work_order[:classification], work_order[:programs])
+        when [School]
+          rval << School.new(work_order[:id], work_order[:parent], work_order[:classification], work_order[:programs])
 
         when [Program]
           rval << Program.new(@prnd, work_order[:id], work_order[:program_type], work_order[:sponsor])
