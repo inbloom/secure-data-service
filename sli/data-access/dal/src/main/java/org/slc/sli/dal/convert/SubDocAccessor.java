@@ -421,6 +421,7 @@ public class SubDocAccessor {
                                 newDBObject.put(newKey, parentIds.iterator().next());
                             }
                         } catch (InvalidIdException e) {
+                        	LOG.info("There was an invalid Id exception. Ignoring.");
                             // child id does not have parent id, qppend the subfield to original
                             // query, this may trigger table scan if subFiled._id is not
                             // indexed
