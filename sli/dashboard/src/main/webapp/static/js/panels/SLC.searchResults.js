@@ -99,7 +99,7 @@ SLC.namespace('SLC.searchResults', (function () {
 			params = 'name=' + getParameterByName("name") + '&pageNumber=' + postPageNum +
 			'&pageSize=' + postPageSize;
 			
-			SLC.util.goToLayout('studentSearch', null, params);
+			util.goToLayout('studentSearch', null, params);
 		}
 		
 		$("#searchPrevBtn").live("click", function () {
