@@ -155,7 +155,7 @@ class SectionWorkOrderFactory
   def add_teachers_to_sections(sections, teachers, type)
     sections_with_teachers     = {}
     sections.each { |offering, section_range|
-      # skip this offering if the second range is nil
+      # skip this offering if the section range is nil
       next if section_range.nil?
 
       sections_for_this_offering  = []
