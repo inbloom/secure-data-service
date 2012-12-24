@@ -7,7 +7,6 @@
 
 if [ $# -gt 1 ] ; then
   echo "Usage: scripts/slirp_reset [SLOW_QUERY_TIME] (run from the config/ directory)"
-  echo "This script uses scripts in the indexes/ folder"
   exit 1
 fi
 
@@ -41,6 +40,8 @@ echo "**************************************************************************
 
 echo " ***** Stopping Tomcat!"
 service tomcat stop
+rm -fr /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest
+rm -f /opt/logs/gc.out
 
 echo " ***** Clearing LZ!"
 
@@ -105,22 +106,18 @@ END
 done
 
 echo " ***** Adding Indexes to sli db"
-mongo sli < indexes/sli_indexes.js
+unzip -p /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest.war WEB-INF/classes/sli_indexes.js > /tmp/sli_indexes.js
+mongo sli < /tmp/sli_indexes.js
 
 echo " ***** Clearing databases off $ISDB"
-mongo $ISDB/is <<END
-db.setProfilingLevel(0);
-db.dropDatabase();
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-END
-mongo $ISDB/ingestion_batch_job <<END
+mongo $ISDB/ingestion_batch_job << END
 db.setProfilingLevel(0);
 db.dropDatabase();
 db.setProfilingLevel($SLOW_QUERY_PARAMS);
 END
 echo " ***** Setting up indexes on $ISDB"
-mongo $ISDB/is < indexes/is_indexes.js
-mongo $ISDB/ingestion_batch_job < indexes/ingestion_batch_job_indexes.js
+unzip -p /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest.war WEB-INF/classes/ingestion_batch_job_indexes.js > /tmp/ingestion_batch_job_indexes.js
+mongo $ISDB/ingestion_batch_job < /tmp/ingestion_batch_job_indexes.js
 
 echo " ***** Restarting Mongos"
 killall mongos

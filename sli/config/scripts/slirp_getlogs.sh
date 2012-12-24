@@ -38,6 +38,11 @@ mongo --quiet $ISDB/ingestion_batch_job --eval '"Errors: " + db.error.count()'
 cat $NAME/time
 
 #
+# Copy GC log
+#
+cp /opt/logs/gc.out $NAME
+
+#
 # Verify
 #
 while [ $# -gt 2 ] ; do
@@ -58,9 +63,6 @@ mongo --quiet $ISDB/ingestion_batch_job --eval "db.batchJobStage.find().forEach(
 #
 # Get slow query logs
 #
-echo "Slow query logs, is..."
-mongo --quiet $ISDB/is --eval "db.system.profile.find().forEach(function(x){printjson(x);})" > $NAME/slow_is.log
-echo "is: `scripts/analyze_slow_query_log.sh $NAME/slow_is.log`" >> $NAME/slow_summary
 echo "Slow query logs, staging..."
 mongo --quiet $ISDB/ingestion_batch_job --eval "db.system.profile.find().forEach(function(x){printjson(x);})" > $NAME/slow_ingestion_batch_job.log
 echo "ingestion_batch_job: `scripts/analyze_slow_query_log.sh $NAME/slow_ingestion_batch_job.log`" >> $NAME/slow_summary
