@@ -37,8 +37,8 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
@@ -83,7 +83,7 @@ public class TransformationProcessor implements Processor {
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
-        Source errorSource = new SimpleSource(workNote.getBatchJobId(), null, BATCH_JOB_STAGE.getName());
+        Source errorSource = new JobSource(workNote.getBatchJobId(), null, BATCH_JOB_STAGE.getName());
         reportStats = new SimpleReportStats(errorSource);
 
         if (workNote == null || workNote.getBatchJobId() == null) {

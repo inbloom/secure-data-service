@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-	<Assessment id="ACT-1">
+	<Assessment>
 		<AssessmentTitle>ACT</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -46,7 +46,7 @@
 	</Assessment>
 	
 	<!-- first level of objective assessment -->
-	<ObjectiveAssessment id="ActEng">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference>
@@ -61,7 +61,7 @@
 		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
-	<ObjectiveAssessment id="ActMath">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Mathematics</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference>
@@ -81,7 +81,7 @@
 		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActReading">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Reading</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference>
@@ -96,43 +96,43 @@
 		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActScience">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Science</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActWriting">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Writing</IdentificationCode>
 		<MaxRawScore>12</MaxRawScore>
 	</ObjectiveAssessment>
 	
 	<!-- second level of objective assessment -->
-	<ObjectiveAssessment id="ActEngUsage">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-English-Usage</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 
-   <ObjectiveAssessment id="ActEngRhetorical">
+   <ObjectiveAssessment>
 		<IdentificationCode>ACT-English-Rhetorical</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActMathPreAlgebra">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActMathAlgebra">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActMathGeometry">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActReadingSocial">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 		<!-- Commenting out circular reference -->
@@ -148,13 +148,13 @@
 		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 	
-	<ObjectiveAssessment id="ActReadingArts">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 	
 	<!-- Assessment Family Section -->
-	<AssessmentFamily id="ACT-Family">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">

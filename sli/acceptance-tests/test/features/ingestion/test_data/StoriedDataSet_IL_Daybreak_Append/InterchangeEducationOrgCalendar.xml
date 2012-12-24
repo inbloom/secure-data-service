@@ -2,7 +2,7 @@
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
     <!-- CalendarDates for the 2010-2011 school year -->
-    <CalendarDate id="CLND_20100823Instructionalday">
+    <CalendarDate>
         <Date>2010-08-23</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
         <EducationOrgReference>
@@ -11,7 +11,7 @@
 			</EducationalOrgIdentity>
         </EducationOrgReference>
     </CalendarDate>
-    <GradingPeriod id="GRDP_20101108">
+    <GradingPeriod>
         <GradingPeriod>Third Six Weeks</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
         <EducationOrganizationReference>

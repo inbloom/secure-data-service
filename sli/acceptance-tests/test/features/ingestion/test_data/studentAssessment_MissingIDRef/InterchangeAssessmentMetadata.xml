@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
-<Assessment id="TA-ACT-0">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-0</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -12,7 +12,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-1">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-1</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -23,7 +23,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-2">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-2</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -34,7 +34,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-3">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-3</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -45,7 +45,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-4">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-4</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -56,7 +56,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-5">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-5</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -67,7 +67,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-6">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-6</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -78,7 +78,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-7">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-7</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -89,7 +89,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-8">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-8</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -100,7 +100,7 @@
         <Version>1</Version>
 
 </Assessment>
-<Assessment id="TA-ACT-9">
+<Assessment>
 
         <AssessmentTitle>TA-ACT-9</AssessmentTitle>
                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor">

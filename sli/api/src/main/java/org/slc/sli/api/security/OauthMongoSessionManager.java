@@ -247,8 +247,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
 
         if (!authorizedAppIds.contains(app.getEntityId())) {
-            throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT, "User " + principal.getExternalId()
-                    + " is not authorized to use " + app.getBody().get("name"), (String) session.getBody().get("state"));
+            String message = "User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name");
+            error(message);
+            throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT, message, (String) session.getBody().get("state"));
         }
 
         String token = "";
@@ -317,7 +318,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                         .getEntity());
                                 principal.setSessionId(sessionEntity.getEntityId());
                                 Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
-                                        principal.getRealm(), principal.getRoles());
+                                        principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated());
                                 PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                         principal, accessToken, authorities);
                                 userToken.setAuthenticated(true);
@@ -383,8 +384,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm,
-                                                            final List<String> roleNames) {
-        return resolver.resolveRoles(tenantId, realm, roleNames);
+                                                            final List<String> roleNames, boolean isAdmin) {
+        return resolver.resolveRoles(tenantId, realm, roleNames, isAdmin);
     }
 
     private OAuth2Authentication createAnonymousAuth() {

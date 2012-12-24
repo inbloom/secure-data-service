@@ -286,7 +286,7 @@ def swap_realm_ids()
   custom_roles = @dbTenant.collection('customRole')
   to_swap = [
         {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
-        {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
+        {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
   ]
 
   to_swap.each do |realm|
@@ -574,7 +574,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1182,6 +1182,48 @@ task :importSandboxData do
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
   end
+end
+
+
+desc "Import Migration Test Data to Midgar"
+task :importMigrationData do
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  testHash = Hash[
+    "session" => "migration_data/session_fixture.json",
+    "program" => "migration_data/program_fixture.json",
+    "section" => "migration_data/section_fixture.json",
+    "course" => "migration_data/course_fixture.json",
+    "student" => "migration_data/student_fixture.json",
+    "parent" => "migration_data/parent_fixture.json",
+    "staff" => "migration_data/staff_fixture.json",
+    "assessment" => "migration_data/assessment_fixture.json",
+    "attendance" => "migration_data/attendance_fixture.json",
+    "studentSchoolAssociation" => "migration_data/studentSchoolAssociation_fixture.json",
+    "teacherSchoolAssociation" => "migration_data/teacherSchoolAssociation_fixture.json",
+    "educationOrganization" => "migration_data/educationOrganization_fixture.json",
+    "staffEducationOrganizationAssociation" => "migration_data/staffEducationOrganizationAssociation_fixture.json",
+    "schoolSessionAssociation" => "migration_data/schoolSessionAssociation_fixture.json",
+    "courseOffering" => "migration_data/courseOffering_fixture.json",
+    "courseTranscript" => "migration_data/courseTranscript_fixture.json",
+    "studentGradebookEntry" => "migration_data/studentGradebookEntry_fixture.json",
+    "disciplineIncident" => "migration_data/disciplineIncident_fixture.json",
+    # "studentDisciplineIncidentAssociation" => "migration_data/studentDisciplineIncidentAssociation_fixture.json",
+    "disciplineAction" => "migration_data/disciplineAction_fixture.json",
+    "cohort" => "migration_data/cohort_fixture.json",
+    "staffCohortAssociation" => "migration_data/staffCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "migration_data/staffProgramAssociation_fixture.json",
+    "studentAcademicRecord" => "migration_data/studentAcademicRecord_fixture.json",
+    "learningStandard" => "migration_data/learningStandard_fixture.json",
+    "learningObjective" => "migration_data/learningObjective_fixture.json",
+    "grade" => "migration_data/grade_fixture.json",
+    "studentCompetency" => "migration_data/studentCompetency_fixture.json",
+    "gradingPeriod" => "migration_data/gradingPeriod_fixture.json",
+    "reportCard" => "migration_data/reportCard_fixture.json",
+    "graduationPlan" => "migration_data/graduationPlan_fixture.json",
+    "studentCompetencyObjective" => "migration_data/studentCompetencyObjective_fixture.json",
+    "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
 end
 
 desc "Import Sandbox Test Data"

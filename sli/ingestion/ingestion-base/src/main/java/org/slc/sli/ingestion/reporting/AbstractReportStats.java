@@ -51,17 +51,6 @@ public abstract class AbstractReportStats {
     }
 
     /**
-     * Add an <code>ElementLocationInfo</code> to report
-     *
-     * @return info ElementLocationInfo to report
-     */
-    public void addElementLocationInfo(ElementLocationInfo info) {
-        if (source != null) {
-            source.addElementLocationInfo(info);
-        }
-    }
-
-    /**
      * Increase the error count by one.
      */
     public abstract void incError();

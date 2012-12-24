@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 	<!-- first level of objective assessment -->
-	<ObjectiveAssessment id="ActEng">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
@@ -11,7 +11,7 @@
 	</ObjectiveAssessment>
 
 	<!-- Assessment Item Section -->
-	<AssessmentItem id="AssessmentItem-1">
+	<AssessmentItem>
 		<AssessmentReference>
 			<AssessmentIdentity>
 				<AssessmentTitle>ACT</AssessmentTitle>

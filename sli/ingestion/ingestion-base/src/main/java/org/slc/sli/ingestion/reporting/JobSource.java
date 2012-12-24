@@ -16,23 +16,19 @@
 
 package org.slc.sli.ingestion.reporting;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author npandey
  *
  */
-
-public class SimpleSource implements Source {
+public class JobSource implements Source {
 
     private String batchJobId;
     private String resourceId;
     private String stageName;
-    private List<ElementLocationInfo> locationInfoList = new ArrayList<ElementLocationInfo>();
 
-    public SimpleSource(String batchJobId, String resourceId, String stageName) {
+    public JobSource(String batchJobId, String resourceId, String stageName) {
         this.batchJobId = batchJobId;
         this.resourceId = resourceId;
         this.stageName = stageName;
@@ -54,18 +50,8 @@ public class SimpleSource implements Source {
     }
 
     @Override
-    public void addElementLocationInfo(ElementLocationInfo info) {
-        locationInfoList.add(info);
-    }
-
-    @Override
-    public void clearElementLocationInfo() {
-        locationInfoList.clear();
-    }
-
-    @Override
-    public List<ElementLocationInfo> getElementLocationInfo() {
-        return this.locationInfoList;
+    public String getUserFriendlyMessage() {
+        return "";
     }
 
 }

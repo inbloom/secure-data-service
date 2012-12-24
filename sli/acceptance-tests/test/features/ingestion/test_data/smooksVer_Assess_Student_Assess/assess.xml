@@ -2,7 +2,7 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-  <Assessment id="Grade-8-2011-StateTest-Writing">
+  <Assessment>
     <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
     <AssessmentIdentificationCode
       IdentificationSystem="Test Contractor">
@@ -60,7 +60,7 @@
     <SectionReference></SectionReference>
   </Assessment>
   
-  <AssessmentFamily id="StateTest_Writing_for_Grade_8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -73,7 +73,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
   
-  <AssessmentFamily id="StateTest_Writing_for_Grades_3-8">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -86,7 +86,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
   
-  <AssessmentFamily id="StateTest">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">

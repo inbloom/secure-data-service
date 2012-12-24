@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.generators;
 
 import java.util.List;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.AcademicSubjectsType;
-import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.ProgramAssignmentType;
-import org.slc.sli.test.edfi.entities.Ref;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.SLCTeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class TeacherSchoolAssociationGenerator {
     public SLCTeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {
@@ -42,7 +39,7 @@ public class TeacherSchoolAssociationGenerator {
         SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
 
         for (String stateOrgId : stateOrgIds) {
-//            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
+            // eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
             eoit.setStateOrganizationId(stateOrgId);
         }
 
@@ -64,46 +61,24 @@ public class TeacherSchoolAssociationGenerator {
 
     public static SLCTeacherSchoolAssociation generateLowFi(TeacherMeta teacherMeta, String schoolId) {
 
-    	SLCTeacherSchoolAssociation teacherSchool = new SLCTeacherSchoolAssociation();
+        SLCTeacherSchoolAssociation teacherSchool = new SLCTeacherSchoolAssociation();
 
         // construct and add the school references
-    	SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
-//        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
+        // edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         edOrgIdentity.setStateOrganizationId(schoolId);
 
         SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
 
-
         teacherSchool.setSchoolReference(schoolRef);
 
-
-        // construct and add the teacher reference
-        /*
-        StaffIdentityType staffIdentity = new StaffIdentityType();
+        SLCStaffIdentityType staffIdentity = new SLCStaffIdentityType();
         staffIdentity.setStaffUniqueStateId(teacherMeta.id);
-
-        StaffReferenceType teacherRef = new StaffReferenceType();
+        SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
         teacherRef.setStaffIdentity(staffIdentity);
 
         teacherSchool.setTeacherReference(teacherRef);
-        */
-
-		if (MetaRelations.TeacherSchoolAssociation_Ref) {
-//			IDREF support deprecated
-//
-//			Ref teacherRefer = new Ref(teacherMeta.id);
-//			SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
-//			teacherRef.setRef(teacherRefer);
-//			teacherSchool.setTeacherReference(teacherRef);
-		} else {
-			SLCStaffIdentityType staffIdentity = new SLCStaffIdentityType();
-			staffIdentity.setStaffUniqueStateId(teacherMeta.id);
-			SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
-			teacherRef.setStaffIdentity(staffIdentity);
-
-			teacherSchool.setTeacherReference(teacherRef);
-		}
 
         teacherSchool.setProgramAssignment(ProgramAssignmentType.REGULAR_EDUCATION);
 
