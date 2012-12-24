@@ -143,6 +143,12 @@ task :v1HierarchyTraversalTests => [:realmInit] do
   runTests("test/features/apiV1/end_user_stories/hierarchyTraversal")
 end
 
+desc "Run V1 Link Crawling Tests"
+task :v1LinkCrawling => [:realmInit] do
+  Rake::Task["importMigrationData"].execute
+  runTests("test/features/apiV1/end_user_stories/linkCrawling")
+end
+
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
   setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
