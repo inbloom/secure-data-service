@@ -109,6 +109,7 @@ public class IdNormalizer {
                 if (reference.isDeprecated()) {
                     // TODO: remove IdNormalizerFlag
                     if (!IdNormalizerFlag.useOldNormalization) {
+                        LOG.trace("Reference is deprecated. Returning...", reference.toString());
                         continue;
                     }
                     // override deprecated flag, complete processing
@@ -553,6 +554,8 @@ public class IdNormalizer {
 
             // execute query and record results
             Set<String> foundIds = new LinkedHashSet<String>();
+
+            LOG.trace("Querying collection {}", collectionName);
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
 

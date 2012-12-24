@@ -68,6 +68,7 @@ public class DeterministicIdResolver {
 
         if (IdNormalizerFlag.useOldNormalization) {
             // TODO: remove IdNormalizerFlag
+            LOG.trace("Use old Id Normalizer");
             return;
         }
 
@@ -126,6 +127,8 @@ public class DeterministicIdResolver {
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
 
+        LOG.trace("Handling DID for reference {}", entityType);
+
         DidRefConfig didRefConfig = getRefConfig(entityType);
 
         if (didRefConfig == null) {
@@ -143,6 +146,7 @@ public class DeterministicIdResolver {
         extractReferenceParentNodes(parentNodes, entity.getBody(), pathParts, 0);
 
         //resolve and set all the parentNodes
+        LOG.trace("Resolving parentNodes references");
         for (Map<String, Object> node : parentNodes) {
             Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), entity, didRefConfig, collectionName, tenantId);
             if (resolvedRef != null) {
@@ -177,6 +181,8 @@ public class DeterministicIdResolver {
 
     private Object resolveReference(Object referenceObject, boolean isOptional, Entity entity, DidRefConfig didRefConfig,
             String collectionName, String tenantId) throws IdResolutionException {
+
+        LOG.trace("Resolving reference");
 
         String refType = didRefConfig.getEntityType();
 
@@ -263,6 +269,7 @@ public class DeterministicIdResolver {
     // function which, given reference type map (source object) and refConfig, return a did
     private String getId(Map<String, Object> reference, String tenantId, DidRefConfig didRefConfig)
             throws IdResolutionException {
+        LOG.trace("Getting deterministic id");
         if (didRefConfig.getEntityType() == null || didRefConfig.getEntityType().isEmpty()) {
             return null;
         }

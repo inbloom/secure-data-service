@@ -91,6 +91,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
 
+        LOG.trace("Resolving references for {}", item.getRecordType());
         resolveReferences(item, errorReport);
 
         if (errorReport.hasErrors()) {
@@ -98,6 +99,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return Collections.emptyList();
         }
 
+        LOG.trace("Transforming entity of type: {}", item.getRecordType());
         List<SimpleEntity> transformed = transform(item, errorReport);
 
         if (errorReport.hasErrors()) {
@@ -118,6 +120,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
 
                 try {
+                    LOG.trace("Performing entity matching for {}", entity.getType());
                     matchEntity(entity, errorReport);
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception in matchEntity", darfe);
@@ -143,12 +146,16 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             String entityType = ref.getEntityType();
             String collectionName = getPersistedCollectionName(entityType);
 
+            LOG.trace("Resolving complex ref of type {}", entityType);
+
             idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
+        LOG.trace("Resolving internalIds with DID");
         didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 
+        LOG.trace("Resolving internalIds with Id Normalizer");
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
     }
 
@@ -193,6 +200,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             }
         }
 
+        LOG.trace("Querying collection {} in the database for matching entity", collection);
         @SuppressWarnings("deprecation")
         Iterable<Entity> match = entityRepository.findByQuery(collection, query, 0, 0);
 
@@ -278,6 +286,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             ErrorReport errorReport) {
         Query query = new Query();
 
+        LOG.trace("Creating entity look up query from key fields");
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);

@@ -187,6 +187,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         String collectionName = getCollectionName(entities.get(0));
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
+        LOG.trace(" Update if entity exists, else process new entity");
         for (SimpleEntity entity : entities) {
             if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, errorReport);
@@ -195,6 +196,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
         }
 
+        LOG.trace("Validate entity and queue for persisting");
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
             LOG.debug("Processing: {}", entity.getType());
@@ -260,6 +262,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
+        LOG.trace("Prematching entity with natural keys");
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
         if (keyFields.size() > 0) {

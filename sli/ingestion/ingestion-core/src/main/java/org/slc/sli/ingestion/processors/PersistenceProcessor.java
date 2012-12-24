@@ -104,13 +104,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private MessageSource messageSource;
 
     // Paths for id field and ref fields for self-referencing entities (for DE1950)
-    // TODO: make it work for entities with multiple field keys. 
-    // TODO: make it configurable. From schema, maybe.  
+    // TODO: make it work for entities with multiple field keys.
+    // TODO: make it configurable. From schema, maybe.
     // represents the configuration of a self-referencing entity schema
     static class SelfRefEntityConfig {
         String idPath;              // path to the id field
-        // Exactly one of the following fields can be non-null: 
-        String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
+        // Exactly one of the following fields can be non-null:
+        String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field,
         String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
         SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
@@ -121,14 +121,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     public final static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
     static {
         HashMap<String, SelfRefEntityConfig> m = new HashMap<String, SelfRefEntityConfig> ();
-        // learning objective's parent reference is stored in localParentId map. 
+        // learning objective's parent reference is stored in localParentId map.
         m.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null, "parentObjectiveId"));
         // localEducationAgency's parent reference is stored in a field an attribute
         m.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference", null));
         SELF_REF_ENTITY_CONFIG = Collections.unmodifiableMap(m);
     }
     // End Self-referencing entity
-    
+
     /**
      * Camel Exchange process callback method
      *
@@ -219,6 +219,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         try {
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
+            LOG.trace("Querying records from staging database for the collection {}", collectionToPersistFrom );
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
@@ -230,6 +231,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             // TODO: make this generic for all self-referencing entities
             if (SELF_REF_ENTITY_CONFIG.containsKey(collectionNameAsStaged)) {
 
+                LOG.trace("Persisting self referencing entity: {}", collectionNameAsStaged);
                 errorReportForCollection = persistSelfReferencingEntity(workNote, job, perFileMetrics,
                         errorReportForCollection, errorReportForNrEntity, records);
 
@@ -237,6 +239,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                 List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
                 List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
+
+                LOG.trace("Performing Edfi-SLI transformation of records");
+
                 for (NeutralRecord neutralRecord : records) {
                     errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
                     Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
@@ -264,7 +269,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                 try {
                     if (persist.size() > 0) {
+                        LOG.trace("Persisting record to SLI db");
                         List<Entity> failed = entityPersistHandler.handle(persist, errorReportForNrEntity);
+                        LOG.trace("{} records failed to persist", failed.size());
                         for (Entity entity : failed) {
                             NeutralRecord record = recordStore.get(persist.indexOf(entity));
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
@@ -275,6 +282,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                             }
                         }
                     }
+                    LOG.trace("Updating recordHash collection");
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
                         upsertRecordHash(neutralRecord2);
 
@@ -311,6 +319,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         List<NeutralRecord> sortedNrList = iterableToList(records);
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
         try {
+            LOG.trace("Sorting self referencing records by dependency");
             sortedNrList = sortNrListByDependency(sortedNrList, collectionNameAsStaged);
         } catch (IllegalStateException e) {
             LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
@@ -318,7 +327,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         for (NeutralRecord neutralRecord : sortedNrList) {
             LOG.info("transforming and persisting {}: {}",
-                    collectionNameAsStaged, 
+                    collectionNameAsStaged,
                     getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
 
             errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
@@ -349,7 +358,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Sort records in dependency-honoring order since they are self-referencing.
-     * 
+     *
      * @param records
      * @param collectionName
      * @return
@@ -359,7 +368,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             throws IllegalStateException {
 
         List<NeutralRecord> sortedRecords = new ArrayList<NeutralRecord>();
-        
+
         for (NeutralRecord me : unsortedRecords) {
             insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>(), collectionNameAsStaged);
         }
@@ -376,7 +385,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     // FIXME: make this algo iterative rather than recursive
     private static void insertMyDependenciesAndMe(NeutralRecord me, List<NeutralRecord> unsortedRecords,
-            List<NeutralRecord> sortedRecords, Set<String> idsInStack, 
+            List<NeutralRecord> sortedRecords, Set<String> idsInStack,
             String collectionNameAsStaged) throws IllegalStateException {
         SelfRefEntityConfig selfRefConfig = SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged);
         if (me != null && !sortedRecords.contains(me)) {

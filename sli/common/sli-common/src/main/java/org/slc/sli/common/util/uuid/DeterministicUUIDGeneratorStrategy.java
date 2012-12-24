@@ -64,6 +64,7 @@ public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy
     @Override
     public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
 
+        LOG.trace("Generating id");
         // if no natural keys exist, can't generate deterministic id
         if (naturalKeyDescriptor == null || naturalKeyDescriptor.getNaturalKeys() == null
                 || naturalKeyDescriptor.getNaturalKeys().isEmpty()) {

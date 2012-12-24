@@ -45,6 +45,7 @@ public class DidEntityConfigReader implements ResourceLoaderAware {
     private Map<String, DidEntityConfig> didEntityConfigurations = new HashMap<String, DidEntityConfig>();
 
     public synchronized DidEntityConfig getDidEntityConfiguration(String entityType) {
+        LOG.trace("Fetching DID config for {}", entityType);
         if (!didEntityConfigurations.containsKey(entityType)) {
             InputStream configIs = null;
             try {

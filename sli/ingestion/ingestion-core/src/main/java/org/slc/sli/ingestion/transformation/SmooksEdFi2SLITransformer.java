@@ -65,6 +65,9 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         // directly.
         if (smooks == null) {
             String type = item.getRecordType().replaceAll("_transformed", "");
+
+            LOG.trace("No transformation required for {}. Converting neutral record to simple entity", type);
+
             Map<String, Object> body = item.getAttributes();
             SimpleEntity entity = new SimpleEntity();
             entity.setType(type);
@@ -92,7 +95,9 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
         try {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
+            LOG.trace("Performing smooks transformation on record of type {}", item.getRecordType());
             smooks.filterSource(source, result);
+            LOG.trace("Smooks transformation complete. Converting result into list of Simple entities");
             sliEntities = getEntityListResult(result);
         } catch (IOException e) {
             sliEntities = Collections.emptyList();
