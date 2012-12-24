@@ -263,7 +263,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             try {
                 is.close();
             } catch (IOException ioException) {
-                throw new RuntimeException(ioException);
+                LOG.error("ioExecption in closing input file ", ioException);
             }
         }
     }
