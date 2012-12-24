@@ -21,21 +21,22 @@ require_relative "baseEntity.rb"
 # creates grade book entry
 class GradebookEntry < BaseEntity
 
-  attr_accessor :type, :date_assigned
+  attr_accessor :type, :date_assigned, :description, :section
   
-  def initialize(type, date_assigned, section, grading_period = nil)
+  def initialize(type, date_assigned, section, description = nil, grading_period = nil)
     @type           = type
     @date_assigned  = date_assigned
     @section        = section
+    @description    = description
     @grading_period = grading_period
-  end
-
-  def section
-    {:ed_org_id => "", :unique_section_code => ""}
   end
 
   def grading_period
     return nil if @grading_period.nil?
-    {:type => GradingPeriodType.to_string(@grading_period['type']), :ed_org_id => "", :begin_date => ""}
+
+    type       = GradingPeriodType.to_string(@grading_period['type'])
+    ed_org_id  = @grading_period['ed_org_id']
+    begin_date = @grading_period['ed_org_id']['interval'].get_begin_date
+    return {:type => type, :ed_org_id => ed_org_id, :begin_date => begin_date}
   end
 end

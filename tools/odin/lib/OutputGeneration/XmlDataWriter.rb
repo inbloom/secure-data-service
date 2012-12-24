@@ -28,6 +28,7 @@ require_relative "XML/masterScheduleGenerator.rb"
 require_relative "XML/staffAssociationGenerator.rb"
 require_relative "XML/studentAssessmentGenerator.rb"
 require_relative "XML/studentAttendanceGenerator.rb"
+require_relative "XML/studentGradeGenerator.rb"
 require_relative "XML/studentParentGenerator.rb"
 require_relative "XML/studentProgramGenerator.rb"
 
@@ -65,6 +66,7 @@ class XmlDataWriter < DataWriter
     @writers << StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
     @writers << StudentAttendanceGenerator.new(@yaml, initialize_interchange(directory, "Attendance"))
+    @writers << StudentGradeGenerator.new(@yaml, initialize_interchange(directory, "StudentGrade"))
     @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
     @writers << StudentProgramGenerator.new(@yaml, initialize_interchange(directory, "StudentProgram"))
 

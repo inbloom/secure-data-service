@@ -181,11 +181,12 @@ class StudentWorkOrder
     unless @section_factory.nil?
       sections = @section_factory.sections(school_id, type.to_s, start_year, start_grade)
       unless sections.nil?
-        #generate a section for each available course offering
         sections.each{|course_offering, available_sections|
-          section = available_sections.to_a[id % available_sections.count]
-          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section),
+          section = available_sections[id % available_sections.count]
+          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section[:id]),
                                                 school_id, start_year, start_grade)
+
+          # generate student grade book entries (as part of enrollment in section)
         }
       end
     end

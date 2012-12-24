@@ -85,7 +85,7 @@ class EntityFactory
           rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
 
         when [GradebookEntry]
-          eval << GradebookEntry.new
+          rval << GradebookEntry.new(work_order[:gbe_type], work_order[:date_assigned], work_order[:section])
 
         else
           puts "factory not found for #{work_order}"
