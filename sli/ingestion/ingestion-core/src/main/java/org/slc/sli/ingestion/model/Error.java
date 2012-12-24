@@ -53,8 +53,8 @@ public final class Error {
 
     private String errorDetail;
 
-    // mongoTemplate requires this constructor.
     public Error() {
+        // Mongo requires this
     }
 
     public Error(String batchJobId, String stageName, String resourceId, String sourceIp, String hostname,
