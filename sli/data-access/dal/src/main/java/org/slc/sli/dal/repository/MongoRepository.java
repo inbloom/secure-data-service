@@ -83,10 +83,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @return
      *         The modified neutral query
      */
-    protected NeutralQuery addDefaultQueryParams(NeutralQuery query, String collectionName) {
-        if (query == null) {
-            query = new NeutralQuery();
-        }
+    protected NeutralQuery addDefaultQueryParams(NeutralQuery origQuery, String collectionName) {
+    	NeutralQuery query = origQuery == null ? new NeutralQuery() : origQuery;
 
         // TODO: this is assuming that the staging db is the only non-sli db. remove all of this
         // eventually.
@@ -264,11 +262,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery) {
+    public Iterable<T> findAll(String collectionName, NeutralQuery origNeutralQuery) {
 
-        if (neutralQuery == null) {
-            neutralQuery = new NeutralQuery();
-        }
+    	NeutralQuery neutralQuery = origNeutralQuery == null ? new NeutralQuery() : origNeutralQuery;
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
@@ -295,10 +291,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
     protected abstract Iterable<T> findAllAcrossTenants(String collectionName, Query mongoQuery);
 
     @Override
-    public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
-        if (neutralQuery == null) {
-            neutralQuery = new NeutralQuery();
-        }
+    public Iterable<String> findAllIds(String collectionName, NeutralQuery origNeutralQuery) {
+    	NeutralQuery neutralQuery = origNeutralQuery == null ? new NeutralQuery() : origNeutralQuery;
         neutralQuery.setIncludeFieldString("_id");
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
@@ -553,11 +547,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
      */
     @Override
     @Deprecated
-    public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
-
-        if (query == null) {
-            query = new Query();
-        }
+    public Iterable<T> findByQuery(String collectionName, Query origQuery, int skip, int max) {
+    	Query query = origQuery == null ? new Query() : origQuery;
 
         query.skip(skip).limit(max);
 
@@ -662,6 +653,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
+    @SuppressWarnings("PMD")
     public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         return null;
     }
