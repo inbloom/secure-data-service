@@ -182,11 +182,12 @@ describe "DateUtility" do
         fail if !holidays.include? Date.new(2013, 3, 15)
       end
     end
+
     describe "--> requesting distribution of dates over an interval" do
       it "will handle a single event for any size interval" do
         monday = Date.new(2012, 3, 26)
         friday = Date.new(2012, 3, 30)
-        fail if DateUtility.get_school_days_over_interval(monday, friday, 1) != [Date.new(2012, 3, 26)] 
+        fail if DateUtility.get_school_days_over_interval(monday, friday, 1) != [Date.new(2012, 3, 30)] 
       end
 
       it "will return an evenly spread distribution of dates for an interval" do
@@ -214,6 +215,18 @@ describe "DateUtility" do
       it "will handle start date equivalent to end date for an interval" do
         monday = Date.new(2012, 3, 26)
         fail if DateUtility.get_school_days_over_interval(monday, monday, 1) != [Date.new(2012, 3, 26)] 
+      end
+
+      it "will return an empty array when zero events are requested" do
+        friday = Date.new(2012, 3, 23)
+        monday = Date.new(2012, 3, 26)
+        DateUtility.get_school_days_over_interval(friday, monday, 0).should be_empty
+      end
+
+      it "will raise an exception when the start date is after the end date" do
+        friday = Date.new(2012, 3, 23)
+        monday = Date.new(2012, 3, 26)
+        expect { DateUtility.get_school_days_over_interval(monday, friday, 1) }.to raise_exception(ArgumentError)
       end
     end
   end

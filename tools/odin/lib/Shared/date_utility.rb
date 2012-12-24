@@ -199,9 +199,12 @@ class DateUtility
 
   # finds the dates to evenly spread the specified number of events between the start and end date
   def self.get_school_days_over_interval(start_date, end_date, num_events)
-    dates     = []
+    raise(ArgumentError, ":start_date must be before :end_date") if start_date > end_date
+    return [] if num_events == 0
+
+    dates = []
     if start_date == end_date or num_events == 1
-      dates << start_date
+      dates << end_date
       return dates
     end
     
