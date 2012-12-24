@@ -17,7 +17,6 @@
   </properties>
 
   <modules>
-    <module>common-test-data</module>
     <module>common-encrypt</module>
     <module>sli-common</module>
   </modules>
