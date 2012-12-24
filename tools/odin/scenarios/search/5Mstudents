@@ -4,7 +4,7 @@ numYears: 1
 ASSESSMENTS_PER_GRADE: 0
 
 ENTITY_WHITELIST: [
-  "SeaEducationOrganization",
+  "StateEducationAgency",
   "Course",
   "LeaEducationOrganization",
   "SchoolEducationOrganization",

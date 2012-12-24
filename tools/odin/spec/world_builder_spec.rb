@@ -38,7 +38,7 @@ describe "WorldBuilder" do
 
       it "education organization interchange will contain a single state education agency" do
         @world["seas"].length.should eq(1)
-        @queue.count(SeaEducationOrganization).should eq(1)
+        @queue.count(StateEducationAgency).should eq(1)
       end
       it "education organization interchange will contain a single local education agency" do
         @world["leas"].length.should eq(1)
@@ -129,7 +129,7 @@ describe "WorldBuilder" do
 
       it "education organization interchange will contain a single state education agency" do
         @world["seas"].length.should eq(1)
-        @queue.count(SeaEducationOrganization).should eq(1)
+        @queue.count(StateEducationAgency).should eq(1)
       end
       it "education organization interchange will contain multiple local education agencies" do
         @world["leas"].length.should be_> 2

@@ -20,7 +20,7 @@ require_relative "../data_utility.rb"
 require_relative "baseEntity.rb"
 
 # creates state education agency
-class SeaEducationOrganization < BaseEntity
+class StateEducationAgency < BaseEntity
   
   attr_accessor :state_org_id, :programs
 

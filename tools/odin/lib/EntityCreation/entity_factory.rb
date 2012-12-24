@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 Dir["../../Shared/EntityClasses/*.rb"].each {|file| require file }
 
 class EntityFactory
@@ -34,8 +35,8 @@ class EntityFactory
       #
 
       case [type]
-        when [SeaEducationOrganization]
-          rval << SeaEducationOrganization.new(@prnd, work_order[:id], work_order[:programs])
+        when [StateEducationAgency]
+          rval << StateEducationAgency.new(@prnd, work_order[:id], work_order[:programs])
 
         when [LeaEducationOrganization]
           rval << LeaEducationOrganization.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs])

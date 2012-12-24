@@ -47,20 +47,20 @@ describe "DataWriter" do
       end
 
       it "will return nil when requesting type for an entity that is not in @entities" do
-        @writer.get_entities(SeaEducationOrganization).should be_nil
+        @writer.get_entities(StateEducationAgency).should be_nil
       end
 
       it "will return zero when requesting count for an entity that is not in @counts" do
-        @writer.get_entity_count(SeaEducationOrganization).should eq(0)
+        @writer.get_entity_count(StateEducationAgency).should eq(0)
       end
     end
 
     describe "--> creating entities" do
       it "will store a state education agency in-memory" do
-        @writer.get_entity_count(SeaEducationOrganization).should eq(0)
-        @writer << SeaEducationOrganization.new(1, @random)
-        @writer.get_entity_count(SeaEducationOrganization).should_not be_nil
-        @writer.get_entity_count(SeaEducationOrganization).should eq(1)
+        @writer.get_entity_count(StateEducationAgency).should eq(0)
+        @writer << StateEducationAgency.new(1, @random)
+        @writer.get_entity_count(StateEducationAgency).should_not be_nil
+        @writer.get_entity_count(StateEducationAgency).should eq(1)
       end
 
       it "will store a local education agency in-memory" do
@@ -171,10 +171,10 @@ describe "DataWriter" do
     end
     
     it "will store a state education agency in-memory" do
-      @writer.get_entity_count(SeaEducationOrganization).should eq(0)
-      @writer << SeaEducationOrganization.new(1, @random)
-      @writer.get_entity_count(SeaEducationOrganization).should_not be_nil
-      @writer.get_entity_count(SeaEducationOrganization).should eq(1)
+      @writer.get_entity_count(StateEducationAgency).should eq(0)
+      @writer << StateEducationAgency.new(1, @random)
+      @writer.get_entity_count(StateEducationAgency).should_not be_nil
+      @writer.get_entity_count(StateEducationAgency).should eq(1)
     end
 
     it "will store a local education agency in-memory" do

@@ -773,7 +773,7 @@ class WorldBuilder
       else
         ed_org_id = DataUtility.get_state_education_agency_id(edOrg["id"])
       end
-      @queue.push_work_order({ :type => SeaEducationOrganization, :id => ed_org_id, :programs => get_program_ids(edOrg["programs"]) })
+      @queue.push_work_order({ :type => StateEducationAgency, :id => ed_org_id, :programs => get_program_ids(edOrg["programs"]) })
       
       create_course_work_orders(ed_org_id, edOrg["courses"])
       create_program_work_orders(edOrg["programs"])
