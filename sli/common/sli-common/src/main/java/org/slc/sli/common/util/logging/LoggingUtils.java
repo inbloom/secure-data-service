@@ -33,7 +33,7 @@ public class LoggingUtils {
         try {
             localhost = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
+            throw new LoggingUtilException(e);
         }
     }
 
