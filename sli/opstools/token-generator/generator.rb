@@ -8,7 +8,7 @@ options = {}
 
 ARGV.options do |opts|
   opts.banner = "Usage: generator -t Tenant -u User -c ClientId -r Role -e expiration [options]"
-  options[:mongo] = 'jugtomcat01.slidev.org:27017'
+  options[:mongo] = 'localhost:27017'
   options[:realm] = "SandboxIDP"
   opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (Default: localhost:27017)') do |mongo|
     options[:mongo] = mongo
