@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of reporter descriptions for discipline incidents. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="ReporterDescriptionType">
 #   <xs:annotation>

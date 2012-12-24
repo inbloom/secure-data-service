@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of genders. From ed-fi-core.xsd:
 # <xs:simpleType name="SexType">
 #   <xs:annotation>

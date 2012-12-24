@@ -53,16 +53,4 @@ class MediumOfInstructionType
   MediumOfInstructionType.define :TELEVISED, "Televised"
   MediumOfInstructionType.define :VIDEOTAPED_PRERECORDED_VIDEO, "Videotaped/prerecorded video"
   MediumOfInstructionType.define :VIRTUAL_ON_LINE_DISTANCE_LEARNING, "Virtual/On-line Distance learning"
-
-  # translates the specified Symbol into the ed-fi compliant String representation of the medium of instruction type
-  # -> returns nil if the Symbol doesn't exist
-  def self.get(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the medium of instruction type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
 end

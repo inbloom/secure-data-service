@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of participation a student can engage in (context: discipline incidents). From Ed-Fi-Core.xsd:
 # <xs:simpleType name="StudentParticipationCodeType">
 #   <xs:annotation>

@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of assessment item results. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="AssessmentItemResultType">
 #   <xs:annotation>

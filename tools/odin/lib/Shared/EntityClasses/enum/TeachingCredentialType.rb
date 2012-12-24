@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of teaching credentials. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="TeachingCredentialType">
 #   <xs:annotation>

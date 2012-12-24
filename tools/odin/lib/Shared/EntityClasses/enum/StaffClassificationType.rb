@@ -85,16 +85,4 @@ class StaffClassificationType
   StaffClassificationType.define :SUBSTITUTE_TEACHER, "Substitute Teacher"
   StaffClassificationType.define :SUPERINTENDENT, "Superintendent"
   StaffClassificationType.define :TEACHER, "Teacher"
-
-  # translates the specified Symbol into the String representation of the staff classification type
-  # -> returns nil if the Symbol doesn't exist
-  def self.to_string(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the staff classification type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
 end

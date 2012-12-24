@@ -109,16 +109,4 @@ class ProgramType
   ProgramType.define :TECHNICAL_PREPARATORY, "Technical Preparatory"
   ProgramType.define :TITLE_I_PART_A, "Title I Part A"
   ProgramType.define :VOCATIONAL_EDUCATION, "Vocational Education"
-
-  # translates the specified Symbol into the ed-fi compliant String representation of the program type
-  # -> returns nil if the Symbol doesn't exist
-  def self.to_string(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the program type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
 end

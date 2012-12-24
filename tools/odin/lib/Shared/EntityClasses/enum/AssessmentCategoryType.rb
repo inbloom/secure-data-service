@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of assessment categories. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="AssessmentCategoryType">
 #   <xs:annotation>
