@@ -41,7 +41,7 @@ end
 After do
   begin
     STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
-    initializeLandingZone(@lz)
+ #   initializeLandingZone(@lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{@lz}"
@@ -56,7 +56,7 @@ After do
   begin
     sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(PRELOAD_EDORG) + "/"
     STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
-    initializeLandingZone(sample_data_set_lz)
+  #  initializeLandingZone(sample_data_set_lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
@@ -248,6 +248,7 @@ end
 
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+
 end
 
 Then /^the Ingestion Admin is authenticated to Simple IDP as user "(.*?)" with pass "(.*?)"$/ do |user, pass|
