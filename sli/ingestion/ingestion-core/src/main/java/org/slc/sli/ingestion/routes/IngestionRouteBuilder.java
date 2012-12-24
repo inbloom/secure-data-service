@@ -382,21 +382,23 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: pitNodes
         from(pitNodeQueueUri).routeId("pitNodes")
-                .log(LoggingLevel.DEBUG, "CamelRouting", "Pit message received: ${body}").choice()
-                .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+            .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}")
+            .choice()
+            .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
                 .process(transformationProcessor)
                 .log(LoggingLevel.INFO, "CamelRouting", "TransformationProcessor complete. Routing back to Maestro.")
                 .to(maestroQueueUri)
-
-                .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
-                .log("persist: jobId: " + header("jobId").toString()).choice()
+            .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                .choice()
                 .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
-                .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
-                .to(maestroQueueUri).otherwise().process(persistenceProcessor)
-                .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
-                .to(maestroQueueUri);
+                    .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
+                    .to(maestroQueueUri)
+                .otherwise()
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
+                    .process(persistenceProcessor)
+                    .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
+                    .to(maestroQueueUri);
     }
 
     public void configureTenantPollingTimerRoute() {
