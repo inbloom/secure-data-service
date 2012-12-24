@@ -63,27 +63,30 @@ public class DefaultRolesToRightsResolverTest {
     private static final String ADMIN_REALM_ID = "adminRealmId";
     private List<String> sandboxRole = Arrays.asList(SecureRoleRightAccessImpl.SANDBOX_ADMINISTRATOR);
     private List<String> otherRole = Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER, SecureRoleRightAccessImpl.INGESTION_USER);
+    private List<String> appAndProdLoginUser = Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER, SecureRoleRightAccessImpl.PROD_LOGIN_USER);
     
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        defaultRoles.init();
         Mockito.when(mockRepo.findById("realm", DEVELOPER_REALM_ID)).thenReturn(getDeveloperRealm());
         Mockito.when(mockRepo.findById("realm", ADMIN_REALM_ID)).thenReturn(getAdminRealm());
         Mockito.when(mockRoleRightAccessor.findAdminRoles(sandboxRole)).thenReturn(defaultRoles.findAdminRoles(sandboxRole));
+        Mockito.when(mockRoleRightAccessor.findAdminRoles(appAndProdLoginUser)).thenReturn(defaultRoles.findAdminRoles(appAndProdLoginUser));
     }
     
     @Test
     public void sandboxAdminBecomeDeveloperInDevRealm() {
-        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, sandboxRole);
-        assertTrue("sandbox admin is not mapped to developer in developer realm", 
-                    roles.containsAll(defaultRoles.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER))));
-        assertTrue("sandbox admin is only mapped to developer in developer realm", 
-                    defaultRoles.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER)).containsAll(roles));
+        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, sandboxRole, false);
+        assertTrue("sandbox admin is not mapped to developer and prod login user in developer realm", 
+                    roles.containsAll(defaultRoles.findAdminRoles(appAndProdLoginUser)));
+        assertTrue("sandbox admin is not only mapped to developer and prod login user in developer realm", 
+                    defaultRoles.findAdminRoles(appAndProdLoginUser).containsAll(roles));
     }
     
     @Test
     public void sandboxAdminstaysSandboxAdminInAdminRealm() {
-        Set<Role> roles = resolver.mapRoles(null, ADMIN_REALM_ID, sandboxRole);
+        Set<Role> roles = resolver.mapRoles(null, ADMIN_REALM_ID, sandboxRole, true);
         assertTrue("sandbox admin is changed in admin realm", 
                     roles.containsAll(defaultRoles.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.SANDBOX_ADMINISTRATOR))));
         assertTrue("sandbox admin is only mapped to sandbox admin in admin realm", 
@@ -92,7 +95,7 @@ public class DefaultRolesToRightsResolverTest {
     
     @Test
     public void roleWithoutProdLoginIsChangedToEmptyGroupInDevRealm() {
-        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, otherRole);
+        Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, otherRole, false);
         assertTrue("other admin is not mapped to developer in developer realm", roles.isEmpty());
     }
     

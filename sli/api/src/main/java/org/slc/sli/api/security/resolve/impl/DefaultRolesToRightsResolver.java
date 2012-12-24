@@ -52,17 +52,16 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     private Repository<Entity> repo;
 
     @Override
-    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames) {
+    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm) {
         Set<GrantedAuthority> auths = null;
         
-        Collection<Role> roles = mapRoles(tenantId, realmId, roleNames);
-        
+        Collection<Role> roles = mapRoles(tenantId, realmId, roleNames, isAdminRealm);
         Entity realm = findRealm(realmId);
         for (Role role : roles) {
             if (auths ==  null) {
                 auths = new HashSet<GrantedAuthority>(role.getRights());
             } else {
-                if (isAdminRealm(realm) || isDeveloperRealm(realm)) {
+                if (isAdminRealm || isDeveloperRealm(realm)) {
                     auths.addAll(role.getRights());
                 } else {
                     //When the user is coming from a federated realm this prevents the user from getting
@@ -111,11 +110,11 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
 
     @Override
     public Set<Role> mapRoles(String tenantId, String realmId,
-            List<String> roleNames) {
+            List<String> roleNames, boolean isAdminRealm) {
         Set<Role> roles = new HashSet<Role>();
-        
+
         Entity realm = findRealm(realmId);
-        if (isAdminRealm(realm)) {
+        if (isAdminRealm) {
             roles.addAll(roleRightAccess.findAdminRoles(roleNames));
             debug("Mapped admin roles {} to {}.", roleNames, roles);
         } else if (isDeveloperRealm(realm)) {
@@ -127,7 +126,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
                     break;
                 }
             }
-           
+            
             if (canLoginAsDeveloper) {
                 roles = new HashSet<Role>();
                 roles.addAll(roleRightAccess.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER, SecureRoleRightAccessImpl.PROD_LOGIN_USER)));

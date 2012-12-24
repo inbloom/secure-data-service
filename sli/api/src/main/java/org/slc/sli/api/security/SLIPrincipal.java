@@ -57,7 +57,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String vendor;
     private Set<String> subEdOrgHierarchy;
     private String sandboxTenant;
-
+    private boolean adminRealmAuthenticated;
 
     public String getSessionId() {
         return sessionId;
@@ -242,7 +242,7 @@ public class SLIPrincipal implements Principal, Serializable {
             return Collections.emptySet();
         }
     }
-
+    
     public void setSubEdOrgHierarchy(Collection<String> subEdOrgHierarchy) {
         this.subEdOrgHierarchy = new TreeSet<String>(subEdOrgHierarchy);
     }
@@ -253,5 +253,13 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public void setSandboxTenant(String sandboxTenant) {
         this.sandboxTenant = sandboxTenant;
+    }
+    
+    public boolean isAdminRealmAuthenticated() {
+        return adminRealmAuthenticated;
+    }
+
+    public void setAdminRealmAuthenticated(boolean adminRealmAuthenticated) {
+        this.adminRealmAuthenticated = adminRealmAuthenticated;
     }
 }
