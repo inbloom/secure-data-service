@@ -48,7 +48,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MockZis {
 
-    static Logger log = LoggerFactory.getLogger(MockZis.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MockZis.class);
 
     private Set<String> agentCallbackUrls = new HashSet<String>();
 
@@ -64,7 +64,7 @@ public class MockZis {
                 processRegisterMessage((SIF_Register) sifElem);
             }
         } catch (Exception e) {
-            log.error("Exception parsing SIF message: ", e);
+            LOG.error("Exception parsing SIF message: ", e);
         }
     }
 
@@ -83,11 +83,11 @@ public class MockZis {
      */
     public void broadcastMessage(String xmlMessage) {
         for (String callbackUrl : agentCallbackUrls) {
-            log.info("Broadcasting message to " + callbackUrl);
+            LOG.info("Broadcasting message to " + callbackUrl);
             try {
                 postMessage(new URL(callbackUrl), xmlMessage);
             } catch (MalformedURLException e) {
-                log.error("Agent callback URL error: ", e);
+                LOG.error("Agent callback URL error: ", e);
             }
         }
 
@@ -118,10 +118,10 @@ public class MockZis {
             StringWriter writer = new StringWriter();
             IOUtils.copy(inStream, writer, "UTF-8");
             String response = writer.toString();
-            log.info("Response to agent POST: " + response);
+            LOG.info("Response to agent POST: " + response);
 
         } catch (Exception e) {
-            log.error("Error POSTing message: ", e);
+            LOG.error("Error POSTing message: ", e);
         } finally {
             try {
                 if (outStream != null) {
@@ -131,7 +131,7 @@ public class MockZis {
                     inStream.close();
                 }
             } catch (IOException e) {
-                log.error("Error closing streams: ", e);
+                LOG.error("Error closing streams: ", e);
             }
         }
     }
@@ -149,7 +149,7 @@ public class MockZis {
 
     private void processRegisterMessage(SIF_Register sifReg) {
         String agentCallbackUrl = sifReg.getSIF_Protocol().getSIF_URL();
-        log.info("Registered agent with callback " + agentCallbackUrl);
+        LOG.info("Registered agent with callback " + agentCallbackUrl);
         agentCallbackUrls.add(agentCallbackUrl);
     }
 

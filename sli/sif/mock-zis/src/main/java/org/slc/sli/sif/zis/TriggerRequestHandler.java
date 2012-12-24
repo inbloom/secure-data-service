@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class TriggerRequestHandler extends AbstractRequestHandler {
     
-    static Logger log = LoggerFactory.getLogger(TriggerRequestHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TriggerRequestHandler.class);
     
     @Autowired
     private MockZis mockZis;
@@ -41,7 +41,7 @@ public class TriggerRequestHandler extends AbstractRequestHandler {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String xmlString = getRequestString(req);
         
-        log.info("POST to Trigger with message: \n" + xmlString);
+        LOG.info("POST to Trigger with message: \n" + xmlString);
         
         mockZis.broadcastMessage(xmlString);
         
