@@ -773,15 +773,14 @@
               <version>${wgen.build.tools}</version>
             </dependency>
           </dependencies>
-                    <executions>
+<!--                     <executions>
                       <execution>
                         <phase>test</phase>
                         <goals>
                           <goal>check</goal>
-<!--                           <goal>cpd-check</goal> -->
                         </goals>
                       </execution>
-                    </executions>
+                    </executions> -->
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
