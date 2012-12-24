@@ -181,6 +181,9 @@ class SectionWorkOrderFactory
           teachers << teacher if teacher['num_sections'] > 0
         end
       end
+
+      # add number of gradebook entries to map
+
       sections_with_teachers[offering] = sections_for_this_offering
     }
     sections_with_teachers

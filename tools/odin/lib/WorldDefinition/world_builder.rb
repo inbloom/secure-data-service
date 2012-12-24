@@ -555,7 +555,7 @@ class WorldBuilder
       # actually perform split
       students_to_be_split = @breakdown[grade]
       students_so_far      = 0
-      @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.get(grade)} students to be split across #{@world[type].size} schools"
+      @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.to_string(grade)} students to be split across #{@world[type].size} schools"
 
       while students_to_be_split > 0
         @world[type].each_index do |index|
@@ -1018,8 +1018,8 @@ class WorldBuilder
             course    = course_offering["course"]
             grade     = course_offering["grade"]
           
-            title = GradeLevelType.get(grade) + " " + course["title"]
-            title = GradeLevelType.get(grade) if GradeLevelType.is_elementary_school_grade(grade)
+            title = GradeLevelType.to_string(grade) + " " + course["title"]
+            title = GradeLevelType.to_string(grade) if GradeLevelType.is_elementary_school_grade(grade)
 
             @queue.push_work_order({:type=>CourseOffering, :id=>id, :title=>title, :edOrgId=>ed_org_id, :session=>session, :course=>course})
           end
@@ -1074,7 +1074,7 @@ class WorldBuilder
         end
       else
         course_counter += 1
-        current_grade_courses << {"id" => course_counter, "title" => GradeLevelType.get(grade)}
+        current_grade_courses << {"id" => course_counter, "title" => GradeLevelType.to_string(grade)}
       end
       courses[grade] = current_grade_courses
     end
@@ -1084,7 +1084,7 @@ class WorldBuilder
   # creates course work orders to be written to the education organization interchange
   def create_course_work_orders(edOrgId, courses)
     courses.each do |key, value|
-      grade = GradeLevelType.get(key)
+      grade = GradeLevelType.to_string(key)
       value.each do |course|
         id = DataUtility.get_course_unique_id(course["id"])
         if GradeLevelType.is_elementary_school_grade(key)

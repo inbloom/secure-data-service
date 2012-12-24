@@ -40,27 +40,21 @@ class SchoolEducationOrganization < BaseEntity
       else
         @state_org_id = DataUtility.get_elementary_school_id(@id)
       end
-      GradeLevelType.elementary.each do |level|
-        @grades << GradeLevelType.get(level)
-      end
+      GradeLevelType.elementary.each { |level| @grades << GradeLevelType.to_string(level) }
     elsif @type == "middle"
       if id.kind_of? String
         @state_org_id = id
       else
         @state_org_id = DataUtility.get_middle_school_id(@id)
       end
-      GradeLevelType.middle.each do |level|
-        @grades << GradeLevelType.get(level)
-      end
+      GradeLevelType.middle.each { |level| @grades << GradeLevelType.to_string(level) }
     else
       if id.kind_of? String
         @state_org_id = id
       else
         @state_org_id = DataUtility.get_high_school_id(@id)
       end
-      GradeLevelType.high.each do |level|
-        @grades << GradeLevelType.get(level)
-      end
+      GradeLevelType.high.each { |level| @grades << GradeLevelType.to_string(level) }
     end
     @programs = programs
   end
