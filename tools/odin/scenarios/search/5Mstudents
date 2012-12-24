@@ -6,7 +6,7 @@ ASSESSMENTS_PER_GRADE: 0
 ENTITY_WHITELIST: [
   "StateEducationAgency",
   "Course",
-  "LeaEducationOrganization",
+  "LocalEducationAgency",
   "SchoolEducationOrganization",
   "Session",
   "GradingPeriod",

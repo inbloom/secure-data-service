@@ -42,7 +42,7 @@ describe "WorldBuilder" do
       end
       it "education organization interchange will contain a single local education agency" do
         @world["leas"].length.should eq(1)
-        @queue.count(LeaEducationOrganization).should eq(1)
+        @queue.count(LocalEducationAgency).should eq(1)
       end
       it "education organization interchange contains 3 schools" do
         # check individual types of schools below.
@@ -133,7 +133,7 @@ describe "WorldBuilder" do
       end
       it "education organization interchange will contain multiple local education agencies" do
         @world["leas"].length.should be_> 2
-        @queue.count(LeaEducationOrganization).should be_> 2
+        @queue.count(LocalEducationAgency).should be_> 2
       end
       it "education organization interchange contains many schools" do
         # check individual types of schools below.

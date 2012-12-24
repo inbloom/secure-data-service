@@ -29,8 +29,6 @@ class EntityTracker
   def lookup_edfi(entity)
     name = entity.name
     case name
-    when "LeaEducationOrganization"
-      "LocalEducationAgency"
     when "SchoolEducationOrganization"
       "School"
     else

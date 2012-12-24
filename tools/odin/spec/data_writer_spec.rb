@@ -64,10 +64,10 @@ describe "DataWriter" do
       end
 
       it "will store a local education agency in-memory" do
-        @writer.get_entity_count(LeaEducationOrganization).should eq(0)
-        @writer << LeaEducationOrganization.new(2, 1, @random)
-        @writer.get_entity_count(LeaEducationOrganization).should_not be_nil
-        @writer.get_entity_count(LeaEducationOrganization).should eq(1)
+        @writer.get_entity_count(LocalEducationAgency).should eq(0)
+        @writer << LocalEducationAgency.new(2, 1, @random)
+        @writer.get_entity_count(LocalEducationAgency).should_not be_nil
+        @writer.get_entity_count(LocalEducationAgency).should eq(1)
       end
 
       it "will store a school in-memory" do
@@ -178,10 +178,10 @@ describe "DataWriter" do
     end
 
     it "will store a local education agency in-memory" do
-      @writer.get_entity_count(LeaEducationOrganization).should eq(0)
-      @writer << LeaEducationOrganization.new(2, 1, @random)
-      @writer.get_entity_count(LeaEducationOrganization).should_not be_nil
-      @writer.get_entity_count(LeaEducationOrganization).should eq(1)
+      @writer.get_entity_count(LocalEducationAgency).should eq(0)
+      @writer << LocalEducationAgency.new(2, 1, @random)
+      @writer.get_entity_count(LocalEducationAgency).should_not be_nil
+      @writer.get_entity_count(LocalEducationAgency).should eq(1)
     end
 
     it "will store a school in-memory" do

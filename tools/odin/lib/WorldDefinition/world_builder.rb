@@ -781,7 +781,7 @@ class WorldBuilder
 
     # write local education agencies
     @world["leas"].each       { |edOrg|
-      @queue.push_work_order({ :type => LeaEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]) })
+      @queue.push_work_order({ :type => LocalEducationAgency, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]) })
       create_program_work_orders(edOrg["programs"])
     }
 
