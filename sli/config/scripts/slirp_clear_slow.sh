@@ -69,4 +69,7 @@ done
 echo " ***** Truncating ingestion log"
 echo " " > /opt/logs/ingestion.log
 
+echo " ***** Truncating GC log"
+echo " " > /opt/logs/gc.out
+
 echo "slirp_clear_slow.sh finished at `date`"
