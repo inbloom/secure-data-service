@@ -50,11 +50,11 @@ public class AggregationLoader {
     @Autowired(required = false)
     private MongoTemplate template;
 
-    /**
+/*    *//**
      * Constructor. Loads all definitions from file system into Mongo.
-     */
+     *//*
     public AggregationLoader() {
-    }
+    }*/
 
 
     public void init() {

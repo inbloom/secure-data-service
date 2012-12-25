@@ -49,6 +49,8 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
@@ -162,7 +164,13 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
 
             // Indicate Smooks Validation Failure
             if (errorReport != null) {
-                errorReport.error(reportStats, CoreMessageCode.CORE_0019, element.getName().toString());
+                // TODO: kludge refactor needed
+                Source source = reportStats.getSource();
+                NeutralRecordSource nrSource = new NeutralRecordSource(source.getBatchJobId(),
+                        source.getResourceId(), source.getStageName(), element.getName().getLocalPart(),
+                        visitBeforeLineNumber, visitBeforeColumnNumber,
+                        visitAfterLineNumber, visitAfterColumnNumber);
+                errorReport.error(reportStats, nrSource, CoreMessageCode.CORE_0019, element.getName().toString());
             }
         }
     }

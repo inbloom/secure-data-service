@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <StudentAcademicRecord id="SAR-800000025-7">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -64,7 +64,7 @@
         </StudentAcademicRecordReference>
         <GradeType>Final</GradeType>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-91919002-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -128,7 +128,7 @@
         </StudentAcademicRecordReference>
         <GradeType>Final</GradeType>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-91919003-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -192,7 +192,7 @@
         </StudentAcademicRecordReference>
         <GradeType>Final</GradeType>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-91919003-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>

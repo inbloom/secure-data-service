@@ -22,12 +22,10 @@ import java.util.Set;
 
 import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
 import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
-import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStaffProgramAssociation;
 import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 /**
  * Generates StudentProgramAssociation from ProgramMeta
@@ -58,19 +56,14 @@ public class StaffProgramAssociationGenerator {
         List<SLCStaffProgramAssociation> staffProgramAssociations = new ArrayList<SLCStaffProgramAssociation>();
 
         for (String staffId : staffIds) {
-        	SLCStaffProgramAssociation staffProgram = new SLCStaffProgramAssociation();
+            SLCStaffProgramAssociation staffProgram = new SLCStaffProgramAssociation();
 
             // construct and add the staff references
-        	SLCStaffReferenceType srt = new SLCStaffReferenceType();
-            if (MetaRelations.StaffProgramAssociation_Ref) {
-//          IDREF deprecated
-//
-//                srt.setRef(new Ref(staffIds.iterator().next()));
-            } else {
-            	SLCStaffIdentityType sit = new SLCStaffIdentityType();
-                sit.setStaffUniqueStateId(staffId);
-                srt.setStaffIdentity(sit);
-            }
+            SLCStaffReferenceType srt = new SLCStaffReferenceType();
+
+            SLCStaffIdentityType sit = new SLCStaffIdentityType();
+            sit.setStaffUniqueStateId(staffId);
+            srt.setStaffIdentity(sit);
 
             staffProgram.setStaffReference(srt);
 

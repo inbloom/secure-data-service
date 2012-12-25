@@ -59,8 +59,8 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
@@ -519,7 +519,7 @@ public class PersistenceProcessor implements Processor {
      * @return database logging error report.
      */
     private AbstractReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
-        Source dbErrorSource = new SimpleSource(batchJobId, resourceId, stageName);
+        Source dbErrorSource = new JobSource(batchJobId, resourceId, stageName);
         AbstractReportStats reportStats = new SimpleReportStats(dbErrorSource);
         return reportStats;
     }

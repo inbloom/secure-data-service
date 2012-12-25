@@ -44,7 +44,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AggregationLoaderTest {
-    private static Logger log = LoggerFactory.getLogger(AggregationLoaderTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AggregationLoaderTest.class);
 
     @InjectMocks
     @Spy

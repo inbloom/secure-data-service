@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 
-    <GradingPeriod id="GRDP_20101004">
+    <GradingPeriod>
         <GradingPeriodIdentity>
             <GradingPeriod>Second Six Weeks</GradingPeriod>
             <SchoolYear>2011-2012</SchoolYear>
@@ -11,7 +11,7 @@
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20110104">
+    <GradingPeriod>
         <GradingPeriodIdentity>
             <GradingPeriod>Second Six Weeks</GradingPeriod>
             <SchoolYear>2011-2012</SchoolYear>
@@ -21,7 +21,7 @@
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20110222">
+    <GradingPeriod>
         <GradingPeriodIdentity>
             <GradingPeriod>Second Six Weeks</GradingPeriod>
             <SchoolYear>2011-2012</SchoolYear>
@@ -31,7 +31,7 @@
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20110411">
+    <GradingPeriod>
         <GradingPeriodIdentity>
             <GradingPeriod>Second Six Weeks</GradingPeriod>
             <SchoolYear>2011-2012</SchoolYear>
@@ -41,7 +41,7 @@
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20100823">
+    <GradingPeriod>
         <GradingPeriodIdentity>
             <GradingPeriod>Second Six Weeks</GradingPeriod>
             <SchoolYear>2011-2012</SchoolYear>
@@ -51,7 +51,7 @@
         <EndDate>2010-11-07</EndDate>
         <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20101108">
+    <GradingPeriod>
         <GradingPeriodIdentity>
             <GradingPeriod>Second Six Weeks</GradingPeriod>
             <SchoolYear>2011-2012</SchoolYear>

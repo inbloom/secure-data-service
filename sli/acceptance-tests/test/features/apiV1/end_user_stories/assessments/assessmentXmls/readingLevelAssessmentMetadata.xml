@@ -3,7 +3,7 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 <!-- Text Reading and Comprehension -->
-  <Assessment id="Reading-comp-measurement-instr-1-MOY">
+  <Assessment>
     <AssessmentTitle>Reading Comprehension Measurement Instrument Grade 1 MOY</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Reading Comprehension Measurement Instrument Grade 1 MOY</ID>
@@ -93,7 +93,7 @@
     </AssessmentFamilyReference>
   </Assessment>
 
-  <Assessment id="Reading-comp-measurement-instr-1-EOY">
+  <Assessment>
     <AssessmentTitle>Reading Comprehension Measurement Instrument Grade 1 EOY</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Reading Comprehension Measurement Instrument Grade 1 EOY</ID>
@@ -175,14 +175,14 @@
     </AssessmentFamilyReference>
   </Assessment>  
 
-  <AssessmentFamily id="Reading">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>Reading</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Reading and Comprehension</ID>
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
 
-  <AssessmentFamily id="Reading-Comprehension-Measurement-Instrument-Grade-1">
+  <AssessmentFamily>
     <AssessmentFamilyTitle>Reading Comprehension Measurement Instrument Grade 1</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Reading Comprehension Measurement Instrument Grade 1</ID>

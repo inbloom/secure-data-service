@@ -41,8 +41,8 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -64,7 +64,7 @@ public class SmooksFileHandlerTest {
     @Autowired
     LocalFileSystemLandingZone lz;
 
-    AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("TestJob", "Resource", "StageName"));
+    AbstractReportStats reportStats = new SimpleReportStats(new JobSource("TestJob", "Resource", "StageName"));
 
     /*
      * XML TESTS
@@ -86,7 +86,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setFile(inputFile);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
@@ -106,7 +106,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
@@ -129,7 +129,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 

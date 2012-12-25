@@ -3,7 +3,7 @@
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
     <!-- learning objectives for kindergartners -->
     <!-- ReportCard, Grade and StudentCompetency records for Matt Sollars grade 3 -->
-    <StudentCompetency id="SC-GR3-800000025-1">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Fluency and Expression</Objective>
@@ -41,7 +41,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-2">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Story Grammar</Objective>
@@ -79,7 +79,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-3">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Informational Text</Objective>
@@ -111,7 +111,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-4">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Comprehension</Objective>
@@ -143,7 +143,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-5">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Expository Writing</Objective>
@@ -175,7 +175,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-6">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Narrative Writing</Objective>
@@ -207,7 +207,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-7">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Spelling</Objective>
@@ -239,7 +239,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-8">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Punctuation</Objective>
@@ -271,7 +271,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-9">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Grammar and Usage</Objective>
@@ -303,7 +303,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-10">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Fractions</Objective>
@@ -335,7 +335,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-11">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>2 x 2 Multiplication</Objective>
@@ -367,7 +367,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-12">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Weights and Measures</Objective>
@@ -399,7 +399,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-13">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Place Value</Objective>
@@ -431,7 +431,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-14">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Addition (Sums to 100)</Objective>
@@ -463,7 +463,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-15">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Subtraction (Differences to 50)</Objective>
@@ -495,7 +495,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-16">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>The Revolutionary Period</Objective>
@@ -527,7 +527,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-17">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>U.S. Geography</Objective>
@@ -559,7 +559,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-18">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Polls and Surveys</Objective>
@@ -591,7 +591,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-19">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Elections and Legislation</Objective>
@@ -623,7 +623,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-20">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Gravity</Objective>
@@ -655,7 +655,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-21">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Electro-Magnetism</Objective>
@@ -687,7 +687,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-22">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Data Collection</Objective>
@@ -719,7 +719,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-23">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Experimental Design</Objective>
@@ -751,7 +751,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-24">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Soccer</Objective>
@@ -783,7 +783,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-25">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Sportsmanship</Objective>
@@ -815,7 +815,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-26">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Track and Field</Objective>
@@ -847,7 +847,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-GR3-800000025-27">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Archery</Objective>
@@ -879,7 +879,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <Grade id="GR-GR3-800000025-1">
+    <Grade>
         <LetterGradeEarned>B</LetterGradeEarned>
         <GradeType>Mid-Term Grade</GradeType>
         <StudentSectionAssociationReference>
@@ -914,7 +914,7 @@
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
-    <Grade id="GR-GR3-800000025-2">
+    <Grade>
         <LetterGradeEarned>B+</LetterGradeEarned>
         <GradeType>Final</GradeType>
         <StudentSectionAssociationReference>
@@ -1906,7 +1906,7 @@
         </GradingPeriodReference>
     </ReportCard>
     <!-- grading history for Mi-Ha Tran. Refers to grades already earned in kindergarten. -->
-    <StudentCompetency id="SC-100000017-1">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Phonemic Awareness</Objective>
@@ -1938,7 +1938,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-2">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Phonics</Objective>
@@ -1970,7 +1970,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-3">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Comprehension</Objective>
@@ -2002,7 +2002,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-4">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Fluency</Objective>
@@ -2034,7 +2034,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-5">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Content</Objective>
@@ -2066,7 +2066,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-6">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Sentence Structure</Objective>
@@ -2098,7 +2098,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-7">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Conventions</Objective>
@@ -2130,7 +2130,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-8">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Handwriting</Objective>
@@ -2162,7 +2162,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-9">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Computation</Objective>
@@ -2194,7 +2194,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-10">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Geometry</Objective>
@@ -2226,7 +2226,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-11">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Measurement</Objective>
@@ -2258,7 +2258,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-12">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Statistics</Objective>
@@ -2290,7 +2290,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-13">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>States of Matter</Objective>
@@ -2322,7 +2322,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-14">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>The Water Cycle</Objective>
@@ -2354,7 +2354,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-15">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>The Universe</Objective>
@@ -2386,7 +2386,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-16">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Scientific Method</Objective>
@@ -2418,7 +2418,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-17">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Initial Sounds</Objective>
@@ -2450,7 +2450,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-18">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Final Sounds</Objective>
@@ -2482,7 +2482,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-19">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Digraphs</Objective>
@@ -2514,7 +2514,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-20">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Summary</Objective>
@@ -2546,7 +2546,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-21">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Handwriting</Objective>
@@ -2578,7 +2578,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-22">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Spelling</Objective>
@@ -2610,7 +2610,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-23">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Initial and Terminal Punctuation</Objective>
@@ -2642,7 +2642,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-24">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Sentences in SVO Form</Objective>
@@ -2674,7 +2674,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-25">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Counting: Up to 20 by 1s, 2s, and 5s</Objective>
@@ -2706,7 +2706,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-26">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Addition: Sums 0 to 20</Objective>
@@ -2738,7 +2738,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-27">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Subtraction: Differences 0 to 10</Objective>
@@ -2770,7 +2770,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-28">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Spelling of numerals</Objective>
@@ -2802,7 +2802,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-29">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Dinosaurs</Objective>
@@ -2834,7 +2834,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-30">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>The Rainforest</Objective>
@@ -2866,7 +2866,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-31">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>The Solar System</Objective>
@@ -2898,7 +2898,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <StudentCompetency id="SC-100000017-32">
+    <StudentCompetency>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Hypothesis</Objective>
@@ -2930,7 +2930,7 @@
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
-    <Grade id="GR-GRK-100000017-1">
+    <Grade>
         <LetterGradeEarned>B-</LetterGradeEarned>
         <GradeType>Mid-Term Grade</GradeType>
         <StudentSectionAssociationReference>
@@ -2965,7 +2965,7 @@
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
-    <Grade id="GR-GRK-100000017-2">
+    <Grade>
         <LetterGradeEarned>B</LetterGradeEarned>
         <GradeType>Final</GradeType>
         <StudentSectionAssociationReference>
@@ -3000,7 +3000,7 @@
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
-    <ReportCard id="RC-GK-100000017-1">
+    <ReportCard>
         <GradeReference>
             <GradeIdentity>
                 <StudentSectionAssociationReference>

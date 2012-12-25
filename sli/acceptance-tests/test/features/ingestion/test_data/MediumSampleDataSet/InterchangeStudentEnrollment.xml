@@ -65499,7 +65499,7 @@
         <HomeroomIndicator>true</HomeroomIndicator>
         <RepeatIdentifier>Not repeated</RepeatIdentifier>
     </StudentSectionAssociation>
-    <GraduationPlan id="CAP0-D0-HSch0-gPlan0">
+    <GraduationPlan>
         <GraduationPlanType>Distinguished</GraduationPlanType>
         <TotalCreditsRequired>
             <Credit>71</Credit>
@@ -65510,7 +65510,7 @@
         	</EducationalOrgIdentity>
     	</EducationOrganizationReference>
     </GraduationPlan>
-    <GraduationPlan id="CAP0-D0-HSch1-gPlan0">
+    <GraduationPlan>
         <GraduationPlanType>Recommended</GraduationPlanType>
         <TotalCreditsRequired>
             <Credit>68</Credit>
@@ -65521,7 +65521,7 @@
         	</EducationalOrgIdentity>
     	</EducationOrganizationReference>
     </GraduationPlan>
-    <GraduationPlan id="CAP0-D0-HSch2-gPlan0">
+    <GraduationPlan>
         <GraduationPlanType>Career and Technical Education</GraduationPlanType>
         <TotalCreditsRequired>
             <Credit>10</Credit>
@@ -65532,7 +65532,7 @@
         	</EducationalOrgIdentity>
     	</EducationOrganizationReference>
     </GraduationPlan>
-    <GraduationPlan id="CAP0-D0-HSch3-gPlan0">
+    <GraduationPlan>
         <GraduationPlanType>Standard</GraduationPlanType>
         <TotalCreditsRequired>
             <Credit>39</Credit>
@@ -65543,7 +65543,7 @@
         	</EducationalOrgIdentity>
     	</EducationOrganizationReference>
     </GraduationPlan>
-    <GraduationPlan id="CAP0-D0-HSch4-gPlan0">
+    <GraduationPlan>
         <GraduationPlanType>Minimum</GraduationPlanType>
         <TotalCreditsRequired>
             <Credit>9</Credit>

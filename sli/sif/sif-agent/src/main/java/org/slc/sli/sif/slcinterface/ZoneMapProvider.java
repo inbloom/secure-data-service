@@ -62,7 +62,7 @@ public class ZoneMapProvider {
     private Map<String, SliEntityLocator> readIdMapFromFile(String filename) {
         Map<String, SliEntityLocator> retVal = new HashMap<String, SliEntityLocator>();
         try {
-            InputStream in = getClass().getClassLoader().getResourceAsStream(filename);
+            InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
             BufferedReader mapFileReader = new BufferedReader(new InputStreamReader(in));
             while (true) {
                 String line = mapFileReader.readLine();

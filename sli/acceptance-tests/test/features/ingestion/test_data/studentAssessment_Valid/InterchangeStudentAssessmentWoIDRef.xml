@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentAssessment xsi:schemaLocation="http://ed-fi.org/0100 C:/Projects/TSDS/trunk/src/Etl/EdFi.Etl.EdFi/Ed-Fi/Interchange-StudentAssessment.xsd" xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-        <StudentAssessment id="saa_id_1">
+        <StudentAssessment>
                 <AdministrationDate>2011-05-01</AdministrationDate>
                 <SerialNumber>0</SerialNumber>
                 <AdministrationLanguage>English</AdministrationLanguage>
@@ -32,7 +32,7 @@
                         </AssessmentIdentity>
                 </AssessmentReference>
         </StudentAssessment>
-        <StudentAssessment id="saa_id_4">
+        <StudentAssessment>
                 <AdministrationDate>2011-05-01</AdministrationDate>
                 <SerialNumber>0</SerialNumber>
                 <AdministrationLanguage>English</AdministrationLanguage>
@@ -57,7 +57,7 @@
                         </AssessmentIdentity>
                 </AssessmentReference>
         </StudentAssessment>
-        <StudentAssessment id="saa_id_8">
+        <StudentAssessment>
                 <AdministrationDate>2011-05-01</AdministrationDate>
                 <SerialNumber>0</SerialNumber>
                 <AdministrationLanguage>English</AdministrationLanguage>

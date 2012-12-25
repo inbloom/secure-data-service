@@ -37,7 +37,7 @@ import org.springframework.web.HttpRequestHandler;
  */
 public abstract class AbstractRequestHandler implements HttpRequestHandler {
     
-    static Logger log = LoggerFactory.getLogger(AbstractRequestHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractRequestHandler.class);
     
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -57,7 +57,7 @@ public abstract class AbstractRequestHandler implements HttpRequestHandler {
             IOUtils.copy(xml, writer, "UTF-8");
             result = writer.toString();
         } catch (IOException e) {
-            log.error("Exception reading request: ", e);
+            LOG.error("Exception reading request: ", e);
         }
         return result;
     }
@@ -72,7 +72,7 @@ public abstract class AbstractRequestHandler implements HttpRequestHandler {
             out.flush();
             
         } catch (IOException e) {
-            log.error("Exception writing response: ", e);
+            LOG.error("Exception writing response: ", e);
         } finally {
             if (out != null) {
                 out.close();

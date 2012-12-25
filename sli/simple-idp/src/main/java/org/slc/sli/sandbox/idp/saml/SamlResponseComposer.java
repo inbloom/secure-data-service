@@ -97,7 +97,9 @@ public class SamlResponseComposer {
         addAttribute(buf, "userId", userId);
         if (attributes != null) {
             for (Map.Entry<String, String> attr : attributes.entrySet()) {
-                addAttribute(buf, attr.getKey(), attr.getValue());
+                if(attr.getKey()!=null && attr.getValue()!=null){
+                    addAttribute(buf, attr.getKey(), attr.getValue());
+                }
             }
         }
         
