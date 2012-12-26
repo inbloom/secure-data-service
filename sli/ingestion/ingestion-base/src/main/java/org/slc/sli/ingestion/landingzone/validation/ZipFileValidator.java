@@ -110,7 +110,6 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
             } catch (IOException ex) {
                 LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
-                ex.printStackTrace();
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
                     error(report, reportStats, BaseMessageCode.BASE_0008, zipFile.getName());

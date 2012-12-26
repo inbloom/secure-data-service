@@ -160,9 +160,16 @@ end
 Given /^there is no corresponding tenant in mongo$/ do
   clear_tenant
   # drop tenant
-  @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
-  # clear record hashes
-  @batchDb.collection('recordHash').remove({"t" => @tenantId})
+  puts "Dropping #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}"
+  result = @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
+  assert(result, "Error dropping tenant db:  #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}")
+  # clear record hashesDropped
+  result = @batchDb.collection('recordHash').remove({"t" => @tenantId})
+  assert(result, "Error clearing out record deltas")
+  result = @batchDb.collection('newBatchJob').remove({"batchProperties.tenantId" => @tenantId})
+  assert(result, "Error clearing out interchange deltas")
+  result = @db.collection('tenant').remove({"body.tenantId" => @tenantId})
+  assert(result, "Error cleaning out tenant collection")
 end
 
 Given /^there is no corresponding ed\-org in mongo$/ do

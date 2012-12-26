@@ -132,7 +132,7 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
+    @SuppressWarnings({"PMD.AvoidThrowingRawExceptionTypes", "PMD.EmptyCatchBlock"})
     public void init(FilterConfig conf) throws ServletException {
         afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
 

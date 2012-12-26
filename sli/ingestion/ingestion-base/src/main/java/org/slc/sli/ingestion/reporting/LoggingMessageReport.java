@@ -29,9 +29,6 @@ public class LoggingMessageReport extends AbstractMessageReport {
 
     private Logger logger;
 
-    public LoggingMessageReport() {
-    }
-
     public LoggingMessageReport(Logger logger) {
         this.logger = logger;
     }
