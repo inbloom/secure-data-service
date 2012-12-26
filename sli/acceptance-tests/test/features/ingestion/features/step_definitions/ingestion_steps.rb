@@ -1247,7 +1247,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
       end
     end
   else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
+    sleep(5) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLog? landing_zone
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
