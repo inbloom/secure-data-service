@@ -44,7 +44,7 @@ import org.slc.sli.ingestion.util.LogUtil;
 @Component
 public class TenantPopulator implements ResourceLoaderAware {
 
-    private static final Logger log = LoggerFactory.getLogger(TenantPopulator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TenantPopulator.class);
 
     @Autowired
     private TenantDA tenantDA;
@@ -76,7 +76,7 @@ public class TenantPopulator implements ResourceLoaderAware {
             tenantDA.insertTenant(tenantRecord);
 
         } catch (Exception e) {
-            log.error("Exception adding tenant " + tenantRecord + " :", e);
+            LOG.error("Exception adding tenant " + tenantRecord + " :", e);
             return false;
         }
         return true;
@@ -95,7 +95,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenantDA.insertTenant(tenant);
             }
         } catch (Exception e) {
-            log.error("Exception encountered populating default tenants:", e);
+            LOG.error("Exception encountered populating default tenants:", e);
         }
     }
 
@@ -125,13 +125,13 @@ public class TenantPopulator implements ResourceLoaderAware {
         String lzPath = Matcher.quoteReplacement(parentLandingZoneDir);
         File lzDirectory = new File(lzPath);
         if (!lzDirectory.mkdir()) {
-            log.debug("Failed to mkdir: " + lzDirectory.getPath());
+            LOG.debug("Failed to mkdir: " + lzDirectory.getPath());
         }
         if (!lzDirectory.setReadable(true, false)) {
-            log.debug("Failed to setReadable: " + lzDirectory.getPath());
+            LOG.debug("Failed to setReadable: " + lzDirectory.getPath());
         }
         if (!lzDirectory.setWritable(true, false)) {
-            log.debug("Failed to setWritable: " + lzDirectory.getPath());
+            LOG.debug("Failed to setWritable: " + lzDirectory.getPath());
         }
     }
 
@@ -149,13 +149,13 @@ public class TenantPopulator implements ResourceLoaderAware {
             String lzPath = lz.getPath();
             File lzDirectory = new File(lzPath);
             if (!lzDirectory.mkdir()) {
-                log.debug("Failed to mkdir: " + lzDirectory.getPath());
+                LOG.debug("Failed to mkdir: " + lzDirectory.getPath());
             }
             if (!lzDirectory.setReadable(true, false)) {
-                log.debug("Failed to setReadable: " + lzDirectory.getPath());
+                LOG.debug("Failed to setReadable: " + lzDirectory.getPath());
             }
             if (!lzDirectory.setWritable(true, false)) {
-                log.debug("Failed to setWritable: " + lzDirectory.getPath());
+                LOG.debug("Failed to setWritable: " + lzDirectory.getPath());
             }
         }
     }
@@ -224,7 +224,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenant = TenantRecord.parse(tenantIs);
             }
         } catch (IOException e) {
-            LogUtil.error(log, "Exception encountered loading tenant resource: ", e);
+            LogUtil.error(LOG, "Exception encountered loading tenant resource: ", e);
         } finally {
             IOUtils.closeQuietly(tenantIs);
         }

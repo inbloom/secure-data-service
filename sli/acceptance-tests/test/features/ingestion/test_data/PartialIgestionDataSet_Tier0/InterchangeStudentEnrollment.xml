@@ -3,7 +3,7 @@
 <InterchangeStudentEnrollment xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentEnrollment.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100">
   <!-- student-school associations for the 11th and 12th graders in high school -->
- <GraduationPlan id="GP-STANDARD">
+ <GraduationPlan>
     <GraduationPlanType>Standard</GraduationPlanType>
     <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">
@@ -57,7 +57,7 @@
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
 </GraduationPlan>
-<GraduationPlan id="GP-MINIMUM">
+<GraduationPlan>
     <GraduationPlanType>Minimum</GraduationPlanType>
     <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">
@@ -112,7 +112,7 @@
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
 </GraduationPlan>
-<GraduationPlan id="GP-ADVANCED">
+<GraduationPlan>
     <GraduationPlanType>Distinguished</GraduationPlanType>
     <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">

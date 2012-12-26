@@ -761,6 +761,7 @@
             <minimumTokens>100</minimumTokens>
             <targetJdk>${java.version}</targetJdk>
             <includeTests>false</includeTests>
+                        <failurePriority>3</failurePriority>
             <rulesets>
               <ruleset>${sli.home}/../build-tools/src/main/resources/PMD/SLI-PMD-Rules.xml</ruleset>
             </rulesets>
@@ -772,6 +773,14 @@
               <version>${wgen.build.tools}</version>
             </dependency>
           </dependencies>
+<!--                     <executions>
+                      <execution>
+                        <phase>test</phase>
+                        <goals>
+                          <goal>check</goal>
+                        </goals>
+                      </execution>
+                    </executions> -->
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

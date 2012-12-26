@@ -109,21 +109,21 @@ public class RolesToRightsTest {
     @Test
     public void testMappedRoles() throws Exception {
         Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
-                Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
+                Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR), false);
         Assert.assertTrue(rights.size() > 0);
     }
     
     @Test
     public void testBadRoles() throws Exception {
         Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
-                Arrays.asList("Pink", "Goo"));
+                Arrays.asList("Pink", "Goo"), false);
         Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
     }
     
     @Test
     public void testMixedRoles() throws Exception {
         Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
-                SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
+                SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"), false);
         Assert.assertTrue(authorities.size() > 0);
     }
 }

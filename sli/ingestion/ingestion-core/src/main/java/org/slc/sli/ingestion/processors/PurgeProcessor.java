@@ -43,8 +43,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -108,7 +108,7 @@ public class PurgeProcessor implements Processor {
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
-            source = new SimpleSource(batchJobId, null, BATCH_JOB_STAGE.getName());
+            source = new JobSource(batchJobId, null, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats(source);
 
             NewBatchJob newJob = null;

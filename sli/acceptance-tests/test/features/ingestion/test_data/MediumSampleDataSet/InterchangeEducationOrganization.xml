@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
-    <StateEducationAgency id="CAP0">
+    <StateEducationAgency>
         <StateOrganizationId>CAP0</StateOrganizationId>
         <NameOfInstitution>Institution name CAP0</NameOfInstitution>
         <ShortNameOfInstitution>Institution CAP0</ShortNameOfInstitution>
@@ -27,7 +27,7 @@
             </ProgramIdentity>
         </ProgramReference>
     </StateEducationAgency>
-    <EducationServiceCenter id="CAP0-Esc0">
+    <EducationServiceCenter>
         <StateOrganizationId>CAP0-Esc0</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Other">
             <ID>CAP0-Esc0</ID>
@@ -70,7 +70,7 @@
             </EducationalOrgIdentity>
         </StateEducationAgencyReference>
     </EducationServiceCenter>
-    <EducationServiceCenter id="CAP0-Esc1">
+    <EducationServiceCenter>
         <StateOrganizationId>CAP0-Esc1</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Other">
             <ID>CAP0-Esc1</ID>
@@ -143,7 +143,7 @@
         <EndDate>2030-10-10</EndDate>
         <FeederRelationshipDescription>Feeder Relationship 1</FeederRelationshipDescription>
     </FeederSchoolAssociation>
-    <LocalEducationAgency id="CAP0-D0">
+    <LocalEducationAgency>
         <StateOrganizationId>CAP0-D0</StateOrganizationId>
         <NameOfInstitution>CAP0-D0</NameOfInstitution>
         <ShortNameOfInstitution>CAP0-D0</ShortNameOfInstitution>
@@ -182,7 +182,7 @@
         	</EducationalOrgIdentity>
         </StateEducationAgencyReference>
     </LocalEducationAgency>
-    <School id="CAP0-D0-HSch0">
+    <School>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Federal">
             <ID>CAP0-D0-HSch0</ID>
@@ -262,7 +262,7 @@
         	</EducationalOrgIdentity>
          </LocalEducationAgencyReference>
     </School>
-    <School id="CAP0-D0-HSch1">
+    <School>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Federal">
             <ID>CAP0-D0-HSch1</ID>
@@ -342,7 +342,7 @@
         	</EducationalOrgIdentity>
          </LocalEducationAgencyReference>
     </School>
-    <School id="CAP0-D0-HSch2">
+    <School>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Federal">
             <ID>CAP0-D0-HSch2</ID>
@@ -422,7 +422,7 @@
         	</EducationalOrgIdentity>
          </LocalEducationAgencyReference>
     </School>
-    <School id="CAP0-D0-HSch3">
+    <School>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Federal">
             <ID>CAP0-D0-HSch3</ID>
@@ -502,7 +502,7 @@
         	</EducationalOrgIdentity>
          </LocalEducationAgencyReference>
     </School>
-    <School id="CAP0-D0-HSch4">
+    <School>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Federal">
             <ID>CAP0-D0-HSch4</ID>
@@ -582,7 +582,7 @@
         	</EducationalOrgIdentity>
          </LocalEducationAgencyReference>
     </School>
-    <Course id="CAP0-D0-HSch0-cse0">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse0</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -637,7 +637,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse0-1</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse1">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse1</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -692,7 +692,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse1-2</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse2">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse2</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -747,7 +747,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse2-3</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse3">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse3</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -802,7 +802,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse3-4</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse4">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse4</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -857,7 +857,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse4-5</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse5">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse5</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -912,7 +912,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse5-6</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse6">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse6</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -967,7 +967,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse6-7</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse7">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse7</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1022,7 +1022,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse7-8</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse8">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse8</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1077,7 +1077,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse8-9</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch0-cse9">
+    <Course>
         <CourseTitle>CAP0-D0-HSch0-cse9</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1132,7 +1132,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch0-cse9-10</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse0">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse0</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1187,7 +1187,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse0-11</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse1">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse1</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1242,7 +1242,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse1-12</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse2">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse2</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1297,7 +1297,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse2-13</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse3">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse3</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1352,7 +1352,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse3-14</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse4">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse4</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1407,7 +1407,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse4-15</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse5">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse5</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1462,7 +1462,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse5-16</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse6">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse6</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1517,7 +1517,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse6-17</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse7">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse7</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1572,7 +1572,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse7-18</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse8">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse8</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1627,7 +1627,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse8-19</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch1-cse9">
+    <Course>
         <CourseTitle>CAP0-D0-HSch1-cse9</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1682,7 +1682,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch1-cse9-20</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse0">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse0</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1737,7 +1737,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse0-21</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse1">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse1</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1792,7 +1792,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse1-22</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse2">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse2</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1847,7 +1847,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse2-23</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse3">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse3</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1902,7 +1902,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse3-24</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse4">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse4</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -1957,7 +1957,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse4-25</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse5">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse5</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2012,7 +2012,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse5-26</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse6">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse6</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2067,7 +2067,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse6-27</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse7">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse7</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2122,7 +2122,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse7-28</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse8">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse8</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2177,7 +2177,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse8-29</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch2-cse9">
+    <Course>
         <CourseTitle>CAP0-D0-HSch2-cse9</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2232,7 +2232,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch2-cse9-30</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse0">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse0</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2287,7 +2287,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse0-31</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse1">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse1</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2342,7 +2342,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse1-32</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse2">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse2</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2397,7 +2397,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse2-33</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse3">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse3</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2452,7 +2452,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse3-34</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse4">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse4</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2507,7 +2507,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse4-35</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse5">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse5</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2562,7 +2562,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse5-36</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse6">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse6</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2617,7 +2617,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse6-37</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse7">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse7</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2672,7 +2672,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse7-38</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse8">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse8</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2727,7 +2727,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse8-39</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch3-cse9">
+    <Course>
         <CourseTitle>CAP0-D0-HSch3-cse9</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2782,7 +2782,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch3-cse9-40</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse0">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse0</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2837,7 +2837,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse0-41</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse1">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse1</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2892,7 +2892,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse1-42</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse2">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse2</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -2947,7 +2947,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse2-43</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse3">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse3</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -3002,7 +3002,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse3-44</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse4">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse4</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -3057,7 +3057,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse4-45</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse5">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse5</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -3112,7 +3112,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse5-46</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse6">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse6</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -3167,7 +3167,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse6-47</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse7">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse7</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -3222,7 +3222,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse7-48</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse8">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse8</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -3277,7 +3277,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse8-49</UniqueCourseId>
     </Course>
-    <Course id="CAP0-D0-HSch4-cse9">
+    <Course>
         <CourseTitle>CAP0-D0-HSch4-cse9</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -3332,7 +3332,7 @@
         </EducationOrganizationReference>
         <UniqueCourseId>CAP0-D0-HSch4-cse9-50</UniqueCourseId>
     </Course>
-    <Program id="CAP0-D0-HSch0-prg0">
+    <Program>
         <ProgramId>CAP0-D0-HSch0-prg0</ProgramId>
         <ProgramType>International Baccalaureate</ProgramType>
         <ProgramSponsor>Education Service Center</ProgramSponsor>
@@ -3343,7 +3343,7 @@
             <CodeValue>Service 4</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-HSch0-prg1">
+    <Program>
         <ProgramId>CAP0-D0-HSch0-prg1</ProgramId>
         <ProgramType>Indian Education</ProgramType>
         <ProgramSponsor>Federal</ProgramSponsor>
@@ -3351,7 +3351,7 @@
             <CodeValue>Service 2</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-HSch1-prg0">
+    <Program>
         <ProgramId>CAP0-D0-HSch1-prg0</ProgramId>
         <ProgramType>Magnet/Special Program Emphasis</ProgramType>
         <ProgramSponsor>Local Education Agency</ProgramSponsor>
@@ -3359,12 +3359,12 @@
             <CodeValue>Service 1</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-HSch1-prg1">
+    <Program>
         <ProgramId>CAP0-D0-HSch1-prg1</ProgramId>
         <ProgramType>High School Equivalency Program (HSEP)</ProgramType>
         <ProgramSponsor>Education Service Center</ProgramSponsor>
     </Program>
-    <Program id="CAP0-D0-HSch2-prg0">
+    <Program>
         <ProgramId>CAP0-D0-HSch2-prg0</ProgramId>
         <ProgramType>Bilingual</ProgramType>
         <ProgramSponsor>Federal</ProgramSponsor>
@@ -3372,7 +3372,7 @@
             <CodeValue>Service 1</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-HSch2-prg1">
+    <Program>
         <ProgramId>CAP0-D0-HSch2-prg1</ProgramId>
         <ProgramType>Adult/Continuing Education</ProgramType>
         <ProgramSponsor>Local Education Agency</ProgramSponsor>
@@ -3380,7 +3380,7 @@
             <CodeValue>Service 2</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-HSch3-prg0">
+    <Program>
         <ProgramId>CAP0-D0-HSch3-prg0</ProgramId>
         <ProgramType>Regular Education</ProgramType>
         <ProgramSponsor>Education Service Center</ProgramSponsor>
@@ -3391,12 +3391,12 @@
             <CodeValue>Service 4</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-HSch3-prg1">
+    <Program>
         <ProgramId>CAP0-D0-HSch3-prg1</ProgramId>
         <ProgramType>IDEA</ProgramType>
         <ProgramSponsor>Private Organization</ProgramSponsor>
     </Program>
-    <Program id="CAP0-D0-HSch4-prg0">
+    <Program>
         <ProgramId>CAP0-D0-HSch4-prg0</ProgramId>
         <ProgramType>Community Service Program</ProgramType>
         <ProgramSponsor>Private Organization</ProgramSponsor>
@@ -3407,7 +3407,7 @@
             <CodeValue>Service 2</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-HSch4-prg1">
+    <Program>
         <ProgramId>CAP0-D0-HSch4-prg1</ProgramId>
         <ProgramType>Bilingual</ProgramType>
         <ProgramSponsor>Education Service Center</ProgramSponsor>
@@ -3418,12 +3418,12 @@
             <CodeValue>Service 3</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-D0-prgCAP0-D0_0">
+    <Program>
         <ProgramId>CAP0-D0-prgCAP0-D0_0</ProgramId>
         <ProgramType>Substance Abuse Education/Prevention</ProgramType>
         <ProgramSponsor>School</ProgramSponsor>
     </Program>
-    <Program id="CAP0-D0-prgCAP0-D0_1">
+    <Program>
         <ProgramId>CAP0-D0-prgCAP0-D0_1</ProgramId>
         <ProgramType>Title I Part A</ProgramType>
         <ProgramSponsor>Federal</ProgramSponsor>
@@ -3431,7 +3431,7 @@
             <CodeValue>Service 1</CodeValue>
         </Services>
     </Program>
-    <Program id="CAP0-prgCAP0_0">
+    <Program>
         <ProgramId>CAP0-prgCAP0_0</ProgramId>
         <ProgramType>Library/Media Services Program</ProgramType>
         <ProgramSponsor>Local Education Agency</ProgramSponsor>

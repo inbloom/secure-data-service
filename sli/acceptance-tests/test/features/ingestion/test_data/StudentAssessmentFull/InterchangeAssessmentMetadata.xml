@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-	<Assessment id="ACT-1">
+	<Assessment>
 		<AssessmentTitle>ACT</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -18,7 +18,7 @@
                 <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
-		<ObjectiveAssessmentReference ref="ActEng"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
@@ -27,15 +27,15 @@
 	</Assessment>
 
 	<!-- first level of objective assessment -->
-	<ObjectiveAssessment id="ActEng">
+	<ObjectiveAssessment>
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActEngUsage"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActEngRhetorical"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
 	<!-- Assessment Item Section -->
-	<AssessmentItem id="AssessmentItem-1">
+	<AssessmentItem>
 		<AssessmentReference>
 			<AssessmentIdentity>
 				<AssessmentTitle>ACT</AssessmentTitle>
@@ -50,7 +50,7 @@
 	</AssessmentItem>
 
 	<!-- Assessment Family Section -->
-	<AssessmentFamily id="ACT-Family">
+	<AssessmentFamily>
 		<AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">

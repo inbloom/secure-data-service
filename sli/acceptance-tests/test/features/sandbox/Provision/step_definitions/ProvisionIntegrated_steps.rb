@@ -29,19 +29,36 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 
 PRELOAD_EDORG = "STANDARD-SEA"
 
+API_DB = PropLoader.getProps['DB_HOST']
+API_DB_PORT = PropLoader.getProps['DB_PORT']
+API_DB_NAME = PropLoader.getProps['api_database_name']
+INGESTION_DB = PropLoader.getProps['ingestion_db']
+INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
+INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
+INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
+INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
+
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
+
+  api_mongo_conn = Mongo::Connection.new(API_DB, API_DB_PORT)
+  @ingestion_mongo_conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+  @batch_job_mongo_conn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
+
+  @db = api_mongo_conn.db(API_DB_NAME)
+
   @edorgId =  "Test_Ed_Org"
   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
   dbName = @email.gsub(/[^A-Za-z0-9]/, '_')
-  @tenantDb = Mongo::Connection.new.db(convertTenantIdToDbName(dbName))
+  @tenantDb = @ingestion_mongo_conn.db(convertTenantIdToDbName(dbName))
+
+  @batchDb = @batch_job_mongo_conn.db(INGESTION_BATCHJOB_DB_NAME)
 end
 
 After do
   begin
     STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
-    initializeLandingZone(@lz)
+ #   initializeLandingZone(@lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{@lz}"
@@ -56,7 +73,7 @@ After do
   begin
     sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(PRELOAD_EDORG) + "/"
     STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
-    initializeLandingZone(sample_data_set_lz)
+  #  initializeLandingZone(sample_data_set_lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
@@ -142,6 +159,10 @@ end
 
 Given /^there is no corresponding tenant in mongo$/ do
   clear_tenant
+  # drop tenant
+  @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
+  # clear record hashes
+  @batchDb.collection('recordHash').remove({"t" => @tenantId})
 end
 
 Given /^there is no corresponding ed\-org in mongo$/ do
@@ -248,6 +269,7 @@ end
 
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+
 end
 
 Then /^the Ingestion Admin is authenticated to Simple IDP as user "(.*?)" with pass "(.*?)"$/ do |user, pass|

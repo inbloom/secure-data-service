@@ -15,6 +15,8 @@
  */
 
 package org.slc.sli.common.util.tenantdb;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Class that provides thread-local context for non-local jump use cases.
@@ -25,12 +27,15 @@ public class TenantContext {
 
     private static ThreadLocal<String> threadLocalJobId = new ThreadLocal<String>();
 
+    private static ThreadLocal<HashMap<String, String>> threadLocalBatchProperties = new ThreadLocal<HashMap<String, String>>();
+
     private static ThreadLocal<Boolean> threadLocalIsSystemCall = new ThreadLocal<Boolean>() {
         @Override
         protected Boolean initialValue() {
             return false;
         }
     };
+    
 
     /**
      * Get the tenant id local to this thread.
@@ -60,6 +65,15 @@ public class TenantContext {
     }
 
     /**
+     * Set the batch job properties local to this thread.
+     *
+     * @param batchProperties
+     */
+    public static void setBatchProperties(Map<String, String> batchProperties) {
+        threadLocalBatchProperties.set((HashMap<String, String>) batchProperties);
+    }
+
+    /**
      * Get the job id local to this thread.
      *
      * @return job id.
@@ -68,6 +82,17 @@ public class TenantContext {
         return threadLocalJobId.get();
     }
 
+    public static String getBatchProperty(String key) {
+    	Map<String, String> props = threadLocalBatchProperties.get();
+    	if ( null == props )
+    		return null;
+    	return props.get(key);
+    }
+    
+    public static Map<String, String> getBatchProperties() {
+    	return threadLocalBatchProperties.get();
+    }
+    
     public static boolean isSystemCall() {
         return threadLocalIsSystemCall.get();
     }
@@ -82,6 +107,7 @@ public class TenantContext {
     public static void cleanup() {
         threadLocalTenantId.remove();
         threadLocalJobId.remove();
+        threadLocalBatchProperties.remove();
         threadLocalIsSystemCall.remove();
     }
 

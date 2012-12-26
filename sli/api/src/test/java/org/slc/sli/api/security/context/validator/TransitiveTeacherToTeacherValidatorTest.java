@@ -67,11 +67,11 @@ public class TransitiveTeacherToTeacherValidatorTest {
 
 	@Test
 	public void testCanAccessAll() {
-		vth.generateTeacherSchool(USER_ID, ED_ORG);
+        vth.generateStaffEdorg(USER_ID, ED_ORG, false);
 		Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness"));
 
 		for (String id : teacherIds) {
-			vth.generateTeacherSchool(id, ED_ORG);
+            vth.generateStaffEdorg(id, ED_ORG, false);
 		}
 
 		Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds));
@@ -82,7 +82,7 @@ public class TransitiveTeacherToTeacherValidatorTest {
 		Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness"));
 
 		for (String id : teacherIds) {
-			vth.generateTeacherSchool(id, ED_ORG);
+            vth.generateStaffEdorg(id, ED_ORG, false);
 		}
 
 		Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
@@ -95,16 +95,16 @@ public class TransitiveTeacherToTeacherValidatorTest {
 
 	@Test
 	public void testHeterogeneousList() {
-		vth.generateTeacherSchool(USER_ID, ED_ORG);
+        vth.generateStaffEdorg(USER_ID, ED_ORG, false);
 		Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness", "Chaos Mastery", "Life Mastery", "Death and Decay", "Node Mastery", "Artificer", "Warlord", "Conjurer"));
 
 		List<String> successes = new ArrayList<String>();
 		for (String id : teacherIds) {
 			if (Math.random() > 0.5) {
-				vth.generateTeacherSchool(id, ED_ORG);
+                vth.generateStaffEdorg(id, ED_ORG, false);
 				successes.add(id);
 			} else {
-				vth.generateTeacherSchool(id, "Arcanus");
+                vth.generateStaffEdorg(id, "Arcanus", false);
 			}
 		}
 
@@ -118,4 +118,20 @@ public class TransitiveTeacherToTeacherValidatorTest {
 			}
 		}
 	}
+    
+    @Test
+    public void testExpiredTeacher() {
+        vth.generateStaffEdorg(USER_ID, ED_ORG, false);
+        Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause"));
+        
+        for (String id : teacherIds) {
+            vth.generateStaffEdorg(id, ED_ORG, true);
+        }
+        
+        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
+        for (String id : teacherIds) {
+            vth.generateStaffEdorg(id, ED_ORG, false);
+        }
+        Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds));
+    }
 }

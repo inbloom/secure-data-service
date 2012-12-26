@@ -19,7 +19,8 @@ package org.slc.sli.dal.repository;
 import java.net.UnknownHostException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -34,6 +35,8 @@ import com.mongodb.WriteConcern;
 public class MongoDriverTest {
 
     private static final int NUM_TO_WRITE = 100000;
+    
+    protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
     private static final int NUM_CONSUMERS = 1;
 
@@ -69,9 +72,9 @@ public class MongoDriverTest {
             System.exit(1);
 
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+        	LOG.info("UnknownHostException", e);
         } catch (MongoException e) {
-            e.printStackTrace();
+        	LOG.info("MongoException", e);
         }
     }
 
@@ -92,7 +95,7 @@ public class MongoDriverTest {
                 queue.put(dbObj);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+        	LOG.info("InterruptedException", e);
         }
     }
 
@@ -132,7 +135,7 @@ public class MongoDriverTest {
                     collection.insert(dbObj, WriteConcern.NORMAL);
 
                 } catch (MongoException e) {
-                    e.printStackTrace();
+                	LOG.info("MongoException", e);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }

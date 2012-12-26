@@ -26,7 +26,6 @@ require_relative '../../utils/sli_utils.rb'
 
 
 
-
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
 ###############################################################################
@@ -34,9 +33,12 @@ require_relative '../../utils/sli_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   id = "staff"                                   if human_readable_id == "STAFF URI"
+  id = "students"                                if human_readable_id == "STUDENT URI"
   id = "educationOrganizations"                  if human_readable_id == "EDORG URI"
   id = @newId                                    if human_readable_id == "New Entity ID"
   id = "85585b27-5368-4f10-a331-3abcaf3a3f4c"    if human_readable_id == "'Rick Rogers' ID"
+  id = "67ed9078-431a-465e-adf7-c720d08ef512"    if human_readable_id == "'Linda Kim' ID"
+  id = "0e26de7923423525d62015113ad50a03b_id"    if human_readable_id == "STUDENT ID"
     
   #return the translated value
   id

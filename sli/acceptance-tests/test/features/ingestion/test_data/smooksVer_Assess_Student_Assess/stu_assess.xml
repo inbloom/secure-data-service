@@ -3,7 +3,7 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
   
 
-  <StudentAssessment id="saa_id_1">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>0</SerialNumber>

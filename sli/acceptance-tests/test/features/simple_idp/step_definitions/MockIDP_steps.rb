@@ -23,23 +23,9 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
-When /^I click on the "([^"]*)" realm in "([^"]*)"$/ do |realmName,mode|
-  if mode=="Sandbox"
- 	@driver.find_element(:id, "sandboxLink").click if realmName=="Sandbox"
- 	@driver.find_element(:id, "adminLink").click if realmName=="Admin"	
-  else #production mode
-  	select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  	select.select_by(:text, arg1)
-  	@driver.find_element(:id, "go").click
-  end
-end
 
 Given /^I navigate to databrowser home page$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
-end
-
-Then /^I will be redirected to realm selector web page$/ do
-  assertWithWait("Failed to navigate to Realm chooser") {@driver.find_element(:class, "brandContainer") != nil}
 end
 
 When /^I enter the credentials "([^"]*)" "([^"]*)" for the Simple IDP$/ do |arg1, arg2|

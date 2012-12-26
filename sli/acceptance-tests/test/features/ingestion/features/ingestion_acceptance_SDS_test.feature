@@ -155,9 +155,6 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL                         | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | South Daybreak Elementary  | string               |
-       | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
-       | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
-       | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
        | graduationPlan              | 3                   | body.educationOrganizationId                   | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | string  |
        | graduationPlan              | 2                   | body.graduationPlanType                        | Minimum                                     | string  |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-1            | string               |
