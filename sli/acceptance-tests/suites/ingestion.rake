@@ -75,9 +75,9 @@ task :ingestionXsdValidationTest do
 end
 
 
-desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
-task :ingestionIDReferenceResolutionTest do
-  runTests("test/features/ingestion/features/ingestion_IDRef.feature")
+desc "Run Ingestion Ignore ID Reference Resolution Test"
+task :ingestionIgnoreIDRefsTest do
+  runTests("test/features/ingestion/features/ingestion_ignoreIDRefs.feature")
 end
 
 desc "Run Ingestion Error Report Interface Test"

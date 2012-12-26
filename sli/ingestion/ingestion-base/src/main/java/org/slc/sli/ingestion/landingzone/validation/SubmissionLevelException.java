@@ -28,12 +28,6 @@ public class SubmissionLevelException extends IngestionException {
     private static final long serialVersionUID = -6220525338718056313L;
 
     /**
-     * Default constructor.
-     */
-    public SubmissionLevelException() {
-    }
-
-    /**
      * Constructs a new exception with the specified detail message.
      *
      * @param message

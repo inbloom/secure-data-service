@@ -36,7 +36,7 @@ import org.slc.sli.ingestion.reporting.BaseMessageCode;
  */
 public class ChecksumValidator extends IngestionFileValidator {
 
-    private Logger log = LoggerFactory.getLogger(ChecksumValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChecksumValidator.class);
 
     @Override
     public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
@@ -60,7 +60,7 @@ public class ChecksumValidator extends IngestionFileValidator {
         if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
 
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
-            log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
+            LOG.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
             error(report, reportStats, BaseMessageCode.BASE_0006, fe.getFileName());
 

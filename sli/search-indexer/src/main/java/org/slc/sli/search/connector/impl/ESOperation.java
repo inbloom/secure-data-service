@@ -39,7 +39,7 @@ import com.google.common.collect.Maps;
  *
  */
 public class ESOperation extends ESConnector implements SearchEngineConnector {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(ESOperation.class);
     private int retryCount = 2;
     private long retryWaitMillis = 200;
 
@@ -97,14 +97,13 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
                     doExecute(docs);
                 } catch (RecoverableIndexerException e) {
                     if (currentRetryCount < retryCount) {
-                        logger.error("An exception trying to execute ES operation. Retrying...", e);
-                        // TODO: recovery and number of retries should be something configurable
+                        LOG.error("An exception trying to execute ES operation. Retrying...", e);
                         Thread.sleep(retryWaitMillis);
-                        tryExecute(docs, currentRetryCount ++);
+                        tryExecute(docs, currentRetryCount + 1);
                     }
                 }
             } catch (Exception e) {
-                logger.error("Something happened while performing ES operation. Will not re-try.", e);
+                LOG.error("Something happened while performing ES operation. Will not re-try.", e);
             }
         }
 
@@ -120,14 +119,14 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
     class IndexOperation extends BulkOperation {
         @Override
         public void doExecute(List<IndexEntity> docs) {
-            logger.info("Preparing _bulk request with " + docs.size() + " records");
+            LOG.info("Preparing _bulk request with " + docs.size() + " records");
             // create bulk http message
             // add each index request to the message
             String message = IndexEntityUtil.getBulkIndexJson(docs);
-            logger.info("Sending _bulk request with " + docs.size() + " records");
+            LOG.info("Sending _bulk request with " + docs.size() + " records");
             // send the message
             executePost(getBulkUri(), message);
-            logger.info("Bulk index response: OK");
+            LOG.info("Bulk index response: OK");
         }
         @Override
         Action getAction() {
@@ -142,13 +141,13 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
     class DeleteOperation extends BulkOperation {
         @Override
         public void doExecute(List<IndexEntity> docs) {
-            logger.info("Preparing _bulk delete request with " + docs.size() + " records");
+            LOG.info("Preparing _bulk delete request with " + docs.size() + " records");
 
             String message = IndexEntityUtil.getBulkDeleteJson(docs);
-            logger.info("Sending _bulk delete request with " + docs.size() + " records");
+            LOG.info("Sending _bulk delete request with " + docs.size() + " records");
             // send the message
             executePost(getBulkUri(), message);
-            logger.info("Bulk delete response: OK");
+            LOG.info("Bulk delete response: OK");
         }
         @Override
         Action getAction() {
@@ -164,19 +163,19 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
      class UpdateOperation extends BulkOperation {
         @Override
         public void doExecute(List<IndexEntity> docs) {
-            logger.info("Sending update requests for " + docs.size() + " records");
+            LOG.info("Sending update requests for " + docs.size() + " records");
             StringBuilder sb = new StringBuilder();
-            logger.info(IndexEntityUtil.toUpdateJson(docs.get(0)));
+            LOG.info(IndexEntityUtil.toUpdateJson(docs.get(0)));
             for (IndexEntity ie : docs) {
                 try {
                     sb.append(executePost(
                             getUpdateUri(), IndexEntityUtil.toUpdateJson(ie), ie.getIndex(), ie.getType(), ie.getId()).toString());
                 }
                 catch (Exception e) {
-                    logger.error("Unable to update entry for " + ie, e);
+                    LOG.error("Unable to update entry for " + ie, e);
                 }
             }
-            logger.info(sb.toString());
+            LOG.info(sb.toString());
             // TODO: do we need to check the response status of each part of the bulk request?
 
         }
@@ -195,7 +194,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
         @SuppressWarnings("unchecked")
         @Override
         public void doExecute(List<IndexEntity> updates) {
-            logger.info("Preparing _mget request with " + updates.size() + " records");
+            LOG.info("Preparing _mget request with " + updates.size() + " records");
             Map<String, IndexEntity> indexUpdateMap = new LinkedHashMap<String, IndexEntity>();
             Map<String, Object> entityBody;
             for (IndexEntity ie : updates) {
@@ -210,7 +209,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
             }
             try {
                 String request = IndexEntityUtil.getBulkGetJson(indexUpdateMap.values());
-                logger.info("Sending _mget request with " + updates.size() + " records");
+                LOG.info("Sending _mget request with " + updates.size() + " records");
                 String body = executePost(getMGetUri(), request);
                 Map<String, Object> orig;
                 List<Map<String, Object>> docs = (List<Map<String, Object>>)IndexEntityUtil.getEntity(body).get("docs");
@@ -231,10 +230,10 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
                                     reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
                                 }
                             } else {
-                                logger.error("Unable to match response from get " + entity.get("_id"));
+                                LOG.error("Unable to match response from get " + entity.get("_id"));
                             }
                         } catch (Exception e) {
-                            logger.error("Unable to process entry from ES for re-index " + entity.get("_id"));
+                            LOG.error("Unable to process entry from ES for re-index " + entity.get("_id"));
                         }
                     } else { // if doesn't exist, add
                         ie = indexUpdateMap.remove(entity.get("_id"));
@@ -247,7 +246,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
                     super.doExecute(reindex);
                 }
             } catch (Exception re) {
-                logger.error("Error on mget.", re);
+                LOG.error("Error on mget.", re);
             }
         }
         @Override
@@ -257,14 +256,14 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
     }
     @Override
     public void deleteIndex(String index) {
-        logger.info("Deleting index " + index);
+        LOG.info("Deleting index " + index);
         executeDelete(getIndexUri(), index);
     }
 
     @Override
     public void createIndex(String index) {
         if (executeHead(getIndexUri(), index) != HttpStatus.OK) {
-            logger.info("Creating new index " + index);
+            LOG.info("Creating new index " + index);
             executePost(getIndexUri(), null, index);
         }
     }
@@ -272,7 +271,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
     @Override
     public void putMapping(String index, String type, String mapping) {
         HttpStatus response = executePut(getIndexTypeUri() + "/_mapping?ignore_conflicts=true", mapping, index, type);
-        logger.info(String.format("Mapping response for %s/%s: %s ", index, type, response));
+        LOG.info(String.format("Mapping response for %s/%s: %s ", index, type, response));
     }
 
     @Override

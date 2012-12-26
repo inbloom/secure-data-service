@@ -18,7 +18,6 @@
 package org.slc.sli.ingestion.processors;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -34,8 +33,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.ingestion.IngestionTest;
-import org.slc.sli.ingestion.landingzone.LandingZone;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.NewBatchJob;
 
 /**
@@ -50,17 +47,10 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 public class ControlFileProcessorTest {
 
     @Autowired
-    LandingZone lz;
-
-    @Autowired
     ControlFileProcessor processor;
 
     @Test
     public void shouldAcceptExchangeObjectReadExchangeControlFileAndSetExchangeBatchJob() throws Exception {
-
-        assertNotNull("Landing zone is not being injected.", lz);
-
-        assertTrue("Unexpected implementation of landing zone", lz instanceof LocalFileSystemLandingZone);
 
         Exchange preObject = new DefaultExchange(new DefaultCamelContext());
 
