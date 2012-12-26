@@ -27,10 +27,6 @@ public final class SimpleReportStats extends AbstractReportStats {
     private long errorCount = 0L;
     private long warningCount = 0L;
 
-    public SimpleReportStats(Source source) {
-        super(source);
-    }
-
     @Override
     public void incError() {
         errorCount++;

@@ -229,6 +229,7 @@ public class PersistenceProcessor implements Processor {
         LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
+        Source collectionSource = new JobSource(job.getId(), collectionNameAsStaged, stage.getStageName());
         AbstractReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
                 stage.getStageName());
         try {
@@ -238,7 +239,8 @@ public class PersistenceProcessor implements Processor {
             try {
                 records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             } catch (MongoException me) {
-                // Add collection name to job resources for later error reporting, if not already there.
+                // Add collection name to job resources for later error reporting, if not already
+                // there.
                 NewBatchJob savedJob = batchJobDAO.findBatchJobById(job.getId());
                 if (savedJob.getResourceEntry(collectionNameAsStaged) == null) {
                     ResourceEntry resourceEntry = new ResourceEntry();
@@ -246,7 +248,8 @@ public class PersistenceProcessor implements Processor {
                     job.addResourceEntry(resourceEntry);
                     batchJobDAO.saveBatchJob(job);
                 }
-                databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0015, collectionNameAsStaged);
+                databaseMessageReport
+                        .error(reportStatsForCollection, CoreMessageCode.CORE_0015, collectionNameAsStaged);
                 LogUtil.error(LOG, "MongoException when attempting to extract " + collectionNameAsStaged
                         + " NeutralRecords from staging db", me);
                 throw (me);
@@ -267,7 +270,7 @@ public class PersistenceProcessor implements Processor {
             if (SELF_REF_ENTITY_CONFIG.containsKey(collectionNameAsStaged)) {
 
                 reportStatsForCollection = persistSelfReferencingEntity(workNote, job, perFileMetrics,
-                        reportStatsForCollection, reportStatsForNrEntity, records);
+                        collectionSource, reportStatsForCollection, reportStatsForNrEntity, records);
 
             } else {
 
@@ -343,7 +346,7 @@ public class PersistenceProcessor implements Processor {
      */
     // FIXME: remove once deterministic ids are in place.
     private AbstractReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
-            Map<String, Metrics> perFileMetrics, AbstractReportStats reportStatsForCollection,
+            Map<String, Metrics> perFileMetrics, Source collectionSource, AbstractReportStats reportStatsForCollection,
             AbstractReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
@@ -360,8 +363,7 @@ public class PersistenceProcessor implements Processor {
                     getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
 
             // returnValue = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), returnValue.getSource()
-                    .getStageName());
+            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), collectionSource.getStageName());
             Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
             SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job), returnValue);

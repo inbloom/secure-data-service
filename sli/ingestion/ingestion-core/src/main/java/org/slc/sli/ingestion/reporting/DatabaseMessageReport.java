@@ -45,9 +45,6 @@ public class DatabaseMessageReport extends AbstractMessageReport {
         String message = getMessage(reportStats, source, code, args);
         logError(message);
 
-        // TODO: refactor needed
-        source = reportStats.getSource();
-
         persistFault(FaultType.TYPE_ERROR, message, source);
     }
 
@@ -55,9 +52,6 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logWarning(message);
-
-        // TODO: refactor needed
-        source = reportStats.getSource();
 
         persistFault(FaultType.TYPE_WARNING, message, source);
 

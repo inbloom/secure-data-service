@@ -22,33 +22,8 @@ package org.slc.sli.ingestion.reporting;
  * @author dduran
  *
  */
+// TODO: Make this an interface
 public abstract class AbstractReportStats {
-
-    private final Source source;
-
-    /**
-     * Source constructor
-     *
-     * @param source
-     *            non-null Source object giving context to the stats.
-     * @throws IllegalArgumentException
-     *             if source is <code>null</code>
-     */
-    public AbstractReportStats(Source source) {
-        if (source == null) {
-            throw new IllegalArgumentException("source cannot be null");
-        }
-        this.source = source;
-    }
-
-    /**
-     * The source that the stats correspond to.
-     *
-     * @return Source object
-     */
-    public Source getSource() {
-        return source;
-    }
 
     /**
      * Increase the error count by one.
