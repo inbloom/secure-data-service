@@ -17,9 +17,9 @@
           <span><i>Navigate your data through the SLC API.</i></span>
         </div>
         <div class="right">
-<!--         <% if @header.nil? %> -->
+          <% if @header.nil? %>
             <h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>
-<!--           <% end %> -->
+          <% end %>
           <div class="search">
             <%= render 'entities/search'%>
           </div>
