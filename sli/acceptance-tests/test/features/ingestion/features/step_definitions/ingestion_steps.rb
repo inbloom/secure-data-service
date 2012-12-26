@@ -83,8 +83,8 @@ Before do
   else
     @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
     @recordHash = @batchDB.collection('recordHash')
-    @recordHash.remove("tenantId" => PropLoader.getProps['tenant'])
-    @recordHash.remove("tenantId" => PropLoader.getProps['sandbox_tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['sandbox_tenant'])
 
     puts "Dropped recordHash for remote testing tenants"
   end
@@ -1247,7 +1247,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
       end
     end
   else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
+    sleep(5) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLog? landing_zone
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
