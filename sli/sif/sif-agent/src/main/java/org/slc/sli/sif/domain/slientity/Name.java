@@ -35,7 +35,7 @@ public class Name {
     private String personalInformationVerificationType;
 
     public Name() {
-
+        // Empty Default constructor
     }
 
     public String getFirstName() {

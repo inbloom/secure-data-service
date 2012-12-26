@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class MockZisRequestHandler extends AbstractRequestHandler {
     
-    static Logger log = LoggerFactory.getLogger(MockZisRequestHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MockZisRequestHandler.class);
     
     @Autowired
     private MockZis mockZis;
@@ -42,7 +42,7 @@ public class MockZisRequestHandler extends AbstractRequestHandler {
         
         String xmlString = getRequestString(req);
         
-        log.info("POST MockZis message: " + xmlString);
+        LOG.info("POST MockZis message: " + xmlString);
         
         mockZis.parseSIFMessage(xmlString);
         

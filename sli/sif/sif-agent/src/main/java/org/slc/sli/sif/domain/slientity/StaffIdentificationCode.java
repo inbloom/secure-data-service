@@ -29,7 +29,7 @@ public class StaffIdentificationCode {
     private String identificationSystem;
 
     public StaffIdentificationCode() {
-
+        // Empty Default constructor
     }
 
     @JsonProperty("ID")
