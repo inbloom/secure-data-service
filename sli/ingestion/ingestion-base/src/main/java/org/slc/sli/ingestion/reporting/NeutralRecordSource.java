@@ -77,14 +77,14 @@ public class NeutralRecordSource extends JobSource {
 
         if (visitAfterLineNumber >0 && visitAfterColumnNumber > 0) {
             return MessageFormat.format(
-                    "Element: <{0}/> located between " +
-                    "line({1,number,integer}) column({2,number,integer}) and " +
-                    "line({3,number,integer}) column({4,number,integer}).",
+                    "Element: {0} located between " +
+                    "Line {1,number,integer}, Column {2,number,integer} and " +
+                    "Line {3,number,integer}, Column {4,number,integer}.",
                     arguments);
         } else {
             return MessageFormat.format(
-                    "Element: <{0}/> located at " +
-                    "line({1,number,integer}) column({2,number,integer}) and ",
+                    "Element: {0} located at " +
+                    "Line {1,number,integer}, Column {2,number,integer}.",
                     arguments);
         }
     }
