@@ -32,7 +32,7 @@ import com.mongodb.DBObject;
  *
  */
 public class SarjeSubscriptionAdmin {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(SarjeSubscriptionAdmin.class);
     public static final String SEARCH_EVENT_ID = "oplog:search";
     public static final String SEARCH_EVENT_ID_FIELD = "eventId";
 
@@ -122,7 +122,7 @@ public class SarjeSubscriptionAdmin {
      * Sarje expects a full collection
      */
     public void publishSubscriptions() {
-        logger.info("Publishing subscriptions to " + subscriptionBroadcastTopic);
+        LOG.info("Publishing subscriptions to " + subscriptionBroadcastTopic);
         jmsTemplate.send(subscriptionBroadcastTopic, new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
@@ -166,16 +166,18 @@ public class SarjeSubscriptionAdmin {
     @Document
     public static class Subscription {
         @Id
-        private String _id;
+        private String id;
         private String eventId;
         private String queue;
         private boolean publishOplog;
         private List<SubscriptionTrigger> triggers;
 
-        public Subscription() {}
+        public Subscription() {
+        	// Empty Constructor, because the way we create this object is using reflection.
+        }
 
         public Subscription(String eventId, String queue, boolean publishOplog, List<SubscriptionTrigger> triggers) {
-            this._id = eventId;
+            this.id = eventId;
             this.eventId = eventId;
             this.queue = queue;
             this.publishOplog = publishOplog;
@@ -216,7 +218,9 @@ public class SarjeSubscriptionAdmin {
         private static final String REG_SUFFIX = "$";
         private String ns;
 
-        public SubscriptionTrigger(){}
+        public SubscriptionTrigger(){
+        	// Empty Constructor, because the way we create this object is using reflection.
+        }
 
         public SubscriptionTrigger(String ns) {
             if (ns == null) {
