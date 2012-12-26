@@ -162,7 +162,7 @@ Given /^there is no corresponding tenant in mongo$/ do
   # drop tenant
   @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
   # clear record hashes
-  @batchDb.collection('recordHash').remove({"tenantId" => @tenantId})
+  @batchDb.collection('recordHash').remove({"t" => @tenantId})
 end
 
 Given /^there is no corresponding ed\-org in mongo$/ do
