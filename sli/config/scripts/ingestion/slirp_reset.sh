@@ -6,7 +6,7 @@
 #set -x
 
 if [ $# -gt 1 ] ; then
-  echo "Usage: scripts/slirp_reset [SLOW_QUERY_TIME] (run from the config/ directory)"
+  echo "Usage: scripts/slirp_reset [SLOW_QUERY_TIME]"
   exit 1
 fi
 
@@ -47,76 +47,58 @@ echo " ***** Clearing LZ!"
 
 rm -r -f /opt/lz/inbound/*
 
-echo " ***** Identifying Collections and dropping each one"
+echo " ***** Attempting to drop databases"
+ALL_DBS=`mongo --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
+for DB in $ALL_DBS ; do
+  if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
+    echo "Dropping database $DB"
+    mongo $DB --quiet --eval 'db.dropDatabase()'
+  fi
+done
 
-for i in $PRIMARIES;
-do
-  mongo $i <<END
-use sli
+echo " ***** Ensuring Primary servers no longer have databases"
+for PRIMARY in $PRIMARIES ; do
+  ALL_DBS=`mongo $PRIMARY --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
+  for DB in $ALL_DBS ; do
+    if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
+      echo "Dropping database $DB on $PRIMARY"
+      mongo $PRIMARY/$DB << END
 db.setProfilingLevel(0);
+db.dropDatabase()
+END
+    fi
+  done
+done
+
+echo " ***** Setting slow query logging"
+for PRIMARY in $PRIMARIES ; do
+  mongo $PRIMARY <<END
+use sli
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
+use d36f43474916ad310100c9711f21b65bd8231cc6
+db.setProfilingLevel($SLOW_QUERY_PARAMS);
 END
 done
 
-# Identify collections
-COLLECTIONS=`mongo sli<<END
-show collections
-END`
-COLLECTIONS=`echo $COLLECTIONS| sed s/bye// |sed s/MongoDB\ shell\ version:\ .*\ connecting\ to:\ sli//|sed s/system.indexes//`
-for i in $COLLECTIONS;
-do
-  mongo sli <<END
-db.$i.drop()
+echo " ***** Dropping ingestion_batch_job"
+ALL_DBS=`mongo $ISDB --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
+for DB in $ALL_DBS ; do
+  if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
+    echo "Dropping database $DB on $ISDB"
+    mongo $ISDB/$DB << END
+db.setProfilingLevel(0);
+db.dropDatabase()
 END
-done
-
-echo " ***** Attempting to drop databases (SLI and Hyrule.NYC)"
-mongo <<END
-use sli
-db.dropDatabase();
-use d36f43474916ad310100c9711f21b65bd8231cc6
-db.dropDatabase();
-use 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a
-db.dropDatabase();
-use ff501cb38db19529bc3eb7fd5759f3844626fdf6
-db.dropDatabase();
-END
-
-echo " ***** Ensuring Primary servers no longer have the SLI or Kyrule.NYC Database."
-
-for i in $PRIMARIES;
-do
-  mongo $i <<END
-use sli
-db.setProfilingLevel(0);
-db.dropDatabase();
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-use d36f43474916ad310100c9711f21b65bd8231cc6
-db.setProfilingLevel(0);
-db.dropDatabase();
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-use 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a
-db.setProfilingLevel(0);
-db.dropDatabase();
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-use ff501cb38db19529bc3eb7fd5759f3844626fdf6
-db.setProfilingLevel(0);
-db.dropDatabase();
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-END
+  fi
 done
 
 echo " ***** Adding Indexes to sli db"
 unzip -p /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest.war WEB-INF/classes/sli_indexes.js > /tmp/sli_indexes.js
 mongo sli < /tmp/sli_indexes.js
 
-echo " ***** Clearing databases off $ISDB"
-mongo $ISDB/ingestion_batch_job << END
-db.setProfilingLevel(0);
-db.dropDatabase();
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-END
 echo " ***** Setting up indexes on $ISDB"
 unzip -p /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest.war WEB-INF/classes/ingestion_batch_job_indexes.js > /tmp/ingestion_batch_job_indexes.js
+mongo $ISDB/ingestion_batch_job --quiet --eval "db.setProfilingLevel($SLOW_QUERY_PARAMS);"
 mongo $ISDB/ingestion_batch_job < /tmp/ingestion_batch_job_indexes.js
 
 echo " ***** Restarting Mongos"

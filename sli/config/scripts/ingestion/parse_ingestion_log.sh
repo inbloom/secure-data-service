@@ -6,7 +6,7 @@
 
 if [ $# -ne 1 ];
 then
-  echo "Usage: scripts/parse_ingerstion_log FILE_NAME (run from the config/ directory)"
+  echo "Usage: parse_ingestion_log FILE_NAME"
   exit 1
 fi
 
@@ -19,7 +19,11 @@ function SecondsFromLine {
     echo 0
   else
     DATE=`echo $1 | sed -e 's/^\([^\.]*\)\..*$/\1/'`
-    ABS=`date -d "$DATE" +%s`
+    if [ -f /mach_kernel ] ; then
+      ABS=`date -j -f "%d %b %Y %H:%M:%S" "$DATE" +%s`
+    else
+      ABS=`date -d "$DATE" +%s`
+    fi
     let "REL = $ABS - $INGEST_START"
     echo $REL
   fi
@@ -193,7 +197,6 @@ if [ $DBCREATE_START -gt 0 ] ; then
   let "DBCREATE_ELAPSED_MIN = $DBCREATE_ELAPSED / 60"
   let "DBCREATE_ELAPSED_PERCENT = (($DBCREATE_ELAPSED * 100) + ($INGEST_TOTAL/2)) / $INGEST_TOTAL"
 fi
-echo "DBCREATE_ELAPSED = $DBCREATE_ELAPSED"
 
 let "EXTRACT_ZIP_ELAPSED_MIN = $EXTRACT_ZIP_ELAPSED / 60"
 let "IDREF_ELAPSED_MIN = $IDREF_ELAPSED / 60"
@@ -212,7 +215,7 @@ printf "%-12s %8s %8s %8s %15s %10s\n" "Stage" "Start" "Finish" "Elapsed" "Elaps
 printf "%-12s %8s %8s %8s %15s %10s\n" "-----" "-----" "------" "-------" "-------------" "-------"
 printf "%-12s %8d %8d %8d %15d %9d%%\n" "Extract" 0 $EXTRACT_ZIP_ELAPSED $EXTRACT_ZIP_ELAPSED $EXTRACT_ZIP_ELAPSED_MIN $EXTRACT_ZIP_ELAPSED_PERCENT
 if [ $DBCREATE_START -gt 0 ] ; then
-printf "%-12s %8d %8d %8d %15d %9d%%\n" "DB Create" $DBCREATE_START $DBCREATE_FINISH $DBCREATE_ELAPSED_MIN $DBCREATE_ELAPSED_MIN $DBCREATE_ELAPSED_PERCENT
+printf "%-12s %8d %8d %8d %15d %9d%%\n" "DB Create" $DBCREATE_START $DBCREATE_FINISH $DBCREATE_ELAPSED $DBCREATE_ELAPSED_MIN $DBCREATE_ELAPSED_PERCENT
 fi
 printf "%-12s %8d %8d %8d %15d %9d%%\n" "IdRef" $IDREF_MIN_START $IDREF_MAX_FINISH $IDREF_ELAPSED $IDREF_ELAPSED_MIN $IDREF_ELAPSED_PERCENT
 printf "%-12s %8d %8d %8d %15d %9d%%\n" "SmooksCall" $SMOOKS_MIN_START $SMOOKS_MAX_FINISH $SMOOKS_ELAPSED $SMOOKS_ELAPSED_MIN $SMOOKS_ELAPSED_PERCENT

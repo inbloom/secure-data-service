@@ -56,7 +56,7 @@ public abstract class SliEntity {
      * Constructor
      */
     public SliEntity() {
-
+        // Empty Default constructor
     }
 
     /**

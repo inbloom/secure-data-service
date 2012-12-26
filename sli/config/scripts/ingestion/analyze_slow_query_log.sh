@@ -6,7 +6,7 @@
 
 if [ $# -ne 1 ];
 then
-  echo "Usage: scripts/analyze_slow_query_log.sh FILE (run from the config/ directory)"
+  echo "Usage: analyze_slow_query_log.sh FILE"
   exit 1
 fi
 
@@ -16,7 +16,7 @@ FILE=$1
 # Get and sort 
 #
 grep millis $FILE | sed -e 's/^.* \([0-9]*\),.*$/\1/' | sort -n -r > /tmp/a
-COUNT=`wc -l /tmp/a | sed -e 's/^\([0-9]*\) .*$/\1/'`
+COUNT=`wc -l /tmp/a | sed -e 's/^ *\([0-9]*\) .*$/\1/'`
 if [ $COUNT = 0 ] ; then
   echo "No slow queries"
 else
