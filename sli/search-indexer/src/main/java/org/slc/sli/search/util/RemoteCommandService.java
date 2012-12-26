@@ -109,7 +109,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     }
 
     // Main function, Listen server socket
-    private void listen() throws Throwable {
+    private void listen() throws Exception {
         Socket socket = null;
         try {
             // Wait for client to connect
