@@ -7,7 +7,7 @@
 
   <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
       <!--Interchange StudentAssessmenet -->
-      <!-- 
+      <!--
       <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
  -->
@@ -165,10 +165,10 @@
         <ref bean="xsdValidator" />
       </util:list>
     </property>
-    <property name="supportedResolvers" ref="strategyConfig" />
-    <property name="idReferenceInterchanges" ref="idReferenceResolutionInterchanges"/>
+<!--     <property name="supportedResolvers" ref="strategyConfig" />
+    <property name="idReferenceInterchanges" ref="idReferenceResolutionInterchanges"/> -->
   </bean>
-  
+
   <!-- interchanges that rely on id reference resolution for correctness -->
   <util:set id="idReferenceResolutionInterchanges" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>AssessmentMetadata</value>
