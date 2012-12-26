@@ -38,6 +38,8 @@ import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -128,7 +130,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     protected void resolveReferences(NeutralRecord item, AbstractMessageReport report, AbstractReportStats reportStats) {
-        Entity entity = new NeutralRecordEntity(item);
+        NeutralRecordEntity entity = new NeutralRecordEntity(item);
         dIdResolver.resolveInternalIds(entity, item.getSourceId(), report, reportStats);
     }
 
@@ -214,8 +216,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
             }
-            report.error(entity.getType(), Long.toString(entity.getRecordNumber()), CoreMessageCode.CORE_0010,
-                    reportStats, message.toString());
+            Source source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
+                    reportStats.getStageName(), entity.getType(),
+                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                    entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
+            report.error(reportStats, source, CoreMessageCode.CORE_0010, entity.getType(),
+                    Long.toString(entity.getRecordNumber()), message.toString());
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);
@@ -240,10 +246,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
             AbstractMessageReport report, AbstractReportStats reportStats) {
         Query query = new Query();
+        Source source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
+                reportStats.getStageName(), entity.getType(),
+                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
         StringBuilder errorMessage = new StringBuilder("");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
-            report.error(reportStats, CoreMessageCode.CORE_0011);
+            report.error(reportStats, source, CoreMessageCode.CORE_0011);
         } else {
             errorMessage.append("       Entity      " + entity.getType() + "\n" + "       Key Fields  "
                     + entityConfig.getKeyFields() + "\n");
@@ -296,7 +306,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         fieldValue));
             }
         } catch (Exception e) {
-            report.error(reportStats, CoreMessageCode.CORE_0012, errorMessage.toString());
+            report.error(reportStats, source, CoreMessageCode.CORE_0012, errorMessage.toString());
         }
 
         return query;

@@ -37,7 +37,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -65,7 +64,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesAssessmentRefDidInAssessmentItemCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/assessmentItem.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/assessmentItem.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 
@@ -81,7 +80,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesAssessmentRefDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentAssessment.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 
@@ -98,7 +97,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInAttendanceEventCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/attendanceEvent.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/attendanceEvent.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 
@@ -111,7 +110,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInCohortCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/cohort.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/cohort.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 
@@ -123,7 +122,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInCourseCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/course.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/course.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -134,7 +133,7 @@ public class DidReferenceResolutionTest {
     public void resolvesSchoolReferenceDidsInCourseOfferingCorrectly() throws JsonParseException,
             JsonMappingException,
             IOException {
-        Entity entity = loadEntity("didTestEntities/courseOffering.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/courseOffering.json");
         resolveInternalId(entity);
 
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
@@ -145,7 +144,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesGraduationPlanDidInStudentSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
         resolveInternalId(entity);
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
         edOrgNaturalKeys.put("educationOrganizationId", "someEdOrg");
@@ -161,7 +160,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesSessionRefDidsInCourseOfferingCorrectly() throws JsonParseException, JsonMappingException,
             IOException {
-        Entity entity = loadEntity("didTestEntities/courseOffering.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/courseOffering.json");
         resolveInternalId(entity);
 
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
@@ -177,7 +176,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesResponsibilitySchoolReferenceEdOrgRefDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/disciplineAction.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineAction.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someResponsibilitySchoolReference");
@@ -187,7 +186,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesAssignmentSchoolReferenceEdOrgRefDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/disciplineAction.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineAction.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someAssignmentSchoolReference");
@@ -197,7 +196,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesDisciplineIncidentReferenceDidInDisciplineActionCorrectly() throws JsonParseException,
             JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/disciplineAction.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineAction.json");
         resolveInternalId(entity);
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
         edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -213,7 +212,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesDisciplineIncidentReferenceDidInStudentDisciplineIncidentAssocCorrectly()
             throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentDisciplineIncidentAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentDisciplineIncidentAssociation.json");
         resolveInternalId(entity);
 
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
@@ -229,7 +228,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesGradeDidInReportCard() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/reportCard.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/reportCard.json");
         resolveInternalId(entity);
 
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
@@ -266,7 +265,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInTeacherSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/teacherSchoolAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/teacherSchoolAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -275,7 +274,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInStudentSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -284,7 +283,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInStudentProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -293,7 +292,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInStudentCompetencyObjectiveCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentCompetencyObjective.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentCompetencyObjective.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -303,7 +302,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInSessionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/session.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/session.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -313,7 +312,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesSchoolRefDidInSectionCorrectly() throws JsonParseException, JsonMappingException,
             IOException {
-        Entity entity = loadEntity("didTestEntities/section.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/section.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -323,7 +322,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesSessionRefDidInSectionCorrectly() throws JsonParseException, JsonMappingException,
             IOException {
-        Entity entity = loadEntity("didTestEntities/section.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/section.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -339,7 +338,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesSessionRefDidInStudentAcademicRecordCorrectly() throws JsonParseException,
             JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -354,7 +353,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInSchoolCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/school.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/school.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someLEAOrganizationID");
@@ -363,7 +362,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInDisciplineIncidentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/disciplineIncident.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineIncident.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -372,7 +371,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInGradingPeriodCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/gradingPeriod.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/gradingPeriod.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testEdOrgId");
@@ -381,7 +380,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInGraduationPlanCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/graduationPlan.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/graduationPlan.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
@@ -391,7 +390,7 @@ public class DidReferenceResolutionTest {
     @Test
     @Ignore
     public void resolvesLEAEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/localEducationAgency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someLEAOrganizationID");
@@ -401,7 +400,7 @@ public class DidReferenceResolutionTest {
     @Test
     @Ignore
     public void resolvesEducationServiceCenterEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/localEducationAgency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someEducationServiceCenterID");
@@ -410,7 +409,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStateEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/localEducationAgency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someSEAOrganizationID");
@@ -419,7 +418,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesEdOrgRefDidInStaffEducationOrgAssignmentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/staffEducationOrganizationAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/staffEducationOrganizationAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someEdOrg");
@@ -429,7 +428,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesCalendarDateReferenceWithinGradingPeriodCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
-        Entity entity = loadEntity("didTestEntities/gradingPeriod.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/gradingPeriod.json");
         resolveInternalId(entity);
 
 		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
@@ -445,7 +444,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesCohortDidInStaffCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/staffCohortAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/staffCohortAssociation.json");
         resolveInternalId(entity);
         Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
         edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
@@ -460,7 +459,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesCohortDidInStudentCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
 
         resolveInternalId(entity);
 
@@ -478,7 +477,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesCourseDidInCourseTranscriptCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
-        Entity courseTranscriptEntity = loadEntity("didTestEntities/courseTranscript.json");
+        NeutralRecordEntity courseTranscriptEntity = loadEntity("didTestEntities/courseTranscript.json");
         resolveInternalId(courseTranscriptEntity);
         Map<String, Object> courseTranscriptBody = courseTranscriptEntity.getBody();
         Object courseTranscriptResolvedRef = courseTranscriptBody.get("CourseReference");
@@ -498,7 +497,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesCourseDidInCourseOfferingCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
-        Entity courseOfferingEntity = loadEntity("didTestEntities/courseOffering.json");
+        NeutralRecordEntity courseOfferingEntity = loadEntity("didTestEntities/courseOffering.json");
         resolveInternalId(courseOfferingEntity);
         Map<String, Object> courseOfferingBody = courseOfferingEntity.getBody();
         Object courseOfferingResolvedRef = courseOfferingBody.get("CourseReference");
@@ -517,7 +516,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesCourseOfferingDidInSectionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/section.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/section.json");
         resolveInternalId(entity);
 
         Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
@@ -544,7 +543,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesGradingPeriodDidInGradeCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
-        Entity entity = loadEntity("didTestEntities/grade.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/grade.json");
         resolveInternalId(entity);
 
         Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
@@ -562,7 +561,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesGradingPeriodDidInGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
-        Entity entity = loadEntity("didTestEntities/gradebookEntry.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/gradebookEntry.json");
         resolveInternalId(entity);
 
         Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
@@ -580,7 +579,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesGradingPeriodDidInReportCardCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
-        Entity entity = loadEntity("didTestEntities/reportCard.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/reportCard.json");
         resolveInternalId(entity);
 
         Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
@@ -598,7 +597,7 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesGradingPeriodDidInSessionCorrectly() throws JsonParseException, JsonMappingException, IOException {
 
-        Entity entity = loadEntity("didTestEntities/session.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/session.json");
         resolveInternalId(entity);
 
         Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
@@ -615,7 +614,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentCompetencyObjectiveDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentCompetency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentCompetency.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -626,7 +625,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesLearningObjectiveDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentCompetency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentCompetency.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -639,7 +638,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesLearningObjectiveDidsInAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/assessment.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/assessment.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -653,7 +652,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesLearningObjectiveDidsInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentAssessment.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -667,7 +666,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesLearningStandardDidInLearningObjectiveCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/learningObjective.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/learningObjective.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -678,7 +677,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesLearningStandardDidInAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/assessment.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/assessment.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -689,7 +688,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesLearningStandardDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentAssessment.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -700,7 +699,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesProgramDidInStudentProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
@@ -709,7 +708,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesProgramDidInCohortCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/cohort.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/cohort.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
@@ -718,7 +717,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesProgramDidInSchoolCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/school.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/school.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
@@ -727,7 +726,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesProgramDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/localEducationAgency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
@@ -736,7 +735,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesProgramDidInStateEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/stateEducationAgency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/stateEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
@@ -745,7 +744,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesProgramDidInSectionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/section.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/section.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
@@ -754,7 +753,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesProgramDidInStaffProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/staffProgramAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/staffProgramAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
@@ -763,7 +762,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentSectionAssociationDidInGradeCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/grade.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/grade.json");
         resolveInternalId(entity);
 
         Map<String, String> studentNaturalKeys = new HashMap<String, String>();
@@ -793,7 +792,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentSectionAssociationDidInStudentCompetencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentCompetency.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentCompetency.json");
         resolveInternalId(entity);
 
         Map<String, String> studentNaturalKeys = new HashMap<String, String>();
@@ -823,7 +822,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentSectionAssociationDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
         resolveInternalId(entity);
 
         Map<String, String> studentNaturalKeys = new HashMap<String, String>();
@@ -853,7 +852,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesSectionDidInGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/gradebookEntry.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/gradebookEntry.json");
         resolveInternalId(entity);
 
         Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
@@ -869,7 +868,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesSectionDidInStudentSectionAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentSectionAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentSectionAssociation.json");
         resolveInternalId(entity);
 
         Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
@@ -885,7 +884,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesSectionDidInTeacherSectionAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/teacherSectionAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/teacherSectionAssociation.json");
         resolveInternalId(entity);
 
         Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
@@ -901,7 +900,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesSectionDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
         resolveInternalId(entity);
 
         Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
@@ -917,7 +916,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentAcademicRecordRefDidInCourseTranscriptCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/courseTranscript.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/courseTranscript.json");
         resolveInternalId(entity);
 
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
@@ -942,7 +941,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentCohortAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -951,7 +950,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentDisciplineIncidentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentDisciplineIncidentAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentDisciplineIncidentAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -960,7 +959,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentParentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentParentAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentParentAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -969,7 +968,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -978,7 +977,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -987,7 +986,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentSectionAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentSectionAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentSectionAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -996,7 +995,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInAttendanceCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/attendance.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/attendance.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -1005,7 +1004,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/disciplineAction.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineAction.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -1014,7 +1013,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInReportCardCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/reportCard.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/reportCard.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -1023,7 +1022,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentAcademicRecordCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -1032,7 +1031,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentRefDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentAssessment.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
@@ -1041,7 +1040,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentCompetencyRefDidInReportCardCorrectlyUsingLearningObjectiveReference() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/reportCard.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/reportCard.json");
         resolveInternalId(entity);
 
         Map<String, String> studentNaturalKeys = new HashMap<String, String>();
@@ -1080,7 +1079,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStudentCompetencyRefDidInReportCardCorrectlyUsingStudentCompetencyObjectiveReference() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/reportCard2.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/reportCard2.json");
         resolveInternalId(entity);
 
         Map<String, String> studentCompetencyObjectiveNaturalKeys = new HashMap<String, String>();
@@ -1117,7 +1116,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStaffRefDidInDisciplineActionCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/disciplineAction.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineAction.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
@@ -1126,7 +1125,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStaffRefDidInDisciplineIncidentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/disciplineIncident.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineIncident.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
@@ -1135,7 +1134,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStaffRefDidInStaffCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/staffCohortAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/staffCohortAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
@@ -1144,7 +1143,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStaffRefDidInStaffEducationOrganizationAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/staffEducationOrganizationAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/staffEducationOrganizationAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
@@ -1153,7 +1152,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStaffRefDidInStaffProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/staffProgramAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/staffProgramAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
@@ -1162,7 +1161,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStaffRefDidInTeacherSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/teacherSchoolAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/teacherSchoolAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
@@ -1171,7 +1170,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesStaffRefDidInTeacherSectionAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/teacherSectionAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/teacherSectionAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
@@ -1180,7 +1179,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesGradebookEntryRefDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
         resolveInternalId(entity);
         Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
         schoolNaturalKeys.put("stateOrganizationId", "this school");
@@ -1205,7 +1204,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesReportCardRefDidInStudentAcademicRecordCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAcademicRecord.json");
         resolveInternalId(entity);
 
         Map<String, String> studentNaturalKeys = new HashMap<String, String>();
@@ -1230,7 +1229,7 @@ public class DidReferenceResolutionTest {
 
     @Test
     public void resolvesParentDidInStudentParentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        Entity entity = loadEntity("didTestEntities/studentParentAssociation.json");
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studentParentAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("parentUniqueStateId", "testParentId");
@@ -1246,7 +1245,7 @@ public class DidReferenceResolutionTest {
 
     // validate reference resolution
     @SuppressWarnings("unchecked")
-    private void checkId(Entity entity, String referenceField, Map<String, String> naturalKeys, String collectionName)
+    private void checkId(NeutralRecordEntity entity, String referenceField, Map<String, String> naturalKeys, String collectionName)
             throws JsonParseException, JsonMappingException, IOException {
         String expectedDid =  generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
 
@@ -1272,14 +1271,14 @@ public class DidReferenceResolutionTest {
     }
 
     // load a sample NeutralRecordEntity from a json file
-    private Entity loadEntity(String fname) throws JsonParseException, JsonMappingException, IOException {
+    private NeutralRecordEntity loadEntity(String fname) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         Resource jsonFile = new ClassPathResource(fname);
         NeutralRecord nr = mapper.readValue(jsonFile.getInputStream(), NeutralRecord.class);
         return new NeutralRecordEntity(nr);
     }
 
-    private void resolveInternalId(Entity entity) {
+    private void resolveInternalId(NeutralRecordEntity entity) {
         AbstractMessageReport errorReport = new DummyMessageReport();
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
 

@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.cache.BucketCache;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
@@ -58,6 +59,8 @@ import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 
@@ -85,6 +88,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     private String namespace;
     private String batchJobId;
+    Source source;
     private int passCount;
 
     @Autowired
@@ -100,6 +104,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             return fileEntry;
         }
         batchJobId = fileEntry.getBatchJobId();
+        source = new JobSource(batchJobId, fileEntry.getFileName(), BatchJobStageType.XML_FILE_PROCESSOR.getName());
 
         File file = fileEntry.getFile();
 
@@ -166,7 +171,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null
                             && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
-                            report.warning(reportStats, CoreMessageCode.CORE_0021, currentXPath);
+                            report.warning(reportStats, source, CoreMessageCode.CORE_0021, currentXPath);
 
                         }
                         return false;
@@ -285,7 +290,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
 
-                                report.warning(reportStats, CoreMessageCode.CORE_0022, ref.getValue());
+                                report.warning(reportStats, source, CoreMessageCode.CORE_0022, ref.getValue());
                             }
                         }
                     } else if (theXmlEvent.isEndElement()) {
@@ -411,7 +416,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                     if (id != null && id.getValue().equals(ref.getValue())) {
                                         newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                        report.warning(reportStats, CoreMessageCode.CORE_0024, ref.getValue());
+                                        report.warning(reportStats, source, CoreMessageCode.CORE_0024, ref.getValue());
                                     } else {
 
                                         contentToAdd = resolveRefs(getCurrentXPath(parents),
@@ -422,7 +427,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 } else {
                                     // unable to resolve reference, no matching id for ref
                                     if (isSupportedRef(getCurrentXPath(parents))) {
-                                        report.warning(reportStats, CoreMessageCode.CORE_0025, ref.getValue());
+                                        report.warning(reportStats, source, CoreMessageCode.CORE_0025, ref.getValue());
                                     }
                                 }
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
@@ -466,7 +471,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         // it.
                         transformedContent = rrs.resolve(currentXPath, cachedContent.string);
                         if (transformedContent == null) {
-                            report.warning(reportStats, CoreMessageCode.CORE_0026, id);
+                            report.warning(reportStats, source, CoreMessageCode.CORE_0026, id);
 
                         } else {
                             bucketCache
@@ -488,7 +493,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
 
-            report.error(reportStats, CoreMessageCode.CORE_0023, xml.getName());
+            report.error(reportStats, source, CoreMessageCode.CORE_0023, xml.getName());
         } finally {
             closeResources(writer, out);
         }
@@ -510,7 +515,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         } catch (Exception e) {
 
-            report.error(reportStats, CoreMessageCode.CORE_0023, xml.getName());
+            report.error(reportStats, source, CoreMessageCode.CORE_0023, xml.getName());
         } finally {
             if (eventReader != null) {
                 try {
