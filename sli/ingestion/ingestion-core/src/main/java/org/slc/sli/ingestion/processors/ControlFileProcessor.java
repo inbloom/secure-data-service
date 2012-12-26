@@ -205,7 +205,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         } else {
             LOG.debug("Did not match @no-id-ref tag in control file.");
         }
-        
+
         String ddProp = newJob.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
         if (ddProp != null) {
             LOG.debug("Matched @duplicate-detection tag from control file parsing.");
@@ -215,15 +215,18 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             		             RecordHash.RECORD_HASH_MODE_RESET
             };
             boolean found = false;
-            for (int i = 0; i < allowed.length; i++)
+            for (int i = 0; i < allowed.length; i++) {
             	if ( allowed[i].equalsIgnoreCase(ddProp) ) {
             		found = true;
             		break;
             	}
-            if (found)
+            }
+            if (found) {
             	exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
-            else
+            }
+            else {
             	LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
+            }
         } else {
             LOG.debug("Did not match @duplicate-detection tag in control file.");
         }
