@@ -128,6 +128,11 @@ public abstract class AbstractContextValidator implements IContextValidator {
         expirationDate = expirationDate.minusDays(numDays);
         if (body.containsKey(fieldName)) {
             String dateStringToCheck = (String) body.get(fieldName);
+
+            if (dateStringToCheck == null) {
+                return false;
+            }
+
             DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
 
             return dateToCheck.isBefore(expirationDate);
