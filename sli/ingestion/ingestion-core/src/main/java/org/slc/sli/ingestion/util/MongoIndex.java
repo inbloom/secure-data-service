@@ -37,7 +37,7 @@ public class MongoIndex {
      * constructor has been provided
      */
     public MongoIndex() {
-
+		// empty constructor required
     }
 
     public String getCollection() {
