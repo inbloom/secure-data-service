@@ -43,6 +43,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -203,6 +204,28 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
         } else {
             LOG.debug("Did not match @no-id-ref tag in control file.");
+        }
+        
+        String ddProp = newJob.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
+        if (ddProp != null) {
+            LOG.debug("Matched @duplicate-detection tag from control file parsing.");
+            // Make sure it is one of the known values
+            String[] allowed = { RecordHash.RECORD_HASH_MODE_DEBUG_DROP,
+            		             RecordHash.RECORD_HASH_MODE_DISABLE,
+            		             RecordHash.RECORD_HASH_MODE_RESET
+            };
+            boolean found = false;
+            for (int i = 0; i < allowed.length; i++)
+            	if ( allowed[i].equalsIgnoreCase(ddProp) ) {
+            		found = true;
+            		break;
+            	}
+            if (found)
+            	exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
+            else
+            	LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
+        } else {
+            LOG.debug("Did not match @duplicate-detection tag in control file.");
         }
     }
 
