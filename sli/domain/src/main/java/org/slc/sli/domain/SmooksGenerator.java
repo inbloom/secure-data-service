@@ -202,6 +202,7 @@ public class SmooksGenerator {
         outputXml(doc);
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     private void createBean(String complexType, String beanName, String baseXPath, String interchange, Document doc,
             Element smooksNode) {
         ComplexTypeData data = complexTypesData.get(complexType);
@@ -274,6 +275,7 @@ public class SmooksGenerator {
         }
     }
 
+    @SuppressWarnings("PMD.AvoidPrintStackTrace")    // smooks support soon to be removed
     private void outputXml(Document doc) {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer;
@@ -399,6 +401,7 @@ public class SmooksGenerator {
     /**
      * extract complex types from a schema resource and cache in complexTypes
      */
+    @SuppressWarnings("PMD.AvoidPrintStackTrace")    // smooks support soon to be removed    
     private void cacheTypesFromResource(Resource schemaResource, String baseXsdPath) {
         try {
             // parse the xsd schema and pull out complex types
@@ -409,6 +412,7 @@ public class SmooksGenerator {
         }
     }
 
+    @SuppressWarnings("PMD.DoNotThrowExceptionInFinally")    // smooks support soon to be removed
     private XmlSchema parseXmlSchema(final InputStream is, final String baseXsdPath) {
         try {
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();

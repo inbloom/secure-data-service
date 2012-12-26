@@ -60,6 +60,7 @@ public class NeutralJsonExporter {
      * @param args
      * @throws IOException
      */
+    @SuppressWarnings({"PMD.SystemPrintln"})   // this is main function of a utility potentiall executed from the command line  
     public static void main(String[] args) throws IOException {
         String xsdPath = "classpath:sliXsd";
         String outputDir = "neutral-schemas";

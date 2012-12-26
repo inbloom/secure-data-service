@@ -21,8 +21,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -31,6 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
@@ -329,5 +332,13 @@ public class StaffToStudentValidatorTest {
         Set<String> validated = mock.getValid(EntityNames.STUDENT, input);
         assertEquals(4, validated.size());
         assertTrue(validated.containsAll(input));
+    }
+
+    //DE2400
+    @Test
+    public void testNullEnddate() {
+        Map<String, Object> body = new HashMap<String, Object>(1);
+        body.put(ParameterConstants.END_DATE, null);
+        assertFalse(validator.isFieldExpired(body, ParameterConstants.END_DATE, true));
     }
 }

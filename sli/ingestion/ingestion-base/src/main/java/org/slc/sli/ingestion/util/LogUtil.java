@@ -148,9 +148,9 @@ public class LogUtil {
 
         Exception loggingException;
         if (exception.getCause() == null) {
-            loggingException = new Exception(exception.getClass().toString());
+            loggingException = new Exception(exception.getClass().toString());  //NOPMD Need to use raw exception as type of exception is unknown
         } else {
-            loggingException = new Exception(exception.getClass().toString(),
+            loggingException = new Exception(exception.getClass().toString(),   //NOPMD Need to use raw exception as type of exception is unknown
                     createLoggingException(exception.getCause(), includeMessage));
         }
         loggingException.setStackTrace(exception.getStackTrace());

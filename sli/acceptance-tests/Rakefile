@@ -878,6 +878,13 @@ task :provisionIntegrationTests do
   runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
 end
 
+desc "Run Sandbox Auto Provisioning ingestion test"
+task :sandboxAutoIngestTest => [:realmInit] do
+  @tags ||= ["~@wip", "@sandbox"]
+  @tags << ["@auto-prov-ingest"]
+  runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
 desc "Run API preload resource Tests"
 task :preloadResourceTests => [:realmInit] do
 @tags ||= ["~@wip", "@sandbox"]

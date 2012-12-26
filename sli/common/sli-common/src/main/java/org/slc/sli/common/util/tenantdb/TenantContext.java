@@ -84,8 +84,9 @@ public class TenantContext {
 
     public static String getBatchProperty(String key) {
     	Map<String, String> props = threadLocalBatchProperties.get();
-    	if ( null == props )
+    	if (null == props) {
     		return null;
+    	}
     	return props.get(key);
     }
     

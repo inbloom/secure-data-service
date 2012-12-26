@@ -37,7 +37,7 @@ public class StompMessageConverter extends SimpleMessageConverter {
         try {
             return new String(super.extractByteArrayFromMessage(message), "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new MessageConversionException("Unable to convert bytes message to ");
+            throw new MessageConversionException("Unable to convert bytes message to ", e);
         }
     }
     

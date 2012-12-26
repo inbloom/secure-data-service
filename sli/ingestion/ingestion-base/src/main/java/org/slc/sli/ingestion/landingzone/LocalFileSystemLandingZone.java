@@ -36,6 +36,7 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
     protected File directory;
 
     public LocalFileSystemLandingZone() {
+        //Empty default constructor
     }
 
     public LocalFileSystemLandingZone(File directory) {
