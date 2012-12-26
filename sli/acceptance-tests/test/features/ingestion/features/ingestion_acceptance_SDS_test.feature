@@ -482,7 +482,11 @@ Scenario: Verify deterministic ids generated: Clean Database
     | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | body.schoolId                       | a13489364c2eb015c219172d561c62350f0453f3_id |
 # courseOffering
    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.localCourseCode              | Pre-Algebra I                        |
-   | courseTranscript                     | 861f4d4902c074fd5085ea6e36d62628a235f5d3_id | body.courseAttemptResult          | Pass                                 |
+
+   #| courseTranscript                     | 861f4d4902c074fd5085ea6e36d62628a235f5d3_id | body.courseAttemptResult          | Pass                                 |
+
+   | courseTranscript                     | c2843abc6fbd26fca48bef53b4e81c1c86fb6072_id | body.courseAttemptResult          | Pass                                 |
+
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate                    | 2011-09-01                           |
    | section                              | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.beginDate | 2011-09-01                    |
    | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId                    | ACC-TEST-PROG-1                      |
@@ -504,6 +508,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objectiveGradeLevel             | Third grade |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.learningStandards               | 62b9f6af06aa6a931b0e5e47b5a3356849db0724_id |
     | learningStandard                     | 84a2dbad54ca44b613728cdfbe92d2e9a3bbcd9f_id | body.learningStandardId.identificationCode | 9DB2617F615743cfA8D225346AC4CB4D |
+And I check that multiple educationOrganization ids were generated properly:
+     | collectionName                      | deterministicId                             | field                                                  | value                                       |
+     | courseTranscript                    | 0a5dd745aecf511780b1bcef48194d93602e1aae_id | body.educationOrganizationReference                    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id,352e8570bd1116d11a72755b987902440045d346_id,a13489364c2eb015c219172d561c62350f0453f3_id |
 
 @smoke
 Scenario: Verify references were resolved correctly
@@ -581,7 +588,11 @@ Scenario: Verify references were resolved correctly
 	| studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.sessionId                       		| session									  |
 	| section								| b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id											 | body.sessionId								| session									  |
 	#studentAcademicRecord
-	| courseTranscript                      | 861f4d4902c074fd5085ea6e36d62628a235f5d3_id 											 | body.studentAcademicRecordId                 | studentAcademicRecord	                      |
+
+	#| courseTranscript                      | 861f4d4902c074fd5085ea6e36d62628a235f5d3_id 											 | body.studentAcademicRecordId                 | studentAcademicRecord	                      |
+
+	| courseTranscript                      | bdf225eee1171e2803c2b038cafd740af5df1584_id 											 | body.studentAcademicRecordId                 | studentAcademicRecord	                      |
+
 	#staff
 	| disciplineAction                      | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id 											 | body.staffId                      			| staff 									  |
 	| disciplineIncident					| 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id											 | body.staffId									| staff										  |
