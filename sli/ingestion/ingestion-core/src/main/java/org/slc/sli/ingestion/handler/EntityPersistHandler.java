@@ -146,6 +146,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         if (entity.getEntityId() != null) {
 
+            LOG.trace("Updating record with entity id {}", entity.getEntityId());
+
             if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
                 // TODO: exception should be replace with some logic.
                 throw new RuntimeException("Record was not updated properly.");
@@ -153,6 +155,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             return entity;
         } else {
+            LOG.trace("Creating a new record of type {}", entity.getType());
             return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(), entity.getMetaData(),
                     collectionName, totalRetries);
         }
@@ -162,6 +165,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         boolean res = false;
 
         try {
+            LOG.trace("Updating record with id: {}", entity.getEntityId());
             res = entityRepository.updateWithRetries(collectionName, entity, totalRetries);
             if (!res) {
                 failed.add(entity);
@@ -224,6 +228,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             for (Entity entity : queued) {
                 update(collectionName, entity, failed, errorReport);
             }
+        } catch (Throwable t) {
+            Throwable piiSafeException = LogUtil.createLoggingException(t, false);
+            LogUtil.warn(LOG, "Exception during batch insert", piiSafeException);
         }
 
         return failed;
