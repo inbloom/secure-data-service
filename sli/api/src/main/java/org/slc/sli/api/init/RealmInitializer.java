@@ -64,6 +64,10 @@ public class RealmInitializer {
     @Value("${bootstrap.developer.realm.redirectEndpoint}")
     private String devRedirectEndpoint;
 
+    @Value("${sli.sandbox.enabled}")
+    private boolean isSandbox;
+
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
@@ -79,8 +83,10 @@ public class RealmInitializer {
         Map<String, Object> bootstrapAdminRealmBody = createAdminRealmBody();
         createOrUpdateRealm(ADMIN_REALM_ID, bootstrapAdminRealmBody);
         
-        Map<String, Object> bootstrapDeveloperRealmBody = createDeveloperRealmBody();
-        createOrUpdateRealm(devUniqueId, bootstrapDeveloperRealmBody);
+        if (!isSandbox)  {
+            Map<String, Object> bootstrapDeveloperRealmBody = createDeveloperRealmBody();
+            createOrUpdateRealm(devUniqueId, bootstrapDeveloperRealmBody);
+        }
     }
     
     private void createOrUpdateRealm(String realmId, Map<String, Object> realmEntity) {

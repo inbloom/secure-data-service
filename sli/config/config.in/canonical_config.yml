@@ -52,8 +52,8 @@ default:
         # Used to bootstrap the developer realm for unified accounts
         bootstrap.developer.realm.name: Shared Learning Collaborative App Developers
         bootstrap.developer.realm.uniqueId: DeveloperIDP
-        bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIDev
-        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIDev
+        bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
 
         # Used to bootstrap the sandbox's other ream realm
         bootstrap.sandbox.realm.uniqueId: SandboxIDP
@@ -936,8 +936,8 @@ local:
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=LocalNew
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=LocalNew
 
-        bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
-        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
+        bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local&developer=true
+        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local&developer=true
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -1104,8 +1104,8 @@ local-acceptance-tests:
 
         bootstrap.developer.realm.name: Shared Learning Collaborative App Developer
         bootstrap.developer.realm.uniqueId: DeveloperIDP
-        bootstrap.developer.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIDev
-        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIDev
+        bootstrap.developer.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
 
     data-access:
         <<: *DATA-ACCESS-LOCAL
@@ -1186,8 +1186,8 @@ team:
         bootstrap.sandbox.createSandboxRealm: false
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
-        bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev
-        bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev
+        bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
@@ -1511,8 +1511,8 @@ sandbox:
         bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
-        bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev
-        bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev
+        bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}

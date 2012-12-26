@@ -106,10 +106,12 @@ public class Login {
      */
     @RequestMapping(value = "/logout")
     public ModelAndView logout(@RequestParam(value="SAMLRequest", required=false) String encodedSamlRequest,
-            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
+            @RequestParam(value = "realm", required = false) String realm, 
+            @RequestParam(value = "developer", required = false) String developer, 
+            HttpSession httpSession) {
         httpSession.removeAttribute(USER_SESSION_KEY);
         if(encodedSamlRequest!=null){
-            ModelAndView mav = form(encodedSamlRequest, realm, httpSession);
+            ModelAndView mav = form(encodedSamlRequest, realm, developer, httpSession);
             mav.addObject("msg", "You are now logged out");
             return mav;
         }else{
@@ -123,9 +125,11 @@ public class Login {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
+            @RequestParam(value = "realm", required = false) String realm, 
+            @RequestParam(value = "developer", required = false) String developer, 
+            HttpSession httpSession) {
 
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, developer);
         
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
@@ -158,6 +162,7 @@ public class Login {
         mav.addObject("adminUrl", adminUrl);
         mav.addObject("isForgotPasswordVisible", realm.equals(sliAdminRealmName));
         mav.addObject("realm", realm);
+        mav.addObject("developer", developer);
         mav.addObject("SAMLRequest", encodedSamlRequest);
         return mav;
     }
@@ -187,7 +192,7 @@ public class Login {
     public ModelAndView admin(@RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession){
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, null);
         user.getAttributes().put("isAdmin", "true");
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                 user.getAttributes(), requestInfo);
@@ -203,10 +208,11 @@ public class Login {
             @RequestParam("password") String password,
             @RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String realm,
+            @RequestParam(value = "developer", required = false) String developer,
             HttpSession httpSession,
             HttpServletRequest request) {
 
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, developer);
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
@@ -277,8 +283,8 @@ public class Login {
         httpSession.setAttribute(USER_SESSION_KEY, user);
         writeLoginSecurityEvent(true, user.getUserId(), user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
 
-        //sandbox mode and it is the admin/sandbox realm so allow impersonation
-        if (isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm)) {
+        //sandbox mode, it is the admin/sandbox realm and request did not come from prod developer realm, so allow impersonation
+        if (isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm) && !"true".equalsIgnoreCase(developer)) {
             ModelAndView mav =  buildImpersonationModelAndView(realm, encodedSamlRequest, "");
             return mav;
         } else {
@@ -367,7 +373,7 @@ public class Login {
 
         user.setImpersonationUser(impersonationUser);
         
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, null);
         SamlAssertion samlAssertion = samlService.buildAssertion(impersonationUser.getUserId(), impersonationUser.getRoles(),
                 impersonationUser.getAttributes(), requestInfo);
 
