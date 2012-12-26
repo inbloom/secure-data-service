@@ -54,6 +54,7 @@ public final class SliDeltaManager {
     public static final String RECORDHASH_DATA = "rhData";
     public static final String RECORDHASH_HASH = "rhHash";
     public static final String RECORDHASH_ID = "rhId";
+    public static final String RECORDHASH_CURRENT = "rhCurrentHash";
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
@@ -139,7 +140,7 @@ public final class SliDeltaManager {
 
             if(record != null) {
                 //not ingested previously
-                rhDataElement.put("rhCurrentHash", record.exportToSerializableMap());
+                rhDataElement.put(RECORDHASH_CURRENT, record.exportToSerializableMap());
             }
 
         } catch (NoNaturalKeysDefinedException e) {

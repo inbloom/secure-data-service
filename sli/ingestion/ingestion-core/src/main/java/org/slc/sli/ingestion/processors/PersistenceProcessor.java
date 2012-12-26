@@ -661,7 +661,7 @@ public class PersistenceProcessor implements Processor {
 
             String newHashValue = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
             String recordId = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
-            Map<String,Object> rhMap = (Map<String,Object>)rhDataElement.get("rhCurrentHash");
+            Map<String,Object> rhCurrentHash = (Map<String,Object>)rhDataElement.get(SliDeltaManager.RECORDHASH_CURRENT);
 
             // Make sure complete metadata is present
             if ((null == recordId || null == newHashValue) || recordId.isEmpty() || newHashValue.isEmpty()) {
@@ -670,11 +670,11 @@ public class PersistenceProcessor implements Processor {
 
             // Consider DE2002, removing a query per record vs. tracking version
             //RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
-            if (rhMap == null) {
+            if (rhCurrentHash == null) {
                 batchJobDAO.insertRecordHash(tenantId, recordId, newHashValue);
             } else {
                 RecordHash rh = new RecordHash();
-                rh.importFromSerializableMap(rhMap);
+                rh.importFromSerializableMap(rhCurrentHash);
                 batchJobDAO.updateRecordHash(tenantId, rh, newHashValue);
             }
         }
