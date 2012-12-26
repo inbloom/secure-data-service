@@ -165,7 +165,9 @@ Given /^there is no corresponding tenant in mongo$/ do
   assert(result, "Error dropping tenant db:  #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}")
   # clear record hashesDropped
   result = @batchDb.collection('recordHash').remove({"t" => @tenantId})
-  assert(result, "Error clearing out recordHashes")
+  assert(result, "Error clearing out record deltas")
+  result = @batchDb.collection('newBatchJob').remove({"batchProperties.tenantId" => @tenantId})
+  assert(result, "Error clearing out interchange deltas")
   result = @db.collection('tenant').remove({"body.tenantId" => @tenantId})
   assert(result, "Error cleaning out tenant collection")
 end
