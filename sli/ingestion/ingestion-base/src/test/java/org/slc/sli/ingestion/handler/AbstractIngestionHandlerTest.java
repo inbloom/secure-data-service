@@ -65,7 +65,7 @@ public class AbstractIngestionHandlerTest {
         Validator<Object> preValidator = Mockito.mock(Validator.class);
         Mockito.when(
                 preValidator.isValid(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class))).thenReturn(true);
+                        Mockito.any(AbstractReportStats.class), null)).thenReturn(true);
         List<Validator<Object>> preValidators = new ArrayList<Validator<Object>>();
         preValidators.add(preValidator);
         handler.setPreValidators(preValidators);
@@ -73,7 +73,7 @@ public class AbstractIngestionHandlerTest {
         Validator<Object> postValidator = Mockito.mock(Validator.class);
         Mockito.when(
                 postValidator.isValid(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class))).thenReturn(true);
+                        Mockito.any(AbstractReportStats.class), null)).thenReturn(true);
         List<Validator<Object>> postValidators = new ArrayList<Validator<Object>>();
         postValidators.add(postValidator);
         handler.setPostValidators(postValidators);

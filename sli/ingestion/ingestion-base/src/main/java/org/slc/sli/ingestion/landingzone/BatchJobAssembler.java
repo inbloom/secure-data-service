@@ -29,6 +29,7 @@ import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  *
@@ -92,11 +93,11 @@ public class BatchJobAssembler {
         }
 
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(job.getId(),
-                controlFile.getFileName(), "BatchJobAssembler"));
+        AbstractReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(job.getId(), controlFile.getFileName(), "BatchJobAssembler");
 
         if (job.getProperty(AttributeType.PURGE.getName()) == null) {
-            if (validator.isValid(fileDesc, report, reportStats)) {
+            if (validator.isValid(fileDesc, report, reportStats, source)) {
                 for (IngestionFileEntry entry : controlFile.getFileEntries()) {
                     if (entry.getFile() != null) {
                         ((BatchJob) job).addFile(entry);

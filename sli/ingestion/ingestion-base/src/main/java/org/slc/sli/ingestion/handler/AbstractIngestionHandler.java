@@ -46,7 +46,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
     void pre(T item, AbstractMessageReport report, AbstractReportStats reportStats) {
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {
-                validator.isValid(item, report, reportStats);
+                validator.isValid(item, report, reportStats, null);
             }
         }
     };
@@ -54,7 +54,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
     void post(T item, AbstractMessageReport report, AbstractReportStats reportStats) {
         if (postValidators != null) {
             for (Validator<T> validator : postValidators) {
-                validator.isValid(item, report, reportStats);
+                validator.isValid(item, report, reportStats, null);
             }
         }
     };

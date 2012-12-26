@@ -237,7 +237,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 try {
                     keyValues.add(PropertyUtils.getProperty(entity, field));
                 } catch (Exception e) {
-                    report.error(reportStats, CoreMessageCode.CORE_0008, field, entity.getType());
+                    report.error(reportStats, CoreMessageCode.CORE_0008, null, field, entity.getType());
                 }
 
                 if (complexField != null) {
@@ -246,7 +246,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        report.error(reportStats, CoreMessageCode.CORE_0008, field, entity.getType());
+                        report.error(reportStats, CoreMessageCode.CORE_0008, null, field, entity.getType());
                     }
                 }
 

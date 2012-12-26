@@ -90,7 +90,7 @@ public class ControlFileValidatorTest {
         AbstractMessageReport report = new DummyMessageReport();
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        boolean isValid = controlFileValidator.isValid(item, report, reportStats);
+        boolean isValid = controlFileValidator.isValid(item, report, reportStats, null);
 
         Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);
@@ -104,7 +104,7 @@ public class ControlFileValidatorTest {
         Mockito.when(lz.getFile(fileName)).thenReturn(null);
         fileEntries.add(entry);
 
-        boolean isValid = controlFileValidator.isValid(item, report, reportStats);
+        boolean isValid = controlFileValidator.isValid(item, report, reportStats, null);
 
         Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);
@@ -121,7 +121,7 @@ public class ControlFileValidatorTest {
                 .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(AbstractReportStats.class));
 
-        boolean isValid = cfv.isValid(item, report, reportStats);
+        boolean isValid = cfv.isValid(item, report, reportStats, null);
 
         Assert.assertFalse(reportStats.hasErrors());
         Assert.assertTrue(isValid);
@@ -138,7 +138,7 @@ public class ControlFileValidatorTest {
                 .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(AbstractReportStats.class));
 
-        boolean isValid = cfv.isValid(item, report, reportStats);
+        boolean isValid = cfv.isValid(item, report, reportStats, null);
 
         Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);
@@ -152,7 +152,7 @@ public class ControlFileValidatorTest {
         Mockito.when(entry.getFileName()).thenReturn(path + fileName);
         fileEntries.add(entry);
 
-        boolean isValid = controlFileValidator.isValid(item, report, reportStats);
+        boolean isValid = controlFileValidator.isValid(item, report, reportStats, null);
 
         Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);

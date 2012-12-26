@@ -230,7 +230,7 @@ public class DeterministicIdResolver {
     private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
             AbstractMessageReport report, AbstractReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        report.error(reportStats, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
+        report.error(entityType, referenceType, CoreMessageCode.CORE_0009, reportStats, sourceRefPath);
     }
 
     // function which, given reference type map (source object) and refConfig, return a did

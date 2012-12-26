@@ -214,8 +214,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
             }
-            report.error(reportStats, CoreMessageCode.CORE_0010, entity.getType(),
-                    Long.toString(entity.getRecordNumber()), message.toString());
+            report.error(entity.getType(), Long.toString(entity.getRecordNumber()), CoreMessageCode.CORE_0010,
+                    reportStats, message.toString());
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);

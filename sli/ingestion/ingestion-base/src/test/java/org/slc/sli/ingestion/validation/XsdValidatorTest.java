@@ -70,7 +70,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -96,7 +96,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -139,7 +139,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -172,7 +172,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -203,7 +203,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -229,7 +229,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -260,7 +260,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -292,7 +292,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -313,7 +313,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -334,7 +334,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -398,7 +398,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -419,7 +419,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
         Assert.assertTrue(reportStats.hasWarnings());
 
@@ -447,7 +447,7 @@ public class XsdValidatorTest {
         ife.setFile(xmlFile);
 
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(AbstractMessageReport.class),
-                Mockito.mock(AbstractReportStats.class)));
+                Mockito.mock(AbstractReportStats.class), null));
     }
 
     @Test
@@ -459,7 +459,7 @@ public class XsdValidatorTest {
 
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
-        xsdValidator.isValid(ife, memoryMessageReport, reportStats);
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
         Assert.assertTrue(reportStats.hasWarnings());
 
     }
@@ -469,7 +469,7 @@ public class XsdValidatorTest {
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
                 "XsdValidation/NoFile.xml", "");
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(AbstractMessageReport.class),
-                Mockito.mock(AbstractReportStats.class)));
+                Mockito.mock(AbstractReportStats.class), null));
     }
 
     @Test

@@ -55,7 +55,7 @@ public class ZipFileValidatorTest {
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
         file = IngestionTest.getFile("zip/ZipWithPath.zip");
-        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats, null);
         Assert.assertFalse(isValid);
 
     }
@@ -66,7 +66,7 @@ public class ZipFileValidatorTest {
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
         file = IngestionTest.getFile("zip/NoControlFile.zip");
-        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats, null);
         Assert.assertFalse(isValid);
     }
 
@@ -76,7 +76,7 @@ public class ZipFileValidatorTest {
         AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
 
         file = IngestionTest.getFile("zip/ValidZip.zip");
-        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats, null);
         Assert.assertTrue(isValid);
     }
 
