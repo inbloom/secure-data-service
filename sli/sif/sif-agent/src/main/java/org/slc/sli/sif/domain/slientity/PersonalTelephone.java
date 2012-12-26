@@ -27,7 +27,7 @@ public class PersonalTelephone {
     private String telephoneNumberType;
 
     public PersonalTelephone() {
-
+        // Empty Default constructor
     }
 
     public String getTelephoneNumber() {

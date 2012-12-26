@@ -1,5 +1,5 @@
 @RALLY_US3567
-Feature: Entity versioning and migration strategies
+Feature: Entity versioning and mock migration tests
   As a system that supports versions, I want to start tracking versions of entities.
 
   Background: None
@@ -22,6 +22,7 @@ Feature: Entity versioning and migration strategies
     And "mongo_sv" field is "1" for all records
     And "dal_sv" field is "999999" for all records
 
+  # This test checks for mock fields added to a student
   @DB_MIGRATION_AFTER_UPVERSIONING
   Scenario: API requests for an student get transformed using the test transformation
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"

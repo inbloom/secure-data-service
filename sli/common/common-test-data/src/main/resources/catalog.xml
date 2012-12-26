@@ -1,7 +1,0 @@
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-  <system systemId="Interchange-Student.xsd" uri="schemas/ed-fi/Interchange-Student-0100RFC062811.xsd"/>
-  <system systemId="Interchange-StudentEnrollment.xsd" uri="schemas/ed-fi/Interchange-StudentEnrollment-0100RFC062811.xsd"/>
-  <system systemId="Interchange-EducationOrganization.xsd" uri="schemas/ed-fi/Interchange-EducationOrganization-0100RFC062811.xsd"/>
-  <system systemId="Interchange-StaffAssociation.xsd" uri="schemas/ed-fi/Interchange-StaffAssociation-0100RFC062811.xsd"/>
-  <system systemId="Ed-Fi-Core-0100RFC062811.xsd" uri="schemas/ed-fi/Ed-Fi-Core-0100RFC062811.xsd"/>
-</catalog>
