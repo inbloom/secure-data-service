@@ -426,6 +426,7 @@ public class SubDocAccessor {
                             // indexed
                             // newKey = subField + "." + key;
                             // newDBObject.put(newKey, newValue);
+                            LOG.error("Embedded entity's ID does not contain parentId.  Cannot determine parent superdoc.  ID: {}", newValue);
                         }
                     }
                     if (lookup.containsKey(updatedKey)) {
