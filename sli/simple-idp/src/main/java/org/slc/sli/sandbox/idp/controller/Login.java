@@ -134,7 +134,7 @@ public class Login {
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
         if (user != null){
-            if(isSandboxImpersonationEnabled){
+            if(isSandboxImpersonationEnabled && !"true".equalsIgnoreCase(developer)){
                 if(!requestInfo.isForceAuthn()){
                     if(user.getImpersonationUser() == null){
                         LOG.debug("Sandbox Login request with existing session (" + user.getUserId() + ") skipping authentication and automatically logging in admin using: " + user.getUserId());
