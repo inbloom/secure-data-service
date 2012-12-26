@@ -21,6 +21,7 @@ import java.util.List;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -46,7 +47,8 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
     void pre(T item, AbstractMessageReport report, AbstractReportStats reportStats) {
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {
-                validator.isValid(item, report, reportStats, null);
+                validator.isValid(item, report, reportStats,
+                        new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName()));
             }
         }
     };
@@ -54,7 +56,8 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
     void post(T item, AbstractMessageReport report, AbstractReportStats reportStats) {
         if (postValidators != null) {
             for (Validator<T> validator : postValidators) {
-                validator.isValid(item, report, reportStats, null);
+                validator.isValid(item, report, reportStats,
+                        new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName()));
             }
         }
     };
