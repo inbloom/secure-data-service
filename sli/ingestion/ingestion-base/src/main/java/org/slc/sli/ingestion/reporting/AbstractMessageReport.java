@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.reporting;
 
+import java.text.MessageFormat;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
@@ -114,12 +116,16 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      */
     protected String getMessage(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
 
-        String msg = messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
-
-        // TODO: format msg, sourceMsg and code into final message
-        msg = msg + "\n" + source.getUserFriendlyMessage();
-
-        return msg;
+        Object[] arguments = {
+                messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null),
+                source.getUserFriendlyMessage(),
+                code.getCode()
+        };
+        return MessageFormat.format(
+                "{0}\n" +
+                "{1}\n" +
+                "Message Code={2}\n",
+                arguments);
     }
 
     protected abstract void reportError(AbstractReportStats reportStats, Source source, MessageCode code,
