@@ -222,7 +222,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             if (otherName != null && !otherName.isEmpty()) {
                 String middleName = (String) otherName.get(Constants.ATTR_MIDDLE_NAME);
                 String lastname = (String) otherName.get(Constants.ATTR_LAST_SURNAME);
-                fullName.append(" (" + (String) otherName.get(Constants.ATTR_FIRST_NAME));
+                fullName.append(" (" + (String) otherName.get(Constants.ATTR_FIRST_NAME) + " ");
                 fullName.append((middleName != null && !middleName.isEmpty() ? middleName + " " : ""));
                 fullName.append((String) otherName.get(Constants.ATTR_LAST_SURNAME) + ")");
             }
@@ -1193,6 +1193,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         GenericEntity studentSearch = new GenericEntity(); // object to return
 
+        // refactor to use API Request class instead of an array of String.
         String[] queryArray;
         try {
             queryArray = (String[]) query;
@@ -1201,93 +1202,97 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             return studentSearch;
         }
 
-        String name = queryArray[0];
-        if (name == null || name.isEmpty()) {
-            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", 0, 1, 50, 1);
-            return studentSearch;
-        }
-        // get results from api
-        Map<String, String> params = new HashMap<String, String>();
-
-        // hard limit to 250
-        params.put(ES_LIMIT, ES_SEARCH_LIMIT);
-        List<GenericEntity> students = getApiClient().searchStudents(token, name.replaceAll(" ", "%20"), params);
-
-        // optionally (but typically), it should also contain pagination
-        // information
-        int pageNum = 1, pageSize = 50;
-        if (queryArray.length >= 3) {
-            try {
-                pageNum = Integer.parseInt(queryArray[1]);
-                pageSize = Integer.parseInt(queryArray[2]);
-            } catch (NumberFormatException nfe) {
-                // pagination information was in an incorrect format, use
-                // default values.
-                pageNum = 1;
-                pageSize = 50;
+        if (queryArray != null && queryArray.length > 0) {
+            String name = queryArray[0];
+            if (name == null || name.isEmpty()) {
+                setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", 0, 1, 50, 1);
+                return studentSearch;
             }
-        }
+            // get results from api
+            Map<String, String> params = new HashMap<String, String>();
 
-        // post-process
-        // get detail information for each student
-        List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
-        HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
-        GenericEntity school;
-        for (GenericEntity student : students) {
-            student = entityManager.getStudent(token, student.getId());
-            addFullName(student);
-            String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
-            if (schoolId != null && !schoolId.equals("")) {
-                if (retrievedSchools.containsKey(schoolId)) {
-                    school = retrievedSchools.get(schoolId);
-                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
-                } else {
-                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap());
-                    retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
-                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+            // hard limit to 250
+            params.put(ES_LIMIT, ES_SEARCH_LIMIT);
+            List<GenericEntity> students = getApiClient().searchStudents(token, name.replaceAll(" ", "%20"), params);
+
+            // optionally (but typically), it should also contain pagination
+            // information
+            int pageNum = 1, pageSize = 50;
+            if (queryArray.length >= 3) {
+                try {
+                    pageNum = Integer.parseInt(queryArray[1]);
+                    pageSize = Integer.parseInt(queryArray[2]);
+                } catch (NumberFormatException nfe) {
+                    // pagination information was in an incorrect format, use
+                    // default values.
+                    pageNum = 1;
+                    pageSize = 50;
                 }
             }
-            GenericEntityEnhancer.enhanceStudent(student);
-            enhancedStudents.add(student);
-        }
 
-        // This is a temporary solution until we decide how to integrate the
-        // search with the API
-        // pagination calls. Currently, when API is used, the total number of
-        // search results is
-        // stored in the header which is not accessible. Also, code above
-        // performs two searches and
-        // combines results - this is a problem if API pagination is used.
-        int numResults = enhancedStudents.size();
-        // verify sensible page number was requested (negatives not allowed)
-        if (pageNum < 1) {
-            pageNum = 1;
-        }
-        // verify sensible page size was specified (negatives not allowed)
-        if (pageSize < 1) {
-            pageSize = 1;
-        }
-        // calculate the last available page from the number of results and page
-        // size
-        int maxPageNum = numResults / pageSize;
-        if (numResults % pageSize != 0) {
-            maxPageNum++;
-        }
-        // requested page number cannot exceed last available page
-        if (pageNum > maxPageNum) {
-            pageNum = maxPageNum;
-        }
-        // fetch the subset of search results specified by the pagination
-        // request
-        if (numResults > pageSize) {
-            int beginIndex = (pageNum - 1) * pageSize;
-            int endIndex = beginIndex + pageSize;
-            if (endIndex > numResults) {
-                endIndex = numResults;
+            // post-process
+            // get detail information for each student
+            List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
+            HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
+            GenericEntity school;
+            for (GenericEntity student : students) {
+                student = entityManager.getStudent(token, student.getId());
+                addFullName(student);
+                String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
+                if (schoolId != null && !schoolId.equals("")) {
+                    if (retrievedSchools.containsKey(schoolId)) {
+                        school = retrievedSchools.get(schoolId);
+                        student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                    } else {
+                        school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap());
+                        retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
+                        student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                    }
+                }
+                GenericEntityEnhancer.enhanceStudent(student);
+                enhancedStudents.add(student);
             }
-            enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
+
+            // This is a temporary solution until we decide how to integrate the
+            // search with the API
+            // pagination calls. Currently, when API is used, the total number of
+            // search results is
+            // stored in the header which is not accessible. Also, code above
+            // performs two searches and
+            // combines results - this is a problem if API pagination is used.
+            int numResults = enhancedStudents.size();
+            // verify sensible page number was requested (negatives not allowed)
+            if (pageNum < 1) {
+                pageNum = 1;
+            }
+            // verify sensible page size was specified (negatives not allowed)
+            if (pageSize < 1) {
+                pageSize = 1;
+            }
+            // calculate the last available page from the number of results and page
+            // size
+            int maxPageNum = numResults / pageSize;
+            if (numResults % pageSize != 0) {
+                maxPageNum++;
+            }
+            // requested page number cannot exceed last available page
+            if (pageNum > maxPageNum) {
+                pageNum = maxPageNum;
+            }
+            // fetch the subset of search results specified by the pagination
+            // request
+            if (numResults > pageSize) {
+                int beginIndex = (pageNum - 1) * pageSize;
+                int endIndex = beginIndex + pageSize;
+                if (endIndex > numResults) {
+                    endIndex = numResults;
+                }
+                enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
+            }
+            setStudentSearchEntity(studentSearch, enhancedStudents, name, numResults, pageNum, pageSize, maxPageNum);
+        } else {
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", 0, 1, 50, 1);
         }
-        setStudentSearchEntity(studentSearch, enhancedStudents, name, numResults, pageNum, pageSize, maxPageNum);
         return studentSearch;
     }
 
