@@ -2535,11 +2535,7 @@ Then /^I check that multiple educationOrganization ids were generated properly:$
     refArray = value.split(',')
   
     @entity_collection = @db.collection(collection)
-    puts "collection = "
-    puts @entity_collection
     @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => [refArray[0],refArray[1],refArray[2]]}]}).count().to_s
-    puts "entity_count = "
-    puts @entity_count
       
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
