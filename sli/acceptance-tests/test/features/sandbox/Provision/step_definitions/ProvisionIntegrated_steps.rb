@@ -166,6 +166,8 @@ Given /^there is no corresponding tenant in mongo$/ do
   # clear record hashesDropped
   result = @batchDb.collection('recordHash').remove({"t" => @tenantId})
   assert(result, "Error clearing out recordHashes")
+  result = @db.collection('tenant').remove({"body.tenantId" => @tenantId})
+  assert(result, "Error cleaning out tenant collection")
 end
 
 Given /^there is no corresponding ed\-org in mongo$/ do
