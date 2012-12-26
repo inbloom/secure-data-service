@@ -40,9 +40,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -82,8 +80,6 @@ public class ZipFileProcessor implements Processor {
 
         NewBatchJob newJob = null;
 
-        Source source = null;
-
         AbstractReportStats reportStats = null;
 
         try {
@@ -96,8 +92,7 @@ public class ZipFileProcessor implements Processor {
             TenantContext.setTenantId(newJob.getTenantId());
             batchJobId = newJob.getId();
 
-            source = new JobSource(batchJobId, zipFile.getName(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
-            reportStats = new SimpleReportStats(source);
+            reportStats = new SimpleReportStats(batchJobId, zipFile.getName(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
 
             File ctlFile = zipFileHandler.handle(zipFile, databaseMessageReport, reportStats);
 

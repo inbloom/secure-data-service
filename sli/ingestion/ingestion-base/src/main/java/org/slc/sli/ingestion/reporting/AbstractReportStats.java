@@ -26,6 +26,24 @@ package org.slc.sli.ingestion.reporting;
 public abstract class AbstractReportStats {
 
     /**
+     *
+     * @return batchJobId
+     */
+    public abstract String getBatchJobId();
+
+    /**
+     *
+     * @return resourceId
+     */
+    public abstract String getResourceId();
+
+    /**
+     *
+     * @return stageName
+     */
+    public abstract String getStageName();
+
+    /**
      * Increase the error count by one.
      */
     public abstract void incError();

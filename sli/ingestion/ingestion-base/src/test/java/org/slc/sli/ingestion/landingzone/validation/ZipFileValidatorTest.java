@@ -31,7 +31,6 @@ import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 
 /**
@@ -52,7 +51,7 @@ public class ZipFileValidatorTest {
     @Test
     public void zipFileHasPath() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
 
         file = IngestionTest.getFile("zip/ZipWithPath.zip");
         boolean isValid = zipFileValidator.isValid(file, report, reportStats, null);
@@ -63,7 +62,7 @@ public class ZipFileValidatorTest {
     @Test
     public void noControlFile() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
 
         file = IngestionTest.getFile("zip/NoControlFile.zip");
         boolean isValid = zipFileValidator.isValid(file, report, reportStats, null);
@@ -73,7 +72,7 @@ public class ZipFileValidatorTest {
     @Test
     public void validZip() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
 
         file = IngestionTest.getFile("zip/ValidZip.zip");
         boolean isValid = zipFileValidator.isValid(file, report, reportStats, null);
