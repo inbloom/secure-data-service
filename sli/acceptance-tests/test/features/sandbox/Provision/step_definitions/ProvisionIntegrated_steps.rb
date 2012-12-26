@@ -51,8 +51,8 @@ Before do
   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
   dbName = @email.gsub(/[^A-Za-z0-9]/, '_')
   @tenantDb = @ingestion_mongo_conn.db(convertTenantIdToDbName(dbName))
-
   @batchDb = @batch_job_mongo_conn.db(INGESTION_BATCHJOB_DB_NAME)
+
 end
 
 After do
@@ -156,18 +156,23 @@ Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
 #clear_tenant()
 end
 
-
 Given /^there is no corresponding tenant in mongo$/ do
   clear_tenant
   # drop tenant
-  puts "Dropping #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}"
   result = @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
   assert(result, "Error dropping tenant db:  #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}")
-  # clear record hashesDropped
+
+  # clear record hashes
+  existing = @batchDb.collection('recordHash').find({"t" => @tenantId}).count()
+  total = @batchDb.collection('recordHash').count()
+  puts "There are #{existing} record hashes with tenant #{@tenantId} out of a total collection size of #{total}."
   result = @batchDb.collection('recordHash').remove({"t" => @tenantId})
   assert(result, "Error clearing out record deltas")
-  result = @batchDb.collection('newBatchJob').remove({"batchProperties.tenantId" => @tenantId})
-  assert(result, "Error clearing out interchange deltas")
+  existing = @batchDb.collection('recordHash').find({"t" => @tenantId}).count()
+  total = @batchDb.collection('recordHash').count()
+  puts "After cleaning up, there are #{existing} record hashes with tenant #{@tenantId} out of a total collection size of #{total}."
+
+  # clear out tenant
   result = @db.collection('tenant').remove({"body.tenantId" => @tenantId})
   assert(result, "Error cleaning out tenant collection")
 end
