@@ -2,6 +2,26 @@
     "keyFields" : [ "body.courseId", "body.studentAcademicRecordId"],
 	"references" :
     [
+    	{
+        "fieldPath" : "body.educationOrganizationReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.stateOrganizationId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    	},
         {
             "fieldPath" : "body.StudentAcademicRecordReference",
             "deprecated" : true,

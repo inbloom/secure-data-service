@@ -2682,11 +2682,41 @@ Then /^I check that ids were generated properly:$/ do |table|
       @entity_collection = @db.collection(collection)
       @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value}]}).count().to_s
     end
-
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
   enable_NOTABLESCAN()
 end
+
+Then /^I check that multiple educationOrganization ids were generated properly:$/ do |table|
+  disable_NOTABLESCAN()
+  @db = @conn[@ingestion_db_name]
+  table.hashes.map do |row|
+    subdoc_parent = subDocParent row["collectionName"]
+
+    did = row['deterministicId']
+    field = row['field']
+    value = row['value']
+    collection = row['collectionName']
+    puts "value ="
+    puts value
+      #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
+    if subdoc_parent
+      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])
+    else
+      @entity_collection = @db.collection(collection)
+      puts "collection = "
+      puts @entity_collection
+      #@entity_count = @entity_collection.find({"$and" => [{"_id" => did},{"body.educationOrganizationReference" => value}]}).count().to_s
+      @entity_count = @entity_collection.find({"_id" => did},{"$all" => [{"$elemMatch" => { field => value}}]}).count().to_s
+      puts "entity_count = "
+      puts @entity_count
+    end
+    
+    assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
+  end
+  enable_NOTABLESCAN()
+end
+
 
 def extractField(record, fieldPath, subDocType, subDocId) 
 	pathArray = fieldPath.split('.')

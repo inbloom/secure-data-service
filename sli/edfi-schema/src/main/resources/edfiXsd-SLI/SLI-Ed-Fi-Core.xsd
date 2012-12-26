@@ -251,7 +251,7 @@
 					<xs:element name="FinalNumericGradeEarned" type="xs:integer" minOccurs="0"/>
 					<xs:element name="CourseRepeatCode" type="CourseRepeatCodeType" minOccurs="0"/>
 					<xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1441,9 +1441,9 @@
 				<sli:refType>educationOrganization</sli:refType>
 			</xs:appinfo>
 		</xs:annotation>
-			<xs:sequence>
+		<xs:sequence>
 				<xs:element name="EducationalOrgIdentity" type="SLC-EducationalOrgIdentityType" minOccurs="0"/>
-			</xs:sequence>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-GradebookEntryIdentityType">
 		<xs:annotation>

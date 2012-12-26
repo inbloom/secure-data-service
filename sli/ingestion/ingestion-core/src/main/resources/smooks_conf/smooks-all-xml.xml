@@ -2311,6 +2311,7 @@
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:value property="gradeType" data="GradeType" />
     <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType" property="CourseReference"/>
+    <jb:wiring beanIdRef="SLC-CourseTranscript_EdOrgReferenceArray" property="EducationOrganizationReference"/>
     <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" property="StudentAcademicRecordReference"/>
   </jb:bean>
 
@@ -2379,8 +2380,20 @@
     <jb:value property="credit" data="CourseTranscript/AdditionalCredits/Credit" decoder="Double" />
     <jb:value property="additionalCreditType" data="CourseTranscript/AdditionalCredits/AdditionalCreditType" />
   </jb:bean>
+  
+  <jb:bean beanId="SLC-CourseTranscript_EdOrgReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_EdOrgReferenceType" />
+  </jb:bean>
+  
+   <jb:bean beanId="SLC-CourseTranscript_EdOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference">
+    <jb:wiring property="EducationalOrgIdentity" beanIdRef="SLC-CourseTranscript_EdOrgReference_EdOrgIdentityType" />
+  </jb:bean>
 
-  <!-- Start Student mapping -->
+  <jb:bean beanId="SLC-CourseTranscript_EdOrgReference_EdOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/EducationOrganizationReference/EducationalOrgIdentity">
+    <jb:value property="StateOrganizationId"  data="CourseTranscript/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
+
+  <!-- Start Student Parent mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentParent/Student">
     <jb:expression property="recordType">'student'</jb:expression>
     <jb:wiring property="metaData" beanIdRef="studentMetaData" />
