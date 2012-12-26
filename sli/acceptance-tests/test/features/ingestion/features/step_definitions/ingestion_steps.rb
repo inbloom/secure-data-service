@@ -83,8 +83,8 @@ Before do
   else
     @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
     @recordHash = @batchDB.collection('recordHash')
-    @recordHash.remove("t" => PropLoader.getProps['tenant'])
-    @recordHash.remove("t" => PropLoader.getProps['sandbox_tenant'])
+    @recordHash.remove("tenantId" => PropLoader.getProps['tenant'])
+    @recordHash.remove("tenantId" => PropLoader.getProps['sandbox_tenant'])
 
     puts "Dropped recordHash for remote testing tenants"
   end
