@@ -27,7 +27,7 @@ import org.slf4j.Logger;
  */
 public class LoggingMessageReport extends AbstractMessageReport {
 
-    private Logger logger;
+    private Logger logger;  //NOPMD logger is a member variable and should not be final by design
 
     public LoggingMessageReport(Logger logger) {
         this.logger = logger;
