@@ -40,7 +40,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.slc.sli.search.process.Admin;
 
 public class RemoteCommandService implements ApplicationContextAware, Runnable {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(RemoteCommandService.class);
     private static final int DEFAULT_PORT = 10024;
     private int port = DEFAULT_PORT;
 
@@ -93,8 +93,9 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 listen();
             } catch (SocketException e) {
                 // Most likely Socket is closed because of "stop" command
-            } catch (Throwable t) {
-                logger.error("Error detected in Remote Command Service...", t);
+            	LOG.info("There was a socket exception", e);
+            } catch (Exception e) {
+                LOG.error("Error detected in Remote Command Service...", e);
             }
         }
 
@@ -128,7 +129,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 switch (command.getCommands()) {
                     case RELOAD:
                     case EXTRACT:
-                        logger.info("Remote Service received RELOAD/EXTRACT command");
+                        LOG.info("Remote Service received RELOAD/EXTRACT command");
                         options = command.getOptions();
                         if (options.contains("sync")) {
                             this.admin.reloadAll();
@@ -141,8 +142,8 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                                 public void run() {
                                     try {
                                         admin.reloadAll();
-                                    } catch (Throwable t) {
-                                        logger.error("Error detected in Remote Command Service...", t);
+                                    } catch (Exception e) {
+                                        LOG.error("Error detected in Remote Command Service...", e);
                                     }
                                 }
                             }, 0, TimeUnit.SECONDS);
@@ -150,7 +151,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                         command.setReply("sent extract command");
                         break;
                     case RECONCILE:
-                        logger.info("Remote Service received RECONCILE command");
+                        LOG.info("Remote Service received RECONCILE command");
                         options = command.getOptions();
                         if (options.contains("sync")) {
                             this.admin.reconcileAll();
@@ -163,8 +164,8 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                                 public void run() {
                                     try {
                                         admin.reconcileAll();
-                                    } catch (Throwable t) {
-                                        logger.error("Error detected in Remote Command Service...", t);
+                                    } catch (Exception e) {
+                                        LOG.error("Error detected in Remote Command Service...", e);
                                     }
                                 }
                             }, 0, TimeUnit.SECONDS);
@@ -180,7 +181,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                                 delay = Integer.parseInt(options.get(0));
                             }
                         } finally {
-                            logger.info("Remote Service received Stop command, shutting down in " + delay
+                            LOG.info("Remote Service received Stop command, shutting down in " + delay
                                     + " second(s)");
                             scheduledService.schedule(new Runnable() {
                                 @Override
@@ -203,10 +204,8 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 out.println(command.getReply());
                 out.close();
             }
-        } catch (Throwable t) {
             // SocketException is thrown by calling close while socket is blocked by accept.
             // this is expected exception because search-indexer is about shutting down.
-            throw t;
         } finally {
             if (socket != null) {
                 socket.close();
@@ -216,12 +215,12 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
 
     private void commandShutdown() {
         try {
-            logger.info("Shutting down search-indexer");
+            LOG.info("Shutting down search-indexer");
             this.stopRemoteCommandService = true;
             closeSocket();
         } catch (Exception e) {
             // something went wrong.
-            logger.error("Exception while shutting down socket", e);
+            LOG.error("Exception while shutting down socket", e);
         }
     }
 
@@ -251,6 +250,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                     this.command = Command.valueOf(commandLine[0].toUpperCase());
                 }
             } catch (Exception e) {
+            	LOG.info("There was an exception", e);
             }
 
             if (this.command == null) {

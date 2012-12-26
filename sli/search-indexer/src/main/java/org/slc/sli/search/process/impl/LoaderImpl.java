@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LoaderImpl implements FileAlterationListener, Loader {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(LoaderImpl.class);
 
     private static final long DEFAULT_INTERVAL_MILLIS = 1000L;
     private static final int DEFAULT_EXECUTOR_THREADS = 5;
@@ -57,7 +57,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     private int executorThreads = DEFAULT_EXECUTOR_THREADS;
 
     public void init() throws Exception {
-        logger.info("Loader started");
+        LOG.info("Loader started");
         monitor = new FileAlterationMonitor(pollIntervalMillis);
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads );
@@ -108,18 +108,19 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                 while ((entity = br.readLine()) != null) {
                     try {
                         indexer.index(indexEntityConverter.fromEntityJson(index, action, entity));
-                    } catch (Throwable e) {
-                        logger.error("Error reading record", e); 
+                    } catch (Exception e) {
+                        LOG.error("Error reading record", e); 
                     }
                 }
                 success = true;
             } catch (IOException e) {
-                logger.error("Error loading from file", e);
+                LOG.error("Error loading from file", e);
             } finally {
                 IOUtils.closeQuietly(br);
-                logger.info("Done processing file: " + inFile.getName());
-                if (success)
+                LOG.info("Done processing file: " + inFile.getName());
+                if (success) {
                     archive(inFile);
+                }
             }
         }
     }
@@ -131,7 +132,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      */
     public void archive(File inFile) {
         if (!inFile.delete()) {
-            logger.error("Unable to delete processed file: " + inFile.getAbsolutePath());
+            LOG.error("Unable to delete processed file: " + inFile.getAbsolutePath());
         }
     }
     
@@ -152,7 +153,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     @Override
     public void processFile(String index, Action action, File inFile) {
 
-        logger.info("Processing file: " + inFile.getName());
+        LOG.info("Processing file: " + inFile.getName());
         // protect from incomplete files
         long size1 = 0L, size2 = 1L;
         FileInputStream fis = null;
@@ -165,6 +166,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
             try {
                 fis = new FileInputStream(inFile);
             } catch (IOException ioe) {
+            	LOG.info("There was an IO Exception", ioe);
             }
             finally {
                 IOUtils.closeQuietly(fis);
@@ -175,18 +177,22 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
     @Override
     public void onDirectoryChange(File inFile) {
+    	// Empty Implementation.
     }
 
     @Override
     public void onDirectoryCreate(File inFile) {
+    	// Empty Implementation.
     }
 
     @Override
     public void onDirectoryDelete(File inFile) {
+    	// Empty Implementation.
     }
 
     @Override
     public void onFileChange(File inFile) {
+    	// Empty Implementation.
     }
 
     @Override
@@ -196,14 +202,17 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
     @Override
     public void onFileDelete(File inFile) {
+    	// Empty Implementation.
     }
 
     @Override
     public void onStart(FileAlterationObserver arg0) {
+    	// Empty Implementation.
     }
 
     @Override
     public void onStop(FileAlterationObserver arg0) {
+    	// Empty Implementation.
     }
 
     public void setIndexer(Indexer indexer) {

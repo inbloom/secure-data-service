@@ -40,7 +40,7 @@ import java.util.Arrays;
  */
 public abstract class ESConnector {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(ESConnector.class);
 
     private RestOperations searchTemplate;
 
@@ -77,20 +77,20 @@ public abstract class ESConnector {
                                 .decrypt(this.dalKeyAlias, this.keyStorePass, this.esPassword) : this.esPassword))
                                 .getBytes()));
             } catch (Exception e) {
-                logger.error("Error decrypting", e);
+                LOG.error("Error decrypting", e);
             }
         }
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
-        if (logger.isDebugEnabled()) {
-            logger.debug(String.format("%s Request: %s, [%s]", method.name(), url, Arrays.asList(uriParams)));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("%s Request: %s, [%s]", method.name(), url, Arrays.asList(uriParams)));
         }
 
         // make the REST call
         try {
             return searchTemplate.exchange(url, method, entity, String.class, uriParams);
         } catch (ResourceAccessException ste) {
-            logger.error("rest call failed: " + ste);
-            throw new RecoverableIndexerException();
+            LOG.error("rest call failed: " + ste);
+            throw new RecoverableIndexerException(ste);
         } catch (HttpClientErrorException rce) {
             return new ResponseEntity<String>(rce.getMessage(), rce.getStatusCode());
         }

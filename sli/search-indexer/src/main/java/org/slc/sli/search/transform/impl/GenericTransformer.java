@@ -58,8 +58,9 @@ public class GenericTransformer {
         for (Entry<DotPath, Append> entry : append.entrySet()) {
             value = null;
             ap = entry.getValue();
-            if (ap.getValue() != null)
+            if (ap.getValue() != null) {
                 value = ap.getValue(); 
+            }
             else {
                 Object subdoc = (ap.getSubdoc() == null) ? entity : NestedMapUtil.get(ap.getSubdoc(), entity);
                 if (subdoc != null) {
@@ -75,8 +76,9 @@ public class GenericTransformer {
                     }
                 }
             }
-            if (value != null)
+            if (value != null) {
                 NestedMapUtil.put(entry.getKey(), value, entity);
+            }
         }
     }
     
@@ -87,8 +89,9 @@ public class GenericTransformer {
     private boolean isMatch(Map<DotPath, Object> filters, Object entity) {
         if (filters != null) {
             for (Map.Entry<DotPath, Object> entry : filters.entrySet()) {
-                if (!isMatch(entry.getKey(), entry.getValue(), entity))
+                if (!isMatch(entry.getKey(), entry.getValue(), entity)) {
                     return false;
+                }
             }
         }
         return true;

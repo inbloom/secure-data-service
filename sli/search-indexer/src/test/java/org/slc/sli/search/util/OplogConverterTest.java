@@ -34,10 +34,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.search.entity.IndexEntity.Action;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OplogConverterTest {
     private ObjectMapper mapper = null;
-
+    private static final Logger LOG = LoggerFactory.getLogger(OplogConverterTest.class);
+    
     @Before
     public void setUp() throws Exception {
         mapper = new ObjectMapper();
@@ -98,7 +101,7 @@ public class OplogConverterTest {
         StringBuffer sb = new StringBuffer();
         BufferedReader br = null;
         try {
-            File jsonFile = new File(DBCollection.class.getClassLoader().getResource("oplog/" + name + ".json")
+            File jsonFile = new File(Thread.currentThread().getContextClassLoader().getResource("oplog/" + name + ".json")
                     .getFile());
             br = new BufferedReader(new FileReader(jsonFile));
             String line;
@@ -107,7 +110,7 @@ public class OplogConverterTest {
                 sb.append(line);
             }
         } catch (Exception e) {
-
+    		LOG.info("There was an exception in getOplogJsonFile", e);
         }
         return sb.toString();
     }

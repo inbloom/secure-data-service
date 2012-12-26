@@ -22,4 +22,7 @@ package org.slc.sli.search.util;
 public class RecoverableIndexerException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     
+    public RecoverableIndexerException(Exception e) {
+    	super(e);
+    }
 }
