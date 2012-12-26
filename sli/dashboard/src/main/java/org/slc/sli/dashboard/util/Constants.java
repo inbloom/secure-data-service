@@ -112,6 +112,7 @@ public final class Constants {
     public static final String ATTR_MAXIMUM_SCORE = "maximumScore";
     public static final String ATTR_STUDENT_ID = "studentId";
     public static final String ATTR_NAME = "name";
+    public static final String ATTR_OTHER_NAME = "otherName";
     public static final String ATTR_FIRST_NAME = "firstName";
     public static final String ATTR_LAST_SURNAME = "lastSurname";
     public static final String ATTR_MIDDLE_NAME = "middleName";

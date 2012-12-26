@@ -208,12 +208,26 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     public void addFullName(GenericEntity student) {
 
+        StringBuilder fullName = new StringBuilder();
         Map name = (Map) student.get(Constants.ATTR_NAME);
         if (name != null) {
-            String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " "
-                    + (String) name.get(Constants.ATTR_LAST_SURNAME);
-            name.put(Constants.ATTR_FULL_NAME, fullName);
+            fullName.append((String) name.get(Constants.ATTR_FIRST_NAME) + " ");
+            String middleName = (String) name.get(Constants.ATTR_MIDDLE_NAME);
+            fullName.append((middleName != null && !middleName.isEmpty() ? middleName + " " : ""));
+            fullName.append((String) name.get(Constants.ATTR_LAST_SURNAME));
         }
+        List otherNameList = (List) student.get(Constants.ATTR_OTHER_NAME);
+        if (otherNameList != null && !otherNameList.isEmpty()) {
+            Map otherName = (Map) otherNameList.get(0);
+            if (otherName != null && !otherName.isEmpty()) {
+                String middleName = (String) otherName.get(Constants.ATTR_MIDDLE_NAME);
+                String lastname = (String) otherName.get(Constants.ATTR_LAST_SURNAME);
+                fullName.append(" (" + (String) otherName.get(Constants.ATTR_FIRST_NAME));
+                fullName.append((middleName != null && !middleName.isEmpty() ? middleName + " " : ""));
+                fullName.append((String) otherName.get(Constants.ATTR_LAST_SURNAME) + ")");
+            }
+        }
+        name.put(Constants.ATTR_FULL_NAME, fullName.toString());
     }
 
     /**
