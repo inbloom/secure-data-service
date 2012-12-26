@@ -98,7 +98,7 @@ public class TokenSchema extends NeutralSchema {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "PMD.ReturnEmptyArrayRatherThanNull"})
     protected String[] getTokens() {
         List<String> tokens = (List<String>) this.getProperties().get(TOKENS);
         if (tokens != null) {
