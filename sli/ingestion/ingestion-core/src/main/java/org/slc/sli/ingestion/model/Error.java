@@ -86,7 +86,7 @@ public final class Error {
             theHostname = BatchJobUtils2.getHostName();
         }
 
-        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
+        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,	// NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
                 BatchJobUtils2.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
         return error;
