@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model;
 
 import java.util.Date;
@@ -22,7 +21,7 @@ import java.util.Date;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *
@@ -78,16 +77,17 @@ public final class Error {
 
         String theSourceIp = sourceIp;
         if (theSourceIp == null) {
-            theSourceIp = BatchJobUtils2.getHostAddress();
+            theSourceIp = BatchJobUtils.getHostAddress();
         }
 
         String theHostname = hostname;
         if (theHostname == null) {
-            theHostname = BatchJobUtils2.getHostName();
+            theHostname = BatchJobUtils.getHostName();
         }
 
-        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,	// NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
-                BatchJobUtils2.getCurrentTimeStamp(), severity, errorType, errorDetail);
+        // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
+        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
+                BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
         return error;
     }

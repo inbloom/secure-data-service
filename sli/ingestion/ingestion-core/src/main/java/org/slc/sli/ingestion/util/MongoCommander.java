@@ -39,6 +39,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  */
 public final class MongoCommander {
 
+    private static IndexParser<String> indexTxtFileParser = new IndexTxtFileParser();
+    private static IndexParser<Set<String>> indexSliFormatParser = new IndexSliFormatParser();
     /**
      * No instance should be created.
      * All methods are static.
@@ -50,9 +52,9 @@ public final class MongoCommander {
     private static final String ID = "_id";
 
     public static void ensureIndexes(String indexFile, String db, MongoTemplate mongoTemplate) {
-        Set<String> indexes = IndexFileParser.readIndexes(indexFile);
-
-        ensureIndexes(indexes, db, mongoTemplate);
+        Set<MongoIndex> indexes = indexTxtFileParser.parse(indexFile);
+        DB dbConn = getDB(db, mongoTemplate);
+        ensureIndexes(indexes, dbConn);
     }
 
     /**
@@ -62,40 +64,46 @@ public final class MongoCommander {
      * @param db : target database
      * @param mongoTemplate
      */
-    @SuppressWarnings("boxing")
     public static void ensureIndexes(Set<String> indexes, String db, MongoTemplate mongoTemplate) {
         if (indexes != null) {
             LOG.info("Ensuring {} indexes for {} db", indexes.size(), db);
-            DB dbConn = mongoTemplate.getDb();
+            DB dbConn = getDB(db, mongoTemplate);
 
-            if (!dbConn.getName().equals(db)) {
-                dbConn = dbConn.getSisterDB(db);
-            }
+            Set<MongoIndex> indexSet = indexSliFormatParser.parse(indexes);
+            ensureIndexes(indexSet, dbConn);
+        } else {
+            throw new IllegalStateException("Indexes configuration not found.");
+        }
+    }
+
+    public static void ensureIndexes(Set<MongoIndex> indexes, DB dbConn) {
+        if (indexes != null) {
+            LOG.info("Ensuring {} indexes for {} db", indexes.size(), dbConn);
 
             int indexOrder = 0; // used to name the indexes
 
-            // each index is a comma delimited string in the format:
-            // (collection, unique, indexKeys ...)
-            for (String indexEntry : indexes) {
+            for (MongoIndex indexEntry : indexes) {
                 indexOrder++;
-                MongoIndex index = IndexFileParser.parseIndex(indexEntry);
-
-                DBObject options = new BasicDBObject();
-                options.put("name", "idx_" + indexOrder);
-                options.put("unique", index.isUnique());
-                options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
-
-                try {
-                    dbConn.getCollection(index.getCollection()).createIndex(index.getKeys(), options);
-                } catch (MongoException e) {
-                    LOG.error("Failed to ensure index:{}", e.getMessage());
-                }
+                ensureIndexes(indexEntry, dbConn, indexOrder);
             }
         } else {
             throw new IllegalStateException("Indexes configuration not found.");
         }
     }
 
+    @SuppressWarnings("boxing")
+    public static void ensureIndexes(MongoIndex index, DB dbConn, int indexOrder) {
+        DBObject options = new BasicDBObject();
+        options.put("name", "idx_" + indexOrder);
+        options.put("unique", index.isUnique());
+        options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
+
+        try {
+            dbConn.getCollection(index.getCollection()).createIndex(new BasicDBObject(index.getKeys()), options);
+        } catch (MongoException e) {
+            LOG.error("Failed to ensure index:{}", e.getMessage());
+        }
+    }
     /**
      * get list of  the shards
      * @param dbConn
@@ -225,6 +233,23 @@ public final class MongoCommander {
 
         //set balancer off
         setBalancerState(dbConn, false);
+    }
+
+    /**
+     * @param db
+     * @param mongoTemplate
+     * @return
+     */
+    public static DB getDB(String db, MongoTemplate mongoTemplate) {
+        DB dbConn = mongoTemplate.getDb();
+        return getDB(db, dbConn);
+    }
+
+    public static DB getDB(String db, DB dbConn) {
+        if (!dbConn.getName().equals(db)) {
+            dbConn = dbConn.getSisterDB(db);
+        }
+        return dbConn;
     }
 
 }
