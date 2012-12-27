@@ -112,7 +112,7 @@ public class TokenSchema extends NeutralSchema {
         String[] quotedTokens = this.getTokens();
         if (quotedTokens != null) {
             for (int i = 0; i < quotedTokens.length; i++) {
-                quotedTokens[i] = String.format("'%s'", quotedTokens[i]);
+                quotedTokens[i] = "'" + quotedTokens[i] + "'";
             }
         }
         return quotedTokens;
