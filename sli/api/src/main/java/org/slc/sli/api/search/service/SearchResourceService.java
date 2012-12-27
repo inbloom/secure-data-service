@@ -215,7 +215,7 @@ public class SearchResourceService {
 
             // call BasicService to query the elastic search repo
             entityBodies = (List<EntityBody>) getService().list(apiQuery);
-            debug("Got " + entityBodies.size() + " entities back");
+            debug("Got {} entities back", entityBodies.size());
             int lastSize = entityBodies.size();
             finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
 
