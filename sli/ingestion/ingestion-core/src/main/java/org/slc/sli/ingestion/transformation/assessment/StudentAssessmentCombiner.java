@@ -32,8 +32,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -315,6 +317,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                 String assessmentItemIdentificatonCode = (String) sai.getLocalParentIds().get(
                         "assessmentItemIdentificatonCode");
+                NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), sai.getSourceFile(),
+                        BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        sai.getRecordType(),
+                        sai.getVisitBeforeLineNumber(), sai.getVisitBeforeColumnNumber(),
+                        sai.getVisitAfterLineNumber(), sai.getVisitAfterColumnNumber());
 
                 if (assessmentItemIdentificatonCode != null) {
                     Map<String, String> assessmentSearchPath = new HashMap<String, String>();
@@ -327,10 +334,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
-                        super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);
+                        super.reportError(sai.getSourceFile(), source, CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);
                     }
                 } else {
-                    super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0033);
+                    super.reportError(sai.getSourceFile(), source, CoreMessageCode.CORE_0033);
                 }
 
                 studentAssessmentItems.add(sai.getAttributes());
@@ -351,6 +358,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         if (sassItems != null) {
             for (NeutralRecord sai : sassItems) {
                 String assessmentId = (String) sai.getLocalParentIds().get("assessmentItemIdentificatonCode");
+                NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), sai.getSourceFile(),
+                        BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        sai.getRecordType(),
+                        sai.getVisitBeforeLineNumber(), sai.getVisitBeforeColumnNumber(),
+                        sai.getVisitAfterLineNumber(), sai.getVisitAfterColumnNumber());
                 if (assessmentId != null) {
                     Map<String, String> assessmentSearchPath = new HashMap<String, String>();
                     assessmentSearchPath.put("body.identificationCode", assessmentId);
@@ -362,10 +374,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
-                        super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0032, assessmentId);
+                        super.reportError(sai.getSourceFile(), source, CoreMessageCode.CORE_0032, assessmentId);
                     }
                 } else {
-                    super.reportError(sai.getSourceFile(), CoreMessageCode.CORE_0033);
+                    super.reportError(sai.getSourceFile(), source, CoreMessageCode.CORE_0033);
                 }
 
                 studentAssessmentItems.add(sai.getAttributes());

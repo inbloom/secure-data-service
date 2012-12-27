@@ -183,8 +183,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         loggingMessageReport.setLogger(LOG);
         Source source = new JobSource(null, null, null);
-        AbstractReportStats reportStats = new SimpleReportStats(source);
-        boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats);
+        AbstractReportStats reportStats = new SimpleReportStats();
+        boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
+
         if (!indexValidated) {
             LOG.error("Indexes could not be verified, check the index file configurations are set");
         }

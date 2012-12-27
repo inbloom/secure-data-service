@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.reporting;
 
+import java.text.MessageFormat;
+
 
 /**
  *
@@ -65,14 +67,26 @@ public class NeutralRecordSource extends JobSource {
 
     @Override
     public String getUserFriendlyMessage() {
-        String s = "Element: <" + neutralRecordType + "/> located between";
-        s += " line " + visitBeforeLineNumber;
-        s += " column " + visitBeforeColumnNumber;
-        s += " and";
-        s += " line " + visitAfterLineNumber;
-        s += " column " + visitAfterColumnNumber;
-        s += ".";
-        return s;
+        Object[] arguments = {
+            neutralRecordType,
+            new Integer(visitBeforeLineNumber),
+            new Integer(visitBeforeColumnNumber),
+            new Integer(visitAfterLineNumber),
+            new Integer(visitAfterColumnNumber)
+        };
+
+        if (visitAfterLineNumber >0 && visitAfterColumnNumber > 0) {
+            return MessageFormat.format(
+                    "Element: {0} located between " +
+                    "Line {1,number,integer}, Column {2,number,integer} and " +
+                    "Line {3,number,integer}, Column {4,number,integer}.",
+                    arguments);
+        } else {
+            return MessageFormat.format(
+                    "Element: {0} located at " +
+                    "Line {1,number,integer}, Column {2,number,integer}.",
+                    arguments);
+        }
     }
 
 

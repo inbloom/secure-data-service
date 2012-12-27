@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.MongoIndex;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -46,11 +47,11 @@ public class DbIndexValidator extends SimpleValidatorSpring<DB> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
         Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
         Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db);
 
-        return isValid(expectedIndexes, actualIndexes, report, reportStats);
+        return isValid(expectedIndexes, actualIndexes, report, reportStats, source);
     }
 
     protected Set<MongoIndex> loadExpectedIndexes() {
@@ -86,16 +87,16 @@ public class DbIndexValidator extends SimpleValidatorSpring<DB> {
      * @return
      */
     protected static boolean isValid(Set<MongoIndex> expectedIndexes, Set<MongoIndex> actualIndexes,
-            AbstractMessageReport report, AbstractReportStats reportStats) {
+            AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
 
         boolean res = true;
         for (MongoIndex index : expectedIndexes) {
             if (actualIndexes.contains(index)) {
                 res &= true;
-                report.info(reportStats, CoreMessageCode.CORE_0018, index.getCollection(), index.getKeys(), index.isUnique());
+                report.info(reportStats, source, CoreMessageCode.CORE_0018, index.getCollection(), index.getKeys(), index.isUnique());
             } else {
                 res = false;
-                report.error(reportStats, CoreMessageCode.CORE_0038, index.getCollection(), index.getKeys(), index.isUnique());
+                report.error(reportStats, source, CoreMessageCode.CORE_0038, index.getCollection(), index.getKeys(), index.isUnique());
             }
         }
         return res;

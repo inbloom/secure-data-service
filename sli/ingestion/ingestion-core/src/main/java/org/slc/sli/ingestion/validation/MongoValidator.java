@@ -21,6 +21,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * @author tke
@@ -31,12 +32,12 @@ public class MongoValidator extends ComplexValidator<Object> {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public boolean isValid(Object object, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(Object object, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
         boolean isValid = true;
         DB dbConn = mongoTemplate.getDb();
 
         for (Validator<Object> validator : this.getValidators()) {
-            isValid &= validator.isValid(dbConn, report, reportStats);
+            isValid &= validator.isValid(dbConn, report, reportStats, source);
         }
 
         return isValid;

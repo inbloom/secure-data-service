@@ -43,7 +43,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
@@ -78,7 +77,7 @@ public class SmooksEdFi2SLITransformerTest {
         NeutralRecord directlyMapped = new NeutralRecord();
         directlyMapped.setRecordType("directEntity");
         directlyMapped.setAttributeField("field2", "Test String");
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<? extends Entity> result = transformer.transform(directlyMapped, new DummyMessageReport(), reportStats);
 
@@ -144,7 +143,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -267,7 +266,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -310,7 +309,7 @@ public class SmooksEdFi2SLITransformerTest {
         when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(
                 le);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 

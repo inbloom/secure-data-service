@@ -20,6 +20,8 @@ import com.mongodb.DB;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+
 
 /**
  * Checks if the indexes are present for all the dbs before processing this job.
@@ -32,11 +34,13 @@ import org.slc.sli.ingestion.reporting.AbstractReportStats;
 public class IndexValidator extends ComplexValidator<DB> {
 
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats) {
+
+    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats,Source source) {
         boolean isValid = true;
 
+
         for (Validator<DB> validator : this.getValidators()) {
-            isValid &= validator.isValid(db, report, reportStats);
+            isValid &= validator.isValid(db, report, reportStats, source);
         }
 
         return isValid;

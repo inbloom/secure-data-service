@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.IndexParser;
 import org.slc.sli.ingestion.util.MongoIndex;
@@ -50,7 +51,7 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     }
 
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
 
         boolean isValid = true;
@@ -60,7 +61,7 @@ public class TenantDBIndexValidator extends DbIndexValidator {
         for (String tenantDb : tenantDbs) {
             LOGGER.info("Validating indexes for tenantDB:" + tenantDb);
             Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db.getSisterDB(tenantDb));
-            isValid &= super.isValid(expectedIndexes, actualIndexes, report, reportStats);
+            isValid &= super.isValid(expectedIndexes, actualIndexes, report, reportStats, source);
         }
 
         return isValid;

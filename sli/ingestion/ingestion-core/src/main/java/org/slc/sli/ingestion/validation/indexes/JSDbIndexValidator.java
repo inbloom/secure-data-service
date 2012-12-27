@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.IndexParser;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.MongoIndex;
@@ -49,10 +50,10 @@ public class JSDbIndexValidator extends DbIndexValidator {
     }
 
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
         DB dbConn = MongoCommander.getDB(dbName, db);
         LOGGER.info("Validating indexes for DB: " + dbName);
-        return super.isValid(dbConn, report, reportStats);
+        return super.isValid(dbConn, report, reportStats, source);
     }
 
 
