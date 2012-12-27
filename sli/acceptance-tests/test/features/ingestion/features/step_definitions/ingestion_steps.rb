@@ -83,8 +83,8 @@ Before do
   else
     @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
     @recordHash = @batchDB.collection('recordHash')
-    @recordHash.remove("tenantId" => PropLoader.getProps['tenant'])
-    @recordHash.remove("tenantId" => PropLoader.getProps['sandbox_tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['sandbox_tenant'])
 
     puts "Dropped recordHash for remote testing tenants"
   end
@@ -1247,7 +1247,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
       end
     end
   else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
+    sleep(5) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLog? landing_zone
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
@@ -2763,14 +2763,16 @@ end
 
 After do
   if (!@landing_zone_path.nil?)
-          Dir.foreach(@landing_zone_path) do |entry|
-              if (entry.rindex("warn.") || entry.rindex("error."))
-                   STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
-                   STDOUT.puts "File contents follow:"
-                   STDOUT.puts File.open(@landing_zone_path + entry).read
-              end
-          end
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex("warn.") || entry.rindex("error."))
+        if File.exists?(@landing_zone_path + entry)
+          STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
+          STDOUT.puts "File contents follow:"
+          STDOUT.puts File.open(@landing_zone_path + entry).read
+        end
       end
+    end
+  end
   cleanTenants()
   @conn.close if @conn != nil
   @batchConn.close if @batchConn != nil

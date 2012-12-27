@@ -36,9 +36,11 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -100,9 +102,18 @@ public class ConcurrentEdFiProcessor implements Processor {
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            TenantContext.setTenantId(newJob.getTenantId());
+            String tenantId = newJob.getTenantId();
+            TenantContext.setTenantId(tenantId);
             TenantContext.setJobId(batchJobId);
+            TenantContext.setBatchProperties(newJob.getBatchProperties());
 
+        	// Check for record hash purge option given
+        	String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+        	if ( (null != rhMode) && ( rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE) || rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_RESET) ) ) {
+        		LOG.info("@duplicate-detection mode '" + rhMode + "' given: resetting recordHash");
+        		batchJobDAO.removeRecordHashByTenant(tenantId);
+        	}
+            
             indexStagingDB();
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);

@@ -41,12 +41,12 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void error(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null || source == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportStats.incError();
@@ -66,12 +66,12 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void warning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportStats.incWarning();
@@ -90,12 +90,12 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void info(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportInfo(reportStats, source, code, args);
@@ -111,13 +111,13 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void error(AbstractReportStats reportStats, MessageCode code, Object... args) {
         // TODO: this method should be removed and its current usage should be refactored
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportStats.incError();
@@ -135,13 +135,13 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void warning(AbstractReportStats reportStats, MessageCode code, Object... args) {
         // TODO: this method should be removed and its current usage should be refactored
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportStats.incWarning();
@@ -158,13 +158,13 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void info(AbstractReportStats reportStats, MessageCode code, Object... args) {
         // TODO: this method should be removed and its current usage should be refactored
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportInfo(reportStats, null, code, args);

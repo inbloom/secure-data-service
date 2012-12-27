@@ -135,7 +135,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isStaff() {
         return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-    
+
     /**
      * Determines if the user is of type 'teacher'.
      *

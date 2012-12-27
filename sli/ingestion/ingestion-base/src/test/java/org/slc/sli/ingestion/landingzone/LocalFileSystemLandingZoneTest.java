@@ -49,8 +49,7 @@ public class LocalFileSystemLandingZoneTest {
 
     @Before
     public void setUp() {
-        lz = new LocalFileSystemLandingZone();
-        lz.setDirectory(new File(DUMMY_DIR));
+        lz = new LocalFileSystemLandingZone(new File(DUMMY_DIR));
     }
 
     @After
