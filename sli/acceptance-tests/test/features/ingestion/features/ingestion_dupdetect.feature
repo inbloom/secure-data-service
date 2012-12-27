@@ -12,7 +12,8 @@ Given I am using preconfigured Ingestion Landing Zone
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
-  And a batch job for file "TinyDataSet.zip" is completed in database
+  And I should not see a warning log file created
+  And I should not see an error log file created
 Then I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 1                   | t                           | Midgar                  | string               |
@@ -22,6 +23,8 @@ When the landing zone is reinitialized
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
+  And I should not see a warning log file created
+  And I should not see an error log file created
 Then I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 1                   | t                           | Midgar                  | string               |
@@ -34,7 +37,8 @@ Given I am using preconfigured Ingestion Landing Zone
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
-  And a batch job for file "TinyDataSet.zip" is completed in database
+  And I should not see a warning log file created
+  And I should not see an error log file created
 Then I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 1                   | t                           | Midgar                  | string               |
@@ -43,7 +47,8 @@ When I post "TinyDataSetDDreset.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
-  And a batch job for file "TinyDataSetDDreset.zip" is completed in database
+  And I should not see a warning log file created
+  And I should not see an error log file created
 Then I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 1                   | t                           | Midgar                  | string               |
@@ -56,7 +61,8 @@ Given I am using preconfigured Ingestion Landing Zone
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
-  And a batch job for file "TinyDataSet.zip" is completed in database
+  And I should not see a warning log file created
+  And I should not see an error log file created
 Then I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 1                   | t                           | Midgar                  | string               |
@@ -65,7 +71,8 @@ When I post "TinyDataSetDDdisable.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
-  And a batch job for file "TinyDataSetDDdisable.zip" is completed in database
+  And I should not see a warning log file created
+  And I should not see an error log file created
 Then I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 0                   | t                           | Midgar                  | string               |
@@ -78,7 +85,8 @@ Given I am using preconfigured Ingestion Landing Zone
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
-  And a batch job for file "TinyDataSetDDdebugdrop.zip" is completed in database
+  And I should not see a warning log file created
+  And I should not see an error log file created
 Then I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 0                   | t                           | Midgar                  | string               |
