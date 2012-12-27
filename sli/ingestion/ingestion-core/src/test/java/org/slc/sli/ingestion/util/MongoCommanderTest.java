@@ -57,6 +57,8 @@ public class MongoCommanderTest {
     private final String dbName = "commanderTest";
 
     private Set<String> shardCollections = new TreeSet<String>();
+    
+    private Set<String> indexes = new TreeSet<String>();
 
     private Map<String, Integer> collectionOrder = new HashMap<String, Integer>();
 
@@ -71,13 +73,17 @@ public class MongoCommanderTest {
         shardCollections.add("assessmentFamily");
         shardCollections.add("assessmentItem");
 
-        collectionOrder.put("assessment", 1);
-        collectionOrder.put("assessmentFamily", 2);
-        collectionOrder.put("assessmentItem", 3);
+        collectionOrder.put("assessment", 3);
+        collectionOrder.put("assessmentFamily", 1);
+        collectionOrder.put("assessmentItem", 2);
 
         collectionIns.put("assessment", assessmentCollection);
         collectionIns.put("assessmentFamily", assessmentFamilyCollection);
         collectionIns.put("assessmentItem", assessmentItem);
+        
+        indexes.add("assessment,false,creationTime");
+        indexes.add("assessmentFamily,false,creationTime");
+        indexes.add("assessmentItem,false,creationTime");
 
         Mockito.when(mockedMongoTemplate.getDb()).thenReturn(db);
         Mockito.when(db.getName()).thenReturn(dbName);
@@ -112,7 +118,7 @@ public class MongoCommanderTest {
         return options;
     }
 
-    @Ignore
+    @Test
     public void testEnsureIndexes() {
         MongoCommander.ensureIndexes("tenantDB_indexes.txt", dbName, mockedMongoTemplate);
 
@@ -123,6 +129,19 @@ public class MongoCommanderTest {
             Mockito.verify(collectionIns.get(collection), Mockito.times(1)).createIndex(asskeys, options);
         }
     }
+    
+    @Test
+    public void testEnsureSetIndexes() {
+        MongoCommander.ensureIndexes(indexes, dbName, mockedMongoTemplate);
+
+        for (String collection : shardCollections) {
+            DBObject asskeys = new BasicDBObject();
+            asskeys.put("creationTime", 1);
+            DBObject options = buildOpts(dbName + "." + collection, collectionOrder.get(collection));
+            Mockito.verify(collectionIns.get(collection), Mockito.times(1)).createIndex(asskeys, options);
+        }
+    }
+
 
     @Test
     public void testPreSplit() {
