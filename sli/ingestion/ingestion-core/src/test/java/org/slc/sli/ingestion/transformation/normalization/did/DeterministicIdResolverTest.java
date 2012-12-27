@@ -42,6 +42,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.Ref;
@@ -531,8 +532,11 @@ public class DeterministicIdResolverTest {
 
     private NeutralRecordEntity createEntity(String fileName) throws IOException {
         Resource jsonFile = new ClassPathResource("DeterministicIdResolverConfigs/" + fileName);
-        NeutralRecordEntity entity = MAPPER.readValue(jsonFile.getInputStream(), NeutralRecordEntity.class);
-        return entity;
+        SimpleEntity entity = MAPPER.readValue(jsonFile.getInputStream(), SimpleEntity.class);
+        NeutralRecord nr = new NeutralRecord();
+        nr.setAttributes(entity.getBody());
+        nr.setRecordType(entity.getType());
+        return new NeutralRecordEntity(nr);
     }
 
     /**
