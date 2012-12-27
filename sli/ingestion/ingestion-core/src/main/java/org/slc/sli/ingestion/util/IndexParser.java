@@ -14,39 +14,18 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.util;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
+import java.util.Set;
 
-public final class BatchJobUtils2
-{
+/**
+ *
+ * @author npandey
+ *
+ */
 
-    private static InetAddress localhost;
-    static {
-        try {
-            localhost = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-    }
+public interface IndexParser<T> {
 
-    private BatchJobUtils2() {
-
-    }
-
-    public static String getHostAddress() {
-        return localhost.getHostAddress();
-    }
-
-    public static String getHostName() {
-        return localhost.getHostName();
-    }
-
-    public static Date getCurrentTimeStamp() {
-        return new Date();
-    }
+    public Set<MongoIndex> parse(T index);
 
 }
