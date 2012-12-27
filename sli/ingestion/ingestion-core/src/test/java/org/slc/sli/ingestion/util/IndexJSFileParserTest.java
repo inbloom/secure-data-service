@@ -21,8 +21,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,30 +41,42 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class IndexFileParserTest {
-
+public class IndexJSFileParserTest {
     private static final String INDEX_FILE = "testIndexes.js";
-    private static final String INDEX_TXT_FILE = "testIndexes.txt";
 
-    @Ignore
+    @Test
     public void parseJSTest() {
-        //Set<MongoIndex> indexes = IndexFileParser.parseJSFile(INDEX_FILE);
-        Set<MongoIndex> indexes = null;
+        IndexJSFileParser indexJSFileParser = new IndexJSFileParser();
+        Set<MongoIndex> indexes = indexJSFileParser.parse(INDEX_FILE);
         MongoIndex index;
 
+        Map<String, MongoIndex> expectedIndexes = new HashMap<String, MongoIndex>();
+
+        DBObject userSessionIndex = new BasicDBObject();
+        userSessionIndex.put("body.expiration", 1);
+        userSessionIndex.put("body.hardLogout", 1);
+        userSessionIndex.put("body.appSession.token", 1);
+
+        expectedIndexes.put("usersession", new MongoIndex("userSession", false, userSessionIndex));
+
+        DBObject tenantIndex = new BasicDBObject();
+        tenantIndex.put("body.tenantId", 1);
+
+        expectedIndexes.put("tenant", new MongoIndex("tenant", true, tenantIndex));
+
         assertEquals(4, indexes.size());
-
-//        index = indexes.get(2);
-//        assertTrue(index.isUnique());
-
-//        index = indexes.get(3);
-//        assertEquals(3, index.getKeys().toMap().size());
 
         for (MongoIndex idx : indexes) {
             if (idx.getCollection().equalsIgnoreCase("realm")) {
                 fail("Invalid index was parsed");
+            } else if (idx.getCollection().equalsIgnoreCase("usersession")) {
+                assertEquals(idx, expectedIndexes.get("usersession"));
+            } else if (idx.getCollection().equalsIgnoreCase("tenant")) {
+                assertEquals(idx, expectedIndexes.get("tenant"));
+                assertTrue(idx.isUnique());
             }
         }
+
     }
 
     @Ignore
@@ -70,21 +86,6 @@ public class IndexFileParserTest {
         assertFalse(value == null);
         assertTrue(value.get("batchJobId").equals(1));
         assertTrue(value.get("creationTime").equals(1));
-    }
-
-    @Ignore
-    public void parseTxtTest() {
-        //Set<MongoIndex> indexes = IndexFileParser.parseTxtFile(INDEX_TXT_FILE);
-        Set<MongoIndex> indexes = null;
-        MongoIndex index;
-
-        //assertEquals(3, indexes.size());
-
-//        index = indexes.get(1);
-//        assertTrue(index.isUnique());
-
-//        index = indexes.get(2);
-//        assertEquals(4, index.getKeys().toMap().size());
     }
 
     @Test
