@@ -175,10 +175,6 @@ Given /^there is no corresponding tenant in mongo$/ do
   # clear out tenant
   result = @db.collection('tenant').remove({"body.tenantId" => @tenantId})
   assert(result, "Error cleaning out tenant collection")
-
-  # ensure lz has no existing log files in it
-  sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(PRELOAD_EDORG) + "/"
-  initializeLandingZone(sample_data_set_lz)
 end
 
 Given /^there is no corresponding ed\-org in mongo$/ do
