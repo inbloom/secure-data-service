@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Message report that persists errors and warnings to a database and the log.
@@ -64,7 +64,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
 
     private void persistFault(FaultType faultType, String message, Source source) {
         Error error = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
-                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), null, faultType.getName(),
+                BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), null, faultType.getName(),
                 faultType.getName(), message);
 
         batchJobDAO.saveError(error);
