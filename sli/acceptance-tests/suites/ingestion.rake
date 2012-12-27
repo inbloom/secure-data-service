@@ -259,6 +259,11 @@ task :ingestionOdinDataSet do
   runTests("test/features/ingestion/features/ingestion_OdinDataSet.feature")
 end
 
+desc "Duplicate Detection Test"
+task :ingestionDupDetectTest do
+  runTests("test/features/ingestion/features/ingestion_dupdetect.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

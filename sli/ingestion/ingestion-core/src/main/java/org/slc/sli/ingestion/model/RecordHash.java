@@ -174,7 +174,8 @@ public class RecordHash {
             LOG.warn("Cannot convert hex hash or ID to binary: '" + hexId + "'");
             LOG.warn(e.getMessage());
         }
-        return null;
+        byte[] null_result = null;
+        return null_result;
     }
 
     /**
