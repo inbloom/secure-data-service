@@ -3,7 +3,7 @@ Feature: Ingestion Delta Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
- And I am using preconfigured Ingestion Landing Zone
+ And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 
 Scenario: Job report should report deltas when SDS is ingested twice
     Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
