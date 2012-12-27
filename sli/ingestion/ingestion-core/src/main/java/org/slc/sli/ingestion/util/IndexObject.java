@@ -33,6 +33,8 @@ public class IndexObject {
     }
 
     public IndexObject() {
+        //default constructor is needed for when MongoIndex does not
+        //know about the keys yet.
     }
 
     public void setKeys(DBObject obj) {
@@ -90,12 +92,5 @@ public class IndexObject {
      */
     public Map<String, Integer> getKeys() {
         return keys;
-    }
-
-    /**
-     * @param keys the keys to set
-     */
-    public void setKeys(Map<String, Integer> keys) {
-        this.keys = keys;
     }
 }

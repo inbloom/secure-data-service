@@ -35,6 +35,10 @@ public class LoggingMessageReport extends AbstractMessageReport {
         this.logger = logger;
     }
 
+    public LoggingMessageReport() {
+        //a compnent needs a default constructor
+    }
+
     @Override
     protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         logger.error(getMessage(reportStats, source, code, args));
