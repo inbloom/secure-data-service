@@ -86,12 +86,12 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.SECTION, section);
     }
 
-    public Entity generateSSA(String studentId, String sectionId, boolean isExpired) {
+    public void generateSSA(String studentId, String sectionId, boolean isExpired) {
         Map<String, Object> ssaBody = new HashMap<String, Object>();
         ssaBody.put(ParameterConstants.SECTION_ID, sectionId);
         ssaBody.put(ParameterConstants.STUDENT_ID, studentId);
         expireAssociation(isExpired, ssaBody);
-        return repo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
+        repo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
     }
 
     private void expireAssociation(boolean isExpired, Map<String, Object> body) {
@@ -288,14 +288,6 @@ public class ValidatorTestHelper {
         Map<String, Object> gradPlan = new HashMap<String, Object>();
         gradPlan.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
         return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, gradPlan);
-    }
-    
-    public Entity generateGrade(String studentSectionAssociationId) {
-        Map<String, Object> grade = new HashMap<String, Object>();
-        grade.put("letterGradeEarned", "A");
-        grade.put("gradeType", "Exam");
-        grade.put("studentSectionAssociationId", studentSectionAssociationId);
-        return repo.create(EntityNames.GRADE, grade);
     }
 
     protected void setUpTeacherContext() {
