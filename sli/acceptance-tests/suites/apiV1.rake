@@ -200,10 +200,16 @@ task :v1ListTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/end_user_stories/lists")
 end
+
 desc "Run Tests for new endpoints"
 task :v1NewEndpointTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/endpoints")
+  runTests("test/features/apiV1/endpoints/endpoints.feature")
+end
+
+desc "Run Tests for list-attendance endpoint"
+task :v1ListAttendanceEndpointTests do
+  runTests("test/features/apiV1/endpoints/listAttendancesEndpoint.feature")
 end
 
 desc "Run V1 Assessment User Story Tests"

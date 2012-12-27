@@ -826,6 +826,22 @@ end
 ############################################################
 
 ############################################################
+# List Attendance Endpoint tests start
+############################################################
+desc "Run List Attendance Endpoint tests"
+task :listAttendanceEndPoint => [:loadDefaultIngestionTenants, :odin10k1GenerateTests, :ingestOdin10k1DataSet, :realmInit, :v1ListAttendanceEndpointTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# List Attendance Endpoint tests end
+############################################################
+
+############################################################
 # Integration Tests start
 ############################################################
 desc "Run Integration Acceptance Tests"
