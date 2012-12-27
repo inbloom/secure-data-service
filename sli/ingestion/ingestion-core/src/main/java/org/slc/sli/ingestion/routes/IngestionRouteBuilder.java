@@ -172,7 +172,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
-        boolean indexValidated = indexValidator.isValid(null, null, null);
+        boolean indexValidated = indexValidator.isValid(null, null, null, null);
         if (!indexValidated) {
             LOG.error("Indexes could not be verified, check the index file configurations are set");
         }

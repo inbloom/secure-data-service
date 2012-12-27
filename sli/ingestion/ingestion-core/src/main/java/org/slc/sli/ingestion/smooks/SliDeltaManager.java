@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -111,7 +110,7 @@ public final class SliDeltaManager {
             neutralRecordResolved = n;
         } else {
             neutralRecordResolved = (NeutralRecord) n.clone();
-            Entity entity = new NeutralRecordEntity(neutralRecordResolved);
+            NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
             didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
         }
 

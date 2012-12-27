@@ -34,14 +34,15 @@ Scenario: Student Ed-Fi XSD Validation
     And I should see "InterchangeStudent.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
-    And I should see "File InterchangeStudent.xml, Line 56, Column 28:" in the resulting warning log file
-    And I should see "cvc-complex-type.2.4.a: Invalid content was found starting with element 'EconomicDisadvantaged'." in the resulting warning log file
-    And I should see "One of '{" in the resulting warning log file
-    And I should see "http://ed-fi.org/0100" in the resulting warning log file
-    And I should see ":BirthData}' is expected." in the resulting warning log file
+    And I should see "WARNING  File InterchangeStudent.xml:" in the resulting warning log file
+    And I should see "cvc-complex-type.2.4.a: Invalid content was found starting with element 'EconomicDisadvantaged'. One of '{" in the resulting warning log file
+    And I should see "Element:  located at Line 56, Column 28." in the resulting warning log file
+    And I should see "Message Code=BASE_0017" in the resulting warning log file
 
-    And I should see "File InterchangeStudent.xml, Line 87, Column 60:" in the resulting warning log file
+    And I should see "WARNING  File InterchangeStudent.xml:" in the resulting warning log file
     And I should see "cvc-type.3.1.3: The value '' of element 'LimitedEnglishProficiency' is not valid." in the resulting warning log file
+    And I should see "Element:  located at Line 87, Column 60." in the resulting warning log file
+    And I should see "Message Code=BASE_0017" in the resulting warning log file
 
     And I should not see an error log file created
 

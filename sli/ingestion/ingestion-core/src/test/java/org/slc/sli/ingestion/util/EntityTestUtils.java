@@ -54,7 +54,6 @@ import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -84,7 +83,7 @@ public class EntityTestUtils {
 
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
         AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         SliSmooks smooks = new SliSmooks(smooksConfig);
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport,
