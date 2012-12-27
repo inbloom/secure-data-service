@@ -27,7 +27,7 @@ public class InstitutionTelephone {
     private String institutionTelephoneNumberType;
 
     public InstitutionTelephone() {
-
+        // Empty Default constructor
     }
 
     public String getTelephoneNumber() {

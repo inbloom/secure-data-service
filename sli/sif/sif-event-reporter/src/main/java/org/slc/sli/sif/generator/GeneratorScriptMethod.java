@@ -32,7 +32,7 @@ import openadk.library.EventAction;
  * @author vmcglaughlin
  *
  */
-public class GeneratorScriptMethod {
+public final class GeneratorScriptMethod {
 
     public static final GeneratorScriptMethod LEA_INFO_ADD = new GeneratorScriptMethod("reportLeaInfoEvent", EventAction.ADD);
     public static final GeneratorScriptMethod LEA_INFO_CHANGE = new GeneratorScriptMethod("reportLeaInfoEvent", EventAction.CHANGE);

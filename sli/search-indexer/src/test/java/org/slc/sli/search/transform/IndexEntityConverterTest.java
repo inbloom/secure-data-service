@@ -21,11 +21,15 @@ import org.junit.Test;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
+import org.slc.sli.search.process.impl.LoaderImpl;
 import org.slc.sli.search.util.IndexEntityUtil;
 import org.slc.sli.search.util.SearchIndexerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IndexEntityConverterTest {
     private final IndexEntityConverter indexEntityConverter = new IndexEntityConverter();
+    private static final Logger LOG = LoggerFactory.getLogger(LoaderImpl.class);
     
     @Before
     public void setup() throws Exception{
@@ -57,6 +61,7 @@ public class IndexEntityConverterTest {
           indexEntityConverter.fromEntityJson(null, entity);
           Assert.fail("Does not include metaData - should fail");
         } catch (SearchIndexerException sie) {
+        	LOG.info("There was a SearchIndexerException exception.", sie);
         }
     }
     

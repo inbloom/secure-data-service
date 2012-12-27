@@ -16,50 +16,16 @@
 
 package org.slc.sli.ingestion.xml.idref;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.Serializable;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
-
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StopWatch;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.cache.BucketCache;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.util.FileUtils;
-import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * @author okrook
@@ -68,7 +34,7 @@ import org.slc.sli.ingestion.util.LogUtil;
 public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
     public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
-    private static final QName ID_ATTR = new QName("id");
+/*    private static final QName ID_ATTR = new QName("id");
     private static final QName REF_ATTR = new QName("ref");
     private static final QName REF_RESOLVED_ATTR = new QName("refResolved");
 
@@ -88,13 +54,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private int passCount;
 
     @Autowired
-    private BucketCache bucketCache;
+    private BucketCache bucketCache;*/
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
             AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
 
-        if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
+/*        if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
             LOG.info("Not resolving id-references for file: {} (type: {})", fileEntry.getFileName(), fileEntry
                     .getFileType().getName());
             return fileEntry;
@@ -105,12 +71,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         file = process(file, report, reportStats);
 
-        fileEntry.setFile(file);
+        fileEntry.setFile(file);*/
 
         return fileEntry;
     }
 
-    protected File process(File xml, AbstractMessageReport report, AbstractReportStats reportStats) {
+/*    protected File process(File xml, AbstractMessageReport report, AbstractReportStats reportStats) {
         bucketCache.flushBucket(namespace);
         namespace = batchJobId + "_" + xml.getName() + "_pass_" + (++passCount);
 
@@ -639,7 +605,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         this.idReferenceInterchanges = idReferenceInterchanges;
     }
 
-    @SuppressWarnings("serial")
+//    @SuppressWarnings("serial")
     private static final class TransformableXmlString implements Serializable {
         private static final long serialVersionUID = 1L;
         private final String string;
@@ -654,7 +620,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         public String toString() {
             return "TransformableXmlString [string=" + string + ", isTransformed=" + isTransformed + "]";
         }
-    }
+    }*/
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,

@@ -198,7 +198,7 @@ public class NeutralQuery {
      *
      * @param criteria neutral criteria that must be satisfied for query results
      */
-    public NeutralQuery addCriteria(NeutralCriteria criteria) {
+    final public NeutralQuery addCriteria(NeutralCriteria criteria) {
         this.queryCriteria.add(criteria);
         return this;
     }

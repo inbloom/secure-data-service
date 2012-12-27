@@ -278,6 +278,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         return xmlSchemas;
     }
 
+    @SuppressWarnings("PMD.DoNotThrowExceptionInFinally")   // seems necessary to report issue while closing input stream
     private XmlSchema parseXmlSchema(final InputStream is) {
         try {
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
@@ -516,10 +517,11 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         return simpleContentTypeName;
     }
 
+    @SuppressWarnings("PMD.AvoidReassigningParameters")  // makes code simpler 
     private NeutralSchema parseComplexType(XmlSchemaComplexType schemaComplexType, NeutralSchema complexSchema,
             XmlSchema schema) {
 
-        if (schemaComplexType.getContentModel() != null && schemaComplexType.getContentModel().getContent() != null) {
+        if ((schemaComplexType.getContentModel() != null) && (schemaComplexType.getContentModel().getContent() != null)) {
             XmlSchemaContent content = schemaComplexType.getContentModel().getContent();
             if (content instanceof XmlSchemaComplexContentExtension) {
                 XmlSchemaComplexContentExtension schemaComplexContent = (XmlSchemaComplexContentExtension) content;

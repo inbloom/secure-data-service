@@ -33,7 +33,7 @@ public class IndexEntityUtil {
         try {
             return mapper.readValue(entity, new TypeReference<Map<String, Object>>() {});
         } catch (Exception e) {
-            throw new SearchIndexerException("Unable to convert to document");
+            throw new SearchIndexerException("Unable to convert to document", e);
         }
     }
     
@@ -113,7 +113,8 @@ public class IndexEntityUtil {
           updateJsonMap.put("params", ie.getBody());
           return mapper.writeValueAsString(updateJsonMap);
       } catch (Exception e) {
-          throw new SearchIndexerException("Unable to convert to body", e);
+    	  // throwing a new exception to avoid PII
+          throw new SearchIndexerException("Unable to convert to body");//NOPMD
       }
     }
     

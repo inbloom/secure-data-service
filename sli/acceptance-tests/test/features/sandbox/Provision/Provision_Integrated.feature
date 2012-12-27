@@ -132,7 +132,7 @@ When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_ED
 Then the directory structure for the landing zone is stored in ldap
 Then the user gets an error message
 
-@sandbox
+@sandbox @auto-prov-ingest
 Scenario: As a developer I can use the provisioning tool to pre-populate my tenant with a sample data set
 Given there is an sandbox account in ldap
 And the account has a tenantId "<DEVELOPER_EMAIL>"

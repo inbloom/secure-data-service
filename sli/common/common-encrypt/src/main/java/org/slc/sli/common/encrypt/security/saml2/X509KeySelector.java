@@ -82,7 +82,7 @@ public class X509KeySelector extends KeySelector {
      */
     public X509KeySelector(KeyStore keyStore) throws KeyStoreException {
         if (keyStore == null) {
-            throw new NullPointerException("keyStore is null");
+            throw new KeyStoreException("keyStore is null");
         }
         this.ks = keyStore;
         // test to see if KeyStore has been initialized

@@ -36,13 +36,13 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -76,9 +76,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private ControlFileValidator validator;
-
-    @Autowired
-    private BatchJobAssembler jobAssembler;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -204,6 +201,30 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         } else {
             LOG.debug("Did not match @no-id-ref tag in control file.");
         }
+
+        String ddProp = newJob.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
+        if (ddProp != null) {
+            LOG.debug("Matched @duplicate-detection tag from control file parsing.");
+            // Make sure it is one of the known values
+            String[] allowed = { RecordHash.RECORD_HASH_MODE_DEBUG_DROP,
+                                 RecordHash.RECORD_HASH_MODE_DISABLE,
+                                 RecordHash.RECORD_HASH_MODE_RESET
+            };
+            boolean found = false;
+            for (int i = 0; i < allowed.length; i++) {
+                if ( allowed[i].equalsIgnoreCase(ddProp) ) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
+            } else {
+                LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
+            }
+        } else {
+            LOG.debug("Did not match @duplicate-detection tag in control file.");
+        }
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
@@ -236,14 +257,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             batchProperties.put(key, element);
         }
         return batchProperties;
-    }
-
-    public BatchJobAssembler getJobAssembler() {
-        return jobAssembler;
-    }
-
-    public void setJobAssembler(BatchJobAssembler jobAssembler) {
-        this.jobAssembler = jobAssembler;
     }
 
     @Override
