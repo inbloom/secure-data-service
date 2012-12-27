@@ -39,7 +39,7 @@ import org.slc.sli.ingestion.util.MongoIndex;
 public abstract class DbIndexValidator {
     private Map<String, List<MongoIndex>> indexCache = new HashMap<String, List<MongoIndex>>();
 
-    final static private Logger log = LoggerFactory.getLogger(DbIndexValidator.class);
+    final static private Logger LOG = LoggerFactory.getLogger(DbIndexValidator.class);
 
     protected abstract List<MongoIndex> parseFile(String indexFile);
 
@@ -125,11 +125,11 @@ public abstract class DbIndexValidator {
     }
 
     protected void logError(String message) {
-        log.error(message);
+        LOG.error(message);
     }
 
     protected void logInfo(String message) {
-        log.info(message);
+        LOG.info(message);
     }
 
     /**

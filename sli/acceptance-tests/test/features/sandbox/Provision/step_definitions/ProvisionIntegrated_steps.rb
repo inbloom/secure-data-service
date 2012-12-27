@@ -158,7 +158,7 @@ end
 
 Given /^there is no corresponding tenant in mongo$/ do
   clear_tenant
-  # drop tenant
+  # drop tenant db
   result = @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
   assert(result, "Error dropping tenant db:  #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}")
 
@@ -388,12 +388,12 @@ end
 
 Then /^I clean the landing zone$/ do
   begin
-    STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
+    puts "Attempting to delete #{@lz}" if $SLI_DEBUG
     initializeLandingZone(@lz)
   rescue
     if $SLI_DEBUG
-      STDOUT.puts "Could not clean out landing zone:  #{@lz}"
-      STDOUT.puts "Reason:  #{$!}"
+      puts "Could not clean out landing zone:  #{@lz}"
+      puts "Reason:  #{$!}"
     end
   end
 end
