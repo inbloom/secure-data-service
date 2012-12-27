@@ -41,9 +41,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.Ref;
@@ -163,7 +161,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(refDef2.getRef()).thenReturn(ref2);
         references.add(refDef2);
 
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Assert.assertEquals(DID_VALUE, entity.getBody().get(REF_FIELD));
@@ -190,7 +188,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -218,7 +216,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -250,7 +248,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -270,7 +268,7 @@ public class DeterministicIdResolverTest {
     public void shouldFailFastForNonDidEntities() {
         NeutralRecordEntity entity = createSourceEntity();
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         // test null entity config
         mockEntityConfig(null, NON_DID_ENTITY_TYPE);
@@ -297,7 +295,7 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("nested_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         NeutralRecordEntity entity = createNestedSourceEntity();
 
@@ -331,7 +329,7 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("StudentAcademicRecord_optional_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("StudentTranscriptAssoc_entity_config.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("schoolId", "");
@@ -386,7 +384,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -468,7 +466,7 @@ public class DeterministicIdResolverTest {
 
     private void testGenericErrorReporting(DidRefConfig refConfig, DidEntityConfig entityConfig) {
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         NeutralRecordEntity entity = createSourceEntity();
         Object refObj = entity.getBody().get(REF_FIELD);
@@ -487,7 +485,7 @@ public class DeterministicIdResolverTest {
     public void testErrorReportingOnEntityRefFieldMissing() throws IOException {
         // entity doesn't have property to get at sourceRefPath
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         NeutralRecordEntity entity = createSourceEntityMissingRefField();
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
@@ -505,7 +503,7 @@ public class DeterministicIdResolverTest {
     @Test
     public void testErrorReportingOnFactoryMissingRefConfigForEntityType() throws IOException {
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         NeutralRecordEntity entity = createSourceEntityMissingRefField();
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
@@ -533,7 +531,7 @@ public class DeterministicIdResolverTest {
 
     private NeutralRecordEntity createEntity(String fileName) throws IOException {
         Resource jsonFile = new ClassPathResource("DeterministicIdResolverConfigs/" + fileName);
-        SimpleEntity entity = MAPPER.readValue(jsonFile.getInputStream(), SimpleEntity.class);
+        NeutralRecordEntity entity = MAPPER.readValue(jsonFile.getInputStream(), NeutralRecordEntity.class);
         return entity;
     }
 
