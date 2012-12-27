@@ -58,7 +58,7 @@ end
 After do
   begin
     STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
- #   initializeLandingZone(@lz)
+    initializeLandingZone(@lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{@lz}"
@@ -73,7 +73,7 @@ After do
   begin
     sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(PRELOAD_EDORG) + "/"
     STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
-  #  initializeLandingZone(sample_data_set_lz)
+    initializeLandingZone(sample_data_set_lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
@@ -226,32 +226,6 @@ end
 Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorgId|
   clear_tenant
   create_tenant(@tenantId,edorgId)
-end
-
-When /^there is a landing zone defined in mongo for "(.*?)"$/ do |edorgId|
-  tenant = @db.collection('tenant').find_one({"body.tenantId" => @tenantId})
-  assert(tenant != nil, "No tenant record found in database for #{@tenantId}")
-  @lz_path = nil
-  tenant['body']['landingZone'].each do |lz|
-    @lz_path = lz['path'] if lz['educationOrganization'] == edorgId
-  puts "Landing Zone is #{@lz_path}"
-end
-
-When /^the defined landing zone is cleaned out$/ do
-  puts "Landing Zone is #{@lz_path} and exists?: #{Dir.exists?(@lz_path)}"
-  if Dir.exists?(@lz_path)
-    @lz_path = @lz_path + "/" if !@lz_path.end_with?("/")
-    Dir.foreach(@lz_path) do |file|
-      file = @lz_path + file
-      if file =~ /.*\.log/
-        puts "Deleting log file #{file}"
-        FileUtils.rm(file) if file =~ /.*\.log/
-      end
-    end
-    Dir.foreach(@lz_path) do |file|
-      puts "ERROR: File remains in lz: #{file}" if file =~ /.*\.log/
-    end
-  end
 end
 
 Given /^there is a landing zone for the "(.*?)" in LDAP$/ do |edorg|
