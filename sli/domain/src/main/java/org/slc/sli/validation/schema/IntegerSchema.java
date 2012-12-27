@@ -46,7 +46,7 @@ public class IntegerSchema extends PrimitiveNumericSchema<Integer> {
             try {
                 return Integer.parseInt((String) value);
             } catch (NumberFormatException nfe) {
-                throw new IllegalArgumentException(value + " cannot be parsed to an integer");
+                throw (IllegalArgumentException)new IllegalArgumentException(value + " cannot be parsed to an integer").initCause(nfe);
             }
         }
         

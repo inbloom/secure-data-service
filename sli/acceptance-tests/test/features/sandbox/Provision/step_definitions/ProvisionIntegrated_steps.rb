@@ -51,14 +51,14 @@ Before do
   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
   dbName = @email.gsub(/[^A-Za-z0-9]/, '_')
   @tenantDb = @ingestion_mongo_conn.db(convertTenantIdToDbName(dbName))
-
   @batchDb = @batch_job_mongo_conn.db(INGESTION_BATCHJOB_DB_NAME)
+
 end
 
 After do
   begin
     STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
- #   initializeLandingZone(@lz)
+    initializeLandingZone(@lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{@lz}"
@@ -73,7 +73,7 @@ After do
   begin
     sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(PRELOAD_EDORG) + "/"
     STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
-  #  initializeLandingZone(sample_data_set_lz)
+    initializeLandingZone(sample_data_set_lz)
   rescue
     if $SLI_DEBUG
       STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
@@ -156,13 +156,25 @@ Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
 #clear_tenant()
 end
 
-
 Given /^there is no corresponding tenant in mongo$/ do
   clear_tenant
-  # drop tenant
-  @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
+  # drop tenant db
+  result = @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
+  assert(result, "Error dropping tenant db:  #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}")
+
   # clear record hashes
-  @batchDb.collection('recordHash').remove({"tenantId" => @tenantId})
+  existing = @batchDb.collection('recordHash').find({"t" => @tenantId}).count()
+  total = @batchDb.collection('recordHash').count()
+  puts "There are #{existing} record hashes with tenant #{@tenantId} out of a total collection size of #{total}."
+  result = @batchDb.collection('recordHash').remove({"t" => @tenantId})
+  assert(result, "Error clearing out record deltas")
+  existing = @batchDb.collection('recordHash').find({"t" => @tenantId}).count()
+  total = @batchDb.collection('recordHash').count()
+  puts "After cleaning up, there are #{existing} record hashes with tenant #{@tenantId} out of a total collection size of #{total}."
+
+  # clear out tenant
+  result = @db.collection('tenant').remove({"body.tenantId" => @tenantId})
+  assert(result, "Error cleaning out tenant collection")
 end
 
 Given /^there is no corresponding ed\-org in mongo$/ do
@@ -376,12 +388,12 @@ end
 
 Then /^I clean the landing zone$/ do
   begin
-    STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
+    puts "Attempting to delete #{@lz}" if $SLI_DEBUG
     initializeLandingZone(@lz)
   rescue
     if $SLI_DEBUG
-      STDOUT.puts "Could not clean out landing zone:  #{@lz}"
-      STDOUT.puts "Reason:  #{$!}"
+      puts "Could not clean out landing zone:  #{@lz}"
+      puts "Reason:  #{$!}"
     end
   end
 end

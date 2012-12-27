@@ -59,17 +59,17 @@ public class ValidationController {
     public void doValidation(File path) {
         if (path.isFile()) {
             source = new JobSource(null, path.getName(), null);
-            reportStats = new SimpleReportStats(source);
+            reportStats = new SimpleReportStats(null, path.getName(), null);
 
             if (path.getName().endsWith(".ctl")) {
                 processControlFile(path);
             } else if (path.getName().endsWith(".zip")) {
                 processZip(path);
             } else {
-                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0001);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
             }
         } else {
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0001);
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
         }
     }
 
@@ -77,20 +77,20 @@ public class ValidationController {
         boolean isValid = false;
         for (IngestionFileEntry ife : cfile.getFileEntries()) {
             if (ife.getFile() != null) {
-                messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0002, ife.getFileName());
-                isValid = complexValidator.isValid(ife, messageReport, reportStats);
+                messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0002, ife.getFileName());
+                isValid = complexValidator.isValid(ife, messageReport, reportStats, source);
                 if (!isValid) {
-                    messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0003, ife.getFileName());
+                    messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0003, ife.getFileName());
                     continue;
                 }
-                messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0004, ife.getFileName());
+                messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0004, ife.getFileName());
             }
         }
     }
 
     public void processZip(File zipFile) {
 
-        messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
         File ctlFile = zipFileHandler.handle(zipFile, messageReport, reportStats);
 
@@ -99,29 +99,28 @@ public class ValidationController {
             processControlFile(ctlFile);
         }
 
-        messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
     }
 
     public void processControlFile(File ctlFile) {
 
-        messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0007, ctlFile.getAbsolutePath());
+        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0007, ctlFile.getAbsolutePath());
 
         try {
-            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
-            lz.setDirectory(ctlFile.getAbsoluteFile().getParentFile());
+            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone(ctlFile.getAbsoluteFile().getParentFile());
             ControlFile cfile = ControlFile.parse(ctlFile);
 
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
-            controlFilevalidator.isValid(cfd, messageReport, reportStats);
+            controlFilevalidator.isValid(cfd, messageReport, reportStats, source);
             processValidators(cfile);
 
         } catch (IOException e) {
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0008);
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0008);
         } catch (SubmissionLevelException exception) {
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0010, exception.getMessage());
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0010, exception.getMessage());
         } finally {
-            messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0009, ctlFile.getAbsolutePath());
+            messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0009, ctlFile.getAbsolutePath());
         }
     }
 

@@ -34,8 +34,9 @@ import org.slf4j.LoggerFactory;
  * @author npandey
  */
 public class LoggerUtil {
-    private static Logger logger = null;
-    private static LoggerContext loggerContext;
+
+    private static LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+    private static final Logger LOGGER = loggerContext.getLogger(LoggerUtil.class);
     private static PatternLayoutEncoder encoder;
     private static FileAppender<ILoggingEvent> fileAppender;
 
@@ -46,10 +47,7 @@ public class LoggerUtil {
     private static ConsoleAppender<ILoggingEvent> consoleAppender;
 
     static {
-        loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        logger = loggerContext.getLogger(LoggerUtil.class);
-        consoleAppender = (ConsoleAppender<ILoggingEvent>) logger.getAppender("ConsoleAppender");
-
+        consoleAppender = (ConsoleAppender<ILoggingEvent>) LOGGER.getAppender("ConsoleAppender");
         encoder = new PatternLayoutEncoder();
         encoder.setContext(loggerContext);
         encoder.setPattern("%date %-5level %msg%n");
@@ -61,22 +59,22 @@ public class LoggerUtil {
         fileAppender.setEncoder(encoder);
     }
     public static Logger getLogger() {
-        return logger;
+        return LOGGER;
     }
 
     public static void logToConsole() {
-        logger.detachAndStopAllAppenders();
+        LOGGER.detachAndStopAllAppenders();
         consoleAppender.start();
-        logger.addAppender(consoleAppender);
+        LOGGER.addAppender(consoleAppender);
     }
 
     public static void logToFile(String file) {
-        logger.detachAndStopAllAppenders();
+        LOGGER.detachAndStopAllAppenders();
 
         fileAppender.setFile(file);
         fileAppender.start();
 
-        logger.addAppender(fileAppender);
+        LOGGER.addAppender(fileAppender);
     }
 
 }

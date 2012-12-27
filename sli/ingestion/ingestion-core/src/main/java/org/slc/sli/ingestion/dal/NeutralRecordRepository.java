@@ -227,7 +227,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
-
+        // Does nothing
     }
 
     // TODO FIXME hack for alpha release 6/18/12 - need to properly implement unsupported methods

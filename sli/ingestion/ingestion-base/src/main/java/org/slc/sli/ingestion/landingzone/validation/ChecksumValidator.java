@@ -27,6 +27,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * Validates file's checksum using MD5 algorithm.
@@ -36,14 +37,15 @@ import org.slc.sli.ingestion.reporting.BaseMessageCode;
  */
 public class ChecksumValidator extends IngestionFileValidator {
 
-    private Logger log = LoggerFactory.getLogger(ChecksumValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChecksumValidator.class);
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats,
+            Source source) {
         IngestionFileEntry fe = item.getFileItem();
 
         if (StringUtils.isBlank(fe.getChecksum())) {
-            error(report, reportStats, BaseMessageCode.BASE_0007, fe.getFileName());
+            error(report, reportStats, source, BaseMessageCode.BASE_0007, fe.getFileName());
 
             return false;
         }
@@ -60,9 +62,9 @@ public class ChecksumValidator extends IngestionFileValidator {
         if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
 
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
-            log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
+            LOG.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            error(report, reportStats, BaseMessageCode.BASE_0006, fe.getFileName());
+            error(report, reportStats, source, BaseMessageCode.BASE_0006, fe.getFileName());
 
             return false;
         }

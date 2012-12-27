@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.reporting;
 
 import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  * MessageReport implementation that is constructed with a logger and uses that logger to act on
@@ -25,15 +26,17 @@ import org.slf4j.Logger;
  * @author npandey
  *
  */
+@Component
 public class LoggingMessageReport extends AbstractMessageReport {
 
-    private Logger logger;
-
-    public LoggingMessageReport() {
-    }
+    private Logger logger;  //NOPMD logger is a member variable and should not be final by design
 
     public LoggingMessageReport(Logger logger) {
         this.logger = logger;
+    }
+
+    public LoggingMessageReport() {
+        //a compnent needs a default constructor
     }
 
     @Override

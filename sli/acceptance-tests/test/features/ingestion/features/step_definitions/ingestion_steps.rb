@@ -83,8 +83,8 @@ Before do
   else
     @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
     @recordHash = @batchDB.collection('recordHash')
-    @recordHash.remove("tenantId" => PropLoader.getProps['tenant'])
-    @recordHash.remove("tenantId" => PropLoader.getProps['sandbox_tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['sandbox_tenant'])
 
     puts "Dropped recordHash for remote testing tenants"
   end
@@ -1233,31 +1233,31 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 420
+  sleep(intervalTime)
   iters = (1.0*@maxTimeout/intervalTime).ceil
-  found = false
-  if (INGESTION_MODE == 'remote')
-    iters.times do |i|
-      if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
+    found = false
+    if (INGESTION_MODE == 'remote')
+        iters.times do |i|
+            if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
+                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                found = true
+                break
+            else
+                sleep(intervalTime)
+            end
+        end
+    else
+        iters.times do |i|
+            if dirContainsBatchJobLog? landing_zone
+                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                found = true
+                break
+            else
+                sleep(intervalTime)
+            end
+        end
     end
-  else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
-    iters.times do |i|
-      if dirContainsBatchJobLog? landing_zone
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  end
 
   sleep(2)
   if should_has_log
@@ -2763,14 +2763,16 @@ end
 
 After do
   if (!@landing_zone_path.nil?)
-          Dir.foreach(@landing_zone_path) do |entry|
-              if (entry.rindex("warn.") || entry.rindex("error."))
-                   STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
-                   STDOUT.puts "File contents follow:"
-                   STDOUT.puts File.open(@landing_zone_path + entry).read
-              end
-          end
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex("warn.") || entry.rindex("error."))
+        if File.exists?(@landing_zone_path + entry)
+          STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
+          STDOUT.puts "File contents follow:"
+          STDOUT.puts File.open(@landing_zone_path + entry).read
+        end
       end
+    end
+  end
   cleanTenants()
   @conn.close if @conn != nil
   @batchConn.close if @batchConn != nil

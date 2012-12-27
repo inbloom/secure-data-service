@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 public class IncrementalListenerImpl implements IncrementalLoader {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(IncrementalListenerImpl.class);
 
     private Indexer indexer;
 
@@ -60,7 +60,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
             try {
                 processEntities(message);
             } catch (Exception e) {
-                logger.error("Error processing message", e);
+                LOG.error("Error processing message", e);
             }
         }
     }
@@ -89,7 +89,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
                     index(ie);
                 }
             } catch (Exception e) {
-                logger.info("Unable to process an oplog entry, skipping");
+                LOG.info("Unable to process an oplog entry, skipping");
             }
         }
         return entities;
@@ -99,8 +99,9 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         Action action = OplogConverter.getAction(opLogMap);
         Meta meta = OplogConverter.getMeta(opLogMap);
         Map<String, Object> entity = OplogConverter.getEntity(action, opLogMap);
-        if (action == Action.INDEX)
+        if (action == Action.INDEX) {
             action = Action.UPDATE; 
+        }
         return (entity == null) ? null : indexEntityConverter.fromEntity(meta.getIndex(), action, entity);
     }
 

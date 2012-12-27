@@ -31,6 +31,8 @@ import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * @author ablum
@@ -55,6 +57,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
 
         boolean done = false;
         long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
+        Source source = new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName());
 
         while (!done) {
 
@@ -66,13 +69,13 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
                 // Find manifest (ctl file)
                 File ctlFile = ZipFileUtil.findCtlFile(dir);
                 if (ctlFile == null) {
-                    report.error(reportStats, BaseMessageCode.BASE_0012);
+                    report.error(reportStats, source, BaseMessageCode.BASE_0012);
                 }
                 return ctlFile;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                report.error(reportStats, BaseMessageCode.BASE_0011);
+                report.error(reportStats, source, BaseMessageCode.BASE_0011);
                 done = true;
 
             } catch (FileNotFoundException ex) {
@@ -82,13 +85,13 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
                         zipFile.getAbsolutePath()
                                 + " cannot be found. If the file was not processed by another ingestion service, please resubmit.",
                         ex);
-                report.error(reportStats, BaseMessageCode.BASE_0008);
+                report.error(reportStats, source, BaseMessageCode.BASE_0008);
                 done = true;
 
             } catch (IOException ex) {
 
                 if (System.currentTimeMillis() >= clockTimeout) {
-                    report.error(reportStats, BaseMessageCode.BASE_0008);
+                    report.error(reportStats, source, BaseMessageCode.BASE_0008);
                     done = true;
                 } else {
                     try {

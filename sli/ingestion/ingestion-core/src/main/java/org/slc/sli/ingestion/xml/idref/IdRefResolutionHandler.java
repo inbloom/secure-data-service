@@ -16,50 +16,17 @@
 
 package org.slc.sli.ingestion.xml.idref;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.Serializable;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
-
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StopWatch;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.cache.BucketCache;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.util.FileUtils;
-import org.slc.sli.ingestion.util.LogUtil;
+
 
 /**
  * @author okrook
@@ -68,7 +35,7 @@ import org.slc.sli.ingestion.util.LogUtil;
 public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
     public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
-    private static final QName ID_ATTR = new QName("id");
+/*    private static final QName ID_ATTR = new QName("id");
     private static final QName REF_ATTR = new QName("ref");
     private static final QName REF_RESOLVED_ATTR = new QName("refResolved");
 
@@ -85,32 +52,34 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     private String namespace;
     private String batchJobId;
+    Source source;
     private int passCount;
 
     @Autowired
-    private BucketCache bucketCache;
+    private BucketCache bucketCache;*/
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
             AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
 
-        if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
+/*        if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
             LOG.info("Not resolving id-references for file: {} (type: {})", fileEntry.getFileName(), fileEntry
                     .getFileType().getName());
             return fileEntry;
         }
         batchJobId = fileEntry.getBatchJobId();
+        source = new JobSource(batchJobId, fileEntry.getFileName(), BatchJobStageType.XML_FILE_PROCESSOR.getName());
 
         File file = fileEntry.getFile();
 
         file = process(file, report, reportStats);
 
-        fileEntry.setFile(file);
+        fileEntry.setFile(file);*/
 
         return fileEntry;
     }
 
-    protected File process(File xml, AbstractMessageReport report, AbstractReportStats reportStats) {
+/*    protected File process(File xml, AbstractMessageReport report, AbstractReportStats reportStats) {
         bucketCache.flushBucket(namespace);
         namespace = batchJobId + "_" + xml.getName() + "_pass_" + (++passCount);
 
@@ -166,7 +135,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null
                             && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
-                            report.warning(reportStats, CoreMessageCode.CORE_0021, currentXPath);
+                            report.warning(reportStats, source, CoreMessageCode.CORE_0021, currentXPath);
 
                         }
                         return false;
@@ -285,7 +254,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 theXmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
 
-                                report.warning(reportStats, CoreMessageCode.CORE_0022, ref.getValue());
+                                report.warning(reportStats, source, CoreMessageCode.CORE_0022, ref.getValue());
                             }
                         }
                     } else if (theXmlEvent.isEndElement()) {
@@ -411,7 +380,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                     if (id != null && id.getValue().equals(ref.getValue())) {
                                         newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                        report.warning(reportStats, CoreMessageCode.CORE_0024, ref.getValue());
+                                        report.warning(reportStats, source, CoreMessageCode.CORE_0024, ref.getValue());
                                     } else {
 
                                         contentToAdd = resolveRefs(getCurrentXPath(parents),
@@ -422,7 +391,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 } else {
                                     // unable to resolve reference, no matching id for ref
                                     if (isSupportedRef(getCurrentXPath(parents))) {
-                                        report.warning(reportStats, CoreMessageCode.CORE_0025, ref.getValue());
+                                        report.warning(reportStats, source, CoreMessageCode.CORE_0025, ref.getValue());
                                     }
                                 }
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
@@ -466,7 +435,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         // it.
                         transformedContent = rrs.resolve(currentXPath, cachedContent.string);
                         if (transformedContent == null) {
-                            report.warning(reportStats, CoreMessageCode.CORE_0026, id);
+                            report.warning(reportStats, source, CoreMessageCode.CORE_0026, id);
 
                         } else {
                             bucketCache
@@ -488,7 +457,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
 
-            report.error(reportStats, CoreMessageCode.CORE_0023, xml.getName());
+            report.error(reportStats, source, CoreMessageCode.CORE_0023, xml.getName());
         } finally {
             closeResources(writer, out);
         }
@@ -510,7 +479,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         } catch (Exception e) {
 
-            report.error(reportStats, CoreMessageCode.CORE_0023, xml.getName());
+            report.error(reportStats, source, CoreMessageCode.CORE_0023, xml.getName());
         } finally {
             if (eventReader != null) {
                 try {
@@ -639,7 +608,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         this.idReferenceInterchanges = idReferenceInterchanges;
     }
 
-    @SuppressWarnings("serial")
+//    @SuppressWarnings("serial")
     private static final class TransformableXmlString implements Serializable {
         private static final long serialVersionUID = 1L;
         private final String string;
@@ -654,7 +623,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         public String toString() {
             return "TransformableXmlString [string=" + string + ", isTransformed=" + isTransformed + "]";
         }
-    }
+    }*/
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,

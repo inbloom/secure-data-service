@@ -37,7 +37,7 @@ import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.Constants;
 
 public class LoaderTester {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(LoaderTester.class);
 
     private final LoaderImpl loader = new LoaderImpl() {
         @Override
@@ -58,7 +58,7 @@ public class LoaderTester {
         }
         @Override
         public void index(IndexEntity entity) {
-            logger.info("indexing " + entity);
+            LOG.info("indexing " + entity);
             entities.add(entity);
         }
         public List<IndexEntity> getEntities() {

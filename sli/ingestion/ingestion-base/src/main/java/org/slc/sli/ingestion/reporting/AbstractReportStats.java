@@ -22,33 +22,26 @@ package org.slc.sli.ingestion.reporting;
  * @author dduran
  *
  */
+// TODO: Make this an interface
 public abstract class AbstractReportStats {
 
-    private final Source source;
+    /**
+     *
+     * @return batchJobId
+     */
+    public abstract String getBatchJobId();
 
     /**
-     * Source constructor
      *
-     * @param source
-     *            non-null Source object giving context to the stats.
-     * @throws IllegalArgumentException
-     *             if source is <code>null</code>
+     * @return resourceId
      */
-    public AbstractReportStats(Source source) {
-        if (source == null) {
-            throw new IllegalArgumentException("source cannot be null");
-        }
-        this.source = source;
-    }
+    public abstract String getResourceId();
 
     /**
-     * The source that the stats correspond to.
      *
-     * @return Source object
+     * @return stageName
      */
-    public Source getSource() {
-        return source;
-    }
+    public abstract String getStageName();
 
     /**
      * Increase the error count by one.

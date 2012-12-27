@@ -55,7 +55,7 @@ import org.slc.sli.api.client.security.SliApi;
 public class BasicRESTClient implements RESTClient {
 
     private static final String SESSION_CHECK_PREFIX = "system/session/check";
-    private static Logger logger = Logger.getLogger("RESTClient");
+    private final static Logger LOGGER = Logger.getLogger("RESTClient");
     private String apiServerUri = null;
     private Client client = null;
     private SliApi sliApi = null;
@@ -103,7 +103,7 @@ public class BasicRESTClient implements RESTClient {
         try {
             return new URL(sliApi.getAuthorizationUrl(config));
         } catch (MalformedURLException e) {
-            logger.log(Level.SEVERE, String.format("Failed to create login URL: %s", e.toString()));
+            LOGGER.log(Level.SEVERE, String.format("Failed to create login URL: %s", e.toString()));
         }
         return null;
     }
@@ -162,7 +162,7 @@ public class BasicRESTClient implements RESTClient {
      */
     @Override
     public String sessionCheck(final String token) throws URISyntaxException, IOException {
-        logger.info("Session check URL = " + SESSION_CHECK_PREFIX);
+        LOGGER.info("Session check URL = " + SESSION_CHECK_PREFIX);
         URL url = new URL(apiServerUri + "/" + SESSION_CHECK_PREFIX);
         Response response = getRequest(url);
         String jsonText = response.readEntity(String.class);
@@ -196,7 +196,7 @@ public class BasicRESTClient implements RESTClient {
     @Override
     public Response getRequestWithHeaders(final URL url, final Map<String, Object> headers) throws URISyntaxException {
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
+            LOGGER.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
         Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
@@ -235,7 +235,7 @@ public class BasicRESTClient implements RESTClient {
     public Response postRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
             throws URISyntaxException, MalformedURLException {
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
+            LOGGER.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
 
@@ -265,7 +265,7 @@ public class BasicRESTClient implements RESTClient {
     public Response putRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException {
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
+            LOGGER.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
 
@@ -296,7 +296,7 @@ public class BasicRESTClient implements RESTClient {
     public Response deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException {
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
+            LOGGER.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
         Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
@@ -333,15 +333,15 @@ public class BasicRESTClient implements RESTClient {
      *
      * @return
      */
-    private Invocation.Builder getCommonRequestBuilder(String sessionToken, Invocation.Builder builder,
-            Map<String, Object> headers) {
-        if (headers == null) {
-            headers = new HashMap<String, Object>();
+    private Invocation.Builder getCommonRequestBuilder(String sessionToken, Invocation.Builder builder, final Map<String, Object> headers) {
+        Map<String, Object> useHeaders = headers; 
+        if (useHeaders == null) {
+            useHeaders = new HashMap<String, Object>();
         }
 
-        headers.put("Authorization", String.format("Bearer %s", sessionToken));
+        useHeaders.put("Authorization", String.format("Bearer %s", sessionToken));
 
-        for (Map.Entry<String, Object> entry : headers.entrySet()) {
+        for (Map.Entry<String, Object> entry : useHeaders.entrySet()) {
             builder.header(entry.getKey(), entry.getValue());
         }
 

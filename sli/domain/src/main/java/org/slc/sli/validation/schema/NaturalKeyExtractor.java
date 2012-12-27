@@ -148,13 +148,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
                     if (fieldSchema instanceof ComplexSchema) {
                         getNaturalKeyFields(naturalKeyFields, fieldSchema, fieldSchemaChoice, fieldXPath + ".");
                     } else {
-                        Boolean isOptional = null;
-                        if (fieldsAppInfo.isRequired() &&
-                            fieldSchemaChoice == false) {
-                            isOptional = new Boolean(false);
-                        } else {
-                            isOptional = new Boolean(true);
-                        }
+                        Boolean isOptional = !fieldsAppInfo.isRequired() || fieldSchemaChoice;
                         naturalKeyFields.put(fieldXPath, isOptional);
                     }
                 }

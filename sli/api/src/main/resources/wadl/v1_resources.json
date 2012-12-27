@@ -200,6 +200,7 @@
         },
         { "path": "/{id}/educationOrganizations" },
         { "path": "/{id}/schools" },
+        { "path": "/{id}/courses" },
         { "path": "/{id}/sessions" },
         { "path": "/{id}/studentCompetencyObjectives" }
       ]
