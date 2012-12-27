@@ -52,7 +52,7 @@
 		</LearningStandardReference>
 	</LearningObjective>
 	
-	<LearningStandard id="G-C.1">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-C.1</IdentificationCode>
 		</LearningStandardId>
@@ -62,7 +62,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-C.2">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-C.2</IdentificationCode>
 		</LearningStandardId>
@@ -74,7 +74,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-C.3">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-C.3</IdentificationCode>
 		</LearningStandardId>
@@ -85,7 +85,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-C.4">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-C.4</IdentificationCode>
 		</LearningStandardId>
@@ -95,7 +95,7 @@
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="G-C.5">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>G-C.5</IdentificationCode>
 		</LearningStandardId>

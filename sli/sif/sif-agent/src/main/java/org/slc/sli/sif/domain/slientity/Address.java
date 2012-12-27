@@ -51,7 +51,7 @@ public class Address {
     private String addressType;
 
     public Address() {
-
+        // Empty Default constructor
     }
 
     public String getStreetNumberName() {

@@ -75,8 +75,9 @@ public class IndexEntityConverter {
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
             Action finalAction = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
             body = (Map<String, Object>)entityMap.get("body");
-            if (body == null && action != Action.DELETE)
+            if (body == null && action != Action.DELETE) {
                 return null;
+            }
             return new IndexEntity(finalAction, indexName, indexType, id, body );
 
         } catch (Exception e) {

@@ -39,7 +39,6 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  * @author npandey
  *
  */
-
 public class DbIndexValidator extends SimpleValidatorSpring<DB> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DbIndexValidator.class);
 
@@ -58,7 +57,7 @@ public class DbIndexValidator extends SimpleValidatorSpring<DB> {
         return Collections.emptySet();
     }
 
-    protected Set<MongoIndex> loadIndexInfoFromDB(DB database) {
+    protected static Set<MongoIndex> loadIndexInfoFromDB(DB database) {
         Set<MongoIndex> dbIndexes = new HashSet<MongoIndex>();
 
         Set<String> collectionNames = database.getCollectionNames();

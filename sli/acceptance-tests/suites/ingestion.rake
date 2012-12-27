@@ -75,9 +75,9 @@ task :ingestionXsdValidationTest do
 end
 
 
-desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
-task :ingestionIDReferenceResolutionTest do
-  runTests("test/features/ingestion/features/ingestion_IDRef.feature")
+desc "Run Ingestion Ignore ID Reference Resolution Test"
+task :ingestionIgnoreIDRefsTest do
+  runTests("test/features/ingestion/features/ingestion_ignoreIDRefs.feature")
 end
 
 desc "Run Ingestion Error Report Interface Test"
@@ -257,6 +257,11 @@ end
 desc "Odin Data Set Ingestion Tests"
 task :ingestionOdinDataSet do
   runTests("test/features/ingestion/features/ingestion_OdinDataSet.feature")
+end
+
+desc "Duplicate Detection Test"
+task :ingestionDupDetectTest do
+  runTests("test/features/ingestion/features/ingestion_dupdetect.feature")
 end
 
 ############################################################

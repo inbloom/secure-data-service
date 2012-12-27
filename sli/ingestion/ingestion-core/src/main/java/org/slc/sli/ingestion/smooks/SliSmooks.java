@@ -246,10 +246,10 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
                             deliveryConfig.executeHandlerCleanup(executionContext);
                         }
                     }
-                } catch (SmooksException e) {
+                } catch (SmooksException e) {			// NOPMD - Ignoring ExceptionAsFlowControl as it is not worth fixing Smooks
                     executionContext.setTerminationError(e);
                     throw e;
-                } catch (Throwable t) {
+                } catch (Throwable t) {				// NOPMD - Ignoring AvoidCatchingThrowable as it is not worth fixing Smooks
                     executionContext.setTerminationError(t);
                     throw new SmooksException("Smooks Filtering operation failed.", t);
                 } finally {

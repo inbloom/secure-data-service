@@ -81,8 +81,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        metaData = new HashMap<String, Object>();
-        MongoEntity mongoEntity = new MongoEntity(type, null, body, metaData);
+        MongoEntity mongoEntity = new MongoEntity(type, null, body, new HashMap<String, Object>());
         keyEncoder.encodeEntityKey(mongoEntity);
         @SuppressWarnings("unchecked")
         Entity entity = (Entity) mongoEntity;

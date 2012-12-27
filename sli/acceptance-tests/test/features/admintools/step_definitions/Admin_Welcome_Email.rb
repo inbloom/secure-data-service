@@ -137,11 +137,7 @@ end
 
 Then /^I can log in with my username and password$/ do
   @driver.get(PropLoader.getProps["admintools_server_url"])
-  @driver.find_element(:id, "user_id").clear
-  @driver.find_element(:id, "user_id").send_keys @newly_created_user[:uid]
-  @driver.find_element(:id, "password").clear
-  @driver.find_element(:id, "password").send_keys NEW_PASSWORD
-  @driver.find_element(:id, "login_button").click
+  step "I submit the credentials \"#{@newly_created_user[:uid]}\" \"#{NEW_PASSWORD}\" for the \"Simple\" login page"
   actual_page_content = @driver.find_element(:tag_name, "body")
   expected_page_content = "Admin Tool"
   assert(actual_page_content.text.include?(expected_page_content), "Cannot find page id: #{expected_page_content}")

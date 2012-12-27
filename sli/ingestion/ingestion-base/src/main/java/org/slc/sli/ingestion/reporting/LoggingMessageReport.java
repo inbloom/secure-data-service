@@ -29,10 +29,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingMessageReport extends AbstractMessageReport {
 
-    private Logger logger;
-
-    public LoggingMessageReport() {
-    }
+    private Logger logger;  //NOPMD logger is a member variable and should not be final by design
 
     public LoggingMessageReport(Logger logger) {
         this.logger = logger;

@@ -55,7 +55,7 @@ public class IncrementalListenerTest {
         listener.setIndexEntityConverter(indexEntityConverter);
 
         // read in test oplog messages
-        File inFile = new File(getClass().getClassLoader().getResource("studentOpLog.json").getFile());
+        File inFile = new File(Thread.currentThread().getContextClassLoader().getResource("studentOpLog.json").getFile());
         BufferedReader br = new BufferedReader(new FileReader(inFile));
         opLogInsert = br.readLine();
         // System.out.println(opLogInsert);

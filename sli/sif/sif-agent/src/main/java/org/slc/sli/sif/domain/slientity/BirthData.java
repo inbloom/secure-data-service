@@ -36,7 +36,7 @@ public class BirthData {
     private boolean multipleBirthStatus;
 
     public BirthData() {
-
+        // Empty Default constructor
     }
 
     public String getBirthDate() {

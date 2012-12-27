@@ -51,6 +51,11 @@ public class RecordHash {
     private String tenantId; // Tenant ID, for purge purposes, will be un-needed when record hash
                              // store is moved to tenant Db
 
+    // Mode values for config property "duplicate-detection".  See AttributeType.java
+    public static final String RECORD_HASH_MODE_RESET			= "reset";
+    public static final String RECORD_HASH_MODE_DISABLE			= "disable";
+    public static final String RECORD_HASH_MODE_DEBUG_DROP		= "debugdrop";
+    
     public RecordHash() {
         this.id = "";
         this.hash = "";
@@ -166,7 +171,8 @@ public class RecordHash {
             LOG.warn("Cannot convert hex hash or ID to binary: '" + hexId + "'");
             LOG.warn(e.getMessage());
         }
-        return null;
+        byte[] null_result = null;
+        return null_result;
     }
 
     /*

@@ -32,8 +32,8 @@ import org.slc.sli.ingestion.util.BatchJobUtils2;
  */
 public class Stage {
 
-    // mongoTemplate requires this constructor.
     public Stage() {
+        // mongoTemplate requires this constructor.
     }
 
     private String jobId;

@@ -25,12 +25,10 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LandingZone;
 
 /**
  * Unit tests for BatchJob functionality.
@@ -41,9 +39,6 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:/spring/applicationContext-test.xml" })
 public class BatchJobTest {
-
-    @Autowired
-    private LandingZone lz;
 
     @Test
     public void testCreateId() {
@@ -84,13 +79,4 @@ public class BatchJobTest {
         assertEquals(true, job2.getId().startsWith("TEST"));
 
     }
-
-    public LandingZone getLandingZone() {
-        return lz;
-    }
-
-    public void setLandingZone(LandingZone landingZone) {
-        lz = landingZone;
-    }
-
 }
