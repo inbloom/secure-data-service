@@ -142,8 +142,9 @@ public final class IndexConfig {
         fieldSet.addAll(REQUIRED_FIELDS);
         this.fields = new ArrayList<String>(fieldSet);
         Set<String> flattenedFields = new HashSet<String>();
-        for (String field: fields)
+        for (String field: fields) {
             flattenedFields.addAll(DotPath.to(new DotPath(field)));
+        }
         this.flattenedFields = Collections.unmodifiableList(new ArrayList<String>(flattenedFields));
     }
 }

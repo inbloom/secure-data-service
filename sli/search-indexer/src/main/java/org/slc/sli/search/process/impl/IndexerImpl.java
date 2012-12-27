@@ -51,7 +51,7 @@ import org.slc.sli.search.util.SearchIndexerException;
  */
 public class IndexerImpl implements Indexer {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(IndexerImpl.class);
     // max period of time to assemble bulk request before sending it out
     private long aggregatePeriodInMillis;
     // max bulk size allowed
@@ -82,7 +82,7 @@ public class IndexerImpl implements Indexer {
     public void init() {
         indexRequests = new LinkedBlockingQueue<IndexEntity>(bulkSize * indexerWorkerPoolSize);
         queueWatcherExecutor = Executors.newScheduledThreadPool(indexerWorkerPoolSize);
-        logger.info("Indexer started");
+        LOG.info("Indexer started");
         queueWatcherExecutor.scheduleAtFixedRate(new IndexQueueMonitor(), aggregatePeriodInMillis, aggregatePeriodInMillis, TimeUnit.MILLISECONDS);
     }
 
@@ -107,8 +107,8 @@ public class IndexerImpl implements Indexer {
                         }
                     });
                 }
-            } catch (Throwable t) {
-                logger.info("Unable to index with elasticsearch", t);
+            } catch (Exception e) {
+                LOG.info("Unable to index with elasticsearch", e);
             }
         }
     }
@@ -139,9 +139,9 @@ public class IndexerImpl implements Indexer {
                 }
             }
         } catch (InterruptedException e) {
-            throw new SearchIndexerException("Shutting down...");
+            throw new SearchIndexerException("Shutting down...", e);
         } catch (ExecutionException e) {
-            throw new SearchIndexerException("Unable to create mappins for " + ie.getIndex());
+            throw new SearchIndexerException("Unable to create mappins for " + ie.getIndex(), e);
         }
     }
 
@@ -165,7 +165,7 @@ public class IndexerImpl implements Indexer {
      * @param index
      */
     public void addIndexMappingIfNeeded(String index) {
-        logger.info("Updating mappings for " + index);
+        LOG.info("Updating mappings for " + index);
         try {
             connector.createIndex(index);
             for (IndexConfig config : indexConfigStore.getConfigs()) {
@@ -175,7 +175,7 @@ public class IndexerImpl implements Indexer {
             }
 
         } catch (Exception e) {
-            logger.info("Index " + index + " already exists");
+            LOG.info("Index " + index + " already exists");
         }
     }
 

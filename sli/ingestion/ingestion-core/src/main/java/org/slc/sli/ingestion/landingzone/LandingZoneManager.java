@@ -39,7 +39,7 @@ public class LandingZoneManager {
     @Autowired
     private TenantDA tenantDA;
 
-    private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public List<LocalFileSystemLandingZone> getLandingZones() {
         List<LocalFileSystemLandingZone> landingZoneList;
@@ -56,7 +56,7 @@ public class LandingZoneManager {
             }
 
         } catch (Exception e) {
-            log.error("Exception encountered extracting landing zones from tenant collection:", e);
+            LOG.error("Exception encountered extracting landing zones from tenant collection:", e);
         }
         return landingZoneList;
     }

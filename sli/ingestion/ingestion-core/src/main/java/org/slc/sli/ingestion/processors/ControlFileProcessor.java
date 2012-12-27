@@ -36,7 +36,6 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -77,9 +76,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private ControlFileValidator validator;
-
-    @Autowired
-    private BatchJobAssembler jobAssembler;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -259,14 +255,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             batchProperties.put(key, element);
         }
         return batchProperties;
-    }
-
-    public BatchJobAssembler getJobAssembler() {
-        return jobAssembler;
-    }
-
-    public void setJobAssembler(BatchJobAssembler jobAssembler) {
-        this.jobAssembler = jobAssembler;
     }
 
     @Override
