@@ -110,7 +110,3 @@ Then I should see following map of entry counts in the corresponding collections
 	And I should not see an error log file created
 	And I should not see a warning log file created
 
-Scenario: Verify multiple educationOrganization Reference were generated properly
-  And I check that multiple educationOrganization ids were generated properly:
-     | collectionName                      | deterministicId                             | field                                                  | value                                       |
-     | courseTranscript                    | f710ae3dd348393e021b20f7b55fe85c26996bdf_id | body.educationOrganizationReference                    | 8ff24262b6e32243b85605c0cb9a555a93b650d3_id,05cd266d798ba87cb1da12f8f90a333cda4f26bf_id,39235aa7d8668569b5ac904e076802836a45b3d2_id |
