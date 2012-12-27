@@ -39,7 +39,6 @@ import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -83,8 +82,7 @@ public class TransformationProcessor implements Processor {
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
-        Source errorSource = new JobSource(workNote.getBatchJobId(), null, BATCH_JOB_STAGE.getName());
-        reportStats = new SimpleReportStats(errorSource);
+        reportStats = new SimpleReportStats(workNote.getBatchJobId(), null, BATCH_JOB_STAGE.getName());
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobId(exchange);
@@ -165,7 +163,8 @@ public class TransformationProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0027, exception.getMessage());
+            Source source = new JobSource(batchJobId, null, BATCH_JOB_STAGE.getName());
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0027, exception.getMessage());
         }
     }
 
