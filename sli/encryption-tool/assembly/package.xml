@@ -29,6 +29,7 @@
       <excludes>
         <exclude>**/assembly/package.xml</exclude>
         <exclude>**/assembly/slc-pom.xml</exclude>
+        <exclude>**/test/**</exclude>
       </excludes>
 	<includes>
 		<include>src/**</include>

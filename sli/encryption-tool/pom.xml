@@ -94,4 +94,18 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencies>
+		<!-- Apache Commons Compress dependency -->
+	    <dependency>
+	      <groupId>org.apache.commons</groupId>
+	      <artifactId>commons-compress</artifactId>
+	      <version>1.4</version>
+	    </dependency>
+	    
+        <!-- Apache Commons IO dependency -->
+	    <dependency>
+	      <groupId>commons-io</groupId>
+	      <artifactId>commons-io</artifactId>
+	    </dependency>
+	</dependencies>
 </project>
