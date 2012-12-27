@@ -148,7 +148,7 @@ public class TransformationProcessor implements Processor {
      * @param job
      */
     void performDataTransformations(WorkNote workNote, Job job) {
-        LOG.info("performing data transformation BatchJob: {}", job);
+        LOG.info("performing data transformation BatchJob: {}", job.getId());
 
         Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(workNote, job);
 
