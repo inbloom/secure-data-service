@@ -109,7 +109,7 @@ public class PurgeProcessor implements Processor {
         if (batchJobId != null) {
 
             source = new JobSource(batchJobId, null, BATCH_JOB_STAGE.getName());
-            reportStats = new SimpleReportStats(source);
+            reportStats = new SimpleReportStats(batchJobId, null, BATCH_JOB_STAGE.getName());
 
             NewBatchJob newJob = null;
             try {
@@ -222,7 +222,7 @@ public class PurgeProcessor implements Processor {
     }
 
     private void handleNoTenantId(String batchJobId) {
-        databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0035);
+        databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0035);
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
@@ -230,7 +230,7 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
 
-        databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0036, exception.toString());
+        databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0036, exception.toString());
     }
 
     private String getBatchJobId(Exchange exchange) {
