@@ -27,8 +27,8 @@ import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.Validator;
@@ -58,7 +58,7 @@ public class ValidationController {
      */
     public void doValidation(File path) {
         if (path.isFile()) {
-            source = new SimpleSource(null, path.getName(), null);
+            source = new JobSource(null, path.getName(), null);
             reportStats = new SimpleReportStats(source);
 
             if (path.getName().endsWith(".ctl")) {
@@ -107,8 +107,7 @@ public class ValidationController {
         messageReport.info(reportStats, ValidationMessageCode.VALIDATION_0007, ctlFile.getAbsolutePath());
 
         try {
-            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
-            lz.setDirectory(ctlFile.getAbsoluteFile().getParentFile());
+            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone(ctlFile.getAbsoluteFile().getParentFile());
             ControlFile cfile = ControlFile.parse(ctlFile);
 
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);

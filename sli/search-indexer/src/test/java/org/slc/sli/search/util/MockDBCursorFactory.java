@@ -41,8 +41,8 @@ import org.slf4j.LoggerFactory;
  * @author tosako
  * 
  */
-public class MockDBCursorFactory {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+public final class MockDBCursorFactory {
+    private static final Logger LOG = LoggerFactory.getLogger(MockDBCursorFactory.class);
 
     private MockDBCursorFactory() {
     }
@@ -65,7 +65,7 @@ public class MockDBCursorFactory {
 
         BufferedReader br = null;
         try {
-            URL url = DBCollection.class.getClassLoader().getResource(collection + ".json");
+            URL url = Thread.currentThread().getContextClassLoader().getResource(collection + ".json");
             if (url != null) {
                 File jsonFile = new File(url.getFile());
                 br = new BufferedReader(new FileReader(jsonFile));
@@ -76,9 +76,8 @@ public class MockDBCursorFactory {
                     jsonArray.add(bson);
                 }
             }
-
-        } catch (Throwable t) {
-            logger.error("Error extracting " + collection, t);
+        } catch (Exception e) {
+            LOG.error("Error extracting " + collection, e);
         } finally {
             IOUtils.closeQuietly(br);
         }

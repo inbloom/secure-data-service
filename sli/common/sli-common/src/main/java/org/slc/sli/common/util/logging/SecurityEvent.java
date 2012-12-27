@@ -65,9 +65,6 @@ public class SecurityEvent {
 
     private List<String> roles;
 
-    public SecurityEvent() {
-    }
-
     public String getTenantId() {
         return tenantId;
     }

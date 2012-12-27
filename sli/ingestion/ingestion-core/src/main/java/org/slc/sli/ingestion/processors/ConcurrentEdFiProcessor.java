@@ -36,16 +36,18 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksCallable;
@@ -100,9 +102,18 @@ public class ConcurrentEdFiProcessor implements Processor {
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            TenantContext.setTenantId(newJob.getTenantId());
+            String tenantId = newJob.getTenantId();
+            TenantContext.setTenantId(tenantId);
             TenantContext.setJobId(batchJobId);
+            TenantContext.setBatchProperties(newJob.getBatchProperties());
 
+        	// Check for record hash purge option given
+        	String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+        	if ( (null != rhMode) && ( rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE) || rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_RESET) ) ) {
+        		LOG.info("@duplicate-detection mode '" + rhMode + "' given: resetting recordHash");
+        		batchJobDAO.removeRecordHashByTenant(tenantId);
+        	}
+            
             indexStagingDB();
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
@@ -174,7 +185,7 @@ public class ConcurrentEdFiProcessor implements Processor {
 
                 IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
                 fe.setMessageReport(databaseMessageReport);
-                fe.setReportStats(new SimpleReportStats(new SimpleSource(batchJobId, fileName, BATCH_JOB_STAGE.getName())));
+                fe.setReportStats(new SimpleReportStats(new JobSource(batchJobId, fileName, BATCH_JOB_STAGE.getName())));
                 fe.setFile(new File(resource.getResourceName()));
                 fe.setBatchJobId(batchJobId);
 

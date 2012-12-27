@@ -49,7 +49,7 @@ public class LongSchema extends PrimitiveNumericSchema<Long> {
             try {
                 return Long.parseLong((String) value);
             } catch (NumberFormatException nfe) {
-                throw new IllegalArgumentException(value + " cannot be parsed to a long");
+                throw (IllegalArgumentException) new IllegalArgumentException(value + " cannot be parsed to a long").initCause(nfe);
             }
         }
         

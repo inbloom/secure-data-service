@@ -60,8 +60,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -126,7 +126,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
-            source = new SimpleSource(batchJobId, controlFileName, BATCH_JOB_STAGE.getName());
+            source = new JobSource(batchJobId, controlFileName, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats(source);
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);

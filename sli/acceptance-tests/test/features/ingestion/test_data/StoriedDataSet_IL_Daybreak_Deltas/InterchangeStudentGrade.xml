@@ -2,7 +2,7 @@
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
     <!-- GradebookEntry objects for linda.kim's class -->
-    <GradebookEntry id="GBE-8th_Grade_English-1">
+    <GradebookEntry>
         <GradebookEntryType>Assignment</GradebookEntryType>
         <DateAssigned>2011-09-27</DateAssigned>
         <SectionReference>
@@ -59,7 +59,7 @@
     </StudentGradebookEntry>
     <!--
 	There is no appopriate studentCompetency field to update that is not a key field
- 	<StudentCompetency id="SC-GR3-800000025-1">
+ 	<StudentCompetency>
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
 				<LearningObjectiveId>
@@ -86,7 +86,7 @@
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
 	</StudentCompetency>-->
-    <Grade id="GR-GR3-800000025-1">
+    <Grade>
         <LetterGradeEarned>
             U</LetterGradeEarned>
         <GradeType>Mid-Term Grade</GradeType>

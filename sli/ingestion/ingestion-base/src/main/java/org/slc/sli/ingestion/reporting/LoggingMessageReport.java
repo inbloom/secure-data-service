@@ -27,28 +27,25 @@ import org.slf4j.Logger;
  */
 public class LoggingMessageReport extends AbstractMessageReport {
 
-    private Logger logger;
-
-    public LoggingMessageReport() {
-    }
+    private Logger logger;  //NOPMD logger is a member variable and should not be final by design
 
     public LoggingMessageReport(Logger logger) {
         this.logger = logger;
     }
 
     @Override
-    protected void reportError(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        logger.error(getMessage(reportStats, code, args));
+    protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        logger.error(getMessage(reportStats, source, code, args));
     }
 
     @Override
-    protected void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        logger.warn(getMessage(reportStats, code, args));
+    protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        logger.warn(getMessage(reportStats, source, code, args));
     }
 
     @Override
-    protected void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        logger.info(getMessage(reportStats, code, args));
+    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        logger.info(getMessage(reportStats, source, code, args));
     }
 
     public void setLogger(Logger logger) {

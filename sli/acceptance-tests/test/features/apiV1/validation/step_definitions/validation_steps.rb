@@ -438,7 +438,7 @@ $validationTestData = {
         }
     },
     "studentGradebookEntry" => {
-        "gradebookEntryId" => "706ee3be-0dae-4e98-9525-f564e05aa388_id_id008fd89d-88a2-43aa-8af1-74ac16a29380_id",
+        "gradebookEntryId" => "706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id",
         "letterGradeEarned" => "A",
         "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388_id",
         "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
