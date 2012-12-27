@@ -66,7 +66,7 @@ class XmlDataWriter < DataWriter
     @writers << StaffAssociationGenerator.new(@yaml, initialize_interchange(directory, "StaffAssociation"))
     @writers << StudentAssessmentGenerator.new(@yaml, initialize_interchange(directory, "StudentAssessment"))
     @writers << StudentAttendanceGenerator.new(@yaml, initialize_interchange(directory, "Attendance"))
-    @writers << StudentGradeGenerator.new(@yaml, initialize_interchange(directory, "StudentGrade"))
+    @writers << StudentGradeGenerator.new(@yaml, initialize_interchange(directory, "StudentGrades"))
     @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
     @writers << StudentProgramGenerator.new(@yaml, initialize_interchange(directory, "StudentProgram"))
 

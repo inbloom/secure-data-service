@@ -44,7 +44,10 @@ class GradebookEntryFactory
         max                   = guidelines['max']
         num_gradebook_entries = DataUtility.select_random_from_options(prng, (min..max).to_a)
         DateUtility.get_school_days_over_interval(start_date, end_date, num_gradebook_entries, holidays).each do |date_assigned|
-          entries << create_gradebook_entry_work_order(type, date_assigned, section)
+          entry = create_gradebook_entry_work_order(type, date_assigned, section)
+          entries << entry if !entries.include?(entry)
+          # put the above check in place to make sure no duplicate gradebook entries are created
+          # -> generally occurs around holidays, and this factory isn't smart enough to shuffle assignments out accordingly (yet)
         end
       end
     end

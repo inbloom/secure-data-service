@@ -6345,20 +6345,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GradebookEntry>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2003-03-15</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2003-03-19</DateAssigned>
     <SectionReference>
       <SectionIdentity>
@@ -18679,20 +18665,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GradebookEntry>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000016</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-17</DateAssigned>
     <SectionReference>
       <SectionIdentity>
@@ -19716,20 +19688,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-02</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000017</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
@@ -23285,20 +23243,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GradebookEntry>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000020</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-17</DateAssigned>
     <SectionReference>
       <SectionIdentity>
@@ -24350,20 +24294,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-02</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000021</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
@@ -26646,20 +26576,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-02</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000023</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
@@ -44677,20 +44593,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GradebookEntry>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2003-03-15</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000042</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2003-03-19</DateAssigned>
     <SectionReference>
       <SectionIdentity>
@@ -47408,20 +47310,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2003-03-04</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000045</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2003-03-15</DateAssigned>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
@@ -50151,20 +50039,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GradebookEntry>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2003-03-15</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000048</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2003-03-19</DateAssigned>
     <SectionReference>
       <SectionIdentity>
@@ -51201,20 +51075,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GradebookEntry>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000049</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-17</DateAssigned>
     <SectionReference>
       <SectionIdentity>
@@ -52210,20 +52070,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-02</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000050</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
@@ -60246,20 +60092,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2004-03-02</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000059</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2004-03-13</DateAssigned>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>

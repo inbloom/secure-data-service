@@ -128,8 +128,8 @@ describe "Odin" do
           @interchanges["StudentEnrollment"].should match(/StudentEnrollment.xml/)
         end
 
-        it "will generate a valid control file with StudentGrade as a type" do
-          @interchanges["StudentGrade"].should match(/StudentGrade.xml/)
+        it "will generate a valid control file with StudentGrades as a type" do
+          @interchanges["StudentGrades"].should match(/StudentGrades.xml/)
         end
 
         it "will generate a valid control file with Attendance as a type" do

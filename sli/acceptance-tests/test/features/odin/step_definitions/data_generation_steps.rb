@@ -78,5 +78,5 @@ end
 
 Then /^the sli\-verify script completes successfully$/ do
   results = `bundle exec ruby #{@odin_working_path}sli-verify.rb #{@tenant_id} #{@manifest}`
-  assert(results == "All expected entities found\n", "verification script failed, results are #{results}")
+  assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
 end
