@@ -46,9 +46,9 @@ public class DatabaseMessageReport extends AbstractMessageReport {
         logError(message);
 
         // TODO: refactor needed
-        source = reportStats.getSource();
+        Source newSource = reportStats.getSource();
 
-        persistFault(FaultType.TYPE_ERROR, message, source);
+        persistFault(FaultType.TYPE_ERROR, message, newSource);
     }
 
     @Override
@@ -57,9 +57,9 @@ public class DatabaseMessageReport extends AbstractMessageReport {
         logWarning(message);
 
         // TODO: refactor needed
-        source = reportStats.getSource();
+        Source newSource = reportStats.getSource();
 
-        persistFault(FaultType.TYPE_WARNING, message, source);
+        persistFault(FaultType.TYPE_WARNING, message, newSource);
 
     }
 

@@ -25,8 +25,9 @@ package org.slc.sli.ingestion.cache;
 public class NullCacheProvider implements CacheProvider {
 
     @Override
+    // Does nothing since we are the null provider
     public void add(String key, Object value) {
-
+        // Does nothing
     }
 
     @Override

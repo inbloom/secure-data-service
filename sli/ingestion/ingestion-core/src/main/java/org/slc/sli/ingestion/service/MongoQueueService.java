@@ -119,6 +119,7 @@ public class MongoQueueService implements QueueService {
 
     @Override
     public void purgeExpiredItems() {
+        // mongo requires this empty override
     }
 
     @Override

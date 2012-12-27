@@ -43,8 +43,8 @@ public final class ResourceEntry {
 
     private long errorCount;
 
-    // mongoTemplate requires this constructor.
     public ResourceEntry() {
+        // mongoTemplate requires this constructor.
     }
 
     public void update(String fileFormat, String fileType, String checksum, int recordCount, int errorCount) {

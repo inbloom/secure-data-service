@@ -655,12 +655,13 @@ public class PersistenceProcessor implements Processor {
 
         String tenantId = TenantContext.getTenantId();
         @SuppressWarnings("unchecked")
-        List<Map<String, String>> rhData = (List<Map<String, String>>) rhDataObj;
+        List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
 
-        for (Map<String, String> rhDataElement : rhData) {
+        for (Map<String, Object> rhDataElement : rhData) {
 
-            String newHashValue = rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
-            String recordId = rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
+            String newHashValue = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
+            String recordId = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
+            Map<String,Object> rhCurrentHash = (Map<String,Object>)rhDataElement.get(SliDeltaManager.RECORDHASH_CURRENT);
 
             // Make sure complete metadata is present
             if ((null == recordId || null == newHashValue) || recordId.isEmpty() || newHashValue.isEmpty()) {
@@ -668,10 +669,12 @@ public class PersistenceProcessor implements Processor {
             }
 
             // Consider DE2002, removing a query per record vs. tracking version
-            RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
-            if (rh == null) {
+            //RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+            if (rhCurrentHash == null) {
                 batchJobDAO.insertRecordHash(tenantId, recordId, newHashValue);
             } else {
+                RecordHash rh = new RecordHash();
+                rh.importFromSerializableMap(rhCurrentHash);
                 batchJobDAO.updateRecordHash(tenantId, rh, newHashValue);
             }
         }
