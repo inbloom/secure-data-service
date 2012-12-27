@@ -136,7 +136,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
                     && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
-                if (validator.isValid(cfd, databaseMessageReport, reportStats, null)) {
+                if (validator.isValid(cfd, databaseMessageReport, reportStats, source)) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
                     boolean isZipFile = false;
