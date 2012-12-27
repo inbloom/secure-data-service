@@ -34,11 +34,13 @@ Given I post "XsdValidation.zip" file as an input to offline validation tool
 When I run offline validation command on input file
  And "5" seconds have elapsed
 Then I should see a log file in same directory
-Then I should see "File InterchangeStudent.xml, Line 56, Column 28:" in the resulting log file
-Then I should see "cvc-complex-type.2.4.a: Invalid content was found starting with element 'EconomicDisadvantaged'." in the resulting log file
-Then I should see "One of '{" in the resulting log file
-Then I should see "http://ed-fi.org/0100" in the resulting log file
-Then I should see ":BirthData}' is expected." in the resulting log file
-Then I should see "File InterchangeStudent.xml, Line 87, Column 60:" in the resulting log file
+
+Then I should see "File InterchangeStudent.xml:" in the resulting log file
+Then I should see "cvc-complex-type.2.4.a: Invalid content was found starting with element 'EconomicDisadvantaged'. One of '{" in the resulting log file
+Then I should see "Element:  located at Line 56, Column 28." in the resulting log file
+Then I should see "Message Code=BASE_0017" in the resulting log file
+
+Then I should see "File InterchangeStudent.xml:" in the resulting log file
 Then I should see "cvc-type.3.1.3: The value '' of element 'LimitedEnglishProficiency' is not valid." in the resulting log file
-Then I should see "processing is complete" in the resulting log file
+Then I should see "Element:  located at Line 87, Column 60." in the resulting log file
+Then I should see "Message Code=BASE_0017" in the resulting log file
