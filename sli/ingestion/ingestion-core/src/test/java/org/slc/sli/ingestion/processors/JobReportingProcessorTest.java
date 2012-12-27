@@ -157,8 +157,7 @@ public class JobReportingProcessorTest {
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(workNote, WorkNote.class);
 
-        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
-        tmpLz.setDirectory(tmpDir);
+        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone(tmpDir);
         // jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 

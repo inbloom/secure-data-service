@@ -54,7 +54,6 @@ public class DatabaseMessageReport extends AbstractMessageReport {
         logWarning(message);
 
         persistFault(FaultType.TYPE_WARNING, message, source);
-
     }
 
     @Override

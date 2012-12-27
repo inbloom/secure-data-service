@@ -115,11 +115,11 @@ public class NestedMapUtil {
         }
         if (entity instanceof Map) {
             String field = fieldChain.remove(0);
-            Map<String, Object> map = (Map<String, Object>)entity;
+            Map<String, Object> map = (Map<String, Object>) entity;
             if (fieldChain.isEmpty()) {
                 return (delete) ? map.remove(field) : map.get(field);
             }
-            entity = findRecursively(fieldChain, map.get(field), delete, count + 1);
+            Object tempEntity = findRecursively(fieldChain, map.get(field), delete, count + 1);
             Object obj = map.get(field);
             if (delete && obj != null && obj instanceof Map) {
                 Map<String, Object> sub = (Map<String, Object>)obj;
@@ -127,7 +127,7 @@ public class NestedMapUtil {
                     map.remove(field);
                 }
             }
-            return entity;
+            return tempEntity;
         } else if (entity instanceof List) {
             List<Object> arr = (List<Object>)entity;
             if (!arr.isEmpty()) {

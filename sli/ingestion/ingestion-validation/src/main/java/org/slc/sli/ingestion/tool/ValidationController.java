@@ -107,8 +107,7 @@ public class ValidationController {
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0007, ctlFile.getAbsolutePath());
 
         try {
-            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
-            lz.setDirectory(ctlFile.getAbsoluteFile().getParentFile());
+            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone(ctlFile.getAbsoluteFile().getParentFile());
             ControlFile cfile = ControlFile.parse(ctlFile);
 
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);

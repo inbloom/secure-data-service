@@ -109,8 +109,8 @@ public abstract class PrimitiveNumericSchema<T extends Comparable<T>> extends Pr
         
         //attempt input conversion. Only type is confirmed
         try {
-            entity = convert(entity);
-            return this.validateAgainstRestrictions(fieldName, (T) entity, errors, repo);
+            Object convertedEntity = convert(entity);
+            return this.validateAgainstRestrictions(fieldName, (T) convertedEntity, errors, repo);
         } catch (IllegalArgumentException iae) {
             super.addError(fieldName, entity, super.getSchemaType().getName(), ErrorType.INVALID_DATATYPE, errors);
             return false;

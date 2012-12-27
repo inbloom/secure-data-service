@@ -28,7 +28,7 @@ import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.process.Loader;
 
 public class AdminImpl implements Admin {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(AdminImpl.class);
     private Extractor extractor;
     private SourceDatastoreConnector source;
     private SearchEngineConnector searchEngine;
@@ -46,7 +46,7 @@ public class AdminImpl implements Admin {
 
     @Override
     public void reload(String tenantId) {
-        logger.info("Received reload " + tenantId);
+        LOG.info("Received reload " + tenantId);
         Tenant tenant = getTenant(tenantId);
         indexer.clearCache();
         searchEngine.deleteIndex(tenant.getDbName());
@@ -54,20 +54,20 @@ public class AdminImpl implements Admin {
     }
     @Override
     public void reloadAll() {
-        logger.info("Received reloadAll");
+        LOG.info("Received reloadAll");
         searchEngine.executeDelete(searchEngine.getBaseUrl());
         indexer.clearCache();
         extractor.execute(Action.INDEX);
     }
     @Override
     public void reconcile(String tenantId) {
-        logger.info("Received reconcile " + tenantId);
+        LOG.info("Received reconcile " + tenantId);
         indexer.clearCache();
         extractor.execute(getTenant(tenantId), Action.UPDATE);
     }
     @Override
     public void reconcileAll() {
-        logger.info("Received reconcileAll");
+        LOG.info("Received reconcileAll");
         indexer.clearCache();
         extractor.execute(Action.UPDATE);
     }

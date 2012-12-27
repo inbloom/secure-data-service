@@ -43,12 +43,12 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void error(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null || source == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportStats.incError();
@@ -68,12 +68,12 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void warning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportStats.incWarning();
@@ -92,12 +92,12 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
     public void info(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportInfo(reportStats, source, code, args);
@@ -116,16 +116,9 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      */
     protected String getMessage(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
 
-        Object[] arguments = {
-                messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null),
-                source.getUserFriendlyMessage(),
-                code.getCode()
-        };
-        return MessageFormat.format(
-                "{0}\n" +
-                "{1}\n" +
-                "Message Code={2}\n",
-                arguments);
+        Object[] arguments = { messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null),
+                source.getUserFriendlyMessage(), code.getCode() };
+        return MessageFormat.format("{0}\n" + "{1}\n" + "Message Code={2}\n", arguments);
     }
 
     protected abstract void reportError(AbstractReportStats reportStats, Source source, MessageCode code,

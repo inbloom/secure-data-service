@@ -61,7 +61,7 @@ public class NeutralSchemaValidator implements EntityValidator {
 
     // Constructors
     public NeutralSchemaValidator() {
-
+        // necessary for instantiation via Spring 
     }
 
     public NeutralSchemaValidator(SchemaRepository entitySchemaRegistry) {
