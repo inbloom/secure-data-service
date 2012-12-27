@@ -216,13 +216,13 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
                     found = true;
                     break;
                 }
-            }
+			}
             if (found) {
-                exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
+            	exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
             } else {
-                LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
-            }
-        } else {
+            	LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
+			}
+		} else {
             LOG.debug("Did not match @duplicate-detection tag in control file.");
         }
     }
