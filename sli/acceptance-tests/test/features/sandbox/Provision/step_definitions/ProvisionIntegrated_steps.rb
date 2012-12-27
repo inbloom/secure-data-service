@@ -158,7 +158,7 @@ end
 
 Given /^there is no corresponding tenant in mongo$/ do
   clear_tenant
-  # drop tenant
+  # drop tenant db
   result = @ingestion_mongo_conn.drop_database(convertTenantIdToDbName(@tenantId))
   assert(result, "Error dropping tenant db:  #{@tenantId}: #{convertTenantIdToDbName(@tenantId)}")
 
@@ -226,6 +226,32 @@ end
 Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorgId|
   clear_tenant
   create_tenant(@tenantId,edorgId)
+end
+
+When /^there is a landing zone defined in mongo for "(.*?)"$/ do |edorgId|
+  tenant = @db.collection('tenant').find_one({"body.tenantId" => @tenantId})
+  assert(tenant != nil, "No tenant record found in database for #{@tenantId}")
+  @lz_path = nil
+  tenant['body']['landingZone'].each do |lz|
+    @lz_path = lz['path'] if lz['educationOrganization'] == edorgId
+  end
+  puts "Landing Zone is #{@lz_path}" if $SLI_DEBUG
+end
+
+When /^the defined landing zone is cleaned out$/ do
+  if Dir.exists?(@lz_path)
+    @lz_path = @lz_path + "/" if !@lz_path.end_with?("/")
+    Dir.foreach(@lz_path) do |file|
+      file = @lz_path + file
+      if file =~ /.*\.log/
+        puts "Deleting log file #{file}" if $SLI_DEBUG
+        FileUtils.rm(file) if file =~ /.*\.log/
+      end
+    end
+    Dir.foreach(@lz_path) do |file|
+      puts "ERROR: File remains in lz: #{file}" if file =~ /.*\.log/
+    end
+  end
 end
 
 Given /^there is a landing zone for the "(.*?)" in LDAP$/ do |edorg|
@@ -388,12 +414,12 @@ end
 
 Then /^I clean the landing zone$/ do
   begin
-    STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
+    puts "Attempting to delete #{@lz}" if $SLI_DEBUG
     initializeLandingZone(@lz)
   rescue
     if $SLI_DEBUG
-      STDOUT.puts "Could not clean out landing zone:  #{@lz}"
-      STDOUT.puts "Reason:  #{$!}"
+      puts "Could not clean out landing zone:  #{@lz}"
+      puts "Reason:  #{$!}"
     end
   end
 end

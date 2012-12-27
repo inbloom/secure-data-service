@@ -351,3 +351,5 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                   |   0     |
   And I should see "Processed 5 records." in the resulting batch job file
   And I should see "attendance events are not processed, because they are not within any school year" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance located between Line 4, Column 21 and Line 14, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance located between Line 16, Column 21 and Line 26, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"

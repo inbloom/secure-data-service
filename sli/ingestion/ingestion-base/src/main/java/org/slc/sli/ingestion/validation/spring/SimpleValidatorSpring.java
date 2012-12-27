@@ -22,6 +22,7 @@ import org.springframework.context.MessageSourceAware;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -39,20 +40,21 @@ public abstract class SimpleValidatorSpring<T> implements Validator<T>, MessageS
 
     /**
      * Helper to report errors.
-     *
      * @param report
      *            report implementation for tracking and persisting errors.
      * @param reportStats
      *            statistics to be updated
+     * @param source
+     *            TODO
      * @param code
      *            code associated with this error.
      * @param args
      *            optional arguments for substitution into message.
      */
-    protected void error(AbstractMessageReport report, AbstractReportStats reportStats, MessageCode code,
-            Object... args) {
+    protected void error(AbstractMessageReport report, AbstractReportStats reportStats, Source source,
+            MessageCode code, Object... args) {
         if (report != null) {
-            report.error(reportStats, code, args);
+            report.error(reportStats, source, code, args);
         }
     }
 
@@ -63,14 +65,17 @@ public abstract class SimpleValidatorSpring<T> implements Validator<T>, MessageS
      *            report implementation for tracking and persisting warnings.
      * @param reportStats
      *            statistics to be updated
+     * @param source
+     *            TODO
      * @param code
      *            code associated with this warning.
      * @param args
      *            optional arguments for substitution into message.
      */
-    protected void warn(AbstractMessageReport report, AbstractReportStats reportStats, MessageCode code, Object... args) {
+    protected void warn(AbstractMessageReport report, AbstractReportStats reportStats, Source source, MessageCode code,
+            Object... args) {
         if (report != null) {
-            report.warning(reportStats, code, args);
+            report.warning(reportStats, source, code, args);
         }
     }
 

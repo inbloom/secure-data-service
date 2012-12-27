@@ -33,6 +33,7 @@ import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * Tests for zip file validator.
@@ -52,10 +53,11 @@ public class ZipFileValidatorTest {
     @Test
     public void zipFileHasPath() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        Source source = new JobSource(null, null, null);
 
         file = IngestionTest.getFile("zip/ZipWithPath.zip");
-        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats, source);
         Assert.assertFalse(isValid);
 
     }
@@ -63,20 +65,21 @@ public class ZipFileValidatorTest {
     @Test
     public void noControlFile() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        Source source = new JobSource(null, null, null);
 
         file = IngestionTest.getFile("zip/NoControlFile.zip");
-        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats, source);
         Assert.assertFalse(isValid);
     }
 
     @Test
     public void validZip() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource(null, null, null));
+        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
 
         file = IngestionTest.getFile("zip/ValidZip.zip");
-        boolean isValid = zipFileValidator.isValid(file, report, reportStats);
+        boolean isValid = zipFileValidator.isValid(file, report, reportStats, null);
         Assert.assertTrue(isValid);
     }
 

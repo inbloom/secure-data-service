@@ -140,6 +140,12 @@ And there is no corresponding tenant in mongo
 And there is no corresponding ed-org "<SMALL_SAMPLE_DATASET_EDORG>" in mongo
 When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
+# The following 3 steps are a hackish way of ensuring the lz doesn't have any existing log files.
+When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_EDORG>"
+And there is a landing zone defined in mongo for "<SANDBOX_EDORG>"
+And the defined landing zone is cleaned out
+# end hack
+When the developer go to the provisioning application web page
 When the developer selects to preload "Small Dataset"
 Then a tenant with tenantId "<DEVELOPER_EMAIL>" created in Mongo
 And an ed-org is created in Mongo with the "stateOrganizationId" is "<SMALL_SAMPLE_DATASET_EDORG>"
@@ -148,17 +154,19 @@ And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 And the "small" data to preload is stored for the tenant in mongo
 And the user gets a success message indicating preloading has been triggered
-#Then "20" seconds have elapsed
+Then "20" seconds have elapsed
 #When the tenant with tenantId "<DEVELOPER_EMAIL>" is locked
 #When the developer go to the provisioning application web page
 #When the developer selects to preload "Small Dataset"
 #Then the user gets an error message
 #And the tenant with tenantId "<DEVELOPER_EMAIL>" is unlocked
-Then "5" seconds have elapsed
+#Then "5" seconds have elapsed
 And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
 And I should see "Processed 4254 records." in the resulting batch job file
+Then "10" seconds have elapsed
+And the defined landing zone is cleaned out
 And I clean the landing zone
 And user's landing zone is still provisioned from the prior preloading
 When the developer go to the provisioning application web page
@@ -170,5 +178,6 @@ And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
 And I should see "All records processed successfully." in the resulting batch job file
+Then "10" seconds have elapsed
 And I clean the landing zone
 
