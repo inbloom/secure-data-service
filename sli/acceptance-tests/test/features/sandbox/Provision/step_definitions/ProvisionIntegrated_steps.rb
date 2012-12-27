@@ -234,17 +234,17 @@ When /^there is a landing zone defined in mongo for "(.*?)"$/ do |edorgId|
   @lz_path = nil
   tenant['body']['landingZone'].each do |lz|
     @lz_path = lz['path'] if lz['educationOrganization'] == edorgId
-  end
-  puts "Landing Zone is #{@lz_path}" if $SLI_DEBUG
+  puts "Landing Zone is #{@lz_path}"
 end
 
 When /^the defined landing zone is cleaned out$/ do
+  puts "Landing Zone is #{@lz_path} and exists?: #{Dir.exists?(@lz_path)}"
   if Dir.exists?(@lz_path)
     @lz_path = @lz_path + "/" if !@lz_path.end_with?("/")
     Dir.foreach(@lz_path) do |file|
       file = @lz_path + file
       if file =~ /.*\.log/
-        puts "Deleting log file #{file}" if $SLI_DEBUG
+        puts "Deleting log file #{file}"
         FileUtils.rm(file) if file =~ /.*\.log/
       end
     end
