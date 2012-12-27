@@ -85,7 +85,7 @@ public final class Error {
             theHostname = BatchJobUtils.getHostName();
         }
 
-        // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
+        @SuppressWarnings("PMD.CustomAvoidThrowingRawExceptionTypes") // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
         Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
                 BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
