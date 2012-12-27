@@ -113,6 +113,22 @@ public class NeutralRecordEntity implements Entity {
         this.neutralRecord = neutralRecord;
     }
 
+    public int getVisitBeforeLineNumber() {
+        return neutralRecord.getVisitBeforeLineNumber();
+    }
+
+    public int getVisitBeforeColumnNumber() {
+        return neutralRecord.getVisitBeforeColumnNumber();
+    }
+
+    public int getVisitAfterLineNumber() {
+        return neutralRecord.getVisitAfterLineNumber();
+    }
+
+    public int getVisitAfterColumnNumber() {
+        return neutralRecord.getVisitAfterColumnNumber();
+    }
+
     @Override
     public String getStagedEntityId() {
         return neutralRecord.getRecordId();

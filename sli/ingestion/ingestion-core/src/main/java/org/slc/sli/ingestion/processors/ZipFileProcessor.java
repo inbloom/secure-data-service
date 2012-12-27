@@ -82,8 +82,6 @@ public class ZipFileProcessor implements Processor {
 
         NewBatchJob newJob = null;
 
-        Source source = null;
-
         AbstractReportStats reportStats = null;
 
         try {
@@ -96,8 +94,7 @@ public class ZipFileProcessor implements Processor {
             TenantContext.setTenantId(newJob.getTenantId());
             batchJobId = newJob.getId();
 
-            source = new JobSource(batchJobId, zipFile.getName(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
-            reportStats = new SimpleReportStats(source);
+            reportStats = new SimpleReportStats(batchJobId, zipFile.getName(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
 
             File ctlFile = zipFileHandler.handle(zipFile, databaseMessageReport, reportStats);
 
@@ -147,7 +144,8 @@ public class ZipFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0014, exception.toString());
+            Source source = new JobSource(batchJobId, reportStats.getResourceId(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0014, exception.toString());
         }
     }
 
