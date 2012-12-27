@@ -346,7 +346,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), item, report, reportStats);
         } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getRootCause().getMessage(), item.getType(), item.getSourceFile(), report, reportStats);
+            reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report, reportStats);
         }
         return null;
     }
