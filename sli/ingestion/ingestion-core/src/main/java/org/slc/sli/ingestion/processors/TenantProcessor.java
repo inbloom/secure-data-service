@@ -160,7 +160,7 @@ public class TenantProcessor implements Processor {
                 List<String> fileNames = getDataSetLookup().get(dataSet);
                 if (fileNames != null) {
                     for (String fileName : fileNames) {
-                        URL fileLocation = this.getClass().getClassLoader().getResource(fileName);
+                        URL fileLocation = Thread.currentThread().getContextClassLoader().getResource(fileName);
                         try {
                             InputStream sampleFile = fileLocation == null ? new FileInputStream(fileName)
                                     : fileLocation.openStream();
