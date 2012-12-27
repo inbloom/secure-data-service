@@ -16,6 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -307,6 +310,18 @@ public class ValidatorTestHelper {
         Mockito.when(entity.getType()).thenReturn("teacher");
         Mockito.when(entity.getEntityId()).thenReturn(STAFF_ID);
         injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, ED_ORG_ID);
+    }
+    
+    protected void resetRepo() throws Exception {
+        Field[] fields = EntityNames.class.getDeclaredFields();
+
+        for (Field f : fields) {
+            if (f.getType() == String.class && Modifier.isStatic(f.getModifiers())) {
+                String ent = (String) f.get(null);
+                repo.deleteAll(ent, new NeutralQuery());
+            }
+        }
+
     }
 
 }

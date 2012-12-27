@@ -30,7 +30,6 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -45,7 +44,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @Component
-public class TeacherToGradeValidatorTest  {
+public class TeacherToGradeValidatorTest {
     
     @Autowired
     ValidatorTestHelper helper;
@@ -65,6 +64,7 @@ public class TeacherToGradeValidatorTest  {
     
     @Before
     public void setUp() throws Exception {
+        helper.resetRepo();
         helper.setUpTeacherContext();
         String student1 = helper.generateStudentAndStudentSchoolAssociation("student1", "school1", false);
         String student2 = helper.generateStudentAndStudentSchoolAssociation("student2", "school1", false);
@@ -83,11 +83,6 @@ public class TeacherToGradeValidatorTest  {
     @After
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
-        repo.deleteAll(EntityNames.STUDENT_SECTION_ASSOCIATION, new NeutralQuery());
-        repo.deleteAll(EntityNames.STUDENT, new NeutralQuery());
-        repo.deleteAll(EntityNames.GRADE, new NeutralQuery());
-        repo.deleteAll(EntityNames.SECTION, new NeutralQuery());
-
     }
     
     @Test
