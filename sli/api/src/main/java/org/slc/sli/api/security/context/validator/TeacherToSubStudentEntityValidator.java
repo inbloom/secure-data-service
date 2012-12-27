@@ -73,7 +73,7 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
     public boolean validate(String entityType, Set<String> ids) {
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(ids)));
+                NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = repo.findAll(entityType, query);
         if (entities != null) {
             for (Entity entity : entities) {
