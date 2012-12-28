@@ -288,10 +288,10 @@ public class MockRepo implements Repository<Entity> {
                 if (entityValue != null) {
                     if (entityValue.equals(criteria.getValue())) {
                         toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
-                    } else if (entityValue instanceof List) { // also need to
+                    } else if (entityValue instanceof Collection) { // also need to
                                                               // handle = for
                                                               // array
-                        for (Object arrayElement : (List) entityValue) {
+                        for (Object arrayElement : (Collection) entityValue) {
                             if (arrayElement.equals(criteria.getValue())) {
                                 toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
                             }
