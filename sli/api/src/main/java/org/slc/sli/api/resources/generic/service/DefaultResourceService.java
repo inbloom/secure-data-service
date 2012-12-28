@@ -15,9 +15,27 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -34,27 +52,13 @@ import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
+import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Default implementation of the resource service.
@@ -97,6 +101,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigrateResponse
     public ServiceResponse getEntitiesByIds(final Resource resource, final String idList, final URI requestURI) {
 
         return handle(resource, new ServiceLogic() {
@@ -139,6 +144,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigrateResponse
     public ServiceResponse getEntities(final Resource resource, final URI requestURI,
                                        final boolean getAllEntities) {
 
@@ -206,6 +212,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
@@ -213,6 +220,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigratePostedEntity
     public void putEntity(Resource resource, String id, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
@@ -223,6 +231,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigratePostedEntity
     public void patchEntity(Resource resource, String id, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
@@ -260,6 +269,7 @@ public class DefaultResourceService implements ResourceService {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
+    @MigrateResponse
     public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
@@ -273,7 +283,7 @@ public class DefaultResourceService implements ResourceService {
         List<String> valueList = Arrays.asList(id.split(","));
 
         final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
-        
+
         //Mongo blows up if we have multiple $in or equal criteria for the same key.
         //To avoid that case, if we do have duplicate keys, set the value for that
         //criteria to the intersection of the two critiera values
@@ -296,8 +306,8 @@ public class DefaultResourceService implements ResourceService {
         if (!skipIn) {
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
         }
-        
-        
+
+
         try {
             entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
         } catch (final UnsupportedSelectorException e) {
@@ -309,6 +319,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigrateResponse
     public ServiceResponse getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
         final String associationKey = getConnectionKey(base, association);
         return getAssociatedEntities(base, association, id, resource, associationKey, requestUri);
