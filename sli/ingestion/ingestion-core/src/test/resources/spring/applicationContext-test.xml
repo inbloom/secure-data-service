@@ -42,9 +42,9 @@
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
-  <import resource="idRefResolution-context.xml" />
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
+  <import resource="systemValidator-context.xml" />
 
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />
@@ -83,12 +83,6 @@
 
   <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
   </bean>
-
-  <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
-  <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator" />
-  <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.SLIDbIndexValidator" />
-  <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
-
 
   <bean id="messageSource" parent="coreMessageSource" />
 
