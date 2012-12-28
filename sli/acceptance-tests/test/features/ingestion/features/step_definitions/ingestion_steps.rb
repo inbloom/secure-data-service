@@ -1233,31 +1233,31 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 420
+  sleep(intervalTime)
   iters = (1.0*@maxTimeout/intervalTime).ceil
-  found = false
-  if (INGESTION_MODE == 'remote')
-    iters.times do |i|
-      if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
+    found = false
+    if (INGESTION_MODE == 'remote')
+        iters.times do |i|
+            if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
+                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                found = true
+                break
+            else
+                sleep(intervalTime)
+            end
+        end
+    else
+        iters.times do |i|
+            if dirContainsBatchJobLog? landing_zone
+                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                found = true
+                break
+            else
+                sleep(intervalTime)
+            end
+        end
     end
-  else
-    sleep(5) # waiting to poll job file removes race condition (windows-specific)
-    iters.times do |i|
-      if dirContainsBatchJobLog? landing_zone
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  end
 
   sleep(2)
   if should_has_log

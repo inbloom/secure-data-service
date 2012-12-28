@@ -66,21 +66,21 @@ public class OfflineTool {
         File file = null;
 
         source = new JobSource(null, null, null);
-        reportStats = new SimpleReportStats(source);
+        reportStats = new SimpleReportStats(null, null, null);
 
         if ((args.length != inputArgumentCount)) {
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0011, appName);
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0012, appName);
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0011, appName);
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0012, appName);
             return;
         } else {
             file = new File(args[0]);
             if (!file.exists()) {
-                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0014, args[0]);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0014, args[0]);
                 return;
             }
             if (file.isDirectory()) {
-                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0013);
-                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0012, appName);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0013);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0012, appName);
                 return;
             }
         }

@@ -793,19 +793,29 @@ task :ingestionTests => [:loadDefaultIngestionTenants, :IngestionIndexValidation
   end
 end
 
-desc "Run Emma Ingestion Acceptances Tests"
-task :ingestionEmmaTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
-                         :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest,
-                         :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest, :ingestionTenantPurgeTests,
-                         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest] do
 
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
+desc "Run High Priority Emma Ingestion Acceptances Tests"
+    #New or tests modified this sprint, or tests that have recently failed
+    task :highPriority => [:loadDefaultIngestionTenants, :ingestionDeltaTest] do
+end
+
+desc "Run Normal Priority Emma Ingestion Acceptances Tests"
+    task :normalPriority => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionDbSpinupTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+        :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest,
+        :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest, :ingestionTenantPurgeTests,
+        :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
+        :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
+        :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionDupDetectTest] do
+end
+
+desc "Run Emma Ingestion Acceptances Tests"
+    task :ingestionEmmaTests => [:highPriority, :normalPriority] do
+
+    displayFailureReport()
+        if $SUCCESS
+        puts "Completed All Tests"
+    else
+        raise "Tests have failed"
   end
 end
 ############################################################
@@ -826,6 +836,22 @@ task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
 end
 ############################################################
 # Odin Data Generation tests end
+############################################################
+
+############################################################
+# List Attendance Endpoint tests start
+############################################################
+desc "Run List Attendance Endpoint tests"
+task :listAttendanceEndPoint => [:loadDefaultIngestionTenants, :odin10k1GenerateTests, :ingestOdin10k1DataSet, :realmInit, :v1ListAttendanceEndpointTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# List Attendance Endpoint tests end
 ############################################################
 
 ############################################################

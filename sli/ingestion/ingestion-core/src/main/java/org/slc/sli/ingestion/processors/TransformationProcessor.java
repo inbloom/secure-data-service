@@ -83,8 +83,7 @@ public class TransformationProcessor implements Processor {
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
-        Source errorSource = new JobSource(workNote.getBatchJobId(), null, BATCH_JOB_STAGE.getName());
-        reportStats = new SimpleReportStats(errorSource);
+        reportStats = new SimpleReportStats(workNote.getBatchJobId(), null, BATCH_JOB_STAGE.getName());
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobId(exchange);
@@ -148,7 +147,7 @@ public class TransformationProcessor implements Processor {
      * @param job
      */
     void performDataTransformations(WorkNote workNote, Job job) {
-        LOG.info("performing data transformation BatchJob: {}", job);
+        LOG.info("performing data transformation BatchJob: {}", job.getId());
 
         Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(workNote, job);
 
@@ -165,7 +164,8 @@ public class TransformationProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0027, exception.getMessage());
+            Source source = new JobSource(batchJobId, null, BATCH_JOB_STAGE.getName());
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0027, exception.getMessage());
         }
     }
 

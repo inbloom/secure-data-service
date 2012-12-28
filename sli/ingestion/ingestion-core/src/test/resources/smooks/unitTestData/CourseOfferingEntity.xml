@@ -25,7 +25,8 @@
                 <SessionName>Session Name</SessionName>
             </SessionIdentity>
         </SessionReference>
-        <CourseReference id="Course Reference ID" ref="Course Reference IDREF">
+<!--        <CourseReference id="Course Reference ID" ref="Course Reference IDREF">-->
+        <CourseReference>
             <CourseIdentity>
                 <CourseCode IdentificationSystem="Course Reference Identification System 1" AssigningOrganizationCode="Course Reference Assigning Organization Code 1">
                     <ID>Course Reference ID 1</ID>

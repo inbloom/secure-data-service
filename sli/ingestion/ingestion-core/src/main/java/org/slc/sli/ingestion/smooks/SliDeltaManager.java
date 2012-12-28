@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -54,6 +53,7 @@ public final class SliDeltaManager {
     public static final String RECORDHASH_DATA = "rhData";
     public static final String RECORDHASH_HASH = "rhHash";
     public static final String RECORDHASH_ID = "rhId";
+    public static final String RECORDHASH_CURRENT = "rhCurrentHash";
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
@@ -110,7 +110,7 @@ public final class SliDeltaManager {
             neutralRecordResolved = n;
         } else {
             neutralRecordResolved = (NeutralRecord) n.clone();
-            Entity entity = new NeutralRecordEntity(neutralRecordResolved);
+            NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
             didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
         }
 
@@ -127,8 +127,8 @@ public final class SliDeltaManager {
             RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
             // TODO consider making this a util
-            List<Map<String, String>> rhData = new ArrayList<Map<String, String>>();
-            Map<String, String> rhDataElement = new HashMap<String, String>();
+            List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
+            Map<String, Object> rhDataElement = new HashMap<String, Object>();
             rhDataElement.put(RECORDHASH_ID, recordId);
             rhDataElement.put(RECORDHASH_HASH, recordHashValues);
             rhData.add(rhDataElement);
@@ -136,6 +136,11 @@ public final class SliDeltaManager {
             n.addMetaData(RECORDHASH_DATA, rhData);
 
             isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
+
+            if(record != null) {
+                //not ingested previously
+                rhDataElement.put(RECORDHASH_CURRENT, record.exportToSerializableMap());
+            }
 
         } catch (NoNaturalKeysDefinedException e) {
             // If we can't determine the natural keys, don't include it in recordHash processing
