@@ -21,7 +21,6 @@ import java.util.List;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  * Abstract validator
@@ -30,7 +29,7 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  *
  * @param <T>
  */
-public class ComplexValidator<T> extends SimpleValidatorSpring<T> {
+public class ComplexValidator<T> implements Validator<T> {
     private List<? extends Validator<T>> validators;
 
     public List<? extends Validator<T>> getValidators() {
