@@ -22,6 +22,7 @@ require 'test_helper'
 class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
   setup do
+    APP_CONFIG['is_sandbox'] = true
     @user_account_registration = {
         :email=> 'validated@valid.com' ,
         :firstName => 'test',
@@ -35,6 +36,12 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
   test "should get new" do
     get :new
     assert_response :success
+  end
+
+  test "redirect in prod mode when get new" do
+    APP_CONFIG['is_sandbox'] = false
+    get :new
+    assert_response :redirect
   end
 
   test "should create user_account_registration" do
