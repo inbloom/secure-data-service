@@ -139,10 +139,10 @@ public class ListSchema extends NeutralSchema {
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         boolean isValid = true;
 
-        entity = convert(entity);
+        Object convertedEntity = convert(entity);
 
-        if (entity instanceof List) {
-            List<?> entityList = (List<?>) entity;
+        if (convertedEntity instanceof List) {
+            List<?> entityList = (List<?>) convertedEntity;
             for (Object fieldEntity : entityList) {
 
                 // Allow validation according to ANY item Schemas in the ListSchema list (xs:choice
@@ -171,19 +171,19 @@ public class ListSchema extends NeutralSchema {
                         long restrictionValue = Long.parseLong(entry.getValue().toString());
                         switch (Restriction.fromValue(entry.getKey())) {
                             case LENGTH:
-                                if (!addError(entityList.size() == restrictionValue, fieldName, entity, "length="
+                                if (!addError(entityList.size() == restrictionValue, fieldName, convertedEntity, "length="
                                         + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
                                     return false;
                                 }
                                 break;
                             case MIN_LENGTH:
-                                if (!addError(entityList.size() >= restrictionValue, fieldName, entity, "min-length="
+                                if (!addError(entityList.size() >= restrictionValue, fieldName, convertedEntity, "min-length="
                                         + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
                                     return false;
                                 }
                                 break;
                             case MAX_LENGTH:
-                                if (!addError(entityList.size() <= restrictionValue, fieldName, entity, "max-length="
+                                if (!addError(entityList.size() <= restrictionValue, fieldName, convertedEntity, "max-length="
                                         + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
                                     return false;
                                 }
@@ -194,7 +194,7 @@ public class ListSchema extends NeutralSchema {
             }
 
         } else {
-            return addError(false, fieldName, entity, "List", ErrorType.INVALID_DATATYPE, errors);
+            return addError(false, fieldName, convertedEntity, "List", ErrorType.INVALID_DATATYPE, errors);
         }
 
         return isValid;

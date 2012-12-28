@@ -62,7 +62,7 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * JUnits for testing the BatchJobMongoDA class.
@@ -361,7 +361,7 @@ public class BatchJobMongoDATest {
                 "sourceIp" + errorIndex,
                 "hostname" + errorIndex,
                 "recordId" + errorIndex,
-                BatchJobUtils2.getCurrentTimeStamp(),
+                BatchJobUtils.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(),
                 "errorType" + errorIndex,
                 "errorDetail" + errorIndex));

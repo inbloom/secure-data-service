@@ -4,6 +4,7 @@ Background:
 Given that dashboard has been authorized for all ed orgs
 	
 @RALLY_US200
+@RALLY_DE2235
 Scenario: Selecting classes on LOS
 Given I have an open web browser
 When I navigate to the Dashboard home page
