@@ -566,6 +566,12 @@
         "queryable": true,
         "doc": "This resource provides the basic contact information (E-Mail) of who to contact.",
         "resourceClass": "org.slc.sli.api.resources.SupportResource"
+    },
+    {
+        "path": "/system/session",
+        "queryable": true,
+        "doc": "System resource class for security session context.",
+        "resourceClass": "org.slc.sli.api.resources.SecuritySessionResource"
     }
   ]
 },
