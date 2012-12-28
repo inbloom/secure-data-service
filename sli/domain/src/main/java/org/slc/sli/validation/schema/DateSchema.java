@@ -65,10 +65,11 @@ public class DateSchema extends NeutralSchema {
 
     @Override
     public Object convert(Object value) {
-    	if (value == null) {
-    		LOG.error("Failed to parse date", e);
-            throw (EntityValidationException) new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>()).initCause(e);
-    	}
+        if (value == null) {
+            LOG.error("Failed to parse date", e);
+            throw (EntityValidationException) new EntityValidationException("irrelevant", "doesn't matter",
+                    new ArrayList<ValidationError>()).initCause(e);
+        }
         try {
             DatatypeConverter.parseDate((String) value);
         } catch (IllegalArgumentException e) {

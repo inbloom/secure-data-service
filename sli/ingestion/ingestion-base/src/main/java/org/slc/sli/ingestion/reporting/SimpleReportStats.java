@@ -37,7 +37,7 @@ public final class SimpleReportStats extends AbstractReportStats {
     }
 
     public SimpleReportStats() {
-    	// used by unit test
+        // used by unit test
     }
 
     @Override
