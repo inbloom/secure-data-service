@@ -46,9 +46,6 @@
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
 
-  <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
-    /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->
-
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />
     <context:exclude-filter type="regex" expression=".*DummyEntityRepository" />
