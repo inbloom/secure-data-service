@@ -14,75 +14,46 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.reporting.impl;
+
+import org.slc.sli.ingestion.reporting.Source;
+
 
 /**
- * Simple implementation of AbstractReportStats
  *
- * @author dduran
+ * @author npandey
  *
  */
-public final class SimpleReportStats implements ReportStats {
+public class JobSource implements Source {
 
     private String batchJobId;
     private String resourceId;
     private String stageName;
-    private long errorCount = 0L;
-    private long warningCount = 0L;
 
-    public SimpleReportStats(String batchJobId, String resourceId, String stageName) {
+    public JobSource(String batchJobId, String resourceId, String stageName) {
         this.batchJobId = batchJobId;
         this.resourceId = resourceId;
         this.stageName = stageName;
     }
 
-    public SimpleReportStats() {
-        // used by unit test
-    }
-
     @Override
     public String getBatchJobId() {
-        return this.batchJobId;
+        return batchJobId;
     }
 
     @Override
     public String getResourceId() {
-        return this.resourceId;
+        return resourceId;
     }
 
     @Override
     public String getStageName() {
-        return this.stageName;
+        return stageName;
     }
 
     @Override
-    public void incError() {
-        errorCount++;
-    }
-
-    @Override
-    public void incWarning() {
-        warningCount++;
-    }
-
-    @Override
-    public boolean hasErrors() {
-        return errorCount > 0;
-    }
-
-    @Override
-    public boolean hasWarnings() {
-        return warningCount > 0;
-    }
-
-    @Override
-    public long getErrorCount() {
-        return errorCount;
-    }
-
-    @Override
-    public long getWarningCount() {
-        return warningCount;
+    public String getUserFriendlyMessage() {
+        return "";
     }
 
 }

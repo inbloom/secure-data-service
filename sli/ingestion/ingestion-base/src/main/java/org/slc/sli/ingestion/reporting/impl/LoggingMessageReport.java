@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.reporting.impl;
 
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * MessageReport implementation that is constructed with a logger and uses that logger to act on
