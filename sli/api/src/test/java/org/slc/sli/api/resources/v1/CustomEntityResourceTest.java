@@ -30,6 +30,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -37,7 +38,15 @@ import org.mockito.stubbing.Answer;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
 * Tests for CustomEntityResouce
@@ -45,10 +54,17 @@ import org.slc.sli.api.service.EntityService;
 * @author Ryan Farris <rfarris@wgen.net>
 *
 */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 public class CustomEntityResourceTest {
 
     CustomEntityResource resource;
     EntityService service;
+
+    @Autowired
+    private ResourceHelper resourceHelper;
 
 
     @Before
@@ -57,7 +73,7 @@ public class CustomEntityResourceTest {
         EntityDefinition entityDef = Mockito.mock(EntityDefinition.class);
         service = Mockito.mock(EntityService.class);
         Mockito.when(entityDef.getService()).thenReturn(service);
-        resource = new CustomEntityResource(entityId, entityDef);
+        resource = new CustomEntityResource(entityId, entityDef, resourceHelper);
     }
 
     @Test
@@ -130,7 +146,7 @@ public class CustomEntityResourceTest {
 
     @Test
     public void test404() {
-        resource = new CustomEntityResource("TEST-ID", null);
+        resource = new CustomEntityResource("TEST-ID", null, resourceHelper);
         Response res = resource.read();
         assertNotNull(res);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());

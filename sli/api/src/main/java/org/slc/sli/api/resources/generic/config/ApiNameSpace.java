@@ -25,15 +25,21 @@ import java.util.List;
  */
 public class ApiNameSpace {
 
-    private String nameSpace;
+    private String[] nameSpace;
     private List<ResourceEndPointTemplate> resources;
 
-    public String getNameSpace() {
-        return nameSpace;
+    public String[] getNameSpace() {
+        String[] copy = new String[nameSpace.length];
+        System.arraycopy(nameSpace, 0, copy, 0, nameSpace.length);
+
+        return copy;
     }
 
-    public void setNameSpace(String nameSpace) {
-        this.nameSpace = nameSpace;
+    public void setNameSpace(String[] nameSpace) {
+        String[] copy = new String[nameSpace.length];
+        System.arraycopy(nameSpace, 0, copy, 0, nameSpace.length);
+
+        this.nameSpace = copy;
     }
 
     public List<ResourceEndPointTemplate> getResources() {
