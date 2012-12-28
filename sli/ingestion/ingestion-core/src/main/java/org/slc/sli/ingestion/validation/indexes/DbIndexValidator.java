@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.util.MongoIndex;
 import org.slc.sli.ingestion.validation.Validator;
 
