@@ -148,6 +148,10 @@ task :rcDeleteLDAPUsers do
     begin
       cleanUpLdapUser(email)
       puts "Successfully Deleted #{email} from LDAP"
+      if RUN_ON_RC
+        cleanUpMiniSandboxLdapUser(email)
+        puts "Successfully Deleted #{email} from mini Sandbox LDAP"
+      end
     rescue Exception => e  
       puts e.message
       puts e.backtrace.inspect

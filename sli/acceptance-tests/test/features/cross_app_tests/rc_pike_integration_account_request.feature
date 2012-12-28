@@ -27,9 +27,10 @@ Scenario: As an app developer I request a sandbox account and I want to verify m
   Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
+# And this account is auto approved in mini-sandbox -- slcoperator must login to mini sandbox to verify the account
 
 Scenario: As an SLC Operator I want to check that the developer account is auto approved
-  And I navigate to the Portal home page
+  And I navigate to the mini sandbox Portal home page
   When I see the realm selector I authenticate to "Shared Learning Collaborative"      
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
