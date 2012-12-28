@@ -42,11 +42,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.JobSource;
-import org.slc.sli.ingestion.reporting.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
@@ -140,7 +140,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     boolean update(String collectionName, Entity entity, List<Entity> failed, AbstractMessageReport report,
-            AbstractReportStats reportStats, NeutralRecordSource nrSource) {
+            ReportStats reportStats, NeutralRecordSource nrSource) {
         boolean res = false;
 
         try {
@@ -160,7 +160,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     private List<Entity> persist(List<SimpleEntity> entities, AbstractMessageReport report,
-            AbstractReportStats reportStats) {
+            ReportStats reportStats) {
         List<Entity> failed = new ArrayList<Entity>();
         List<Entity> queued = new ArrayList<Entity>();
         Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
@@ -222,7 +222,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
-            AbstractMessageReport report, SimpleEntity entity, AbstractReportStats reportStats) {
+            AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
 
         NaturalKeyDescriptor naturalKeyDescriptor;
         try {
@@ -249,7 +249,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
-            AbstractMessageReport report, SimpleEntity entity, AbstractReportStats reportStats) {
+            AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
         Source source = new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
@@ -303,7 +303,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      *            Reference to Source.
      */
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, AbstractMessageReport report,
-            AbstractReportStats reportStats, Source source) {
+            ReportStats reportStats, Source source) {
         for (ValidationError err : errors) {
             report.error(reportStats, source, CoreMessageCode.CORE_0006, err.getType().name(), entity.getType(),
                     Long.toString(entity.getRecordNumber()), err.getFieldName(), err.getFieldValue(), Arrays.toString(err.getExpectedTypes()));
@@ -323,7 +323,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      *            Reference to Source.
      */
     private void reportWarnings(String warningMessage, String type, String resourceId, AbstractMessageReport report,
-            AbstractReportStats reportStats, Source source) {
+            ReportStats reportStats, Source source) {
         report.warning(reportStats, source, CoreMessageCode.CORE_0007, type, warningMessage);
     }
 
@@ -357,12 +357,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         entity.getMetaData().put("updated", now);
     }
 
-    Entity doHandling(SimpleEntity entity, AbstractMessageReport report, AbstractReportStats reportStats) {
+    Entity doHandling(SimpleEntity entity, AbstractMessageReport report, ReportStats reportStats) {
         return doHandling(entity, report, reportStats, null);
     }
 
     @Override
-    protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, AbstractReportStats reportStats,
+    protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
         Source source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
                 reportStats.getStageName(), item.getType(),
@@ -380,7 +380,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Override
     protected List<Entity> doHandling(List<SimpleEntity> items, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return persist(items, report, reportStats);
     }

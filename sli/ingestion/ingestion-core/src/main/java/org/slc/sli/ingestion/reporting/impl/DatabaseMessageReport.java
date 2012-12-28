@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.reporting.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,10 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -41,7 +45,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logError(message);
 
@@ -49,7 +53,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     }
 
     @Override
-    protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportWarning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logWarning(message);
 
@@ -57,7 +61,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     }
 
     @Override
-    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logInfo(message);
     }

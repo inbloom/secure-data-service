@@ -29,10 +29,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.JobSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 
 /**
  * @author ablum
@@ -47,12 +47,12 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
     @Value("${sli.ingestion.file.retryinterval:30000}")
     private Long zipfileCompletionPollInterval;
 
-    File doHandling(File zipFile, AbstractMessageReport report, AbstractReportStats reportStats) {
+    File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats) {
         return doHandling(zipFile, report, reportStats, null);
     }
 
     @Override
-    protected File doHandling(File zipFile, AbstractMessageReport report, AbstractReportStats reportStats,
+    protected File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
 
         boolean done = false;
@@ -109,7 +109,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
     }
 
     @Override
-    protected List<File> doHandling(List<File> items, AbstractMessageReport report, AbstractReportStats reportStats,
+    protected List<File> doHandling(List<File> items, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;

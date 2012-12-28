@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.JobSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -38,13 +38,13 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     List<? extends Validator<T>> postValidators;
 
-    protected abstract O doHandling(T item, AbstractMessageReport report, AbstractReportStats reportStats,
+    protected abstract O doHandling(T item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus);
 
-    protected abstract List<O> doHandling(List<T> items, AbstractMessageReport report, AbstractReportStats reportStats,
+    protected abstract List<O> doHandling(List<T> items, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus);
 
-    void pre(T item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    void pre(T item, AbstractMessageReport report, ReportStats reportStats) {
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {
                 validator.isValid(item, report, reportStats,
@@ -53,7 +53,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
         }
     };
 
-    void post(T item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    void post(T item, AbstractMessageReport report, ReportStats reportStats) {
         if (postValidators != null) {
             for (Validator<T> validator : postValidators) {
                 validator.isValid(item, report, reportStats,
@@ -63,11 +63,11 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
     };
 
     @Override
-    public O handle(T item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public O handle(T item, AbstractMessageReport report, ReportStats reportStats) {
         return handle(item, report, reportStats, new FileProcessStatus());
     }
 
-    public O handle(T item, AbstractMessageReport report, AbstractReportStats reportStats,
+    public O handle(T item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
         O o = null;
         pre(item, report, reportStats);
@@ -79,11 +79,11 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
     }
 
     @Override
-    public List<O> handle(List<T> items, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public List<O> handle(List<T> items, AbstractMessageReport report, ReportStats reportStats) {
         return handle(items, report, reportStats, new FileProcessStatus());
     }
 
-    public List<O> handle(List<T> items, AbstractMessageReport report, AbstractReportStats reportStats,
+    public List<O> handle(List<T> items, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
         // TODO: add pre and post validation that will iterate through the list and perform
         // appropriate validations

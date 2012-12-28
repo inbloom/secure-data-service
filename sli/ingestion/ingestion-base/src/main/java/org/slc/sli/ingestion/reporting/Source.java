@@ -14,23 +14,36 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.reporting;
 
-
 /**
- * Represents a source of the report.
+ * Represents a source of the report. Implementations should contain everything that is necessary
+ * for a Source to be understood by users.
  *
  * @author okrook
  *
  */
 public interface Source {
 
+    /**
+     * @return the batch job id associated with this Source.
+     */
     String getBatchJobId();
 
+    /**
+     *
+     * @return the resource id associated with this Source.
+     */
     String getResourceId();
 
+    /**
+     * @return the ingestion processing stage for this Source.
+     */
     String getStageName();
 
+    /**
+     *
+     * @return a user-friendly description of this Source.
+     */
     String getUserFriendlyMessage();
 }

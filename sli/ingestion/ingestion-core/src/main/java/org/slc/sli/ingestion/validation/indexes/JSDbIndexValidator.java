@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.IndexParser;
 import org.slc.sli.ingestion.util.MongoCommander;
@@ -50,12 +50,11 @@ public class JSDbIndexValidator extends DbIndexValidator {
     }
 
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
         DB dbConn = MongoCommander.getDB(dbName, db);
         LOGGER.info("Validating indexes for DB: " + dbName);
         return super.isValid(dbConn, report, reportStats, source);
     }
-
 
     /**
      * @return the indexFile
@@ -65,7 +64,8 @@ public class JSDbIndexValidator extends DbIndexValidator {
     }
 
     /**
-     * @param indexFile the indexFile to set
+     * @param indexFile
+     *            the indexFile to set
      */
     public void setIndexFile(String indexFile) {
         this.indexFile = indexFile;
@@ -79,7 +79,8 @@ public class JSDbIndexValidator extends DbIndexValidator {
     }
 
     /**
-     * @param indexJSFileParser the indexJSFileParser to set
+     * @param indexJSFileParser
+     *            the indexJSFileParser to set
      */
     public void setIndexJSFileParser(IndexParser<String> indexJSFileParser) {
         this.indexJSFileParser = indexJSFileParser;
@@ -93,7 +94,8 @@ public class JSDbIndexValidator extends DbIndexValidator {
     }
 
     /**
-     * @param dbName the dbName to set
+     * @param dbName
+     *            the dbName to set
      */
     public void setDbName(String dbName) {
         this.dbName = dbName;
