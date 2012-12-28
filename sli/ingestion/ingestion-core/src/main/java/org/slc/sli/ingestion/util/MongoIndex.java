@@ -20,6 +20,8 @@ import java.util.Map;
 import com.mongodb.DBObject;
 
 /**
+ * Structure for Mongo indexes
+ *
  * @author tke
  *
  */
