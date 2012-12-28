@@ -246,10 +246,7 @@ public final class MongoCommander {
     }
 
     public static DB getDB(String db, DB dbConn) {
-        if (!dbConn.getName().equals(db)) {
-            dbConn = dbConn.getSisterDB(db);
-        }
-        return dbConn;
+        return dbConn.getName().equals(db) ? dbConn : dbConn.getSisterDB(db);
     }
 
 }
