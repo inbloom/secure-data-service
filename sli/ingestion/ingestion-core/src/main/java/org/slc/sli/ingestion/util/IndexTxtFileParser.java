@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Parser to parse the file with "sli" index format
  * @author tke
  *
  */

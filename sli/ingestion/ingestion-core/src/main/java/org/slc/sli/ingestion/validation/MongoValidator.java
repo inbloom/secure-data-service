@@ -24,6 +24,8 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 
 /**
+ * Validator to validate Mongo information.
+ *
  * @author tke
  *
  */

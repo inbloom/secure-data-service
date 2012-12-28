@@ -24,25 +24,27 @@ import java.io.InputStream;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 
 /**
  * Validates the xml file against an xsd. Returns false if there is any error else it will always
@@ -53,12 +55,9 @@ import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
  */
 @Scope("prototype")
 @Component
-public class XsdValidator implements org.slc.sli.ingestion.validation.Validator<IngestionFileEntry> {
+public class XsdValidator implements Validator<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;
-
-    @Autowired
-    private XsdErrorHandlerInterface errorHandler;
 
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 
@@ -72,13 +71,12 @@ public class XsdValidator implements org.slc.sli.ingestion.validation.Validator<
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
-            ReportStats reportStats, org.slc.sli.ingestion.reporting.Source source) {
-        errorHandler.setReportAndStats(report, reportStats);
+            ReportStats reportStats, Source source) {
 
         InputStream is = null;
         try {
 
-            is = validateXmlFile(ingestionFileEntry);
+            is = validateXmlFile(ingestionFileEntry, report, reportStats);
 
             return true;
 
@@ -99,7 +97,8 @@ public class XsdValidator implements org.slc.sli.ingestion.validation.Validator<
         return false;
     }
 
-    private InputStream validateXmlFile(IngestionFileEntry ingestionFileEntry) throws SAXException, IOException {
+    private InputStream validateXmlFile(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
+            ReportStats reportStats) throws SAXException, IOException {
 
         File xmlFile = ingestionFileEntry.getFile();
         if (xmlFile == null) {
@@ -113,14 +112,78 @@ public class XsdValidator implements org.slc.sli.ingestion.validation.Validator<
         String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
         InputStream is = new FileInputStream(sourceXml);
 
-        Validator validator = schema.newValidator();
+        javax.xml.validation.Validator validator = schema.newValidator();
         validator.setResourceResolver(new ExternalEntityResolver());
-        validator.setErrorHandler(errorHandler);
+        validator.setErrorHandler(new XsdErrorHandler(report, reportStats));
 
-        Source sc = new StreamSource(is, xmlFile.toURI().toASCIIString());
+        javax.xml.transform.Source sc = new StreamSource(is, xmlFile.toURI().toASCIIString());
         validator.validate(sc);
 
         return is;
+    }
+
+    /**
+     * Throws a runtime exception which is caught by the XsdValidatior
+     * if a user attempts to pass external entities in their XML.
+     *
+     * @author dshaw
+     *
+     */
+    private static final class ExternalEntityResolver implements LSResourceResolver {
+        @Override
+        public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId,
+                String baseURI) {
+            throw new RuntimeException("Attempted disallowed ingestion of External XML Entity (XXE).");
+        }
+    }
+
+    private static final class XsdErrorHandler implements org.xml.sax.ErrorHandler {
+
+        private final AbstractMessageReport report;
+        private final ReportStats reportStats;
+
+        private XsdErrorHandler(AbstractMessageReport report, ReportStats reportStats) {
+            this.report = report;
+            this.reportStats = reportStats;
+        }
+
+        @Override
+        public void warning(SAXParseException ex) {
+
+            reportWarning(ex);
+        }
+
+        @Override
+        public void error(SAXParseException ex) {
+
+            reportWarning(ex);
+        }
+
+        @Override
+        public void fatalError(SAXParseException ex) throws SAXException {
+
+            reportWarning(ex);
+
+            throw ex;
+        }
+
+        /**
+         * Incorporate the SAX error message into an ingestion error message.
+         *
+         * @return Error message returned by Ingestion
+         */
+        private void reportWarning(SAXParseException ex) {
+            if (report != null) {
+                String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
+                File parseFile = new File(fullParsefilePathname);
+                String publicId = (ex.getPublicId() == null) ? "" : ex.getPublicId();
+
+                Source source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
+                        reportStats.getStageName(), publicId, ex.getLineNumber(), ex.getColumnNumber());
+
+                report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
+            }
+        }
     }
 
 }

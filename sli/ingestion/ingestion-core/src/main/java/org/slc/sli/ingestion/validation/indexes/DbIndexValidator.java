@@ -36,7 +36,7 @@ import org.slc.sli.ingestion.util.MongoIndex;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
- *
+ * Index validator for all dbs.
  * @author npandey
  *
  */
@@ -54,6 +54,10 @@ public class DbIndexValidator implements Validator<DB> {
         return isValid(expectedIndexes, actualIndexes, report, reportStats, source);
     }
 
+    /**
+     * Loads indexes from external source
+     * @return
+     */
     protected Set<MongoIndex> loadExpectedIndexes() {
         return Collections.emptySet();
     }
