@@ -36,13 +36,11 @@ import org.springframework.core.io.Resource;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
@@ -128,7 +126,7 @@ public class DeterministicIdResolverTest {
 
     @Test
     public void shouldAddAppropriateContextForReference() throws IOException {
-        Entity entity = createSourceEntity();
+        NeutralRecordEntity entity = createSourceEntity();
 
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
@@ -164,7 +162,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(refDef2.getRef()).thenReturn(ref2);
         references.add(refDef2);
 
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
         Assert.assertEquals(DID_VALUE, entity.getBody().get(REF_FIELD));
@@ -173,7 +171,7 @@ public class DeterministicIdResolverTest {
 
     @Test
     public void shouldResolveSimpleDid() throws IOException {
-        Entity entity = createSourceEntity();
+        NeutralRecordEntity entity = createSourceEntity();
 
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
@@ -191,7 +189,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -201,7 +199,7 @@ public class DeterministicIdResolverTest {
 
     @Test
     public void shouldIgnoreOptionalEmptyRefs() throws IOException {
-        Entity entity = createSourceEntity();
+        NeutralRecordEntity entity = createSourceEntity();
 
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("optional_DID_entity_config.json");
@@ -219,7 +217,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -230,7 +228,7 @@ public class DeterministicIdResolverTest {
 
     @Test
     public void shouldResolveListOfReferences() throws IOException {
-        Entity entity = createSourceEntityWithRefList();
+        NeutralRecordEntity entity = createSourceEntityWithRefList();
 
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
@@ -251,7 +249,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -269,9 +267,9 @@ public class DeterministicIdResolverTest {
 
     @Test
     public void shouldFailFastForNonDidEntities() {
-        Entity entity = createSourceEntity();
+        NeutralRecordEntity entity = createSourceEntity();
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         // test null entity config
         mockEntityConfig(null, NON_DID_ENTITY_TYPE);
@@ -298,9 +296,9 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("nested_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
-        Entity entity = createNestedSourceEntity();
+        NeutralRecordEntity entity = createNestedSourceEntity();
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put(SRC_KEY_FIELD, NESTED_DID_VALUE);
@@ -328,11 +326,11 @@ public class DeterministicIdResolverTest {
     @Test
     public void shouldResolveNestedDidWithOptionalNestedReference() throws IOException {
 
-        Entity entity = createEntity("NeutralRecord_StudentTranscriptAssoc_missingOptionalEdOrg.json");
+        NeutralRecordEntity entity = createEntity("NeutralRecord_StudentTranscriptAssoc_missingOptionalEdOrg.json");
         DidRefConfig refConfig = createRefConfig("StudentAcademicRecord_optional_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("StudentTranscriptAssoc_entity_config.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("schoolId", "");
@@ -364,7 +362,7 @@ public class DeterministicIdResolverTest {
     @SuppressWarnings("unchecked")
     @Test
     public void shouldResolveDidsInEmbeddedList() throws IOException {
-        Entity entity = createSourceEmbeddedEntity();
+        NeutralRecordEntity entity = createSourceEmbeddedEntity();
 
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Embedded_DID_entity_config.json");
@@ -387,7 +385,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport, reportStats);
 
@@ -469,9 +467,9 @@ public class DeterministicIdResolverTest {
 
     private void testGenericErrorReporting(DidRefConfig refConfig, DidEntityConfig entityConfig) {
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
-        Entity entity = createSourceEntity();
+        NeutralRecordEntity entity = createSourceEntity();
         Object refObj = entity.getBody().get(REF_FIELD);
         mockRefConfig(refConfig, ENTITY_TYPE);
         mockEntityConfig(entityConfig, ENTITY_TYPE);
@@ -488,9 +486,9 @@ public class DeterministicIdResolverTest {
     public void testErrorReportingOnEntityRefFieldMissing() throws IOException {
         // entity doesn't have property to get at sourceRefPath
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
-        Entity entity = createSourceEntityMissingRefField();
+        NeutralRecordEntity entity = createSourceEntityMissingRefField();
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
@@ -506,9 +504,9 @@ public class DeterministicIdResolverTest {
     @Test
     public void testErrorReportingOnFactoryMissingRefConfigForEntityType() throws IOException {
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new JobSource("testJob", "testResource", "stage"));
+        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
-        Entity entity = createSourceEntityMissingRefField();
+        NeutralRecordEntity entity = createSourceEntityMissingRefField();
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
         mockRefConfig(null, ENTITY_TYPE);
@@ -532,16 +530,19 @@ public class DeterministicIdResolverTest {
         return refConfig;
     }
 
-    private Entity createEntity(String fileName) throws IOException {
+    private NeutralRecordEntity createEntity(String fileName) throws IOException {
         Resource jsonFile = new ClassPathResource("DeterministicIdResolverConfigs/" + fileName);
         SimpleEntity entity = MAPPER.readValue(jsonFile.getInputStream(), SimpleEntity.class);
-        return entity;
+        NeutralRecord nr = new NeutralRecord();
+        nr.setAttributes(entity.getBody());
+        nr.setRecordType(entity.getType());
+        return new NeutralRecordEntity(nr);
     }
 
     /**
      * Create an entity in which the Id has already been resolved
      */
-    private Entity createSourceEntity() {
+    private NeutralRecordEntity createSourceEntity() {
 
         Map<String, String> refObject = new HashMap<String, String>();
         refObject.put(SRC_KEY_FIELD, SRC_KEY_VALUE);
@@ -553,12 +554,12 @@ public class DeterministicIdResolverTest {
         nr.setAttributes(attributes);
         nr.setRecordType(ENTITY_TYPE);
 
-        Entity entity = new NeutralRecordEntity(nr);
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
 
         return entity;
     }
 
-    private Entity createNestedSourceEntity() {
+    private NeutralRecordEntity createNestedSourceEntity() {
 
         Map<String, Object> refObject = new HashMap<String, Object>();
 
@@ -574,13 +575,13 @@ public class DeterministicIdResolverTest {
         nr.setAttributes(attributes);
         nr.setRecordType(ENTITY_TYPE);
 
-        Entity entity = new NeutralRecordEntity(nr);
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
 
         return entity;
     }
 
     @SuppressWarnings("unused")
-    private Entity createOptionalNestedSourceEntity() {
+    private NeutralRecordEntity createOptionalNestedSourceEntity() {
         Map<String, Object> refObject = new HashMap<String, Object>();
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put(REF_FIELD, refObject);
@@ -589,12 +590,12 @@ public class DeterministicIdResolverTest {
         nr.setAttributes(attributes);
         nr.setRecordType(ENTITY_TYPE);
 
-        Entity entity = new NeutralRecordEntity(nr);
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
 
         return entity;
     }
 
-    private Entity createSourceEntityWithRefList() {
+    private NeutralRecordEntity createSourceEntityWithRefList() {
         Map<String, String> refObject1 = new HashMap<String, String>();
         refObject1.put(SRC_KEY_FIELD, SRC_KEY_VALUE_1);
 
@@ -612,12 +613,12 @@ public class DeterministicIdResolverTest {
         nr.setAttributes(attributes);
         nr.setRecordType(ENTITY_TYPE);
 
-        Entity entity = new NeutralRecordEntity(nr);
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
 
         return entity;
     }
 
-    private Entity createSourceEntityMissingRefField() {
+    private NeutralRecordEntity createSourceEntityMissingRefField() {
 
         Map<String, Object> attributes = new HashMap<String, Object>();
 
@@ -625,7 +626,7 @@ public class DeterministicIdResolverTest {
         nr.setAttributes(attributes);
         nr.setRecordType(ENTITY_TYPE);
 
-        Entity entity = new NeutralRecordEntity(nr);
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
 
         return entity;
     }
@@ -633,7 +634,7 @@ public class DeterministicIdResolverTest {
     /**
      * Create an entity with an embedded list of entities, within each of which there is a reference
      */
-    private Entity createSourceEmbeddedEntity() {
+    private NeutralRecordEntity createSourceEmbeddedEntity() {
 
         Map<String, String> refObject1 = new HashMap<String, String>();
         refObject1.put(SRC_KEY_FIELD, SRC_KEY_VALUE_1);
@@ -658,7 +659,7 @@ public class DeterministicIdResolverTest {
         nr.setAttributes(attributes);
         nr.setRecordType(ENTITY_TYPE);
 
-        Entity entity = new NeutralRecordEntity(nr);
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
 
         return entity;
     }

@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.reporting;
 
+import java.text.MessageFormat;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
@@ -102,75 +104,6 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     }
 
     /**
-     * Reports an message as an error and updates the wider-scope error state in the provided
-     * reportStats. Will also log the error message if the implementation supports logging.
-     *
-     * @param reportStats
-     *            statistics state and source
-     * @param code
-     *            message defined by a code
-     * @param args
-     *            additional arguments for the message
-     * @throws IllegalStateException
-     *             if reportStats is <code>null</code>
-     */
-    public void error(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        // TODO: this method should be removed and its current usage should be refactored
-        if (reportStats == null) {
-            throw new IllegalStateException();
-        }
-
-        reportStats.incError();
-
-        reportError(reportStats, null, code, args);
-    }
-
-    /**
-     * Reports an message as a warning and updates the wider-scope warning state in the provided
-     * reportStats. Will also log the warning message if the implementation supports logging.
-     *
-     * @param reportStats
-     *            statistics state and source
-     * @param code
-     *            message defined by a code
-     * @param args
-     *            additional arguments for the message
-     * @throws IllegalStateException
-     *             if reportStats is <code>null</code>
-     */
-    public void warning(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        // TODO: this method should be removed and its current usage should be refactored
-        if (reportStats == null) {
-            throw new IllegalStateException();
-        }
-
-        reportStats.incWarning();
-
-        reportWarning(reportStats, null, code, args);
-    }
-
-    /**
-     * Reports an message as a info
-     *
-     * @param reportStats
-     *            statistics state and source
-     * @param code
-     *            message defined by a code
-     * @param args
-     *            additional arguments for the message
-     * @throws IllegalStateException
-     *             if reportStats is <code>null</code>
-     */
-    public void info(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        // TODO: this method should be removed and its current usage should be refactored
-        if (reportStats == null) {
-            throw new IllegalStateException();
-        }
-
-        reportInfo(reportStats, null, code, args);
-    }
-
-    /**
      * Look up the corresponding message for a MessageCode.
      *
      * @param reportStats
@@ -182,16 +115,17 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *         CODE is the MessageCode provided.
      */
     protected String getMessage(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
-        String msg = messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
-        // TODO:
-        //String sourceMsg = source.getUserFriendlyMessage(); valid after refactoring when source!=null
-        // TODO: format msg, sourceMsg and code into final message
-        return msg;
+
+        Object[] arguments = { messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null),
+                source.getUserFriendlyMessage(), code.getCode() };
+        return MessageFormat.format("{0}\n" + "{1}\n" + "Message Code={2}\n", arguments);
     }
 
-    protected abstract void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args);
+    protected abstract void reportError(AbstractReportStats reportStats, Source source, MessageCode code,
+            Object... args);
 
-    protected abstract void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args);
+    protected abstract void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code,
+            Object... args);
 
     protected abstract void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args);
 

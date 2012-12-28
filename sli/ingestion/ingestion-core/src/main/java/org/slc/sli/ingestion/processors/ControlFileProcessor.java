@@ -126,13 +126,13 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
+            AbstractReportStats reportStats = new SimpleReportStats();
             Source source = new JobSource(newJob.getId(), cf.getFileName(),
                     BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
-            AbstractReportStats reportStats = new SimpleReportStats(source);
 
             if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
                     && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
-                if (validator.isValid(cfd, databaseMessageReport, reportStats)) {
+                if (validator.isValid(cfd, databaseMessageReport, reportStats, source)) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
                     boolean isZipFile = false;
@@ -143,7 +143,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
                     }
                     if (!isZipFile) {
                         LOG.info(MessageSourceHelper.getMessage(messageSource, CoreMessageCode.CORE_0002.getCode()));
-                        databaseMessageReport.warning(reportStats, CoreMessageCode.CORE_0002);
+                        databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
 
                     }
                 }
@@ -195,34 +195,32 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             LOG.debug("Did not match @dry-run tag in control file.");
         }
 
-        if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
+/*        if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
             LOG.debug("Matched @no-id-ref tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
         } else {
             LOG.debug("Did not match @no-id-ref tag in control file.");
-        }
+        }*/
 
         String ddProp = newJob.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
         if (ddProp != null) {
             LOG.debug("Matched @duplicate-detection tag from control file parsing.");
             // Make sure it is one of the known values
-            String[] allowed = { RecordHash.RECORD_HASH_MODE_DEBUG_DROP,
-                                 RecordHash.RECORD_HASH_MODE_DISABLE,
-                                 RecordHash.RECORD_HASH_MODE_RESET
-            };
+            String[] allowed = { RecordHash.RECORD_HASH_MODE_DEBUG_DROP, RecordHash.RECORD_HASH_MODE_DISABLE,
+                    RecordHash.RECORD_HASH_MODE_RESET };
             boolean found = false;
             for (int i = 0; i < allowed.length; i++) {
-                if ( allowed[i].equalsIgnoreCase(ddProp) ) {
+                if (allowed[i].equalsIgnoreCase(ddProp)) {
                     found = true;
                     break;
                 }
-			}
+            }
             if (found) {
-            	exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
+                exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
             } else {
-            	LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
-			}
-		} else {
+                LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
+            }
+        } else {
             LOG.debug("Did not match @duplicate-detection tag in control file.");
         }
     }

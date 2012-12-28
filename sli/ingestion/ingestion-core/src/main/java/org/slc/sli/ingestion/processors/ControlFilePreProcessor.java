@@ -127,7 +127,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
             source = new JobSource(batchJobId, controlFileName, BATCH_JOB_STAGE.getName());
-            reportStats = new SimpleReportStats(source);
+            reportStats = new SimpleReportStats();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
             createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
@@ -141,7 +141,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                 auditSecurityEvent(controlFile);
 
             } else {
-                databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0001);
+                databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0001);
             }
 
             setExchangeHeaders(exchange, newBatchJob, reportStats);
@@ -153,16 +153,16 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             if (newBatchJob != null) {
                 id = newBatchJob.getId();
                 if (newBatchJob.getResourceEntries().size() == 0) {
-                    databaseMessageReport.warning(reportStats, CoreMessageCode.CORE_0002);
+                    databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
                 }
             }
-            handleExceptions(exchange, id, exception, reportStats);
+            handleExceptions(exchange, id, exception, reportStats, source);
         } catch (Exception exception) {
             String id = "null";
             if (newBatchJob != null) {
                 id = newBatchJob.getId();
             }
-            handleExceptions(exchange, id, exception, reportStats);
+            handleExceptions(exchange, id, exception, reportStats, source);
         } finally {
             if (newBatchJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
@@ -270,14 +270,14 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      * @param controlFileName
      */
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception,
-            AbstractReportStats reportStats) {
+            AbstractReportStats reportStats, Source source) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
 
-            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0003, exception.getMessage());
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0003, exception.getMessage());
 
             // TODO: we should be creating WorkNote at the very first point of processing.
             // this will require some routing changes
