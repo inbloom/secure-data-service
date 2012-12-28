@@ -81,10 +81,10 @@ When I look in the course drop-down
 Then I only see "American Literature"
 And I select section "Sec 145"
 Then I see a list of 4 students
-And "Carmen Ortiz" has no "SAT Reading.x"
-And "Carmen Ortiz" has no "SAT Reading.percentile"
-And "Carmen Ortiz" has no "SAT Writing.x"
-And "Carmen Ortiz" has no "SAT Writing.percentile"
+And "Carmen Daniella Ortiz" has no "SAT Reading.x"
+And "Carmen Daniella Ortiz" has no "SAT Reading.percentile"
+And "Carmen Daniella Ortiz" has no "SAT Writing.x"
+And "Carmen Daniella Ortiz" has no "SAT Writing.percentile"
 
 Scenario: Check empty StateTest assessments
 When I select "Illinois Daybreak School District 4529" and click go

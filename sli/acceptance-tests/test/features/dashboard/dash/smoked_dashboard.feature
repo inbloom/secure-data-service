@@ -80,13 +80,13 @@ And the class for id "attendances.attendanceRate" for student "Lashawn Taite" is
 And I should see a table heading "Absence Count"
 And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "0"
 And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-darkgreen"
-And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "6"
-And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-yellow"
+And the count for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "6"
+And the class for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "color-widget-yellow"
 And the count for id "attendances.absenceCount" for student "Merry Mccanse" is "5"
 And the class for id "attendances.absenceCount" for student "Merry Mccanse" is "color-widget-green"
 
 #Lozenges check
-And the following students have "ELL" lozenges: "Matt Sollars;Malcolm Costillo;Felipe Cianciolo"
+And the following students have "ELL" lozenges: "Matt Joseph Sollars;Malcolm Eric Costillo;Felipe Melvin Cianciolo"
 Then there is no lozenges for student "Tomasa Cleaveland"
 
 #Student Profile

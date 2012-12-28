@@ -49,7 +49,7 @@ end
 
 desc "Run Dashboard highest ever result acceptance tests"
 task :HighestEverResultTests do
-    runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+    runTests("test/features/dashboard/dash/Highest_AssessmentScore.feature")
 end
 
 desc "Run Dashboard performance level acceptance tests"

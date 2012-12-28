@@ -260,8 +260,8 @@ Scenario: Monster test until LOS is faster
       And I should see a table heading "Absence Count"
       And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "0"
       And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-darkgreen"
-      And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "6"
-      And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-yellow"
+      And the count for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "6"
+      And the class for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "color-widget-yellow"
        And the count for id "attendances.absenceCount" for student "Merry Mccanse" is "5"
       And the class for id "attendances.absenceCount" for student "Merry Mccanse" is "color-widget-green"
 

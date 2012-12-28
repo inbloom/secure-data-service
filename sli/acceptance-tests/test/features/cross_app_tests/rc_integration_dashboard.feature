@@ -26,14 +26,12 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And I view its section profile
 Then I see a list of 28 students
-When I enter "rudolph" into the "firstName" search box
+When I enter "rudolph" into the student search box
 And I click the search button
-And I select school "Daybreak Central High"
-And I search by clicking on the go button
 Then "1" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Rudolph Krinsky  |12       |Daybreak Central High      |
+ |Student          			|Grade    |School                     |
+ |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
 And I click on log out
 
 Scenario: Educator Logs into dashboard from portal
@@ -53,27 +51,27 @@ And I click on course "8th Grade English"
 And I click on section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 Then I should only see one view named "Middle School ELA View"
-And the list includes: "Matt Sollars"
-And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
+And the list includes: "Matt Joseph Sollars"
+And the following students have "ELL" lozenges: "Matt Joseph Sollars;Alton Maultsby;Malcolm Eric Costillo"
 And there is no lozenges for student "Lettie Hose"
 And the cutpoints for "StateTest Reading" is "120,180,231,278,364"
 And the cutpoints for "StateTest Writing" is "6,15,21,28,33"
-And the fuel gauge for "Matt Sollars" in "StateTest Reading" column "perfLevel" is "199"
-And the fuel gauge for "Matt Sollars" in "StateTest Writing" column "perfLevel" is "1"
-And the fuel gauge for "Oralia Merryweather" in "StateTest Reading" column "perfLevel" is "205"
-And the fuel gauge for "Oralia Merryweather" in "StateTest Writing" column "perfLevel" is "32"
+And the fuel gauge for "Matt Joseph Sollars" in "StateTest Reading" column "perfLevel" is "199"
+And the fuel gauge for "Matt Joseph Sollars" in "StateTest Writing" column "perfLevel" is "1"
+And the fuel gauge for "Oralia Zoe Merryweather" in "StateTest Reading" column "perfLevel" is "205"
+And the fuel gauge for "Oralia Zoe Merryweather" in "StateTest Writing" column "perfLevel" is "32"
 And the fuel gauge for "Gerardo Saltazor" in "StateTest Reading" column "perfLevel" is "309"
 And the fuel gauge for "Gerardo Saltazor" in "StateTest Writing" column "perfLevel" is "15"
 And the fuel gauge for "Karrie Rudesill" in "StateTest Reading" column "perfLevel" is "181"
 And the fuel gauge for "Karrie Rudesill" in "StateTest Writing" column "perfLevel" is "11"
-And the count for id "attendances.absenceCount" for student "Matt Sollars" is "4"
-And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "95"
-And the class for id "attendances.attendanceRate" for student "Matt Sollars" is "color-widget-green"
-And the count for id "attendances.tardyCount" for student "Matt Sollars" is "0"
-And the class for id "attendances.tardyCount" for student "Matt Sollars" is "color-widget-darkgreen"
-And the count for id "attendances.tardyRate" for student "Matt Sollars" is "0"
-And the class for id "attendances.tardyRate" for student "Matt Sollars" is "color-widget-darkgreen"
+And the count for id "attendances.absenceCount" for student "Matt Joseph Sollars" is "4"
+And the class for id "attendances.absenceCount" for student "Matt Joseph Sollars" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Matt Joseph Sollars" is "95"
+And the class for id "attendances.attendanceRate" for student "Matt Joseph Sollars" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Matt Joseph Sollars" is "0"
+And the class for id "attendances.tardyCount" for student "Matt Joseph Sollars" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Matt Joseph Sollars" is "0"
+And the class for id "attendances.tardyRate" for student "Matt Joseph Sollars" is "color-widget-darkgreen"
 # AbsenceCount: 1
 And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "0"
 And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-darkgreen"
@@ -81,8 +79,8 @@ And the class for id "attendances.absenceCount" for student "Dominic Brisendine"
 And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "5"
 And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-green"
 # AbsenceCount: more than 11 absense count
-And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "6"
-And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-yellow"
+And the count for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "6"
+And the class for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "color-widget-yellow"
 # AbsenceCount: less than 89% attendance rate
 And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "86"
 And the class for id "attendances.attendanceRate" for student "Lashawn Taite" is "color-widget-red"
@@ -96,7 +94,7 @@ And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is
 And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "100"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0"
-And I click on student "Matt Sollars"
+And I click on student "Matt Joseph Sollars"
 And I see a header on the page
 And I see a footer on the page
 And the title of the page is "SLC - Student Profile"
@@ -117,15 +115,15 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
  When I click on "Assessment" Tab
 And Assessment History includes results for:
-|Test         |
+|Test         	   |
 |StateTest Reading |
 |StateTest Writing |
 And the Assessment History for "StateTest Reading" has the following entries:
-|Date         |Grade  |Assessment Name            |Scale score  |Other  |Percentile |Perf Level |
+|Date         |Grade  |Assessment Name            	   |Scale score  |Other  |Percentile |Perf Level |
 |2011-10-01   |8      |Grade 8 2011 StateTest Reading  |195          |642    |53         |195        |
 |2011-09-01   |8      |Grade 8 2011 StateTest Reading  |199          |655    |55         |199        |
 And the Assessment History for "StateTest Writing" has the following entries:
-|Date         |Grade  |Assessment Name            |Perf Level|Scale score|
+|Date         |Grade  |Assessment Name            	   |Perf Level|Scale score|
 |2011-10-01   |8      |Grade 8 2011 StateTest Writing  |1         |1          |
 |2011-09-01   |8      |Grade 8 2011 StateTest Writing  |25        |25         |
 When I click on "Attendance and Discipline" Tab
@@ -162,23 +160,13 @@ When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
 Then I see a list of 25 students
-When I enter "Matt" into the "firstName" search box
+When I enter "Matt" into the student search box
 And I click the search button
-When I look in the school drop-down
-Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-And I select school "Daybreak Central High"
-And I search by clicking on the go button
-Then "0" results are returned in the page
-And I select school "South Daybreak Elementary"
-And I search by clicking on the go button
-Then "0" results are returned in the page
-And I select school "East Daybreak Junior High" 
-And I search by clicking on the go button
 Then "1" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Matt Sollars     |8        |East Daybreak Junior High  |
-And I click on student "Matt Sollars"
+ |Student          		  |Grade    |School                     |
+ |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
+And I click on student "Matt Joseph Sollars"
 And I view its student profile
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |

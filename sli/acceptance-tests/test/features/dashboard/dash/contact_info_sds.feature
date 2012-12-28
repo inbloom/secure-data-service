@@ -77,7 +77,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-Given I click on student "Mayme Borc"
+Given I click on student "Mayme A Borc"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "0" email addresses
@@ -91,7 +91,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-Given I click on student "Malcolm Costillo"
+Given I click on student "Malcolm Eric Costillo"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "0" phone numbers
@@ -129,7 +129,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-Given I click on student "Mayme Borc"
+Given I click on student "Mayme A Borc"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "1" phone numbers

@@ -17,7 +17,7 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 #Lozenges check
-And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
+And the following students have "ELL" lozenges: "Matt Joseph Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
 # Lozenges check on LOS
 Then there is no lozenges for student "Jeanette Graves"
 And I click on student "Kimberley Pennington"

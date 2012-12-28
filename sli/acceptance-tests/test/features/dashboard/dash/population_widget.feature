@@ -10,7 +10,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
-When I look in the ed org drop-down
+When I look in the ed org drop-downn
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 
 When I select ed org "Sunset School District 4526"
