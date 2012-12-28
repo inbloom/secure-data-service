@@ -16,6 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -86,12 +89,12 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.SECTION, section);
     }
 
-    public void generateSSA(String studentId, String sectionId, boolean isExpired) {
+    public Entity generateSSA(String studentId, String sectionId, boolean isExpired) {
         Map<String, Object> ssaBody = new HashMap<String, Object>();
         ssaBody.put(ParameterConstants.SECTION_ID, sectionId);
         ssaBody.put(ParameterConstants.STUDENT_ID, studentId);
         expireAssociation(isExpired, ssaBody);
-        repo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
+        return repo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
     }
 
     private void expireAssociation(boolean isExpired, Map<String, Object> body) {
@@ -289,6 +292,14 @@ public class ValidatorTestHelper {
         gradPlan.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
         return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, gradPlan);
     }
+    
+    public Entity generateGrade(String studentSectionAssociationId) {
+        Map<String, Object> grade = new HashMap<String, Object>();
+        grade.put("letterGradeEarned", "A");
+        grade.put("gradeType", "Exam");
+        grade.put("studentSectionAssociationId", studentSectionAssociationId);
+        return repo.create(EntityNames.GRADE, grade);
+    }
 
     protected void setUpTeacherContext() {
         String user = "fake staff";
@@ -299,6 +310,18 @@ public class ValidatorTestHelper {
         Mockito.when(entity.getType()).thenReturn("teacher");
         Mockito.when(entity.getEntityId()).thenReturn(STAFF_ID);
         injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, ED_ORG_ID);
+    }
+    
+    protected void resetRepo() throws Exception {
+        Field[] fields = EntityNames.class.getDeclaredFields();
+
+        for (Field f : fields) {
+            if (f.getType() == String.class && Modifier.isStatic(f.getModifiers())) {
+                String ent = (String) f.get(null);
+                repo.deleteAll(ent, new NeutralQuery());
+            }
+        }
+
     }
 
 }

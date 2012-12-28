@@ -41,6 +41,7 @@
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
   <import resource="core-message-context.xml" />
+  <import resource="systemValidator-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="dal-context.xml" />
@@ -68,12 +69,7 @@
   </bean>
 
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-
-  <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
-  <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator" />
-  <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.SLIDbIndexValidator" />
-  <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
-
+  
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="IdReferenceResolutionHandler" class="org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler" scope="prototype">

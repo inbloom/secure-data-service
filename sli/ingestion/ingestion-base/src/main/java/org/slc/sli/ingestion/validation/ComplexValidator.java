@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -41,9 +42,9 @@ public class ComplexValidator<T> extends SimpleValidatorSpring<T> {
     }
 
     @Override
-    public boolean isValid(T object, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(T object, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
         for (Validator<T> validator : validators) {
-            if (!validator.isValid(object, report, reportStats)) {
+            if (!validator.isValid(object, report, reportStats, source)) {
                 return false;
             }
         }

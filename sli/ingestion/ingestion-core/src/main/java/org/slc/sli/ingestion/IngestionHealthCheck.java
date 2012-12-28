@@ -48,7 +48,7 @@ public class IngestionHealthCheck {
     private NewBatchJob newBatchJob;
     private String version;
 
-    private Logger log = LoggerFactory.getLogger(IngestionHealthCheck.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IngestionHealthCheck.class);
 
     public String getVersion() {
 
@@ -67,7 +67,7 @@ public class IngestionHealthCheck {
                         }
                     }
                 } catch (IOException ioe) {
-                    log.error("Error occured while obtaining the version: " + ioe.getLocalizedMessage());
+                    LOG.error("Error occured while obtaining the version: " + ioe.getLocalizedMessage());
                 } finally {
                     IOUtils.closeQuietly(br);
                     IOUtils.closeQuietly(in);

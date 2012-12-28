@@ -26,6 +26,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -51,14 +52,15 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
     }
 
     @Override
-    public boolean isValid(ControlFileDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(ControlFileDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats,
+            Source source) {
         ControlFile controlFile = item.getFileItem();
 
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
 
-            error(report, reportStats, BaseMessageCode.BASE_0003);
+            error(report, reportStats, source, BaseMessageCode.BASE_0003);
 
             return false;
         }
@@ -67,18 +69,18 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         for (IngestionFileEntry entry : entries) {
 
             if (hasPathInName(entry.getFileName())) {
-                error(report, reportStats, BaseMessageCode.BASE_0004, entry.getFileName());
+                error(report, reportStats, source, BaseMessageCode.BASE_0004, entry.getFileName());
                 isValid = false;
             } else {
 
                 File file = item.getLandingZone().getFile(entry.getFileName());
                 if (file == null) {
-                    error(report, reportStats, BaseMessageCode.BASE_0001, entry.getFileName());
+                    error(report, reportStats, source, BaseMessageCode.BASE_0001, entry.getFileName());
                     isValid = false;
                 } else {
                     entry.setFile(file);
 
-                    if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), report, reportStats)) {
+                    if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), report, reportStats, source)) {
                         // remove the file from the entry since it did not pass the validation
                         entry.setFile(null);
                         isValid = false;
@@ -90,16 +92,17 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
         if (!isValid && !reportStats.hasErrors()) {
-            error(report, reportStats, BaseMessageCode.BASE_0002);
+            error(report, reportStats, source, BaseMessageCode.BASE_0002);
             return false;
         }
 
         return isValid;
     }
 
-    protected boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    protected boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats,
+            Source source) {
         for (IngestionFileValidator validator : ingestionFileValidators) {
-            if (!validator.isValid(item, report, reportStats)) {
+            if (!validator.isValid(item, report, reportStats, source)) {
                 return false;
             }
         }

@@ -38,8 +38,8 @@ public class Metrics {
         return metrics;
     }
 
-    // mongoTemplate requires this constructor.
     public Metrics() {
+        // mongoTemplate requires this constructor.
     }
 
     public Metrics(String resourceId) {

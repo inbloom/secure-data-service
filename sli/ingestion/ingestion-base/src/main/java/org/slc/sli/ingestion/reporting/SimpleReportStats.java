@@ -24,11 +24,35 @@ package org.slc.sli.ingestion.reporting;
  */
 public final class SimpleReportStats extends AbstractReportStats {
 
+    private String batchJobId;
+    private String resourceId;
+    private String stageName;
     private long errorCount = 0L;
     private long warningCount = 0L;
 
-    public SimpleReportStats(Source source) {
-        super(source);
+    public SimpleReportStats(String batchJobId, String resourceId, String stageName) {
+        this.batchJobId = batchJobId;
+        this.resourceId = resourceId;
+        this.stageName = stageName;
+    }
+
+    public SimpleReportStats() {
+        // used by unit test
+    }
+
+    @Override
+    public String getBatchJobId() {
+        return this.batchJobId;
+    }
+
+    @Override
+    public String getResourceId() {
+        return this.resourceId;
+    }
+
+    @Override
+    public String getStageName() {
+        return this.stageName;
     }
 
     @Override

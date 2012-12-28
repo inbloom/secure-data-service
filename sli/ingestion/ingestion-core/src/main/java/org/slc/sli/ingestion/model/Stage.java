@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model;
 
 import java.util.Date;
@@ -22,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Model for the different stages of ingestion processing.
@@ -32,8 +31,8 @@ import org.slc.sli.ingestion.util.BatchJobUtils2;
  */
 public class Stage {
 
-    // mongoTemplate requires this constructor.
     public Stage() {
+        // mongoTemplate requires this constructor.
     }
 
     private String jobId;
@@ -56,7 +55,8 @@ public class Stage {
         this.metrics = new LinkedList<Metrics>();
     }
 
-    public Stage(String stageName, String stageDesc, String status, Date startTimestamp, Date stopTimestamp, List<Metrics> metrics) {
+    public Stage(String stageName, String stageDesc, String status, Date startTimestamp, Date stopTimestamp,
+            List<Metrics> metrics) {
         this.stageName = stageName;
         this.stageDesc = stageDesc;
         this.status = status;
@@ -174,14 +174,14 @@ public class Stage {
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(BatchJobUtils2.getCurrentTimeStamp());
-        this.sourceIp = BatchJobUtils2.getHostAddress();
-        this.hostname = BatchJobUtils2.getHostName();
+        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
+        this.sourceIp = BatchJobUtils.getHostAddress();
+        this.hostname = BatchJobUtils.getHostName();
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(BatchJobUtils2.getCurrentTimeStamp());
+        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
         this.elapsedTime = calcElapsedTime();
     }
 

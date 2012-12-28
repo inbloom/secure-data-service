@@ -22,8 +22,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  *
@@ -89,9 +91,12 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
             // Create an ingestion error message incorporating the SAXParseException information.
             String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
             File parseFile = new File(fullParsefilePathname);
+            String publicId = (ex.getPublicId() == null) ? "" : ex.getPublicId();
 
-            report.warning(reportStats, BaseMessageCode.BASE_0017, parseFile.getName(),
-                    String.valueOf(ex.getLineNumber()), String.valueOf(ex.getColumnNumber()), ex.getMessage());
+            Source source = new NeutralRecordSource(reportStats.getBatchJobId(),
+                    reportStats.getResourceId(), reportStats.getStageName(), publicId,
+                    ex.getLineNumber(), ex.getColumnNumber());
+            report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
         }
     }
 

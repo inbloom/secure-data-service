@@ -16,10 +16,10 @@
 
 package org.slc.sli.ingestion.validation.indexes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -28,124 +28,78 @@ import com.mongodb.DBObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.MongoIndex;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  *
  * @author npandey
  *
  */
+public class DbIndexValidator extends SimpleValidatorSpring<DB> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DbIndexValidator.class);
 
-public abstract class DbIndexValidator {
-    private Map<String, List<MongoIndex>> indexCache = new HashMap<String, List<MongoIndex>>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
+        Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
+        Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db);
 
-    final static private Logger log = LoggerFactory.getLogger(DbIndexValidator.class);
+        return isValid(expectedIndexes, actualIndexes, report, reportStats, source);
+    }
 
-    protected abstract List<MongoIndex> parseFile(String indexFile);
+    protected Set<MongoIndex> loadExpectedIndexes() {
+        return Collections.emptySet();
+    }
 
-    private void updateCache(String collectionName, DB database) {
-        // UN: Check the index cache, if the collection exists in the cache, use that
-        // collection,
-        // else query from Mongo and save it in the cache.
-        if (!indexCache.containsKey(collectionName)) {
-            if (database.collectionExists(collectionName)) {
-                DBCollection collection = database.getCollection(collectionName);
-                List<DBObject> indexList = collection.getIndexInfo();
-                List<MongoIndex> indexFromDb = new ArrayList<MongoIndex>();
-                for (DBObject dbObject : indexList) {
-                    DBObject keyObj = (DBObject) dbObject.get("key");
-                    Object uniqueField = dbObject.get("unique");
-                    boolean unique = false;
-                    if (uniqueField != null) {
-                        unique = Boolean.parseBoolean(uniqueField.toString());
-                    }
-                    indexFromDb.add(new MongoIndex(collectionName, unique, keyObj));
+    protected static Set<MongoIndex> loadIndexInfoFromDB(DB database) {
+        Set<MongoIndex> dbIndexes = new HashSet<MongoIndex>();
+
+        Set<String> collectionNames = database.getCollectionNames();
+
+        for (String collectionName : collectionNames) {
+            DBCollection collection = database.getCollection(collectionName);
+            List<DBObject> indexList = collection.getIndexInfo();
+            for (DBObject dbObject : indexList) {
+                DBObject keyObj = (DBObject) dbObject.get("key");
+                Object uniqueField = dbObject.get("unique");
+                boolean unique = false;
+                if (uniqueField != null) {
+                    unique = Boolean.parseBoolean(uniqueField.toString());
                 }
-                indexCache.put(collectionName, indexFromDb);
+                dbIndexes.add(new MongoIndex(collectionName, unique, keyObj));
             }
         }
-    }
-
-    @SuppressWarnings({ "boxing", "unchecked" })
-    protected void checkIndexes(MongoIndex index, DB database) {
-
-        String collectionName = index.getCollection();
-
-        updateCache(collectionName, database);
-
-        Map<String, Object> indexMap = index.getKeys().toMap();
-        if (indexCache.containsKey(collectionName)) {
-            List<MongoIndex> indices = indexCache.get(collectionName);
-
-            boolean indexMatch = false;
-            for (MongoIndex indexFromCache : indices) {
-                Map<String, Object> keysFromCache = indexFromCache.getKeys().toMap();
-                if (keysFromCache.size() != indexMap.size()) {
-                    continue;
-                }
-
-                for (Map.Entry<String, Object> indexCacheEntry : keysFromCache.entrySet()) {
-                    if (!indexMap.containsKey(indexCacheEntry.getKey())) {
-                        indexMatch = false;
-                        break;
-                    }
-
-                    if (index.isUnique() != indexFromCache.isUnique()) {
-                        indexMatch = false;
-                        break;
-                    }
-
-                    // The value in DB is either saved as a double or integer (nondeterministic),
-                    // compare with both double as well as integer and verify that the index does
-                    // not match.
-                    double indexMapDoubleValue = Double.valueOf(indexMap.get(indexCacheEntry.getKey()).toString());
-                    if (!indexCacheEntry.getValue().equals(indexMapDoubleValue)
-                            && !indexCacheEntry.getValue().equals(indexMap.get(indexCacheEntry.getKey()))) {
-                        indexMatch = false;
-                        break;
-                    } else {
-                        indexMatch = true;
-                    }
-                }
-                if (indexMatch) {
-                    logInfo("Index verified: " + collectionName + " " + index.getKeys().toString() +
-                            ", unique:" + index.isUnique());
-                    break;
-                }
-            }
-
-            if (!indexMatch) {
-                logError("Index missing: " + collectionName + " " + index.getKeys().toString() +
-                        ", unique:" + index.isUnique());
-            }
-        } else {
-            logError("Index missing: " + collectionName + " " + index.getKeys().toString() +
-                    ", unique:" + index.isUnique());
-        }
-    }
-
-    protected void logError(String message) {
-        log.error(message);
-    }
-
-    protected void logInfo(String message) {
-        log.info(message);
+        return dbIndexes;
     }
 
     /**
-     * @return the indexCache
+     * @param expectedIndexes
+     * @param actualIndexes
+     * @param report
+     * @param reportStats
+     * @return
      */
-    public Map<String, List<MongoIndex>> getIndexCache() {
-        return indexCache;
-    }
+    protected static boolean isValid(Set<MongoIndex> expectedIndexes, Set<MongoIndex> actualIndexes,
+            AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
 
-    /**
-     * @param indexCache the indexCache to set
-     */
-    public void setIndexCache(Map<String, List<MongoIndex>> indexCache) {
-        this.indexCache = indexCache;
+        boolean res = true;
+        for (MongoIndex index : expectedIndexes) {
+            if (actualIndexes.contains(index)) {
+                res &= true;
+                report.info(reportStats, source, CoreMessageCode.CORE_0018, index.getCollection(), index.getKeys(), index.isUnique());
+            } else {
+                res = false;
+                report.error(reportStats, source, CoreMessageCode.CORE_0038, index.getCollection(), index.getKeys(), index.isUnique());
+            }
+        }
+        return res;
     }
-
-    public abstract void verifyIndexes();
 
 }
