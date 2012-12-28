@@ -23,62 +23,62 @@ package org.slc.sli.ingestion.reporting;
  *
  */
 // TODO: Make this an interface
-public abstract class AbstractReportStats {
+public interface ReportStats {
 
     /**
      *
      * @return batchJobId
      */
-    public abstract String getBatchJobId();
+    String getBatchJobId();
 
     /**
      *
      * @return resourceId
      */
-    public abstract String getResourceId();
+    String getResourceId();
 
     /**
      *
      * @return stageName
      */
-    public abstract String getStageName();
+    String getStageName();
 
     /**
      * Increase the error count by one.
      */
-    public abstract void incError();
+    void incError();
 
     /**
      * Get the number of errors tracked.
      *
      * @return
      */
-    public abstract long getErrorCount();
+    long getErrorCount();
 
     /**
      * Increase the warning count by one.
      */
-    public abstract void incWarning();
+    void incWarning();
 
     /**
      * Get the number of warnings tracked.
      *
      * @return
      */
-    public abstract long getWarningCount();
+    long getWarningCount();
 
     /**
      * Report whether any errors have been reported for this context;
      *
      * @return <code>true</code> if one or more errors.
      */
-    public abstract boolean hasErrors();
+    boolean hasErrors();
 
     /**
      * Report whether any warnings have been reported for this context;
      *
      * @return <code>true</code> if one or more warnings.
      */
-    public abstract boolean hasWarnings();
+    boolean hasWarnings();
 
 }

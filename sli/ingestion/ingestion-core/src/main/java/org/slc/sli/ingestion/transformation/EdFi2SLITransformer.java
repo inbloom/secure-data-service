@@ -36,7 +36,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.NeutralRecordSource;
 import org.slc.sli.ingestion.reporting.Source;
@@ -84,7 +84,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
 
     @Override
-    public List<SimpleEntity> handle(NeutralRecord item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public List<SimpleEntity> handle(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
 
         resolveReferences(item, report, reportStats);
 
@@ -129,7 +129,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         return transformed;
     }
 
-    protected void resolveReferences(NeutralRecord item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    protected void resolveReferences(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
         NeutralRecordEntity entity = new NeutralRecordEntity(item);
         dIdResolver.resolveInternalIds(entity, item.getSourceId(), report, reportStats);
     }
@@ -145,7 +145,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            Error reporting
      */
-    protected void matchEntity(SimpleEntity entity, AbstractMessageReport report, AbstractReportStats reportStats) {
+    protected void matchEntity(SimpleEntity entity, AbstractMessageReport report, ReportStats reportStats) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
         Query query = createEntityLookupQuery(entity, entityConfig, report, reportStats);
@@ -204,7 +204,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @author tke
      */
     protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig,
-            AbstractMessageReport report, AbstractReportStats reportStats) {
+            AbstractMessageReport report, ReportStats reportStats) {
         Query query;
 
         NaturalKeyDescriptor naturalKeyDescriptor;
@@ -244,7 +244,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
-            AbstractMessageReport report, AbstractReportStats reportStats) {
+            AbstractMessageReport report, ReportStats reportStats) {
         Query query = new Query();
         Source source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
                 reportStats.getStageName(), entity.getType(),
@@ -313,7 +313,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     protected abstract List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report,
-            AbstractReportStats reportStats);
+            ReportStats reportStats);
 
     public void setDIdResolver(DeterministicIdResolver dIdResolver) {
         this.dIdResolver = dIdResolver;

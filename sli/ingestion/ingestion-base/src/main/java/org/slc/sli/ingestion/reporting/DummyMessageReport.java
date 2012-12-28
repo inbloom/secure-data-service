@@ -28,17 +28,17 @@ import org.springframework.stereotype.Component;
 public class DummyMessageReport extends AbstractMessageReport {
 
     @Override
-    public void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    public void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         // Do nothing
     }
 
     @Override
-    public void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    public void reportWarning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
      // Do nothing
     }
 
     @Override
-    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args) {
 
         // Do nothing
     }

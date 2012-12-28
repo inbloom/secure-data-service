@@ -35,7 +35,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -106,8 +106,8 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         return batchJobId;
     }
 
-    public AbstractReportStats getReportStats(String fileName) {
-        AbstractReportStats reportStats = new SimpleReportStats(this.batchJobId, fileName,
+    public ReportStats getReportStats(String fileName) {
+        ReportStats reportStats = new SimpleReportStats(this.batchJobId, fileName,
                 BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
         return reportStats;
     }

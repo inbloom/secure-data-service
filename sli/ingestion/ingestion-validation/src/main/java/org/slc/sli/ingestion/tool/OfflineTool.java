@@ -25,8 +25,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.JobSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 
@@ -59,7 +59,7 @@ public class OfflineTool {
 
     private Source source = null;
 
-    private AbstractReportStats reportStats = null;
+    private ReportStats reportStats = null;
 
     private void start(String[] args) {
         LoggerUtil.logToConsole();

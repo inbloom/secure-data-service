@@ -57,7 +57,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.AggregatedSource;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.JobSource;
@@ -231,10 +231,10 @@ public class PersistenceProcessor implements Processor {
         LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
-        AbstractReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
+        ReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
                 stage.getStageName());
         try {
-            AbstractReportStats reportStatsForNrEntity = null;
+            ReportStats reportStatsForNrEntity = null;
 
             Iterable<NeutralRecord> records = null;
             AggregatedSource source = new AggregatedSource(job.getId(), collectionNameAsStaged, stage.getStageName());
@@ -355,9 +355,9 @@ public class PersistenceProcessor implements Processor {
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private AbstractReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
-            Map<String, Metrics> perFileMetrics, String stageName, AbstractReportStats reportStatsForCollection,
-            AbstractReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
+    private ReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
+            Map<String, Metrics> perFileMetrics, String stageName, ReportStats reportStatsForCollection,
+            ReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -367,7 +367,7 @@ public class PersistenceProcessor implements Processor {
             LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
         }
 
-        AbstractReportStats returnValue = reportStatsForCollection;
+        ReportStats returnValue = reportStatsForCollection;
         for (NeutralRecord neutralRecord : sortedNrList) {
             LOG.info("transforming and persisting {}: {}", collectionNameAsStaged,
                     getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
@@ -478,7 +478,7 @@ public class PersistenceProcessor implements Processor {
         return null;
     }
 
-    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, AbstractReportStats reportStats) {
+    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, ReportStats reportStats) {
         LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
         record.setRecordType(record.getRecordType().replaceFirst("_transformed", ""));
@@ -534,7 +534,7 @@ public class PersistenceProcessor implements Processor {
      *            current resource id.
      * @return database logging error report.
      */
-    private AbstractReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
+    private ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
         return new SimpleReportStats(batchJobId, resourceId, stageName);
     }
 

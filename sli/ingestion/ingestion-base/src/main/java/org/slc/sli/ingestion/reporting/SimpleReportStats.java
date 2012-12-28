@@ -22,7 +22,7 @@ package org.slc.sli.ingestion.reporting;
  * @author dduran
  *
  */
-public final class SimpleReportStats extends AbstractReportStats {
+public final class SimpleReportStats implements ReportStats {
 
     private String batchJobId;
     private String resourceId;

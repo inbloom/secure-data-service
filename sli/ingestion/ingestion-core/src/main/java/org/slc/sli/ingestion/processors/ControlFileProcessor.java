@@ -48,7 +48,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
@@ -126,7 +126,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
-            AbstractReportStats reportStats = new SimpleReportStats();
+            ReportStats reportStats = new SimpleReportStats();
             Source source = new JobSource(newJob.getId(), cf.getFileName(),
                     BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
 
@@ -177,7 +177,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, AbstractReportStats reportStats) {
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ReportStats reportStats) {
         if (reportStats.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());

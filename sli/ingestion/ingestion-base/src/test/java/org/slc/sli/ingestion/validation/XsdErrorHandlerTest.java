@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 
@@ -48,7 +48,7 @@ public class XsdErrorHandlerTest {
     @Autowired
     private XsdErrorHandler xsdErrorHandler;
 
-    private final AbstractReportStats reportStats = new SimpleReportStats();
+    private final ReportStats reportStats = new SimpleReportStats();
 
     private final AbstractMessageReport report = new DummyMessageReport();
 
