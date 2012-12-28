@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.reporting.impl;
+
+import org.slc.sli.ingestion.reporting.MessageCode;
 
 /**
  * Enumeration of message codes for the ingestion-base module.

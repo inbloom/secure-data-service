@@ -22,10 +22,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 
 /**
  *
@@ -36,7 +36,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private AbstractMessageReport report;
 
-    private AbstractReportStats reportStats;
+    private ReportStats reportStats;
 
     /**
      * Report a SAX parsing warning.
@@ -101,7 +101,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     }
 
     @Override
-    public void setReportAndStats(AbstractMessageReport report, AbstractReportStats reportStats) {
+    public void setReportAndStats(AbstractMessageReport report, ReportStats reportStats) {
         this.report = report;
         this.reportStats = reportStats;
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.reporting.impl;
 
 import java.util.ArrayList;
 import java.util.List;

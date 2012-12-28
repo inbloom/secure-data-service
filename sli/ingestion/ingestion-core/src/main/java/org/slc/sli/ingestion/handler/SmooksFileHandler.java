@@ -35,10 +35,10 @@ import org.xml.sax.SAXException;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -59,7 +59,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         Source source = new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName());
         try {
 
@@ -75,7 +75,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     }
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
-            AbstractReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+            ReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
@@ -100,7 +100,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
     }

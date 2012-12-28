@@ -300,6 +300,14 @@ public class ValidatorTestHelper {
         grade.put("studentSectionAssociationId", studentSectionAssociationId);
         return repo.create(EntityNames.GRADE, grade);
     }
+    
+    public Entity generateStudentCompetency(String studentSectionAssociationId, String objectiveId) {
+        Map<String, Object> grade = new HashMap<String, Object>();
+        grade.put("diagnosticStatement", "blah");
+        grade.put("studentSectionAssociationId", studentSectionAssociationId);
+        grade.put("objectiveId", objectiveId);
+        return repo.create(EntityNames.STUDENT_COMPETENCY, grade);
+    }
 
     protected void setUpTeacherContext() {
         String user = "fake staff";

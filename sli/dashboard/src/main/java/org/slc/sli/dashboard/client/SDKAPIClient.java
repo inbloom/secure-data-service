@@ -1799,11 +1799,6 @@ public class SDKAPIClient implements APIClient {
             // get all the 'ancestor' ed org ids
             List<String> edOrgIds = getEdorgHierarchy(schoolId, token);
 
-            String edOrgIdUrl = "/" + PathConstants.EDUCATION_ORGANIZATIONS + "/";
-            for (String edOrgId : edOrgIds) {
-                edOrgIdUrl += edOrgId + ",";
-            }
-
             // get course Entity
             List<GenericEntity> courses = getCoursesForEdorgs(edOrgIds, token);
 

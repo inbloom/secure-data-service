@@ -32,10 +32,10 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
 /**
@@ -58,7 +58,7 @@ public class SliSmooksFactory {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
-    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, AbstractReportStats reportStats) throws IOException, SAXException {
+    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
@@ -74,7 +74,7 @@ public class SliSmooksFactory {
         }
     }
 
-    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, AbstractMessageReport errorReport, AbstractReportStats reportStats, String batchJobId,
+    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, AbstractMessageReport errorReport, ReportStats reportStats, String batchJobId,
             IngestionFileEntry fe) throws IOException, SAXException {
 
         SliSmooks smooks = new SliSmooks(sliSmooksConfig.getConfigFileName());

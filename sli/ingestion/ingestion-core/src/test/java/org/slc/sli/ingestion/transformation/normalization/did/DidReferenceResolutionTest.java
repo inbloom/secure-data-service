@@ -40,9 +40,9 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  *
@@ -65,7 +65,7 @@ public class DidReferenceResolutionTest {
     public void resolvesAssessmentRefDidInAssessmentItemCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/assessmentItem.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -81,7 +81,7 @@ public class DidReferenceResolutionTest {
     public void resolvesAssessmentRefDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
 
@@ -98,7 +98,7 @@ public class DidReferenceResolutionTest {
     public void resolvesEdOrgRefDidInAttendanceEventCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/attendanceEvent.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -111,7 +111,7 @@ public class DidReferenceResolutionTest {
     public void resolvesEdOrgRefDidInCohortCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/cohort.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -1279,7 +1279,7 @@ public class DidReferenceResolutionTest {
 
     private void resolveInternalId(NeutralRecordEntity entity) {
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
     }

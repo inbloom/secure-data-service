@@ -20,7 +20,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
@@ -51,7 +51,7 @@ public abstract class SimpleValidatorSpring<T> implements Validator<T>, MessageS
      * @param args
      *            optional arguments for substitution into message.
      */
-    protected void error(AbstractMessageReport report, AbstractReportStats reportStats, Source source,
+    protected void error(AbstractMessageReport report, ReportStats reportStats, Source source,
             MessageCode code, Object... args) {
         if (report != null) {
             report.error(reportStats, source, code, args);
@@ -72,7 +72,7 @@ public abstract class SimpleValidatorSpring<T> implements Validator<T>, MessageS
      * @param args
      *            optional arguments for substitution into message.
      */
-    protected void warn(AbstractMessageReport report, AbstractReportStats reportStats, Source source, MessageCode code,
+    protected void warn(AbstractMessageReport report, ReportStats reportStats, Source source, MessageCode code,
             Object... args) {
         if (report != null) {
             report.warning(reportStats, source, code, args);

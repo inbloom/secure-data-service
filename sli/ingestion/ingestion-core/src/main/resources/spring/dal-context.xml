@@ -80,9 +80,6 @@
   <mongo:db-factory id="mongoDbBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}"
     mongo-ref="batchJobMongo" />
 
-  <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
-
-
   <mongo:mapping-converter id="ErrorMappingConverter" base-package="org.slc.sli.ingestion.dal"
     db-factory-ref="mongoDbBatchJobFactory">
     <mongo:custom-converters>

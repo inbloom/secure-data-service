@@ -26,9 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
@@ -43,7 +43,7 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
-    public boolean isValid(IngestionFileEntry fileEntry, AbstractMessageReport report, AbstractReportStats reportStats,
+    public boolean isValid(IngestionFileEntry fileEntry, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
         LOG.debug("validating xml...");
 
@@ -55,7 +55,7 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
     }
 
     private boolean isEmptyOrUnreadable(IngestionFileEntry fileEntry, AbstractMessageReport report,
-            AbstractReportStats reportStats, Source source) {
+            ReportStats reportStats, Source source) {
         boolean isEmpty = false;
         BufferedReader br = null;
 
