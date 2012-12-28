@@ -27,7 +27,7 @@ import com.mongodb.DBObject;
 public class IndexObject {
     private Map<String, Integer> keys = new LinkedHashMap<String, Integer>();
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod") // DE2406
     public IndexObject(DBObject obj) {
         setKeys(obj);
     }
@@ -40,6 +40,7 @@ public class IndexObject {
     public void setKeys(DBObject obj) {
         //This DBObject.toMap returns a LinkedHashMap, so order
         // is preserved
+        @SuppressWarnings("unchecked")
         Map<String, Object> objMap = obj.toMap();
         for (Map.Entry<String, Object> entry : objMap.entrySet()) {
             Object value = entry.getValue();
