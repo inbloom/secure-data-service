@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
@@ -55,7 +55,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
     private Long zipfilePollInterval;
 
     @Override
-    public boolean isValid(File zipFile, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
+    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats, Source source) {
         FileInputStream fis = null;
         ZipArchiveInputStream zis = null;
 

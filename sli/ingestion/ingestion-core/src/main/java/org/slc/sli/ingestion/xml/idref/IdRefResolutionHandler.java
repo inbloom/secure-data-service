@@ -25,7 +25,7 @@ import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  * @author okrook
@@ -37,7 +37,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
 
      // We don't do ID ref handling anymore.  This is just a placeholder for the XML file validators.
         return fileEntry;
@@ -45,7 +45,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
     }

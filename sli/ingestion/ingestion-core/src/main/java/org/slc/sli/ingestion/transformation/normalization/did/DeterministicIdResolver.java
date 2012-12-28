@@ -34,7 +34,7 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
@@ -63,7 +63,7 @@ public class DeterministicIdResolver {
     private static final String PATH_SEPARATOR = "\\.";
 
     public void resolveInternalIds(NeutralRecordEntity entity, String tenantId, AbstractMessageReport report,
-            AbstractReportStats reportStats) {
+            ReportStats reportStats) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -230,7 +230,7 @@ public class DeterministicIdResolver {
     }
 
     private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType, String referenceType, Exception e,
-            AbstractMessageReport report, AbstractReportStats reportStats) {
+            AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
         NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
                 reportStats.getStageName(), entity.getType(),

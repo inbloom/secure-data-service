@@ -41,7 +41,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logError(message);
 
@@ -49,7 +49,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     }
 
     @Override
-    protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportWarning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logWarning(message);
 
@@ -57,7 +57,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     }
 
     @Override
-    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logInfo(message);
     }

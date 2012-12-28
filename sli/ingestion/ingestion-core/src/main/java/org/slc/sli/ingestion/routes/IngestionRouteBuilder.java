@@ -43,7 +43,7 @@ import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.LoggingMessageReport;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
@@ -183,7 +183,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         loggingMessageReport.setLogger(LOG);
         Source source = new JobSource(null, null, null);
-        AbstractReportStats reportStats = new SimpleReportStats();
+        ReportStats reportStats = new SimpleReportStats();
         boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
 
         if (!indexValidated) {

@@ -46,7 +46,7 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
-    public void error(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    public void error(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null || source == null) {
             throw new IllegalStateException();
         }
@@ -71,7 +71,7 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
-    public void warning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    public void warning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
             throw new IllegalStateException();
         }
@@ -95,7 +95,7 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
-    public void info(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    public void info(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
             throw new IllegalStateException();
         }
@@ -114,20 +114,20 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *         provided substituted in. If no message is mapped for this code, return #?CODE?# were
      *         CODE is the MessageCode provided.
      */
-    protected String getMessage(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected String getMessage(ReportStats reportStats, Source source, MessageCode code, Object... args) {
 
         Object[] arguments = { messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null),
                 source.getUserFriendlyMessage(), code.getCode() };
         return MessageFormat.format("{0}\n" + "{1}\n" + "Message Code={2}\n", arguments);
     }
 
-    protected abstract void reportError(AbstractReportStats reportStats, Source source, MessageCode code,
+    protected abstract void reportError(ReportStats reportStats, Source source, MessageCode code,
             Object... args);
 
-    protected abstract void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code,
+    protected abstract void reportWarning(ReportStats reportStats, Source source, MessageCode code,
             Object... args);
 
-    protected abstract void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args);
+    protected abstract void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

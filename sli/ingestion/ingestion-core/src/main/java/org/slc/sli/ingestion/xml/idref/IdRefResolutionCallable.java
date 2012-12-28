@@ -28,7 +28,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 
 /**
@@ -48,7 +48,7 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
 
     private AbstractMessageReport report;
 
-    private AbstractReportStats reportStats;
+    private ReportStats reportStats;
 
     /**
      * Default constructor for the id reference resolution callable.

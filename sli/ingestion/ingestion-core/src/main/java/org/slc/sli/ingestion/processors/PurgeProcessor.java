@@ -41,7 +41,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
@@ -78,7 +78,7 @@ public class PurgeProcessor implements Processor {
 
     private Source source = null;
 
-    private AbstractReportStats reportStats = null;
+    private ReportStats reportStats = null;
 
     @Autowired
     @Value("${sli.sandbox.enabled}")
