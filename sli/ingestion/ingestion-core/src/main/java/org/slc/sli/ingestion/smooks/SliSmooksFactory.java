@@ -33,8 +33,8 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 

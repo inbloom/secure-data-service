@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.reporting.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,10 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**

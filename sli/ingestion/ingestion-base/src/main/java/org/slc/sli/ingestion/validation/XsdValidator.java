@@ -43,7 +43,6 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  * Validates the xml file against an xsd. Returns false if there is any error else it will always
@@ -54,7 +53,7 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  */
 @Scope("prototype")
 @Component
-public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
+public class XsdValidator implements org.slc.sli.ingestion.validation.Validator<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;
 
@@ -78,31 +77,19 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
         InputStream is = null;
         try {
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
-            Schema schema = schemaFactory.newSchema(xsdResource.getURL());
-            Validator validator = schema.newValidator();
-            File xmlFile = ingestionFileEntry.getFile();
-            if (xmlFile == null) {
-                throw new FileNotFoundException();
-            }
-            validator.setResourceResolver(new ExternalEntityResolver());
-            String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
-            is = new FileInputStream(sourceXml);
-            Source sc = new StreamSource(is, xmlFile.toURI().toASCIIString());
-            validator.setErrorHandler(errorHandler);
-            validator.validate(sc);
+
+            is = validateXmlFile(ingestionFileEntry);
+
             return true;
+
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + ingestionFileEntry.getFileName(), e);
-            error(report, reportStats, source, BaseMessageCode.BASE_0013, ingestionFileEntry.getFileName());
+            report.error(reportStats, source, BaseMessageCode.BASE_0013, ingestionFileEntry.getFileName());
         } catch (IOException e) {
             LOG.error("Problem reading file: " + ingestionFileEntry.getFileName(), e);
-            error(report, reportStats, source, BaseMessageCode.BASE_0014, ingestionFileEntry.getFileName());
+            report.error(reportStats, source, BaseMessageCode.BASE_0014, ingestionFileEntry.getFileName());
         } catch (SAXException e) {
             LOG.error("SAXException");
-        } catch (RuntimeException e) {
-            LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
         } catch (Exception e) {
             LOG.error("Error processing file " + ingestionFileEntry.getFileName(), e);
         } finally {
@@ -110,6 +97,30 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
         }
 
         return false;
+    }
+
+    private InputStream validateXmlFile(IngestionFileEntry ingestionFileEntry) throws SAXException, IOException {
+
+        File xmlFile = ingestionFileEntry.getFile();
+        if (xmlFile == null) {
+            throw new FileNotFoundException();
+        }
+
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
+        Schema schema = schemaFactory.newSchema(xsdResource.getURL());
+
+        String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
+        InputStream is = new FileInputStream(sourceXml);
+
+        Validator validator = schema.newValidator();
+        validator.setResourceResolver(new ExternalEntityResolver());
+        validator.setErrorHandler(errorHandler);
+
+        Source sc = new StreamSource(is, xmlFile.toURI().toASCIIString());
+        validator.validate(sc);
+
+        return is;
     }
 
 }

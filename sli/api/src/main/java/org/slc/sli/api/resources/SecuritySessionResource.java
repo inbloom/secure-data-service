@@ -47,7 +47,7 @@ import org.slc.sli.api.security.SLIPrincipal;
  * System resource class for security session context.
  * Hosted at the URI path "/system/session"
  */
-@Path("{a:v1/|}system/session")
+@Path("system/session")
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
