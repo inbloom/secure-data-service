@@ -37,6 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -121,6 +123,21 @@ public class XsdValidator implements org.slc.sli.ingestion.validation.Validator<
         validator.validate(sc);
 
         return is;
+    }
+
+    /**
+     * Throws a runtime exception which is caught by the XsdValidatior
+     * if a user attempts to pass external entities in their XML.
+     *
+     * @author dshaw
+     *
+     */
+    private static final class ExternalEntityResolver implements LSResourceResolver {
+        @Override
+        public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId,
+                String baseURI) {
+            throw new RuntimeException("Attempted disallowed ingestion of External XML Entity (XXE).");
+        }
     }
 
 }
