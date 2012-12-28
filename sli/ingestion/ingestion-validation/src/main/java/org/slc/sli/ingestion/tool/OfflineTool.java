@@ -25,10 +25,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.JobSource;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  *
@@ -59,28 +59,28 @@ public class OfflineTool {
 
     private Source source = null;
 
-    private AbstractReportStats reportStats = null;
+    private ReportStats reportStats = null;
 
     private void start(String[] args) {
         LoggerUtil.logToConsole();
         File file = null;
 
         source = new JobSource(null, null, null);
-        reportStats = new SimpleReportStats(source);
+        reportStats = new SimpleReportStats(null, null, null);
 
         if ((args.length != inputArgumentCount)) {
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0011, appName);
-            messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0012, appName);
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0011, appName);
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0012, appName);
             return;
         } else {
             file = new File(args[0]);
             if (!file.exists()) {
-                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0014, args[0]);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0014, args[0]);
                 return;
             }
             if (file.isDirectory()) {
-                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0013);
-                messageReport.error(reportStats, ValidationMessageCode.VALIDATION_0012, appName);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0013);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0012, appName);
                 return;
             }
         }

@@ -24,8 +24,9 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 
 /**
  * File Type validator.
@@ -36,12 +37,12 @@ public class FileTypeValidator extends IngestionFileValidator {
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, AbstractReportStats reportStats) {
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats, Source source) {
         IngestionFileEntry entry = item.getFileItem();
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
-            error(report, reportStats, BaseMessageCode.BASE_0005, entry.getFileName(), "type");
+            error(report, reportStats, source, BaseMessageCode.BASE_0005, entry.getFileName(), "type");
 
             return false;
         }

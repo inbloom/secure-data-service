@@ -41,8 +41,8 @@ import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -73,7 +73,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
-            AbstractReportStats reportStats) {
+            ReportStats reportStats, org.slc.sli.ingestion.reporting.Source source) {
         errorHandler.setReportAndStats(report, reportStats);
 
         InputStream is = null;
@@ -95,10 +95,10 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             return true;
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + ingestionFileEntry.getFileName(), e);
-            error(report, reportStats, BaseMessageCode.BASE_0013, ingestionFileEntry.getFileName());
+            error(report, reportStats, source, BaseMessageCode.BASE_0013, ingestionFileEntry.getFileName());
         } catch (IOException e) {
             LOG.error("Problem reading file: " + ingestionFileEntry.getFileName(), e);
-            error(report, reportStats, BaseMessageCode.BASE_0014, ingestionFileEntry.getFileName());
+            error(report, reportStats, source, BaseMessageCode.BASE_0014, ingestionFileEntry.getFileName());
         } catch (SAXException e) {
             LOG.error("SAXException");
         } catch (RuntimeException e) {

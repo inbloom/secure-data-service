@@ -28,7 +28,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -50,22 +51,22 @@ public class AbstractIngestionHandlerTest {
 
         Mockito.doCallRealMethod()
                 .when(handler)
-                .handle(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(AbstractReportStats.class));
+                .handle(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
         Mockito.doCallRealMethod()
                 .when(handler)
                 .handle(Mockito.any(), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class), Mockito.any(FileProcessStatus.class));
+                        Mockito.any(ReportStats.class), Mockito.any(FileProcessStatus.class));
         Mockito.doCallRealMethod().when(handler)
-                .pre(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(AbstractReportStats.class));
+                .pre(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
         Mockito.doCallRealMethod().when(handler)
-                .post(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(AbstractReportStats.class));
+                .post(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
         Mockito.doCallRealMethod().when(handler).setPreValidators(Mockito.anyList());
         Mockito.doCallRealMethod().when(handler).setPostValidators(Mockito.anyList());
 
         Validator<Object> preValidator = Mockito.mock(Validator.class);
         Mockito.when(
                 preValidator.isValid(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class))).thenReturn(true);
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class))).thenReturn(true);
         List<Validator<Object>> preValidators = new ArrayList<Validator<Object>>();
         preValidators.add(preValidator);
         handler.setPreValidators(preValidators);
@@ -73,7 +74,7 @@ public class AbstractIngestionHandlerTest {
         Validator<Object> postValidator = Mockito.mock(Validator.class);
         Mockito.when(
                 postValidator.isValid(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class))).thenReturn(true);
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class))).thenReturn(true);
         List<Validator<Object>> postValidators = new ArrayList<Validator<Object>>();
         postValidators.add(postValidator);
         handler.setPostValidators(postValidators);
@@ -81,10 +82,10 @@ public class AbstractIngestionHandlerTest {
         Object ife = Mockito.mock(Object.class);
         Mockito.when(
                 handler.doHandling(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class), Mockito.any(FileProcessStatus.class))).thenReturn(ife);
+                        Mockito.any(ReportStats.class), Mockito.any(FileProcessStatus.class))).thenReturn(ife);
 
         AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
-        AbstractReportStats reportStats = Mockito.mock(AbstractReportStats.class);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
 
         Object fileEntry = null;
         fileEntry = handler.handle(ife, report, reportStats);

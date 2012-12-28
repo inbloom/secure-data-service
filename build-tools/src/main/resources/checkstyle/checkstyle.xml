@@ -14,26 +14,44 @@ SLI Checkstyle configuration.
   <module name="TreeWalker">
     <module name="JavadocType">
       <property name="scope" value="package"/>
+      <property name="severity" value="error"/>
     </module>
     <module name="AvoidStarImport">
       <property name="excludes" value="org.junit.Assert"/>
+      <property name="severity" value="error"/>
     </module>
-    <module name="ModifierOrder"/>
-    <module name="EmptyStatement"/>
-    <module name="InnerAssignment"/>
-    <module name="SimplifyBooleanExpression"/>
-    <module name="SimplifyBooleanReturn"/>
-    <module name="FinalClass"/>
+    <module name="ModifierOrder">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="EmptyStatement">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="InnerAssignment">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="SimplifyBooleanExpression">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="SimplifyBooleanReturn">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="FinalClass">
+      <property name="severity" value="error"/>
+    </module>
     <module name="Regexp">
       <property name="format" value="(debug\().*\+"/>
       <property name="message" value="String concatenation within a debug statement"/>
       <property name="illegalPattern" value="true"/>
       <property name="ignoreComments" value="true"/>
+      <property name="severity" value="error"/>
     </module>
-    <module name="ModifiedControlVariable"/>
+    <module name="ModifiedControlVariable">
+      <property name="severity" value="error"/>
+    </module>
   </module>
   <module name="RegexpHeader">
     <property name="header" value="^/\*$\n^ \* Copyright \d\d\d\d Shared Learning Collaborative, LLC$\n^ \*$\n^ \* Licensed under the Apache License, Version 2.0 \(the &quot;License&quot;\);$\n^ \* you may not use this file except in compliance with the License.$\n^ \* You may obtain a copy of the License at$\n^ \*$\n^ \* http://www.apache.org/licenses/LICENSE-2.0$\n^ \*$\n^ \* Unless required by applicable law or agreed to in writing, software$\n^ \* distributed under the License is distributed on an &quot;AS IS&quot; BASIS,$\n^ \* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.$\n^ \* See the License for the specific language governing permissions and$\n^ \* limitations under the License.$\n^ \*/$"/>
     <property name="fileExtensions" value="java,aj"/>
+    <property name="severity" value="error"/>
   </module>
 </module>

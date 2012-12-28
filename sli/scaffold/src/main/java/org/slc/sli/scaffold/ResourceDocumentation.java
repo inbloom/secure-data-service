@@ -37,7 +37,7 @@ public class ResourceDocumentation {
     private static final String DEFAULT_RESOURCE_LOC = "/wadl/v1_resources.json";
     private final Document doc;
     private final DocumentManipulator manipulator;
-    private final Map<String, ResourceEndPointTemplate> resources;
+    private final Map<String, ResourceEndPointTemplate> resources = new HashMap<String, ResourceEndPointTemplate>();
 
     public ResourceDocumentation(final Document doc) throws IOException {
         this(doc, DEFAULT_RESOURCE_LOC);
@@ -47,8 +47,15 @@ public class ResourceDocumentation {
         this.doc = doc;
         this.manipulator = new DocumentManipulator();
         final String fileAsString = IOUtils.toString(super.getClass().getResourceAsStream(resourceLoc));
-        final ApiNameSpace apiNameSpace = new ObjectMapper().readValue(fileAsString, ApiNameSpace.class);
-        resources = getResourceMap(apiNameSpace.getNameSpace(), apiNameSpace.getResources());
+        final ApiNameSpace[] apiNameSpaces = new ObjectMapper().readValue(fileAsString, ApiNameSpace[].class);
+
+        for (ApiNameSpace apiNameSpace : apiNameSpaces) {
+            String[] versions = apiNameSpace.getNameSpace();
+
+            for (String version : versions) {
+                resources.putAll(getResourceMap(version, apiNameSpace.getResources()));
+            }
+        }
     }
 
     public void addDocumentation() throws IOException, XPathException {
@@ -92,6 +99,7 @@ public class ResourceDocumentation {
     private Map<String, ResourceEndPointTemplate> getResourceMap(final String namespace,
                                                                  final List<ResourceEndPointTemplate> resources) {
         final Map<String, ResourceEndPointTemplate> resourceMap = new HashMap<String, ResourceEndPointTemplate>();
+
         for (final ResourceEndPointTemplate resource : resources) {
             resourceMap.put(namespace + resource.getPath(), resource);
             if (resource.getSubResources() != null && resource.getSubResources().size() > 0) {

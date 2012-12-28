@@ -114,7 +114,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put(EntityNames.COHORT, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.STAFF_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
-        
+        repo.put(EntityNames.GRADE, new LinkedHashMap<String, Entity>());
         repo.put("tenant", new LinkedHashMap<String, Entity>());
     }
     
@@ -284,6 +284,7 @@ public class MockRepo implements Repository<Entity> {
         if (criteria.getOperator().equals("=")) {
             for (Entry<String, Entity> idAndEntity : results.entrySet()) {
                 Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
+
                 if (entityValue != null) {
                     if (entityValue.equals(criteria.getValue())) {
                         toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -301,6 +302,9 @@ public class MockRepo implements Repository<Entity> {
         } else if (criteria.getOperator().equals("in")) {
             for (Entry<String, Entity> idAndEntity : results.entrySet()) {
                 Object value = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
+                if (value instanceof Collection) {
+                    value = new ArrayList((Collection) value);  //fix occasional UnsupportedOperationException when list created with Arrays.asList
+                }
                 Collection<String> validValues = toList(criteria.getValue());
                 if (value != null) {
                     if (value.getClass() == String.class) {
@@ -393,6 +397,7 @@ public class MockRepo implements Repository<Entity> {
         } else {
             warn("Unsupported operator: {}", criteria.getOperator());
         }
+
         return toReturn;
     }
     
@@ -609,8 +614,10 @@ public class MockRepo implements Repository<Entity> {
     }
     
     protected Collection<String> toList(Object obj) {
-        if (String.class.isInstance(obj)) {
-            return Arrays.asList((String) obj);
+        if (obj instanceof String) {
+            List<String> list = new ArrayList();
+            list.add((String) obj);
+            return list;
         }
         
         return (Collection<String>) obj;

@@ -57,11 +57,13 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.JobSource;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
@@ -229,16 +231,25 @@ public class PersistenceProcessor implements Processor {
         LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
-        AbstractReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
+        ReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
                 stage.getStageName());
         try {
-            AbstractReportStats reportStatsForNrEntity = null;
+            ReportStats reportStatsForNrEntity = null;
 
             Iterable<NeutralRecord> records = null;
+            AggregatedSource source = new AggregatedSource(job.getId(), collectionNameAsStaged, stage.getStageName());
             try {
                 records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+                for (NeutralRecord nr : records) {
+                    NeutralRecordSource nrSource = new NeutralRecordSource(job.getId(), collectionNameAsStaged,
+                            stage.getStageName(), nr.getRecordType(),
+                            nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+                            nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
+                    source.addSource(nrSource);
+                }
             } catch (MongoException me) {
-                // Add collection name to job resources for later error reporting, if not already there.
+                // Add collection name to job resources for later error reporting, if not already
+                // there.
                 NewBatchJob savedJob = batchJobDAO.findBatchJobById(job.getId());
                 if (savedJob.getResourceEntry(collectionNameAsStaged) == null) {
                     ResourceEntry resourceEntry = new ResourceEntry();
@@ -246,7 +257,8 @@ public class PersistenceProcessor implements Processor {
                     job.addResourceEntry(resourceEntry);
                     batchJobDAO.saveBatchJob(job);
                 }
-                databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0015, collectionNameAsStaged);
+                databaseMessageReport
+                        .error(reportStatsForCollection, source, CoreMessageCode.CORE_0015, collectionNameAsStaged);
                 LogUtil.error(LOG, "MongoException when attempting to extract " + collectionNameAsStaged
                         + " NeutralRecords from staging db", me);
                 throw (me);
@@ -267,7 +279,7 @@ public class PersistenceProcessor implements Processor {
             if (SELF_REF_ENTITY_CONFIG.containsKey(collectionNameAsStaged)) {
 
                 reportStatsForCollection = persistSelfReferencingEntity(workNote, job, perFileMetrics,
-                        reportStatsForCollection, reportStatsForNrEntity, records);
+                        stage.getStageName(), reportStatsForCollection, reportStatsForNrEntity, records);
 
             } else {
 
@@ -322,7 +334,8 @@ public class PersistenceProcessor implements Processor {
                 }
             }
         } catch (Exception e) {
-            databaseMessageReport.error(reportStatsForCollection, CoreMessageCode.CORE_0005, collectionNameAsStaged);
+            Source source = new JobSource(job.getId(), collectionNameAsStaged, stage.getStageName());
+            databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0005, collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
@@ -342,9 +355,9 @@ public class PersistenceProcessor implements Processor {
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private AbstractReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
-            Map<String, Metrics> perFileMetrics, AbstractReportStats reportStatsForCollection,
-            AbstractReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
+    private ReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
+            Map<String, Metrics> perFileMetrics, String stageName, ReportStats reportStatsForCollection,
+            ReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -354,14 +367,13 @@ public class PersistenceProcessor implements Processor {
             LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
         }
 
-        AbstractReportStats returnValue = reportStatsForCollection;
+        ReportStats returnValue = reportStatsForCollection;
         for (NeutralRecord neutralRecord : sortedNrList) {
             LOG.info("transforming and persisting {}: {}", collectionNameAsStaged,
                     getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
 
             // returnValue = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), returnValue.getSource()
-                    .getStageName());
+            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), stageName);
             Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
             SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job), returnValue);
@@ -466,7 +478,7 @@ public class PersistenceProcessor implements Processor {
         return null;
     }
 
-    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, AbstractReportStats reportStats) {
+    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, ReportStats reportStats) {
         LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
         record.setRecordType(record.getRecordType().replaceFirst("_transformed", ""));
@@ -475,7 +487,11 @@ public class PersistenceProcessor implements Processor {
         List<SimpleEntity> transformed = transformer.handle(record, databaseMessageReport, reportStats);
 
         if (transformed == null || transformed.isEmpty()) {
-            databaseMessageReport.error(reportStats, CoreMessageCode.CORE_0004, record.getRecordType());
+            NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
+                    reportStats.getStageName(), record.getRecordType(),
+                    record.getVisitBeforeLineNumber(), record.getVisitBeforeColumnNumber(),
+                    record.getVisitAfterLineNumber(), record.getVisitAfterColumnNumber());
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0004, record.getRecordType());
             return null;
         }
         transformed.get(0).setSourceFile(record.getSourceFile());
@@ -518,10 +534,8 @@ public class PersistenceProcessor implements Processor {
      *            current resource id.
      * @return database logging error report.
      */
-    private AbstractReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
-        Source dbErrorSource = new JobSource(batchJobId, resourceId, stageName);
-        AbstractReportStats reportStats = new SimpleReportStats(dbErrorSource);
-        return reportStats;
+    private ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
+        return new SimpleReportStats(batchJobId, resourceId, stageName);
     }
 
     /**
@@ -655,12 +669,13 @@ public class PersistenceProcessor implements Processor {
 
         String tenantId = TenantContext.getTenantId();
         @SuppressWarnings("unchecked")
-        List<Map<String, String>> rhData = (List<Map<String, String>>) rhDataObj;
+        List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
 
-        for (Map<String, String> rhDataElement : rhData) {
+        for (Map<String, Object> rhDataElement : rhData) {
 
-            String newHashValue = rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
-            String recordId = rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
+            String newHashValue = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
+            String recordId = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
+            Map<String,Object> rhCurrentHash = (Map<String,Object>)rhDataElement.get(SliDeltaManager.RECORDHASH_CURRENT);
 
             // Make sure complete metadata is present
             if ((null == recordId || null == newHashValue) || recordId.isEmpty() || newHashValue.isEmpty()) {
@@ -668,10 +683,12 @@ public class PersistenceProcessor implements Processor {
             }
 
             // Consider DE2002, removing a query per record vs. tracking version
-            RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
-            if (rh == null) {
+            //RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+            if (rhCurrentHash == null) {
                 batchJobDAO.insertRecordHash(tenantId, recordId, newHashValue);
             } else {
+                RecordHash rh = new RecordHash();
+                rh.importFromSerializableMap(rhCurrentHash);
                 batchJobDAO.updateRecordHash(tenantId, rh, newHashValue);
             }
         }

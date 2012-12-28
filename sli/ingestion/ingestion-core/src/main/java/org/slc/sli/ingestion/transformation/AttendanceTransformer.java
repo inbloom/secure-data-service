@@ -46,8 +46,12 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
@@ -225,7 +229,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         long numAttendance = attendances.size();
         if (numAttendance != numAttendancesIngested) {
             long remainingAttendances = numAttendance - numAttendancesIngested;
-            super.reportWarnings(attendances.values().iterator().next().getSourceFile(), CoreMessageCode.CORE_0028, Long.toString(remainingAttendances));
+            super.reportWarnings(attendances.values().iterator().next().getSourceFile(),
+                    getAggregatedSource(), CoreMessageCode.CORE_0028, Long.toString(remainingAttendances));
         }
 
         LOG.info("Finished transforming attendance data");
@@ -634,7 +639,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         numAttendancesIngested += processedAttendances.size();
 
         if (sessions.entrySet().size() == 0 && attendance.size() > 0) {
-            super.reportWarnings(attendances.values().iterator().next().getSourceFile(), CoreMessageCode.CORE_0029, studentId, schoolId);
+            super.reportWarnings(attendances.values().iterator().next().getSourceFile(),
+                    getAggregatedSource(), CoreMessageCode.CORE_0029, studentId, schoolId);
         }
 
         // Step 2: retrieve sli SchoolYearAttendances
@@ -648,6 +654,20 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         return schoolYears;
     }
 
+    private Source getAggregatedSource() {
+        String sourceFile = attendances.values().iterator().next().getSourceFile();
+        AggregatedSource source = new AggregatedSource(getBatchJobId(), sourceFile,
+                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+        for (NeutralRecord nr : attendances.values()) {
+            NeutralRecordSource nrSource = new NeutralRecordSource(getBatchJobId(), sourceFile,
+                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    nr.getRecordType(),
+                    nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+                    nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
+            source.addSource(nrSource);
+        }
+        return source;
+    }
     /**
      * Merge the sets of SchoolYearAttendance from SLI and stage.
      *

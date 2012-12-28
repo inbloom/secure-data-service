@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Message report that persists errors and warnings to a database and the log.
@@ -41,37 +41,30 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logError(message);
 
-        // TODO: refactor needed
-        Source newSource = reportStats.getSource();
-
-        persistFault(FaultType.TYPE_ERROR, message, newSource);
+        persistFault(FaultType.TYPE_ERROR, message, source);
     }
 
     @Override
-    protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportWarning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logWarning(message);
 
-        // TODO: refactor needed
-        Source newSource = reportStats.getSource();
-
-        persistFault(FaultType.TYPE_WARNING, message, newSource);
-
+        persistFault(FaultType.TYPE_WARNING, message, source);
     }
 
     @Override
-    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logInfo(message);
     }
 
     private void persistFault(FaultType faultType, String message, Source source) {
         Error error = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
-                BatchJobUtils2.getHostName(), BatchJobUtils2.getHostAddress(), null, faultType.getName(),
+                BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), null, faultType.getName(),
                 faultType.getName(), message);
 
         batchJobDAO.saveError(error);
