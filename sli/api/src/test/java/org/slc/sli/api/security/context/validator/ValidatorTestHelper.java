@@ -21,6 +21,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -252,6 +253,17 @@ public class ValidatorTestHelper {
     public Entity generateDisciplineIncident(String schoolId) {
         Map<String, Object> diBody = new HashMap<String, Object>();
         diBody.put(ParameterConstants.SCHOOL_ID, schoolId);
+        return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
+    }
+    
+    public Entity generateDisciplineIncident(String schoolId, String ... staffIds) {
+        Map<String, Object> diBody = new HashMap<String, Object>();
+        diBody.put(ParameterConstants.SCHOOL_ID, schoolId);
+        HashSet<String> staffList = new HashSet<String>();
+        for (String staffId : staffIds) {
+            staffList.add(staffId);
+        }
+        diBody.put(ParameterConstants.STAFF_ID, staffList);
         return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
     }
     
