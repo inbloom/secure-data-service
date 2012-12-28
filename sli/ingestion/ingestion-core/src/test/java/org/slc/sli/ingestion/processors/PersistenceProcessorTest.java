@@ -186,17 +186,28 @@ public class PersistenceProcessorTest {
 
 	private void testRecordHashIngested(NeutralRecord originalRecord, int count) {
 		recordHashTestPreConfiguration();
-		
-      	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(null);
-    	processor.upsertRecordHash(originalRecord); 	
-    	verify(processor.getBatchJobDAO(), times(count)).findRecordHash(any(String.class), any(String.class));
+
+    	processor.upsertRecordHash(originalRecord);
     	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class), any(String.class));
     	
-    	when(processor.getBatchJobDAO().findRecordHash(any(String.class), any(String.class))).thenReturn(createRecordHash("hash"));
-    	processor.upsertRecordHash(originalRecord);
+    	processor.upsertRecordHash(addRecordHashMetadata(originalRecord));
     	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(String.class), any(RecordHash.class), any(String.class));
 	}
 
+    private  NeutralRecord addRecordHashMetadata(NeutralRecord originalRecord) {
+        List<Map<String, Object>> rhDataList = (List<Map<String, Object>>)originalRecord.getMetaDataByName("rhData");
+        for(Map<String, Object> rhDataItem: rhDataList) {
+            Map<String, Object> hashData = new HashMap<String, Object>();
+            hashData.put("id",         "id");
+            hashData.put("hash",       "existingRecordHash");
+            hashData.put("created",    new Long(1));
+            hashData.put("updated",    new Long(1));
+            hashData.put("version",    new Integer(1));
+            hashData.put("tenantId",   "tenantId");
+            rhDataItem.put("rhCurrentHash", hashData);
+        }
+        return originalRecord;
+    }
 	
 	private void recordHashTestPreConfiguration() {
 		BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
@@ -221,21 +232,24 @@ public class PersistenceProcessorTest {
         originalRecord.setRecordType("recordType");
         
         List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
-        Map<String, Object> rhDataElement = new HashMap<String, Object>();
-        
+
 		if (entityType.equals("simple")) {
+            Map<String, Object> rhDataElement = new HashMap<String, Object>();
 			rhDataElement.put("rhId", "rhId1");
 			rhDataElement.put("rhHash", "rhHash1");
 			rhData.add(rhDataElement);
 		} else if (entityType.equals("transformed")) {
+            Map<String, Object> rhDataElement = new HashMap<String, Object>();
 			rhDataElement.put("rhId", "rhId1");
 			rhDataElement.put("rhHash", "rhHash1");
 			rhData.add(rhDataElement);
-			
+
+            rhDataElement = new HashMap<String, Object>();
 			rhDataElement.put("rhId", "rhId2");
 			rhDataElement.put("rhHash", "rhHash2");
 			rhData.add(rhDataElement);
-			
+
+            rhDataElement = new HashMap<String, Object>();
 			rhDataElement.put("rhId", "rhId3");
 			rhDataElement.put("rhHash", "rhHash3");
 			rhData.add(rhDataElement);

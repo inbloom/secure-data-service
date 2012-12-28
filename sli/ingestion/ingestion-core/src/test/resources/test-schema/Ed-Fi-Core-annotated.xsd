@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2012 rel. 2 (x64) (http://www.altova.com) by Edward 
+<!-- edited with XMLSpy v2012 rel. 2 (x64) (http://www.altova.com) by Edward
 	Comer (private) -->
 <!-- (c) 2011 Michael & Susan Dell Foundation. All Rights Reserved. -->
-<!--This draft data exchange schema was created for the Michael & Susan Dell 
+<!--This draft data exchange schema was created for the Michael & Susan Dell
 	Foundation by Double Line Partners -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100"
     xmlns:sli="http://slc-sli/ed-org/0.1"
@@ -5200,12 +5200,12 @@
 					object.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="ref" type="xs:IDREF">
+<!-- 		<xs:attribute name="ref" type="xs:IDREF">
 			<xs:annotation>
 				<xs:documentation>The XML IDREF that references the object
 					associated with this object. </xs:documentation>
 			</xs:annotation>
-		</xs:attribute>
+		</xs:attribute> -->
 	</xs:complexType>
 	<xs:annotation>
 		<xs:documentation>===== Extended Reference Types =====

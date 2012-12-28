@@ -37,6 +37,8 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.JobSource;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -58,21 +60,22 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
             AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        Source source = new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName());
         try {
 
-            generateNeutralRecord(item, report, reportStats, fileProcessStatus);
+            generateNeutralRecord(item, report, reportStats, source, fileProcessStatus);
 
         } catch (IOException e) {
-            report.error(reportStats, CoreMessageCode.CORE_0016);
+            report.error(reportStats, source, CoreMessageCode.CORE_0016);
         } catch (SAXException e) {
-            report.error(reportStats, CoreMessageCode.CORE_0017);
+            report.error(reportStats, source, CoreMessageCode.CORE_0017);
         }
 
         return item;
     }
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+            AbstractReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
@@ -89,7 +92,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
         } catch (SmooksException se) {
-            errorReport.error(reportStats, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
+            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
