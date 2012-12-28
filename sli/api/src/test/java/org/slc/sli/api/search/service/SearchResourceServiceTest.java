@@ -32,6 +32,7 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
@@ -341,24 +342,28 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.TEACHER);
 
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=10");
-        runPaginationTest(Arrays.asList(20, 20, 20), 4, queryUri, 10);
-        runPaginationTest(Arrays.asList(8), 6, queryUri, 6);
-        runPaginationTest(Arrays.asList(20, 8), 4, queryUri, 8);
-        runPaginationTest(Arrays.asList(20, 20), 8, queryUri, 10);
-        runPaginationTest(Arrays.asList(0), 0, queryUri, 0);
+        runPaginationTest(Arrays.asList(20, 20, 20), 4, queryUri, 10, true);
+        runPaginationTest(Arrays.asList(8), 6, queryUri, 6, false);
+        runPaginationTest(Arrays.asList(20, 8), 4, queryUri, 8, false);
+        runPaginationTest(Arrays.asList(20, 20), 8, queryUri, 10, true);
+        runPaginationTest(Arrays.asList(0), 0, queryUri, 0, false);
 
         queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=5&limit=10");
-        runPaginationTest(Arrays.asList(8), 7, queryUri, 2);
-        runPaginationTest(Arrays.asList(30), 15, queryUri, 10);
+        runPaginationTest(Arrays.asList(8), 7, queryUri, 2, false);
+        runPaginationTest(Arrays.asList(30, 0), 15, queryUri, 10, false);
 
         queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=20&limit=10");
-        runPaginationTest(Arrays.asList(60, 50), 7, queryUri, 0);
-        runPaginationTest(Arrays.asList(60, 20), 12, queryUri, 4);
-        runPaginationTest(Arrays.asList(60, 40), 18, queryUri, 10);
+        runPaginationTest(Arrays.asList(60, 50, 0), 7, queryUri, 0, false);
+        runPaginationTest(Arrays.asList(60, 20, 0), 12, queryUri, 4, false);
+        runPaginationTest(Arrays.asList(60, 40), 18, queryUri, 10, true);
+
+        queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=2");
+        runPaginationTest(Arrays.asList(6, 6), 2, queryUri, 2, true);
     }
 
     @SuppressWarnings("unchecked")
-    private void runPaginationTest(List<Integer> numSearchHits, final int filterNum, URI queryUri, int numResults) {
+    private void runPaginationTest(List<Integer> numSearchHits, final int filterNum, URI queryUri, int numResults,
+                                   Boolean moreEntities) {
 
         SearchResourceService rs = Mockito.spy(resourceService);
         EntityDefinition mockDef = Mockito.mock(EntityDefinition.class);
@@ -374,8 +379,11 @@ public class SearchResourceServiceTest {
             }
         });
         ApiQuery apiQuery = rs.prepareQuery(new Resource("v1", "student"), null, queryUri);
-        List<EntityBody> results = rs.retrieveResults(apiQuery);
+        Pair<? extends List<EntityBody>, Boolean> resultPair = rs.retrieveResults(apiQuery);
+        List<EntityBody> results = resultPair.getLeft();
+        Boolean hasMore = resultPair.getRight();
         Assert.assertEquals(numResults, results.size());
+        Assert.assertEquals(moreEntities, hasMore);
     }
 
     private List<EntityBody> getResults(List<EntityBody> list, int num) {

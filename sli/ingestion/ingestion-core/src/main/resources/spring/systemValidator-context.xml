@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+  <context:component-scan base-package="org.slc.sli">
+    <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
+    <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
+  </context:component-scan>
+  <context:annotation-config />
+
+  <bean id="indexJSFileParser" class="org.slc.sli.ingestion.util.IndexJSFileParser" />
+  <bean id="indexSliFormatParser" class="org.slc.sli.ingestion.util.IndexSliFormatParser" />
+  <bean id="indexTxtFileParser" class="org.slc.sli.ingestion.util.IndexTxtFileParser" />
+
+  <bean id="tenantDBIndexValidator" class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator">
+      <property name="indexFile" value="tenantDB_indexes.txt" />
+      <property name="indexTxtFileParser" ref="indexTxtFileParser"/>
+      <property name="tenantDA" ref="tenantDA" />
+  </bean>
+  
+  <bean id="sliDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.JSDbIndexValidator">
+      <property name="indexFile" value="sli_indexes.js" />
+      <property name="dbName" value="sli" />
+      <property name="indexJSFileParser" ref="indexJSFileParser" />
+  </bean>
+  
+  <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.JSDbIndexValidator" >
+      <property name="indexFile" value="ingestion_batch_job_indexes.js" />
+      <property name="dbName" value="ingestion_batch_job" />
+      <property name="indexJSFileParser" ref="indexJSFileParser" />
+  </bean>
+
+  <util:list id="indexValidatorList" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
+      <ref bean="tenantDBIndexValidator" />
+      <ref bean="sliDbIndexValidator" />
+      <ref bean="batchJobDbIndexValidator" />
+  </util:list>
+  
+    <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator">
+      <property name="validators" ref="indexValidatorList" />
+  </bean>
+  
+  <util:list id="mongoValidatorList" value-type="org.slc.sli.ingestion.validation.ComplexValidator">
+      <ref bean="indexValidator" />
+  </util:list>
+  
+  <bean id="mongoValidator" class="org.slc.sli.ingestion.validation.MongoValidator">
+      <property name="mongoTemplate" ref="mongoTemplate" />
+      <property name="validators" ref="mongoValidatorList" />
+  </bean>
+  
+  <util:list id="systemValidatorsList" value-type="org.slc.sli.ingestion.validation.ComplexValidator">
+      <ref bean="mongoValidator" />
+  </util:list>
+  
+  <bean id="systemValidator" class="org.slc.sli.ingestion.validation.ComplexValidator" autowire="byName">
+    <property name="validators" ref="systemValidatorsList" />
+  </bean>
+</beans>
+
+

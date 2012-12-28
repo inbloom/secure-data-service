@@ -5,7 +5,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:annotation>
 		<xs:documentation>===== Ed-Fi-Core Version 1.0.03 April 15, 2012 =====
-		
+
 		Ed-Fi Version History
 		1.0   6/28/11  Release for Comment
 		1.0   8/28/11  Proposed response to RFC
@@ -14,8 +14,8 @@
 		1.0   11/11/11 Release 1.0
 		1.0.01   12/20/11 Minor .01
 		1.0.02   3/18/2012 Minor .02
-		1.0.03   4/15/12 Minor .03 
-		
+		1.0.03   4/15/12 Minor .03
+
 
 		</xs:documentation>
 	</xs:annotation>
@@ -547,7 +547,7 @@ Student late arrival/early dismissal
 				<xs:sequence>
 					<xs:element name="ClassPeriodName" type="ClassPeriodNameType">
 						<xs:annotation>
-							<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules). 
+							<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -634,7 +634,7 @@ Student late arrival/early dismissal
 	</xs:complexType>
 	<xs:complexType name="Course">
 		<xs:annotation>
-			<xs:documentation>This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. 
+			<xs:documentation>This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis.
 </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -1504,7 +1504,7 @@ Vacation</xs:documentation>
 				<xs:sequence>
 					<xs:element name="LEACategory" type="LEACategoryType">
 						<xs:annotation>
-							<xs:documentation>The category of LEA/district. For example: Independent or Charter 
+							<xs:documentation>The category of LEA/district. For example: Independent or Charter
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -1930,7 +1930,7 @@ Bilingual/English as a Second Language</xs:documentation>
 					</xs:element>
 					<xs:element name="NumberOfDaysAbsent" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The number of days an individual is absent when school is in session during a given reporting period. 
+							<xs:documentation>The number of days an individual is absent when school is in session during a given reporting period.
 </xs:documentation>
 						</xs:annotation>
 						<xs:simpleType>
@@ -1941,7 +1941,7 @@ Bilingual/English as a Second Language</xs:documentation>
 					</xs:element>
 					<xs:element name="NumberOfDaysInAttendance" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The number of days an individual is present when school is in session during a given reporting period. 
+							<xs:documentation>The number of days an individual is present when school is in session during a given reporting period.
 </xs:documentation>
 						</xs:annotation>
 						<xs:simpleType>
@@ -2091,7 +2091,7 @@ Bilingual/English as a Second Language</xs:documentation>
 	</xs:complexType>
 	<xs:complexType name="Section">
 		<xs:annotation>
-			<xs:documentation>This educational entity represents a setting in which organized instruction of course content is provided to one or more students for a given period of time.  A course may be offered to more than one class/section.  Instruction, provided by one or more teachers or other staff members, may be delivered in person or via a different medium. 
+			<xs:documentation>This educational entity represents a setting in which organized instruction of course content is provided to one or more students for a given period of time.  A course may be offered to more than one class/section.  Instruction, provided by one or more teachers or other staff members, may be delivered in person or via a different medium.
 </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -2255,11 +2255,11 @@ Special education students
 	</xs:complexType>
 	<xs:complexType name="Staff">
 		<xs:annotation>
-			<xs:documentation>This entity represents an individual who performs specified activities for any public or private education institution or agency that provides instructional and/or support services to students or staff at the early childhood level through high school completion. For example, this includes: 
-1) an "employee" who performs services under the direction of the employing institution or agency, is compensated for such services by the employer, and is eligible for employee benefits and wage or salary tax withholdings; 
-2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of a management service contracted to work on site; 
-3) a "volunteer" who performs services on a voluntary and uncompensated basis; 
-4) an in kind service provider; or 
+			<xs:documentation>This entity represents an individual who performs specified activities for any public or private education institution or agency that provides instructional and/or support services to students or staff at the early childhood level through high school completion. For example, this includes:
+1) an "employee" who performs services under the direction of the employing institution or agency, is compensated for such services by the employer, and is eligible for employee benefits and wage or salary tax withholdings;
+2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of a management service contracted to work on site;
+3) a "volunteer" who performs services on a voluntary and uncompensated basis;
+4) an in kind service provider; or
 5) an independent contractor or businessperson working at a school site.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -2337,7 +2337,7 @@ Special education students
 					</xs:element>
 					<xs:element name="HighestLevelOfEducationCompleted" type="LevelOfEducationType">
 						<xs:annotation>
-							<xs:documentation>The extent of formal instruction an individual has received (e.g., the highest grade in school completed or its equivalent or the highest degree received). 
+							<xs:documentation>The extent of formal instruction an individual has received (e.g., the highest grade in school completed or its equivalent or the highest degree received).
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -2659,7 +2659,7 @@ such as Displaced Homemaker, Immigrant, Migratory, Military Parent, Pregnant Tee
 					</xs:element>
 					<xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The language in which an assessment is written and/or administered. 
+							<xs:documentation>The language in which an assessment is written and/or administered.
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -2750,7 +2750,7 @@ LEP Exempt
 	</xs:complexType>
 	<xs:complexType name="StudentAssessmentItem">
 		<xs:annotation>
-			<xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard. 
+			<xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard.
 </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -3923,11 +3923,11 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...
 				<xs:documentation>The XML ID associated with this complex object object.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="ref" type="xs:IDREF">
+<!-- 		<xs:attribute name="ref" type="xs:IDREF">
 			<xs:annotation>
 				<xs:documentation>The XML IDREF that references the object associated with this object. </xs:documentation>
 			</xs:annotation>
-		</xs:attribute>
+		</xs:attribute> -->
 	</xs:complexType>
 	<xs:annotation>
 		<xs:documentation>===== Extended Reference Types =====</xs:documentation>
@@ -4244,7 +4244,7 @@ Second grade
 		<xs:sequence>
 			<xs:element name="ClassPeriodName" type="ClassPeriodNameType">
 				<xs:annotation>
-					<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules). 
+					<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).
 </xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -4768,7 +4768,7 @@ Second grade
 						<xs:annotation>
 							<xs:documentation>Provide user information to lookup and link to an existing section record in the receiving system.  Two cases are supported:
 1. SchoolOrganizationID + UniqueSectionCode
-2. SchoolOrganizationID + 
+2. SchoolOrganizationID +
       Course (StateCourseCode OR LocalCourseCode) +
       Term + ClassPeriod + Location</xs:documentation>
 						</xs:annotation>
@@ -6180,7 +6180,7 @@ Change of assignment</xs:documentation>
 	</xs:complexType>
 	<xs:complexType name="StudentCharacteristic">
 		<xs:annotation>
-			<xs:documentation>Reflects important characteristics of the student's home situation: Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth		
+			<xs:documentation>Reflects important characteristics of the student's home situation: Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -9448,7 +9448,7 @@ Oral Administration
 	</xs:simpleType>
 	<xs:simpleType name="ClassPeriodNameType">
 		<xs:annotation>
-			<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules). 
+			<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).
 </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">

@@ -39,7 +39,6 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -49,7 +48,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.SimpleReportStats;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -67,7 +65,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
 
-    private static final String BATCH_JOB_STAGE_DESC = "Processes XML files and performs Id-Ref resolution";
+    private static final String BATCH_JOB_STAGE_DESC = "Processes XML files";
 
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentXmlFileProcessor.class);
 
@@ -88,16 +86,17 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
             missingBatchJobIdError(exchange);
         }
 
-        if (exchange.getIn().getHeader(AttributeType.NO_ID_REF.name()) != null) {
-            LOG.info("Skipping id ref resolution (specified by @no-id-ref in control file).");
-            skipXmlFile(workNote, exchange);
+//        if (exchange.getIn().getHeader(AttributeType.NO_ID_REF.name()) != null) {
+//            LOG.info("Skipping id ref resolution (specified by @no-id-ref in control file).");
+        LOG.info("Skipping id ref resolution.");
+/*            skipXmlFile(workNote, exchange);
         } else {
-            LOG.info("Entering concurrent id ref resolution.");
-            processXmlFile(workNote, exchange);
-        }
+            LOG.info("Entering concurrent id ref resolution.");*/
+        processXmlFile(workNote, exchange);
+//        }
     }
 
-    private void skipXmlFile(WorkNote workNote, Exchange exchange) {
+/*    private void skipXmlFile(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
@@ -108,7 +107,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
         BatchJobUtils.stopStageAndAddToJob(stage, newJob);
         batchJobDAO.saveBatchJob(newJob);
-    }
+    }*/
 
     private void processXmlFile(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
@@ -152,7 +151,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                 fileEntry.setFile(new File(resource.getResourceName()));
                 fileEntry.setMessageReport(databaseMessageReport);
 
-                AbstractReportStats reportStats = new SimpleReportStats(new JobSource(newJob.getId(), resource.getResourceId(), BATCH_JOB_STAGE.getName()));
+                AbstractReportStats reportStats = new SimpleReportStats(newJob.getId(), resource.getResourceId(), BATCH_JOB_STAGE.getName());
                 fileEntry.setReportStats(reportStats);
 
                 IdRefResolutionHandler idRefResolutionHandler = context.getBean("IdReferenceResolutionHandler",

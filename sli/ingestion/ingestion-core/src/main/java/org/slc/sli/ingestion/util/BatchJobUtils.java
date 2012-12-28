@@ -16,6 +16,10 @@
 
 package org.slc.sli.ingestion.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -31,7 +35,29 @@ import org.slc.sli.ingestion.model.Stage;
  */
 public final class BatchJobUtils {
 
+    private static InetAddress localhost;
+
+    static {
+        try {
+            localhost = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private BatchJobUtils() {
+    }
+
+    public static String getHostAddress() {
+        return localhost.getHostAddress();
+    }
+
+    public static String getHostName() {
+        return localhost.getHostName();
+    }
+
+    public static Date getCurrentTimeStamp() {
+        return new Date();
     }
 
     public static void completeStageAndJob(Stage stage, NewBatchJob job) {
