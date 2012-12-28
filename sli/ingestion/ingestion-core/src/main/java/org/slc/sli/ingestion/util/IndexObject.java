@@ -27,7 +27,6 @@ import com.mongodb.DBObject;
 public class IndexObject {
     private Map<String, Integer> keys = new LinkedHashMap<String, Integer>();
 
-    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod") // DE2406
     public IndexObject(DBObject obj) {
         setKeys(obj);
     }
@@ -37,7 +36,8 @@ public class IndexObject {
         //know about the keys yet.
     }
 
-    public void setKeys(DBObject obj) {
+    @SuppressWarnings("boxing")
+    public final void setKeys(DBObject obj) {
         //This DBObject.toMap returns a LinkedHashMap, so order
         // is preserved
         @SuppressWarnings("unchecked")
