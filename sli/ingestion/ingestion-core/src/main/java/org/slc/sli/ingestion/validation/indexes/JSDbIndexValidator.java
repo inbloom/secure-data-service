@@ -31,6 +31,7 @@ import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.MongoIndex;
 
 /**
+ * Index validator for those dbs whose indexes are defined in js file
  *
  * @author npandey
  *

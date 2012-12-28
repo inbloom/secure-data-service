@@ -20,7 +20,8 @@ import java.util.Map;
 
 import com.mongodb.DBObject;
 
-/**
+/**Class to hold the index keys
+ *
  * @author tke
  *
  */

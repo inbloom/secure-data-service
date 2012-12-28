@@ -31,6 +31,8 @@ import org.slc.sli.ingestion.util.IndexParser;
 import org.slc.sli.ingestion.util.MongoIndex;
 
 /**
+ * Index validator for those dbs whose indexes are defined in plain text file
+ * in our own format.
  * @author tke
  *
  */
