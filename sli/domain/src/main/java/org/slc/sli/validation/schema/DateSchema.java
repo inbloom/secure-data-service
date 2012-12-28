@@ -64,7 +64,7 @@ public class DateSchema extends NeutralSchema {
     }
 
     @Override
-   // @SuppressWarnings("PMD.AvoidCatchingNPE") // DE2407
+    @SuppressWarnings("PMD.AvoidCatchingNPE") // DE2407
     public Object convert(Object value) {
         try {
             DatatypeConverter.parseDate((String) value);
