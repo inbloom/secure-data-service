@@ -79,7 +79,7 @@ public class SecurityUtil {
                         if (authority != null) {
                             String authorityString = authority.getAuthority();
                             
-                            if (Constants.ROLE_IT_ADMINISTRATOR.equals(authorityString)) {
+                            if (Constants.ROLE_ADMIN.equals(authorityString)) {
                                 return true;
                             }
                         }
