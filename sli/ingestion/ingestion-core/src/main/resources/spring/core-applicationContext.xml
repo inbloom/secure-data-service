@@ -38,7 +38,6 @@
   <import resource="persistence-context.xml" />
   <import resource="processor-context.xml" />
   <import resource="classpath:/spring/base-applicationContext.xml" />
-  <import resource="idRefResolution-context.xml" />
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
   <import resource="core-message-context.xml" />
@@ -76,6 +75,15 @@
   <bean id="batchJobDbIndexValidator" class="org.slc.sli.ingestion.validation.indexes.BatchJobDbIndexValidator" />
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
+
+  <bean id="IdReferenceResolutionHandler" class="org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler" scope="prototype">
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
     <property name="transformer" ref="smooksEdFi2SLITransformer" />
