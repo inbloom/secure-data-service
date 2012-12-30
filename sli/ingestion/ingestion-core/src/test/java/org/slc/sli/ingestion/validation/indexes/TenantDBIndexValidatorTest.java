@@ -17,8 +17,10 @@ package org.slc.sli.ingestion.validation.indexes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -34,6 +36,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.MongoIndex;
 
@@ -60,14 +66,19 @@ public class TenantDBIndexValidatorTest {
     @Before
     public void setup() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchMethodException {
 
-        List<String> tenantDbs = new ArrayList<String>();
-        tenantDbs.add("assessment");
-        tenantDbs.add("assessmentFamily");
-        tenantDbs.add("assessmentItem");
+        Set<String> tenantCollections = new HashSet<String>();
+        tenantCollections.add("assessment");
+        tenantCollections.add("assessmentFamily");
+        tenantCollections.add("assessmentItem");
 
         Mockito.when(db.getSisterDB(Matchers.anyString())).thenReturn(db);
         Mockito.when(mongoTemplate.getDb()).thenReturn(db);
         Mockito.when(db.getName()).thenReturn("test");
+
+        List<String> tenantDbs = new ArrayList<String>();
+        tenantDbs.add("test");
+
+        Mockito.when(db.getCollectionNames()).thenReturn(tenantCollections);
 
         Mockito.when(db.collectionExists("assessment")).thenReturn(true);
         Mockito.when(db.collectionExists("assessmentFamily")).thenReturn(true);
@@ -79,7 +90,7 @@ public class TenantDBIndexValidatorTest {
 
         List<DBObject> listIndexInfo = new ArrayList<DBObject>();
         DBObject indexInfo = new BasicDBObject();
-        DBObject key = new BasicDBObject("creationTime",1);
+        DBObject key = new BasicDBObject("creationTime", 1);
         indexInfo.put("unique", false);
         indexInfo.put("key", key);
         listIndexInfo.add(indexInfo);
@@ -91,28 +102,38 @@ public class TenantDBIndexValidatorTest {
         Mockito.when(assessmentItemCollection.getIndexInfo()).thenReturn(emptyList);
 
         Mockito.when(tenantDA.getAllTenantDbs()).thenReturn(tenantDbs);
-/*
-        Mockito.doCallRealMethod().when(tenantDBIndexValidator).setMongoTemplate(Matchers.any(MongoTemplate.class));
+
+        //Mockito.doCallRealMethod().when(tenantDBIndexValidator).setMongoTemplate(Matchers.any(MongoTemplate.class));
         Mockito.doCallRealMethod().when(tenantDBIndexValidator).setTenantDA(Matchers.any(TenantDA.class));
+        Mockito.doCallRealMethod().when(tenantDBIndexValidator).isValid(Matchers.any(DB.class), Matchers.any(AbstractMessageReport.class), Matchers.any(ReportStats.class), Matchers.any(Source.class));
+        //Mockito.doCallRealMethod().when(tenantDBIndexValidator).loadIndexInfoFromDB(Matchers.any(DB.class));
 
-        tenantDBIndexValidator.setMongoTemplate(mongoTemplate);
+        Set<MongoIndex> expectedIndex = new HashSet<MongoIndex>();
+        DBObject adminDelegationIndex = new BasicDBObject();
+        adminDelegationIndex.put("creationTime", 1);
+        expectedIndex.add(new MongoIndex("assessment", false, adminDelegationIndex));
+
+        DBObject applicationAuthorizationIndex = new BasicDBObject();
+        applicationAuthorizationIndex.put("assessmentFamilyCollection", 1);
+        expectedIndex.add(new MongoIndex("assessmentFamilyCollection", false, applicationAuthorizationIndex));
+
+        Mockito.when(tenantDBIndexValidator.loadExpectedIndexes()).thenReturn(expectedIndex);
+
         tenantDBIndexValidator.setTenantDA(tenantDA);
-
-        Mockito.doCallRealMethod().when(tenantDBIndexValidator).setIndexCache((Map<String, List<MongoIndex>>) Matchers.any());
-        tenantDBIndexValidator.setIndexCache(indexCache);*/
     }
 
     @Test
     public void test() throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
-        //Mockito.doCallRealMethod().when(tenantDBIndexValidator).verifyIndexes();
-        //Mockito.doCallRealMethod().when(tenantDBIndexValidator).checkIndexes(Matchers.any(MongoIndex.class), Matchers.any(DB.class));
+        tenantDBIndexValidator.setTenantDA(tenantDA);
 
-        //Mockito.doNothing().when(tenantDBIndexValidator).logError(Matchers.anyString());
-        //Mockito.doNothing().when(tenantDBIndexValidator).logInfo(Matchers.anyString());
-        //tenantDBIndexValidator.verifyIndexes();
-        //Mockito.verify(tenantDBIndexValidator, Mockito.atLeast(1)).logError("Index missing: assessmentItem { \"creationTime\" : 1}, unique:false");
-        //Mockito.verify(tenantDBIndexValidator, Mockito.atLeast(1)).logInfo("Index verified: assessment { \"creationTime\" : 1}, unique:false");
-        //Mockito.verify(tenantDBIndexValidator, Mockito.atLeast(1)).logInfo("Index verified: assessmentFamily { \"creationTime\" : 1}, unique:false");
+        AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
+        Source source = Mockito.mock(Source.class);
 
+        tenantDBIndexValidator.isValid(db, report, reportStats, source);
+
+
+        Mockito.verify(report, Mockito.atLeast(1)).info(Matchers.eq(reportStats), Matchers.eq(source), Matchers.eq(CoreMessageCode.CORE_0018), Matchers.eq("assessment"), Matchers.any(Map.class), Matchers.eq(false));
+        Mockito.verify(report, Mockito.atLeast(1)).error(Matchers.eq(reportStats), Matchers.eq(source), Matchers.eq(CoreMessageCode.CORE_0038), Matchers.eq("assessmentFamilyCollection"), Matchers.any(Map.class), Matchers.eq(false));
     }
 }

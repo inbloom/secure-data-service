@@ -19,7 +19,7 @@ package org.slc.sli.ingestion.validation;
 import com.mongodb.DB;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 
 
@@ -35,7 +35,7 @@ public class IndexValidator extends ComplexValidator<DB> {
 
     @Override
 
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats,Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats,Source source) {
         boolean isValid = true;
 
 

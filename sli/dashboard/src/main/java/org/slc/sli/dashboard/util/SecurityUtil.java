@@ -59,15 +59,13 @@ public class SecurityUtil {
             if (authentication != null) {
                 Collection<GrantedAuthority> authorities = authentication.getAuthorities();
                 for (GrantedAuthority authority : authorities) {
-                    if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
-                        return true;
-                    } else if (authority.getAuthority().equals(Constants.ROLE_LEADER)) {
-                        return true;
+                    if  (authority.getAuthority().equals(Constants.ROLE_TEACHER)) {
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public static boolean isAdmin() {
@@ -81,7 +79,7 @@ public class SecurityUtil {
                         if (authority != null) {
                             String authorityString = authority.getAuthority();
                             
-                            if (Constants.ROLE_IT_ADMINISTRATOR.equals(authorityString)) {
+                            if (Constants.ROLE_ADMIN.equals(authorityString)) {
                                 return true;
                             }
                         }

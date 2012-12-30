@@ -29,31 +29,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.util.MongoIndex;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
- *
+ * Index validator for all dbs.
  * @author npandey
  *
  */
-public class DbIndexValidator extends SimpleValidatorSpring<DB> {
+public class DbIndexValidator implements Validator<DB> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DbIndexValidator.class);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
         Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
         Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db);
 
         return isValid(expectedIndexes, actualIndexes, report, reportStats, source);
     }
 
+    /**
+     * Loads indexes from external source
+     * @return
+     */
     protected Set<MongoIndex> loadExpectedIndexes() {
         return Collections.emptySet();
     }
@@ -87,16 +91,18 @@ public class DbIndexValidator extends SimpleValidatorSpring<DB> {
      * @return
      */
     protected static boolean isValid(Set<MongoIndex> expectedIndexes, Set<MongoIndex> actualIndexes,
-            AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
+            AbstractMessageReport report, ReportStats reportStats, Source source) {
 
         boolean res = true;
         for (MongoIndex index : expectedIndexes) {
             if (actualIndexes.contains(index)) {
                 res &= true;
-                report.info(reportStats, source, CoreMessageCode.CORE_0018, index.getCollection(), index.getKeys(), index.isUnique());
+                report.info(reportStats, source, CoreMessageCode.CORE_0018, index.getCollection(), index.getKeys(),
+                        index.isUnique());
             } else {
                 res = false;
-                report.error(reportStats, source, CoreMessageCode.CORE_0038, index.getCollection(), index.getKeys(), index.isUnique());
+                report.error(reportStats, source, CoreMessageCode.CORE_0038, index.getCollection(), index.getKeys(),
+                        index.isUnique());
             }
         }
         return res;

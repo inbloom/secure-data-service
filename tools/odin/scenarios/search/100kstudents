@@ -5,10 +5,10 @@ ASSESSMENTS_PER_GRADE: 0
 COHORTS_PER_SCHOOL: 0
 
 ENTITY_WHITELIST: [
-  "SeaEducationOrganization",
+  "StateEducationAgency",
   "Course",
-  "LeaEducationOrganization",
-  "SchoolEducationOrganization",
+  "LocalEducationAgency",
+  "School",
   "Session",
   "GradingPeriod",
   "CalendarDate",

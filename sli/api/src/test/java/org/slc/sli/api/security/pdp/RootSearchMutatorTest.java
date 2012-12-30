@@ -47,25 +47,25 @@ public class RootSearchMutatorTest {
         String resultPath;
 
         // test valid student attendance search
-        resultPath = rootSearchMutator.mutatePath(ResourceNames.ATTENDANCES, "studentId=some_id");
+        resultPath = rootSearchMutator.mutatePath("v1.0", ResourceNames.ATTENDANCES, "studentId=some_id");
         expectedPath = "/" + ResourceNames.STUDENTS + "/" + "some_id" + "/" + ResourceNames.ATTENDANCES;
         Assert.assertEquals("Invalid mutation:", expectedPath, resultPath);
 
-        resultPath = rootSearchMutator.mutatePath(ResourceNames.ATTENDANCES, "studentId=some_id&something=else");
+        resultPath = rootSearchMutator.mutatePath("v1.0", ResourceNames.ATTENDANCES, "studentId=some_id&something=else");
         expectedPath = "/" + ResourceNames.STUDENTS + "/" + "some_id" + "/" + ResourceNames.ATTENDANCES;
         Assert.assertEquals("Invalid mutation:", expectedPath, resultPath);
 
-        resultPath = rootSearchMutator.mutatePath(ResourceNames.ATTENDANCES, "key1=val1&studentId=some_id&key2=val2");
+        resultPath = rootSearchMutator.mutatePath("v1.0", ResourceNames.ATTENDANCES, "key1=val1&studentId=some_id&key2=val2");
         expectedPath = "/" + ResourceNames.STUDENTS + "/" + "some_id" + "/" + ResourceNames.ATTENDANCES;
         Assert.assertEquals("Invalid mutation:", expectedPath, resultPath);
 
         // test valid student reportCard search, with additional reference fields, and multiple student ids
-        resultPath = rootSearchMutator.mutatePath(ResourceNames.REPORT_CARDS, "schoolId=school_id&studentId=id1,id2,id3&key2=val2");
+        resultPath = rootSearchMutator.mutatePath("v1.0", ResourceNames.REPORT_CARDS, "schoolId=school_id&studentId=id1,id2,id3&key2=val2");
         expectedPath = "/" + ResourceNames.STUDENTS + "/" + "id1,id2,id3" + "/" + ResourceNames.REPORT_CARDS;
         Assert.assertEquals("Invalid mutation:", expectedPath, resultPath);
 
         // test invalid path mutation will return null because endpoint doesn't exist
-        resultPath = rootSearchMutator.mutatePath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "schoolId=school_id");
+        resultPath = rootSearchMutator.mutatePath("v1.0", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "schoolId=school_id");
         expectedPath = null;
         Assert.assertEquals("Invalid mutation:", expectedPath, resultPath);
 

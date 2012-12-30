@@ -19,9 +19,8 @@ package org.slc.sli.ingestion.validation;
 import java.util.List;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  * Abstract validator
@@ -30,7 +29,7 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  *
  * @param <T>
  */
-public class ComplexValidator<T> extends SimpleValidatorSpring<T> {
+public class ComplexValidator<T> implements Validator<T> {
     private List<? extends Validator<T>> validators;
 
     public List<? extends Validator<T>> getValidators() {
@@ -42,7 +41,7 @@ public class ComplexValidator<T> extends SimpleValidatorSpring<T> {
     }
 
     @Override
-    public boolean isValid(T object, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
+    public boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats, Source source) {
         for (Validator<T> validator : validators) {
             if (!validator.isValid(object, report, reportStats, source)) {
                 return false;

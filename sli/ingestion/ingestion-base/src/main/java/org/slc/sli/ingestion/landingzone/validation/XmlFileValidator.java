@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Validator for EdFi xml ingestion files.
@@ -38,12 +38,12 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  * @author dduran
  *
  */
-public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> {
+public class XmlFileValidator implements Validator<IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
-    public boolean isValid(IngestionFileEntry fileEntry, AbstractMessageReport report, AbstractReportStats reportStats,
+    public boolean isValid(IngestionFileEntry fileEntry, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
         LOG.debug("validating xml...");
 
@@ -55,23 +55,23 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
     }
 
     private boolean isEmptyOrUnreadable(IngestionFileEntry fileEntry, AbstractMessageReport report,
-            AbstractReportStats reportStats, Source source) {
+            ReportStats reportStats, Source source) {
         boolean isEmpty = false;
         BufferedReader br = null;
 
         try {
             br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
-                error(report, reportStats, source, BaseMessageCode.BASE_0015, fileEntry.getFileName());
+                report.error(reportStats, source, BaseMessageCode.BASE_0015, fileEntry.getFileName());
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + fileEntry.getFileName(), e);
-            error(report, reportStats, source, BaseMessageCode.BASE_0013, fileEntry.getFileName());
+            report.error(reportStats, source, BaseMessageCode.BASE_0013, fileEntry.getFileName());
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + fileEntry.getFileName());
-            error(report, reportStats, source, BaseMessageCode.BASE_0014, fileEntry.getFileName());
+            report.error(reportStats, source, BaseMessageCode.BASE_0014, fileEntry.getFileName());
             isEmpty = true;
         } finally {
             try {

@@ -17,7 +17,7 @@
 package org.slc.sli.ingestion.validation;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 
 /**
@@ -43,6 +43,6 @@ public interface Validator<T> {
      *            details the origin of the error
      * @return <code>true</code> if the object is valid
      */
-    boolean isValid(T object, AbstractMessageReport report, AbstractReportStats reportStats, Source source);
+    boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats, Source source);
 
 }

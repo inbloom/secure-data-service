@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.reporting;
+package org.slc.sli.ingestion.reporting.impl;
 
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * MessageReport implementation that is constructed with a logger and uses that logger to act on
@@ -40,17 +45,17 @@ public class LoggingMessageReport extends AbstractMessageReport {
     }
 
     @Override
-    protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         logger.error(getMessage(reportStats, source, code, args));
     }
 
     @Override
-    protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportWarning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         logger.warn(getMessage(reportStats, source, code, args));
     }
 
     @Override
-    protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         logger.info(getMessage(reportStats, source, code, args));
     }
 

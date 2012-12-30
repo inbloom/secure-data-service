@@ -15,12 +15,15 @@
  */
 package org.slc.sli.api.resources.generic.util;
 
+import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -102,6 +105,15 @@ public class RestResourceHelper implements ResourceHelper {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
 
         return uriTemplate.matches(uri);
+    }
+
+    @Override
+    public String extractVersion(List<PathSegment> segments) {
+        if (!segments.isEmpty()) {
+            return segments.get(0).getPath();
+        }
+
+        return PathConstants.V1;
     }
 
     private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {

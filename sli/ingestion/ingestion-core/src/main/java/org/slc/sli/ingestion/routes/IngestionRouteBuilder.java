@@ -42,11 +42,11 @@ import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.JobSource;
-import org.slc.sli.ingestion.reporting.LoggingMessageReport;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.LoggingMessageReport;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
@@ -182,7 +182,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         loggingMessageReport.setLogger(LOG);
         Source source = new JobSource(null, null, null);
-        AbstractReportStats reportStats = new SimpleReportStats();
+        ReportStats reportStats = new SimpleReportStats();
         boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
 
         if (!indexValidated) {
@@ -369,21 +369,24 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: pitNodes
         from(pitNodeQueueUri).routeId("pitNodes")
-                .log(LoggingLevel.DEBUG, "CamelRouting", "Pit message received: ${body}").choice()
-                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+            .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}")
+            .choice()
+            .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
                 .process(transformationProcessor)
                 .log(LoggingLevel.INFO, "CamelRouting", "TransformationProcessor complete. Routing back to Maestro.")
                 .to(maestroQueueUri)
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
-                .log("persist: jobId: " + header("jobId").toString()).choice()
+                .choice()
                 .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
-                .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
-                .to(maestroQueueUri).otherwise().process(persistenceProcessor)
-                .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
-                .to(maestroQueueUri);
+                    .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
+                    .to(maestroQueueUri)
+                .otherwise()
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
+                    .process(persistenceProcessor)
+                    .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
+                    .to(maestroQueueUri);
     }
 
     public void configureTenantPollingTimerRoute() {

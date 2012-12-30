@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -75,7 +75,7 @@ public final class SliDeltaManager {
      */
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO,
             DeterministicUUIDGeneratorStrategy dIdStrategy, DeterministicIdResolver didResolver,
-            AbstractMessageReport report, AbstractReportStats reportStats) {
+            AbstractMessageReport report, ReportStats reportStats) {
         boolean isPrevIngested = false;
         String tenantId = TenantContext.getTenantId();
 

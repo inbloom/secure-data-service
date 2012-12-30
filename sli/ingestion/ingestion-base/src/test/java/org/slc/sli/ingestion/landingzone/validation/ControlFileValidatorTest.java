@@ -35,11 +35,11 @@ import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.JobSource;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  * Tests for control file validator.
@@ -89,7 +89,7 @@ public class ControlFileValidatorTest {
     @Test
     public void noFileEntriesTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
         Source source = new JobSource(null, null, null);
 
         boolean isValid = controlFileValidator.isValid(item, report, reportStats, source);
@@ -101,7 +101,7 @@ public class ControlFileValidatorTest {
     @Test
     public void fileNotPresentTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
         Source source = new JobSource(null, null, null);
 
         Mockito.when(lz.getFile(fileName)).thenReturn(null);
@@ -116,13 +116,13 @@ public class ControlFileValidatorTest {
     @Test
     public void fileValidTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         fileEntries.add(entry);
         Mockito.doReturn(true)
                 .when(cfv)
                 .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class), Mockito.any(Source.class));
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class));
 
         boolean isValid = cfv.isValid(item, report, reportStats, null);
 
@@ -133,14 +133,14 @@ public class ControlFileValidatorTest {
     @Test
     public void fileNotValidTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
         Source source = new JobSource(null, null, null);
 
         fileEntries.add(entry);
         Mockito.doReturn(false)
                 .when(cfv)
                 .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class), Mockito.any(Source.class));
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class));
 
         boolean isValid = cfv.isValid(item, report, reportStats, source);
 
@@ -151,7 +151,7 @@ public class ControlFileValidatorTest {
     @Test
     public void controlFileHasPath() {
         AbstractMessageReport report = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
         Source source = new JobSource(null, null, null);
 
         Mockito.when(entry.getFileName()).thenReturn(path + fileName);

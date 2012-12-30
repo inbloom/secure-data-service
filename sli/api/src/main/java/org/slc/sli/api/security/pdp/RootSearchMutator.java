@@ -46,7 +46,7 @@ public class RootSearchMutator {
             Pair.of(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
     );
 
-    public String mutatePath(String resource, String queryParameters) {
+    public String mutatePath(String version, String resource, String queryParameters) {
         String mutatedPath = null;
 
         Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
@@ -55,7 +55,7 @@ public class RootSearchMutator {
             String curParameter = parameterResourcePair.getLeft();
             String curResource = parameterResourcePair.getRight();
             if (parameters.containsKey(curParameter)) {
-                if (isValidPath(curResource, resource)) {
+                if (isValidPath(version, curResource, resource)) {
                     mutatedPath = "/" + curResource + "/" + parameters.get(curParameter) + "/" + resource;
                     break;
                 }
@@ -65,10 +65,10 @@ public class RootSearchMutator {
         return mutatedPath;
     }
 
-    private boolean isValidPath(String baseResource, String subResources) {
+    private boolean isValidPath(String version, String baseResource, String subResources) {
         boolean isValid = false;
 
-        String resourcePath = PathConstants.V1 + "/" + baseResource + "/" + PathConstants.ID_PLACEHOLDER + "/" + subResources;
+        String resourcePath = version + "/" + baseResource + "/" + PathConstants.ID_PLACEHOLDER + "/" + subResources;
         if (resourceEndPoint.getResources().containsKey(resourcePath)) {
             isValid = true;
         }

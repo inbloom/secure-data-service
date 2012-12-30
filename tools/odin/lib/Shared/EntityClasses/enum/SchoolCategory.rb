@@ -54,9 +54,4 @@ class SchoolCategory
   SchoolCategory.define :PRIMARY, "Primary School"
   SchoolCategory.define :SECONDARY, "SecondarySchool"
   SchoolCategory.define :UNGRADED, "Ungraded"
-
-  # translates the specified Symbol into the String representation of the school category type
-  def self.to_string(key)
-    const_get(key)
-  end
 end

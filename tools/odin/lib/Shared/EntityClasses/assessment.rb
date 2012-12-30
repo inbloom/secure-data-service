@@ -17,8 +17,9 @@ limitations under the License.
 =end
 
 require_relative 'assessment_item'
-
 require_relative 'baseEntity'
+
+# creates an assessment
 class Assessment < BaseEntity
 
   attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
@@ -27,7 +28,7 @@ class Assessment < BaseEntity
   def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil)
     @id = id
     @year_of = year_of
-    @gradeLevelAssessed = GradeLevelType.get(gradeLevelAssessed)
+    @gradeLevelAssessed = GradeLevelType.to_string(gradeLevelAssessed)
     @assessmentTitle = @id
     @assessmentIdentificationCode = { code: @id, assessmentIdentificationSystemType: 'State' }
 

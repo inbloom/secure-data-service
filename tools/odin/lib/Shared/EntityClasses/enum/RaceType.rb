@@ -39,16 +39,4 @@ class RaceType
   RaceType.define :BLACK_OR_AFRICAN_AMERICAN, "Black - African American"
   RaceType.define :NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER, "Native Hawaiian - Pacific Islander"
   RaceType.define :WHITE, "White"
-
-  # translates the specified Symbol into the ed-fi compliant String representation of the race type
-  # -> returns nil if the Symbol doesn't exist
-  def self.to_string(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the race type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
 end

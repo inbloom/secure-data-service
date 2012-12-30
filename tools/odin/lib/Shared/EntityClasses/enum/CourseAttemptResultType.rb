@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the results of course attempts (by students). From Ed-Fi-Core.xsd:
 # <xs:simpleType name="CourseAttemptResultType">
 #   <xs:annotation>

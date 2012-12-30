@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of performance bases. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="PerformanceBaseType">
 #   <xs:annotation>

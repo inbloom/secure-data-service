@@ -21,6 +21,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -255,6 +256,17 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
     }
     
+    public Entity generateDisciplineIncident(String schoolId, String ... staffIds) {
+        Map<String, Object> diBody = new HashMap<String, Object>();
+        diBody.put(ParameterConstants.SCHOOL_ID, schoolId);
+        HashSet<String> staffList = new HashSet<String>();
+        for (String staffId : staffIds) {
+            staffList.add(staffId);
+        }
+        diBody.put(ParameterConstants.STAFF_ID, staffList);
+        return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
+    }
+    
     public void generateStudentDisciplineIncidentAssociation(String studentId, String disciplineId) {
         Map<String, Object> sdia = new HashMap<String, Object>();
         sdia.put(ParameterConstants.STUDENT_ID, studentId);
@@ -299,6 +311,14 @@ public class ValidatorTestHelper {
         grade.put("gradeType", "Exam");
         grade.put("studentSectionAssociationId", studentSectionAssociationId);
         return repo.create(EntityNames.GRADE, grade);
+    }
+    
+    public Entity generateStudentCompetency(String studentSectionAssociationId, String objectiveId) {
+        Map<String, Object> grade = new HashMap<String, Object>();
+        grade.put("diagnosticStatement", "blah");
+        grade.put("studentSectionAssociationId", studentSectionAssociationId);
+        grade.put("objectiveId", objectiveId);
+        return repo.create(EntityNames.STUDENT_COMPETENCY, grade);
     }
 
     protected void setUpTeacherContext() {

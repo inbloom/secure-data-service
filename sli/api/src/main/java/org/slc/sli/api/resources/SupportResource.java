@@ -40,7 +40,6 @@ import org.slc.sli.api.resources.v1.HypermediaType;
  * This resource provides the basic contact information (E-Mail) of who to contact
  * for support issues.
  */
-@Path(PathConstants.V1 + "/" + "system/support")
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })

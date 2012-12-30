@@ -67,9 +67,12 @@ public class EndpointMutator {
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
 
-        if (usingV1Api(segments)) {
-            request.getProperties().put(REQUESTED_PATH, request.getPath());
+        if (usingVersionedApi(segments)) {
+            if (!request.getProperties().containsKey(REQUESTED_PATH)) {
+                request.getProperties().put(REQUESTED_PATH, request.getPath());
+            }
             MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
+            String version = segments.get(0).getPath();
 
             if (mutated != null && mutated.isModified()) {
 
@@ -87,12 +90,12 @@ public class EndpointMutator {
                         info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, mutated.getPath(),
                                 mutated.getQueryParameters() });
                         request.setUris(request.getBaseUri(),
-                                request.getBaseUriBuilder().path(PathConstants.V1).path(mutated.getPath())
+                                request.getBaseUriBuilder().path(version).path(mutated.getPath())
                                     .replaceQuery(mutated.getQueryParameters()).build());
                     } else {
                         info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), mutated.getPath() });
                         request.setUris(request.getBaseUri(),
-                                request.getBaseUriBuilder().path(PathConstants.V1).path(mutated.getPath()).build());
+                                request.getBaseUriBuilder().path(version).path(mutated.getPath()).build());
                     }
                 }
             }
@@ -125,8 +128,8 @@ public class EndpointMutator {
      *            List of path segments.
      * @return True if using the v1 API, false otherwise.
      */
-    protected boolean usingV1Api(List<PathSegment> segments) {
-        return segments.get(0).getPath().equals(PathConstants.V1);
+    protected boolean usingVersionedApi(List<PathSegment> segments) {
+        return segments.get(0).getPath().startsWith(PathConstants.V);
     }
 
 }

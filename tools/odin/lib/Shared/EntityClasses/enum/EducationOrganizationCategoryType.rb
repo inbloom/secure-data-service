@@ -38,9 +38,4 @@ class EducationOrganizationCategoryType
   EducationOrganizationCategoryType.define :LOCAL_EDUCATION_AGENCY, "Local Education Agency"
   EducationOrganizationCategoryType.define :SCHOOL, "School"
   EducationOrganizationCategoryType.define :STATE_EDUCATION_AGENCY, "State Education Agency"
-
-  # translates the specified Symbol into the String representation of the education organization category type
-  def self.to_string(key)
-    const_get(key)
-  end
 end

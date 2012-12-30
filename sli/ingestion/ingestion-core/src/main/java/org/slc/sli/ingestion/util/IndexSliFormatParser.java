@@ -20,6 +20,10 @@ import java.util.Set;
 
 
 /**
+ * Parser to parse the indexes we define in the index file.
+ * It is a simple format as:
+ * collection,uniqueness,key1:order,key2:order...
+ *
  * @author tke
  *
  */

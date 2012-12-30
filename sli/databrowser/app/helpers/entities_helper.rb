@@ -84,7 +84,7 @@ module EntitiesHelper
   # it to point to the databrowser instead, this is how we make the HATEOS
   # links work.
   def localize_url(url)
-    url.gsub(APP_CONFIG['api_base'], "#{request.protocol}#{request.host_with_port}/entities") unless url.nil?
+    url.gsub(%r(#{APP_CONFIG['api_base']}\.?\d+?), "#{request.protocol}#{request.host_with_port}/entities") unless url.nil?
   end
 
   # Here we detect links and turn it into an unordered list of links that

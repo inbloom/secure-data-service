@@ -41,11 +41,13 @@ public final class MongoCommander {
 
     private static IndexParser<String> indexTxtFileParser = new IndexTxtFileParser();
     private static IndexParser<Set<String>> indexSliFormatParser = new IndexSliFormatParser();
-    /**
-     * No instance should be created.
-     * All methods are static.
-     */
-    private MongoCommander() { }
+
+    private MongoCommander() {
+        /*
+         * No instance should be created.
+         * All methods are static.
+         */
+    }
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
 
