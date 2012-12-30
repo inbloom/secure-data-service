@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.xml.idref;
+package org.slc.sli.ingestion.handler;
 
 import java.util.List;
 
@@ -22,31 +22,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.AbstractReportStats;
 
 /**
- * @author okrook
+ * @author tshewchuk
  *
  */
-public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
-    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
-
+public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
+    public static final Logger LOG = LoggerFactory.getLogger(XmlFileHandler.class);
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
             AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
-
-     // We don't do ID ref handling anymore.  This is just a placeholder for the XML file validators.
+        // We don't really do any handling here.  This is just a placeholder for the XML file validators.
         return fileEntry;
     }
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
             AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
+        // Blank instantiation of this (never-called) method.
         return null;
     }
 }

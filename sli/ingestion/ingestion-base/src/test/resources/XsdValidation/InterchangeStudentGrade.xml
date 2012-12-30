@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100">
-    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch0-stu0">
+    <StudentAcademicRecord>
         <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
             <Credit>3</Credit>
         </CumulativeCreditsEarned>
@@ -38,7 +38,7 @@
                 <SessionName>CAP0-D0-HSch0-ses0</SessionName>
             </SessionIdentity>
         </SessionReference>
-        <ReportCardReference ref="rcr1">
+        <ReportCardReference>
             <ReportCardIdentity>
                 <StudentReference>
                     <StudentIdentity>
@@ -58,7 +58,7 @@
                 </GradingPeriodReference>
             </ReportCardIdentity>
         </ReportCardReference>
-        <DiplomaReference ref="dr1">
+        <DiplomaReference>
             <DiplomaIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -72,7 +72,7 @@
             </DiplomaIdentity>
         </DiplomaReference>
     </StudentAcademicRecord>
-    <CourseTranscript id="CourseTranscript_CAP0-D0-HSch0-cse0_CAP0-D0-HSch0-stu0">
+    <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
         <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
             <Credit>300</Credit>
@@ -104,7 +104,7 @@
                 </EducationOrgIdentificationCode>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="sarr1">
+        <StudentAcademicRecordReference>
             <StudentAcademicRecordIdentity>
                 <StudentReference>
                     <StudentIdentity>
@@ -124,13 +124,13 @@
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
     </CourseTranscript>
-    <Grade id="Grade_RC_0CAP0-D0-HS0-1-1-sec2CAP0-D0-HSch0-stu0">
+    <Grade>
         <LetterGradeEarned>A</LetterGradeEarned>
         <NumericGradeEarned>3</NumericGradeEarned>
         <DiagnosticStatement>Grade Exam Taken</DiagnosticStatement>
         <GradeType>Exam</GradeType>
         <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
-        <StudentSectionAssociationReference ref="ssar1">
+        <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
                 <StudentReference>
                 <StudentIdentity>
@@ -162,8 +162,8 @@
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
-    <ReportCard id="CAP0-D0-HSch4-stu0_ReportCard_RC_0">
-        <GradeReference ref="gr1">
+    <ReportCard>
+       <GradeReference>
             <GradeIdentity>
                 <StudentSectionAssociationReference>
                     <StudentSectionAssociationIdentity>
@@ -198,9 +198,9 @@
                 </GradingPeriodReference>
             </GradeIdentity>
         </GradeReference>
-        <StudentCompetencyReference ref="scr1">
+         <StudentCompetencyReference>
             <StudentCompetencyIdentity>
-                <StudentCompetencyObjectiveReference ref="scor1">
+                <StudentCompetencyObjectiveReference>
                     <StudentCompetencyObjectiveIdentity>
                         <StudentCompetencyObjectiveId>SCO_RC_0_SCObjectiveId_r0_0</StudentCompetencyObjectiveId>
                     </StudentCompetencyObjectiveIdentity>
@@ -250,8 +250,8 @@
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </ReportCard>
-    <StudentCompetency id="LearningObjective_RC_0_learningObjectiveId_r0_0_CAP0-D0-HSch0-stu0">
-        <LearningObjectiveReference ref="lor1">
+     <StudentCompetency>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
                 <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
@@ -299,7 +299,7 @@
                 </SectionIdentity>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
-        <GradebookEntryReference ref="ger1">
+        <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>Test 1</GradebookEntryType>
                 <DateAssigned>2012-07-17</DateAssigned>

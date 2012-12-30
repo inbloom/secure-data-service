@@ -41,7 +41,7 @@
     <AssessmentPeriod>
       <CodeValue>apd0</CodeValue>
     </AssessmentPeriod>
-    <ObjectiveAssessmentReference ref="objas0">
+    <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
         <ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>

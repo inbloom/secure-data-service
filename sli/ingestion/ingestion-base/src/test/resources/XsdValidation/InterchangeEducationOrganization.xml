@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
-    <LocalEducationAgency id="CAP0-D0">
+   <LocalEducationAgency>
         <StateOrganizationId>CAP0-D0</StateOrganizationId>
         <NameOfInstitution>CAP0-D0</NameOfInstitution>
         <ShortNameOfInstitution>CAP0-D0</ShortNameOfInstitution>
@@ -22,13 +22,13 @@
         </Address>
         <OperationalStatus>Active</OperationalStatus>
         <LEACategory>Charter</LEACategory>
-        <StateEducationAgencyReference ref="CAP0">
-        	<EducationalOrgIdentity>
-        		<StateOrganizationId>CAP0</StateOrganizationId>
-        	</EducationalOrgIdentity>
+        <StateEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0</StateOrganizationId>
+            </EducationalOrgIdentity>
         </StateEducationAgencyReference>
     </LocalEducationAgency>
-    <School id="CAP0-D0-HSch0">
+    <School>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Federal">
             <ID>CAP0-D0-HSch0</ID>
@@ -97,10 +97,10 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0">
-        	<EducationalOrgIdentity>
-        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
-        	</EducationalOrgIdentity>
+        <LocalEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0</StateOrganizationId>
+            </EducationalOrgIdentity>
          </LocalEducationAgencyReference>
     </School>
 </InterchangeEducationOrganization>

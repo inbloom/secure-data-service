@@ -12,7 +12,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="gradingPeriodRef">
+        <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -23,8 +23,8 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-0"/>
-        <AcademicWeekReference ref="awr1">
+        <CalendarDateReference/>
+        <AcademicWeekReference>
             <AcademicWeekIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
