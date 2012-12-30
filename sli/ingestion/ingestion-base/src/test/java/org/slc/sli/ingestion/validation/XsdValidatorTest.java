@@ -38,11 +38,11 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.MessageCode;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  *
@@ -78,7 +78,7 @@ public class XsdValidatorTest {
         String resourceId = "theResourceId";
         String stageName = "ConcurrentEdFiProcessor";
         JobSource jobSource = new JobSource(batchJobId, resourceId, stageName);
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
 
@@ -98,7 +98,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -112,7 +112,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -133,7 +133,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -154,7 +154,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -175,7 +175,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -189,7 +189,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -210,7 +210,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -224,7 +224,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -238,7 +238,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -259,7 +259,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -280,7 +280,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -301,7 +301,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -332,7 +332,7 @@ public class XsdValidatorTest {
         ife.setFile(xmlFile);
 
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(AbstractMessageReport.class),
-                Mockito.mock(AbstractReportStats.class), null));
+                Mockito.mock(ReportStats.class), null));
     }
 
     @Test
@@ -343,7 +343,7 @@ public class XsdValidatorTest {
                 xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
 
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
@@ -366,7 +366,7 @@ public class XsdValidatorTest {
         String resourceId = "theResourceId";
         String stageName = "ConcurrentEdFiProcessor";
         JobSource jobSource = new JobSource(batchJobId, resourceId, stageName);
-        AbstractReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats(null, null, null);
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
         Assert.assertTrue(reportStats.hasErrors());
@@ -421,17 +421,17 @@ public class XsdValidatorTest {
         private final List<String> warnings = new ArrayList<String>();
 
         @Override
-        protected void reportError(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
             errors.add(getMessage(reportStats, source, code, args));
         }
 
         @Override
-        protected void reportWarning(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        protected void reportWarning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
             warnings.add(getMessage(reportStats, source, code, args));
         }
 
         @Override
-        protected void reportInfo(AbstractReportStats reportStats, Source source, MessageCode code, Object... args) {
+        protected void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args) {
             // Do Nothing
         }
 

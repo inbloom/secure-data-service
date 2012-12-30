@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  * @author tshewchuk
@@ -35,14 +35,14 @@ public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry,
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // We don't really do any handling here.  This is just a placeholder for the XML file validators.
         return fileEntry;
     }
 
     @Override
     protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
-            AbstractReportStats reportStats, FileProcessStatus fileProcessStatus) {
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // Blank instantiation of this (never-called) method.
         return null;
     }
