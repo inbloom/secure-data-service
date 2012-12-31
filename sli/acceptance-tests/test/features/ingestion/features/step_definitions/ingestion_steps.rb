@@ -199,6 +199,11 @@ def ensureBatchJobIndexes(db_connection)
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['jobId', 1]] , :unique => true)
   @collection.remove({ '_id' => " " })
+
+  @collection = @db["recordHash"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['t', 1]])
+  @collection.remove({ '_id' => " " })
 end
 
 def initializeTenants()
