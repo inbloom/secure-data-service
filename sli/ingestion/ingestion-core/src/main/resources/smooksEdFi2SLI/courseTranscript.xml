@@ -34,9 +34,14 @@
         <jb:value property="courseRepeatCode" data="attributes courseRepeatCode"></jb:value>
         <jb:value property="gradeType" data="attributes gradeType"></jb:value>
         <jb:value property="courseId" data="attributes CourseReference"></jb:value>
+	    <jb:wiring property="educationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReferenceArray"/>
         <jb:value property="studentAcademicRecordId" data="attributes StudentAcademicRecordReference"></jb:value>
     </jb:bean>
 
+   <jb:bean beanId="CourseTranscript_EdOrgReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes EducationOrganizationReference element" />
+    </jb:bean>
+    
     <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap" createOnElement="attributes creditsAttempted">
         <jb:value property="credit" data="attributes creditsAttempted credit" decoder="Double"></jb:value>
     </jb:bean>
