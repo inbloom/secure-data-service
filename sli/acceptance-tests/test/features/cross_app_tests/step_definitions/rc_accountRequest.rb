@@ -63,11 +63,15 @@ Given /^when I click Accept$/ do
 end
 
 Given /^I received an email to verify my email address$/ do
-  
+  if (@mode == "SANDBOX") 
+    admin_tools_server = PropLoader.getProps['admintools_server_url']
+  else
+    admin_tools_server = PropLoader.getProps['minisb_admintools_server_url']
+  end
   puts @content
-  puts PropLoader.getProps['admintools_server_url']
+  puts admin_tools_server
   @content.split("\n").each do |line|
-    if(/#{PropLoader.getProps['minisb_admintools_server_url']}/.match(line))
+    if(/#{admin_tools_server}/.match(line))
       @email_verification_link = line
       puts @email_verification_link
     end
