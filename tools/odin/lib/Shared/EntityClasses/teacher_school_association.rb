@@ -31,7 +31,7 @@ class TeacherSchoolAssociation < BaseEntity
     @teacher_id = teacher_id
     @school_id = school_id
     @program_assignment = ProgramAssignmentType.to_string(program_assignment)
-    @grades = grades.collect { |grade| GradeLevelType.get(grade) }
+    @grades = grades.collect { |grade| GradeLevelType.to_string(grade) }
     @subjects = subjects.collect { |subject| AcademicSubjectType.to_string(subject) }
   end
   

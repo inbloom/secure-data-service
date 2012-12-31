@@ -70,9 +70,6 @@ public class SDKAPIClient implements APIClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
 
-
-    private static final String PARENT_EDORG = "parentEducationAgencyReference";
-
     private SLIClientFactory clientFactory;
 
     private String gracePeriod;
@@ -355,7 +352,6 @@ public class SDKAPIClient implements APIClient {
      * This adds 1 extra API call.
      *
      * @param token
-     * @param ids
      * @return a list of school entities that the user is associated with
      */
     @Override
@@ -994,7 +990,7 @@ public class SDKAPIClient implements APIClient {
      * params
      *
      * @param token
-     * @param ids
+     * @param schoolId
      * @param params
      * @return
      */
@@ -1010,7 +1006,6 @@ public class SDKAPIClient implements APIClient {
      * Get a list of all students
      *
      * @param token
-     * @param ids
      * @param params
      * @return
      */
@@ -1090,7 +1085,7 @@ public class SDKAPIClient implements APIClient {
         return students;
     }
 
-    /**
+    /**                    
      * Get a list of students in the specified section along with gradebook
      * entries
      *
@@ -1148,7 +1143,7 @@ public class SDKAPIClient implements APIClient {
      * Get a list of school enrollments for the given student id
      *
      * @param token
-     * @param student
+     * @param studentId
      * @return
      */
     @Override
@@ -1242,7 +1237,6 @@ public class SDKAPIClient implements APIClient {
      *
      * @param token
      * @param studentId
-     * @param params
      * @return
      */
     @Override
@@ -1274,7 +1268,6 @@ public class SDKAPIClient implements APIClient {
      *
      * @param token
      * @param url
-     * @param entityClass
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
@@ -1305,7 +1298,7 @@ public class SDKAPIClient implements APIClient {
      * Read a resource entity using the SDK
      *
      * @param token
-     * @param url
+        * @param url
      * @return
      */
     @Override
@@ -1519,7 +1512,6 @@ public class SDKAPIClient implements APIClient {
      * Delete a resource entity using the SDK
      *
      * @param token
-     * @param url
      * @param entity
      * @return
      */
@@ -1546,7 +1538,7 @@ public class SDKAPIClient implements APIClient {
     /**
      * Given a link in the API response, extract the entity's unique id
      *
-     * @param link
+     * @param path
      * @return
      */
     private String parseId(String path) {
@@ -1799,11 +1791,6 @@ public class SDKAPIClient implements APIClient {
             // get all the 'ancestor' ed org ids
             List<String> edOrgIds = getEdorgHierarchy(schoolId, token);
 
-            String edOrgIdUrl = "/" + PathConstants.EDUCATION_ORGANIZATIONS + "/";
-            for (String edOrgId : edOrgIds) {
-                edOrgIdUrl += edOrgId + ",";
-            }
-
             // get course Entity
             List<GenericEntity> courses = getCoursesForEdorgs(edOrgIds, token);
 
@@ -1854,7 +1841,7 @@ public class SDKAPIClient implements APIClient {
             if (edorg == null) {
                 currentEdOrgId = null;
             } else {
-                currentEdOrgId = (String) edorg.get(PARENT_EDORG);
+                currentEdOrgId = (String) edorg.get(Constants.ATTR_PARENT_EDORG);
             }
         }
 

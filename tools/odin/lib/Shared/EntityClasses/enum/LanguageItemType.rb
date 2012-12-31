@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the different languages support by ed-fi. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="LanguageItemType">
 #   <xs:annotation>

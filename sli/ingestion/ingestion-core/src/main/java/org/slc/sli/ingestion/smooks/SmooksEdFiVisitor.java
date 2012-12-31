@@ -48,9 +48,9 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
@@ -94,7 +94,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     private AbstractMessageReport errorReport;
-    private AbstractReportStats reportStats;
+    private ReportStats reportStats;
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -108,7 +108,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     }
 
     private SmooksEdFiVisitor(String beanId, String batchJobId, AbstractMessageReport report,
-            AbstractReportStats reportStats, IngestionFileEntry fe) {
+            ReportStats reportStats, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
         this.errorReport = report;
@@ -120,7 +120,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, AbstractMessageReport report,
-            AbstractReportStats reportStats, IngestionFileEntry fe) {
+            ReportStats reportStats, IngestionFileEntry fe) {
         return new SmooksEdFiVisitor(beanId, batchJobId, report, reportStats, fe);
     }
 

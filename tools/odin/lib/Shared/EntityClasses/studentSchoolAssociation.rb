@@ -36,7 +36,7 @@ class StudentSchoolAssociation < BaseEntity
     @studentId = studentId
     @schoolStateOrgId = DataUtility.get_school_id(schoolId, GradeLevelType.school_type(grade))
     @startYear = startYear
-    @startGrade = GradeLevelType.get(grade)
+    @startGrade = GradeLevelType.to_string(grade)
     @gradPlan = gradPlan
   end
   

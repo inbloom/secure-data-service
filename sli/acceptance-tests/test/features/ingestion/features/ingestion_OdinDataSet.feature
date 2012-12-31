@@ -76,7 +76,7 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
      | grade                                    |                  0|
-     | gradebookEntry                           |                  0|
+     | gradebookEntry                           |               4798|
      | gradingPeriod                            |                  6|
      | graduationPlan                           |                  3|
      | learningObjective                        |                  0|
@@ -90,10 +90,10 @@ Then I should see following map of entry counts in the corresponding collections
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 68|
+     | staff                                    |                 71|
      | staffCohortAssociation                   |                 27|
-     | staffEducationOrganizationAssociation    |                166|
-     | staffProgramAssociation                  |                660|
+     | staffEducationOrganizationAssociation    |                169|
+     | staffProgramAssociation                  |                669|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
@@ -107,9 +107,9 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSectionAssociation                |                 75|
      | studentGradebookEntry                    |                  0|
      | courseTranscript                         |                  0|
-     | teacherSchoolAssociation                 |                 19|
+     | teacherSchoolAssociation                 |                 22|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 3031 records." in the resulting batch job file
+    And I should see "Processed 7847 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -160,29 +160,32 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
 Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "rbraverman" in tenant db "Midgar"
     Then the "staff" entity "type" should be "teacher"
-    And the "staff" entity "body.race" should be "White"
-    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
-    And the "staff" entity "body.sex" should be "Female"  
-    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate"
-    And the "staff" entity "body.birthDate" should be "1959-07-22" 
+# we should only be testing what's in the staff catalog, not the information below
+#    And the "staff" entity "body.race" should be "White"
+#    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+#    And the "staff" entity "body.sex" should be "Female"  
+#    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate"
+#    And the "staff" entity "body.birthDate" should be "1959-07-22" 
 
 Scenario: Verify specific staff document for Charles Gray ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "cgray" in tenant db "Midgar"
     Then the "staff" entity "type" should be "teacher"
-    And the "staff" entity "body.race" should be "White"
-    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
-    And the "staff" entity "body.sex" should be "Male"  
-    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate" 
-    And the "staff" entity "body.birthDate" should be "1952-04-22" 
+# we should only be testing what's in the staff catalog, not the information below
+#    And the "staff" entity "body.race" should be "White"
+#    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+#    And the "staff" entity "body.sex" should be "Male"  
+#    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate" 
+#    And the "staff" entity "body.birthDate" should be "1952-04-22" 
 
 Scenario: Verify specific staff document for Linda Kim ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "linda.kim" in tenant db "Midgar"
     Then the "staff" entity "type" should be "teacher"
-    And the "staff" entity "body.race" should be "White"
-    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
-    And the "staff" entity "body.sex" should be "Female"  
-    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "No Degree" 
-    And the "staff" entity "body.birthDate" should be "1970-08-04" 
+# we should only be testing what's in the staff catalog, not the information below
+#    And the "staff" entity "body.race" should be "White"
+#    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
+#    And the "staff" entity "body.sex" should be "Female"  
+#    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "No Degree" 
+#    And the "staff" entity "body.birthDate" should be "1970-08-04" 
     
 Scenario: Verify superdoc studentSchoolAssociation references ingested correctly: Populated Database
   When Examining the studentSchoolAssociation collection references

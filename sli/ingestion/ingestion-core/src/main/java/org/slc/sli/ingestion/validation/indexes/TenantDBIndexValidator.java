@@ -1,18 +1,18 @@
 /*
-* Copyright 2012 Shared Learning Collaborative, LLC
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.ingestion.validation.indexes;
 
 import java.util.List;
@@ -24,14 +24,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.IndexParser;
 import org.slc.sli.ingestion.util.MongoIndex;
 
-
 /**
+ * Index validator for those dbs whose indexes are defined in plain text file
+ * in our own format.
  * @author tke
  *
  */
@@ -51,7 +52,7 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     }
 
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, AbstractReportStats reportStats, Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
 
         boolean isValid = true;
@@ -75,7 +76,8 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     }
 
     /**
-     * @param indexFile the indexFile to set
+     * @param indexFile
+     *            the indexFile to set
      */
     public void setIndexFile(String indexFile) {
         this.indexFile = indexFile;
@@ -89,7 +91,8 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     }
 
     /**
-     * @param indexTxtFileParser the indexTxtFileParser to set
+     * @param indexTxtFileParser
+     *            the indexTxtFileParser to set
      */
     public void setIndexTxtFileParser(IndexParser<String> indexTxtFileParser) {
         this.indexTxtFileParser = indexTxtFileParser;
@@ -103,7 +106,8 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     }
 
     /**
-     * @param tenantDA the tenantDA to set
+     * @param tenantDA
+     *            the tenantDA to set
      */
     public void setTenantDA(TenantDA tenantDA) {
         this.tenantDA = tenantDA;

@@ -80,7 +80,7 @@ describe "Odin" do
       end
 
       it "will generate a valid control file with the correct number of interchanges" do     
-        @interchanges.length.should eq(11)
+        @interchanges.length.should eq(12)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -101,7 +101,7 @@ describe "Odin" do
         end
         
         it "will generate a valid control file with the correct number of interchanges" do     
-          @interchanges.length.should eq(11)
+          @interchanges.length.should eq(12)
         end
         
         it "will generate a valid control file with Student as a type" do
@@ -124,8 +124,12 @@ describe "Odin" do
           @interchanges["StaffAssociation"].should match(/StaffAssociation.xml/)
         end
 
-        it "will generate a valid control file with StaffAssociation as a type" do
+        it "will generate a valid control file with StudentEnrollment as a type" do
           @interchanges["StudentEnrollment"].should match(/StudentEnrollment.xml/)
+        end
+
+        it "will generate a valid control file with StudentGrades as a type" do
+          @interchanges["StudentGrades"].should match(/StudentGrades.xml/)
         end
 
         it "will generate a valid control file with Attendance as a type" do
@@ -170,7 +174,7 @@ describe "Odin" do
 
   context "with a 1000 student configuration" do
     let(:odin) {Odin.new}
-    before {odin.generate "1000students"}
+    before(:all) {odin.generate("1000students")}
     let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
 
     describe "#generate" do
@@ -182,7 +186,7 @@ describe "Odin" do
 
   context "with a configuration with only students whitelisted" do
     let(:odin) {Odin.new}
-    before {odin.generate "1000studentsOnly"}
+    before(:all) { odin.generate("1000studentsOnly") }
     let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
     let(:interchanges) {read_interchanges}
 

@@ -54,7 +54,6 @@ import javax.ws.rs.core.UriInfo;
 public class DefaultResource extends GenericResource implements CustomEntityReturnable {
     private ResourceTemplate onePartTemplate;
     private ResourceTemplate twoPartTemplate;
-    private String version;
 
     @Autowired
     private WriteValidator writeValidator;
@@ -62,7 +61,6 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     public DefaultResource() {
         this.setOnePartTemplate(ResourceTemplate.ONE_PART);
         this.setTwoPartTemplate(ResourceTemplate.TWO_PART);
-        this.setVersion(PathConstants.V1);
     }
 
     @GET
@@ -87,7 +85,7 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
             public Response run(Resource resource) {
                 final String id = resourceService.postEntity(resource, entityBody);
 
-                final String uri = ResourceUtil.getURI(uriInfo, version,
+                final String uri = ResourceUtil.getURI(uriInfo, resourceHelper.extractVersion(uriInfo.getPathSegments()),
                         resource.getResourceType(), id).toString();
 
                 return Response.status(Response.Status.CREATED).header("Location", uri).build();
@@ -171,7 +169,7 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
         return new CustomEntityResource(id,
-                resourceHelper.getEntityDefinition(resource.getResourceType()));
+                resourceHelper.getEntityDefinition(resource.getResourceType()), resourceHelper);
     }
 
     protected final void setOnePartTemplate(final ResourceTemplate onePartTemplate) {
@@ -182,7 +180,4 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
         this.twoPartTemplate = twoPartTemplate;
     }
 
-    protected final void setVersion(final String version) {
-        this.version = version;
-    }
 }

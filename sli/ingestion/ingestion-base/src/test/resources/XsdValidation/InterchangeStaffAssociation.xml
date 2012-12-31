@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeStaffAssociation xmlns="http://ed-fi.org/0100">
   <TeacherSchoolAssociation>
-    <TeacherReference ref="CAP0-D0-HSch0-teacher1">
+    <TeacherReference>
       <StaffIdentity>
         <StaffUniqueStateId>CAP0-D0-HSch0-teacher1</StaffUniqueStateId>
       </StaffIdentity>
@@ -25,7 +25,7 @@
         <StaffUniqueStateId>CAP0-D0-HSch0-teacher1</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
-    <SectionReference ref="CAP0-D0-HS0-1-0-sec0">
+    <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
@@ -38,7 +38,7 @@
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
   </TeacherSectionAssociation>
   <StaffEducationOrgAssignmentAssociation>
-    <StaffReference ref="CAP0-staff0">
+    <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>CAP0-staff0</StaffUniqueStateId>
       </StaffIdentity>

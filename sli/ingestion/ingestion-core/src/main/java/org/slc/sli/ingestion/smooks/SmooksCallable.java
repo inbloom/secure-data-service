@@ -35,14 +35,15 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.handler.XmlFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.JobSource;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.util.LogUtil;
 
 /**
@@ -58,12 +59,14 @@ public class SmooksCallable implements Callable<Boolean> {
     private SliSmooksFactory sliSmooksFactory;
 
     private final NewBatchJob newBatchJob;
+    private final XmlFileHandler handler;
     private final IngestionFileEntry fe;
     private final Stage stage;
 
-    public SmooksCallable(NewBatchJob newBatchJob, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO,
+    public SmooksCallable(NewBatchJob newBatchJob, XmlFileHandler handler, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO,
             SliSmooksFactory sliSmooksFactory) {
         this.newBatchJob = newBatchJob;
+        this.handler = handler;
         this.fe = fe;
         this.stage = stage;
         this.sliSmooksFactory = sliSmooksFactory;
@@ -117,7 +120,11 @@ public class SmooksCallable implements Callable<Boolean> {
     private void doHandling(FileProcessStatus fileProcessStatus) {
         try {
 
-            generateNeutralRecord(fileProcessStatus);
+            handler.handle(fe, fe.getMessageReport(), fe.getReportStats());
+
+            if (!fe.getReportStats().hasErrors()) {
+                generateNeutralRecord(fileProcessStatus);
+            }
 
         } catch (IOException e) {
             LogUtil.error(LOG,

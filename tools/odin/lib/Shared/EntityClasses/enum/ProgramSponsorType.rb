@@ -41,16 +41,4 @@ class ProgramSponsorType
   ProgramSponsorType.define :PRIVATE_ORGANIZATION, "Private Organization"
   ProgramSponsorType.define :SCHOOL, "School"
   ProgramSponsorType.define :STATE_EDUCATION_AGENCY, "State Education Agency"
-
-  # translates the specified Symbol into the ed-fi compliant String representation of the program sponsor type
-  # -> returns nil if the Symbol doesn't exist
-  def self.to_string(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the program sponsor type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
 end

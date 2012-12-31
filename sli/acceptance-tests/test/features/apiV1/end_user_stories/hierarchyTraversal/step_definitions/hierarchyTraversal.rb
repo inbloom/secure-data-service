@@ -87,7 +87,7 @@ Then /^the "([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(found, "Expected value #{value} not found in array")
 end
 
-Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
+Transform /^(\/[\w-].+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
   version + uri + Transform(template)
 end
 

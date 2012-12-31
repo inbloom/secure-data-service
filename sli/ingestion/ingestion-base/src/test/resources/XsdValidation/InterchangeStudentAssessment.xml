@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeStudentAssessment xmlns="http://ed-fi.org/0100">
-    <StudentAssessment id="C0D0H0s0.a0.0">
+    <StudentAssessment>
         <AdministrationDate>2011-05-08</AdministrationDate>
         <AdministrationEndDate>2012-05-08</AdministrationEndDate>
         <SerialNumber>Serial Number</SerialNumber>
@@ -21,7 +21,7 @@
                 <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <AssessmentReference ref="as0Title">
+        <AssessmentReference>
             <AssessmentIdentity>
                 <AssessmentTitle>as0Title</AssessmentTitle>
                 <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
@@ -38,7 +38,7 @@
             <CodeValue>pld1</CodeValue>
             <PerformanceLevelMet>true</PerformanceLevelMet>
         </PerformanceLevels>
-        <StudentAssessmentReference ref="sar1">
+        <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-10</AdministrationDate>
                 <StudentReference>
@@ -61,9 +61,9 @@
             </ObjectiveAssessmentIdentity>
         </ObjectiveAssessmentReference>
     </StudentObjectiveAssessment>
-    <StudentAssessmentItem id="C0D0H0s0.a0.3.0">
+    <StudentAssessmentItem>
         <AssessmentItemResult>Incorrect</AssessmentItemResult>
-        <AssessmentItemReference ref="AssessmentItemReference">
+        <AssessmentItemReference>
             <AssessmentItemIdentity>
                 <AssessmentItemIdentificationCode>AssessmentItemReference</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>

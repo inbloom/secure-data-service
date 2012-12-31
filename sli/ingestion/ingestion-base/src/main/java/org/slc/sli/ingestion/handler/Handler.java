@@ -19,7 +19,7 @@ package org.slc.sli.ingestion.handler;
 import java.util.List;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  * Generic interface for handlers that requires handle methods with and without error support.
@@ -44,7 +44,7 @@ public interface Handler<T, O> {
      *            track statistics for report messages
      * @return
      */
-    O handle(T item, AbstractMessageReport report, AbstractReportStats reportStats);
+    O handle(T item, AbstractMessageReport report, ReportStats reportStats);
 
     /**
      * Handle the provided items.
@@ -57,6 +57,6 @@ public interface Handler<T, O> {
      *            track statistics for report messages
      * @return
      */
-    List<O> handle(List<T> items, AbstractMessageReport report, AbstractReportStats reportStats);
+    List<O> handle(List<T> items, AbstractMessageReport report, ReportStats reportStats);
 
 }

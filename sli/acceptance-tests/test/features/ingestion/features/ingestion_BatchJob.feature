@@ -35,14 +35,12 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.1.status                  | finished                             | string     |
   | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                 | string     |
   | newBatchJob    | 1                   | stages.2.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.3.stageName               | XmlFileProcessor                     | string     |
+  | newBatchJob    | 1                   | stages.3.stageName               | EdFiProcessor                        | string     |
   | newBatchJob    | 1                   | stages.3.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.4.stageName               | EdFiProcessor                        | string     |
+  | newBatchJob    | 1                   | stages.4.stageName               | OrchestrationStages                  | string     |
   | newBatchJob    | 1                   | stages.4.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.5.stageName               | OrchestrationStages                  | string     |
+  | newBatchJob    | 1                   | stages.5.stageName               | JobReportingProcessor                | string     |
   | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.6.stageName               | JobReportingProcessor                | string     |
-  | newBatchJob    | 1                   | stages.6.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJob.zip                         | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceFormat | zip-file                             | string     |
@@ -124,12 +122,10 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.1.status                  | finished                                |string      |
   | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                    |string      |
   | newBatchJob    | 1                   | stages.2.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.3.stageName               | XmlFileProcessor                        |string      |
+  | newBatchJob    | 1                   | stages.3.stageName               | EdFiProcessor                           |string      |
   | newBatchJob    | 1                   | stages.3.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.4.stageName               | EdFiProcessor                           |string      |
+  | newBatchJob    | 1                   | stages.4.stageName               | JobReportingProcessor                   |string      |
   | newBatchJob    | 1                   | stages.4.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.5.stageName               | JobReportingProcessor                   |string      |
-  | newBatchJob    | 1                   | stages.5.status                  | finished                                |string      |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJobError.zip                       |string      |
   | newBatchJob    | 1                   | resourceEntries.0.recordCount    | 0                                       |integer     |

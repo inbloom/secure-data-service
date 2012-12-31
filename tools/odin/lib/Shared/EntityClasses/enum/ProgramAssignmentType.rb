@@ -39,16 +39,4 @@ class ProgramAssignmentType
   ProgramAssignmentType.define :SPECIAL_EDUCATION, "Special Education"
   ProgramAssignmentType.define :TITLE_I_ACADEMIC, "Title I-Academic"
   ProgramAssignmentType.define :TITLE_I_NON_ACADEMIC, "Title I-Non-Academic"
-
-  # translates the specified Symbol into the String representation of the program assignment type
-  # -> returns nil if the Symbol doesn't exist
-  def self.to_string(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the program assignment type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
 end

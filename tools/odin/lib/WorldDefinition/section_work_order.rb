@@ -25,6 +25,7 @@ require_relative '../Shared/EntityClasses/staff_ed_org_assignment_association.rb
 require_relative '../Shared/EntityClasses/teacher.rb'
 require_relative '../Shared/EntityClasses/teacher_school_association.rb'
 require_relative '../Shared/EntityClasses/teacher_section_association.rb'
+require_relative 'gradebook_entry_factory.rb'
 
 # factory for creating section work orders using the specified scenario (and corresponding world)
 class SectionWorkOrderFactory
@@ -40,6 +41,7 @@ class SectionWorkOrderFactory
     @prng = prng
     @teacher_unique_state_id = 0
     @start_index = 1
+    @gradebook_entry_factory = GradebookEntryFactory.new(@scenario)
   end
 
   # uses the instantiated @world to generate sections (and corresponding teachers) for the specified education organization
@@ -68,9 +70,8 @@ class SectionWorkOrderFactory
             sections_with_teachers.each{ |offering, sections|
               @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] = [] 
               sections.each{ |section|
-                # remember the unique section ids that map to each course offering --> stored in the @world
-                @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] << section[:id]
-
+                session = find_matching_session_for_school(school_id, offering)
+                  
                 if teacher_does_not_exist_yet(section[:teacher]['id'])
                   year_of = Date.today.year - DataUtility.select_random_from_options(@prng, (25..65).to_a)
                   # keep :name => nil in work order --> Teacher entity class will lazily create name for teacher if its nil
@@ -83,14 +84,13 @@ class SectionWorkOrderFactory
                     :id=>section[:teacher]['id'], 
                     :school=>school_id, 
                     :assignment=>:REGULAR_EDUCATION, 
-                    :grades=>[offering['grade']], 
+                    :grades=>[grade], 
                     :subjects=>section[:teacher]['subjects']
                   }
 
                   # add staff -> education organization assignment association for current session (where teacher is associated to school)
                   # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
                   #    the current simulation
-                  session             = find_matching_session_for_school(school_id, offering)
                   ed_org_associations = create_staff_ed_org_association_for_teacher(session, section[:teacher]['id'], school_id, ed_org_type)
                   ed_org_associations.each { |order| yielder << order }
 
@@ -99,7 +99,20 @@ class SectionWorkOrderFactory
                   program_associations = create_staff_program_associations_for_teacher(session, section[:teacher]['id'], ed_org["programs"])
                   program_associations.each { |order| yielder << order }
                 end
+
+                # generate gradebook entries here
+                # -> need session for interval (start date and end date of session)
+                # use section[:id] and offering['ed_org_id'] for section
+                # use offering['grade'] for current grade
+                gradebook_entries = @gradebook_entry_factory.generate_entries(@prng, grade, session, 
+                  {:ed_org_id => offering['ed_org_id'], :unique_section_code => DataUtility.get_unique_section_id(section[:id])})
+
+                # use unique section ids that map to each course offering --> stored in the @world
+                # -> determine number of gradebook entries here, and store with section :id
+                @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] << { :id => section[:id], :gbe => get_gradebook_entry_breakdown(grade, gradebook_entries) }
                 
+                gradebook_entries.each { |entry| yielder << entry }
+
                 yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering}
                 yielder << {:type=>TeacherSectionAssociation, :teacher=>section[:teacher]['id'], :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
               }
@@ -108,6 +121,16 @@ class SectionWorkOrderFactory
         end
       }
     end
+  end
+
+  # gets the breakdown of gradebook entries created (performs lookup into @scenario for specified grade)
+  def get_gradebook_entry_breakdown(grade, entries)
+    breakdown = {}
+    @scenario['GRADEBOOK_ENTRIES_BY_GRADE'][GradeLevelType.to_string(grade)].each do |type, guidelines|
+      current_type = entries.select { |entry| entry[:gbe_type] == type }
+      breakdown[type] = current_type.size
+    end
+    breakdown
   end
 
   # returns true if the teacher does NOT exist (and needs to be created), and false otherwise (teacher already exists)
@@ -155,7 +178,7 @@ class SectionWorkOrderFactory
   def add_teachers_to_sections(sections, teachers, type)
     sections_with_teachers     = {}
     sections.each { |offering, section_range|
-      # skip this offering if the second range is nil
+      # skip this offering if the section range is nil
       next if section_range.nil?
 
       sections_for_this_offering  = []

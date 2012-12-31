@@ -484,7 +484,7 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "staffProgramAssociation" => "staffProgramAssociations"
   }
   if type != ""
-    api_version = "v1"
+    api_version = "v1.1"
     step "I navigate to POST \"/#{api_version}/#{@assocUrl[type]}\""
     headers = @res.raw_headers
     assert(headers != nil, "Headers are nil")
@@ -514,7 +514,7 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version = "v1"
+  version = "v1.1"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
@@ -526,7 +526,7 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1.1\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     

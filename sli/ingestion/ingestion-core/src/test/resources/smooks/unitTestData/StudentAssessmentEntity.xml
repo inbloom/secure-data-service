@@ -1,5 +1,5 @@
 <InterchangeStudentAssessment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentAssessment.xsd">
-    <StudentAssessment id="ID005">
+    <StudentAssessment>
         <AdministrationDate>2013-11-11</AdministrationDate>
         <AdministrationEndDate>2013-08-07</AdministrationEndDate>
         <SerialNumber>231101422</SerialNumber>
@@ -30,15 +30,15 @@
             <Result>wp8LHfJTg0VCYibTjopqHgrwQLysVfikvHH</Result>
         </ScoreResults>
         <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
-        <PerformanceLevels id="ID007" ref="ID001">
+        <PerformanceLevels>
             <CodeValue>KYn6axx9pJEX</CodeValue>
             <Description>bn</Description>
         </PerformanceLevels>
-        <PerformanceLevels id="ID009" ref="ID002">
+        <PerformanceLevels>
             <CodeValue>iCVfaEbxmLrwjJHDp24L6b.RqEqktmj4RQ.uZu1orVHu3ZDmIEAU-4o6G0piplr</CodeValue>
             <Description>o4d07w7KBFLDv_:fTpRC6hDuGzrDCg-9:cwqPCbOiVQ7FJC_DM4ETxGH67_9tG9zxRQ7uvoWGcS61aQzmp.djePWS8BzzO:B.0OjCwZ.5IY1XAmn0DyTWLCVVPlvntyjiPBJW6BZpH-i1VBx.lIBj1QmCRfKSd2v-Sil:C3:Iut2sN.cP0MF8M9PGPJh6yvPgqwzLQ3pRVXPh-m_neWgS3irXiKkuHU8zKT8EfF__kf8ZX_ccZBOzACZTTBdEI80ePBGNt:95CQoOnVKPKH4bPIPLPBgpPRIr4mrKdtv8z2L8llbtQRWNT16a4clF4ZgAJjl8Mpa89_pHWlQinxt9JuuoVLSughk66KY6YWwt6DMTAcTBah0fXs2zdLHf4S57c203kCOJOGG5vjlMInFF.4_KEWRMvB:AMp59MpeH7gJ9W6M936StsWtbQO5Q_EOWpnCnnqA:BlpMufI1QXRNG9Fsqj:hNywuX5rWknNJyE422qgfRQCJqzC39MX23-wnqBvq7UXrbIZfNhA8nPve_Wq</Description>
         </PerformanceLevels>
-        <StudentReference id="ID011" ref="ID008">
+        <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>Yjmyw</StudentUniqueStateId>
                 <StudentIdentificationCode IdentificationSystem="State Migrant" AssigningOrganizationCode="XcjWvDlTR">
@@ -78,7 +78,7 @@
                 </Race>
             </StudentIdentity>
         </StudentReference>
-        <AssessmentReference id="ID013" ref="ID002">
+        <AssessmentReference>
             <AssessmentIdentity>
                 <AssessmentFamilyTitle>xxNq_TgKZ-y4Al0vVtxFo3D5.azgcH.I</AssessmentFamilyTitle>
                 <AssessmentTitle>c-aKzuT08</AssessmentTitle>

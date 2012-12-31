@@ -1,5 +1,5 @@
-{
-    "nameSpace": "v1",
+[{
+    "nameSpace": ["v1","v2"],
     "resources": [
         {
             "path": "/sections",
@@ -17,4 +17,4 @@
             ]
         }
     ]
-}
+}]
