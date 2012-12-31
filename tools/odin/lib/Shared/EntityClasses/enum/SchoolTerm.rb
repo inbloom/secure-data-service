@@ -46,9 +46,4 @@ class SchoolTerm
   SchoolTerm.define :SUMMER_SEMESTER, "Summer Semester"
   SchoolTerm.define :THIRD_TRIMESTER, "Third Trimester"
   SchoolTerm.define :YEAR_ROUND, "Year Round"
-
-  # translates the specified Symbol into the String representation of the school term
-  def self.to_string(key)
-    const_get(key)
-  end
 end

@@ -198,10 +198,13 @@ class DateUtility
   end
 
   # finds the dates to evenly spread the specified number of events between the start and end date
-  def self.get_school_days_over_interval(start_date, end_date, num_events)
-    dates     = []
+  def self.get_school_days_over_interval(start_date, end_date, num_events, holidays = [])
+    raise(ArgumentError, ":start_date must be before :end_date") if start_date > end_date
+    return [] if num_events == 0
+
+    dates = []
     if start_date == end_date or num_events == 1
-      dates << start_date
+      dates << end_date
       return dates
     end
     
@@ -211,12 +214,34 @@ class DateUtility
 
     # iterate from start to end date using 'days_between_events'
     (start_date..end_date).step(days_between_events) do |date|
-      if date.wday == 0
-        dates << date + 1
-      elsif date.wday == 6
-        dates << date - 1
+      if is_sunday(date)
+        # if the day is sunday, shift forward one day to monday
+        # -> check to make sure monday isn't a holiday (if it is, shift forward until a non-holiday date is found)
+        new_date = date + 1
+        while holidays.include?(new_date) 
+          new_date += 1 
+        end
+        dates << new_date
+      elsif is_saturday(date)
+        # if the day is saturday, shift back one day to friday
+        # -> check to make sure friday isn't a holiday (if it is, shift backward until a non-holiday date is found)
+        new_date = date - 1
+        while holidays.include?(new_date) 
+          new_date -= 1 
+        end
+        dates << new_date
       else
-        dates << date
+        # check to see if the day is a holiday
+        # -> if it is, shift forward to a non-holiday date
+        if holidays.include?(date)
+          new_date = date
+          while holidays.include?(new_date) 
+            new_date += 1 
+          end
+          dates << new_date
+        else
+          dates << date
+        end
       end
     end
     dates

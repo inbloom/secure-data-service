@@ -4570,7 +4570,7 @@
             </SchoolReference>
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
-                <GraduationPlan id="GP-STANDARD">
+                <GraduationPlan>
             <GraduationPlanType>Standard</GraduationPlanType>
             <IndividualPlan>false</IndividualPlan>
             <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">
@@ -4627,7 +4627,7 @@
             </EducationOrganizationReference>
         </GraduationPlan>
 
-        <GraduationPlan id="GP-MINIMUM">
+        <GraduationPlan>
             <GraduationPlanType>Minimum</GraduationPlanType>
             <IndividualPlan>false</IndividualPlan>
             <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">
@@ -4685,7 +4685,7 @@
             </EducationOrganizationReference>
         </GraduationPlan>
 
-        <GraduationPlan id="GP-ADVANCED">
+        <GraduationPlan>
             <GraduationPlanType>Distinguished</GraduationPlanType>
             <IndividualPlan>false</IndividualPlan>
             <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">

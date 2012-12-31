@@ -72,5 +72,17 @@ module Enum
       end
       hash
     end
+
+    # translates the specified Symbol into the ed-fi compliant String representation of the enumerated type
+    # -> returns nil if the Symbol doesn't exist
+    def to_string(key)
+      const_get(key)
+    end
+
+    # translates the specified String representation of the enumerated type into a Symbol
+    # -> returns nil if the String representation doesn't map to a Symbol
+    def to_symbol(value)
+      get_key(value)
+    end
   end
 end

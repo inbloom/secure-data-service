@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <InterchangeStudentProgram xmlns="http://ed-fi.org/0100">
-    
     <StudentProgramAssociation>
         <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>CAP0-D0-HSch0-stu72</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <ProgramReference ref="CAP0-D0-HSch0-prg0">
+        <ProgramReference>
             <ProgramIdentity>
                 <ProgramId>CAP0-D0-HSch0-prg0</ProgramId>
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>

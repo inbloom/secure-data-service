@@ -122,7 +122,7 @@ public class SchoolEntityTest {
             + "    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>"
             + "    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>"
             + "    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>"
-            + "    <LocalEducationAgencyReference id=\"ID053\" ref=\"ID044\"> "
+            + "    <LocalEducationAgencyReference> "
             + "      <EducationalOrgIdentity>"
             + "        <StateOrganizationId>LEA123</StateOrganizationId>"
             + "      </EducationalOrgIdentity>"
@@ -223,12 +223,7 @@ public class SchoolEntityTest {
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingOrganization", "rating org");
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
-/*        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> programReferenceList = (List<Map<String, Object>>) neutralRecord.getAttributes().get("programReference");
-        assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0).get("programId"));
-        assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1).get("programId"));
-
-*/        List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
+        List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
         assertEquals("Third grade", gradesOfferedList.get(0));
         if (isXML) {
             // TODO: remove if block when we support csv collections

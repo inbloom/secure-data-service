@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of retest indicators. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="RetestIndicatorType">
 #   <xs:annotation>

@@ -72,7 +72,7 @@ class DataUtility
 
   # get course title
   def self.get_course_title(grade, subject)
-    GradeLevelType.get(grade) + " " + subject
+    GradeLevelType.to_string(grade) + " " + subject
   end
 
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------

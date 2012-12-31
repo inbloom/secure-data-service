@@ -2,7 +2,7 @@
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <GradebookEntry id="GBE-8th Grade English-1">
+    <GradebookEntry>
       <GradebookEntryType>Unit test</GradebookEntryType>
       <DateAssigned>2011-09-29</DateAssigned>
       <SectionReference>
@@ -12,7 +12,7 @@
         </SectionIdentity>
       </SectionReference>
     </GradebookEntry>
-    <GradebookEntry id="GBE-8th Grade English-2">
+    <GradebookEntry>
       <GradebookEntryType>Unit test</GradebookEntryType>
       <DateAssigned>2011-10-13</DateAssigned>
       <SectionReference>
@@ -22,7 +22,7 @@
         </SectionIdentity>
       </SectionReference>
     </GradebookEntry>
-    <GradebookEntry id="GBE-8th Grade English-3">
+    <GradebookEntry>
       <GradebookEntryType>Unit test</GradebookEntryType>
       <DateAssigned>2011-10-27</DateAssigned>
       <SectionReference>
@@ -33,7 +33,7 @@
       </SectionReference>
     </GradebookEntry>
 
-    <GradebookEntry id="GBE-Algebra-11-A-1">
+    <GradebookEntry>
       <GradebookEntryType>Unit test</GradebookEntryType>
       <DateAssigned>2011-09-15</DateAssigned>
       <SectionReference>
@@ -43,7 +43,7 @@
         </SectionIdentity>
       </SectionReference>
     </GradebookEntry>
-    <GradebookEntry id="GBE-Algebra-11-A-2">
+    <GradebookEntry>
       <GradebookEntryType>Unit test</GradebookEntryType>
       <DateAssigned>2011-09-29</DateAssigned>
       <SectionReference>
@@ -53,7 +53,7 @@
         </SectionIdentity>
       </SectionReference>
     </GradebookEntry>
-    <GradebookEntry id="GBE-Algebra-11-A-3">
+    <GradebookEntry>
       <GradebookEntryType>Unit test</GradebookEntryType>
       <DateAssigned>2011-10-13</DateAssigned>
       <SectionReference>
@@ -65,7 +65,7 @@
     </GradebookEntry>
 
 
-    <StudentAcademicRecord id="SAR-91919001-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -100,12 +100,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919001-1"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919001</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919001-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -140,12 +140,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919001-2"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919001</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919002-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -180,12 +180,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919002-1"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919002</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919002-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -220,12 +220,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919002-2"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919002</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919003-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -260,12 +260,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919003-1"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919003</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919003-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -300,12 +300,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919003-2"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919003</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919004-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -340,12 +340,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919004-1"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919004</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919004-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -380,12 +380,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919004-2"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919004</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919005-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -420,12 +420,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919005-1"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919005</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919005-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -460,12 +460,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919005-2"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919005</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919006-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -500,12 +500,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919006-1"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919006</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919006-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -540,12 +540,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919006-2"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919006</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919007-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -580,12 +580,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919007-1"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919007</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919007-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -620,12 +620,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919007-2"/>
+      <StudentAcademicRecordReference>
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919007</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919008-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -660,13 +660,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919008-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919008</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919008-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -701,13 +701,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919008-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919008</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919009-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -742,13 +742,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919009-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919009</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919009-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -783,13 +783,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919009-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919009</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919010-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -824,13 +824,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919010-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919010</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919010-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -865,13 +865,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919010-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919010</StudentUniqueStateId>
     </CourseTranscript>
     
-    <StudentAcademicRecord id="SAR-91919011-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -906,13 +906,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919011-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919011</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919011-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -947,13 +947,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919011-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919011</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919012-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -988,13 +988,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919012-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919012</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919012-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1029,13 +1029,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919012-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919012</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919013-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1070,13 +1070,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919013-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919013</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919013-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1111,13 +1111,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919013-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919013</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919014-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1152,13 +1152,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919014-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919014</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919001-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1193,13 +1193,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919014-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919014</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919015-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1234,13 +1234,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919015-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919015</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919001-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1275,13 +1275,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919015-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919015</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919016-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1316,13 +1316,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919016-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919016</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919016-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1357,13 +1357,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919016-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919016</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919017-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1398,13 +1398,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919017-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919017</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919017-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1439,13 +1439,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919017-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919017</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919018-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1480,13 +1480,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919018-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919018</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919018-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1521,13 +1521,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919018-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919018</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919019-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1562,13 +1562,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919019-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919019</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919019-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1603,13 +1603,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919019-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919019</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919020-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1644,13 +1644,13 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919020-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919020</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919020-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -1685,7 +1685,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919020-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919020</StudentUniqueStateId>
@@ -1706,7 +1706,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1723,7 +1723,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1740,7 +1740,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1757,7 +1757,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1774,7 +1774,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1791,7 +1791,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1808,7 +1808,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1825,7 +1825,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1842,7 +1842,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1859,7 +1859,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1876,7 +1876,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1893,7 +1893,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1910,7 +1910,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1927,7 +1927,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1944,7 +1944,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1961,7 +1961,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1978,7 +1978,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1995,7 +1995,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -2012,7 +2012,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -2029,7 +2029,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -2047,7 +2047,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2064,7 +2064,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2081,7 +2081,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2098,7 +2098,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2115,7 +2115,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2132,7 +2132,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2149,7 +2149,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2166,7 +2166,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2183,7 +2183,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2200,7 +2200,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2217,7 +2217,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2234,7 +2234,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2251,7 +2251,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2268,7 +2268,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2285,7 +2285,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2302,7 +2302,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2319,7 +2319,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2336,7 +2336,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2353,7 +2353,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2370,7 +2370,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -2388,7 +2388,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2405,7 +2405,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2422,7 +2422,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2439,7 +2439,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2456,7 +2456,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2473,7 +2473,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2490,7 +2490,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2507,7 +2507,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2524,7 +2524,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2541,7 +2541,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2558,7 +2558,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2575,7 +2575,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2592,7 +2592,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2609,7 +2609,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2626,7 +2626,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2643,7 +2643,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2660,7 +2660,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2677,7 +2677,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2694,7 +2694,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2711,12 +2711,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     
     
     
-    <StudentAcademicRecord id="SAR-453827070-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -2751,12 +2751,12 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-453827070-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>453827070</StudentUniqueStateId>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-453827070-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -2791,13 +2791,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-4538270701-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>453827070</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-943715230-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -2832,13 +2832,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-943715230-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>943715230</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-943715230-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -2873,13 +2873,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-943715230-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>943715230</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-164420088-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -2914,13 +2914,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-164420088-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>164420088</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-164420088-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -2955,13 +2955,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-164420088-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>164420088</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-505331723-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -2996,13 +2996,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-505331723-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>505331723</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-505331723-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3037,13 +3037,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-505331723-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>505331723</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-530425896-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3078,13 +3078,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-530425896-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>530425896</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-530425896-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3119,13 +3119,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-530425896-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>530425896</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-429526969-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3160,13 +3160,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-429526969-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>429526969</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-429526969-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3201,13 +3201,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-429526969-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>429526969</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-178828452-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3242,13 +3242,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178828452-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>178828452</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-178828452-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3283,13 +3283,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178828452-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>178828452</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-525878920-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3324,13 +3324,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-525878920-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>525878920</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-525878920-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3365,13 +3365,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-525878920-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>525878920</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-510152105-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3406,13 +3406,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-510152105-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>510152105</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-510152105-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3447,13 +3447,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-510152105-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>510152105</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-802709591-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3488,13 +3488,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-802709591-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>802709591</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-802709591-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3529,13 +3529,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-802709591-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>802709591</StudentUniqueStateId>
     </CourseTranscript>
     
-    <StudentAcademicRecord id="SAR-437680177-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3570,13 +3570,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-437680177-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>437680177</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-437680177-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3611,13 +3611,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-437680177-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>437680177</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-170011136-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3652,13 +3652,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-170011136-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>170011136</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-170011136-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3693,13 +3693,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-170011136-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>170011136</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-547028299-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3734,13 +3734,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-547028299-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>547028299</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-547028299-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3775,13 +3775,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-547028299-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>547028299</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-258392050-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3816,7 +3816,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-258392050-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>258392050</StudentUniqueStateId>
@@ -3841,13 +3841,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-258392050-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>258392050</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-178875887-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3882,7 +3882,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178875887-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>178875887</StudentUniqueStateId>
@@ -3907,13 +3907,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178875887-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>178875887</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-100644447-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3948,13 +3948,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-100644447-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>100644447</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-100644447-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -3989,13 +3989,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-100644447-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>100644447</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-376191021-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4030,13 +4030,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-376191021-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>376191021</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-376191021-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4071,13 +4071,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-376191021-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>376191021</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-336344132-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4112,13 +4112,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-336344132-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>336344132</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-336344132-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4153,13 +4153,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-336344132-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>336344132</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-711411586-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4194,13 +4194,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-711411586-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>711411586</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-711411586-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4235,13 +4235,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-711411586-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>711411586</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-131758477-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4276,13 +4276,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-131758477-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>131758477</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-131758477-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4317,13 +4317,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-131758477-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>131758477</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-670703438-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4358,13 +4358,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-670703438-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>670703438</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-670703438-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4399,13 +4399,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-670703438-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>670703438</StudentUniqueStateId>
     </CourseTranscript>
     
-    <StudentAcademicRecord id="SAR-851123275-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4440,13 +4440,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-851123275-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>851123275</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-851123275-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4481,13 +4481,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-851123275-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>851123275</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-423037202-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4522,13 +4522,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-423037202-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>423037202</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-423037202-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4563,13 +4563,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-423037202-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>423037202</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-250918988-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4604,13 +4604,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-250918988-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>250918988</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-250918988-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4645,13 +4645,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-250918988-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>250918988</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-421216329-1">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4686,13 +4686,13 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-421216329-1"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade Composition</CourseCode>
       <StudentUniqueStateId>421216329</StudentUniqueStateId>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-421216329-2">
+    <StudentAcademicRecord>
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -4727,7 +4727,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-421216329-2"/>
+      <StudentAcademicRecordReference>
       
       <CourseCode>7th Grade English</CourseCode>
       <StudentUniqueStateId>421216329</StudentUniqueStateId>
@@ -4748,7 +4748,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4765,7 +4765,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4782,7 +4782,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     
     <StudentGradebookEntry>
@@ -4800,7 +4800,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4817,7 +4817,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4834,7 +4834,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4852,7 +4852,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4869,7 +4869,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4886,7 +4886,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4904,7 +4904,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4921,7 +4921,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4938,7 +4938,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4956,7 +4956,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4973,7 +4973,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4990,7 +4990,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5008,7 +5008,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5025,7 +5025,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5042,7 +5042,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5060,7 +5060,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5077,7 +5077,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5094,7 +5094,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5112,7 +5112,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5129,7 +5129,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5146,7 +5146,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5164,7 +5164,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5181,7 +5181,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5198,7 +5198,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5216,7 +5216,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5233,7 +5233,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5250,7 +5250,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5268,7 +5268,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5285,7 +5285,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5302,7 +5302,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5320,7 +5320,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5337,7 +5337,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5354,7 +5354,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5372,7 +5372,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5389,7 +5389,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5406,7 +5406,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5424,7 +5424,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5441,7 +5441,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5458,7 +5458,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5476,7 +5476,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5493,7 +5493,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5510,7 +5510,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5528,7 +5528,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5545,7 +5545,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5562,7 +5562,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5580,7 +5580,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5597,7 +5597,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5614,7 +5614,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5632,7 +5632,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5649,7 +5649,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5666,7 +5666,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5684,7 +5684,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5701,7 +5701,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5718,7 +5718,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5736,7 +5736,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5753,7 +5753,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5770,7 +5770,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5788,7 +5788,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5805,7 +5805,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5822,7 +5822,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5840,7 +5840,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5857,7 +5857,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5874,7 +5874,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5892,7 +5892,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5909,7 +5909,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5926,7 +5926,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5944,7 +5944,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5961,7 +5961,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5978,7 +5978,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     
     <StudentGradebookEntry>
@@ -5996,7 +5996,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -6013,7 +6013,7 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -6030,6 +6030,6 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
     </StudentGradebookEntry>
 </InterchangeStudentGrade>

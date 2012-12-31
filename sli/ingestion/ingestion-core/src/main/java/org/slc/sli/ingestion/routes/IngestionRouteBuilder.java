@@ -32,7 +32,6 @@ import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
-import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
@@ -90,8 +89,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private TransformationProcessor transformationProcessor;
 
-    @Autowired
-    private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;
+/*    @Autowired
+    private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;*/
 
     @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
@@ -346,10 +345,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(purgeProcessor).to("direct:stop")
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentXmlFileProcessor.")
-                .process(concurrentXmlFileProcessor).to(workItemQueueUri)
-
-                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentEdfiProcessor.")
                 .process(concurrentEdFiProcessor).to("direct:postExtract");
 

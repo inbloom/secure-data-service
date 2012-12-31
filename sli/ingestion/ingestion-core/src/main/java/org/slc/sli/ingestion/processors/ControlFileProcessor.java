@@ -195,13 +195,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             LOG.debug("Did not match @dry-run tag in control file.");
         }
 
-/*        if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
-            LOG.debug("Matched @no-id-ref tag from control file parsing.");
-            exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
-        } else {
-            LOG.debug("Did not match @no-id-ref tag in control file.");
-        }*/
-
         String ddProp = newJob.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
         if (ddProp != null) {
             LOG.debug("Matched @duplicate-detection tag from control file parsing.");

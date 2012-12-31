@@ -70,7 +70,7 @@ describe "WorkOrderProcessor" do
     before { work_order_queue.factory(factory, entity_queue) }
 
     context 'With a simple work order' do
-      let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
+      let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [{:id => 42}, {:id => 43}, {:id => 44}], {'id' => 2} => [{:id => 45}, {:id => 46}, {:id => 47}]})}
       let(:ed_org) {{'id' => 64, 'parent' => 2, 'sessions' => [{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)},
                                                                {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)}],
                                  'programs' => [{:id => 1, :type => :IDEA, :sponsor => :SCHOOL}]}}

@@ -120,7 +120,7 @@ public class LocalEducationAgencyTest {
             + "        <ProgramId>ACC-TEST-PROG-2</ProgramId>"
             + "      </ProgramIdentity>"
             + "    </ProgramReference>"
-            + "    <StateEducationAgencyReference id=\"ID041\" ref=\"ID003\">"
+            + "    <StateEducationAgencyReference>"
             + "      <EducationalOrgIdentity>"
             + "        <StateOrganizationId>SEA123</StateOrganizationId>"
             + "      </EducationalOrgIdentity>"

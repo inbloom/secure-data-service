@@ -28,7 +28,12 @@ describe "SectionWorkOrderFactory" do
 
     before(:all) do
       config = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
-      scenario = {'STUDENTS_PER_SECTION' => {'high' => 10}, 'MAX_SECTIONS_PER_TEACHER' => {'high' => 5}}
+      scenario = {'STUDENTS_PER_SECTION' => {'high' => 10}, 'MAX_SECTIONS_PER_TEACHER' => {'high' => 5},
+        'GRADEBOOK_ENTRIES_BY_GRADE' => {
+          "Ninth grade" => { "Homework" => {"min" => 1, "max" => 4} },
+          "Tenth grade" => { "Homework" => {"min" => 1, "max" => 4} }
+        }
+      }
       
       offerings = [{'id' => 1, 'grade' => :NINTH_GRADE, 'ed_org_id'=>'high-0000000042'}, 
         {'id' => 2, 'grade' => :TENTH_GRADE, 'ed_org_id'=>'high-0000000042'}, 
