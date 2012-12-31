@@ -56,26 +56,6 @@ Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_P
 And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>" after "5" seconds
 
 @production
-Scenario: Vendor registers on a production environment
-Given I go to the production account registration page
-And there is no registered account for "<USER_EMAIL>" in the SLI database
-And there is no registered account for "<USER_EMAIL>" in LDAP
-And the developer type in first name "<USER_FIRSTNAME>" and last name "<USER_LASTNAME>"
-And the developer type in email "<USER_EMAIL>" and password "<USER_PASS>"
-And the developer submits the account registration request
-Then the developer is redirected to a page with terms and conditions
-When the developer click "Accept"
-Then the developer is directed to an acknowledgement page.
-And a verification email is sent to "<USER_EMAIL>"
-When the developer click link in verification email in "production"
-Then an account entry is made in ldap with "pending" status
-When the SLC operator accesses the "<ACCOUNT_MANAGEMENT_APP>"
-And the SLC operator authenticates as "<SLC_OPERATOR_USER>" and "<SLC_OPERATOR_PASS>"
-And the SLC operator approves the vendor account for "<USER_EMAIL>"
-Then a "production" approval email is sent to the "<USER_EMAIL>"
-And the email has a "<URL_TO_PORTAL>"
-
-@production
 Scenario: District admin provisions LZ for an Ed-Org
 Given the "<DISTRICT_ADMIN_USER>" has "<STATE_ED_ORG>" defined in LDAP by the operator
 When the state super admin accesses the "<URL_TO_PROVISIONING_APPLICATION>"

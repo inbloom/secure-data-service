@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 class ChangePasswordsController < ApplicationController
   before_filter :check_allowed_user
 
@@ -34,6 +33,7 @@ class ChangePasswordsController < ApplicationController
   # GET /change_passwords/new
   # GET /change_passwords/new.json
   def new
+    @prod_developer = is_developer? and !APP_CONFIG['is_sandbox']
     @change_password = ChangePassword.new
 
     respond_to do |format|

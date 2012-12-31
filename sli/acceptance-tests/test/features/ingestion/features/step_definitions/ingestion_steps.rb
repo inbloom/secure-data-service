@@ -199,6 +199,11 @@ def ensureBatchJobIndexes(db_connection)
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['jobId', 1]] , :unique => true)
   @collection.remove({ '_id' => " " })
+
+  @collection = @db["recordHash"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['t', 1]])
+  @collection.remove({ '_id' => " " })
 end
 
 def initializeTenants()
@@ -828,8 +833,9 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-  ensureBatchJobIndexes(@batchConn)
-  assert(@result == "true", "Some collections were not cleared successfully.")
+  #ensureBatchJobIndexes(@batchConn)
+  #assert(@result == "true", "Some collections were not cleared successfully.")
+  exec 'mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js'
   enable_NOTABLESCAN()
 end
 

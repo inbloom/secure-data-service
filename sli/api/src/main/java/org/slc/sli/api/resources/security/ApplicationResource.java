@@ -108,6 +108,9 @@ public class ApplicationResource extends UnversionedResource {
     public static final String LOCATION = "Location";
 
     private static final String CREATED_BY = "created_by";
+    private static final String AUTHOR_SANDBOX_TENANT = "author_sandbox_tenant";
+    private static final String AUTHOR_FIRST_NAME = "author_first_name";
+    private static final String AUTHOR_LAST_NAME = "author_last_name";
 
     //These fields can only be set during bootstrapping and can never be modified through the API
     private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
@@ -155,6 +158,16 @@ public class ApplicationResource extends UnversionedResource {
         newApp.put(CLIENT_ID, clientId);
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newApp.put(CREATED_BY, principal.getExternalId());
+        
+        if (principal.getSandboxTenant() != null) {
+        	newApp.put(AUTHOR_SANDBOX_TENANT, principal.getSandboxTenant());
+        }
+        if (principal.getFirstName() != null) {
+            newApp.put(AUTHOR_FIRST_NAME, principal.getFirstName());
+        }
+        if (principal.getLastName() != null) {
+            newApp.put(AUTHOR_LAST_NAME, principal.getLastName());
+        }
 
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, STATUS_PENDING);
@@ -294,6 +307,11 @@ public class ApplicationResource extends UnversionedResource {
         if (createdBy == null) {
             app.put(CREATED_BY, oldApp.get(CREATED_BY));
         }
+        
+        String sandboxTenant = (String) app.get(AUTHOR_SANDBOX_TENANT);
+        if (sandboxTenant == null && oldApp.get(AUTHOR_SANDBOX_TENANT) != null) {
+            app.put(AUTHOR_SANDBOX_TENANT, oldApp.get(AUTHOR_SANDBOX_TENANT));
+        }
 
         String id = (String) app.get("id");
         Map<String, Object> oldReg = (Map<String, Object>) oldApp.get(REGISTRATION);
@@ -312,12 +330,13 @@ public class ApplicationResource extends UnversionedResource {
                 || (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
                 || (id != null && !id.equals(oldApp.get("id")))
                 || (createdBy != null && !createdBy.equals(oldApp.get(CREATED_BY)))
+                || (sandboxTenant != null && !sandboxTenant.equals(oldApp.get(AUTHOR_SANDBOX_TENANT)))
                 || (!registrationDatesMatch(oldReg, newReg, APPROVAL_DATE))
                 || (!registrationDatesMatch(oldReg, newReg, REQUEST_DATE))) {
 
             EntityBody body = new EntityBody();
             body.put(MESSAGE,
-                    "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date|created_by) specified in PUT.  "
+                    "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date|created_by|author_sandbox_tenant) specified in PUT.  "
                             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
@@ -419,11 +438,20 @@ public class ApplicationResource extends UnversionedResource {
             throw new AccessDeniedException("Developer " + principal.getExternalId()
                     + " does not share the same tenant as the creator of this app and cannot modify it.");
         } else {
-            if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
+            if (!(principal.getExternalId().equals(app.get(CREATED_BY)) || belongToSameSandboxTenant(app, principal.getSandboxTenant()))) {
                 throw new AccessDeniedException("Developer " + principal.getExternalId()
                         + " is not the creator of this app and cannot modify it.");
             }
         }
+    }
+    
+    private boolean belongToSameSandboxTenant(EntityBody app, String sandboxTenant) {
+    	Object appSandboxTenant = app.get(AUTHOR_SANDBOX_TENANT);
+    	if (appSandboxTenant == null || sandboxTenant == null) {
+    		return false;
+    	}
+    	
+    	return sandboxTenant.equals((String) appSandboxTenant);
     }
 
     /**

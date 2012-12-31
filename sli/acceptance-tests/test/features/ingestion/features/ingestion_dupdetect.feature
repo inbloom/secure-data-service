@@ -1,6 +1,5 @@
 @RALLY_DE2347
 
-@wip
 Feature: Duplicate detection modes
 
 #  As an ingestion user, I want to be able to control duplicate detection (record hashing) to ignore suspect data, disable it completely and test its performance

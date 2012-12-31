@@ -39,6 +39,7 @@
 		<div class='form-container'>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+				<input type="hidden" name="developer" value="${fn:escapeXml(developer)}"/>
       			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
 				<fieldset>
 					<div class="control-group">
