@@ -199,6 +199,11 @@ def ensureBatchJobIndexes(db_connection)
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['jobId', 1]] , :unique => true)
   @collection.remove({ '_id' => " " })
+
+  @collection = @db["recordHash"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['t', 1]])
+  @collection.remove({ '_id' => " " })
 end
 
 def initializeTenants()
@@ -828,8 +833,9 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-  ensureBatchJobIndexes(@batchConn)
-  assert(@result == "true", "Some collections were not cleared successfully.")
+  #ensureBatchJobIndexes(@batchConn)
+  #assert(@result == "true", "Some collections were not cleared successfully.")
+  exec 'mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js'
   enable_NOTABLESCAN()
 end
 
@@ -2682,11 +2688,30 @@ Then /^I check that ids were generated properly:$/ do |table|
       @entity_collection = @db.collection(collection)
       @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value}]}).count().to_s
     end
-
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
   enable_NOTABLESCAN()
 end
+
+Then /^I check that multiple educationOrganization ids were generated properly:$/ do |table|
+  disable_NOTABLESCAN()
+  @db = @conn[@ingestion_db_name]
+  table.hashes.map do |row|
+    
+    did = row['deterministicId']
+    field = row['field']
+    value = row['value']
+    collection = row['collectionName']
+    refArray = value.split(',')
+  
+    @entity_collection = @db.collection(collection)
+    @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => [refArray[0],refArray[1],refArray[2]]}]}).count().to_s
+      
+    assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
+  end
+  enable_NOTABLESCAN()
+end
+
 
 def extractField(record, fieldPath, subDocType, subDocId) 
 	pathArray = fieldPath.split('.')

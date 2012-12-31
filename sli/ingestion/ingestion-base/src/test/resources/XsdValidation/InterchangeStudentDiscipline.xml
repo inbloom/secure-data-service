@@ -6,7 +6,7 @@
                 <StudentUniqueStateId>CAP0-D0-HSch0-stu79</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <DisciplineIncidentReference ref="CAP0-D0-HSch0-i0">
+        <DisciplineIncidentReference>
             <DisciplineIncidentIdentity>
                 <IncidentIdentifier>CAP0-D0-HSch0-i0</IncidentIdentifier>
                 <EducationalOrgReference>

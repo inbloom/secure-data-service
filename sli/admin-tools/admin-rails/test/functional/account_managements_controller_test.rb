@@ -20,7 +20,9 @@ limitations under the License.
 require 'test_helper'
 
 class AccountManagementsControllerTest < ActionController::TestCase
+  
   setup do
+    APP_CONFIG['is_sandbox'] = true
     @account_managements = Array.new()
     @account_managements.push(@account_managements_fixtures['account1'])
     @account_managements.collect! do |account|

@@ -71,6 +71,7 @@ public final class Error {
     }
 
     // TODO: too many params. refactor.
+    @SuppressWarnings("PMD.CustomAvoidThrowingRawExceptionTypes") // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
     public static Error createIngestionError(String ingestionJobId, String resourceId, String stageName,
             String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
             String errorDetail) {
@@ -85,7 +86,6 @@ public final class Error {
             theHostname = BatchJobUtils.getHostName();
         }
 
-        @SuppressWarnings("PMD.CustomAvoidThrowingRawExceptionTypes") // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
         Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
                 BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
 

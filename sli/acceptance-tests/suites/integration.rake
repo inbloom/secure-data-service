@@ -75,7 +75,11 @@ end
 
 desc "Run RC Cleanup"
 task :rcCleanUpTests do
-  runTests("test/features/cross_app_tests/rc_integration_cleanup.feature")
+  if RUN_ON_RC
+    runTests("test/features/cross_app_tests/rc_pike_integration_cleanup.feature")
+  else
+    runTests("test/features/cross_app_tests/rc_integration_cleanup.feature")
+  end
 end
 
 desc "Run RC Tenant Cleanup"
@@ -144,6 +148,10 @@ task :rcDeleteLDAPUsers do
     begin
       cleanUpLdapUser(email)
       puts "Successfully Deleted #{email} from LDAP"
+      if RUN_ON_RC
+        cleanUpMiniSandboxLdapUser(email)
+        puts "Successfully Deleted #{email} from mini Sandbox LDAP"
+      end
     rescue Exception => e  
       puts e.message
       puts e.backtrace.inspect

@@ -6,7 +6,7 @@
         <StudentUniqueStateId>CAP0-D0-HSch0-stu72</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
-    <CohortReference ref="CAP0-D0-HS0-0-p-ch">
+    <CohortReference>
       <CohortIdentity>
         <CohortIdentifier>CAP0-D0-HS0-0-p-ch</CohortIdentifier>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>

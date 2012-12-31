@@ -26,6 +26,11 @@ Given /^I go to the account registration page on RC$/ do
   @driver.get PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
 end
 
+Given /^I go to the mini sandbox account registration page$/ do
+  @baseUrl = PropLoader.getProps['minisb_admintools_server_url']
+  @driver.get PropLoader.getProps['minisb_admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
+end
+
 Given /^I go to the portal page on RC$/ do
   @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
 end
@@ -62,7 +67,7 @@ Given /^I received an email to verify my email address$/ do
   puts @content
   puts PropLoader.getProps['admintools_server_url']
   @content.split("\n").each do |line|
-    if(/#{PropLoader.getProps['admintools_server_url']}/.match(line))
+    if(/#{PropLoader.getProps['minisb_admintools_server_url']}/.match(line))
       @email_verification_link = line
       puts @email_verification_link
     end
@@ -111,6 +116,12 @@ end
 
 Then /^I should be on the Authorize Developer Account page$/ do
   assertText("Authorize Developer Account")
+end
+
+Then /^I am redirected to the developer get-started page$/ do
+  assertWithWait("Was not redirected to #{PropLoader.getProps['sb_get_started']}") {
+    @driver.current_url.include?(PropLoader.getProps['sb_get_started'])
+  }
 end
 
 ###############################################################################

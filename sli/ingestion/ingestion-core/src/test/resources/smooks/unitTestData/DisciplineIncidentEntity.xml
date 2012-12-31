@@ -2,7 +2,7 @@
 <InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
 
-  <DisciplineIncident id="whack-a-mole">
+  <DisciplineIncident>
       <IncidentIdentifier>Whack-a-mole</IncidentIdentifier>
       <IncidentDate>2011-02-01</IncidentDate>
       <IncidentTime>15:23:02</IncidentTime>
@@ -24,7 +24,7 @@
       </SecondaryBehaviors>
       <SecondaryBehaviors BehaviorCategory="State Law Crime">
       	<SecondaryBehavior>Hair Pulling</SecondaryBehavior>
-      </SecondaryBehaviors>      	
+      </SecondaryBehaviors>
       <Weapons>
       	<Weapon>Club</Weapon>
       	<Weapon>Non-Illegal Knife</Weapon>

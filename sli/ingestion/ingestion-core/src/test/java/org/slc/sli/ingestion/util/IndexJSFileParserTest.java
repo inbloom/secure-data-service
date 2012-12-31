@@ -48,7 +48,6 @@ public class IndexJSFileParserTest {
     public void parseJSTest() {
         IndexJSFileParser indexJSFileParser = new IndexJSFileParser();
         Set<MongoIndex> indexes = indexJSFileParser.parse(INDEX_FILE);
-        MongoIndex index;
 
         Map<String, MongoIndex> expectedIndexes = new HashMap<String, MongoIndex>();
 
@@ -103,8 +102,8 @@ public class IndexJSFileParserTest {
         try {
             //IndexFileParser.parseIndex(invalidTokensIndex);
             fail("parseIndex() did not throw the expected exception");
-        } catch(IllegalStateException ex) {
-            assertEquals("Expected at least 3 tokens for index config definition: "+invalidTokensIndex, ex.getMessage());
+        } catch (IllegalStateException ex) {
+            assertEquals("Expected at least 3 tokens for index config definition: " + invalidTokensIndex, ex.getMessage());
         }
 
         String invalidKeysIndex = "student,true,body.tenantId:1,body.studentId:1:-1";
@@ -112,7 +111,7 @@ public class IndexJSFileParserTest {
         try {
             //IndexFileParser.parseIndex(invalidKeysIndex);
             fail("parseIndex() did not throw the expected exception");
-        } catch(IllegalStateException ex) {
+        } catch (IllegalStateException ex) {
             assertEquals("Unexpected index order: body.studentId:1:-1", ex.getMessage());
         }
     }

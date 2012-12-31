@@ -67,7 +67,6 @@ public class SmooksEdFi2SLITransformerTest {
 
     private static final String STUDENT_ID = "303A1";
     private static final String TENANT_ID = "SLI";
-    private static final String METADATA_BLOCK = "metaData";
     private static final String TENANT_ID_FIELD = "tenantId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
     private static final String ASSESSMENT_TITLE = "assessmentTitle";

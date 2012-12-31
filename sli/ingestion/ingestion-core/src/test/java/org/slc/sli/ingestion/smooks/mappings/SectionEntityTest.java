@@ -159,7 +159,7 @@ public class SectionEntityTest {
             + "               </EducationalOrgReference>                                                       "
             + "           </CourseOfferingIdentity>                                                            "
             + "       </CourseOfferingReference>                                                               "
-            + "       <SchoolReference id=\"ID005\" ref=\"ID005\">                                                                        "
+            + "       <SchoolReference>                                                                        "
             + "           <EducationalOrgIdentity>                                                             "
             + "               <StateOrganizationId>StateOrganizationId1</StateOrganizationId>                  "
             + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
@@ -180,7 +180,7 @@ public class SectionEntityTest {
             + "               <SessionName>SessionName0</SessionName>                                          "
             + "           </SessionIdentity>                                                                   "
             + "       </SessionReference>                                                                      "
-            + "       <LocationReference id=\"ID009\" ref=\"ID000\">                                                                      "
+            + "       <LocationReference>                                                                      "
             + "           <LocationIdentity>                                                                   "
             + "               <ClassroomIdentificationCode>ClassroomIdentificat</ClassroomIdentificationCode>  "
             + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
@@ -197,7 +197,7 @@ public class SectionEntityTest {
             + "               </EducationOrgIdentificationCode>                                                "
             + "           </LocationIdentity>                                                                  "
             + "       </LocationReference>                                                                     "
-            + "       <ClassPeriodReference id=\"ID011\" ref=\"ID008\">                                                                   "
+            + "       <ClassPeriodReference>                                                                   "
             + "           <ClassPeriodIdentity>                                                                "
             + "               <ClassPeriodName>ClassPeriodName0</ClassPeriodName>                              "
             + "               <StateOrganizationId>StateOrganizationId2</StateOrganizationId>                  "
@@ -476,9 +476,5 @@ public class SectionEntityTest {
 
         Assert.assertEquals("SessionName0", ((Map<String, Object>) ((Map<String, Object>) entity
                 .get("SessionReference")).get("SessionIdentity")).get("SessionName"));
-
-/*        List<String> programReferenceList = (List<String>) entity.get("ProgramReference");
-        Assert.assertTrue(programReferenceList != null);
-        Assert.assertEquals("ProgramId0", programReferenceList.get(0));
-*/    }
+    }
 }

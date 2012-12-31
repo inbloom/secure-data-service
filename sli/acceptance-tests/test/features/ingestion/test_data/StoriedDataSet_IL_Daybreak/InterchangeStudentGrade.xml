@@ -13172,6 +13172,16 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
+		          <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+               <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
         <StudentAcademicRecordReference>
             <StudentAcademicRecordIdentity>
                 <StudentReference>
