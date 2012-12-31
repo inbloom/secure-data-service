@@ -4,28 +4,28 @@ Welcome <%= @firstName %>,
 Your request for a developer sandbox account has been approved.
 
 Please use the steps below to complete the setup of your development environment:
-    1. Browse to Shared Learning Collaborative portal at <%= @portal_link %>
+    1. Browse to inBloom portal at <%= @portal_link %>
     2. Use your email address and password to log in.
     3. Administer your sandbox by clicking the "Administer my Sandbox" link  under the heading "Administer My Sandbox"     
     4. Click Admin in the upper right to go to the admin page.
     5. Click Provision Landing Zone.
-    6. Choose the sample data you intend to use: an SLC sample dataset or your own sample Ed-Fi data. Click "Assign" to complete your landing zone setup. 
+    6. Choose the sample data you intend to use: an inBloom sample dataset or your own sample Ed-Fi data. Click "Assign" to complete your landing zone setup. 
     7. Follow instructions in the "Data Setup" email to upload the corresponding data set.
 
-After setup, write your SLC-compatible applications using the documentation available at:
+After setup, write your inBloom-compatible applications using the documentation available at:
         <%= @documentation_link %>
 
 When ready, register your sandbox applications from the Application Registration page, also available from the admin page.
 
 Thank you,
 
-The Shared Learning Collaborative
+The inBloom
 <% else %>
 Welcome <%= @firstName %>,
 
 Your request for an application developer account has been approved.
 
-To get started, write a SLC-compatible application using the documentation available at:
+To get started, write a inBloom-compatible application using the documentation available at:
        <%= @documentation_link %>
 
 When you are ready to register your application, select Application Registration from the Admin page. You can access the Admin page using the Admin link in the upper right of the portal:
@@ -33,5 +33,5 @@ When you are ready to register your application, select Application Registration
 
 Thank you,
 
-The Shared Learning Collaborative
+The inBloom
 <% end %>

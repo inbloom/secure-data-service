@@ -1,6 +1,6 @@
 {
 	id: "home",
-	name: "SLC Dashboard",
+	name: "inBloom Dashboard",
 	type: "LAYOUT",
 	data :{
 		entity: "homeInfo",

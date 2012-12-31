@@ -45,13 +45,15 @@
 /* Styles for the login page*/
 /* a class for the top of an SLC styled container when no bottom is required*/ 
 .brandContainer{
-	padding: 30px;
-	margin-bottom: 30px;
-	background-color: #F6F3EA;
-	border-left: 3px solid #ECE7D8;
-	border-top: 3px solid #ECE7D8;
-	border-right: 3px solid #ECE7D8;
-	border-bottom: 3px solid #ECE7D8;
+	background-color: #FFFFFF;
+    border-color: #5DC8DF #3E98D2 #3E98D2 #5DC8DF;
+    border-left: 3px solid #5DC8DF;
+    border-radius: 6px 6px 6px 6px;
+    border-style: solid;
+    border-width: 3px;
+    margin-bottom: 30px;
+    padding: 30px;
+    margin-top: 60px;
 	-webkit-border-radius: 6px 6px 6px 6px;
    	   -moz-border-radius: 6px 6px 6px 6px;
             border-radius: 6px 6px 6px 6px;
@@ -87,6 +89,10 @@
    	   -moz-border-radius: 0px 0px 6px 6px;
             border-radius: 0px 0px 6px 6px;
 }
+
+.brandContainer h1 { font-size: 36px; }
+.brandContainer h1.prodTitle { color: #007096; }
+.brandContainer h1.sandboxTitle { color: #512B73;}
 
 /* end login page styles */
 

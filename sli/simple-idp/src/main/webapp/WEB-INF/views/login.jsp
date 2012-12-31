@@ -12,22 +12,26 @@
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 <link href="resources/bootstrap-responsive.min.css" rel="stylesheet"/>
 <link href="resources/globalStyles.css" rel="stylesheet"/>
+
 </head>
 
 <body onload="document.login_form.user_id.focus();">
 <div class="container">
-	<div class="row">
-		<div class="span12">
-			<div class="brandContainer sandBanner">
-				<div class="row">
-					<div class="span2"> <img src="resources/SLC-Logo-text.png"> </div>
-					<div class="span8">
-						<h1>${fn:escapeXml(subTitle)}</h1>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="brandContainer">
+    	<div class="row">
+    	    <div class="span2">
+	            <img src="resources/inBloom_logo.png">
+	        </div>
+	        <div class="span8">
+	        	<c:if test="${!isSandbox}">
+	            	<h1 class="prodTitle">${fn:escapeXml(subTitle)}</h1>
+	            </c:if>
+	            <c:if test="${isSandbox}">
+	            	<h1 class="sandboxTitle">Developer Sandbox</h1>
+	            </c:if>
+	        </div>
+	    </div>
+    </div>
 		
 		<c:if test="${msg!=null}">
 			<div class="alert alert-success"><c:out value="${msg}"/></div>

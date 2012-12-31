@@ -167,6 +167,7 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
+  puts "realm " + realm
   token = $SESSION_MAP[user+"_"+realm]
   assert(token != nil, "Could not find session for user #{user} in realm #{realm}")
   @sessionId = token

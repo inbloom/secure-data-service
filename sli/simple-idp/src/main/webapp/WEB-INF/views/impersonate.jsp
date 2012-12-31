@@ -65,7 +65,7 @@ $(document).ready(function() {
 		<div class="span12">
 			<div class="brandContainer sandBanner">
 				<div class="row">
-					<div class="span2"> <img src="resources/SLC-Logo-text.png"> </div>
+					<div class="span2"> <img src="resources/inBloom_logo.png"> </div>
 					<div class="span8">
 						<h1>Developer Sandbox</h1>
 					</div>

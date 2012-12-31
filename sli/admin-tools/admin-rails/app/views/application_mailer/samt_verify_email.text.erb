@@ -1,7 +1,7 @@
 <% if APP_CONFIG["is_sandbox"] %>
 Hello <%= @firstName  %>,
 
-An administrator has initiated an <%=@primary_role%> account for you for the Shared Learning Collaborative Sandbox.
+An administrator has initiated an <%=@primary_role%> account for you for the inBloom Sandbox.
 
 Please follow the link below to verify your email address and create your password:
 <%=@reset_password_link%>
@@ -9,12 +9,12 @@ Please follow the link below to verify your email address and create your passwo
 After you create your password, you'll receive a welcome email with further information.
 
 Thank you,
-The Shared Learning Collaborative
+The inBloom
 
 <% else %>
 Hello <%= @firstName  %>,
 
-An administrator has initiated an <%=@primary_role%> account for you for the Shared Learning Collaborative. 
+An administrator has initiated an <%=@primary_role%> account for you for the inBloom. 
 
 Please follow the link below to verify your email address and create your password:
 <%=@reset_password_link%>
@@ -22,5 +22,5 @@ Please follow the link below to verify your email address and create your passwo
 After you create your password, you'll receive a welcome email with further information.
 
 Thank you,
-The Shared Learning Collaborative
+The inBloom
 <% end %>

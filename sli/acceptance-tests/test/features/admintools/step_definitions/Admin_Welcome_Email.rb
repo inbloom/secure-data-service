@@ -77,42 +77,42 @@ Then /^I get a welcome email of (.*?)$/ do |email_type|
   strings_included = []
   case email_type
     when "SLC Operator"
-      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:",
-                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."]
+      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the inBloom portal at:",
+                          "Contact the inBloom to obtain documentation on Admin Account Management."]
     when "LEA or SEA only"
-      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:",
-                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."]
+      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the inBloom portal at:",
+                          "Contact the inBloom to obtain documentation on Admin Account Management."]
     when "(LEA or SEA) and Realm Admin"
-      strings_included = ["You can access several administrative features from the Admin page in upper right of SLC portal at:",
+      strings_included = ["You can access several administrative features from the Admin page in upper right of inBloom portal at:",
                           "* Admin Account Management - Use this feature to create new administrative accounts.",
                           "* Realm Administration - Use this feature to create and manage realms for your education organization.",
-                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."
+                          "Contact the inBloom to obtain documentation on Admin Account Management."
       ]
     when "(LEA or SEA) and Ingestion"
-      strings_included = ["You can access several administrative features from the Admin page in upper right of SLC portal at:",
+      strings_included = ["You can access several administrative features from the Admin page in upper right of inBloom portal at:",
                           "* Admin Account Management - Use this feature to create new administrative accounts.",
                           "* Provision Landing Zone - Use this feature for managing landing zones, required for ingesting data for your education organization.",
-                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."
+                          "Contact the inBloom to obtain documentation on Admin Account Management."
       ]
     when "Realm Admin only"
-      strings_included = ["You can access the Realm Administration feature from the Admin page in the right corner of SLC portal at:"]
+      strings_included = ["You can access the Realm Administration feature from the Admin page in the right corner of inBloom portal at:"]
     when "Ingestion only"
-      strings_included = ["You can access the Provision Landing Zone feature from the Admin page in the right corner of SLC portal at:"]
+      strings_included = ["You can access the Provision Landing Zone feature from the Admin page in the right corner of inBloom portal at:"]
     when "Sandbox Admin only"
       strings_included = ["Access Admin Account Management feature to create new administrative accounts for the sandbox.",
-                          "Click the Admin link in the upper right corner of SLC portal to open the Admin page and access this feature:"]
+                          "Click the Admin link in the upper right corner of inBloom portal to open the Admin page and access this feature:"]
     when "Sandbox Admin and Sandbox Ingestion"
       strings_included = ["* Use the Admin Account Management feature to create new administrative accounts for the sandbox.",
                           "* Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your"]
     when "Sandbox all rights"
       strings_included = ["* Use the Admin Account Management feature to create new administrative accounts for the sandbox.",
                           "* Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your",
-                          "While you develop SLC-compatible applications, refer to the documentation available at",
+                          "While you develop inBloom-compatible applications, refer to the documentation available at",
                           "When you are ready to register your application, use the Application Registration feature. Click the Admin"]
     when "Application Developer and Sandbox Ingestion"
       strings_included = ["Your request for an application developer account has been approved. You can use this account to develop",
                           "Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your",
-                          "While you develop SLC-compatible applications, refer to the documentation available at",
+                          "While you develop inBloom-compatible applications, refer to the documentation available at",
                           "When you are ready to register your application, use the Application Registration feature. Click the Admin"]
     when "Sandbox Ingestion only"
       strings_included = ["Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your"]
@@ -121,7 +121,7 @@ Then /^I get a welcome email of (.*?)$/ do |email_type|
     when "Sandbox Admin and Application Developer"
       strings_included = ["Your request for an application developer account has been approved. You can use this account to develop",
                           "Use the Admin Account Management feature to create new administrative accounts for the sandbox.  Click the Admin link",
-                          "While you develop SLC-compatible applications, refer to the documentation available at",
+                          "While you develop inBloom-compatible applications, refer to the documentation available at",
                           "When you are ready to register your application, use the Application Registration feature. Click the Admin"]
   end
   strings_included.each do |string_included|

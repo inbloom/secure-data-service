@@ -1,6 +1,6 @@
 {
 	id: "sedorg",
-	name: "SLC - State Ed Org Profile",
+	name: "inBloom - State Ed Org Profile",
 	type: "LAYOUT",
 	data :{
 		entity: "sedorgInfo",

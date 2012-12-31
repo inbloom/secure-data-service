@@ -90,7 +90,7 @@
 "student" :
 {
   id : "student",
-  name: "SLC - Student Profile",
+  name: "inBloom - Student Profile",
   type: "LAYOUT",
   data :{
     entity: "student",

@@ -174,6 +174,6 @@ end
 
 Then /^I get an rsa key error message$/ do
   sleep 3
-  assertWithWait("Your key was not recognized. The SLC uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format.")  {@driver.find_element(:id, "rsa_validation_error_text")}
+  assertWithWait("Your key was not recognized. The inBloom uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format.")  {@driver.find_element(:id, "rsa_validation_error_text")}
 end
 

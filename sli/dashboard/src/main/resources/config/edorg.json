@@ -1,6 +1,6 @@
 {
 	id: "edorg",
-	name: "SLC - Ed Org Profile",
+	name: "inBloom - Ed Org Profile",
 	type: "LAYOUT",
 	data :{
 		entity: "edorgInfo",
