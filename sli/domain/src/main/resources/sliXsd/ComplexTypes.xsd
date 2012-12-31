@@ -4030,6 +4030,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			 <xs:element name="educationOrganizationReference" type="reference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The educational organization associated with the CourseTranscript
+					</xs:documentation>
+				<xs:appinfo>
+					<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+				</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="studentAcademicRecordId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Association to the student academic record for the current course transcript.

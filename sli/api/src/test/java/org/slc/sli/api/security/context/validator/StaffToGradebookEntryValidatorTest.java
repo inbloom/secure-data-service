@@ -57,7 +57,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class StaffToGradebookEntryValidatorTest {
     
     @Autowired
-    private StaffToGradebookEntryValidator validator;
+    private GenericToGradebookEntryValidator validator;
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;

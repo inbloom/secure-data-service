@@ -302,10 +302,11 @@ public class UserService {
             Map<String, String> attributes = new HashMap<String, String>();
             
             attributes.put("userName", context.getStringAttribute("cn"));
+            attributes.put("vendor", context.getStringAttribute("o"));
+            attributes.put("givenName", context.getStringAttribute("givenName"));
+            attributes.put("sn", context.getStringAttribute("sn"));
             
             if (needAdditionalAttributes) {
-                attributes.put("givenName", context.getStringAttribute("givenName"));
-                attributes.put("sn", context.getStringAttribute("sn"));
                 attributes.put("uid", context.getStringAttribute("uid"));
                 attributes.put("uidNumber", context.getStringAttribute("uidNumber"));
                 attributes.put("gidNumber", context.getStringAttribute("gidNumber"));

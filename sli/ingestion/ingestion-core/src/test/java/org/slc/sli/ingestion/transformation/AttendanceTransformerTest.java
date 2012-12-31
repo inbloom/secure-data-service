@@ -29,7 +29,6 @@ import java.util.Map;
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
 
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +41,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -52,7 +50,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
-import org.slc.sli.ingestion.handler.EntityPersistHandler;
 
 /**
  * Unit Test for AttendanceTransformer
@@ -67,15 +64,11 @@ public class AttendanceTransformerTest {
     @Autowired
     private AttendanceTransformer transformer;
 
-    @Autowired
-    private EntityPersistHandler entityPersistHandler;
-
     @Mock
     private MongoEntityRepository entityRepository = Mockito.mock(MongoEntityRepository.class);
 
     @Mock
     private NeutralRecordMongoAccess neutralRecordMongoAccess = Mockito.mock(NeutralRecordMongoAccess.class);
-
 
     @Mock
     private NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
@@ -215,7 +208,6 @@ public class AttendanceTransformerTest {
         Assert.assertEquals(res.get("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff").getAttributes().get("body.schoolId"), "schoolId2");
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testMapAttendanceIntoSchoolYears() throws IOException {
         String studentUniqueStateId = "studentId1";
@@ -331,26 +323,25 @@ public class AttendanceTransformerTest {
         query1.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
 
-    	NeutralQuery queryRh1 = new NeutralQuery(1);
-    	queryRh1.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
-    	queryRh1.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
-    	queryRh1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
-   
-        
+        NeutralQuery queryRh1 = new NeutralQuery(1);
+        queryRh1.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
+        queryRh1.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
+        queryRh1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+
         Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query1)),
                 Mockito.anyMap(),
                 Mockito.eq("attendance_transformed")
              );
-        
+
         Mockito.verify(repository, Mockito.times(1))
         .updateFirstForJob(
             Mockito.argThat(new IsCorrectNeutralQuery(queryRh1)),
             Mockito.anyMap(),
             Mockito.eq("attendance_transformed")
          );
-              
+
                         //verify attendance for studentId2
         NeutralQuery query2 = new NeutralQuery(1);
         query2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
@@ -358,19 +349,19 @@ public class AttendanceTransformerTest {
         query2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId2"));
         query2.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
-        
-    	NeutralQuery queryRh2 = new NeutralQuery(1);
-    	queryRh2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
-    	queryRh2.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
-    	queryRh2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
-    	
+
+        NeutralQuery queryRh2 = new NeutralQuery(1);
+        queryRh2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
+        queryRh2.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
+        queryRh2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+
         Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query2)),
                 Mockito.anyMap(),
                 Mockito.eq("attendance_transformed")
              );
-        
+
         Mockito.verify(repository, Mockito.times(1))
         .updateFirstForJob(
             Mockito.argThat(new IsCorrectNeutralQuery(queryRh2)),
@@ -577,7 +568,7 @@ public class AttendanceTransformerTest {
         List<HashMap<String, Object>> rList1 = new ArrayList<HashMap<String, Object>>();
         rList1.add(relement1);
         r1.addMetaData("rhData", rList1);
-               
+
         NeutralRecord r2 = new NeutralRecord();
         r2.setRecordType("attendance");
         r2.setRecordId("recordId2");
@@ -591,8 +582,8 @@ public class AttendanceTransformerTest {
         List<HashMap<String, Object>> rList2 = new ArrayList<HashMap<String, Object>>();
         rList2.add(relement2);
         r2.addMetaData("rhData", rList2);
-   
-		return Arrays.asList(r1, r2);
+
+        return Arrays.asList(r1, r2);
     }
 
 }
