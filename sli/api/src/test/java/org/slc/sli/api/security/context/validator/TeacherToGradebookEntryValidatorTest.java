@@ -43,11 +43,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
- * Tests the staff to gradebook entries validator.
+ * Tests the teacher to gradebook entries validator.
  * 
- * 
- * @author kmyers
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
