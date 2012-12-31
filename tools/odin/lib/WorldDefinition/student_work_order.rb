@@ -214,7 +214,7 @@ class StudentWorkOrder
     end
     
     num_other_programs = DataUtility.select_random_from_options(@rand, (1..3).to_a)
-    other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, @other_programs)
+    other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, programs)
     other_programs.each do |other_program|
       program_id = DataUtility.get_program_id(other_program[:id])
       ed_org_id  = DataUtility.get_state_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :STATE_EDUCATION_AGENCY

@@ -186,18 +186,35 @@ describe "Odin" do
   # --> this test takes too long when generating all entities
 
   context "with a configuration with only students whitelisted" do
-    let(:odin) {Odin.new}
-    before(:all) { odin.generate("1000studentsOnly") }
-    let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
-    let(:interchanges) {read_interchanges}
+    before(:all) { 
+      odin = Odin.new
+      odin.generate("1000studentsOnly") 
+      @interchanges = read_interchanges
+    }
+
+    before(:each) {
+      @student_parent_interchange = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml", "r")
+    }
+
+    after(:each) {
+      @student_parent_interchange.close
+    }
 
     describe "#generate" do
       it "will generate lists of 1000 students" do
-        student.select{|l| l.match('<Student>')}.length.should eq(1000)
+        num_students = 0
+        while (line = @student_parent_interchange.gets)
+          num_students += 1 if line.include?('<Student>')
+        end
+        num_students.should eq(1000)
       end
       it "will not generate any other entity" do
-        student.select{|l| l.match('<Parent>')}.length.should eq(0)
-        interchanges.should have(1).items
+        num_parents = 0
+        while (line = @student_parent_interchange.gets)
+          num_students += 1 if line.include?('<Parent>')
+        end
+        num_parents.should eq(0)
+        @interchanges.should have(1).items
       end
     end
   end
