@@ -833,8 +833,9 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-  ensureBatchJobIndexes(@batchConn)
-  assert(@result == "true", "Some collections were not cleared successfully.")
+  #ensureBatchJobIndexes(@batchConn)
+  #assert(@result == "true", "Some collections were not cleared successfully.")
+  exec 'mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js'
   enable_NOTABLESCAN()
 end
 
