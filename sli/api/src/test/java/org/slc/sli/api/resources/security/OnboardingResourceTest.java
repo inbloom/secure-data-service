@@ -128,11 +128,10 @@ public class OnboardingResourceTest {
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
         requestBody.put(OnboardingResource.PRELOAD_FILES_ID, "small_sample_dataset");
 
-        LandingZoneInfo landingZone = new LandingZoneInfo("LANDING ZONE", "INGESTION SERVER");
+        LandingZoneInfo landingZone = new LandingZoneInfo("LANDING ZONE");
 
         Map<String, String> tenantBody = new HashMap<String, String>();
         tenantBody.put("landingZone", "LANDING ZONE");
-        tenantBody.put("ingestionServer", "INGESTION SERVER");
 
         // Entity tenantEntity = Mockito.mock(Entity.class);
         // when(tenantEntity.getBody()).thenReturn(tenantBody);

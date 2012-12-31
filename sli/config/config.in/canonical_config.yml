@@ -57,7 +57,6 @@ default:
         bootstrap.app.conf:
 
         # Used for populating Tenants and LandingZones
-        sli.tenant.ingestionServers: localhost
         sli.tenant.landingZoneMountPoint: /ingestion/lz
         sli.landingZone.server: devpantheon.slidev.org
 
@@ -839,7 +838,6 @@ local:
 
         sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
         bootstrap.app.conf: ${sli.conf}
-        #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
 
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=LocalNew

@@ -40,20 +40,14 @@ public interface TenantResource {
     class LandingZoneInfo {
 
         private final String landingZonePath;
-        private final String ingestionServerName;
 
-        public LandingZoneInfo(String landingZonePath, String ingestionServerName) {
+        public LandingZoneInfo(String landingZonePath) {
             super();
             this.landingZonePath = landingZonePath;
-            this.ingestionServerName = ingestionServerName;
         }
 
         public String getLandingZonePath() {
             return landingZonePath;
-        }
-
-        public String getIngestionServerName() {
-            return ingestionServerName;
         }
 
     }
@@ -89,7 +83,7 @@ public interface TenantResource {
         }
 
         /**
-         * Constructs a new exception with the specified detail message and 
+         * Constructs a new exception with the specified detail message and
          * cause.
          *
          * @param message

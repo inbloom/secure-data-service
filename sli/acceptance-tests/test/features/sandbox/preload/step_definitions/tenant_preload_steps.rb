@@ -55,9 +55,9 @@ end
 When /^I navigate to POST "(.*?)"$/ do |url|
 preload_url=url.gsub("tenant_UUID", @tenant_uuid)
 puts preload_url
- 
+
  @format = "application/json"
-  
+
  # data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost(preload_url, "small")
   assert(@res != nil, "Response from POST operation was null")
@@ -109,16 +109,15 @@ end
 def update_landingzone
 tenant_coll = @db['tenant']
 tenant_coll.update(
-{"body.tenantId" => @tenantId}, {"body" => 
+{"body.tenantId" => @tenantId}, {"body" =>
 {"tenantId" => @tenantId,
 "landingZone" =>
  [
  {"educationOrganization" => @edorgId,
- "ingestionServer" => "testserver",
  "path" => "/home/ingestion/lz/inbound/sandboxadministrator@slidev.org",
  "desc" => nil,
  "userNames" => nil}
- ] 
+ ]
  } })
 end
 

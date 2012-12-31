@@ -61,14 +61,6 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="ingestionServer" minOccurs="1">
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:minLength value="1" />
-                        <xs:maxLength value="48" />
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
             <xs:element name="desc" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">

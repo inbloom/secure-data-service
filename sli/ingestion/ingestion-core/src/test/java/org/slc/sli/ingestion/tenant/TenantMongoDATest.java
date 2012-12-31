@@ -18,28 +18,19 @@ package org.slc.sli.ingestion.tenant;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
-import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -58,7 +49,6 @@ public class TenantMongoDATest {
 
     private Repository<Entity> mockRepository;
 
-    private final String ingestionServerName = "ingestion_server_host";
     private final String lzPath1 = "lz_path_1";
     private final String lzPath2 = "lz_path_2";
     private final String tenantId = "test_tenant_id";
@@ -72,43 +62,23 @@ public class TenantMongoDATest {
         // createTestTenantRecord();
     }
 
-    //Removing this unit test as now Ingestion server now polls all the landing zones.
-    //@Test
-    public void shouldGetLzPathsFromIngestionServerName() {
-        List<Entity> testTenantRecords = new ArrayList<Entity>();
-        testTenantRecords.add(createTenantEntity());
-
-        when(mockRepository.findAll(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).thenReturn(
-                testTenantRecords);
-
-        List<String> lzPathsResult = tenantDA.getLzPaths();
-
-        assertNotNull("lzPathsResult was null", lzPathsResult);
-        assertEquals("lzPathsResult was not match expected size", 2, lzPathsResult.size());
-        assertEquals("lzPathsResult[0] did not match expected value", lzPath1, lzPathsResult.get(0));
-        assertEquals("lzPathsResult[1] did not match expected value", lzPath2, lzPathsResult.get(1));
-
-        Mockito.verify(mockRepository, Mockito.times(1)).findAll(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class));
-    }
-
     private Entity createTenantEntity() {
-        List<Pair<String, String>> ingestionServersAndPaths = new ArrayList<Pair<String, String>>();
-        ingestionServersAndPaths.add(ImmutablePair.of(ingestionServerName, lzPath1));
-        ingestionServersAndPaths.add(ImmutablePair.of(ingestionServerName, lzPath2));
-        return createEntityWithLzPaths(ingestionServersAndPaths);
+        List<String> lzPaths = new ArrayList<String>();
+        lzPaths.add(lzPath1);
+        lzPaths.add(lzPath2);
+        return createEntityWithLzPaths(lzPaths);
     }
 
-    private Entity createEntityWithLzPaths(List<Pair<String, String>> ingestionServersAndPaths) {
+    private Entity createEntityWithLzPaths(List<String> lzPaths) {
 
         SimpleEntity entity = new SimpleEntity();
         entity.setBody(new HashMap<String, Object>());
 
         List<Map<String, String>> landingZones = new ArrayList<Map<String, String>>();
-        for (Pair<String, String> ingestionServerAndPath : ingestionServersAndPaths) {
+        for (String path : lzPaths) {
             Map<String, String> landingZone = new HashMap<String, String>();
 
-            landingZone.put(TenantMongoDA.INGESTION_SERVER, ingestionServerAndPath.getLeft());
-            landingZone.put(TenantMongoDA.PATH, ingestionServerAndPath.getRight());
+            landingZone.put(TenantMongoDA.PATH, path);
             landingZones.add(landingZone);
         }
 
@@ -176,9 +146,6 @@ public class TenantMongoDATest {
                         lzMap.get(TenantMongoDA.EDUCATION_ORGANIZATION))) {
                     return false;
                 }
-                if (!StringUtils.equals(lzRecord.getIngestionServer(), lzMap.get(TenantMongoDA.INGESTION_SERVER))) {
-                    return false;
-                }
                 if (!StringUtils.equals(lzRecord.getPath(), lzMap.get(TenantMongoDA.PATH))) {
                     return false;
                 }
@@ -193,13 +160,11 @@ public class TenantMongoDATest {
         List<LandingZoneRecord> lzList = new ArrayList<LandingZoneRecord>();
 
         LandingZoneRecord lz1 = new LandingZoneRecord();
-        lz1.setIngestionServer(ingestionServerName);
         lz1.setPath(lzPath1);
         lz1.setDesc("desc");
         lz1.setEducationOrganization("org");
 
         LandingZoneRecord lz2 = new LandingZoneRecord();
-        lz2.setIngestionServer(ingestionServerName);
         lz2.setPath(lzPath2);
         lz2.setDesc("desc");
         lz2.setEducationOrganization("org");
@@ -213,28 +178,4 @@ public class TenantMongoDATest {
         return tenant;
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testGetAutoLoadFiles() throws UnknownHostException {
-        Map<String, Object> tenantsForPreloading = new HashMap<String, Object>();
-        tenantsForPreloading.put(lzPath1, Arrays.asList("smallDataSet.xml", "mediumDataSet.xml"));
-        Entity tenant = createTenantEntity();
-        List<Map<String, Object>> landingZone = (List<Map<String, Object>>) tenant.getBody().get(
-                TenantMongoDA.LANDING_ZONE);
-        Map<String, Object> preloadDef = new HashMap<String, Object>();
-        preloadDef.put(TenantMongoDA.PRELOAD_STATUS, "ready");
-        preloadDef.put(TenantMongoDA.PRELOAD_FILES, Arrays.asList("smallDataSet.xml", "mediumDataSet.xml"));
-        landingZone.get(0).put(TenantMongoDA.PRELOAD_DATA, preloadDef);
-        when(mockRepository.findAll(eq("tenant"), any(NeutralQuery.class))).thenReturn(Arrays.asList(tenant));
-        when(mockRepository.doUpdate(eq("tenant"), any(NeutralQuery.class), any(Update.class))).thenReturn(true);
-        assertEquals(tenantsForPreloading, tenantDA.getPreloadFiles("ingestion_server_host"));
-        verify(mockRepository).doUpdate(eq("tenant"), any(NeutralQuery.class), argThat(new ArgumentMatcher<Update>() {
-            @Override
-            public boolean matches(Object argument) {
-                Update expectedUpdate = Update.update("body." + TenantMongoDA.LANDING_ZONE + ".$." + TenantMongoDA.PRELOAD_DATA
-                        + "." + TenantMongoDA.PRELOAD_STATUS, "started");
-                return ((Update) argument).getUpdateObject().equals(expectedUpdate.getUpdateObject());
-            }
-        }));
-    }
 }

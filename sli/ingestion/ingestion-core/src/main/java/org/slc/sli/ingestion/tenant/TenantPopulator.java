@@ -68,10 +68,8 @@ public class TenantPopulator implements ResourceLoaderAware {
      */
     public boolean addTenant(TenantRecord tenantRecord, boolean deriveIngestionFields) {
         try {
-            String hostname = getHostname();
-
             if (deriveIngestionFields) {
-                deriveTenantFields(tenantRecord, hostname);
+                deriveTenantFields(tenantRecord);
             }
             tenantDA.insertTenant(tenantRecord);
 
@@ -174,9 +172,6 @@ public class TenantPopulator implements ResourceLoaderAware {
         List<LandingZoneRecord> landingZones = tenant.getLandingZone();
         for (LandingZoneRecord lz : landingZones) {
             // replace hostname field
-            String serverVal = lz.getIngestionServer();
-            serverVal = serverVal.replaceFirst(HOSTNAME_PLACEHOLDER, hostname);
-            lz.setIngestionServer(serverVal);
 
             String pathVal = lz.getPath();
             pathVal = pathVal.replaceFirst(PARENT_LZ_PATH_PLACEHOLDER, Matcher.quoteReplacement(parentLandingZoneDir));
@@ -187,18 +182,15 @@ public class TenantPopulator implements ResourceLoaderAware {
     /**
      *
      * Derive and set ingestion specific fields:
-     * landingZone.ingestionServer and landingZone.path.
+     * landingZone.path.
      *
      * @param tenant
      *            record to be processed
-     * @param hostname
-     *            the hostname to be used in placeholder replacement
+     *
      */
-    private void deriveTenantFields(TenantRecord tenant, String hostname) {
+    private void deriveTenantFields(TenantRecord tenant) {
         List<LandingZoneRecord> landingZones = tenant.getLandingZone();
         for (LandingZoneRecord lz : landingZones) {
-            // override hostname field
-            lz.setIngestionServer(hostname);
 
             // override path field
             String pathVal = parentLandingZoneDir + "/" + tenant.getTenantId() + "-" + lz.getEducationOrganization();

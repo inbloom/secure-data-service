@@ -36,9 +36,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
@@ -53,14 +62,6 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Unit tests for the resource representing a tenant
@@ -104,7 +105,6 @@ public class TenantResourceTest {
         tenantResource.setSecUtil(secUtil);
         when(uriInfo.getQueryParameters()).thenReturn(new MultivaluedMapImpl());
 
-        tenantResource.setIngestionServerList(Arrays.asList("FIRST", "Second", "third"));
     }
 
     private Map<String, Object> createTestEntity() {
@@ -112,7 +112,6 @@ public class TenantResourceTest {
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_1);
 
         Map<String, Object> landingZone = new HashMap<String, Object>();
-        landingZone.put(TenantResourceImpl.LZ_INGESTION_SERVER, "example.com");
         landingZone.put(TenantResourceImpl.LZ_EDUCATION_ORGANIZATION, ED_ORG_1);
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for IL_DAYBREAK");
         landingZone.put(TenantResourceImpl.LZ_PATH,
@@ -133,7 +132,6 @@ public class TenantResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_1);
         Map<String, Object> landingZone = new HashMap<String, Object>();
-        landingZone.put(TenantResourceImpl.LZ_INGESTION_SERVER, "example.com");
         landingZone.put(TenantResourceImpl.LZ_EDUCATION_ORGANIZATION, ED_ORG_2);
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for IL_SUNSET");
         landingZone.put(TenantResourceImpl.LZ_PATH,
@@ -154,7 +152,6 @@ public class TenantResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_2);
         Map<String, Object> landingZone = new HashMap<String, Object>();
-        landingZone.put(TenantResourceImpl.LZ_INGESTION_SERVER, "example.com");
         landingZone.put(TenantResourceImpl.LZ_EDUCATION_ORGANIZATION, ED_ORG_2);
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for IL_SUNSET");
         landingZone.put(TenantResourceImpl.LZ_PATH,
@@ -169,7 +166,6 @@ public class TenantResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_3);
         Map<String, Object> landingZone = new HashMap<String, Object>();
-        landingZone.put(TenantResourceImpl.LZ_INGESTION_SERVER, "example.com");
         landingZone.put(TenantResourceImpl.LZ_EDUCATION_ORGANIZATION, "NYC");
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for NY");
         landingZone.put(TenantResourceImpl.LZ_PATH,
@@ -320,38 +316,6 @@ public class TenantResourceTest {
                     (TENANT_1.equals(body.get(TenantResourceImpl.TENANT_ID)) || TENANT_3.equals(body
                             .get(TenantResourceImpl.TENANT_ID))));
         }
-    }
-
-    @Test
-    public void testIngestionServerAssignment() throws URISyntaxException {
-        createLandingZone(new EntityBody(createTestEntity()));
-        createLandingZone(new EntityBody(createTestAppendEntity()));
-        createLandingZone(new EntityBody(createTestSecondaryEntity()));
-        // read everything
-        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants"));
-        Response response = tenantResource.getAll(uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-
-        EntityResponse entityResponse = (EntityResponse) response.getEntity();
-        @SuppressWarnings("unchecked")
-        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
-        assertNotNull("Should return entities", results);
-
-        Map<String, Integer> serverCounts = new HashMap<String, Integer>();
-        for (EntityBody body : results) {
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> landingZones = (List<Map<String, Object>>) body.get(TenantResourceImpl.LZ);
-            for (Map<String, Object> lz : landingZones) {
-                String server = (String) lz.get(TenantResourceImpl.LZ_INGESTION_SERVER);
-                Integer count = serverCounts.get(server);
-                if (null == count) {
-                    serverCounts.put(server, new Integer(1));
-                } else {
-                    serverCounts.put(server, new Integer(count + 1));
-                }
-            }
-        }
-        assertTrue("Should have used all ingestion servers", 3 <= serverCounts.size());
     }
 
     private String getIDList(String resource) {

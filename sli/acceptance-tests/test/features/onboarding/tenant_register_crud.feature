@@ -81,10 +81,8 @@ Scenario Outline: Deny creation when missing individual landingZone fields
     Then I should receive a return code of 400
     Examples:
     | Property                |
-    | "ingestionServer"       |
     | "educationOrganization" |
     | "path"                  |
-    | "ingestionServer"       |
 
 
 Scenario Outline: Deny creation when specifying individual wrong size fields
@@ -114,9 +112,7 @@ Scenario Outline: Deny creation when specifying individual landingZone wrong siz
     Then I should receive a return code of 400
     Examples:
     | Property                | Value |
-    | "ingestionServer"       | "123456789012345678901234567890123456789012345678A" |
-    | "ingestionServer"       | "" |
-    | "educationOrganization" | "123456789012345678901234567890123456789012345678901234567890A" |
+        | "educationOrganization" | "123456789012345678901234567890123456789012345678901234567890A" |
     | "educationOrganization" | "" |
     | "path"                  | "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456A" |
     | "path"                  | "" |

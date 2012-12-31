@@ -442,7 +442,6 @@ def create_tenant (tenantId,edorgId)
               "tenantId" => tenantId,
               "landingZone" => [
                   {
-                      "ingestionServer" => "Mac.local",
                       "educationOrganization" => edorgId,
                       "desc" => nil,
                       "path" => "/ingestion/lz/inbound/"+tenantId+"/"+edorgId,

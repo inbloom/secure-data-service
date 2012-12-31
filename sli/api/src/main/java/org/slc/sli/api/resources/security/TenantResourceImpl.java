@@ -16,7 +16,34 @@
 
 package org.slc.sli.api.resources.security;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
@@ -31,34 +58,6 @@ import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Provides CRUD operations on registered application through the /tenants path.
@@ -87,9 +86,6 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     @Value("${sli.tenant.landingZoneMountPoint}")
     private String landingZoneMountPoint;
 
-    @Value("${sli.tenant.ingestionServers}")
-    private String ingestionServers;
-
     @Autowired
     private RealmHelper realmHelper;
 
@@ -103,29 +99,15 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         this.secUtil = secUtil;
     }
 
-    private List<String> ingestionServerList;
-
-    /* this is only available for unit testing */
-    public void setIngestionServerList(List<String> testList) {
-        ingestionServerList = testList;
-    }
-
-    @PostConstruct
-    protected void init() {
-        ingestionServerList = Arrays.asList(ingestionServers.split(","));
-    }
-
     public static final String UUID = "uuid";
     public static final String RESOURCE_NAME = "tenants";
     public static final String TENANT_ID = "tenantId";
     public static final String DB_NAME = "dbName";
     public static final String LZ = "landingZone";
     public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
-    public static final String LZ_INGESTION_SERVER = "ingestionServer";
     public static final String LZ_PATH = "path";
     public static final String LZ_USER_NAMES = "userNames";
     public static final String LZ_DESC = "desc";
-    public static final String LZ_INGESTION_SERVER_LOCALHOST = "localhost";
     public static final String LZ_PRELOAD = "preload";
     public static final String LZ_PRELOAD_FILES = "files";
     public static final String LZ_PRELOAD_STATUS = "status";
@@ -145,6 +127,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         return SecurityUtil.forbiddenResponse();
     }
 
+    @Override
     public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox)
             throws TenantResourceCreationException {
         String newTenantId = createLandingZone(tenantId, edOrgId, null, null, isSandbox);
@@ -154,7 +137,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
         for (Map<String, Object> lz : newLzs) {
             if (edOrgId.equals(lz.get(LZ_EDUCATION_ORGANIZATION))) {
-                return new LandingZoneInfo((String) lz.get(LZ_PATH), (String) lz.get(LZ_INGESTION_SERVER));
+                return new LandingZoneInfo((String) lz.get(LZ_PATH));
             }
         }
         throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR,
@@ -189,20 +172,9 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
 
-        String ingestionServer = findLeastLoadedIngestionServer();
         File inboundDirFile = new File(landingZoneMountPoint);
         File fullPath = new File(inboundDirFile, tenantId + "/" + DigestUtils.sha256Hex(edOrgId));
         String path = fullPath.getAbsolutePath();
-
-        // resolve localhost ingestion server to the current server name
-        if (ingestionServer.equals(LZ_INGESTION_SERVER_LOCALHOST)) {
-            try {
-                ingestionServer = InetAddress.getLocalHost().getHostName();
-            } catch (UnknownHostException e) {
-                throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR,
-                        "Failed to resolve ingestion server for " + LZ_INGESTION_SERVER_LOCALHOST + ".", e);
-            }
-        }
 
         // look up ids of existing tenant entries
         List<String> existingIds = new ArrayList<String>();
@@ -220,7 +192,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
             EntityBody newTenant = new EntityBody();
             newTenant.put(TENANT_ID, tenantId);
             newTenant.put(DB_NAME, getDatabaseName(tenantId));
-            Map<String, Object> nlz = buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
+            Map<String, Object> nlz = buildLandingZone(edOrgId, desc, path, userNames);
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(nlz);
             newTenant.put(LZ, newLandingZoneList);
@@ -266,7 +238,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
             List existingLandingZones = (List) existingBody.get(LZ);
             allLandingZones.addAll(existingLandingZones);
 
-            Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
+            Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, path, userNames);
             allLandingZones.add(nlz);
 
             existingBody.put(LZ, new ArrayList(allLandingZones));
@@ -279,12 +251,10 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         return TenantIdToDbName.convertTenantIdToDbName(tenantId);
     }
 
-    private Map<String, Object> buildLandingZone(String edOrgId, String desc, String ingestionServer, String path,
-                                                 List<String> userNames) {
+    private Map<String, Object> buildLandingZone(String edOrgId, String desc, String path, List<String> userNames) {
         Map<String, Object> newLandingZone = new HashMap<String, Object>();
         newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
         newLandingZone.put(LZ_DESC, desc);
-        newLandingZone.put(LZ_INGESTION_SERVER, ingestionServer);
         newLandingZone.put(LZ_PATH, path);
         newLandingZone.put(LZ_USER_NAMES, userNames);
 
@@ -313,41 +283,6 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         public int get() {
             return value;
         }
-    }
-
-    public String findLeastLoadedIngestionServer() {
-        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
-        Iterable<EntityBody> tenants = tenantService.get(tenantService.listIds(new NeutralQuery()));
-        Map<String, MutableInt> map = new HashMap<String, MutableInt>(ingestionServerList.size());
-
-        for (String s : ingestionServerList) {
-            map.put(s.toLowerCase(), new MutableInt());
-        }
-
-        for (EntityBody t : tenants) {
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> currentLZs = (List<Map<String, Object>>) t.get(LZ);
-            for (Map<String, Object> lz : currentLZs) {
-                String server = ((String) lz.get(LZ_INGESTION_SERVER)).toLowerCase();
-                MutableInt use = map.get(server);
-                // only increment if we actually have that server in our list
-                if (null != use) {
-                    use.increment();
-                }
-            }
-        }
-
-        int curMin = Integer.MAX_VALUE;
-        String curHost = ingestionServerList.get(0);
-        for (Map.Entry<String, MutableInt> e : map.entrySet()) {
-            int i = e.getValue().get();
-            if (i < curMin) {
-                curMin = i;
-                curHost = e.getKey();
-            }
-        }
-
-        return curHost;
     }
 
     @Override

@@ -49,10 +49,8 @@ public class TenantMongoDA implements TenantDA {
 
     private static final String TENANT = "tenant";
     private static final String LANDING_ZONE_PATH = "landingZone.path";
-    private static final String LANDING_ZONE_INGESTION_SERVER = "landingZone.ingestionServer";
     public static final String TENANT_ID = "tenantId";
     public static final String DB_NAME = "dbName";
-    public static final String INGESTION_SERVER = "ingestionServer";
     public static final String PATH = "path";
     public static final String LANDING_ZONE = "landingZone";
     public static final String PRELOAD_DATA = "preload";
@@ -73,7 +71,7 @@ public class TenantMongoDA implements TenantDA {
 
     @Override
     public List<String> getLzPaths() {
-        return findTenantPathsByIngestionServer();
+        return findTenantPaths();
     }
 
     @Override
@@ -98,7 +96,6 @@ public class TenantMongoDA implements TenantDA {
             for (LandingZoneRecord landingZoneRecord : tenant.getLandingZone()) {
                 Map<String, String> landingZone = new HashMap<String, String>();
                 landingZone.put(EDUCATION_ORGANIZATION, landingZoneRecord.getEducationOrganization());
-                landingZone.put(INGESTION_SERVER, landingZoneRecord.getIngestionServer());
                 landingZone.put(PATH, landingZoneRecord.getPath());
                 landingZone.put(DESC, landingZoneRecord.getDesc());
                 landingZones.add(landingZone);
@@ -108,7 +105,7 @@ public class TenantMongoDA implements TenantDA {
         return body;
     }
 
-    private List<String> findTenantPathsByIngestionServer() {
+    private List<String> findTenantPaths() {
         List<String> tenantPaths = new ArrayList<String>();
 
         Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, new NeutralQuery());
@@ -126,10 +123,6 @@ public class TenantMongoDA implements TenantDA {
             }
         }
         return tenantPaths;
-    }
-
-    private NeutralCriteria byServerQuery(String targetIngestionServer) {
-        return new NeutralCriteria(LANDING_ZONE_INGESTION_SERVER, "=", targetIngestionServer);
     }
 
     private String findTenantIdByLzPath(String lzPath) {
@@ -150,37 +143,6 @@ public class TenantMongoDA implements TenantDA {
 
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<String, List<String>> getPreloadFiles(String ingestionServer) {
-        Iterable<Entity> tenants = entityRepository.findAll(
-                TENANT_COLLECTION,
-                new NeutralQuery(byServerQuery(ingestionServer)).addCriteria(PRELOAD_READY_CRITERIA).setIncludeFields(
-                        Arrays.asList(LANDING_ZONE + "." + PRELOAD_DATA, LANDING_ZONE_PATH,
-                                LANDING_ZONE_INGESTION_SERVER)));
-        Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
-        for (Entity tenant : tenants) {
-            if (markPreloadStarted(tenant)) { // only return this if the tenant is not already in
-                                              // the
-                // started state
-                List<Map<String, Object>> landingZones = (List<Map<String, Object>>) tenant.getBody().get(LANDING_ZONE);
-                for (Map<String, Object> landingZone : landingZones) {
-                    if (landingZone.get(INGESTION_SERVER).equals(ingestionServer)) {
-                        List<String> files = new ArrayList<String>();
-                        Map<String, Object> preloadData = (Map<String, Object>) landingZone.get(PRELOAD_DATA);
-                        if (preloadData != null) {
-                            if ("ready".equals(preloadData.get(PRELOAD_STATUS))) {
-                                files.addAll((Collection<? extends String>) preloadData.get(PRELOAD_FILES));
-                            }
-                            fileMap.put((String) landingZone.get(PATH), files);
-                        }
-                    }
-                }
-            }
-        }
-        return fileMap;
     }
 
     private boolean markPreloadStarted(Entity tenant) {

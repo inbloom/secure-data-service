@@ -16,12 +16,12 @@
 
 
 db["application"].ensureIndex({"body.admin_visible":1});  // ?
-db["application"].ensureIndex({"body.created_by":1}); 
+db["application"].ensureIndex({"body.created_by":1});
 db["application"].ensureIndex({"body.allowed_for_all_edorgs":1});  //app auth per edorg
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});  //app auth per edorg
 db["application"].ensureIndex({"body.authorized_for_all_edorgs":1});  //app auth per edorg
 db["application"].ensureIndex({"body.client_id":1,"body.client_secret":1},{unique:true});  //app auth
-db["application"].ensureIndex({"metaData.tenantId":1}); 
+db["application"].ensureIndex({"metaData.tenantId":1});
 
 db["customRole"].ensureIndex({"body.realmId":1});  // create custom role for a realm
 
@@ -33,7 +33,7 @@ db["realm"].ensureIndex({"body.name":1});
 
 db["securityEvent"].ensureIndex({"body.targetEdOrg":1,"body.roles":1});
 
-db["tenant"].ensureIndex({"body.landingZone.ingestionServer":1,"body.landingZone.preload.status":1});//ingestion-startup
+db["tenant"].ensureIndex({"body.landingZone.preload.status":1});//ingestion-startup
 db["tenant"].ensureIndex({"body.landingZone.path":1});  //ingestion-job start
 db["tenant"].ensureIndex({"body.tenantId":1},{unique:true});  //ingestion-startup
 db["tenant"].ensureIndex({"body.landingZone.preload.status":1});  //ingestion pre loading

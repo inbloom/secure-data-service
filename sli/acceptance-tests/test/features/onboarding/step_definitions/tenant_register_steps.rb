@@ -73,14 +73,12 @@ When /^I POST a new tenant$/ do
       "landingZone" => [ 
         { 
           "educationOrganization" => "Sunset",
-          "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
           "desc" => "Sunset district landing zone",
           "userNames" => [ "jwashington", "jstevenson" ]
         },
         {
           "educationOrganization" => "Daybreak",
-          "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
           "desc" => "Daybreak district landing zone",
           "userNames" => [ "jstevenson" ]
@@ -129,7 +127,6 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
       "landingZone" => [ 
         { 
           "educationOrganization" => "Daybreak",
-          "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
           "desc" => "Daybreak district landing zone",
           "userNames" => [ "rrogers" ]
@@ -215,7 +212,6 @@ def getBaseTenant
       "landingZone" => [ 
         { 
           "educationOrganization" => "Twilight",
-          "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
           "desc" => "Twilight district landing zone",
           "userNames" => [ "rrogers" ]
