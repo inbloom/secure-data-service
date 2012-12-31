@@ -6,6 +6,7 @@ realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
 browser: "firefox"
 
 admintools_server_url: "http://local.slidev.org:3001"
+minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
 api_server_url: "http://local.slidev.org:8080"
 databrowser_server_url: "http://local.slidev.org:3000"
 
@@ -61,6 +62,7 @@ ldap_admin_pass: Y;Gtf@w{
 user_registration_app_production_url: "http://local.slidev.org:3001"
 user_registration_app_sandbox_url: "http://local.slidev.org:3001"
 user_registration_app_host_url: "slcedu.org"
+sb_get_started: "dev.slcedu.org/getting-started"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"

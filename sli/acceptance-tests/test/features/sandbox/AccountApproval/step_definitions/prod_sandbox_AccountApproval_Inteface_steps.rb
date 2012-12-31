@@ -25,6 +25,7 @@ require_relative '../../../utils/selenium_common.rb'
 
 Before do
   extend Test::Unit::Assertions
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 120)
 end
 
 Given /^I navigate to the account management page$/ do
@@ -59,6 +60,9 @@ Given /^there are accounts in requests pending in the system$/ do
   sleep(1)
 end
 
+And /^I got the 404 page$/ do
+  assertText("The page you were looking for doesn't exist")    
+end
 
 When /^I hit the Admin Application Account Approval page$/ do
   url = PropLoader.getProps['admintools_server_url']+"/account_managements"
@@ -212,3 +216,8 @@ def clear_users
     end
 end
 
+def assertText(text)
+  @explicitWait.until{@driver.find_element(:tag_name,"body")}
+  body = @driver.find_element(:tag_name, "body")
+  assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
+end

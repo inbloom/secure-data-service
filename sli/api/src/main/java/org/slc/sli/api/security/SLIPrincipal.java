@@ -52,7 +52,11 @@ public class SLIPrincipal implements Principal, Serializable {
     private List<String> roles;
     private String edOrgId;
     private boolean adminUser;
+    private String firstName;
+    private String lastName;
+    private String vendor;
     private Set<String> subEdOrgHierarchy;
+    private String sandboxTenant;
     private boolean adminRealmAuthenticated;
 
     public String getSessionId() {
@@ -207,6 +211,30 @@ public class SLIPrincipal implements Principal, Serializable {
         return adminUser;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
+
     public Collection<String> getSubEdOrgHierarchy() {
         if (subEdOrgHierarchy != null) {
             return subEdOrgHierarchy;
@@ -217,6 +245,14 @@ public class SLIPrincipal implements Principal, Serializable {
     
     public void setSubEdOrgHierarchy(Collection<String> subEdOrgHierarchy) {
         this.subEdOrgHierarchy = new TreeSet<String>(subEdOrgHierarchy);
+    }
+
+    public String getSandboxTenant() {
+        return sandboxTenant;
+    }
+
+    public void setSandboxTenant(String sandboxTenant) {
+        this.sandboxTenant = sandboxTenant;
     }
     
     public boolean isAdminRealmAuthenticated() {

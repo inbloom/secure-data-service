@@ -20,6 +20,7 @@ require 'approval'
 
 class AccountManagementsController < ApplicationController
   before_filter :check_slc_operator
+  before_filter :enabled_only_in_sandbox
 
   # GET /account_managements
   # GET /account_managements.json
@@ -99,6 +100,12 @@ class AccountManagementsController < ApplicationController
       if roles.nil? || !roles.include?("SLC Operator")
         render :file => "#{Rails.root}/public/403.html"
       end
+    end
+  end
+
+  def enabled_only_in_sandbox
+    unless APP_CONFIG['is_sandbox']
+      render :file => "#{Rails.root}/public/404.html"
     end
   end
 end

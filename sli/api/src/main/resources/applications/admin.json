@@ -84,7 +84,7 @@
          "description":"Approve Reject and Disable Accounts",
          "url":"${bootstrap.app.admin.url}/account_managements",
          "rights":[
-            "CRUD_SLC_OPERATOR"
+            "ACCOUNT_APPROVAL"
             ]
       },
       {

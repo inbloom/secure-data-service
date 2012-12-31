@@ -14,6 +14,7 @@ common: &common
     admin_realm: Shared Learning Collaborative
     reset_password_lifespan: 86400
     app_dev_documentation_link: http://dev.slcedu.org/getting-started
+    devslc_url: http://dev.slcedu.org
 
 sandbox: &sandbox
     is_sandbox: true
