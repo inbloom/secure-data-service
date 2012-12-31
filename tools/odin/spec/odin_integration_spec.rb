@@ -172,17 +172,18 @@ describe "Odin" do
     end
   end
 
-  context "with a 1000 student configuration" do
-    let(:odin) {Odin.new}
-    before(:all) {odin.generate("1000students")}
-    let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
+  # context "with a 1000 student configuration" do
+  #   let(:odin) {Odin.new}
+  #   before(:all) {odin.generate("1000students")}
+  #   let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
 
-    describe "#generate" do
-      it "will generate lists of 1000 students" do
-        student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
-      end
-    end
-  end
+  #   describe "#generate" do
+  #     it "will generate lists of 1000 students" do
+  #       student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
+  #     end
+  #   end
+  # end
+  # --> this test takes too long when generating all entities
 
   context "with a configuration with only students whitelisted" do
     let(:odin) {Odin.new}
@@ -192,10 +193,10 @@ describe "Odin" do
 
     describe "#generate" do
       it "will generate lists of 1000 students" do
-        student.select{|l| l.match("<Student>")}.length.should eq(1000)
+        student.select{|l| l.match('<Student>')}.length.should eq(1000)
       end
       it "will not generate any other entity" do
-        student.select{|l| l.match("<Parent>")}.length.should eq(0)
+        student.select{|l| l.match('<Parent>')}.length.should eq(0)
         interchanges.should have(1).items
       end
     end
