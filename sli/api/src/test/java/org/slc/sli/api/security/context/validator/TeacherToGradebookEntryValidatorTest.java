@@ -54,7 +54,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @Component
-public class StaffToGradebookEntryValidatorTest {
+public class TeacherToGradebookEntryValidatorTest {
     
     @Autowired
     private GenericToGradebookEntryValidator validator;
@@ -65,67 +65,47 @@ public class StaffToGradebookEntryValidatorTest {
     @Autowired
     private SecurityContextInjector injector;
     
-    Entity staff1 = null;   //associated to LEA
-    Entity staff2 = null;   //associated to school1
+    @Autowired
+    ValidatorTestHelper helper;
+    
+    Entity teacher1 = null;   //associated to school1
 
     Entity lea1 = null;
     Entity school1 = null;
 
-    Entity section1 = null; //associated with school1
-    Entity section2 = null; //no association
+    Entity section1 = null; //associated with teacher1
+    Entity section3 = null; //no association
     
     Entity gradebookEntry1 = null;  //section1
-    Entity gradebookEntry2 = null;  //section2
+    Entity gradebookEntry3 = null;  //section3
     
     @Before
-    public void setUp() {
-
-        repo.deleteAll("educationOrganization", null);
-        repo.deleteAll("staff", null);
-        repo.deleteAll("section", null);
+    public void setUp() throws Exception {
+        helper.resetRepo();
 
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff1");
-        staff1 = repo.create("staff", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff2");
-        staff2 = repo.create("staff", body);     
+        teacher1 = helper.generateTeacher();
 
-        body = new HashMap<String, Object>();
-        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        lea1 = repo.create("educationOrganization", body);
+        lea1 = helper.generateEdorgWithParent(null);
 
+        school1 = helper.generateEdorgWithParent(lea1.getEntityId());
+        
+        helper.generateTeacherSchool(teacher1.getEntityId(), school1.getEntityId());
+        
         body = new HashMap<String, Object>();
-        body.put("organizationCategories", Arrays.asList("School"));
-        body.put("parentEducationAgencyReference", lea1.getEntityId());
-        school1 = repo.create("educationOrganization", body);
 
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", lea1.getEntityId());
-        body.put("staffReference", staff1.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
+        section1 = helper.generateSection("school1");
+        helper.generateTSA(teacher1.getEntityId(), section1.getEntityId(), false);
         
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school1.getEntityId());
-        body.put("staffReference", staff2.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
-        
-        body = new HashMap<String, Object>();
-        body.put("schoolId", school1.getEntityId());
-        section1 = repo.create(EntityNames.SECTION, body);
-        
-        body = new HashMap<String, Object>();
-        body.put("schoolId", "made-up-school-id");
-        section2 = repo.create(EntityNames.SECTION, body);
+        section3 = helper.generateSection("school1");
         
         body = new HashMap<String, Object>();
         body.put("sectionId", section1.getEntityId());
         gradebookEntry1 = repo.create(EntityNames.GRADEBOOK_ENTRY, body);
         
         body = new HashMap<String, Object>();
-        body.put("sectionId", section2.getEntityId());
-        gradebookEntry2 = repo.create(EntityNames.GRADEBOOK_ENTRY, body);
+        body.put("sectionId", section3.getEntityId());
+        gradebookEntry3 = repo.create(EntityNames.GRADEBOOK_ENTRY, body);
       
     }
     
@@ -138,42 +118,30 @@ public class StaffToGradebookEntryValidatorTest {
     }
     
     @Test
-    public void testCanValidateAsStaff() {
-        setupCurrentUser(staff1);
+    public void testCanValidateAsTeacher() {
+        setupCurrentUser(teacher1);
         Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.GRADEBOOK_ENTRY, false));
         Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.GRADEBOOK_ENTRY, true));
         Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.ADMIN_DELEGATION, false));
     }
-       
+    
     @Test
-    public void testValidAssociationsForStaff1() {
-        setupCurrentUser(staff1);
+    public void testValidAssociations() {
+        setupCurrentUser(teacher1);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()))));
     }
-    
-    @Test
-    public void testValidAssociationsForStaff2() {
-        setupCurrentUser(staff2);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()))));
-    }
-    
-    @Test
-    public void testInvalidAssociationsForStaff1() {
-        setupCurrentUser(staff1);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()))));
-    }
-    
-    @Test
-    public void testInvalidAssociationsForStaff2() {
-        setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()))));
-    }
-    
+        
     @Test
     public void testInvalidAssociations() {
-        setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>()));
+        setupCurrentUser(teacher1);
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
+                new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
+                new HashSet<String>()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
+                new HashSet<String>(Arrays.asList(gradebookEntry3.getEntityId()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
+                new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId(), gradebookEntry3.getEntityId()))));
     }
     
 }

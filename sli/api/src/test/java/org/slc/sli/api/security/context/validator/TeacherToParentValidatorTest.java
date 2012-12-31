@@ -57,7 +57,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class TeacherToParentValidatorTest {
     
     @Autowired
-    private TeacherToParentValidator validator;
+    private GenericToParentValidator validator;
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
