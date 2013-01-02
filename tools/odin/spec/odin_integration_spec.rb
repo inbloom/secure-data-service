@@ -211,7 +211,7 @@ describe "Odin" do
       it "will not generate any other entity" do
         num_parents = 0
         while (line = @student_parent_interchange.gets)
-          num_students += 1 if line.include?('<Parent>')
+          num_parents += 1 if line.include?('<Parent>')
         end
         num_parents.should eq(0)
         @interchanges.should have(1).items

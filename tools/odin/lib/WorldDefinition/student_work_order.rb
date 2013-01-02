@@ -20,6 +20,7 @@ require 'logger'
 
 require_relative '../Shared/data_utility'
 require_relative '../Shared/EntityClasses/studentAssessment'
+require_relative '../Shared/EntityClasses/enum/GradeType'
 require_relative 'assessment_work_order'
 require_relative 'attendance_factory'
 require_relative 'gradebook_entry_factory'
@@ -246,25 +247,79 @@ class StudentWorkOrder
             rval       << StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
 
             unless @gradebook_factory.nil? or section[:gbe].nil?
+              grades = {}
               section[:gbe].each do |type, gbe_num|
-                gbe_orders = @gradebook_factory.generate_entries_of_type(session, section, type, gbe_num)
+                grades[type] = []
+                gbe_orders   = @gradebook_factory.generate_entries_of_type(session, section, type, gbe_num)
                 @log.warn "section: #{section} calls for #{gbe_num} gbes (type:#{type}) --> actually created #{gbe_orders.size} gbe orders" if gbe_orders.size != gbe_num
                 gbe_orders.each do |gbe_order|
-                  assigned        = gbe_order[:date_assigned]
-                  fulfilled       = assigned + 1
-                  association     = {:student => @id, :ed_org_id => school_id, :unique_section_code => section_id, :begin_date => session['interval'].get_begin_date}
-                  gradebook_entry = {:type => gbe_order[:gbe_type], :date_assigned => assigned, :ed_org_id => school_id, :unique_section_code => section_id}
-                  letter_earned   = "A"
-                  number_earned   = 95
-                  rval << StudentGradebookEntry.new(fulfilled, letter_earned, number_earned, association, gradebook_entry)
+                  sgbe         = get_student_gradebook_entry(gbe_order, school_id, section_id, session)
+                  grades[type] << sgbe.numeric_grade_earned
+                  rval         << sgbe
                 end
               end
+              # compute final grade using breakdown --> need to look up breakdown from @scenario
+              rval << get_student_final_grade(grade, grades, school_id, section_id, session)
             end
           }
         end
       end
     end
     rval
+  end
+
+  # creates a student gradebook entry, based on the input gradebook entry work order
+  # -> needs school, section, and session to fill out appropriate information
+  def get_student_gradebook_entry(gbe_order, school_id, section_id, session)
+    assigned        = gbe_order[:date_assigned]
+    fulfilled       = assigned + 1
+    association     = get_student_section_association(school_id, section_id, session['interval'].get_begin_date)
+    gradebook_entry = {:type => gbe_order[:gbe_type], :date_assigned => assigned, :ed_org_id => school_id, :unique_section_code => section_id}
+    letter, number  = get_grade_for_gradebook_entry
+    return StudentGradebookEntry.new(fulfilled, letter, number, association, gradebook_entry)
+  end
+
+  def get_student_final_grade(grade, grades, school_id, section_id, session)
+    numeric         = 0
+    grade_breakdown = @scenario['GRADEBOOK_ENTRIES_BY_GRADE'][GradeLevelType.to_string(grade)]
+    unless grade_breakdown.nil?
+      grades.each do |type, scores|
+        weight  = grade_breakdown[type]['weight'] / 100.0 unless grade_breakdown[type]['weight'].nil?
+        weight  = 1.0 / grade_breakdown.size if weight.nil?
+        average = scores.inject(:+) / scores.size
+        numeric += (weight * average).floor
+      end
+    end
+    return Grade.new(get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
+  end
+
+  # translates the attributes for the student section association into a map (with values that mustache templates will recognize/expect)
+  def get_student_section_association(school_id, section_id, begin_date)
+    {:student => @id, :ed_org_id => school_id, :unique_section_code => section_id, :begin_date => begin_date}
+  end
+
+  # generates a grade (letter and numeric) for a student gradebook entry
+  def get_grade_for_gradebook_entry
+    number = DataUtility.select_random_from_options(@rand, (55..100).to_a)
+    letter = get_letter_grade_from_number(number)
+    return letter, number
+  end
+
+  # translates the numeric grade into a letter grade
+  def get_letter_grade_from_number(number)
+    return "A+" if number >= 97
+    return "A"  if number >= 93
+    return "A-" if number >= 90
+    return "B+" if number >= 87
+    return "B"  if number >= 83
+    return "B-" if number >= 80
+    return "C+" if number >= 77
+    return "C"  if number >= 73
+    return "C-" if number >= 70
+    return "D+" if number >= 67
+    return "D"  if number >= 63
+    return "D-" if number >= 60
+    return "F"
   end
 
   def graduation_plan(school_type)
