@@ -100,7 +100,8 @@ public class ObjectiveAssessmentBuilder {
                 LOG.warn(
                         "Failed to find objective assessment: {} using both id and identification code --> Returning null.",
                         objectiveAssessmentId);
-                reportAggregatedWarnings(CoreMessageCode.CORE_0045, access, job, objectiveAssessmentId);
+                // no warning report here
+                // The caller shall call reportAggregatedWarnings if it desires
                 assessment = null;
             } else {
                 LOG.debug("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
