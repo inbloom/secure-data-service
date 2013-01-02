@@ -34,7 +34,7 @@ import java.util.Map;
  * Handles adding documentation to a resource document
  */
 public class ResourceDocumentation {
-    private static final String DEFAULT_RESOURCE_LOC = "/wadl/v1_resources.json";
+    private static final String DEFAULT_RESOURCE_LOC = "/wadl/resources.json";
     private final Document doc;
     private final DocumentManipulator manipulator;
     private final Map<String, ResourceEndPointTemplate> resources = new HashMap<String, ResourceEndPointTemplate>();
