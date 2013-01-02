@@ -40,6 +40,7 @@ public class ApplicationResourceService extends DefaultResourceService {
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
     private static final String CREATED_BY = "created_by";
+    private static final String AUTHOR_SANDBOX_TENANT = "author_sandbox_tenant";
 
     @Autowired
     @Qualifier("validationRepo")
@@ -59,7 +60,13 @@ public class ApplicationResourceService extends DefaultResourceService {
                 query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId(), false));
             } else {
                 // Prod. Developer sees all apps they own
-                query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
+                query.addOrQuery(new NeutralQuery(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId())));
+                // or they see all apps created by other developers from the same sandbox tenant -- after unifying their accounts, prod app developer
+                // is hosted by sandbox ldap
+                String sandboxTenancy = principal.getSandboxTenant();
+                if (sandboxTenancy != null && sandboxTenancy.length() > 0) {
+                	query.addOrQuery(new NeutralQuery(new NeutralCriteria(AUTHOR_SANDBOX_TENANT, NeutralCriteria.OPERATOR_EQUAL, sandboxTenancy)));
+                }
             }
         } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
 

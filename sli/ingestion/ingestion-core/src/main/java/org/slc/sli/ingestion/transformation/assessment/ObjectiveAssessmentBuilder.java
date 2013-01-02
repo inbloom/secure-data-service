@@ -25,10 +25,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +64,8 @@ public class ObjectiveAssessmentBuilder {
 
     @Autowired
     private CacheProvider cacheProvider;
+
+    private AbstractTransformationStrategy abstractTransformationStrategy;
 
     /**
      * Gets the specified objective assessment by first performing a look up on its '_id'
@@ -91,6 +100,8 @@ public class ObjectiveAssessmentBuilder {
                 LOG.warn(
                         "Failed to find objective assessment: {} using both id and identification code --> Returning null.",
                         objectiveAssessmentId);
+                // no warning report here
+                // The caller shall call reportAggregatedWarnings if it desires
                 assessment = null;
             } else {
                 LOG.debug("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
@@ -122,7 +133,7 @@ public class ObjectiveAssessmentBuilder {
             String objectiveAssessmentRef, String by) {
         Set<String> parentObjs = Collections.emptySet();
         Map<Object, NeutralRecord> objectiveAssessments = loadAllObjectiveAssessments(access, batchJobId);
-        return getObjectiveAssessment(objectiveAssessmentRef, parentObjs, by, objectiveAssessments);
+        return getObjectiveAssessment(objectiveAssessmentRef, parentObjs, by, objectiveAssessments, batchJobId);
     }
 
     /**
@@ -137,14 +148,21 @@ public class ObjectiveAssessmentBuilder {
      *            how to search for objective assessments (currently 'BY_ID').
      * @param objectiveAssessments
      *            set of objective assessments to search for single objective assessment in.
+     * @param batchJobId
      * @return Map representing the current objective assessment (containing all children as well).
      */
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs,
-            String by, Map<Object, NeutralRecord> objectiveAssessments) {
+            String by, Map<Object, NeutralRecord> objectiveAssessments, String batchJobId) {
         LOG.debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
         for (Map.Entry<Object, NeutralRecord> objectiveAssessment : objectiveAssessments.entrySet()) {
             Map<String, Object> record = objectiveAssessment.getValue().getAttributes();
             Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
+            NeutralRecord neutralRecord = objectiveAssessment.getValue();
+            NeutralRecordSource source = new NeutralRecordSource(batchJobId, neutralRecord.getSourceFile(),
+                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    neutralRecord.getRecordType(),
+                    neutralRecord.getVisitBeforeLineNumber(), neutralRecord.getVisitBeforeColumnNumber(),
+                    neutralRecord.getVisitAfterLineNumber(), neutralRecord.getVisitAfterColumnNumber());
 
             if (record.get(by).equals(objectiveAssessmentRef)) {
                 List<?> subObjectiveRefs = (List<?>) record.get(SUB_OBJECTIVE_REFS);
@@ -155,15 +173,17 @@ public class ObjectiveAssessmentBuilder {
                     for (Object subObjectiveRef : subObjectiveRefs) {
                         if (!newParents.contains(subObjectiveRef)) {
                             Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef,
-                                    newParents, BY_ID, objectiveAssessments);
+                                    newParents, BY_ID, objectiveAssessments, batchJobId);
                             if (subAssessment != null) {
                                 subObjectives.add(subAssessment);
                             } else {
                                 LOG.warn("Could not find objective assessment ref: {}", subObjectiveRef);
+                                reportWarnings(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0043, subObjectiveRef);
                             }
                         } else {
                             LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
                                     subObjectiveRef);
+                            reportWarnings(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0044, subObjectiveRef);
                         }
                     }
                     objectiveAssessmentToReturn.put("objectiveAssessments", subObjectives);
@@ -228,5 +248,57 @@ public class ObjectiveAssessmentBuilder {
 
     private String composeKey(String collection, String tenantId, String criteria) {
         return String.format("%s_%s_%s", tenantId, collection, criteria);
+    }
+
+    /**
+     * Set AbstractTransformationStrategy so that it can be used to
+     * report errors or warnings
+     *
+     * @param abstractTransformationStrategy
+     */
+    public void setAbstractTransformationStrategy(AbstractTransformationStrategy abstractTransformationStrategy) {
+        this.abstractTransformationStrategy = abstractTransformationStrategy;
+    }
+
+    /**
+     * Report warnings using the attached AbstractTransformationStrategy
+     *
+     * @param fileName
+     * @param source
+     * @param code
+     * @param args
+     */
+    public void reportWarnings(String fileName, Source source, MessageCode code, Object... args) {
+        if (abstractTransformationStrategy != null) {
+            abstractTransformationStrategy.reportWarnings(fileName, source, code, args);
+        }
+    }
+
+    /**
+     * 
+     * @param code
+     * @param access
+     * @param job
+     * @param objectiveAssessmentId
+     */
+    public void reportAggregatedWarnings(MessageCode code, NeutralRecordMongoAccess access, Job job, Object... args) {
+        try {
+            String batchJobId = job.getId();
+            Map<Object, NeutralRecord> objectiveAssessments = loadAllObjectiveAssessments(access, batchJobId);
+            String sourceFile = objectiveAssessments.values().iterator().next().getSourceFile();
+            AggregatedSource source = new AggregatedSource(batchJobId, sourceFile,
+                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+
+            for (NeutralRecord nr : objectiveAssessments.values()) {
+                NeutralRecordSource nrSource = new NeutralRecordSource(batchJobId, sourceFile,
+                        BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        nr.getRecordType(),
+                        nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+                        nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
+                source.addSource(nrSource);
+            }
+            reportWarnings(sourceFile, source, code, args);
+        } catch (java.util.NoSuchElementException e) {
+            LOG.debug("Null sourceFile {}.", e);        }
     }
 }

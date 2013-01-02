@@ -10,6 +10,7 @@ Given I post "CourseUpdate1.zip" file as the payload of the ingestion job
      | collectionName              |
      | course                      |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "CourseUpdate1.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -40,6 +41,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "CourseUpdate2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
+  And a batch job for file "CourseUpdate2.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |

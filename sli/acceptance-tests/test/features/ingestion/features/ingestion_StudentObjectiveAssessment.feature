@@ -12,6 +12,8 @@ Given I post "StudentObjectiveAssessment1.zip" file as the payload of the ingest
      | StudentAssessment                     |
 When zip file is scp to ingestion landing zone
   And "10" seconds have elapsed
+  And a batch job for file "StudentObjectiveAssessment1.zip" is completed in database
+  And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | StudentObjectiveAssessment  | 6    |
@@ -25,11 +27,14 @@ Then I should see following map of entry counts in the corresponding collections
 
   And I should see "Processed 6 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should not see a warning log file created
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "StudentObjectiveAssessment2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And "10" seconds have elapsed
+  And a batch job for file "StudentObjectiveAssessment2.zip" is completed in database
+  And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | session                     | 50    |
@@ -44,3 +49,4 @@ Then I should see following map of entry counts in the corresponding collections
 
        And I should see "Processed 6 records." in the resulting batch job file
        And I should not see an error log file created
+       And I should not see a warning log file created

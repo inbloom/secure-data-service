@@ -14,6 +14,7 @@ Scenario: Student Ed-Fi XSD Validation
         | collectionName              |
         | student                     |
     When zip file is scp to ingestion landing zone
+    And a batch job for file "XsdValidation.zip" is completed in database
     And a batch job log has been created
 
     Then I should see following map of entry counts in the corresponding collections:
@@ -62,6 +63,7 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | session                     |
       | studentGradebookEntry       |
     When zip file is scp to ingestion landing zone
+    And a batch job for file "StudentGradeXsdValidation.zip" is completed in database
     And a batch job log has been created
 
     Then I should see following map of entry counts in the corresponding collections:

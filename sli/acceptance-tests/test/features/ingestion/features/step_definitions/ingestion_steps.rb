@@ -1239,7 +1239,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 420
+  @maxTimeout ? @maxTimeout : @maxTimeout = 600
   sleep(intervalTime)
   iters = (1.0*@maxTimeout/intervalTime).ceil
     found = false
