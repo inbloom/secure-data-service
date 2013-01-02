@@ -282,20 +282,22 @@ public class ObjectiveAssessmentBuilder {
      * @param objectiveAssessmentId
      */
     public void reportAggregatedWarnings(MessageCode code, NeutralRecordMongoAccess access, Job job, Object... args) {
-        String batchJobId = job.getId();
-        Map<Object, NeutralRecord> objectiveAssessments = loadAllObjectiveAssessments(access, batchJobId);
-        String sourceFile = objectiveAssessments.values().iterator().next().getSourceFile();
-        AggregatedSource source = new AggregatedSource(batchJobId, sourceFile,
-                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+        try {
+            String batchJobId = job.getId();
+            Map<Object, NeutralRecord> objectiveAssessments = loadAllObjectiveAssessments(access, batchJobId);
+            String sourceFile = objectiveAssessments.values().iterator().next().getSourceFile();
+            AggregatedSource source = new AggregatedSource(batchJobId, sourceFile,
+                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
 
-        for (NeutralRecord nr : objectiveAssessments.values()) {
-            NeutralRecordSource nrSource = new NeutralRecordSource(batchJobId, sourceFile,
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    nr.getRecordType(),
-                    nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
-                    nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
-            source.addSource(nrSource);
-        }
-        reportWarnings(sourceFile, source, code, args);
+            for (NeutralRecord nr : objectiveAssessments.values()) {
+                NeutralRecordSource nrSource = new NeutralRecordSource(batchJobId, sourceFile,
+                        BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        nr.getRecordType(),
+                        nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+                        nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
+                source.addSource(nrSource);
+            }
+            reportWarnings(sourceFile, source, code, args);
+        } catch (java.util.NoSuchElementException e) {}
     }
 }
