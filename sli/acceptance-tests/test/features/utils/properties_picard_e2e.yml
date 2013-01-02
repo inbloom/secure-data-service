@@ -58,6 +58,13 @@ ldap_base: "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org"
 ldap_admin_user: cn=Admin,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
 
+minisb_ldap_hostname: localhost #local.slidev.org
+minisb_ldap_port: 1637
+minisb_ldap_use_ssl: true
+minisb_ldap_base: "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org"
+minisb_ldap_admin_user: cn=Admin,dc=slidev,dc=org
+minisb_ldap_admin_pass: Y;Gtf@w{
+
 user_registration_app_production_url: "https://picard-admin.slidev.org"
 user_registration_app_sandbox_url: "https://picard-admin.slidev.org"
 user_registration_app_host_url: "slcedu.org"
@@ -133,4 +140,5 @@ ci_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant
 ################# /e2e test properties #################################
 
 portal_server_address: "https://picard-portal.slidev.org"
+minisb_portal_server_address: "https://picardsandbox.slidev.org"
 portal_app_suffix: "/portal"
