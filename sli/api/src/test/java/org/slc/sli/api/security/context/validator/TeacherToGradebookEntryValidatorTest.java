@@ -52,7 +52,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @Component
-@Ignore
 public class TeacherToGradebookEntryValidatorTest {
     
     @Autowired
