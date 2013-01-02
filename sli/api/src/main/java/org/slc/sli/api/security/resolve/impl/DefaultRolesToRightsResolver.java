@@ -129,7 +129,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             
             if (canLoginAsDeveloper) {
                 roles = new HashSet<Role>();
-                roles.addAll(roleRightAccess.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER, SecureRoleRightAccessImpl.PROD_LOGIN_USER)));
+                roles.addAll(roleRightAccess.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER)));
                 debug("With PRODUCTION_LOGIN right, converted {} to {}.", roleNames, roles);
             }
             
