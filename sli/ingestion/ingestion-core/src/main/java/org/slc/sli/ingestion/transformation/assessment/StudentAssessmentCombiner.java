@@ -115,6 +115,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming student assessment data");
+        builder.setAbstractTransformationStrategy(this);
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
