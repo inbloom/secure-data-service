@@ -23,6 +23,7 @@ Then I post "concurrentJobErrorTest.ctl" control file for concurent processing
 And "3" seconds have elapsed
 
 And I should see "Another job is currently running for this tenant" in the resulting error log file for "concurrentJobErrorTest.ctl"
+And a batch job for file "DailyAttendance.zip" is completed in database
 And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
