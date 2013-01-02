@@ -233,14 +233,12 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
 
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughDeniedCohort() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         String cohortId = helper.generateCohort(ED_ORG_ID).getEntityId();
@@ -253,7 +251,6 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughInvalidCohort() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         String cohortId = helper.generateCohort(ED_ORG_ID).getEntityId();
@@ -266,7 +263,6 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughCohortOutsideOfEdorg() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         String cohortId = helper.generateCohort("122").getEntityId();
@@ -279,7 +275,6 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCohortAccessIntersectionRules() throws Exception {
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
