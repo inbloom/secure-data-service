@@ -101,11 +101,12 @@ public class ResourceUtil {
         LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.ASSESSMENTS
                 + "objectiveAssessment.learningObjectives" + LINK, BLANK);
     }
-    
+
     /**
      * Extracts the API version from the provided URI info.
-     * 
-     * @param uriInfo URI requested by user (version is part of the URI)
+     *
+     * @param uriInfo
+     *            URI requested by user (version is part of the URI)
      * @return version referenced by UriInfo
      */
     public static String getApiVersion(final UriInfo uriInfo) {
@@ -121,7 +122,7 @@ public class ResourceUtil {
                 }
             }
         }
-        
+
         return null;
     }
 

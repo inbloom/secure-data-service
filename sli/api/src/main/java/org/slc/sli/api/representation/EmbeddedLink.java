@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.representation;
 
 import org.codehaus.jackson.annotate.JsonIgnore;

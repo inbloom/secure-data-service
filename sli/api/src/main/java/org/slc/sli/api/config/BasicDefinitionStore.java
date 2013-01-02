@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.config;
 
 import java.util.Collection;
@@ -108,8 +107,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
-        //factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
-        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).supportsAggregates().buildAndRegister(this);
+        // factory.makeEntity(EntityNames.BELL_SCHEDULE,
+        // ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
+        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).supportsAggregates()
+                .buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
         EntityDefinition studentCompetencyObjective = factory.makeEntity(EntityNames.STUDENT_COMPETENCY_OBJECTIVE,
                 ResourceNames.STUDENT_COMPETENCY_OBJECTIVES).buildAndRegister(this);
@@ -121,13 +122,14 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION,
                 ResourceNames.EDUCATION_ORGANIZATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
-        EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
+        EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(
+                this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS)
                 .storeAs(EntityNames.EDUCATION_ORGANIZATION).supportsAggregates().buildAndRegister(this);
-        EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).supportsAggregates().buildAndRegister(
-                this);
-        EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).supportsAggregates().buildAndRegister(
-                this);
+        EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).supportsAggregates()
+                .buildAndRegister(this);
+        EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).supportsAggregates()
+                .buildAndRegister(this);
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(
                 this);
@@ -136,7 +138,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS)
                 .storeAs(EntityNames.STAFF).buildAndRegister(this);
         EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
-        factory.makeEntity(EntityNames.STUDENT_ACADEMIC_RECORD, ResourceNames.STUDENT_ACADEMIC_RECORDS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.STUDENT_ACADEMIC_RECORD, ResourceNames.STUDENT_ACADEMIC_RECORDS)
+                .buildAndRegister(this);
 
         factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(
@@ -149,18 +152,21 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
         factory.makeEntity(EntityNames.REPORT_CARD, ResourceNames.REPORT_CARDS).buildAndRegister(this);
         factory.makeEntity(EntityNames.ADMIN_DELEGATION, ResourceNames.ADMIN_DELEGATION).buildAndRegister(this);
-        factory.makeEntity(EntityNames.SEARCH, ResourceNames.SEARCH).storeIn(searchRepo).skipContextValidation().wrapperEntity().buildAndRegister(this);
+        factory.makeEntity(EntityNames.SEARCH, ResourceNames.SEARCH).storeIn(searchRepo).skipContextValidation()
+                .wrapperEntity().buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADUATION_PLAN, ResourceNames.GRADUATION_PLANS).buildAndRegister(this);
 
         // adding the association definitions
-        AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation", "studentSchoolAssociations")
+        AssociationDefinition studentSchoolAssociation = factory
+                .makeAssoc("studentSchoolAssociation", "studentSchoolAssociations")
                 .exposeAs(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS).storeAs("studentSchoolAssociation")
                 .from(student, "getStudent", "getStudents").to(school, "getSchool", "getSchools")
                 .calledFromSource("getStudentSchoolAssociations").calledFromTarget("getStudentSchoolAssociations")
                 .build();
         addDefinition(studentSchoolAssociation);
 
-        AssociationDefinition teacherSectionAssociation = factory.makeAssoc("teacherSectionAssociation", "teacherSectionAssociations")
+        AssociationDefinition teacherSectionAssociation = factory
+                .makeAssoc("teacherSectionAssociation", "teacherSectionAssociations")
                 .exposeAs(ResourceNames.TEACHER_SECTION_ASSOCIATIONS).storeAs("teacherSectionAssociation")
                 .from(teacher, "getTeacher", "getTeachers").to(section, "getSection", "getSections")
                 .calledFromSource("getTeacherSectionAssociations").calledFromTarget("getTeacherSectionAssociations")
@@ -170,18 +176,19 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition studentAssessment = factory.makeAssoc("studentAssessment", "studentAssessments")
                 .exposeAs(ResourceNames.STUDENT_ASSESSMENTS).storeAs("studentAssessment")
                 .from(student, "getStudent", "getStudents").to(assessment, "getAssessment", "getAssessments")
-                .calledFromSource("getStudentAssessments")
-                .calledFromTarget("getStudentAssessments").build();
+                .calledFromSource("getStudentAssessments").calledFromTarget("getStudentAssessments").build();
         addDefinition(studentAssessment);
 
-        AssociationDefinition studentSectionAssociation = factory.makeAssoc("studentSectionAssociation", "studentSectionAssociations")
+        AssociationDefinition studentSectionAssociation = factory
+                .makeAssoc("studentSectionAssociation", "studentSectionAssociations")
                 .exposeAs(ResourceNames.STUDENT_SECTION_ASSOCIATIONS).storeAs("studentSectionAssociation")
                 .from(student, "getStudent", "getStudents").to(section, "getSection", "getSections")
                 .calledFromSource("getStudentSectionAssociations").calledFromTarget("getStudentSectionAssociations")
                 .build();
         addDefinition(studentSectionAssociation);
 
-        AssociationDefinition teacherSchoolAssociation = factory.makeAssoc("teacherSchoolAssociation", "teacherSchoolAssociations")
+        AssociationDefinition teacherSchoolAssociation = factory
+                .makeAssoc("teacherSchoolAssociation", "teacherSchoolAssociations")
                 .exposeAs(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS).storeAs("teacherSchoolAssociation")
                 .from(teacher, "getTeacher", "getTeachers").to(school, "getSchool", "getSchools")
                 .calledFromSource("getTeacherSchoolAssociations").calledFromTarget("getTeacherSchoolAssociations")
@@ -194,7 +201,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .storeAs("staffEducationOrganizationAssociation")
                 .from(staff, "getStaff", "getStaff", "staffReference")
                 .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations",
-                        "educationOrganizationReference").calledFromSource("getStaffEducationOrgAssignmentAssociations")
+                        "educationOrganizationReference")
+                .calledFromSource("getStaffEducationOrgAssignmentAssociations")
                 .calledFromTarget("getStaffEducationOrgAssignmentAssociations").build();
         addDefinition(staffEducationOrgAssignmentAssociation);
 
@@ -212,18 +220,17 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition courseOffering = factory.makeAssoc("courseOffering", "courseOfferings")
                 .exposeAs(ResourceNames.COURSE_OFFERINGS).storeAs("courseOffering")
                 .from(session, "getSession", "getSessions").to(course, "getCourse", "getCourses")
-                .calledFromSource("getCourseOfferings").calledFromTarget("getCourseOfferings")
-                .build();
+                .calledFromSource("getCourseOfferings").calledFromTarget("getCourseOfferings").build();
         addDefinition(courseOffering);
 
         AssociationDefinition courseTranscript = factory.makeAssoc("courseTranscript", "courseTranscripts")
                 .exposeAs(ResourceNames.COURSE_TRANSCRIPTS).storeAs("courseTranscript")
                 .from(student, "getStudent", "getStudents").to(course, "getCourse", "getCourses")
-                .calledFromSource("getCourseTranscripts")
-                .calledFromTarget("getCourseTranscripts").build();
+                .calledFromSource("getCourseTranscripts").calledFromTarget("getCourseTranscripts").build();
         addDefinition(courseTranscript);
 
-        AssociationDefinition studentParentAssociation = factory.makeAssoc(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentParentAssociations")
+        AssociationDefinition studentParentAssociation = factory
+                .makeAssoc(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentParentAssociations")
                 .exposeAs(ResourceNames.STUDENT_PARENT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PARENT_ASSOCIATION)
                 .from(student, "getStudent", "getStudents").to(parent, "getParent", "getParents")
                 .calledFromSource("getStudentParentAssociations").calledFromTarget("getStudentParentAssociations")
@@ -240,34 +247,36 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getStudentDisciplineIncidentAssociations").build();
         addDefinition(studentDisciplineIncidentAssociation);
 
-        AssociationDefinition studentProgramAssociation = factory.makeAssoc(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentProgramAssociations")
+        AssociationDefinition studentProgramAssociation = factory
+                .makeAssoc(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentProgramAssociations")
                 .exposeAs(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PROGRAM_ASSOCIATION)
                 .from(student, "getStudent", "getStudents").to(program, "getProgram", "getPrograms")
                 .calledFromSource("getStudentProgramAssociations").calledFromTarget("getStudentProgramAssociations")
                 .build();
         addDefinition(studentProgramAssociation);
 
-        AssociationDefinition staffProgramAssociation = factory.makeAssoc(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffProgramAssociations")
+        AssociationDefinition staffProgramAssociation = factory
+                .makeAssoc(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffProgramAssociations")
                 .exposeAs(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STAFF_PROGRAM_ASSOCIATION)
                 .from(staff, "getStaff", "getStaff").to(program, "getProgram", "getPrograms")
                 .calledFromSource("getStaffProgramAssociations").calledFromTarget("getStaffProgramAssociations")
                 .build();
         addDefinition(staffProgramAssociation);
 
-        AssociationDefinition studentCohortAssociation = factory.makeAssoc(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentCohortAssociations")
+        AssociationDefinition studentCohortAssociation = factory
+                .makeAssoc(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentCohortAssociations")
                 .exposeAs(ResourceNames.STUDENT_COHORT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_COHORT_ASSOCIATION)
                 .from(student, "getStudent", "getStudents").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
                 .calledFromSource(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
-                .calledFromTarget(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
-                .build();
+                .calledFromTarget(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER).build();
         addDefinition(studentCohortAssociation);
 
-        AssociationDefinition staffCohortAssociation = factory.makeAssoc(EntityNames.STAFF_COHORT_ASSOCIATION, "staffCohortAssociations")
+        AssociationDefinition staffCohortAssociation = factory
+                .makeAssoc(EntityNames.STAFF_COHORT_ASSOCIATION, "staffCohortAssociations")
                 .exposeAs(ResourceNames.STAFF_COHORT_ASSOCIATIONS).storeAs(EntityNames.STAFF_COHORT_ASSOCIATION)
                 .from(staff, "getStaff", "getStaff").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
                 .calledFromSource(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
-                .calledFromTarget(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
-                .build();
+                .calledFromTarget(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER).build();
         addDefinition(staffCohortAssociation);
 
         // Adding the security collection
@@ -311,8 +320,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 }
                 for (String resource : resources) {
                     EntityDefinition referencedEntity = mapping.get(resource);
-                    debug(
-                            "* New reference: {}.{} -> {}._id",
+                    debug("* New reference: {}.{} -> {}._id",
                             new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
                                     schema.getEntityType() });
                     // tell the referenced entity that some entity definition refers to it

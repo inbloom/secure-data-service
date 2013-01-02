@@ -46,20 +46,22 @@ public class EntityDefinition {
     private final String resourceName;
     private final EntityService service;
     private final String collectionName;
-    private final List<EntityDefinition> referencingEntities; //entities that reference this entity
+    private final List<EntityDefinition> referencingEntities; // entities that reference this entity
     private static Repository<Entity> defaultRepo;
     private NeutralSchema schema;
-    private LinkedHashMap<String, ReferenceSchema> referenceFields; //all fields on this entity that reference other entities
+    private LinkedHashMap<String, ReferenceSchema> referenceFields; // all fields on this entity
+                                                                    // that reference other entities
     private final boolean supportsAggregates;
     private final boolean skipContextValidation;
     private final boolean wrapperEntity;
 
-    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates) {
+    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service,
+            boolean supportsAggregates) {
         this(type, resourceName, collectionName, service, supportsAggregates, false, false);
     }
 
-    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates,
-            boolean skipContextValidation, boolean pullTypeFromEntity) {
+    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service,
+            boolean supportsAggregates, boolean skipContextValidation, boolean pullTypeFromEntity) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
@@ -73,7 +75,7 @@ public class EntityDefinition {
     public boolean hasArrayField(String fieldName) {
         if (this.schema == null || this.schema.getFields() == null) {
             return false;
-        } 
+        }
 
         NeutralSchema fieldSchema = this.schema.getFields().get(fieldName);
         if (fieldSchema == null) {
@@ -88,20 +90,22 @@ public class EntityDefinition {
     }
 
     /**
-     * Associates a schema to an entity definition. This also has a side effect of scanning the fields for any reference fields and recording them
+     * Associates a schema to an entity definition. This also has a side effect of scanning the
+     * fields for any reference fields and recording them
      * for later access via "getReferenceFields()".
      *
      *
-     * @param neutralSchema schema that can identify a valid instance of this entity type
+     * @param neutralSchema
+     *            schema that can identify a valid instance of this entity type
      */
     public void setSchema(NeutralSchema neutralSchema) {
-        //store reference
+        // store reference
         this.schema = neutralSchema;
 
-        //create separate map just for reference fields
+        // create separate map just for reference fields
         this.referenceFields = new LinkedHashMap<String, ReferenceSchema>();
 
-        //confirm schema was loaded
+        // confirm schema was loaded
         if (this.schema != null) {
             addRefs("", neutralSchema);
         }
@@ -128,9 +132,11 @@ public class EntityDefinition {
     }
 
     /**
-     * Returns the names of all fields that are reference fields associated to a particular collection.
+     * Returns the names of all fields that are reference fields associated to a particular
+     * collection.
      *
-     * @param resource the desired collection
+     * @param resource
+     *            the desired collection
      * @return
      */
     public Iterable<String> getReferenceFieldNames(String resource) {
@@ -144,7 +150,8 @@ public class EntityDefinition {
     }
 
     /**
-     * Returns a map of all fields that are references from the field name to the collection referenced.
+     * Returns a map of all fields that are references from the field name to the collection
+     * referenced.
      *
      * @return map of field names to collections referenced
      */
