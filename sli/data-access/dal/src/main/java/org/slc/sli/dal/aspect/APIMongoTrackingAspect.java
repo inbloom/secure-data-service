@@ -48,6 +48,7 @@ import org.slc.sli.dal.MongoStat;
  *
  */
 @Aspect
+@SuppressWarnings("PMD.MoreThanOneLogger")
 public class APIMongoTrackingAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(APIMongoTrackingAspect.class);
@@ -77,14 +78,14 @@ public class APIMongoTrackingAspect {
         enabled = Boolean.valueOf(enabledConfig);
     }
 
-    public static boolean isEnabled() {
+    private static boolean isEnabled() {
         return enabled;
     }
 
     // Map<jobId, Map<(db,function,collection), (opCount,totalElapsedMs)>>
     private ConcurrentMap<String, Pair<AtomicLong, ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>>>();
 
-    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(APIMongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
         long start = System.currentTimeMillis();
@@ -97,13 +98,13 @@ public class APIMongoTrackingAspect {
             proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection, start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.increamentHitCount();
+            dbCallTracker.incrementHitCount();
         }
 
         return result;
     }
 
-    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(APIMongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
 
         long start = System.currentTimeMillis();
@@ -115,7 +116,7 @@ public class APIMongoTrackingAspect {
             proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName(), start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.increamentHitCount();
+            dbCallTracker.incrementHitCount();
         }
         return result;
     }
@@ -179,8 +180,8 @@ public class APIMongoTrackingAspect {
             }
 
             // Init map for stats.
-            collection = collection.replaceAll("\\.", "DOT");
-            String statsKey = String.format("%s#%s#%s", db, function, collection);
+            String collectionKeyName = collection.replaceAll("\\.", "DOT");
+            String statsKey = String.format("%s#%s#%s", db, function, collectionKeyName);
             stats.get(jobId).getRight().get(currJobInterval)
                     .putIfAbsent(statsKey, Pair.of(new AtomicLong(0), new AtomicLong(0)));
 
@@ -189,7 +190,7 @@ public class APIMongoTrackingAspect {
             pair.getLeft().incrementAndGet();
             pair.getRight().addAndGet(elapsed);
 
-            PERF_LOG.info(function + "," + db + "," + collection + "," + elapsed);
+            PERF_LOG.info(function + "," + db + "," + collectionKeyName + "," + elapsed);
         }
     }
 

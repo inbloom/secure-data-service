@@ -51,7 +51,7 @@ public class MongoStat {
     public void clear() {
         dbHitCount = 0;
     }
-    public void increamentHitCount() {
+    public void incrementHitCount() {
         dbHitCount++;
     }
 }

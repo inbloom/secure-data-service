@@ -98,7 +98,7 @@ public class MongoTrackingAspect {
             proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection, start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.increamentHitCount();
+            dbCallTracker.incrementHitCount();
         }
 
         return result;
@@ -116,7 +116,7 @@ public class MongoTrackingAspect {
             proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName(), start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.increamentHitCount();
+            dbCallTracker.incrementHitCount();
         }
         return result;
     }
