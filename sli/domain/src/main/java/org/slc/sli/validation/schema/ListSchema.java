@@ -199,10 +199,12 @@ public class ListSchema extends NeutralSchema {
 
         return isValid;
     }
-    
+
+    @Override
     protected Annotation getAnnotation(Annotation.AnnotationType type) {
-        if (annotations.containsKey(type)) {
-            return annotations.get(type);
+        Annotation annotation = super.getAnnotation(type);
+        if (annotation != null) {
+            return annotation;
         }
         return list.get(0).getAnnotation(type);
     }

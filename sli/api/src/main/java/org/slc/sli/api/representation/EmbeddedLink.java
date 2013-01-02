@@ -30,26 +30,17 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class EmbeddedLink {
     @JsonProperty("rel")
     private String rel;
-    @JsonIgnore
-    @JsonProperty("type")
-    private String type;
     @JsonProperty("href")
     private String href;
 
-    public EmbeddedLink(String rel, String type, String href) {
+    public EmbeddedLink(String rel, String href) {
         this.rel = rel;
-        this.type = type;
         this.href = href;
     }
 
     @JsonIgnore
     public String getRel() {
         return rel;
-    }
-
-    @JsonIgnore
-    public String getType() {
-        return type;
     }
 
     @JsonIgnore
@@ -63,7 +54,6 @@ public class EmbeddedLink {
         int result = 1;
         result = prime * result + ((href == null) ? 0 : href.hashCode());
         result = prime * result + ((rel == null) ? 0 : rel.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
 
@@ -72,17 +62,17 @@ public class EmbeddedLink {
         if (this == obj) {
             return true;
         }
-        
+
         if (obj == null) {
             return false;
         }
-        
+
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
+
         EmbeddedLink other = (EmbeddedLink) obj;
-        return strEqual(href, other.href) && strEqual(rel, other.rel) && strEqual(type, other.type);
+        return strEqual(href, other.href) && strEqual(rel, other.rel);
     }
 
     private boolean strEqual(String s1, String s2) {
@@ -91,7 +81,7 @@ public class EmbeddedLink {
 
     @Override
     public String toString() {
-        return "EmbeddedLink [rel=" + rel + ", type=" + type + ", href=" + href + "]";
+        return "EmbeddedLink [rel=" + rel + ", href=" + href + "]";
     }
 
 }

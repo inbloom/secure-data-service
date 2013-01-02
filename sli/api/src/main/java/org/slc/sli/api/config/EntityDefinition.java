@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -29,6 +29,7 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
+import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
@@ -82,6 +83,10 @@ public class EntityDefinition {
         return fieldSchema.getSchemaType() == NeutralSchemaType.LIST;
     }
 
+    public NeutralSchema getSchema() {
+        return this.schema;
+    }
+
     /**
      * Associates a schema to an entity definition. This also has a side effect of scanning the fields for any reference fields and recording them
      * for later access via "getReferenceFields()".
@@ -125,7 +130,7 @@ public class EntityDefinition {
     public Iterable<String> getReferenceFieldNames(String resource) {
         ArrayList<String> fieldNames = new ArrayList<String>();
         for (Entry<String, ReferenceSchema> referenceField : this.referenceFields.entrySet()) {
-            if (referenceField.getValue().getResourceName().equals(resource)) {
+            if (referenceField.getValue().getEntityType().equals(resource)) {
                 fieldNames.add(referenceField.getKey());
             }
         }

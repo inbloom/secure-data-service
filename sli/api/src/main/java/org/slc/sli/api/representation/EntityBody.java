@@ -40,17 +40,24 @@ public class EntityBody extends HashMap<String, Object> {
         super(m);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> getId(String idKey) {
-        List<String> idList = new ArrayList<String>();
-        Object value = this.get(idKey);
+    /**
+     * Return a list of values for the key
+     * If the value is a String, a list with a single member is returned
+     * If the value is a List, String representations of the members are returned
+     *
+     * @param key the key to look for
+     * @return the list of values that match
+     */
+    public List<String> getValues(String key) {
+        List<String> valueList = new ArrayList<String>();
+        Object value = this.get(key);
         if (value instanceof String) {
-            idList.add((String) value);
+            valueList.add((String) value);
         } else if (value instanceof List<?>) {
-            for (String id : (List<String>) value) {
-                idList.add(id);
+            for (Object subValues : (List<?>) value) {
+                valueList.add(subValues.toString());
             }
         }
-        return idList;
+        return valueList;
     }
 }

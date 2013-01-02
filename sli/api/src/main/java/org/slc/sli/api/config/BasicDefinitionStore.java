@@ -35,6 +35,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
 /**
@@ -303,7 +304,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
             // loop for each reference field on the entity
             for (Entry<String, ReferenceSchema> fieldSchema : referringDefinition.getReferenceFields().entrySet()) {
                 ReferenceSchema schema = fieldSchema.getValue(); // access to the reference schema
-                Set<String> resources = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
+                Set<String> resources = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getEntityType());
 
                 if (resources == null) {
                     continue;
@@ -313,7 +314,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                     debug(
                             "* New reference: {}.{} -> {}._id",
                             new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
-                                    schema.getResourceName() });
+                                    schema.getEntityType() });
                     // tell the referenced entity that some entity definition refers to it
 
                     if (referencedEntity != null) {
@@ -321,8 +322,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         referencesLoaded++;
                     } else {
                         warn("* Failed to add, null entity: {}.{} -> {}._id",
-                            new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
-                                    schema.getResourceName() });
+                                new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
+                                        schema.getEntityType() });
                     }
                 }
             }
@@ -334,7 +335,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     public void addDefinition(EntityDefinition defn) {
         debug("adding definition for {}", defn.getResourceName());
-        defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
+        NeutralSchema schema = repo.getSchema(defn.getStoredCollectionName());
+        defn.setSchema(schema);
 
         if (ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.containsKey(defn.getStoredCollectionName())) {
             ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(defn.getStoredCollectionName()).add(defn.getResourceName());
