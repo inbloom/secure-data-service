@@ -194,11 +194,11 @@ public class Login {
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, null);
         user.getAttributes().put("isAdmin", "true");
+        user.setImpersonationUser(null);
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                 user.getAttributes(), requestInfo);
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
-        user.getAttributes().put("isAdmin", null);
         return mav;
     }
     
