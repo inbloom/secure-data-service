@@ -123,7 +123,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                     } else {
                         LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
                                 familyHierarchyName);
-                        builder.reportAggregatedWarnings(CoreMessageCode.CORE_0046, getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef, familyHierarchyName);
+                        builder.reportAggregatedWarnings(CoreMessageCode.CORE_0045, getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef, familyHierarchyName);
                     }
                 }
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
