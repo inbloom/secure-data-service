@@ -17,6 +17,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | course                                    |
      | courseOffering                            |
      | courseSectionAssociation                  |
+     | courseTranscript                          |
      | disciplineAction                          |
      | disciplineIncident                        |
      | educationOrganization                     |
@@ -49,12 +50,11 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | studentCompetency                         |
      | studentCompetencyObjective                |
      | studentDisciplineIncidentAssociation      |
+     | studentGradebookEntry                     |
      | studentParentAssociation                  |
      | studentProgramAssociation                 |
      | studentSchoolAssociation                  |
      | studentSectionAssociation                 |
-     | studentGradebookEntry                     |
-     | courseTranscript                          |
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
@@ -70,13 +70,14 @@ Then I should see following map of entry counts in the corresponding collections
      | course                                   |                 34|
      | courseOffering                           |                102|
      | courseSectionAssociation                 |                  0|
+     | courseTranscript                         |                  0|
      | disciplineAction                         |                  0|
      | disciplineIncident                       |                  0|
      | educationOrganization                    |                  6|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
-     | grade                                    |                  0|
-     | gradebookEntry                           |               4798|
+     | grade                                    |                 75|
+     | gradebookEntry                           |               1264|
      | gradingPeriod                            |                  6|
      | graduationPlan                           |                  3|
      | learningObjective                        |                  0|
@@ -90,26 +91,25 @@ Then I should see following map of entry counts in the corresponding collections
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                  6|
      | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 71|
+     | staff                                    |                 72|
      | staffCohortAssociation                   |                 27|
-     | staffEducationOrganizationAssociation    |                169|
-     | staffProgramAssociation                  |                669|
+     | staffEducationOrganizationAssociation    |                170|
+     | staffProgramAssociation                  |                671|
      | student                                  |                 10|
      | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 28|
+     | studentCohortAssociation                 |                 22|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                  0|
+     | studentGradebookEntry                    |               1264|
      | studentParentAssociation                 |                 20|
      | studentProgramAssociation                |                 89|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
-     | studentGradebookEntry                    |                  0|
-     | courseTranscript                         |                  0|
-     | teacherSchoolAssociation                 |                 22|
+     | teacherSchoolAssociation                 |                 23|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 7847 records." in the resulting batch job file
+    And I should see "Processed 5651 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -146,7 +146,7 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 1                   | body.studentUniqueStateId                | 8                                             | string               |
      | student                     | 1                   | body.studentUniqueStateId                | 9                                             | string               |
      | student                     | 1                   | body.studentUniqueStateId                | 10                                            | string               |
-     | student                     | 10                  | schools.entryDate                        | 2001-09-01                                    | string               |
+     | student                     | 10                  | schools.entryDate                        | 2001-08-27                                    | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Sixth grade                                   | string               |
      | student                     | 1                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
