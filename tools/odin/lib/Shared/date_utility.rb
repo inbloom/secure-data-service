@@ -41,7 +41,7 @@ class DateUtility
     if date1 > date2
       raise(ArgumentError, ":date1 must be before :date2") if date1 > date2
     end
-    dates = (date1..date2).step(1).to_a
+    dates = Array.new((date1..date2).step(1).to_a)
     dates[random.rand(dates.size) - 1]
   end
 
@@ -56,19 +56,19 @@ class DateUtility
 
   	random_date = random_date_on_interval(random, date1, date2)
 
-  	if random_date.wday == 0 or random_date.wday == 6
+  	if DateUtility.is_saturday(random_date) or DateUtility.is_sunday(random_date)
   	  if random_date == date2
   	  	# move date backward
   	  	random_date = random_date - 1 until ((random_date.wday + 7) % 7) == 5 or random_date == date1
 
-  	  	if random_date.wday == 0 or random_date.wday == 6
+  	  	if DateUtility.is_saturday(random_date) or DateUtility.is_sunday(random_date)
   	  	  random_date = random_date + 1 until ((random_date.wday + 7) % 7) == 1 or random_date == date1
   	  	end
   	  else
   	  	# move date forward
   	  	random_date = random_date + 1 until ((random_date.wday + 7) % 7) == 1 or random_date == date2
 
-  	  	if random_date.wday == 0 or random_date.wday == 6
+  	  	if DateUtility.is_saturday(random_date) or DateUtility.is_sunday(random_date)
   	  	  random_date = random_date - 1 until ((random_date.wday + 7) % 7) == 5 or random_date == date1
   	  	end
   	  end
@@ -208,39 +208,34 @@ class DateUtility
       return dates
     end
     
-    num_dates = end_date - start_date
-    days_between_events = (num_dates / num_events).ceil
+    num_dates           = end_date - start_date
+    days_between_events = (num_dates / num_events).floor
     days_between_events = 1 if days_between_events == 0 
 
     # iterate from start to end date using 'days_between_events'
     (start_date..end_date).step(days_between_events) do |date|
+      next if dates.size >= num_events
       if is_sunday(date)
         # if the day is sunday, shift forward one day to monday
         # -> check to make sure monday isn't a holiday (if it is, shift forward until a non-holiday date is found)
         new_date = date + 1
-        while holidays.include?(new_date) 
-          new_date += 1 
-        end
-        dates << new_date
+        new_date += 1 until !holidays.include?(new_date) 
+        dates << new_date unless dates.include?(new_date)
       elsif is_saturday(date)
         # if the day is saturday, shift back one day to friday
         # -> check to make sure friday isn't a holiday (if it is, shift backward until a non-holiday date is found)
         new_date = date - 1
-        while holidays.include?(new_date) 
-          new_date -= 1 
-        end
-        dates << new_date
+        new_date -= 1 until !holidays.include?(new_date) 
+        dates << new_date unless dates.include?(new_date)
       else
         # check to see if the day is a holiday
         # -> if it is, shift forward to a non-holiday date
         if holidays.include?(date)
           new_date = date
-          while holidays.include?(new_date) 
-            new_date += 1 
-          end
-          dates << new_date
+          new_date += 1 until !holidays.include?(new_date) 
+          dates << new_date unless dates.include?(new_date)
         else
-          dates << date
+          dates << date unless dates.include?(date)
         end
       end
     end

@@ -50,6 +50,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceAppend.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
+  And a batch job for file "DailyAttendanceAppend.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -71,6 +72,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Post a zip file containing duplicate configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceDuplicate.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
+  And a batch job for file "DailyAttendanceDuplicate.zip" is completed in database
   And a batch job log has been created
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 72 records." in the resulting batch job file
@@ -81,6 +83,7 @@ When zip file is scp to ingestion landing zone
 Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
+  And a batch job for file "DailyAttendanceNoStudent.zip" is completed in database
   And a batch job log has been created
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records considered: 0" in the resulting batch job file

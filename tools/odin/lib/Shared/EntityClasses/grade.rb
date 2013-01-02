@@ -17,15 +17,22 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity.rb'
+require_relative 'enum/GradeType.rb'
 
-class StudentSectionAssociation < BaseEntity
+# creates grade
+class Grade < BaseEntity
 
-  attr_accessor :student, :section, :ed_org_id, :begin_date
+  attr_accessor :letter_grade, :number_grade, :student_section_association, :grading_period
+  
+  def initialize(letter_grade, number_grade, type, student_section_association, grading_period = nil)
+    @letter_grade                = letter_grade
+    @number_grade                = number_grade
+    @type                        = type
+    @student_section_association = student_section_association
+    @grading_period              = grading_period
+  end
 
-  def initialize(student, section, ed_org_id, begin_date, grade)
-    @student    = student
-    @section    = section
-    @ed_org_id  = DataUtility.get_school_id(ed_org_id, GradeLevelType.school_type(grade))
-    @begin_date = begin_date
+  def type
+    GradeType.to_string(@type)
   end
 end

@@ -69,9 +69,8 @@ class SectionWorkOrderFactory
 
             sections_with_teachers.each{ |offering, sections|
               @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] = [] 
+              session = find_matching_session_for_school(school_id, offering)
               sections.each{ |section|
-                session = find_matching_session_for_school(school_id, offering)
-                  
                 if teacher_does_not_exist_yet(section[:teacher]['id'])
                   year_of = Date.today.year - DataUtility.select_random_from_options(@prng, (25..65).to_a)
                   # keep :name => nil in work order --> Teacher entity class will lazily create name for teacher if its nil
@@ -151,8 +150,8 @@ class SectionWorkOrderFactory
 
   def sections(id, type, year, grade)
     if (@world.nil? == false && @world[type].nil? == false)
-      ed_org = @world[type].find{|s| s['id'] == id}
-      return ed_org['sections'][year][grade] if !ed_org.nil? and !ed_org['sections'].nil? and !ed_org['sections'][year].nil?
+      ed_org = @world[type].find{ |s| s['id'] == id }
+      return ed_org['sections'][year][grade] unless ed_org.nil? or ed_org['sections'].nil? or ed_org['sections'][year].nil?
     end
     return nil
   end
