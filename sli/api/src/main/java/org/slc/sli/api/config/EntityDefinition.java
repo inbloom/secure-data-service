@@ -103,19 +103,25 @@ public class EntityDefinition {
 
         //confirm schema was loaded
         if (this.schema != null) {
-            //loop through all fields
-            for (Map.Entry<String, NeutralSchema> entry : this.schema.getFields().entrySet()) {
-                //if field is a reference field
-                if (entry.getValue() instanceof ReferenceSchema) {
-                    //put field name and collection referenced
-                    this.referenceFields.put(entry.getKey(), (ReferenceSchema) entry.getValue());
-                } else if (entry.getValue() instanceof ListSchema) {
-                    for (NeutralSchema schemaInList : ((ListSchema) entry.getValue()).getList()) {
-                        if (schemaInList instanceof ReferenceSchema) {
-                            //put field name and collection referenced
-                            this.referenceFields.put(entry.getKey(), (ReferenceSchema) schemaInList);
-                        }
-                    }
+            addRefs("", neutralSchema);
+        }
+    }
+
+    private void addRefs(String name, NeutralSchema schema) {
+        if (schema instanceof ListSchema) {
+            for (NeutralSchema schemaInList : ((ListSchema) schema).getList()) {
+                addRefs(name, schemaInList);
+            }
+        } else if (schema instanceof ReferenceSchema) {
+            // if field is a reference field
+            this.referenceFields.put(name, (ReferenceSchema) schema);
+        } else if (schema instanceof ComplexSchema) {
+            // loop through all fields
+            for (Map.Entry<String, NeutralSchema> entry : schema.getFields().entrySet()) {
+                if (!Arrays.asList(name.split("\\.")).contains(entry.getKey())) {
+                    String fieldName = (name.equals("") ? "" : name + ".") + entry.getKey();
+                    NeutralSchema fieldSchema = entry.getValue();
+                    addRefs(fieldName, fieldSchema);
                 }
             }
         }

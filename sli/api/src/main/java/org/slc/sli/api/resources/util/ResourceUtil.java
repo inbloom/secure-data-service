@@ -32,6 +32,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -333,34 +334,92 @@ public class ResourceUtil {
         // loop through all reference fields on supplied entity type
         for (Entry<String, ReferenceSchema> referenceField : defn.getReferenceFields().entrySet()) {
             // see what GUID is stored in the reference field
-            List<String> guidList = entityBody.getId(referenceField.getKey());
-            int count = guidList.size();
-            for (String referenceGuid : guidList) {
-                // if a value (GUID) was stored there
-                if (referenceGuid != null) {
-                    Set<String> resourceNames = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField
-                            .getValue().getResourceName());
-                    if (resourceNames == null) {
-                        resourceNames = Collections.emptySet();
-                    }
-                    count--;
-                    if (resourceNames != null) {
-                        for (String resourceName : resourceNames) {
-                            String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
-                            if (count > 0) {
-                                linkName = linkName + "[" + count + "]";
-                            }
-                            if (!linkName.isEmpty()) {
-                                links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, getApiVersion(uriInfo),
-                                        PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
-                            }
+            String key = referenceField.getKey();
+            if (key.contains(".")) {
+                links.addAll(getEmbeddedReferences(key.split("\\."), referenceField.getValue(), defn, entityBody,
+                        uriInfo, defnStore));
+            } else {
+                List<String> guidList = entityBody.getValues(key);
+                int count = guidList.size();
+                for (String referenceGuid : guidList) {
+                    // if a value (GUID) was stored there
+                    if (referenceGuid != null) {
+                        Set<String> resourceNames = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField
+                                .getValue().getEntityType());
+                        if (resourceNames == null) {
+                            resourceNames = Collections.emptySet();
+                        }
+                        count--;
+                        if (resourceNames != null) {
+                            for (String resourceName : resourceNames) {
+                                String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
+                                if (count > 0) {
+                                    linkName = linkName + "[" + count + "]";
+                                }
+                                if (!linkName.isEmpty()) {
+                                    links.add(new EmbeddedLink(linkName, getURI(uriInfo, getApiVersion(uriInfo),
+                                            PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                                }
 
+                            }
                         }
                     }
                 }
             }
         }
         return links;
+    }
+
+    private static List<EmbeddedLink> getEmbeddedReferences(String[] keys, ReferenceSchema ref, EntityDefinition defn,
+            Map<String, Object> entityBody, UriInfo uri, EntityDefinitionStore defnStore) {
+        return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType()).getResourceName(), defn.getSchema(), entityBody, uri);
+    }
+
+    private static List<EmbeddedLink> getEmbeddedReferences(String prefix, List<String> keys, String resourceName,
+            NeutralSchema schema, Map<String, Object> entityBody, UriInfo uri) {
+        if (keys.size() == 0) {
+            return Collections.emptyList();
+        }
+        String key = keys.get(0);
+        if (keys.size() == 1) {
+            Object object = entityBody.get(key);
+            if (object == null || (object instanceof Iterable<?> && !((Iterable<?>) object).iterator().hasNext())) {
+                return Collections.emptyList();
+            }
+            String rel = prefix + '.' + resourceName;
+            String id = (object instanceof Iterable) ? StringUtils.join((Iterable<?>) object, ",") : object.toString();
+            return Arrays.asList(new EmbeddedLink(rel, getVersionedUriString(uri, resourceName, id)));
+        } else {
+            Object subObject = entityBody.get(keys.get(0));
+            if (subObject instanceof Iterable) {
+                List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
+                for (Object individual : (Iterable<?>) subObject) {
+                    if (individual instanceof Map) {
+                        NeutralSchema newSchema = schema.getFields().get(key);
+                        if (newSchema instanceof ListSchema) {
+                            // warning, complete hack here
+                            newSchema = ((ListSchema) newSchema).getList().get(0);
+                        }
+                        String newPrefix = prefix + (prefix.length() == 0 ? "" : ".") + key + "."
+                                + getNaturalKey((Map) individual, newSchema);
+                        results.addAll(getEmbeddedReferences(newPrefix, keys.subList(1, keys.size()), resourceName,
+                                newSchema, (Map) individual, uri));
+                    }
+                }
+                return results;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    private static String getNaturalKey(Map<String, Object> object, NeutralSchema schema) {
+        for (Entry<String, NeutralSchema> fieldEntry : schema.getFields().entrySet()) {
+            NeutralSchema field = fieldEntry.getValue();
+            if (field.getAppInfo() != null && field.getAppInfo().isNaturalKey()) {
+                return object.get(fieldEntry.getKey()).toString();
+            }
+        }
+        return "";
     }
 
     /**
