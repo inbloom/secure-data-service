@@ -221,7 +221,7 @@ Examples:
 | "IL"  | "linda.kim" | "linda.kim1234" | "Learn to read" | 200  | 
 | "IL"  | "cgray"     | "cgray1234"     | "Learn to read" | 403  |
 
-@wip @US4728
+@US4728
 Scenario: A Teacher cannot access data if their required staffEdorgAssignment is in the past.
 	Given I am logged in using "linda.kimadmin" "linda.kimadmin" to realm "IL"
 	And I have a Role attribute that equals "IT Administrator"

@@ -287,11 +287,9 @@ end
 
 Given /^I have reset my staffEdorgAssignmentAssociation$/ do
   id = "2c6face89f0c2854667310b46808e21156ed73cc_id"
-  body = { "beginDate" => "2007-07-07",
-    "staffReference" => "67ed9078-431a-465e-adf7-c720d08ef512", 
-    "educationOrganizationReference" => "ec2e4218-6483-4e9c-8954-0aecccfd4731", 
-    "staffClassification" => "Teacher" }
-  restHttpPut("/v1/staffEducationOrgAssignmentAssociations/#{id}", body.to_json, "application/json")
+  db = Mongo::Connection.new('localhost').db(convertTenantIdToDbName('Midgar'))['staffEducationOrganizationAssociation']
+  db.update({"_id" => id}, {'$unset' => { 'body.endDate' => true }})
+  
 end
 
 Then /^I receive a JSON response that includes the student "([^"]*)" and its attributes$/ do |arg1|

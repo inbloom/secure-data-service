@@ -47,6 +47,7 @@ import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
@@ -345,6 +346,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 } else {
                     info("User is anonymous");
                 }
+            } catch (AccessDeniedException e) {
+                // It's thrown when the user has no valid associations. We want to keep a 403.
+                throw e;
             } catch (Exception e) {
                 error("Error processing authentication.  Anonymous context will be returned.", e);
             }

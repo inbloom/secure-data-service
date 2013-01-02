@@ -49,7 +49,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected DateHelper dateHelper;
 
     @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
+    public PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
     private EdOrgHelper edorgHelper;
@@ -156,8 +156,8 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isTeacher() {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-
-    protected boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
+    
+    public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
 
@@ -281,16 +281,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected Set<String> getDirectEdorgs() {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        Set<String> edorgs = new HashSet<String>();
-        for(Entity tsa : tsas) {
-            if (!isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
-                edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-            }
-        }
-        return edorgs;
+        return edorgHelper.getDirectEdorgs();
     }
 
     /**
