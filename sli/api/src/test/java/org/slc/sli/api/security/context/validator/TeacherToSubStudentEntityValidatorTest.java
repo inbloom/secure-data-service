@@ -57,7 +57,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-@DirtiesContext
 public class TeacherToSubStudentEntityValidatorTest {
 
     @Autowired
