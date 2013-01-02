@@ -26,6 +26,7 @@ import java.util.UUID;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.constants.EntityNames;
@@ -43,11 +44,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
- * Tests the staff to gradebook entries validator.
+ * Tests the teacher to gradebook entries validator.
  * 
- * 
- * @author kmyers
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })

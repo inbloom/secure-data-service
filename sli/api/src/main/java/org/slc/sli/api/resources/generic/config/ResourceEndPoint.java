@@ -18,10 +18,7 @@ package org.slc.sli.api.resources.generic.config;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -64,7 +61,7 @@ public class ResourceEndPoint {
 
     @PostConstruct
     public void load() throws IOException {
-        InputStream is = getClass().getResourceAsStream("/wadl/v1_resources.json");
+        InputStream is = getClass().getResourceAsStream("/wadl/resources.json");
         try {
             loadNameSpace(is);
         } finally {
