@@ -298,6 +298,7 @@ public class ObjectiveAssessmentBuilder {
                 source.addSource(nrSource);
             }
             reportWarnings(sourceFile, source, code, args);
-        } catch (java.util.NoSuchElementException e) {}
+        } catch (java.util.NoSuchElementException e) {
+            LOG.debug("Null sourceFile {}.", e);        }
     }
 }
