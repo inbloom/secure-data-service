@@ -20,18 +20,18 @@ limitations under the License.
 class ApplicationMailer < ActionMailer::Base
   default from: "#{APP_CONFIG['email_sender_name']} <#{APP_CONFIG['email_sender_address']}>"
 
-  WELCOME_EMAIL_SUBJECT_PROD = "Welcome to the Shared Learning Collaborative"
-  WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the SLC Developer Sandbox"
-  VERIFY_EMAIL_SUBJECT_SANDBOX ="Shared Learning Collaborative Developer Sandbox Account - Email Confirmation"
-  VERIFY_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Developer Account - Email Confirmation"
-  PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
-  PROVISION_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Landing Zone Setup"
-  PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
-  FORGOT_PASSWORD_SUBJECT = "SLC Notification - Reset Password"
-  SAMT_VERIFY_SUBJECT_SANDBOX = "SLC Sandbox Account - Email Confirmation"
-  SAMT_VERIFY_SUBJECT_PROD = "SLC Administrator Account - Email Confirmation"
-  SAMT_WELCOME_SANDBOX = "Welcome to the SLC Developer Sandbox"
-  SAMT_WELCOME_PROD = "Shared Learning Collaborative - Administrator Account"
+  WELCOME_EMAIL_SUBJECT_PROD = "Welcome to the inBloom"
+  WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the inBloom Developer Sandbox"
+  VERIFY_EMAIL_SUBJECT_SANDBOX ="inBloom Developer Sandbox Account - Email Confirmation"
+  VERIFY_EMAIL_SUBJECT_PROD = "inBloom Developer Account - Email Confirmation"
+  PROVISION_EMAIL_SUBJECT_SANDBOX = "inBloom Sandbox Developer - Data Setup"
+  PROVISION_EMAIL_SUBJECT_PROD = "inBloom Landing Zone Setup"
+  PASSWORD_CHANGE_SUBJECT = "inBloom Notification - Password Changed"
+  FORGOT_PASSWORD_SUBJECT = "inBloom Notification - Reset Password"
+  SAMT_VERIFY_SUBJECT_SANDBOX = "inBloom Sandbox Account - Email Confirmation"
+  SAMT_VERIFY_SUBJECT_PROD = "inBloom Administrator Account - Email Confirmation"
+  SAMT_WELCOME_SANDBOX = "Welcome to the inBloom Developer Sandbox"
+  SAMT_WELCOME_PROD = "inBloom - Administrator Account"
 
   def welcome_email(user)
     @firstName = user[:first]
@@ -87,7 +87,7 @@ class ApplicationMailer < ActionMailer::Base
     @dev_name = dev_name
     @app = app
     if !@app.nil? and support_email =~ /(\w|-)+@\w+\.\w+/
-      mail(:to => support_email, :subject => 'SLC - New Application Notification')
+      mail(:to => support_email, :subject => 'inBloom - New Application Notification')
     end
   end
 
@@ -97,7 +97,7 @@ class ApplicationMailer < ActionMailer::Base
     @firstName = first_name
     @app = app
     if !@app.nil? and @app.metaData.createdBy =~ /(\w|-)+@\w+\.\w+/
-      mail(:to => app.metaData.createdBy, :subject => 'SLC - Your Application Is Approved')
+      mail(:to => app.metaData.createdBy, :subject => 'inBloom - Your Application Is Approved')
     end
   end
 

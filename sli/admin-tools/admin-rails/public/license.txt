@@ -1,5 +1,5 @@
-Welcome. You are requesting access to the production environment of the Shared Learning Collaborative. 
-By using this portion of the developer website (the “Site”) and accessing the Shared Learning Collaborative production environment, 
+Welcome. You are requesting access to the production environment of the inBloom. 
+By using this portion of the developer website (the “Site”) and accessing the inBloom production environment, 
 you represent that you will follow the responsibilities and 
 conditions outlined in the <a style="text-decoration:underline;font-style: italic" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and <a style="text-decoration:underline;font-style: italic" href=<%= APP_CONFIG['privacy_policy_url']%> target="_blank">Privacy Policy</a> for the site, 
 inclusive of production usage. Be good.
