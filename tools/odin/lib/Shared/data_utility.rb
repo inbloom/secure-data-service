@@ -166,7 +166,7 @@ class DataUtility
     subset = []
     while subset.size < num
       choice = select_random_from_options(prng, choices)
-      subset << choice if !subset.include? choice
+      subset << choice unless subset.include?(choice)
     end
     subset
   end

@@ -626,7 +626,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
                      :v1SelectorTests,
-                     :longLivedSessionTests] do
+                     :longLivedSessionTests,
+                     :apiVersionTests] do
   displayFailureReport()
 end
 
@@ -793,7 +794,7 @@ end
 
 desc "Run High Priority Emma Ingestion Acceptances Tests"
     #New or tests modified this sprint, or tests that have recently failed
-    task :highPriority => [:loadDefaultIngestionTenants, :ingestionDeltaTest] do
+    task :highPriority => [:loadDefaultIngestionTenants, :ingestionPreloading, :ingestionDeltaTest] do
 end
 
 desc "Run Normal Priority Emma Ingestion Acceptances Tests"
@@ -801,7 +802,7 @@ desc "Run Normal Priority Emma Ingestion Acceptances Tests"
         :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest,
         :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest, :ingestionTenantPurgeTests,
         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-        :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
+        :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionJeffCoOnboardingTest,
         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionDupDetectTest] do
 end
 

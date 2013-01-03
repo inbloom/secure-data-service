@@ -16,11 +16,13 @@
 
 package org.slc.sli.api.resources.generic.util;
 
-import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import java.net.URI;
 import java.util.List;
 
@@ -118,7 +120,7 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public MultivaluedMap<String, String> getQueryParameters() {
-        return new MultivaluedHashMap<String, String>();
+        return new MultivaluedMapImpl();
     }
     
     @Override

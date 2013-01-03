@@ -41,8 +41,8 @@ require_relative 'graduation_plan_factory.rb'
 class WorldBuilder
   def initialize(prng, yaml, queue, pre_requisites)
     $stdout.sync = true
-    @log = Logger.new($stdout)
-    @log.level = Logger::INFO
+    @log         = Logger.new($stdout)
+    @log.level   = Logger::INFO
 
     @prng = prng
     @scenarioYAML = yaml
@@ -1144,7 +1144,7 @@ class WorldBuilder
     mid_cycle = mid.cycle
     elem.each{|school|
       ms = mid_cycle.next
-      school['feeds_to'] = [ms['id'], ms['feeds_to'][0]]
+      school['feeds_to'] = [ms['id']]
     }
   end
 

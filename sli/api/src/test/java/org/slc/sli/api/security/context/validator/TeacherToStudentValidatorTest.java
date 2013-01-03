@@ -57,6 +57,8 @@ public class TeacherToStudentValidatorTest {
     private static final String ED_ORG_ID = "111";
 
     private static final String TEACHER_ID = "1";
+    private static final String SECTION_ID = "SECTION99";
+
 
     @Autowired
     private TeacherToStudentValidator validator;
@@ -233,14 +235,12 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
 
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughDeniedCohort() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         String cohortId = helper.generateCohort(ED_ORG_ID).getEntityId();
@@ -253,7 +253,6 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughInvalidCohort() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         String cohortId = helper.generateCohort(ED_ORG_ID).getEntityId();
@@ -266,7 +265,6 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCanNotGetAccessThroughCohortOutsideOfEdorg() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         String cohortId = helper.generateCohort("122").getEntityId();
@@ -279,7 +277,6 @@ public class TeacherToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCohortAccessIntersectionRules() throws Exception {
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
@@ -296,6 +293,26 @@ public class TeacherToStudentValidatorTest {
         }
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
+
+    @Test
+    public void testCanAccessStudentsThoughSectionAndProgramAssociations() throws Exception {
+
+        String studentId1 = "STUDENT11";
+        String studentId2 = "STUDENT22";
+
+        helper.generateTSA(TEACHER_ID, SECTION_ID, false);
+        helper.generateSSA(studentId1, SECTION_ID, false);
+        studentIds.add(studentId1);
+
+        String edOrgId = helper.generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
+        helper.generateTeacherSchool(TEACHER_ID, edOrgId);
+        helper.generateStaffProgram(TEACHER_ID, programId, false, true);
+        helper.generateStudentProgram(studentId2, programId, false);
+        studentIds.add(studentId2);
+
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
 
     @Test
     public void testCanNotGetAccessThroughExpiredProgram() throws Exception {

@@ -60,7 +60,6 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     public static final String INGESTION_USER = "Ingestion User";
     public static final String SANDBOX_SLC_OPERATOR = "Sandbox SLC Operator";
     public static final String SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
-    public static final String PROD_LOGIN_USER = "Prod Login User";
     
     private final Map<String, Role> adminRoles = new HashMap<String, Role>();
 
@@ -126,10 +125,6 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                 RoleBuilder
                         .makeRole(SLC_OPERATOR)
                         .addRights(slcOperatorRights.toArray(new Right[slcOperatorRights.size()])).setAdmin(true).build());
-      
-        //created for internally track unified account status 
-        adminRoles.put(PROD_LOGIN_USER, 
-                RoleBuilder.makeRole(PROD_LOGIN_USER).addRight(Right.PRODUCTION_LOGIN).setAdmin(true).build());
     }
 
     @Override

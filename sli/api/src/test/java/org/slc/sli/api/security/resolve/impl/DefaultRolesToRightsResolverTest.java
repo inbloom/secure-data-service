@@ -63,7 +63,7 @@ public class DefaultRolesToRightsResolverTest {
     private static final String ADMIN_REALM_ID = "adminRealmId";
     private List<String> sandboxRole = Arrays.asList(SecureRoleRightAccessImpl.SANDBOX_ADMINISTRATOR);
     private List<String> otherRole = Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER, SecureRoleRightAccessImpl.INGESTION_USER);
-    private List<String> appAndProdLoginUser = Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER, SecureRoleRightAccessImpl.PROD_LOGIN_USER);
+    private List<String> appAndProdLoginUser = Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER);
     
     @Before
     public void setup() {
@@ -78,9 +78,9 @@ public class DefaultRolesToRightsResolverTest {
     @Test
     public void sandboxAdminBecomeDeveloperInDevRealm() {
         Set<Role> roles = resolver.mapRoles(null, DEVELOPER_REALM_ID, sandboxRole, false);
-        assertTrue("sandbox admin is not mapped to developer and prod login user in developer realm", 
+        assertTrue("sandbox admin is not mapped to developer in developer realm", 
                     roles.containsAll(defaultRoles.findAdminRoles(appAndProdLoginUser)));
-        assertTrue("sandbox admin is not only mapped to developer and prod login user in developer realm", 
+        assertTrue("sandbox admin is not only mapped to developer in developer realm", 
                     defaultRoles.findAdminRoles(appAndProdLoginUser).containsAll(roles));
     }
     

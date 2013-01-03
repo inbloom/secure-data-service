@@ -318,6 +318,7 @@ Given I post "Error_Report1.zip" file as the payload of the ingestion job
      | courseOffering               |
      | competencyLevelDescriptor    |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "Error_Report1.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
@@ -345,6 +346,7 @@ Given I post "Error_Report2.zip" file as the payload of the ingestion job
      | courseOffering               |
      | competencyLevelDescriptor    |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "Error_Report2.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |

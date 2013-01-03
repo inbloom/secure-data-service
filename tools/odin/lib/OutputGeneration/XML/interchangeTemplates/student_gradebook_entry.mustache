@@ -16,7 +16,12 @@ limitations under the License.
 {{#entity}}
   <StudentGradebookEntry>
     <DateFulfilled>{{date_fulfilled}}</DateFulfilled>
+    {{#letter_grade_earned}}
     <LetterGradeEarned>{{letter_grade_earned}}</LetterGradeEarned>
+    {{/letter_grade_earned}}
+    {{#numeric_grade_earned}}
+    <NumericGradeEarned>{{numeric_grade_earned}}</NumericGradeEarned>
+    {{/numeric_grade_earned}}
     {{#student_section_association}}
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>

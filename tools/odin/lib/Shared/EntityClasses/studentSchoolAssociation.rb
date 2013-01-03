@@ -20,24 +20,19 @@ require_relative 'baseEntity.rb'
 require_relative 'enum/GradeLevelType'
 require_relative '../data_utility'
 
+# creates student school association
 class StudentSchoolAssociation < BaseEntity
-  attr_accessor :studentId, :schoolStateOrgId, :startYear, :startGrade, :gradPlan
+  attr_accessor :student, :school, :start_date, :grade, :exit_date, :exit_type, :gradPlan
 
-  def initialize(studentId, schoolId, startYear, grade, gradPlan = nil)
+  def initialize(student, schoolId, start_date, grade, gradPlan = nil, exit_withdraw_date = nil, exit_type = nil)
+    exit -1 if grade.nil?
 
-    if startYear.nil?
-      exit -1
-    end
-
-    if grade.nil?
-      exit -1
-    end
-
-    @studentId = studentId
-    @schoolStateOrgId = DataUtility.get_school_id(schoolId, GradeLevelType.school_type(grade))
-    @startYear = startYear
-    @startGrade = GradeLevelType.to_string(grade)
-    @gradPlan = gradPlan
+    @student    = student
+    @school     = DataUtility.get_school_id(schoolId, GradeLevelType.school_type(grade))
+    @start_date = start_date
+    @grade      = GradeLevelType.to_string(grade)
+    @exit_date  = exit_withdraw_date
+    @exit_type  = exit_type
+    @gradPlan   = gradPlan
   end
-  
 end

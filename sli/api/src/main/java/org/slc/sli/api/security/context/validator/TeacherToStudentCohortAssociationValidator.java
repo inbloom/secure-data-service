@@ -63,12 +63,17 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, cohortIds));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
+        nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
+                NeutralCriteria.OPERATOR_EQUAL, true));
         
         Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
 
         Set<String> validCohortIds = new HashSet<String>();
         for (Entity entity : entities) {
-            validCohortIds.add((String) entity.getBody().get(ParameterConstants.COHORT_ID));
+            String expireDate = (String) entity.getBody().get(ParameterConstants.END_DATE);
+            if (expireDate == null || isLhsBeforeRhs(getNowMinusGracePeriod(), getDateTime(expireDate))) {
+                validCohortIds.add((String) entity.getBody().get(ParameterConstants.COHORT_ID));
+            }
         }
 
         return validCohortIds.containsAll(cohortIds);
