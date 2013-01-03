@@ -220,11 +220,16 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         if (otherNameList != null && !otherNameList.isEmpty()) {
             Map otherName = (Map) otherNameList.get(0);
             if (otherName != null && !otherName.isEmpty()) {
-                String middleName = (String) otherName.get(Constants.ATTR_MIDDLE_NAME);
-                String lastname = (String) otherName.get(Constants.ATTR_LAST_SURNAME);
-                fullName.append(" (" + (String) otherName.get(Constants.ATTR_FIRST_NAME) + " ");
-                fullName.append((middleName != null && !middleName.isEmpty() ? middleName + " " : ""));
-                fullName.append((String) otherName.get(Constants.ATTR_LAST_SURNAME) + ")");
+                String otherNameType = (String) otherName.get(Constants.ATTR_OTHER_NAME_TYPE);
+                if (Constants.ATTR_NICKNAME.equals(otherNameType)) {
+                    StringBuilder nickName = new StringBuilder();
+                    String middleName = (String) otherName.get(Constants.ATTR_MIDDLE_NAME);
+                    String lastname = (String) otherName.get(Constants.ATTR_LAST_SURNAME);
+                    nickName.append((String) otherName.get(Constants.ATTR_FIRST_NAME) + " ");
+                    nickName.append((middleName != null && !middleName.isEmpty() ? middleName + " " : ""));
+                    nickName.append(lastname != null ? lastname : "");
+                    name.put(Constants.ATTR_NICKNAME, nickName.toString());
+                }
             }
         }
         name.put(Constants.ATTR_FULL_NAME, fullName.toString());
