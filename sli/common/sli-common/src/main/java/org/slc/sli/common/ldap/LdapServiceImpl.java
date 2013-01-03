@@ -350,6 +350,9 @@ public class LdapServiceImpl implements LdapService {
         if (!"".equals(description)) {
             context.setAttributeValue("description", "tenant=" + user.getTenant() + "," + "edOrg=" + user.getEdorg());
         }
+        if (user.getVendor() != null) {
+        	context.setAttributeValue("o", user.getVendor());
+        }
 
     }
 

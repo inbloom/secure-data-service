@@ -14,6 +14,7 @@ Given the following collections are empty in datastore:
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
+  And a batch job for file "TinyDataSet.zip" is completed in database
   And a batch job log has been created
 Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                                 | searchType           |
@@ -21,6 +22,7 @@ Then I check to find if record is in collection:
 When I post "TinyDataSetUpdated.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
+  And a batch job for file "TinyDataSetUpdated.zip" is completed in database
   And a batch job log has been created
 Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                                 | searchType           |
@@ -28,8 +30,9 @@ Then I check to find if record is in collection:
 # Reinitialize the landing zone so the previous job log file for TinyDataSet.zip is removed
 When the landing zone is reinitialized
 And I post "TinyDataSet.zip" file as the payload of the ingestion job
-  And zip file is scp to ingestion landing zone
+  And zip file is scp to ingestion landing zone with name "TinyDataSet2.zip"
   And I am willing to wait upto 60 seconds for ingestion to complete
+  And a batch job for file "TinyDataSet2.zip" is completed in database
   And a batch job log has been created
 Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                                 | searchType           |

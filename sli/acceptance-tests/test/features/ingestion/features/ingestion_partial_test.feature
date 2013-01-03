@@ -49,6 +49,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentAcademicRecord       |
         | graduationPlan              |
   When zip file is scp to ingestion landing zone
+  And a batch job for file "PartialIgestionDataSet_Tier0.zip" is completed in database
   And a batch job log has been created
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -63,6 +64,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier1.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier1.zip" is completed in database
     And a batch job log has been created
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -83,6 +85,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier2.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier2.zip" is completed in database
     And a batch job log has been created
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -110,6 +113,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier3.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier3.zip" is completed in database
     And a batch job log has been created
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -141,11 +145,13 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier4.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier4.zip" is completed in database
     And a batch job log has been created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier5.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier5.zip" is completed in database
     And a batch job log has been created
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -182,11 +188,13 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier6.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier6.zip" is completed in database
     And a batch job log has been created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier7.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier7.zip" is completed in database
     And a batch job log has been created
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |

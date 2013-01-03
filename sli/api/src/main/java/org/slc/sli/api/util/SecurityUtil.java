@@ -177,6 +177,14 @@ public class SecurityUtil {
         }
         return null;
     }
+    
+    public static String getVendor() {
+    	SLIPrincipal principal = getSLIPrincipal();
+    	if (principal != null) {
+    		return principal.getVendor();
+    	}
+    	return null;
+    }
 
     public static SLIPrincipal getSLIPrincipal() {
         SLIPrincipal principal = null;
@@ -236,6 +244,10 @@ public class SecurityUtil {
 
         public String getUid() {
             return SecurityUtil.getUid();
+        }
+        
+        public String getVendor() {
+        	return SecurityUtil.getVendor();
         }
     }
 }

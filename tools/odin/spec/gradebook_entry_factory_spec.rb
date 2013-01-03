@@ -51,8 +51,8 @@ describe "GradebookEntryFactory" do
       quiz_orders     = orders.select { |order| order[:gbe_type] == "Quiz" }
       out_of_bounds   = orders.select { |order| order[:date_assigned] < start_date or order[:date_assigned] > end_date } 
 
-      orders.size.should eq(16)
-      homework_orders.size.should eq(12)
+      orders.size.should eq(21)
+      homework_orders.size.should eq(17)
       quiz_orders.size.should eq(4)
       out_of_bounds.size.should eq(0)
     end
@@ -62,7 +62,7 @@ describe "GradebookEntryFactory" do
       orders         = factory.generate_entries(random, grade, session, section)
       holiday_orders = orders.select { |order| order[:date_assigned] == Date.new(2012, 12, 24) || order[:date_assigned] == Date.new(2012, 12, 25) }
 
-      orders.size.should eq(16)
+      orders.size.should eq(21)
       holiday_orders.size.should eq(0)
     end
 
@@ -73,7 +73,7 @@ describe "GradebookEntryFactory" do
       quiz_orders     = orders.select { |order| order[:gbe_type] == "Quiz" }
       out_of_bounds   = orders.select { |order| order[:date_assigned] < start_date or order[:date_assigned] > end_date } 
 
-      orders.size.should eq(12)
+      orders.size.should eq(13)
       homework_orders.size.should eq(orders.size)
       quiz_orders.size.should eq(0)
       out_of_bounds.size.should eq(0)

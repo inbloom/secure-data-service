@@ -39,7 +39,8 @@ public class User {
     private String sn;
     private String givenName;
     private String cn;
-    private Status status = Status.SUBMITTED;
+    private String vendor;
+	private Status status = Status.SUBMITTED;
 
     public String getCn() {
         return cn;
@@ -218,11 +219,32 @@ public class User {
         this.status = status;
     }
 
+    public String getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
     @Override
     public String toString() {
-        return "User [uid=" + uid + ", groups=" + groups + ", password=" + password + ", email=" + email + ", tenant="
-                + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir + ", fullName=" + getFullName() + ", cn=" + cn
-                + ", status=" + status + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
+    	StringBuilder builder = new StringBuilder("User [");
+    	builder.append("uid=").append(uid).append(", ");
+    	builder.append("groups=").append(groups).append(", ");
+    	builder.append("password=").append(password).append(", ");
+    	builder.append("email=").append(email).append(", ");
+    	builder.append("tenant=").append(tenant).append(", ");
+    	builder.append("edorg=").append(edorg).append(", ");
+    	builder.append("homeDir=").append(homeDir).append(", ");
+    	builder.append("fullName=").append(getFullName()).append(", ");
+    	builder.append("cn=").append(cn).append(", ");
+    	builder.append("status=").append(status).append(", ");
+    	builder.append("createTime=").append(createTime).append(", ");
+    	builder.append("modifyTime=").append(modifyTime).append(", ");
+    	builder.append("vendor=").append(vendor).append("]");
+    
+    	return builder.toString();
     }
 
     /**
