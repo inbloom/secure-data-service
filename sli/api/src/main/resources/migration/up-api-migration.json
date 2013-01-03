@@ -1,3 +1,49 @@
 {
-    "entities":{}
+    "entities":
+    {
+        "student": 
+        {
+            "_comment":"migration from v1, implicitly to v2",
+            "1": 
+            [{
+                "ADD": {
+                    "fieldName": "addField",
+                    "defaultValue": "defaultValue"
+                }
+            },
+            {
+                "REMOVE": {
+                    "fieldName": "removedField"
+                }
+            },
+            {
+                "RENAME": {
+                    "oldFieldName": "oldField",
+                    "newFieldName": "newField"
+                }
+            },
+            {
+                "CARDINALITY": 
+                [{
+                    "fieldName": "requiredField",
+                    "minCount":"1",
+                    "maxCount": "1"
+                },
+                {
+                    "fieldName": "optionalField",
+                    "minCount":"0",
+                    "maxCount": "1"
+                },
+                {
+                    "fieldName": "manyField",
+                    "minCount":"1",
+                    "maxCount": "many"
+                }]
+            }]
+        }
+    }
 }
+
+
+
+
