@@ -21,6 +21,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -29,12 +32,10 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Generic context validator that makes use of the old context resolvers until we can fully transition to the new logic.
- * 
+ *
  */
 @Component
 public class GenericContextValidator implements IContextValidator {
@@ -53,7 +54,7 @@ public class GenericContextValidator implements IContextValidator {
             EntityNames.ASSESSMENT, EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD, EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
             EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION,
             EntityNames.GRADE, EntityNames.STUDENT_COMPETENCY_OBJECTIVE, EntityNames.STUDENT_COMPETENCY, EntityNames.GRADING_PERIOD, EntityNames.DISCIPLINE_INCIDENT,
-            EntityNames.GRADEBOOK_ENTRY);
+            EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADUATION_PLAN);
 
 
     private static final List<String> TRANSITIVE_IGNORE_LIST = Arrays
@@ -78,9 +79,9 @@ public class GenericContextValidator implements IContextValidator {
                     EntityNames.PROGRAM,
                     EntityNames.STAFF,
                     EntityNames.SECTION,
-                    EntityNames.ASSESSMENT, 
-                    EntityNames.LEARNING_OBJECTIVE, 
-                    EntityNames.LEARNING_STANDARD, 
+                    EntityNames.ASSESSMENT,
+                    EntityNames.LEARNING_OBJECTIVE,
+                    EntityNames.LEARNING_STANDARD,
                     EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
                     EntityNames.TEACHER,
                     EntityNames.STUDENT_COHORT_ASSOCIATION,
@@ -120,7 +121,7 @@ public class GenericContextValidator implements IContextValidator {
 		Set<String> contextIds = new HashSet<String>(resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
 		return contextIds.containsAll(ids);
 	}
-	
+
     @Override
     public Set<String> getValid(String entityType, Set<String> ids) {
         String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
@@ -136,7 +137,7 @@ public class GenericContextValidator implements IContextValidator {
 
 	/**
 	 * Determines if the entity type is public.
-	 * 
+	 *
 	 * @param type Entity type.
 	 * @return True if the entity is public, false otherwise.
 	 */
@@ -146,7 +147,7 @@ public class GenericContextValidator implements IContextValidator {
 
 	/**
 	 * Determines if the user is of type 'staff'.
-	 * 
+	 *
 	 * @return True if user is of type 'staff', false otherwise.
 	 */
 	protected boolean isStaff() {
