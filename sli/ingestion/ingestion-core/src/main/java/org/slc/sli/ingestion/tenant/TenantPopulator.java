@@ -125,13 +125,13 @@ public class TenantPopulator implements ResourceLoaderAware {
         String lzPath = Matcher.quoteReplacement(parentLandingZoneDir);
         File lzDirectory = new File(lzPath);
         if (!lzDirectory.mkdir()) {
-            log.debug("Failed to mkdir: " + lzDirectory.getPath());
+            log.debug("Failed to mkdir: {}", lzDirectory.getPath());
         }
         if (!lzDirectory.setReadable(true, false)) {
-            log.debug("Failed to setReadable: " + lzDirectory.getPath());
+            log.debug("Failed to setReadable: {}", lzDirectory.getPath());
         }
         if (!lzDirectory.setWritable(true, false)) {
-            log.debug("Failed to setWritable: " + lzDirectory.getPath());
+            log.debug("Failed to setWritable: {}", lzDirectory.getPath());
         }
     }
 
@@ -149,13 +149,13 @@ public class TenantPopulator implements ResourceLoaderAware {
             String lzPath = lz.getPath();
             File lzDirectory = new File(lzPath);
             if (!lzDirectory.mkdir()) {
-                log.debug("Failed to mkdir: " + lzDirectory.getPath());
+                log.debug("Failed to mkdir: {}", lzDirectory.getPath());
             }
             if (!lzDirectory.setReadable(true, false)) {
-                log.debug("Failed to setReadable: " + lzDirectory.getPath());
+                log.debug("Failed to setReadable: {}", lzDirectory.getPath());
             }
             if (!lzDirectory.setWritable(true, false)) {
-                log.debug("Failed to setWritable: " + lzDirectory.getPath());
+                log.debug("Failed to setWritable: {}", lzDirectory.getPath());
             }
         }
     }

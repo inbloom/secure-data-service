@@ -196,7 +196,7 @@ public class TenantProcessor implements Processor {
         File preloadedFile = new File(landingZoneDir, "preload-" + (new Date()).getTime() + ".zip");
         try {
             if (!preloadedFile.createNewFile()) {
-                LOG.debug("Failed to createNewFile: " + preloadedFile.getPath());
+                LOG.debug("Failed to createNewFile: {}", preloadedFile.getPath());
             }
             FileUtils.copyInputStreamToFile(sampleFile, preloadedFile);
 

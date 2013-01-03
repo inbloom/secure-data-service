@@ -21,7 +21,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
-public class BatchJobUtils2
+public final class BatchJobUtils2
 {
 
     private static InetAddress localhost;
@@ -32,9 +32,9 @@ public class BatchJobUtils2
             throw new RuntimeException(e);
         }
     }
-    
+
     private BatchJobUtils2() {
-        
+
     }
 
     public static String getHostAddress() {
