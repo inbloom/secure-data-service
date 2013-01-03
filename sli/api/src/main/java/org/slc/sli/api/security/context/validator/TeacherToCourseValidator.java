@@ -59,7 +59,7 @@ public class TeacherToCourseValidator extends AbstractContextValidator {
         
         Set<String> validIds = new HashSet<String>();
         
-        Set<String> schools = getEdorgLineage();
+        Set<String> schools = getTeacherEdorgLineage();
         
         if (schools.size() == 0) {
             return validIds;
@@ -76,16 +76,4 @@ public class TeacherToCourseValidator extends AbstractContextValidator {
         return validIds;
     }
     
-    private Set<String> getEdorgLineage() {
-        HashSet<String> schools = new HashSet<String>();
-        List<String> directSchools = helper.getDirectEdOrgAssociations(SecurityUtil.getSLIPrincipal().getEntity());
-        schools.addAll(directSchools);
-        
-        for (String edorgId : directSchools) {
-            Entity directSchool = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, 
-                    new NeutralQuery(new NeutralCriteria("_id", "=", edorgId)));
-            schools.addAll(helper.getParentEdOrgs(directSchool));
-        }
-        return schools;
-    }
 }
