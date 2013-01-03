@@ -77,6 +77,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     private static final String ES_SEARCH_LIMIT = "250";
 
     private static final Logger LOG = LoggerFactory.getLogger(PopulationManagerImpl.class);
+    
+    private static final String NICKNAME = "nickName";
 
     @Autowired
     private EntityManager entityManager;
@@ -228,7 +230,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     nickName.append((String) otherName.get(Constants.ATTR_FIRST_NAME) + " ");
                     nickName.append((middleName != null && !middleName.isEmpty() ? middleName + " " : ""));
                     nickName.append(lastname != null ? lastname : "");
-                    name.put(Constants.ATTR_NICKNAME, nickName.toString());
+                    name.put(NICKNAME, nickName.toString());
                 }
             }
         }
