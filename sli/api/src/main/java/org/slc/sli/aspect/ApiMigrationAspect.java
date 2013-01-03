@@ -28,16 +28,16 @@ import org.slc.sli.domain.MongoEntity;
 @Aspect
 public class ApiMigrationAspect {
 
-	protected ApiSchemaAdapter apiSchemaAdapter;
+    protected ApiSchemaAdapter apiSchemaAdapter;
 
-	public void setApiSchemaAdapter(ApiSchemaAdapter apiSchemaAdapter) {
-		this.apiSchemaAdapter = apiSchemaAdapter;
-	}
+    public void setApiSchemaAdapter(ApiSchemaAdapter apiSchemaAdapter) {
+        this.apiSchemaAdapter = apiSchemaAdapter;
+    }
 
-	private final static String ENTITY_TYPE = "entityType";
-	private final static String VERSION_1 = "v1";
+    private final static String ENTITY_TYPE = "entityType";
+    private final static String VERSION_1 = "v1";
 
-	/*
+    /*
      * Designates a method that migrates a response
      */
     @Retention(RetentionPolicy.RUNTIME)
@@ -72,10 +72,10 @@ public class ApiMigrationAspect {
         int version = getVersion(namespace);
 
         if (version > 0 && obj instanceof ServiceResponse) {
-        	ServiceResponse response = (ServiceResponse) obj;
-        	obj = transformResponse(response, version);
+            ServiceResponse response = (ServiceResponse) obj;
+            List<EntityBody> bodyList = response.getEntityBodyList();
+            obj = transformResponse(response, version);
         }
-
         return obj;
     }
 
@@ -84,7 +84,6 @@ public class ApiMigrationAspect {
      */
     @Around(value = "@annotation(annotation)")
     public Object migratePostedEntity(final ProceedingJoinPoint proceedingJoinPoint, final MigratePostedEntity annotation) throws Throwable {
-
         String namespace = "";
 
         EntityBody entityBody = null;
@@ -96,7 +95,7 @@ public class ApiMigrationAspect {
                 entityBody = (EntityBody) args[i];
                 entityIndex = i;
             } else if (args[i] instanceof Resource) {
-                Resource resource = (Resource) args[0];
+                Resource resource = (Resource) args[i];
                 namespace = resource.getNamespace();
             }
         }
@@ -104,46 +103,45 @@ public class ApiMigrationAspect {
         int version = getVersion(namespace);
 
         if (version > 0 && entityBody != null) {
-        	EntityBody transformedBody = transformEntityBody(entityBody, version, true);
-        	args[entityIndex] = transformedBody;
+            EntityBody transformedBody = transformEntityBody(entityBody, version, true);
+            args[entityIndex] = transformedBody;
         }
-
         return proceedingJoinPoint.proceed(args);
     }
 
     private ServiceResponse transformResponse(ServiceResponse response, int version) {
-    	List<EntityBody> entityBodyList = response.getEntityBodyList();
-    	List<EntityBody> translatedEntities = new ArrayList<EntityBody>();
+        List<EntityBody> entityBodyList = response.getEntityBodyList();
+        List<EntityBody> translatedEntities = new ArrayList<EntityBody>();
 
-    	for (EntityBody body : entityBodyList) {
-    		translatedEntities.add(transformEntityBody(body, 1, false));
-    	}
+        for (EntityBody body : entityBodyList) {
+            translatedEntities.add(transformEntityBody(body, 1, false));
+        }
 
-    	return new ServiceResponse(translatedEntities, response.getEntityCount());
+        return new ServiceResponse(translatedEntities, response.getEntityCount());
     }
 
     private EntityBody transformEntityBody(EntityBody entityBody, int version, boolean upTransform) {
-    	EntityBody translated = entityBody;
+        EntityBody translated = entityBody;
 
-    	Object entityTypeObj = entityBody.get(ENTITY_TYPE);
-		if (entityTypeObj instanceof String) {
-			String entityType = (String) entityTypeObj;
+        Object entityTypeObj = entityBody.get(ENTITY_TYPE);
+        if (entityTypeObj instanceof String) {
+            String entityType = (String) entityTypeObj;
 
-			//transform entity - have to transform into an entity and back again to fit framework
-			Entity entity =  new MongoEntity(entityType, entityBody);
-			Entity translatedEntity = apiSchemaAdapter.migrate(entity, version, upTransform);
-			translated = new EntityBody();
-			translated.putAll(translatedEntity.getBody());
-		}
+            //transform entity - have to transform into an entity and back again to fit framework
+            Entity entity =  new MongoEntity(entityType, entityBody);
+            Entity translatedEntity = apiSchemaAdapter.migrate(entity, version, upTransform);
+            translated = new EntityBody();
+            translated.putAll(translatedEntity.getBody());
+        }
 
-		return translated;
+        return translated;
     }
 
     private int getVersion(String namespace) {
-    	int version = -1;
-    	if (VERSION_1.equals(namespace)) {
-    		version = 1;
-    	}
-    	return version;
+        int version = -1;
+        if (VERSION_1.equals(namespace)) {
+            version = 1;
+        }
+        return version;
     }
 }

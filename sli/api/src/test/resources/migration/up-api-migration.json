@@ -1,0 +1,12 @@
+{
+    "entities":{
+        "student": {
+            "1": [{
+                "ADD": {
+                    "fieldName": "upFoo",
+                    "defaultValue": "upBar"
+                }
+            }]
+        }
+    }
+}
