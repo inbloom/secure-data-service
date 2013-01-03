@@ -29,20 +29,20 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
 /**
- * Validates teacher's access to given student cohort assocs.
+ * Validates teacher's access to given student program assocs.
  * 
  */
 @Component
-public class TeacherToStudentCohortAssociationValidator extends AbstractContextValidator {
+public class TeacherToStudentProgramAssociationValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType) && isTeacher();
+        return EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(entityType) && isTeacher();
     }
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        if (!areParametersValid(EntityNames.STUDENT_COHORT_ASSOCIATION, entityType, ids)) {
+        if (!areParametersValid(EntityNames.STUDENT_PROGRAM_ASSOCIATION, entityType, ids)) {
             return false;
         }
         
@@ -51,32 +51,33 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         
         NeutralQuery query = new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-        query.setIncludeFields(Arrays.asList(ParameterConstants.COHORT_ID));
+        query.setIncludeFields(Arrays.asList(ParameterConstants.PROGRAM_ID));
         
-        Set<String> cohortIds = new HashSet<String>();
+        Set<String> programIds = new HashSet<String>();
         
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
         for (Entity sca : scas) {
-            cohortIds.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
+            programIds.add((String) sca.getBody().get(ParameterConstants.PROGRAM_ID));
         }
         
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, cohortIds));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN, programIds));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
         
-        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
 
-        Set<String> validCohortIds = new HashSet<String>();
+        Set<String> validProgramIds = new HashSet<String>();
         for (Entity entity : entities) {
             String expireDate = (String) entity.getBody().get(ParameterConstants.END_DATE);
             if (expireDate == null || isLhsBeforeRhs(getNowMinusGracePeriod(), getDateTime(expireDate))) {
-                validCohortIds.add((String) entity.getBody().get(ParameterConstants.COHORT_ID));
+                validProgramIds.add((String) entity.getBody().get(ParameterConstants.PROGRAM_ID));
             }
+            
         }
 
-        return validCohortIds.containsAll(cohortIds);
+        return validProgramIds.containsAll(programIds);
     }
 
 }
