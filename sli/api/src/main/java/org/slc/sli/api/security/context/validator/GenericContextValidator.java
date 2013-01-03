@@ -60,7 +60,8 @@ public class GenericContextValidator implements IContextValidator {
             EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION,
             EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.GRADE, EntityNames.STUDENT_COMPETENCY_OBJECTIVE,
             EntityNames.STUDENT_COMPETENCY, EntityNames.GRADING_PERIOD, EntityNames.DISCIPLINE_INCIDENT,
-            EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADUATION_PLAN, EntityNames.COURSE);
+            EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADUATION_PLAN, EntityNames.COURSE,
+            EntityNames.STUDENT_PROGRAM_ASSOCIATION);
 
     private static final List<String> TRANSITIVE_IGNORE_LIST = Arrays.asList(EntityNames.ATTENDANCE,
             EntityNames.COURSE_TRANSCRIPT, EntityNames.COHORT, EntityNames.EDUCATION_ORGANIZATION,
@@ -74,7 +75,7 @@ public class GenericContextValidator implements IContextValidator {
             EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION,
             EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.GRADE, EntityNames.STUDENT_COMPETENCY_OBJECTIVE,
             EntityNames.STUDENT_COMPETENCY, EntityNames.GRADING_PERIOD, EntityNames.DISCIPLINE_INCIDENT,
-            EntityNames.GRADEBOOK_ENTRY, EntityNames.COURSE);
+            EntityNames.GRADEBOOK_ENTRY, EntityNames.COURSE, EntityNames.STUDENT_PROGRAM_ASSOCIATION);
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
@@ -87,7 +88,6 @@ public class GenericContextValidator implements IContextValidator {
         } else {
             return !INTRANSITIVE_IGNORE_LIST.contains(entityType) && store.findResolver(userType, entityType) != null;
         }
-
     }
 
     @Override
