@@ -142,6 +142,10 @@ public class ValidatorTestHelper {
     }
 
     public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId, boolean isExpired) {
+        return generateStudentAndStudentSchoolAssociation(studentId, schoolId, null, isExpired);
+    }
+
+    public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId, String graduationPlanId, boolean isExpired) {
         Map<String, Object> student = new HashMap<String, Object>();
         student.put("studentUniqueStateId", studentId);
         student.put("sex", "Female");
@@ -167,15 +171,21 @@ public class ValidatorTestHelper {
         Entity entity = repo.create(EntityNames.STUDENT, student);
         String createdStudentId = entity.getEntityId();
 
+        generateStudentSchoolAssociation(createdStudentId, schoolId, graduationPlanId, isExpired);
+
+        return createdStudentId;
+    }
+
+    public String generateStudentSchoolAssociation(String studentId, String schoolId, String graduationPlanId, boolean isExpired) {
         Map<String, Object> association = new HashMap<String, Object>();
-        association.put(ParameterConstants.STUDENT_ID, createdStudentId);
+        association.put(ParameterConstants.STUDENT_ID, studentId);
         association.put(ParameterConstants.SCHOOL_ID, schoolId);
         association.put("entryDate", DateTime.now().minusDays(3).toString(DateTimeFormat.forPattern("yyyy-MM-dd")));
         association.put("entryGradeLevel", "Fifth grade");
+        association.put("graduationPlanId", graduationPlanId);
         expireStudentSchoolAssociation(isExpired, association);
-        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, association);
-
-        return createdStudentId;
+        Entity created = repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, association);
+        return created.getEntityId();
     }
 
     private void expireStudentSchoolAssociation(boolean isExpired, Map<String, Object> body) {

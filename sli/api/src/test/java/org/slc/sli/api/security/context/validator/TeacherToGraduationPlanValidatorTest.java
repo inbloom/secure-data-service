@@ -119,6 +119,34 @@ public class TeacherToGraduationPlanValidatorTest {
     }
 
     @Test
+    public void testCanSeeGraduationPlanAtOtherSchoolBasedOnStudent() {
+        boolean isExpired = false;
+        Entity school1 = helper.generateEdorgWithParent(null);
+        Entity school2 = helper.generateEdorgWithParent(null);
+        Entity graduationPlan = helper.generateGraduationPlan(school2.getEntityId());
+        Entity section = helper.generateSection(school1.getEntityId());
+        String student = helper.generateStudentAndStudentSchoolAssociation("student1", school2.getEntityId(), graduationPlan.getEntityId(), isExpired);
+        helper.generateTeacherSchool(ValidatorTestHelper.STAFF_ID, school1.getEntityId());
+        helper.generateTSA(ValidatorTestHelper.STAFF_ID, section.getEntityId(), isExpired);
+        helper.generateSSA(student, section.getEntityId(), isExpired);
+        graduationPlanIds.add(graduationPlan.getEntityId());
+        assertTrue(validator.validate(EntityNames.GRADUATION_PLAN, graduationPlanIds));
+    }
+
+    @Test
+    public void testCanNotSeeGraduationPlanAtOtherSchoolBasedOnStudent() {
+        boolean isExpired = false;
+        Entity school1 = helper.generateEdorgWithParent(null);
+        Entity school2 = helper.generateEdorgWithParent(null);
+        Entity graduationPlan = helper.generateGraduationPlan(school2.getEntityId());
+        Entity section = helper.generateSection(school1.getEntityId());
+        helper.generateTeacherSchool(ValidatorTestHelper.STAFF_ID, school1.getEntityId());
+        helper.generateTSA(ValidatorTestHelper.STAFF_ID, section.getEntityId(), isExpired);
+        graduationPlanIds.add(graduationPlan.getEntityId());
+        assertFalse(validator.validate(EntityNames.GRADUATION_PLAN, graduationPlanIds));
+    }
+
+    @Test
     public void testValidateIntersectionRules() {
         Entity school1 = helper.generateEdorgWithParent(null);
         helper.generateTeacherSchool(ValidatorTestHelper.STAFF_ID, school1.getEntityId());

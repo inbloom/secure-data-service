@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -36,6 +37,9 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class TeacherToGraduationPlanValidator extends AbstractContextValidator {
 
+    @Autowired
+    private TeacherToStudentValidator teacherToStudentValidator;
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return !isTransitive && isTeacher() && EntityNames.GRADUATION_PLAN.equals(entityType);
@@ -47,17 +51,61 @@ public class TeacherToGraduationPlanValidator extends AbstractContextValidator {
             return false;
         }
 
-        Set<String> lineage = getTeacherEdorgLineage();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false));
-        nq.addCriteria(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_ID, NeutralCriteria.CRITERIA_IN,
-                lineage));
-        Iterable<Entity> graduationPlans = getRepo().findAll(EntityNames.GRADUATION_PLAN, nq);
+        Set<String> idsToValidate = new HashSet<String>(ids);
+        idsToValidate.removeAll(validatedThroughEducationOrganization(idsToValidate));
 
-        Set<String> valid = new HashSet<String>();
-        for (Entity graduationPlan : graduationPlans) {
-            valid.add(graduationPlan.getEntityId());
+        if (idsToValidate.isEmpty()) {
+            return true;
         }
 
-        return valid.containsAll(ids) && valid.size() == ids.size();
+        return validateThroughStudents(idsToValidate);
+    }
+
+    /**
+     * Returns the set of graduation plans that have been validated by direct association to the
+     * teacher's school.
+     *
+     * @param ids
+     *            Set of graduation plan _id's to be validated.
+     * @return Set of graduation plan _id's that have been validated.
+     */
+    private Set<String> validatedThroughEducationOrganization(Set<String> ids) {
+        Set<String> validated = new HashSet<String>();
+        Set<String> lineage = getTeacherEdorgLineage();
+        NeutralQuery graduationPlanQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                NeutralCriteria.CRITERIA_IN, ids, false));
+        graduationPlanQuery.addCriteria(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_ID,
+                NeutralCriteria.CRITERIA_IN, lineage));
+        Iterable<Entity> graduationPlans = getRepo().findAll(EntityNames.GRADUATION_PLAN, graduationPlanQuery);
+
+        for (Entity graduationPlan : graduationPlans) {
+            validated.add(graduationPlan.getEntityId());
+        }
+
+        return validated;
+    }
+
+    /**
+     * Uses the specified set of graduation plan _id's to look up student school associations (that
+     * reference the graduation plans). Then finds studentId on each student school association, and
+     * runs the teacher -> student validator to determine if the teacher has context to the
+     * specified graduation plans.
+     *
+     * @param ids
+     *            Set of graduation plan _id's to be validated.
+     * @return Boolean indicating teacher can access specified graduation plans.
+     */
+    private boolean validateThroughStudents(Set<String> ids) {
+        NeutralQuery studentSchoolAssociationQuery = new NeutralQuery(new NeutralCriteria("graduationPlanId",
+                NeutralCriteria.CRITERIA_IN, ids));
+        Iterable<Entity> associations = getRepo().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+                studentSchoolAssociationQuery);
+        Set<String> studentIds = new HashSet<String>();
+
+        for (Entity association : associations) {
+            studentIds.add((String) association.getBody().get(ParameterConstants.STUDENT_ID));
+        }
+
+        return teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds);
     }
 }
