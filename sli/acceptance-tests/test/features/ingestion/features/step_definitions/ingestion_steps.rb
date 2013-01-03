@@ -83,8 +83,8 @@ Before do
   else
     @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
     @recordHash = @batchDB.collection('recordHash')
-    @recordHash.remove("tenantId" => PropLoader.getProps['tenant'])
-    @recordHash.remove("tenantId" => PropLoader.getProps['sandbox_tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['tenant'])
+    @recordHash.remove("t" => PropLoader.getProps['sandbox_tenant'])
 
     puts "Dropped recordHash for remote testing tenants"
   end
@@ -198,6 +198,11 @@ def ensureBatchJobIndexes(db_connection)
   @collection = @db["stagedEntities"]
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['jobId', 1]] , :unique => true)
+  @collection.remove({ '_id' => " " })
+
+  @collection = @db["recordHash"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['t', 1]])
   @collection.remove({ '_id' => " " })
 end
 
@@ -828,8 +833,9 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-  ensureBatchJobIndexes(@batchConn)
-  assert(@result == "true", "Some collections were not cleared successfully.")
+  #ensureBatchJobIndexes(@batchConn)
+  #assert(@result == "true", "Some collections were not cleared successfully.")
+  exec 'mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js'
   enable_NOTABLESCAN()
 end
 
@@ -1233,31 +1239,31 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 420
+  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  sleep(intervalTime)
   iters = (1.0*@maxTimeout/intervalTime).ceil
-  found = false
-  if (INGESTION_MODE == 'remote')
-    iters.times do |i|
-      if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
+    found = false
+    if (INGESTION_MODE == 'remote')
+        iters.times do |i|
+            if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
+                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                found = true
+                break
+            else
+                sleep(intervalTime)
+            end
+        end
+    else
+        iters.times do |i|
+            if dirContainsBatchJobLog? landing_zone
+                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                found = true
+                break
+            else
+                sleep(intervalTime)
+            end
+        end
     end
-  else
-    sleep(3) # waiting to poll job file removes race condition (windows-specific)
-    iters.times do |i|
-      if dirContainsBatchJobLog? landing_zone
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-        found = true
-        break
-      else
-        sleep(intervalTime)
-      end
-    end
-  end
 
   sleep(2)
   if should_has_log
@@ -2682,11 +2688,30 @@ Then /^I check that ids were generated properly:$/ do |table|
       @entity_collection = @db.collection(collection)
       @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value}]}).count().to_s
     end
-
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
   enable_NOTABLESCAN()
 end
+
+Then /^I check that multiple educationOrganization ids were generated properly:$/ do |table|
+  disable_NOTABLESCAN()
+  @db = @conn[@ingestion_db_name]
+  table.hashes.map do |row|
+    
+    did = row['deterministicId']
+    field = row['field']
+    value = row['value']
+    collection = row['collectionName']
+    refArray = value.split(',')
+  
+    @entity_collection = @db.collection(collection)
+    @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => [refArray[0],refArray[1],refArray[2]]}]}).count().to_s
+      
+    assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
+  end
+  enable_NOTABLESCAN()
+end
+
 
 def extractField(record, fieldPath, subDocType, subDocId) 
 	pathArray = fieldPath.split('.')
@@ -2763,14 +2788,16 @@ end
 
 After do
   if (!@landing_zone_path.nil?)
-          Dir.foreach(@landing_zone_path) do |entry|
-              if (entry.rindex("warn.") || entry.rindex("error."))
-                   STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
-                   STDOUT.puts "File contents follow:"
-                   STDOUT.puts File.open(@landing_zone_path + entry).read
-              end
-          end
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex("warn.") || entry.rindex("error."))
+        if File.exists?(@landing_zone_path + entry)
+          STDOUT.puts "Error\/Warnings File detected = " + @landing_zone_path + entry
+          STDOUT.puts "File contents follow:"
+          STDOUT.puts File.open(@landing_zone_path + entry).read
+        end
       end
+    end
+  end
   cleanTenants()
   @conn.close if @conn != nil
   @batchConn.close if @batchConn != nil

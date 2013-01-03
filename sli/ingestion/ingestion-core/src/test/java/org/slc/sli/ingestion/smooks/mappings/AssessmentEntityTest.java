@@ -73,7 +73,7 @@ public class AssessmentEntityTest {
         String targetSelector = "InterchangeAssessmentMetadata/Assessment";
 
         String edfiAssessmentXml = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
-                + "<Assessment id=\"TAKSReading3\">"
+                + "<Assessment>"
                 + "  <AssessmentTitle>TAKS</AssessmentTitle>"
                 + "  <AssessmentIdentificationCode IdentificationSystem=\"Test Contractor \" AssigningOrganizationCode=\"AssigningOrg\">"
                 + "    <ID>TAKS 3rd Grade Reading</ID>"
@@ -83,7 +83,7 @@ public class AssessmentEntityTest {
                 + "  <GradeLevelAssessed>Third grade</GradeLevelAssessed>"
                 + "  <LowestGradeLevelAssessed>Fourth grade</LowestGradeLevelAssessed>"
                 + "  <AssessmentPerformanceLevel>"
-                + "    <PerformanceLevel id=\"perf id\" ref=\"perf ref\">"
+                + "    <PerformanceLevel>"
                 + "      <CodeValue>the code value</CodeValue>"
                 + "      <Description>TAKSMetStandard</Description>"
                 + "    </PerformanceLevel>"
@@ -105,7 +105,7 @@ public class AssessmentEntityTest {
                 + "  <RevisionDate>2002-09-01</RevisionDate>"
                 + "  <MaxRawScore>36</MaxRawScore>"
                 + "  <Nomenclature>the nomenclature</Nomenclature>"
-                + "  <AssessmentPeriod id=\"theid\" ref=\"theref\">"
+                + "  <AssessmentPeriod>"
                 + "    <CodeValue>code value</CodeValue>"
                 + "    <ShortDescription>short desc</ShortDescription>"
                 + "    <Description>descript</Description>"
@@ -130,7 +130,7 @@ public class AssessmentEntityTest {
                 + "       <ObjectiveAssessmentIdentificationCode>TAKSReading2-2</ObjectiveAssessmentIdentificationCode>"
                 + "     </ObjectiveAssessmentIdentity>"
                 + "  </ObjectiveAssessmentReference>"
-                + "  <AssessmentFamilyReference id=\"famid\" ref=\"famref\">"
+                + "  <AssessmentFamilyReference>"
                 + "    <AssessmentFamilyIdentity>"
                 + "      <AssessmentFamilyIdentificationCode IdentificationSystem=\"idsys\" AssigningOrganizationCode=\"orgcode\">"
                 + "        <ID>1234</ID>"
@@ -142,7 +142,7 @@ public class AssessmentEntityTest {
                 + "      <Version>first</Version>"
                 + "    </AssessmentFamilyIdentity>"
                 + "  </AssessmentFamilyReference>"
-                + "  <SectionReference id=\"myid\" ref=\"myref\">"
+                + "  <SectionReference>"
                 + "    <SectionIdentity>"
                 + "      <StateOrganizationId>6789</StateOrganizationId>"
                 + "      <EducationOrgIdentificationCode IdentificationSystem=\"edorgsystem\">"
@@ -208,8 +208,6 @@ public class AssessmentEntityTest {
             // TODO: remove this if block when we support csv lists
             Map assessmentPerformanceLevelMap2 = (Map) assessmentPerformanceLevelList.get(1);
             List performanceLevel2 = (List) assessmentPerformanceLevelMap2.get("performanceLevelDescriptor");
-            //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "id", null);
-            //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "ref", null);
             EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel2.get(0), "codeValue", "the code value2");
             EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel2.get(1), "description", "TAKSCommendedPerformance");
 

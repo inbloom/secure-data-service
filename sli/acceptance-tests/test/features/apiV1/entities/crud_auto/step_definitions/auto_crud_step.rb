@@ -136,7 +136,7 @@ Then /^I perform CRUD for each resource available$/ do
 end
 
 def resources
-  config_path = File.expand_path("../../../../../../../../api/src/main/resources/wadl/v1_resources.json", __FILE__)
+  config_path = File.expand_path("../../../../../../../../api/src/main/resources/wadl/resources.json", __FILE__)
   namespaces = JSON.parse(File.read(config_path))
 
   full_paths = []

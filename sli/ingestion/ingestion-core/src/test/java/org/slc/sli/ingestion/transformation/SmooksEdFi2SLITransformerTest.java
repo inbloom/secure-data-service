@@ -41,10 +41,9 @@ import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.EntityTestUtils;
@@ -68,7 +67,6 @@ public class SmooksEdFi2SLITransformerTest {
 
     private static final String STUDENT_ID = "303A1";
     private static final String TENANT_ID = "SLI";
-    private static final String METADATA_BLOCK = "metaData";
     private static final String TENANT_ID_FIELD = "tenantId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
     private static final String ASSESSMENT_TITLE = "assessmentTitle";
@@ -78,7 +76,7 @@ public class SmooksEdFi2SLITransformerTest {
         NeutralRecord directlyMapped = new NeutralRecord();
         directlyMapped.setRecordType("directEntity");
         directlyMapped.setAttributeField("field2", "Test String");
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<? extends Entity> result = transformer.transform(directlyMapped, new DummyMessageReport(), reportStats);
 
@@ -144,7 +142,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -267,7 +265,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -310,7 +308,7 @@ public class SmooksEdFi2SLITransformerTest {
         when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(
                 le);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 

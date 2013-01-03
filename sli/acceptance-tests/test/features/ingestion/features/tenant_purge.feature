@@ -15,6 +15,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     | collectionName              |
     | student                     |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "TenantNoPurge.zip" is completed in database
   And a batch job log has been created
  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -41,6 +42,7 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "13" authorized edorgs
  And I post "TenantPurgeKeepEdOrgs.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
+ And a batch job for file "TenantPurgeKeepEdOrgs.zip" is completed in database
  And a batch job log has been created
  Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
@@ -65,6 +67,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     | collectionName              |
     | student                     |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "TenantNoPurge.zip" is completed in database
   And a batch job log has been created
  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -91,6 +94,7 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "13" authorized edorgs
  And I post "TenantPurge.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
+ And a batch job for file "TenantPurge.zip" is completed in database
  And a batch job log has been created
  Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |

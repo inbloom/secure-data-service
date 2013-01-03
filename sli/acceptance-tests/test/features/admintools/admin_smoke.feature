@@ -28,12 +28,7 @@ When I click on 'Approve' next to application "Smoke!"
 Then application "Smoke!" is registered
 And the 'Approve' button is disabled for application "Smoke!"
 When I navigate to the account management page
-Then I see a table with headings of "Vendor" and "Username" and "Last Update" and "Status" and "Actions"
-And on the next line there is vendor name in the "Vendor" column
-And User Name in the "User Name" column
-And last update date in the "Last Updated" column
-And status in the "Status" column
-And the "Action" column has 4 buttons "Approve", "Reject", "Disable", and "Enable"
+And I got the 404 page
 
 Scenario: SLC Developer operations part 2
 Given I am a valid SLC developer

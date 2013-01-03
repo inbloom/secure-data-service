@@ -16,7 +16,7 @@
 
 package org.slc.sli.ingestion.reporting;
 
-import java.util.List;
+import java.text.MessageFormat;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
@@ -36,22 +36,24 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * reportStats. Will also log the error message if the implementation supports logging.
      *
      * @param reportStats
-     *            statistics state and source
+     *            statistics state
+     * @param source
+     *            source where the error is from
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
-    public void error(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        if (reportStats == null) {
-            throw new NullPointerException();
+    public void error(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+        if (reportStats == null || source == null) {
+            throw new IllegalStateException();
         }
 
         reportStats.incError();
 
-        reportError(reportStats, code, args);
+        reportError(reportStats, source, code, args);
     }
 
     /**
@@ -59,72 +61,73 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      * reportStats. Will also log the warning message if the implementation supports logging.
      *
      * @param reportStats
-     *            statistics state and source
+     *            statistics state
+     * @param source
+     *            source where the warning is from
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
-    public void warning(AbstractReportStats reportStats, MessageCode code, Object... args) {
+    public void warning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
         reportStats.incWarning();
 
-        reportWarning(reportStats, code, args);
+        reportWarning(reportStats, source, code, args);
     }
 
     /**
      * Reports an message as a info
      *
      * @param reportStats
-     *            statistics state and source
+     *            statistics state
+     * @param source
+     *            source where the info is from
      * @param code
      *            message defined by a code
      * @param args
      *            additional arguments for the message
-     * @throws NullPointerException
+     * @throws IllegalStateException
      *             if reportStats is <code>null</code>
      */
-    public void info(AbstractReportStats reportStats, MessageCode code, Object... args) {
+    public void info(ReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
 
-        reportInfo(reportStats, code, args);
+        reportInfo(reportStats, source, code, args);
     }
 
     /**
      * Look up the corresponding message for a MessageCode.
      *
      * @param reportStats
+     * @param source
      * @param code
      * @param args
      * @return Message String mapped to the provided MessageCode, if one exists, with any args
      *         provided substituted in. If no message is mapped for this code, return #?CODE?# were
      *         CODE is the MessageCode provided.
      */
-    protected String getMessage(AbstractReportStats reportStats, MessageCode code, Object... args) {
-        String msg = messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null);
-        Source source = reportStats.getSource();
-        if (source != null) {
-            List<ElementLocationInfo> locationInfoList = source.getElementLocationInfo();
-            for (ElementLocationInfo info : locationInfoList) {
-                // TO DO: append location info on msg
-            }
-            locationInfoList.clear(); // must clear the list so that it won't overlap with the next message
-        }
-        return msg;
+    protected String getMessage(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+
+        Object[] arguments = { messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null),
+                source.getUserFriendlyMessage(), code.getCode() };
+        return MessageFormat.format("{0}\n" + "{1}\n" + "Message Code={2}\n", arguments);
     }
 
-    protected abstract void reportError(AbstractReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportError(ReportStats reportStats, Source source, MessageCode code,
+            Object... args);
 
-    protected abstract void reportWarning(AbstractReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportWarning(ReportStats reportStats, Source source, MessageCode code,
+            Object... args);
 
-    protected abstract void reportInfo(AbstractReportStats reportStats, MessageCode code, Object... args);
+    protected abstract void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {

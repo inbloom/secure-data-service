@@ -35,12 +35,25 @@ require_relative '../lib/EntityCreation/entity_factory'
 require_relative '../lib/EntityCreation/work_order_processor'
 
 describe "WorkOrderProcessor" do
+  let(:elementary_school) {:elementary}
+  let(:middle_school) {:middle}
+  let(:high_school) {:high}
+  let(:kindergarten) {:KINDERGARTEN}
+  let(:first_grade) {:FIRST_GRADE}
+  let(:fifth_grade) {:FIFTH_GRADE}
+  let(:sixth_grade) {:SIXTH_GRADE}
+  let(:seventh_grade) {:SEVENTH_GRADE}
+  let(:eighth_grade) {:EIGHTH_GRADE}
+  let(:ninth_grade) {:NINTH_GRADE}
+  let(:eleventh_grade) {:ELEVENTH_GRADE}
+  let(:twelfth_grade) {:TWELFTH_GRADE}
+
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
-  let(:scenario) {Scenario.new({'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
-                   'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3},
-                   'INCLUDE_PARENTS' => true,
-                   'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30})}
+  let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 2, 
+                    'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
+                    'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3},
+                    'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30})}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
@@ -70,23 +83,26 @@ describe "WorkOrderProcessor" do
     before { work_order_queue.factory(factory, entity_queue) }
 
     context 'With a simple work order' do
-      let(:section_factory) {double('section factory', :sections => {{'id' => 1} => [42, 43, 44], {'id' => 2} => [45, 46, 47]})}
+      let(:assessment_factory) {AssessmentFactory.new(scenario)}
+      let(:section_factory) {double('SectionWorkOrderFactory', :sections => {{'id' => 1} => [{:id => 42}, {:id => 43}, {:id => 44}], {'id' => 2} => [{:id => 45}, {:id => 46}, {:id => 47}]})}
+      
       let(:ed_org) {{'id' => 64, 'parent' => 2, 'sessions' => [{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)},
                                                                {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)}],
                                  'programs' => [{:id => 1, :type => :IDEA, :sponsor => :SCHOOL}]}}
       let(:programs) {[{:id => 2, :type => :IDEA, :sponsor => :LOCAL_EDUCATION_AGENCY, :ed_org_id => 2}]}
-      let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001,
-                                             :edOrg => ed_org, :section_factory => section_factory, :programs => programs,
-                                             :assessment_factory => AssessmentFactory.new(scenario), :scenario => scenario)}
-      let(:assessment_factory) {AssessmentFactory.new(scenario)}
-      before {
-        work_order_queue.push_work_order(work_order)
-      }
+
+      let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001, :scenario => scenario,
+                                             :plan => {2001 => {:type => elementary_school, :grade => kindergarten, :school => ed_org, :programs => programs},
+                                                       2002 => {:type => elementary_school, :grade => first_grade, :school => ed_org, :programs => programs}}, 
+                                             :section_factory => section_factory, 
+                                             :assessment_factory => assessment_factory)}
+
+      before { work_order_queue.push_work_order(work_order) }
 
       it "will generate the right number of entities for the student and subsequent enrollment" do
-        factory.students.should have(1).items
-        factory.school_associations.select{|ssa| ssa.startYear == 2001 and ssa.startGrade == "Kindergarten"}.should have(1).items
-        factory.school_associations.select{|ssa| ssa.startYear == 2002 and ssa.startGrade == "First grade"}.should have(1).items
+        factory.students.should have(1).items        
+        factory.school_associations.select{|ssa| ssa.start_date.year == 2001 and ssa.grade == "Kindergarten"}.should have(1).items
+        factory.school_associations.select{|ssa| ssa.start_date.year == 2002 and ssa.grade == "First grade"}.should have(1).items
         factory.section_associations.should have(4).items
         factory.assessment_associations.should have(30).items
         factory.cohort_associations.should have(8).items
@@ -99,34 +115,33 @@ describe "WorkOrderProcessor" do
 
       it "will generate StudentSchoolAssociations with the correct information" do
         factory.school_associations.each{|a|
-          a.studentId.should eq 42
-          a.schoolStateOrgId.should eq "elem-0000000064"
+          a.student.should eq 42
+          a.school.should eq "elem-0000000064"
         }
-        factory.school_associations[0].startYear.should eq(2001)
-        factory.school_associations[0].startGrade.should eq("Kindergarten")
-        factory.school_associations[1].startYear.should eq(2002)
-        factory.school_associations[1].startGrade.should eq("First grade")
+        factory.school_associations[0].start_date.year.should eq(2001)
+        factory.school_associations[0].grade.should eq("Kindergarten")
+        factory.school_associations[1].start_date.year.should eq(2002)
+        factory.school_associations[1].grade.should eq("First grade")
       end
 
       it "will generate StudentSectionAssociations with the correct information" do
         factory.section_associations.each{|a|
-          a.studentId.should eq 42
-          a.edOrgId.should eq "elem-0000000064"
+          a.student.should eq 42
+          a.ed_org_id.should eq "elem-0000000064"
         }
-        section_associations = factory.section_associations.group_by{|a| a.year}
+        section_associations = factory.section_associations.group_by{|a| a.begin_date.year}
         section_associations[2001].count.should eq 2
-        section_associations[2001][0].sectionId.should match(/sctn\-0000000042/)
-        section_associations[2001][1].sectionId.should match(/sctn\-0000000045/)
+        section_associations[2001][0].section.should match(/sctn\-0000000042/)
+        section_associations[2001][1].section.should match(/sctn\-0000000045/)
         section_associations[2002].count.should eq 2
-        section_associations[2002][0].sectionId.should match(/sctn\-0000000042/)
-        section_associations[2002][1].sectionId.should match(/sctn\-0000000045/)
+        section_associations[2002][0].section.should match(/sctn\-0000000042/)
+        section_associations[2002][1].section.should match(/sctn\-0000000045/)
       end
 
       it "will generate StudentAssessments with the correct related assessment" do
-
         student_assessments = factory.assessment_associations.group_by{|sa| sa.assessment.assessmentTitle }
 
-        assessment_factory.grade_wide_assessments(:KINDERGARTEN, 2001).each{|a|
+        assessment_factory.grade_wide_assessments(kindergarten, 2001).each{|a|
           student_assessments[a.assessmentTitle].should have(5).item
         }
       end
@@ -152,30 +167,37 @@ describe "WorkOrderProcessor" do
     end
 
     context 'With a work order that spans multiple schools' do
-      let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :FIFTH_GRADE, :initial_year => 2001,
-                                             :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001},
-                                                                                   {'year' => 2002},
-                                                                                   {'year' => 2003},
-                                                                                   {'year' => 2004},
-                                                                                   {'year' => 2005}],
-                                                        'feeds_to' => [65, 66]},
-                                                        :graduation_plans => 
-                                                          [GraduationPlan.new("Standard", {'Math'=> 12}, "state-id")])}
-      before {
-        work_order_queue.push_work_order(work_order)
-      }
+      let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 5})}
+      let(:sessions) {[{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)},
+                       {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)},
+                       {'year' => 2003, 'interval' => DateInterval.new(Date.new(2003), Date.new(2004), 180)},
+                       {'year' => 2004, 'interval' => DateInterval.new(Date.new(2004), Date.new(2005), 180)},
+                       {'year' => 2005, 'interval' => DateInterval.new(Date.new(2005), Date.new(2006), 180)}]}
+      let(:elementary_ed_org) { {'id' => 64, 'sessions' => sessions, 'feeds_to' => [65], 'programs' => []} }
+      let(:middle_ed_org) { {'id' => 65, 'sessions' => sessions, 'feeds_to' => [66], 'programs' => []} }
+      let(:high_ed_org) { {'id' => 66, 'sessions' => sessions, 'programs' => []} }
+
+      let(:work_order) {StudentWorkOrder.new(42, :initial_grade => fifth_grade, :initial_year => 2001,
+                          :plan => {2001 => {:type => elementary_school, :grade => fifth_grade, :school => elementary_ed_org, :programs => []},
+                                    2002 => {:type => middle_school, :grade => sixth_grade, :school => middle_ed_org, :programs => []},
+                                    2003 => {:type => middle_school, :grade => seventh_grade, :school => middle_ed_org, :programs => []},
+                                    2004 => {:type => middle_school, :grade => eighth_grade, :school => middle_ed_org, :programs => []},
+                                    2005 => {:type => high_school, :grade => ninth_grade, :school => high_ed_org, :programs => []}},
+                          :graduation_plans => [ GraduationPlan.new("Standard", {'Math'=> 12}, "state-id")] )}
+
+      before { work_order_queue.push_work_order(work_order) }
       it "will get enrollments for each school" do
         factory.students.should have(1).items
-        factory.school_associations[0].startYear.should eq(2001)
-        factory.school_associations[0].schoolStateOrgId.should eq('elem-0000000064')
-        factory.school_associations[1].startYear.should eq(2002)
-        factory.school_associations[1].schoolStateOrgId.should eq('midl-0000000065')
-        factory.school_associations[2].startYear.should eq(2003)
-        factory.school_associations[2].schoolStateOrgId.should eq('midl-0000000065')
-        factory.school_associations[3].startYear.should eq(2004)
-        factory.school_associations[3].schoolStateOrgId.should eq('midl-0000000065')
-        factory.school_associations[4].startYear.should eq(2005)
-        factory.school_associations[4].schoolStateOrgId.should eq('high-0000000066')
+        factory.school_associations[0].start_date.year.should eq(2001)
+        factory.school_associations[0].school.should eq('elem-0000000064')
+        factory.school_associations[1].start_date.year.should eq(2002)
+        factory.school_associations[1].school.should eq('midl-0000000065')
+        factory.school_associations[2].start_date.year.should eq(2003)
+        factory.school_associations[2].school.should eq('midl-0000000065')
+        factory.school_associations[3].start_date.year.should eq(2004)
+        factory.school_associations[3].school.should eq('midl-0000000065')
+        factory.school_associations[4].start_date.year.should eq(2005)
+        factory.school_associations[4].school.should eq('high-0000000066')
       end
 
       it "will put graduation plans on the school association iff the school is a high school" do
@@ -187,24 +209,23 @@ describe "WorkOrderProcessor" do
       end
     end
 
-    context "with a work order than includes students graduating" do
-      let(:eleventh_grader) {StudentWorkOrder.new(42, :initial_grade => :ELEVENTH_GRADE, :initial_year => 2001,
-                                                  :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001},
-                                                                                        {'year' => 2002},
-                                                                                        {'year' => 2003},
-                                                                                        {'year' => 2004}]})}
-      let(:twelfth_grader) {StudentWorkOrder.new(42, :initial_grade => :TWELFTH_GRADE, :initial_year => 2001,
-                                                 :edOrg => {'id' => 64, 'sessions' => [{'year' => 2001},
-                                                                                       {'year' => 2002},
-                                                                                       {'year' => 2003},
-                                                                                       {'year' => 2004}]})}
-      it "will only generate student school associations until the student has graduated" do
+    context "with a work order that includes students graduating" do
+      let(:education_organization) {{'id' => 64, 'sessions' => [{'year' => 2001, 'interval' => DateInterval.new(Date.new(2001), Date.new(2002), 180)},
+                                                                {'year' => 2002, 'interval' => DateInterval.new(Date.new(2002), Date.new(2003), 180)},
+                                                                {'year' => 2003, 'interval' => DateInterval.new(Date.new(2003), Date.new(2004), 180)},
+                                                                {'year' => 2004, 'interval' => DateInterval.new(Date.new(2004), Date.new(2005), 180)}]}}
+      let(:eleventh_grader) {StudentWorkOrder.new(42, :initial_grade => eleventh_grade, :initial_year => 2001,
+                              :plan => {2001 => {:type => high_school, :grade => eleventh_grade, :school => education_organization, :programs => []},
+                                        2002 => {:type => high_school, :grade => twelfth_grade, :school => education_organization, :programs => []}})}
+      let(:twelfth_grader) {StudentWorkOrder.new(42, :initial_grade => twelfth_grade, :initial_year => 2001,
+                              :plan => {2001 => {:type => high_school, :grade => twelfth_grade, :school => education_organization, :programs => []}})}
 
+      it "will only generate student school associations until the student has graduated" do
         work_order_queue.push_work_order(eleventh_grader)
         factory.students.should have(1).items
         factory.school_associations.should have(2).items
-        factory.school_associations[0].startYear.should eq(2001)
-        factory.school_associations[1].startYear.should eq(2002)
+        factory.school_associations[0].start_date.year.should eq(2001)
+        factory.school_associations[1].start_date.year.should eq(2002)
 
         factory.school_associations = []
         factory.students = []
@@ -213,7 +234,7 @@ describe "WorkOrderProcessor" do
         factory.students.should have(1).items
         factory.school_associations.should have(1).items
         factory.students.should have(1).items
-        factory.school_associations[0].startYear.should eq(2001)
+        factory.school_associations[0].start_date.year.should eq(2001)
       end
     end
   end
@@ -223,7 +244,7 @@ end
 describe "generate_work_orders" do
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
-  let(:scenario) {Scenario.new({'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
+  let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2011, 'NUMBER_OF_YEARS' => 2, 'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
                    'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3}})}
 
   context "with a world with 20 students in 4 schools" do
@@ -240,19 +261,10 @@ describe "generate_work_orders" do
       work_orders.count.should eq(20)
     end
 
-    it "will put the students in the right schools" do
-      work_orders.each_with_index { |work_order, index|
-        work_order.edOrg["id"].should eq(index/5)
-      }
-    end
-
     it "will give students the correct entry grade" do
-      work_orders.select{|wo|
-        wo.initial_grade == :KINDERGARTEN}.count.should eq(10)
-      work_orders.select{|wo|
-        wo.initial_grade == :SEVENTH_GRADE}.count.should eq(5)
-      work_orders.select{|wo|
-        wo.initial_grade == :NINTH_GRADE}.count.should eq(5)
+      work_orders.select{ |wo| wo.initial_grade == :KINDERGARTEN }.count.should eq(10)
+      work_orders.select{ |wo| wo.initial_grade == :SEVENTH_GRADE }.count.should eq(5)
+      work_orders.select{ |wo| wo.initial_grade == :NINTH_GRADE }.count.should eq(5)
     end
 
     it "will give students the correct entry year" do

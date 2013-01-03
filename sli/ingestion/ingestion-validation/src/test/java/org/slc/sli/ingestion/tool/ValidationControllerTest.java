@@ -38,7 +38,7 @@ import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 
 /**
@@ -80,8 +80,8 @@ public class ValidationControllerTest {
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
         validationController.doValidation(ctlFile);
-        Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(AbstractReportStats.class),
-                Matchers.eq(ValidationMessageCode.VALIDATION_0001));
+        Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0001));
     }
 
     @Test
@@ -107,8 +107,8 @@ public class ValidationControllerTest {
         Mockito.when(invalidFile.isFile()).thenReturn(true);
 
         validationController.doValidation(invalidFile);
-        Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(AbstractReportStats.class),
-                Matchers.eq(ValidationMessageCode.VALIDATION_0001));
+        Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0001));
     }
 
     @SuppressWarnings("unchecked")
@@ -117,8 +117,8 @@ public class ValidationControllerTest {
         Handler<File, File> handler = Mockito.mock(Handler.class);
 
         Source source = Mockito.mock(Source.class);
-        AbstractReportStats rs = Mockito.mock(AbstractReportStats.class);
-        Mockito.when(rs.getSource()).thenReturn(source);
+        ReportStats rs = Mockito.mock(ReportStats.class);
+//        Mockito.when(rs.getSource()).thenReturn(source);
         Mockito.when(rs.hasErrors()).thenReturn(false);
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
@@ -145,8 +145,8 @@ public class ValidationControllerTest {
         Handler<File, File> handler = Mockito.mock(Handler.class);
 
         Source source = Mockito.mock(Source.class);
-        AbstractReportStats reportStats = Mockito.mock(AbstractReportStats.class);
-        Mockito.when(reportStats.getSource()).thenReturn(source);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
+//        Mockito.when(reportStats.getSource()).thenReturn(source);
         Mockito.when(reportStats.hasErrors()).thenReturn(true);
 
         Resource zipFileResource = new ClassPathResource(zipFileName);
@@ -186,8 +186,8 @@ public class ValidationControllerTest {
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
         validationController.processValidators(cfl);
-        Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(AbstractReportStats.class),
-                Matchers.eq(ValidationMessageCode.VALIDATION_0003), Matchers.eq(fileName));
+        Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0003), Matchers.eq(fileName));
     }
 
     @Test
@@ -211,8 +211,8 @@ public class ValidationControllerTest {
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
         validationController.processValidators(cfl);
-        Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(AbstractReportStats.class),
-                Matchers.eq(ValidationMessageCode.VALIDATION_0002), Matchers.eq(fileName));
+        Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0002), Matchers.eq(fileName));
     }
 
     @Test
@@ -223,8 +223,8 @@ public class ValidationControllerTest {
         ValidationController vc = Mockito.spy(validationController);
 
         Source source = Mockito.mock(Source.class);
-        AbstractReportStats reportStats = Mockito.mock(AbstractReportStats.class);
-        Mockito.when(reportStats.getSource()).thenReturn(source);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
+//        Mockito.when(reportStats.getSource()).thenReturn(source);
         Mockito.when(reportStats.hasErrors()).thenReturn(false);
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
@@ -248,8 +248,8 @@ public class ValidationControllerTest {
 
         validationController.processControlFile(ctlFile);
 
-        Mockito.verify(messageReport).error(Matchers.any(AbstractReportStats.class),
-                Matchers.eq(ValidationMessageCode.VALIDATION_0010), Matchers.anyString());
+        Mockito.verify(messageReport).error(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0010), Matchers.anyString());
     }
 
 }

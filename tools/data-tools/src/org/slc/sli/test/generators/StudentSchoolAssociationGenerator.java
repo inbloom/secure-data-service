@@ -14,33 +14,23 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.generators;
 
+import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SLCStudentIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
 import org.slc.sli.test.edfi.entities.SLCStudentSchoolAssociation;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-
-
 
 public class StudentSchoolAssociationGenerator {
 
     public static SLCStudentSchoolAssociation generateLowFi(String studentId, String schoolId) {
 
-    	SLCStudentSchoolAssociation ssa = new SLCStudentSchoolAssociation();
+        SLCStudentSchoolAssociation ssa = new SLCStudentSchoolAssociation();
 
-		String graduationPlan = schoolId + "-gPlan0";
-		Ref gPlan = new Ref(graduationPlan);
-		ReferenceType refType = new ReferenceType();
-		refType.setRef(gPlan);
-		//TODO this is an optional reference but is not currently resolving in ingestion
-		//ssa.setGraduationPlanReference(refType);
+        String graduationPlan = schoolId + "-gPlan0";
+
         SLCStudentIdentityType sit = new SLCStudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
         SLCStudentReferenceType srt = new SLCStudentReferenceType();
@@ -48,7 +38,7 @@ public class StudentSchoolAssociationGenerator {
         ssa.setStudentReference(srt);
 
         SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
-//        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        // eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         eoit.setStateOrganizationId(schoolId);
         SLCEducationalOrgReferenceType eor = new SLCEducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);

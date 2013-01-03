@@ -56,6 +56,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "MediumSampleDataSet.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                              | count |
@@ -109,3 +110,4 @@ Then I should see following map of entry counts in the corresponding collections
 	And I should see "Processed 38439 records." in the resulting batch job file
 	And I should not see an error log file created
 	And I should not see a warning log file created
+

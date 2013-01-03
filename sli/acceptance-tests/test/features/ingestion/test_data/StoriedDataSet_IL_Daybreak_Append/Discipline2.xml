@@ -2,7 +2,7 @@
 <InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
 
-  <DisciplineIncident id="splashing">
+  <DisciplineIncident>
       <IncidentIdentifier>Underwater cruise</IncidentIdentifier>
       <IncidentDate>2011-09-06</IncidentDate>
       <IncidentTime>10:22:00</IncidentTime>

@@ -74,6 +74,7 @@ public class NeutralCriteria {
         this.canBePrefixed = canBePrefixed;
     }
 
+    @SuppressWarnings("PMD.UselessOverridingMethod")  // this is overridden because equals is also overridden
     @Override
     public int hashCode() {
         return super.hashCode();

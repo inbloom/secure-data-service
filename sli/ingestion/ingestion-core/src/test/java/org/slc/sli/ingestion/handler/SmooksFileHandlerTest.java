@@ -26,6 +26,7 @@ import junitx.util.PrivateAccessor;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,11 +39,11 @@ import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -64,7 +65,7 @@ public class SmooksFileHandlerTest {
     @Autowired
     LocalFileSystemLandingZone lz;
 
-    AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("TestJob", "Resource", "StageName"));
+    ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
     /*
      * XML TESTS
@@ -86,7 +87,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setFile(inputFile);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
@@ -106,7 +107,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
@@ -129,7 +130,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        AbstractReportStats reportStats = new SimpleReportStats(new SimpleSource("testJob", "testResource", "stage"));
+        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
@@ -142,7 +143,7 @@ public class SmooksFileHandlerTest {
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
         Mockito.when(
                 factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(AbstractReportStats.class))).thenReturn(smooks);
+                        Mockito.any(ReportStats.class))).thenReturn(smooks);
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
 
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
@@ -155,7 +156,7 @@ public class SmooksFileHandlerTest {
         Mockito.when(smooks.getSmooksEdFiVisitor()).thenReturn(visitor);
 
         smooksFileHandler.handle(ife, errorReport, reportStats);
-        Mockito.verify(errorReport, Mockito.never()).error(Mockito.any(AbstractReportStats.class),
-                Mockito.any(CoreMessageCode.class));
+        Mockito.verify(errorReport, Mockito.never()).error(Mockito.any(ReportStats.class),
+                Matchers.any(Source.class), Mockito.any(CoreMessageCode.class));
     }
 }

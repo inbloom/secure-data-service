@@ -35,11 +35,10 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
-import org.slc.sli.ingestion.reporting.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.SimpleSource;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  * Base TransformationStrategy.
@@ -107,10 +106,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         return batchJobId;
     }
 
-    public AbstractReportStats getReportStats(String fileName) {
-        Source source = new SimpleSource(this.batchJobId, fileName,
+    public ReportStats getReportStats(String fileName) {
+        ReportStats reportStats = new SimpleReportStats(this.batchJobId, fileName,
                 BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
-        AbstractReportStats reportStats = new SimpleReportStats(source);
         return reportStats;
     }
 
@@ -279,16 +277,17 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      * This method is for cases where ReportStats is not important to the context to save
      * the code to create a ReportStats all the time, which is true for many transformers.
      *
+     * @param fileName
      * @param source
      * @param code
      * @param args
      */
-    public void reportError(String source, MessageCode code, Object... args) {
-        databaseMessageReport.error(getReportStats(source), code, args);
+    public void reportError(String fileName, Source source, MessageCode code, Object... args) {
+        databaseMessageReport.error(getReportStats(fileName), source, code, args);
     }
 
-    public void reportWarnings(String source, MessageCode code, Object... args) {
-        databaseMessageReport.warning(getReportStats(source), code, args);
+    public void reportWarnings(String fileName, Source source, MessageCode code, Object... args) {
+        databaseMessageReport.warning(getReportStats(fileName), source, code, args);
     }
 
 }

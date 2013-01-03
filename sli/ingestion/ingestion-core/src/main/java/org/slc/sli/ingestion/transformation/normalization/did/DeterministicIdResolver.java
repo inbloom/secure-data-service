@@ -32,9 +32,11 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 
 /**
@@ -60,8 +62,8 @@ public class DeterministicIdResolver {
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
 
-    public void resolveInternalIds(Entity entity, String tenantId, AbstractMessageReport report,
-            AbstractReportStats reportStats) {
+    public void resolveInternalIds(NeutralRecordEntity entity, String tenantId, AbstractMessageReport report,
+            ReportStats reportStats) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -86,7 +88,7 @@ public class DeterministicIdResolver {
                 handleDeterministicIdForReference(entity, didRefSource, tenantId);
 
             } catch (IdResolutionException e) {
-                handleException(sourceRefPath, entity.getType(), referenceEntityType, e, report, reportStats);
+                handleException(entity, sourceRefPath, entity.getType(), referenceEntityType, e, report, reportStats);
             }
         }
     }
@@ -227,10 +229,14 @@ public class DeterministicIdResolver {
         return referenceObject;
     }
 
-    private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
-            AbstractMessageReport report, AbstractReportStats reportStats) {
+    private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType, String referenceType, Exception e,
+            AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        report.error(reportStats, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
+        NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
+                reportStats.getStageName(), entity.getType(),
+                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
+        report.error(reportStats, source, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }
 
     // function which, given reference type map (source object) and refConfig, return a did

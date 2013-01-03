@@ -41,8 +41,8 @@ require_relative 'graduation_plan_factory.rb'
 class WorldBuilder
   def initialize(prng, yaml, queue, pre_requisites)
     $stdout.sync = true
-    @log = Logger.new($stdout)
-    @log.level = Logger::INFO
+    @log         = Logger.new($stdout)
+    @log.level   = Logger::INFO
 
     @prng = prng
     @scenarioYAML = yaml
@@ -555,7 +555,7 @@ class WorldBuilder
       # actually perform split
       students_to_be_split = @breakdown[grade]
       students_so_far      = 0
-      @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.get(grade)} students to be split across #{@world[type].size} schools"
+      @log.info "year #{year}-#{year+1} --> there are #{students_to_be_split} #{GradeLevelType.to_string(grade)} students to be split across #{@world[type].size} schools"
 
       while students_to_be_split > 0
         @world[type].each_index do |index|
@@ -773,7 +773,7 @@ class WorldBuilder
       else
         ed_org_id = DataUtility.get_state_education_agency_id(edOrg["id"])
       end
-      @queue.push_work_order({ :type => SeaEducationOrganization, :id => ed_org_id, :programs => get_program_ids(edOrg["programs"]) })
+      @queue.push_work_order({ :type => StateEducationAgency, :id => ed_org_id, :programs => get_program_ids(edOrg["programs"]) })
       
       create_course_work_orders(ed_org_id, edOrg["courses"])
       create_program_work_orders(edOrg["programs"])
@@ -781,14 +781,14 @@ class WorldBuilder
 
     # write local education agencies
     @world["leas"].each       { |edOrg|
-      @queue.push_work_order({ :type => LeaEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]) })
+      @queue.push_work_order({ :type => LocalEducationAgency, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]) })
       create_program_work_orders(edOrg["programs"])
     }
 
     # write elementary, middle, and high schools 
     ["elementary", "middle", "high"].each{|classification|
       @world[classification].each { |edOrg|
-        @queue.push_work_order({ :type => SchoolEducationOrganization, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
+        @queue.push_work_order({ :type => School, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
         create_program_work_orders(edOrg["programs"])
         create_cohorts DataUtility.get_school_id(edOrg['id'], classification)
       }
@@ -1018,8 +1018,8 @@ class WorldBuilder
             course    = course_offering["course"]
             grade     = course_offering["grade"]
           
-            title = GradeLevelType.get(grade) + " " + course["title"]
-            title = GradeLevelType.get(grade) if GradeLevelType.is_elementary_school_grade(grade)
+            title = GradeLevelType.to_string(grade) + " " + course["title"]
+            title = GradeLevelType.to_string(grade) if GradeLevelType.is_elementary_school_grade(grade)
 
             @queue.push_work_order({:type=>CourseOffering, :id=>id, :title=>title, :edOrgId=>ed_org_id, :session=>session, :course=>course})
           end
@@ -1074,7 +1074,7 @@ class WorldBuilder
         end
       else
         course_counter += 1
-        current_grade_courses << {"id" => course_counter, "title" => GradeLevelType.get(grade)}
+        current_grade_courses << {"id" => course_counter, "title" => GradeLevelType.to_string(grade)}
       end
       courses[grade] = current_grade_courses
     end
@@ -1084,7 +1084,7 @@ class WorldBuilder
   # creates course work orders to be written to the education organization interchange
   def create_course_work_orders(edOrgId, courses)
     courses.each do |key, value|
-      grade = GradeLevelType.get(key)
+      grade = GradeLevelType.to_string(key)
       value.each do |course|
         id = DataUtility.get_course_unique_id(course["id"])
         if GradeLevelType.is_elementary_school_grade(key)
@@ -1144,7 +1144,7 @@ class WorldBuilder
     mid_cycle = mid.cycle
     elem.each{|school|
       ms = mid_cycle.next
-      school['feeds_to'] = [ms['id'], ms['feeds_to'][0]]
+      school['feeds_to'] = [ms['id']]
     }
   end
 

@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.generators;
 
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.ClassroomPositionType;
-import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.SLCSectionIdentityType;
 import org.slc.sli.test.edfi.entities.SLCSectionReferenceType;
 import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
 import org.slc.sli.test.edfi.entities.SLCTeacherSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class TeacherSectionAssociationGenerator {
     private Random r = new Random(31);
@@ -67,10 +64,10 @@ public class TeacherSectionAssociationGenerator {
         SLCStaffIdentityType staffIdentity = new SLCStaffIdentityType();
         staffIdentity.setStaffUniqueStateId(teacherMeta.id);
 
-//        StaffReferenceType teacherRef = new StaffReferenceType();
-//        teacherRef.setStaffIdentity(staffIdentity);
-//
-//        teacherSection.setTeacherReference(teacherRef);
+        // StaffReferenceType teacherRef = new StaffReferenceType();
+        // teacherRef.setStaffIdentity(staffIdentity);
+        //
+        // teacherSection.setTeacherReference(teacherRef);
 
         teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
 
@@ -85,28 +82,20 @@ public class TeacherSectionAssociationGenerator {
 
         sectionIdentity.setEducationalOrgReference(eort);
 
-//        EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
-//        edOrgIdCode.setID(sectionId);
-//        edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-//        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
+        // EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
+        // edOrgIdCode.setID(sectionId);
+        // edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+        // sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
 
         SLCSectionReferenceType sectionRef = new SLCSectionReferenceType();
-		sectionRef.setSectionIdentity(sectionIdentity);
-		teacherSection.setSectionReference(sectionRef);
+        sectionRef.setSectionIdentity(sectionIdentity);
+        teacherSection.setSectionReference(sectionRef);
 
-		if (MetaRelations.TeacherSectionAssociation_Ref) {
-//			IDREF deprecated
-//
-//			Ref teacherRefer = new Ref(teacherMeta.id);
-//			SLCStaffReferenceType sRef = new SLCStaffReferenceType();
-//			sRef.setRef(teacherRefer);
-//			teacherSection.setTeacherReference(sRef);
-		} else {
-			SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
-			teacherRef.setStaffIdentity(staffIdentity);
+        SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
+        teacherRef.setStaffIdentity(staffIdentity);
 
-			teacherSection.setTeacherReference(teacherRef);
-		}
+        teacherSection.setTeacherReference(teacherRef);
+
         teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
 
         return teacherSection;

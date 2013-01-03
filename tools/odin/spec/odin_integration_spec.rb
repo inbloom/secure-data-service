@@ -80,7 +80,7 @@ describe "Odin" do
       end
 
       it "will generate a valid control file with the correct number of interchanges" do     
-        @interchanges.length.should eq(11)
+        @interchanges.length.should eq(12)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -101,7 +101,7 @@ describe "Odin" do
         end
         
         it "will generate a valid control file with the correct number of interchanges" do     
-          @interchanges.length.should eq(11)
+          @interchanges.length.should eq(12)
         end
         
         it "will generate a valid control file with Student as a type" do
@@ -124,8 +124,12 @@ describe "Odin" do
           @interchanges["StaffAssociation"].should match(/StaffAssociation.xml/)
         end
 
-        it "will generate a valid control file with StaffAssociation as a type" do
+        it "will generate a valid control file with StudentEnrollment as a type" do
           @interchanges["StudentEnrollment"].should match(/StudentEnrollment.xml/)
+        end
+
+        it "will generate a valid control file with StudentGrades as a type" do
+          @interchanges["StudentGrades"].should match(/StudentGrades.xml/)
         end
 
         it "will generate a valid control file with Attendance as a type" do
@@ -168,31 +172,49 @@ describe "Odin" do
     end
   end
 
-  context "with a 1000 student configuration" do
-    let(:odin) {Odin.new}
-    before {odin.generate "1000students"}
-    let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
+  # context "with a 1000 student configuration" do
+  #   let(:odin) {Odin.new}
+  #   before(:all) {odin.generate("1000students")}
+  #   let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
 
-    describe "#generate" do
-      it "will generate lists of 1000 students" do
-        student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
-      end
-    end
-  end
+  #   describe "#generate" do
+  #     it "will generate lists of 1000 students" do
+  #       student.readlines.select{|l| l.match("<Student>")}.length.should eq(1000)
+  #     end
+  #   end
+  # end
+  # --> this test takes too long when generating all entities
 
   context "with a configuration with only students whitelisted" do
-    let(:odin) {Odin.new}
-    before {odin.generate "1000studentsOnly"}
-    let(:student) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
-    let(:interchanges) {read_interchanges}
+    before(:all) { 
+      odin = Odin.new
+      odin.generate("1000studentsOnly") 
+      @interchanges = read_interchanges
+    }
+
+    before(:each) {
+      @student_parent_interchange = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml", "r")
+    }
+
+    after(:each) {
+      @student_parent_interchange.close
+    }
 
     describe "#generate" do
       it "will generate lists of 1000 students" do
-        student.select{|l| l.match("<Student>")}.length.should eq(1000)
+        num_students = 0
+        while (line = @student_parent_interchange.gets)
+          num_students += 1 if line.include?('<Student>')
+        end
+        num_students.should eq(1000)
       end
       it "will not generate any other entity" do
-        student.select{|l| l.match("<Parent>")}.length.should eq(0)
-        interchanges.should have(1).items
+        num_parents = 0
+        while (line = @student_parent_interchange.gets)
+          num_parents += 1 if line.include?('<Parent>')
+        end
+        num_parents.should eq(0)
+        @interchanges.should have(1).items
       end
     end
   end

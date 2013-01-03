@@ -1,80 +1,102 @@
 /*
-* Copyright 2012 Shared Learning Collaborative, LLC
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.ingestion.validation.indexes;
 
 import java.util.List;
+import java.util.Set;
+
+import com.mongodb.DB;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.util.IndexFileParser;
+import org.slc.sli.ingestion.util.IndexParser;
 import org.slc.sli.ingestion.util.MongoIndex;
 
-
 /**
+ * Index validator for those dbs whose indexes are defined in plain text file
+ * in our own format.
  * @author tke
  *
  */
 public class TenantDBIndexValidator extends DbIndexValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TenantDBIndexValidator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TenantDBIndexValidator.class);
 
-    private static final String INDEX_FILE = "tenantDB_indexes.txt";
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    private String indexFile;
 
-    @Autowired
+    private IndexParser<String> indexTxtFileParser;
+
     private TenantDA tenantDA;
+
     @Override
-    protected List<MongoIndex> parseFile(String indexFile) {
-        return IndexFileParser.parseTxtFile(indexFile);
+    protected Set<MongoIndex> loadExpectedIndexes() {
+        return indexTxtFileParser.parse(indexFile);
     }
 
-
     @Override
-    public void verifyIndexes() {
-        List<MongoIndex> indexes = IndexFileParser.parseTxtFile(INDEX_FILE);
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
 
+        boolean isValid = true;
+        Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
+
+        LOGGER.info("Validating indexes for tenant databases..");
         for (String tenantDb : tenantDbs) {
-            LOG.info("Validating indexes for {} database", tenantDb);
-            for (MongoIndex index : indexes) {
-                checkIndexes(index, mongoTemplate.getDb().getSisterDB(tenantDb));
-            }
+            LOGGER.info("Validating indexes for tenantDB:" + tenantDb);
+            Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db.getSisterDB(tenantDb));
+            isValid &= super.isValid(expectedIndexes, actualIndexes, report, reportStats, source);
         }
+
+        return isValid;
     }
 
     /**
-     * @return the mongoTemplate
+     * @return the indexFile
      */
-    public MongoTemplate getMongoTemplate() {
-        return mongoTemplate;
+    public String getIndexFile() {
+        return indexFile;
     }
-
 
     /**
-     * @param mongoTemplate the mongoTemplate to set
+     * @param indexFile
+     *            the indexFile to set
      */
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+    public void setIndexFile(String indexFile) {
+        this.indexFile = indexFile;
     }
 
+    /**
+     * @return the indexTxtFileParser
+     */
+    public IndexParser<String> getIndexTxtFileParser() {
+        return indexTxtFileParser;
+    }
+
+    /**
+     * @param indexTxtFileParser
+     *            the indexTxtFileParser to set
+     */
+    public void setIndexTxtFileParser(IndexParser<String> indexTxtFileParser) {
+        this.indexTxtFileParser = indexTxtFileParser;
+    }
 
     /**
      * @return the tenantDA
@@ -83,13 +105,12 @@ public class TenantDBIndexValidator extends DbIndexValidator {
         return tenantDA;
     }
 
-
     /**
-     * @param tenantDA the tenantDA to set
+     * @param tenantDA
+     *            the tenantDA to set
      */
     public void setTenantDA(TenantDA tenantDA) {
         this.tenantDA = tenantDA;
     }
-
 
 }

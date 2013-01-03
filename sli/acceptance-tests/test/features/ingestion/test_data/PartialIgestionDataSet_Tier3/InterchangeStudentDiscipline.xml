@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
-    <DisciplineIncident id="distruption">
+    <DisciplineIncident>
         <IncidentIdentifier>Disruption</IncidentIdentifier>
         <IncidentDate>2011-02-01</IncidentDate>
         <IncidentTime>15:23:02</IncidentTime>
@@ -25,7 +25,7 @@
             </StaffIdentity>
         </StaffReference>
     </DisciplineIncident>
-    <DisciplineIncident id="chronic-tardiness">
+    <DisciplineIncident>
         <IncidentIdentifier>Tardiness</IncidentIdentifier>
         <IncidentDate>2011-09-06</IncidentDate>
         <IncidentTime>10:22:00</IncidentTime>

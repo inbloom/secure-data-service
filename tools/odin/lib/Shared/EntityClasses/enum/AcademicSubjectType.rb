@@ -93,18 +93,6 @@ class AcademicSubjectType
   AcademicSubjectType.define :TRANSPORTATION_DISTRIBUTION_AND_LOGISTICS, "Transportation, Distribution and Logistics"
   AcademicSubjectType.define :WRITING, "Writing"
 
-  # translates the specified Symbol into the String representation of the academic subject type
-  # -> returns nil if the Symbol doesn't exist
-  def self.to_string(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the academic subject type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
-
   # returns academic subjects commonly associated with elementary school courses
   def self.elementary
     subjects = []

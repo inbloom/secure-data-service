@@ -45,12 +45,15 @@ public class GenericContextValidator implements IContextValidator {
 	@Autowired
 	private PagingRepositoryDelegate<Entity> repo;
 
-	private static final List<String> INTRANSITIVE_IGNORE_LIST = Arrays.asList(EntityNames.ATTENDANCE, EntityNames.COURSE_TRANSCRIPT, EntityNames.EDUCATION_ORGANIZATION, EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_ACADEMIC_RECORD,
+	private static final List<String> INTRANSITIVE_IGNORE_LIST = Arrays.asList(
+	        EntityNames.ATTENDANCE, EntityNames.COURSE_TRANSCRIPT, EntityNames.EDUCATION_ORGANIZATION, EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_ACADEMIC_RECORD,
 			EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.REPORT_CARD, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT, EntityNames.SCHOOL,
 			EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_ASSESSMENT, EntityNames.STAFF, EntityNames.SECTION, EntityNames.SESSION, EntityNames.COURSE_OFFERING,
 			EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.PARENT, EntityNames.COHORT, EntityNames.PROGRAM, EntityNames.TEACHER,
             EntityNames.ASSESSMENT, EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD, EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
-            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION);
+            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION,
+            EntityNames.GRADE, EntityNames.STUDENT_COMPETENCY_OBJECTIVE, EntityNames.STUDENT_COMPETENCY, EntityNames.GRADING_PERIOD, EntityNames.DISCIPLINE_INCIDENT,
+            EntityNames.GRADEBOOK_ENTRY, EntityNames.COURSE);
 
 
     private static final List<String> TRANSITIVE_IGNORE_LIST = Arrays
@@ -83,7 +86,15 @@ public class GenericContextValidator implements IContextValidator {
                     EntityNames.STUDENT_COHORT_ASSOCIATION,
                     EntityNames.COURSE_OFFERING,
                     EntityNames.TEACHER_SCHOOL_ASSOCIATION,
-                    EntityNames.TEACHER_SECTION_ASSOCIATION
+                    EntityNames.TEACHER_SECTION_ASSOCIATION,
+                    EntityNames.STAFF_PROGRAM_ASSOCIATION,
+                    EntityNames.GRADE,
+                    EntityNames.STUDENT_COMPETENCY_OBJECTIVE,
+                    EntityNames.STUDENT_COMPETENCY,
+                    EntityNames.GRADING_PERIOD,
+                    EntityNames.DISCIPLINE_INCIDENT,
+                    EntityNames.GRADEBOOK_ENTRY,
+                    EntityNames.COURSE
                     );
 
 	@Override

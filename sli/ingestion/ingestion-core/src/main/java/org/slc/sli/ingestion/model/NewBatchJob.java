@@ -34,7 +34,7 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Model for ingestion jobs.
@@ -109,12 +109,12 @@ public class NewBatchJob implements Job {
     }
 
     private void initStartTime() {
-        jobStartTimestamp = BatchJobUtils2.getCurrentTimeStamp();
+        jobStartTimestamp = BatchJobUtils.getCurrentTimeStamp();
 
     }
 
     public void stop() {
-        jobStopTimestamp = BatchJobUtils2.getCurrentTimeStamp();
+        jobStopTimestamp = BatchJobUtils.getCurrentTimeStamp();
     }
 
     public static NewBatchJob createJobForFile(String fileName) {

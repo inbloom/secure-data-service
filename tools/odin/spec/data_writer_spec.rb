@@ -47,34 +47,34 @@ describe "DataWriter" do
       end
 
       it "will return nil when requesting type for an entity that is not in @entities" do
-        @writer.get_entities(SeaEducationOrganization).should be_nil
+        @writer.get_entities(StateEducationAgency).should be_nil
       end
 
       it "will return zero when requesting count for an entity that is not in @counts" do
-        @writer.get_entity_count(SeaEducationOrganization).should eq(0)
+        @writer.get_entity_count(StateEducationAgency).should eq(0)
       end
     end
 
     describe "--> creating entities" do
       it "will store a state education agency in-memory" do
-        @writer.get_entity_count(SeaEducationOrganization).should eq(0)
-        @writer << SeaEducationOrganization.new(1, @random)
-        @writer.get_entity_count(SeaEducationOrganization).should_not be_nil
-        @writer.get_entity_count(SeaEducationOrganization).should eq(1)
+        @writer.get_entity_count(StateEducationAgency).should eq(0)
+        @writer << StateEducationAgency.new(1, @random)
+        @writer.get_entity_count(StateEducationAgency).should_not be_nil
+        @writer.get_entity_count(StateEducationAgency).should eq(1)
       end
 
       it "will store a local education agency in-memory" do
-        @writer.get_entity_count(LeaEducationOrganization).should eq(0)
-        @writer << LeaEducationOrganization.new(2, 1, @random)
-        @writer.get_entity_count(LeaEducationOrganization).should_not be_nil
-        @writer.get_entity_count(LeaEducationOrganization).should eq(1)
+        @writer.get_entity_count(LocalEducationAgency).should eq(0)
+        @writer << LocalEducationAgency.new(2, 1, @random)
+        @writer.get_entity_count(LocalEducationAgency).should_not be_nil
+        @writer.get_entity_count(LocalEducationAgency).should eq(1)
       end
 
       it "will store a school in-memory" do
-        @writer.get_entity_count(SchoolEducationOrganization).should eq(0)
-        @writer << SchoolEducationOrganization.new(3, 2, "elementary")
-        @writer.get_entity_count(SchoolEducationOrganization).should_not be_nil
-        @writer.get_entity_count(SchoolEducationOrganization).should eq(1)
+        @writer.get_entity_count(School).should eq(0)
+        @writer << School.new(3, 2, "elementary")
+        @writer.get_entity_count(School).should_not be_nil
+        @writer.get_entity_count(School).should eq(1)
       end
 
       it "will store a course in-memory" do
@@ -171,24 +171,24 @@ describe "DataWriter" do
     end
     
     it "will store a state education agency in-memory" do
-      @writer.get_entity_count(SeaEducationOrganization).should eq(0)
-      @writer << SeaEducationOrganization.new(1, @random)
-      @writer.get_entity_count(SeaEducationOrganization).should_not be_nil
-      @writer.get_entity_count(SeaEducationOrganization).should eq(1)
+      @writer.get_entity_count(StateEducationAgency).should eq(0)
+      @writer << StateEducationAgency.new(1, @random)
+      @writer.get_entity_count(StateEducationAgency).should_not be_nil
+      @writer.get_entity_count(StateEducationAgency).should eq(1)
     end
 
     it "will store a local education agency in-memory" do
-      @writer.get_entity_count(LeaEducationOrganization).should eq(0)
-      @writer << LeaEducationOrganization.new(2, 1, @random)
-      @writer.get_entity_count(LeaEducationOrganization).should_not be_nil
-      @writer.get_entity_count(LeaEducationOrganization).should eq(1)
+      @writer.get_entity_count(LocalEducationAgency).should eq(0)
+      @writer << LocalEducationAgency.new(2, 1, @random)
+      @writer.get_entity_count(LocalEducationAgency).should_not be_nil
+      @writer.get_entity_count(LocalEducationAgency).should eq(1)
     end
 
     it "will store a school in-memory" do
-      @writer.get_entity_count(SchoolEducationOrganization).should eq(0)
-      @writer << SchoolEducationOrganization.new(3, 2, "elementary")
-      @writer.get_entity_count(SchoolEducationOrganization).should_not be_nil
-      @writer.get_entity_count(SchoolEducationOrganization).should eq(1)
+      @writer.get_entity_count(School).should eq(0)
+      @writer << School.new(3, 2, "elementary")
+      @writer.get_entity_count(School).should_not be_nil
+      @writer.get_entity_count(School).should eq(1)
     end
 
     it "will store a course in-memory" do

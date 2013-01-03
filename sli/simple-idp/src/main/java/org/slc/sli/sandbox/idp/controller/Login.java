@@ -106,16 +106,17 @@ public class Login {
      */
     @RequestMapping(value = "/logout")
     public ModelAndView logout(@RequestParam(value="SAMLRequest", required=false) String encodedSamlRequest,
-            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
-        httpSession.setAttribute(USER_SESSION_KEY, null);
+            @RequestParam(value = "realm", required = false) String realm, 
+            @RequestParam(value = "developer", required = false) String developer, 
+            HttpSession httpSession) {
+        httpSession.removeAttribute(USER_SESSION_KEY);
         if(encodedSamlRequest!=null){
-            ModelAndView mav = form(encodedSamlRequest, realm, httpSession);
+            ModelAndView mav = form(encodedSamlRequest, realm, developer, httpSession);
             mav.addObject("msg", "You are now logged out");
             return mav;
         }else{
             return new ModelAndView("loggedOut");
         }
-            
     }
     
     /**
@@ -124,48 +125,49 @@ public class Login {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
+            @RequestParam(value = "realm", required = false) String realm, 
+            @RequestParam(value = "developer", required = false) String developer, 
+            HttpSession httpSession) {
 
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
-
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, developer);
+        
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
         if (user != null){
-            if(isSandboxImpersonationEnabled){
-                if(isAdminRealm(realm)){
-                    LOG.debug("Sandbox Admin Login request with existing session (" + user.getUserId() + ") skipping authentication");
-                    return handleNoAuthRequired(user, requestInfo);
-                }else if(requestInfo.isForceAuthn() || user.getImpersonationUser()==null){
-                    LOG.debug("Sandbox Impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication, going to impersonation");
-                    return buildImpersonationModelAndView(realm, encodedSamlRequest, "");
+            if(isSandboxImpersonationEnabled && !"true".equalsIgnoreCase(developer)){
+                if(!requestInfo.isForceAuthn()){
+                    if(user.getImpersonationUser() == null){
+                        LOG.debug("Sandbox Login request with existing session (" + user.getUserId() + ") skipping authentication and automatically logging in admin using: " + user.getUserId());
+                        user.getAttributes().put("isAdmin", "true");
+                        return handleNoAuthRequired(user, requestInfo, httpSession);   
+                    }else{
+                        LOG.debug("Sandbox impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication and impersonation and using: " + user.getImpersonationUser().getUserId());
+                        return handleNoAuthRequired(user.getImpersonationUser(), requestInfo, httpSession);
+                    }
                 }else{
-                    LOG.debug("Sandbox impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication and impersonation and using: " + user.getImpersonationUser().getUserId());
-                    return handleNoAuthRequired(user.getImpersonationUser(), requestInfo);
+                    LOG.debug("Sandbox Login request with existing session (" + user.getUserId() + ") skipping authentication, going to impersonation");
+                    return buildImpersonationModelAndView(realm, encodedSamlRequest, "");
                 }
             }else if (!requestInfo.isForceAuthn()) {
                 LOG.debug("Login request with existing session, skipping authentication");
-                return handleNoAuthRequired(user, requestInfo);
+                return handleNoAuthRequired(user, requestInfo, httpSession);
             }else{
-                httpSession.setAttribute(USER_SESSION_KEY, null);
+                httpSession.removeAttribute(USER_SESSION_KEY);
+                user = null;
             }
-        }
-
-        boolean isForgotPasswordVisible = false;
-        if (user == null && (isAdminRealm(realm) || (realm == null||realm.length()==0)) ) {
-            isForgotPasswordVisible = true;
         }
 
         ModelAndView mav = new ModelAndView("login");
         mav.addObject("subTitle", buildSubTitle(realm));
-        mav.addObject("isSandbox", isSandboxImpersonationEnabled && (realm == null || realm.length() == 0));
-        mav.addObject("SAMLRequest", encodedSamlRequest);
         mav.addObject("adminUrl", adminUrl);
+        mav.addObject("isForgotPasswordVisible", realm.equals(sliAdminRealmName));
         mav.addObject("realm", realm);
-        mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
+        mav.addObject("developer", developer);
+        mav.addObject("SAMLRequest", encodedSamlRequest);
         return mav;
     }
     
-    private ModelAndView handleNoAuthRequired(User user, AuthRequestService.Request requestInfo){
+    private ModelAndView handleNoAuthRequired(User user, AuthRequestService.Request requestInfo, HttpSession httpSession){
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                 user.getAttributes(), requestInfo);
         ModelAndView mav = new ModelAndView("post");
@@ -174,44 +176,50 @@ public class Login {
     }
     
     private String buildSubTitle(String realm) {
-        if(sliAdminRealmName.equals(realm)){
+        if(isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm)){
+            //sandbox login for developers
+            return "Developer Sandbox";
+        }else if(sliAdminRealmName.equals(realm)){
+            //production admin login
             return "";
-        }else if(isSandboxImpersonationEnabled){
-            return "Application Developer Sandbox";
         }else{
+            //mock idp login
             return "Mock IDP for "+ realm;
         }
     }
 
-    private boolean isAdminRealm(String realm) {
-        return realm != null && sliAdminRealmName != null && realm.equals(sliAdminRealmName);
+    @RequestMapping(value= "/admin", method = RequestMethod.POST)
+    public ModelAndView admin(@RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, null);
+        user.getAttributes().put("isAdmin", "true");
+        user.setImpersonationUser(null);
+        SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+                user.getAttributes(), requestInfo);
+        ModelAndView mav = new ModelAndView("post");
+        mav.addObject("samlAssertion", samlAssertion);
+        return mav;
     }
-
+    
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(
             @RequestParam("user_id") String userId,
             @RequestParam("password") String password,
             @RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam(value = "realm", required = false) String incomingRealm,
-            @RequestParam(value = "isForgotPasswordVisible", required = false) boolean isForgotPasswordVisible,
+            @RequestParam(value = "realm", required = false) String realm,
+            @RequestParam(value = "developer", required = false) String developer,
             HttpSession httpSession,
             HttpServletRequest request) {
 
-        String realm = incomingRealm;
-        boolean doImpersonation = false;
-        if (isSandboxImpersonationEnabled && (incomingRealm == null || incomingRealm.length() == 0)) {
-            doImpersonation = true;
-            realm = sliAdminRealmName;
-        }
-
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, developer);
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
         if(user == null){
             try {
                 user = userService.authenticate(realm, userId, password);
-                if (shouldForcePasswordChange(user, incomingRealm)) {
+                if (shouldForcePasswordChange(user, realm)) {
     
                     //create timestamp as part of resetKey for user
                     Date date = new Date();
@@ -242,11 +250,11 @@ public class Login {
                 ModelAndView mav = new ModelAndView("login");
                 mav.addObject("subTitle", buildSubTitle(realm));
                 mav.addObject("errorMsg", "Invalid User Name or password");
-                mav.addObject("SAMLRequest", encodedSamlRequest);
-                mav.addObject("realm", incomingRealm);
-                mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
+                mav.addObject("isForgotPasswordVisible", sliAdminRealmName.equals(realm));
                 mav.addObject("adminUrl", adminUrl);
-    
+                mav.addObject("realm", realm);
+                mav.addObject("SAMLRequest", encodedSamlRequest);
+                
                 // if a user with this userId exists, get his info and roles/groups and
                 // log that information as a failed login attempt.
                 String edOrg = "UnknownEdOrg";
@@ -274,11 +282,13 @@ public class Login {
         
         httpSession.setAttribute(USER_SESSION_KEY, user);
         writeLoginSecurityEvent(true, user.getUserId(), user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
-        
-        if (doImpersonation) {
-            ModelAndView mav =  buildImpersonationModelAndView(incomingRealm, encodedSamlRequest, "");
+
+        //sandbox mode, it is the admin/sandbox realm and request did not come from prod developer realm, so allow impersonation
+        if (isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm) && !"true".equalsIgnoreCase(developer)) {
+            ModelAndView mav =  buildImpersonationModelAndView(realm, encodedSamlRequest, "");
             return mav;
         } else {
+            //otherwise it's either not sandbox mode or it's a mock realm in sandbox mode
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                     user.getAttributes(), requestInfo);
             
@@ -289,17 +299,17 @@ public class Login {
         }
     }
 
-    private ModelAndView buildImpersonationModelAndView(String realm, String saml, String impersonateUserName) {
+    private ModelAndView buildImpersonationModelAndView(String realm, String samlRequest, String impersonateUserName) {
         ModelAndView mav = new ModelAndView("impersonate");
-        mav.addObject("SAMLRequest", saml);
         mav.addObject("realm", realm);
+        mav.addObject("SAMLRequest", samlRequest);
         mav.addObject("impersonate_user", impersonateUserName);
         mav.addObject("roles", roleService.getAvailableRoles());
         List<Dataset> datasets = defaultUsersService.getAvailableDatasets();
         mav.addObject("datasets", datasets);
         for(Dataset dataset : datasets){
             mav.addObject(dataset.getKey(), defaultUsersService.getUsers(dataset.getKey()));
-       }
+        }
         return mav;
     }
 
@@ -363,7 +373,7 @@ public class Login {
 
         user.setImpersonationUser(impersonationUser);
         
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, null);
         SamlAssertion samlAssertion = samlService.buildAssertion(impersonationUser.getUserId(), impersonationUser.getRoles(),
                 impersonationUser.getAttributes(), requestInfo);
 
@@ -371,6 +381,8 @@ public class Login {
 
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
+        httpSession.removeAttribute("realm");
+        httpSession.removeAttribute("SAMLRequest");
         return mav;
     }
     
@@ -406,8 +418,8 @@ public class Login {
         audit(event);
     }
 
-    private boolean shouldForcePasswordChange(User user, String incomingRealm) {
-        if (incomingRealm == null || !incomingRealm.equals(sliAdminRealmName) || user == null) {
+    private boolean shouldForcePasswordChange(User user, String realm) {
+        if (realm == null || !realm.equals(sliAdminRealmName) || user == null) {
             return false;
         }
 

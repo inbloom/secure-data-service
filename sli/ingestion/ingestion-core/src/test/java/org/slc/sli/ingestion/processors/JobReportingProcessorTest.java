@@ -57,7 +57,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *
@@ -157,8 +157,7 @@ public class JobReportingProcessorTest {
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(workNote, WorkNote.class);
 
-        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
-        tmpLz.setDirectory(tmpDir);
+        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone(tmpDir);
         // jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
@@ -225,7 +224,7 @@ public class JobReportingProcessorTest {
     private Iterable<Error> createFakeErrorIterable() {
         List<Error> errors = new LinkedList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
-                "10.81.1.27", "testhost", RECORDID, BatchJobUtils2.getCurrentTimeStamp(),
+                "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(), "errorType", ERRORDETAIL);
         errors.add(error);
         return errors;
@@ -237,7 +236,7 @@ public class JobReportingProcessorTest {
 
         List<Stage> fakeStageList = new LinkedList<Stage>();
         Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "Persists records to the sli databse",
-                "finished", BatchJobUtils2.getCurrentTimeStamp(), BatchJobUtils2.getCurrentTimeStamp(), fakeMetrics);
+                "finished", BatchJobUtils.getCurrentTimeStamp(), BatchJobUtils.getCurrentTimeStamp(), fakeMetrics);
         fakeStageList.add(s);
         return fakeStageList;
     }

@@ -49,6 +49,12 @@ default:
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
+        # Used to bootstrap the developer realm for unified accounts
+        bootstrap.developer.realm.name: Shared Learning Collaborative App Developers
+        bootstrap.developer.realm.uniqueId: DeveloperIDP
+        bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
+
         # Used to bootstrap the sandbox's other ream realm
         bootstrap.sandbox.realm.uniqueId: SandboxIDP
         bootstrap.sandbox.realm.name: Sandbox Environment
@@ -106,21 +112,14 @@ default:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: localhost
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
-
-        # Test specific properties (only used in ingestion)
-        sli.test.prop: ci DAL Context Test Property
 
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
@@ -142,11 +141,6 @@ default:
 
         # ingestion landing zone
         landingzone.inbounddir: C:/lz/
-
-        # landingzone polling
-        sli.ingestion.lz.readLockCheckInterval: 10000
-        sli.ingestion.lz.readLockTimeout: 600000
-        sli.ingestion.lz.pollInterval: 30000
 
         # logging path
         logging.path: C:/lz/logs
@@ -171,34 +165,20 @@ default:
         sli.ingestion.queue.maximumActive: 500
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore:
-        sli.ingestion.queue.workItem.keystorePassword:
-        sli.ingestion.queue.landingZone.host: localhost
-        sli.ingestion.queue.landingZone.port: 61613
         sli.ingestion.queue.landingZone.queueURI: activemq:queue:ingestion.landingZone
         sli.ingestion.queue.landingZone.concurrentConsumers: 1
-        sli.ingestion.queue.landingZone.keystore:
-        sli.ingestion.queue.landingZone.keystorePassword:
 
         # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.host:
-        sli.ingestion.queue.maestro.port:
         sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
         sli.ingestion.queue.maestro.consumerQueueURI: seda:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions:
-        sli.ingestion.queue.maestro.keystore:
-        sli.ingestion.queue.maestro.keystorePassword:
 
         # Pit (worker) nodes
-        sli.ingestion.queue.pit.host:
-        sli.ingestion.queue.pit.port:
         sli.ingestion.queue.pit.queueURI: seda:IngestionPit
         sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions:
-        sli.ingestion.queue.pit.keystore:
-        sli.ingestion.queue.pit.keystorePassword:
 
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.loadDefaultTenants: true
@@ -338,7 +318,7 @@ default:
 
         sli.encryption.ldapKeyAlias: ldap
         sli.encryption.ldapKeyPass: ldap
-        
+
         # (only used in data-access, and dashboard)
         sli.encryption.dalKeyAlias: dalKey
 
@@ -366,7 +346,7 @@ default:
         sli.simple-idp.sandboxImpersonationEnabled: false
         # List of sample user files for our standard datasets. Values are in pairs, where the first is the display name, second is the file name
         sli.simple-idp.sandbox.users: SmallDatasetUsers,Small Sample Dataset,MediumDatasetUsers,Medium Sample Dataset
-        
+
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URLs, comma separated list of ldap servers
@@ -447,16 +427,12 @@ acceptance-tests:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: nxbuild.slidev.org
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -474,40 +450,24 @@ acceptance-tests:
         sli.ingestion.queue.workItem.port: 5445
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
-        sli.ingestion.queue.landingZone.host: devmq1.slidev.org
-        sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
 
         # TODO - need maestroPit queue config
         # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.host: devmq1.slidev.org
-        sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
         sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-        sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
 
         # Pit (worker) nodes
-        sli.ingestion.queue.pit.host: devmq1.slidev.org
-        sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
         sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
-        sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
-        
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
         sli.ingestion.errorsCountPerInterchange: 15
@@ -558,16 +518,12 @@ ci:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: testdal1.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: testdal1.slidev.org
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -589,23 +545,15 @@ ci:
         sli.ingestion.queue.workItem.port: 5445
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemAccept
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
-        sli.ingestion.queue.landingZone.host: devmq1.slidev.org
-        sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
         sli.ingestion.errorsCountPerInterchange: 15
         sli.ingestion.warningsCountPerInterchange: 15
-        
+
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
@@ -660,16 +608,12 @@ dev:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: devdal1.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: devdal1.slidev.org
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -691,15 +635,10 @@ dev:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore:
-        sli.ingestion.queue.workItem.keystorePassword:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
-        
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
         sli.ingestion.errorsCountPerInterchange: 15
@@ -764,16 +703,12 @@ devjuggernauts:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: devjuggernauts.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: devjuggernauts.slidev.org
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -795,15 +730,10 @@ devjuggernauts:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore:
-        sli.ingestion.queue.workItem.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -860,16 +790,12 @@ devapp1:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: devdal1.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: devdal1.slidev.org
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -891,14 +817,9 @@ devapp1:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore:
-        sli.ingestion.queue.workItem.keystorePassword:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
 
     misc:
         <<: *MISC-DEFAULT
@@ -930,6 +851,9 @@ local:
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=LocalNew
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=LocalNew
 
+        bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local&developer=true
+        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local&developer=true
+
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
         # local/data-access/db.properties
@@ -953,16 +877,12 @@ local:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: localhost
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -981,21 +901,16 @@ local:
         sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore:
-        sli.ingestion.queue.workItem.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 1000
-
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
         sli.ingestion.errorsCountPerInterchange: 15
         sli.ingestion.warningsCountPerInterchange: 15
-        
+
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
@@ -1065,8 +980,6 @@ local-sandbox:
     ingestion:
         <<: *INGESTION-LOCAL
         sli.ingestion.tenant.loadDefaultTenants: false
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 1000
 
     dashboard:
         <<: *DASHBOARD-LOCAL
@@ -1093,19 +1006,23 @@ local-acceptance-tests:
         bootstrap.admin.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
 
+        bootstrap.developer.realm.name: Shared Learning Collaborative App Developer
+        bootstrap.developer.realm.uniqueId: DeveloperIDP
+        bootstrap.developer.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
+
     data-access:
         <<: *DATA-ACCESS-LOCAL
 
     ingestion:
         <<: *INGESTION-LOCAL
         sli.ingestion.tenant.loadDefaultTenants: true
-        sli.ingestion.lz.pollInterval: 1000
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
         sli.ingestion.errorsCountPerInterchange: 15
         sli.ingestion.warningsCountPerInterchange: 15
-        
+
     dashboard:
         # Pick up default here, not local, to avoid overriding the encryption keystore.
         <<: *DASHBOARD-DEFAULT
@@ -1172,6 +1089,8 @@ team:
         bootstrap.sandbox.createSandboxRealm: false
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
@@ -1195,16 +1114,12 @@ team:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: localhost
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -1229,45 +1144,29 @@ team:
         sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
-        sli.ingestion.queue.landingZone.host: localhost
-        sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
         # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.host: localhost
-        sli.ingestion.queue.maestro.port: 61616
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
         sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:ingestion.maestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-        sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
 
         # Pit (worker) nodes
-        sli.ingestion.queue.pit.host: localhost
-        sli.ingestion.queue.pit.port: 61616
         sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
         sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
-        sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
         sli.ingestion.tenant.loadDefaultTenants: true
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
-        
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
         sli.ingestion.errorsCountPerInterchange: 15
         sli.ingestion.warningsCountPerInterchange: 15
-        
+
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -1349,16 +1248,12 @@ perf:
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: igmongo.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: igmongo.slidev.org
         sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.batchjob.mongodb.user:
-        sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
@@ -1380,8 +1275,6 @@ perf:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.queue.workItem.keystore:
-        sli.ingestion.queue.workItem.keystorePassword:
 
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
@@ -1390,9 +1283,6 @@ perf:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
 
 test-local:
     test:
@@ -1410,7 +1300,6 @@ test-local:
         sli.mongodb.pass:
 
         # Test specific properties
-        sli.test.prop: local DAL Context Test Property
 
         # local/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
@@ -1422,9 +1311,6 @@ test-local:
 
         #Used to access hudson build number
         sli.application.buildTag: UNKNOWN
-
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 1000
 
         # ElasticSearch
         sli.search.embedded.http.port: 19200
@@ -1446,8 +1332,6 @@ test-team:
 
         # Test specific properties
 
-        sli.test.prop: ci DAL Context Test Property
-
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
 
@@ -1460,9 +1344,6 @@ test-team:
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
-
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
 
         # ElasticSearch
         sli.search.embedded.http.port: 19200
@@ -1480,9 +1361,6 @@ test-perf:
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
-
         # ElasticSearch
         sli.search.embedded.http.port: 19200
         sli.search.url: http://localhost:19200
@@ -1495,6 +1373,8 @@ sandbox:
         bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
@@ -1546,9 +1426,6 @@ nxteam:
     ingestion: &INGESTION-NXTEAM
         <<: *INGESTION-TEAM
         sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
-        sli.ingestion.queue.landingZone.host: nxmaestro.slidev.org
-        sli.ingestion.queue.maestro.host: nxmaestro.slidev.org
-        sli.ingestion.queue.pit.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.pit.concurrentConsumers: 30
@@ -1556,8 +1433,6 @@ nxteam:
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: localhost:11211
         #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
@@ -1590,8 +1465,6 @@ nxteam-maestro:
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 2000
 
     data-access:
         <<: *DATA-ACCESS-NXTEAM
@@ -1624,8 +1497,6 @@ local-maestro:
         sli.ingestion.nodeType: maestro
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
-        sli.ingestion.lz.pollInterval: 1000
-        sli.ingestion.lz.readLockCheckInterval: 1000
     data-access:
         <<: *DATA-ACCESS-LOCAL
         sli.ingestion.staging.clearOnCompletion: transformed

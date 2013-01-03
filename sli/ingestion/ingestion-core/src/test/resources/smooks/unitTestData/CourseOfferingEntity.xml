@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
-    <CourseOffering id="Course Offering ID">
+    <CourseOffering>
         <LocalCourseCode>Local Course Code</LocalCourseCode>
         <LocalCourseTitle>Local Course Title</LocalCourseTitle>
         <SchoolReference>
@@ -25,7 +25,7 @@
                 <SessionName>Session Name</SessionName>
             </SessionIdentity>
         </SessionReference>
-        <CourseReference id="Course Reference ID" ref="Course Reference IDREF">
+        <CourseReference>
             <CourseIdentity>
                 <CourseCode IdentificationSystem="Course Reference Identification System 1" AssigningOrganizationCode="Course Reference Assigning Organization Code 1">
                     <ID>Course Reference ID 1</ID>

@@ -5,7 +5,7 @@
 
 	<!-- I know what you are thinking.  Why is a kindergarten student taking the SAT, and acing it?  
 		 Keep in mind, this is River Tam we are talking about  -->
-	<StudentAssessment id="saa_id_1">
+	<StudentAssessment>
 		<AdministrationDate>2011-05-01</AdministrationDate>
 		<SerialNumber>0</SerialNumber>
 		<AdministrationLanguage>English</AdministrationLanguage>
@@ -35,7 +35,7 @@
 		</AssessmentReference>
 	</StudentAssessment>
 
-	<StudentAssessment id="saa_id_2">
+	<StudentAssessment>
 		<AdministrationDate>2011-05-02</AdministrationDate>
 		<SerialNumber>0</SerialNumber>
 		<AdministrationLanguage>English</AdministrationLanguage>
@@ -62,7 +62,7 @@
 		</AssessmentReference>
 	</StudentAssessment>
 
-	<StudentAssessment id="saa_id_3">
+	<StudentAssessment>
 		<AdministrationDate>2011-05-01</AdministrationDate>
 		<SerialNumber>0</SerialNumber>
 		<AdministrationLanguage>English</AdministrationLanguage>
@@ -89,7 +89,7 @@
 		</AssessmentReference>
 	</StudentAssessment>
 
-	<StudentObjectiveAssessment id="soa1">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
@@ -117,7 +117,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa2">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
@@ -129,7 +129,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa3">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
@@ -157,7 +157,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa4">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
@@ -169,7 +169,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa5">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
@@ -197,7 +197,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa6">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
@@ -209,7 +209,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa7">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
@@ -237,7 +237,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa8">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
@@ -265,7 +265,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa9">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
@@ -293,7 +293,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa10">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
@@ -305,7 +305,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa11">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
@@ -317,7 +317,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
-	<StudentObjectiveAssessment id="soa12">
+	<StudentObjectiveAssessment>
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
@@ -329,7 +329,7 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 	
-<!--	<StudentAssessment id="saa_act_1"> 
+<!--	<StudentAssessment> 
 	  <AdministrationDate>2011-05-01</AdministrationDate> 
 	  <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
 	  <SerialNumber>5</SerialNumber> 
@@ -358,7 +358,7 @@
 	  </AssessmentReference> 
    </StudentAssessment>
 
-   <StudentObjectiveAssessment id="SOA_ACT-Math-Pre-Algebral_1"> 
+   <StudentObjectiveAssessment> 
 	   <ScoreResults AssessmentReportingMethod="Scale score"> 
 		 <Result>9</Result> 
 	   </ScoreResults>
@@ -371,7 +371,7 @@
 	   </ObjectiveAssessmentReference> 
    </StudentObjectiveAssessment> 
 
-   <StudentObjectiveAssessment id="SOA_ACT-Math-Plane-Geometry_1"> 
+   <StudentObjectiveAssessment> 
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>14</Result> 
        </ScoreResults> 
@@ -383,7 +383,7 @@
        </ObjectiveAssessmentReference> 
    </StudentObjectiveAssessment> -->
 <!--originally been commented -->
-<!--	<StudentAssessmentItem id="SAI_1">
+<!--	<StudentAssessmentItem>
    		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>True</AssessmentItemResult>
    		<AssessmentResponse>False</AssessmentResponse>
@@ -395,7 +395,7 @@
    		</AssessmentItemReference>
    </StudentAssessmentItem>
    
-   <StudentAssessmentItem id="SAI_2">
+   <StudentAssessmentItem>
    		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>False</AssessmentItemResult>
    		<AssessmentResponse>False</AssessmentResponse>
@@ -407,7 +407,7 @@
    		</AssessmentItemReference>
    </StudentAssessmentItem>
    
-   <StudentAssessmentItem id="SAI_3">
+   <StudentAssessmentItem>
    		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>True</AssessmentItemResult>
    		<AssessmentResponse>True</AssessmentResponse>

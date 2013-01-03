@@ -84,7 +84,6 @@ public class EventReporter implements Publisher {
     }
 
     public static void main(String[] args) throws ADKException {
-        Logger logger = LoggerFactory.getLogger(EventReporter.class);
 
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
@@ -112,7 +111,7 @@ public class EventReporter implements Publisher {
                 reporter.runReportScript(script, waitTime);
             }
         } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
-            logger.error("Exception trying to report event", e);
+        	EventReporter.LOG.error("Exception trying to report event", e);
         }
 
         System.exit(0);
@@ -134,7 +133,7 @@ public class EventReporter implements Publisher {
                 httpsProperties, "TestZone", zoneUrl, SIFVersion.SIF23);
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
+    public static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
 
     private Zone zone;
 

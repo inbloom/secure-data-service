@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates a limited set of school years. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="SchoolYearType">
 #   <xs:annotation>

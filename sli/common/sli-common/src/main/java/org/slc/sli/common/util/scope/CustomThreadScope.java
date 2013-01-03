@@ -30,9 +30,9 @@ import org.springframework.core.NamedThreadLocal;
  * cleanup method that will clear all the TheadLocal data for the current thread.
  */
 public class CustomThreadScope implements Scope {
-    private static final Log logger = LogFactory.getLog(SimpleThreadScope.class);
+    private static final Log LOGGER = LogFactory.getLog(CustomThreadScope.class);
 
-    private static final ThreadLocal<Map<String, Object>> threadScope =
+    private static final ThreadLocal<Map<String, Object>> THREAD_SCOPE =
             new NamedThreadLocal<Map<String, Object>>("SimpleThreadScope") {
         @Override
         protected Map<String, Object> initialValue() {
@@ -40,8 +40,9 @@ public class CustomThreadScope implements Scope {
         }
     };
 
-    public Object get(String name, ObjectFactory objectFactory) {
-        Map<String, Object> scope = threadScope.get();
+    @Override
+	public Object get(String name, ObjectFactory objectFactory) {
+        Map<String, Object> scope = THREAD_SCOPE.get();
         Object object = scope.get(name);
         if (object == null) {
             object = objectFactory.getObject();
@@ -50,26 +51,30 @@ public class CustomThreadScope implements Scope {
         return object;
     }
 
-    public Object remove(String name) {
-        Map<String, Object> scope = threadScope.get();
+    @Override
+	public Object remove(String name) {
+        Map<String, Object> scope = THREAD_SCOPE.get();
         return scope.remove(name);
     }
 
-    public void registerDestructionCallback(String name, Runnable callback) {
-        logger.warn("CustomThreadScope does not support descruction callbacks. " +
+    @Override
+	public void registerDestructionCallback(String name, Runnable callback) {
+        LOGGER.warn("CustomThreadScope does not support descruction callbacks. " +
                 "Consider using a RequestScope in a Web environment.");
     }
 
-    public Object resolveContextualObject(String key) {
+    @Override
+	public Object resolveContextualObject(String key) {
         return null;
     }
 
-    public String getConversationId() {
+    @Override
+	public String getConversationId() {
         return Thread.currentThread().getName();
     }
-    
+
     public static void cleanup() {
-        threadScope.remove();
+        THREAD_SCOPE.remove();
     }
 
 }

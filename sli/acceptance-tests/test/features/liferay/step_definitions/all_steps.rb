@@ -27,6 +27,12 @@ When /^I navigate to the Portal home page$/ do
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
 end
 
+When /^I navigate to the mini sandbox Portal home page$/ do
+  puts PropLoader.getProps['minisb_portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  @driver.get PropLoader.getProps['minisb_portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
+end
+
 Then /^I should see Admin link$/ do
   @driver.find_element(:link_text, "Admin")
 end
@@ -52,6 +58,7 @@ end
 
 # TODO, look for something now in eula, if found proceed
 Then /^I should be on Portal home page$/ do
+  sleep 2
   home = @driver.find_elements(:class, "sli_home_title")
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
   if (@driver.page_source.include?("d_popup"))

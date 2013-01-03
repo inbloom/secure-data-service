@@ -8,7 +8,7 @@ Scenario: Generate a small 10 student data set using Odin generate tool
       And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
       And I copy generated data to the new OdinSampleDataSet directory
       
-    Then I should see 11 xml interchange files
+    Then I should see 12 xml interchange files
       And I should see InterchangeAssessmentMetadata.xml has been generated
       And I should see InterchangeAttendance.xml has been generated
       And I should see InterchangeEducationOrganization.xml has been generated
@@ -17,8 +17,9 @@ Scenario: Generate a small 10 student data set using Odin generate tool
       And I should see InterchangeStaffAssociation.xml has been generated
       And I should see InterchangeStudentEnrollment.xml has been generated
       And I should see InterchangeStudentAssessment.xml has been generated
+      And I should see InterchangeStudentCohort.xml has been generated
+      And I should see InterchangeStudentGrades.xml has been generated
       And I should see InterchangeStudentParent.xml has been generated
       And I should see InterchangeStudentProgram.xml has been generated
-      And I should see InterchangeStudentCohort.xml has been generated
       And I should see ControlFile.ctl has been generated
       And I should see OdinSampleDataSet.zip has been generated

@@ -25,7 +25,26 @@ public enum AttributeType {
     PURGE("purge"),
     PURGE_KEEP_EDORGS("purge-keep-edorgs"),  // Keep edorg apps accessible to tenant.
     DRYRUN("dry-run"),
-    NO_ID_REF("no-id-ref");
+
+    /* Various modes for the duplicate detect/discard optimization (a.k.a. the recordHash
+     * optimizaiton a.k.a. the delta-hash optimization):
+     *     <unset>    Normal mode, hash data and compare with recordHash
+     *
+     *     reset      Like normal, but first purge recordHash of possibly stale data.
+     *                This will have the performance characteristics of "Day 1"
+     *                for the current job, and "Day N" for the next job.
+     *
+     *     disable    Purge the recordHash and also do not hash the incoming data
+     *                nor insert it into recordHash, leaving recordHash empty.
+     *                This will have the performance charactersitics of "Day 1"
+     *                for the current job and the next job.
+     *
+     *     debugdrop  Treat all entities subject to recordHash based duplicate discarding as if
+     *                they are in fact duplicates.  This will mimic a Day-N fully redundant ingestion,
+     *                with the side effect that all recordHash processing is skipped.  This is in
+     *                turn useful for measuring the performance impact of recordHash processing.
+     */
+    DUPLICATE_DETECTION("duplicate-detection");
 
     private String name;
 

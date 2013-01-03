@@ -45,7 +45,7 @@ class AssessmentFactory
   def grade_wide_assessments(grade, year, family = nil)
     item_count = @item_counts['GRADE_WIDE_ASSESSMENTS']
     (1..@assessments_per_grade).map{|i|
-      Assessment.new("#{year}-#{GradeLevelType.get(grade)} Assessment #{i}", year, grade, item_count, family)
+      Assessment.new("#{year}-#{GradeLevelType.to_string(grade)} Assessment #{i}", year, grade, item_count, family)
     }
   end
 
@@ -64,7 +64,7 @@ class GradeWideAssessmentWorkOrder
   def build
     generated = []
     generated << @parent_family if @gen_parent
-    family = AssessmentFamily.new("#{@year} #{GradeLevelType.get @grade} Standard", @year, @parent_family)
+    family = AssessmentFamily.new("#{@year} #{GradeLevelType.to_string(@grade)} Standard", @year, @parent_family)
     generated << family
     assessments = @factory.grade_wide_assessments(@grade, @year, family)
     generated += assessments

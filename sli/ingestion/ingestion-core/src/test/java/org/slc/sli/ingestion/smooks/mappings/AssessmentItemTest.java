@@ -52,7 +52,7 @@ public class AssessmentItemTest {
     private Set<String> recordLevelDeltaEnabledEntityNames;
 
     private String validXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
-            + "<AssessmentItem id='test-id'>"
+            + "<AssessmentItem>"
             + "  <IdentificationCode>test-code</IdentificationCode>"
             + "  <ItemCategory>List Question</ItemCategory>"
             + "  <MaxRawScore>100</MaxRawScore>"
@@ -89,7 +89,6 @@ public class AssessmentItemTest {
         NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         Map<String, Object> m = nr.getAttributes();
-        Assert.assertEquals("test-id", nr.getLocalId());
         Assert.assertEquals("test-code", m.get("identificationCode"));
         Assert.assertEquals("List Question", m.get("itemCategory"));
         Assert.assertEquals(100, m.get("maxRawScore"));
@@ -112,18 +111,6 @@ public class AssessmentItemTest {
         Assert.assertTrue(lsIdSet.contains("id-code-1"));
         Assert.assertTrue(lsIdSet.contains("id-code-2"));
 
-        /*
-         * Map<String, Object> assessmentRef = (Map<String, Object>)
-         * nr.getAttributes().get("assessmentReference");
-         * Assert.assertNotNull(assessmentRef);
-         * Map<String, Object> assessmentIdentity = (Map<String, Object>)
-         * assessmentRef.get("AssessmentIdentity");
-         * Assert.assertNotNull(assessmentIdentity);
-         * Assert.assertEquals("c-aKzuT08", assessmentIdentity.get("AssessmentTitle"));
-         * Assert.assertEquals("English", assessmentIdentity.get("AcademicSubject"));
-         * Assert.assertEquals("Postsecondary", assessmentIdentity.get("GradeLevelAssessed"));
-         * Assert.assertEquals(1, assessmentIdentity.get("Version"));
-         */
         Assert.assertEquals("nomen", m.get("nomenclature"));
     }
 }

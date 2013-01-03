@@ -30,6 +30,5 @@ public class UnversionedResource extends DefaultResource {
     public UnversionedResource() {
         super.setOnePartTemplate(ResourceTemplate.UNVERSIONED_ONE_PART);
         super.setTwoPartTemplate(ResourceTemplate.UNVERSIONED_TWO_PART);
-        super.setVersion(null);
     }
 }

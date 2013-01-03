@@ -24,7 +24,7 @@
     <maven.jar.version>2.3.2</maven.jar.version>
     <maven.checkstyle.version>2.8</maven.checkstyle.version>
     <maven.findbugs.version>2.3.2</maven.findbugs.version>
-    <maven.surefire.version>2.10</maven.surefire.version>
+    <maven.surefire.version>2.12</maven.surefire.version>
     <maven.eclipse.version>2.8</maven.eclipse.version>
     <maven.jaxb2.version>1.3.1</maven.jaxb2.version>
     <maven.tomcat.version>1.1</maven.tomcat.version>
@@ -761,6 +761,7 @@
             <minimumTokens>100</minimumTokens>
             <targetJdk>${java.version}</targetJdk>
             <includeTests>false</includeTests>
+                        <failurePriority>3</failurePriority>
             <rulesets>
               <ruleset>${sli.home}/../build-tools/src/main/resources/PMD/SLI-PMD-Rules.xml</ruleset>
             </rulesets>
@@ -772,6 +773,14 @@
               <version>${wgen.build.tools}</version>
             </dependency>
           </dependencies>
+                    <executions>
+                      <execution>
+                        <phase>test</phase>
+                        <goals>
+                          <goal>check</goal>
+                        </goals>
+                      </execution>
+                    </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -1026,10 +1035,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven.surefire.version}</version>
         <configuration>
-          <configuration>
-            <parallel>methods</parallel>
-            <threadCount>80</threadCount>
-          </configuration>
+          <runOrder>alphabetical</runOrder>
+          <parallel>methods</parallel>
+          <threadCount>2</threadCount>
           <systemPropertyVariables>
             <emma.rt.control>false</emma.rt.control>
             <sli.conf>${sli.conf}</sli.conf>

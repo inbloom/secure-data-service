@@ -47,6 +47,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | reportCard                  |
         | studentAcademicRecord       |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "DashboardSadPath_IL_Daybreak.zip" is completed in database
   And a batch job log has been created
   And I should see "Processed 759 records." in the resulting batch job file
 
@@ -55,6 +56,7 @@ Scenario: Post a zip file containing bad data for Illinois Sunset as a payload o
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
   And I post "DashboardSadPath_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
+  And a batch job for file "DashboardSadPath_IL_Sunset.zip" is completed in database
   And a batch job log has been created
 
 @NY-NYC  
@@ -102,4 +104,5 @@ And the following collections are empty in datastore:
         |staffEducationOrganizationAssociation|
   And I post "DashboardSadPath_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
+  And a batch job for file "DashboardSadPath_NY.zip" is completed in database
   And a batch job log has been created

@@ -47,6 +47,7 @@ import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.SLIClientFactory;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
@@ -351,7 +352,6 @@ public class SDKAPIClient implements APIClient {
      * This adds 1 extra API call.
      *
      * @param token
-     * @param ids
      * @return a list of school entities that the user is associated with
      */
     @Override
@@ -990,7 +990,7 @@ public class SDKAPIClient implements APIClient {
      * params
      *
      * @param token
-     * @param ids
+     * @param schoolId
      * @param params
      * @return
      */
@@ -1006,7 +1006,6 @@ public class SDKAPIClient implements APIClient {
      * Get a list of all students
      *
      * @param token
-     * @param ids
      * @param params
      * @return
      */
@@ -1150,7 +1149,7 @@ public class SDKAPIClient implements APIClient {
      * Get a list of school enrollments for the given student id
      *
      * @param token
-     * @param student
+     * @param studentId
      * @return
      */
     @Override
@@ -1244,7 +1243,6 @@ public class SDKAPIClient implements APIClient {
      *
      * @param token
      * @param studentId
-     * @param params
      * @return
      */
     @Override
@@ -1276,7 +1274,6 @@ public class SDKAPIClient implements APIClient {
      *
      * @param token
      * @param url
-     * @param entityClass
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
@@ -1307,7 +1304,7 @@ public class SDKAPIClient implements APIClient {
      * Read a resource entity using the SDK
      *
      * @param token
-     * @param url
+        * @param url
      * @return
      */
     @Override
@@ -1521,7 +1518,6 @@ public class SDKAPIClient implements APIClient {
      * Delete a resource entity using the SDK
      *
      * @param token
-     * @param url
      * @param entity
      * @return
      */
@@ -1548,7 +1544,11 @@ public class SDKAPIClient implements APIClient {
     /**
      * Given a link in the API response, extract the entity's unique id
      *
+<<<<<<< HEAD
      * @param link
+=======
+     * @param path
+>>>>>>> master
      * @return
      */
     private String parseId(String path) {
@@ -1798,9 +1798,11 @@ public class SDKAPIClient implements APIClient {
                 sectionLookup.get(courseId).add(section);
             }
 
+            // get all the 'ancestor' ed org ids
+            List<String> edOrgIds = getEdorgHierarchy(schoolId, token);
+
             // get course Entity
-            List<GenericEntity> courses = readEntityList(token,
-                    url + SDKConstants.COURSES_ENTITY + "?" + this.buildQueryString(null));
+            List<GenericEntity> courses = getCoursesForEdorgs(edOrgIds, token);
 
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {
@@ -1826,6 +1828,57 @@ public class SDKAPIClient implements APIClient {
         Collections.sort(courses, new GenericEntityComparator(Constants.ATTR_COURSE_TITLE, String.class));
         return courses;
     }
+
+    /**
+     * Gets the list of edorg id's in the edorg hierarchy
+     *
+     * @param schoolId
+     * @param token
+     * @return
+     */
+    private List<String> getEdorgHierarchy(String schoolId, String token) {
+        List<String> ids = new ArrayList<String>();
+        final String rootUrl = "/" + PathConstants.EDUCATION_ORGANIZATIONS + "/";
+
+        String currentEdOrgId = schoolId;
+
+        // iteratively visit each parent edorg and cache their ids
+        while (currentEdOrgId != null) {
+            ids.add(currentEdOrgId);
+
+            String url = rootUrl + currentEdOrgId;
+            GenericEntity edorg = readEntity(token, url);
+            if (edorg == null) {
+                currentEdOrgId = null;
+            } else {
+                currentEdOrgId = (String) edorg.get(Constants.ATTR_PARENT_EDORG);
+            }
+        }
+
+        return ids;
+    }
+
+
+    private List<GenericEntity> getCoursesForEdorgs(List<String> edorgIds, String token) {
+
+        // Collect all courses in hashmap in order to filter out possible duplicates
+        Map<String,GenericEntity> allCourses = new HashMap<String,GenericEntity>();
+
+        for (String edOrgId : edorgIds) {
+
+            String url = "/" + PathConstants.EDUCATION_ORGANIZATIONS + "/" + edOrgId + "/" + PathConstants.COURSES ;
+            // get course Entity
+            List<GenericEntity> courses = readEntityList(token,
+                    url + "?" + this.buildQueryString(null));
+
+            for (GenericEntity course: courses){
+                String id = (String)course.get("id");
+                allCourses.put(id, course);
+            }
+        }
+        return new ArrayList<GenericEntity>(allCourses.values());
+   }
+
 
     /**
      * Get the associations between courses and sections

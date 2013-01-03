@@ -73,7 +73,7 @@ public class AssessmentFamilyTest {
         String targetSelector = "InterchangeAssessmentMetadata/AssessmentFamily";
 
         String edfiAssessmentFamilyXml = "<InterchangeAssessmentMetadata xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                + "<AssessmentFamily id=\"familyid\">"
+                + "<AssessmentFamily>"
                 + "<AssessmentFamilyTitle>familyTitle</AssessmentFamilyTitle>"
                 + "<AssessmentFamilyIdentificationCode IdentificationSystem=\"firstIdentificationSystem\" AssigningOrganizationCode=\"firstAssigningOrganizationCode\" >"
                 + "  <ID>firstId</ID>"
@@ -86,12 +86,12 @@ public class AssessmentFamilyTest {
                 + "<Version>2002</Version>"
                 + "<RevisionDate>2002-09-01</RevisionDate>"
                 + "<Nomenclature>the nomenclature</Nomenclature>"
-                + "<AssessmentPeriods id=\"theid\">"
+                + "<AssessmentPeriods>"
                 + "  <CodeValue>code value</CodeValue>"
                 + "  <ShortDescription>short desc</ShortDescription>"
                 + "  <Description>descript</Description>"
                 + "</AssessmentPeriods>"
-                + "<AssessmentPeriods id=\"theid2\">"
+                + "<AssessmentPeriods>"
                 + "  <CodeValue>code value2</CodeValue>"
                 + "  <ShortDescription>short desc2</ShortDescription>"
                 + "  <Description>descript2</Description>"
@@ -99,7 +99,7 @@ public class AssessmentFamilyTest {
                 + "<AssessmentFamilyIdentificationCode IdentificationSystem=\"secondIdentificationSystem\" AssigningOrganizationCode=\"secondAssigningOrganizationCode\" >"
                 + "  <ID>secondId</ID>"
                 + "</AssessmentFamilyIdentificationCode>"
-                + "<AssessmentFamilyReference id=\"tk31\">"
+                + "<AssessmentFamilyReference>"
                 + "  <AssessmentFamilyIdentity>"
                 + "    <AssessmentFamilyIdentificationCode IdentificationSystem=\"firstRefIdentificationSystem\" AssigningOrganizationCode=\"firstRefAssigningOrganizationCode\" >"
                 + "      <ID>firstRefId</ID>"
@@ -127,7 +127,7 @@ public class AssessmentFamilyTest {
         String smooksConfig = "smooks_conf/smooks-assessmentFamily-csv.xml";
         String targetSelector = "csv-record";
 
-        String assessmentFamilyCsv = "familyid,familyTitle,firstIdentificationSystem,firstAssigningOrganizationCode,firstId,State summative assessment 3-8 general,"
+        String assessmentFamilyCsv = "firstIdentificationSystem,firstAssigningOrganizationCode,firstId,State summative assessment 3-8 general,"
                 + "Reading,Third grade,Fourth grade,State Standard,2002,2002-09-01,the nomenclature,theid,theref,code value,short desc,descript,"
                 + "tk31,TAKSReading3-1,firstRefIdentificationSystem,firstRefAssigningOrganizationCode,firstRefId,refFamilyTitle,1";
 
@@ -141,10 +141,6 @@ public class AssessmentFamilyTest {
     private void checkValidAssessmentFamilyNeutralRecord(NeutralRecord neutralRecord) {
 
         assertEquals("record type was not AssessmentFamily", "assessmentFamily", neutralRecord.getRecordType());
-
-        assertEquals("record localId does not match", "familyTitle", neutralRecord.getLocalId());
-
-        assertEquals("id does not match", "familyid", neutralRecord.getAttributes().get("id"));
 
         assertEquals("AssessmentFamilyTitle does not match", "familyTitle",
                 neutralRecord.getAttributes().get("AssessmentFamilyTitle"));
@@ -190,7 +186,6 @@ public class AssessmentFamilyTest {
         assertNotNull("AssessmentPeriods list is null", assessmentPeriodsList);
         assertFalse("empty AssessmentPeriods list", assessmentPeriodsList.isEmpty());
         Map firstAssesmentPeriod = (Map) assessmentPeriodsList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(firstAssesmentPeriod, "id", "theid");
         List firstCodeValueChoiceList = (List) firstAssesmentPeriod.get("CodeValues");
         if (!firstCodeValueChoiceList.isEmpty()) {
             assertEquals("code value", firstCodeValueChoiceList.get(0));
@@ -206,7 +201,6 @@ public class AssessmentFamilyTest {
 
         if (assessmentPeriodsList.size() > 1) {
             Map secondAssesmentPeriod = (Map) assessmentPeriodsList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(secondAssesmentPeriod, "id", "theid2");
             List secondCodeValueChoiceList = (List) secondAssesmentPeriod.get("CodeValues");
             if (!secondCodeValueChoiceList.isEmpty()) {
                 assertEquals("code value2", secondCodeValueChoiceList.get(0));

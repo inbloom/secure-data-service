@@ -50,7 +50,7 @@ public class Encryptor {
         
         File keyfile = new File(getKeyLocation());
 
-        System.out.println("\nUsing keystore: " + getKeyLocation());
+//        System.out.println("\nUsing keystore: " + getKeyLocation());
         
         if (keyfile.exists()) {
         	// load keystore
@@ -119,15 +119,15 @@ public class Encryptor {
         return keyStorePass;
     }
 
-    public void setKeyStorePass(String keyStorePass) {
+    final public void setKeyStorePass(String keyStorePass) {
         this.keyStorePass = keyStorePass;
     }
 
-    public String getKeyLocation() {
+    final public String getKeyLocation() {
         return keyLocation;
     }
 
-    public void setKeyLocation(String keyLocation) {
+    final public void setKeyLocation(String keyLocation) {
         this.keyLocation = keyLocation;
     }
 

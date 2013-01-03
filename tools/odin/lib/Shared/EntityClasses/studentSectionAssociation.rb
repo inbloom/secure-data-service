@@ -20,13 +20,12 @@ require_relative 'baseEntity.rb'
 
 class StudentSectionAssociation < BaseEntity
 
-  attr_accessor :studentId, :sectionId, :edOrgId, :year
+  attr_accessor :student, :section, :ed_org_id, :begin_date
 
-  def initialize(studentId, sectionId, edOrgId, year, grade)
-    @studentId = studentId
-    @sectionId = sectionId
-    @edOrgId = DataUtility.get_school_id(edOrgId, GradeLevelType.school_type(grade))
-    @year = year
+  def initialize(student, section, ed_org_id, begin_date, grade)
+    @student    = student
+    @section    = section
+    @ed_org_id  = DataUtility.get_school_id(ed_org_id, GradeLevelType.school_type(grade))
+    @begin_date = begin_date
   end
-
 end

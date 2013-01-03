@@ -16,24 +16,32 @@ limitations under the License.
 
 =end
 
+require 'logger'
+
 require_relative '../Shared/data_utility'
 require_relative '../Shared/EntityClasses/studentAssessment'
+require_relative '../Shared/EntityClasses/enum/GradeType'
 require_relative 'assessment_work_order'
 require_relative 'attendance_factory'
+require_relative 'gradebook_entry_factory'
 require_relative 'graduation_plan_factory'
 require_relative 'world_builder'
 
 # student work order factory creates student work orders
 class StudentWorkOrderFactory
   def initialize(world, scenario, section_factory)
+    $stdout.sync = true
+    @log         = Logger.new($stdout)
+
     @world = world
+    sea = world['seas'][0] unless world['seas'].nil?
     @scenario = Scenario.new scenario
-    @section_factory = section_factory
     @next_id = 0
     @assessment_factory = AssessmentFactory.new(@scenario)
     @attendance_factory = AttendanceFactory.new(@scenario)
-    sea = world['seas'][0] unless world['seas'].nil?
+    @gradebook_entry_factory = GradebookEntryFactory.new(@scenario)
     @graduation_plans = GraduationPlanFactory.new(sea['id'], @scenario).build unless sea.nil?
+    @section_factory = section_factory
   end
 
   def generate_work_orders(edOrg, yielder)
@@ -43,20 +51,60 @@ class StudentWorkOrderFactory
       initial_year = years.first
       initial_grade_breakdown = students[initial_year]
       initial_grade_breakdown.each{|grade, num_students|
-        (1..num_students).each{|_|
+        (1..num_students).each{ |_|
           student_id = @next_id += 1
-          yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, initial_grade: grade, 
-                                             initial_year: initial_year, edOrg: edOrg,
-                                             programs: find_programs_above_school(edOrg),
-                                             section_factory: @section_factory,
+          plan       = generate_plan(edOrg, grade)
+          yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, 
+                                             initial_grade: grade, 
+                                             initial_year: initial_year,
+                                             plan: plan,
                                              assessment_factory: @assessment_factory,
                                              attendance_factory: @attendance_factory,
-                                             graduation_plans: @graduation_plans)
+                                             gradebook_factory: @gradebook_entry_factory,
+                                             graduation_plans: @graduation_plans,
+                                             section_factory: @section_factory)
         }
       }
     end
   end
 
+  # generate plan for student with specified id
+  # -> plan starts at education organization (edOrg) in the specified grade
+  # -> begin year is looked up using @scenario instance variable
+  # -> the returned 'plan' is a map of { year --> education organization }, 
+  #    and represents the plan for the student over the course of the simulation
+  def generate_plan(edOrg, grade)
+    begin_year = @scenario['BEGIN_YEAR']
+    num_years  = @scenario['NUMBER_OF_YEARS']
+    plan       = {}
+    education_organization = edOrg
+    current_grade          = grade
+    (begin_year..(begin_year + num_years - 1)).step(1) do |year|
+      curr_type     = GradeLevelType.school_type(current_grade)
+      next_school   = education_organization['feeds_to'].first unless education_organization['feeds_to'].nil?
+      plan[year]    = {:type => curr_type, :grade => current_grade, :school => education_organization, :programs => find_programs_above_school(education_organization)}
+      current_grade = GradeLevelType.increment(current_grade)
+
+      # grade will only be nil if trying to increment beyond 12th grade --> graduated!
+      break if current_grade.nil?
+      next_type = GradeLevelType.school_type(current_grade).to_s
+
+      # high schools won't have a next school --> need to check first
+      # students moving between school boundaries (graduating) will match 2nd conditional
+      unless next_school.nil? or GradeLevelType.school_type(current_grade) == curr_type
+        education_organization = @world[next_type].detect {|school| school['id'] == next_school} if @world[next_type].nil? == false
+      end
+      
+      # education organization will only be nil if the next school could not be found
+      # -> education organization cannot be nil at the start of this loop
+      break if education_organization.nil?
+    end
+    plan
+  end
+
+  # finds the programs published by education organizations in the specified school's lineage
+  # -> programs offered by local education agencies
+  # -> programs offered by state education agencies
   def find_programs_above_school(school)
     programs = []
     parent_id = school["parent"]
@@ -82,20 +130,21 @@ class StudentWorkOrder
   attr_accessor :id, :edOrg, :birth_day_after, :initial_grade, :initial_year
 
   def initialize(id, opts = {})
+    $stdout.sync = true
+    @log         = Logger.new($stdout)
+
     @id = id
-    @edOrg = opts[:edOrg]
     @rand = Random.new(@id)
     @initial_grade = (opts[:initial_grade] or :KINDERGARTEN)
     @initial_year = (opts[:initial_year] or 2011)
-    @birth_day_after = Date.new(@initial_year - find_age(@initial_grade),9,1)
-    @section_factory = opts[:section_factory]
+    @birth_day_after = Date.new(@initial_year - find_age(@initial_grade), 9, 1)
     @scenario = (opts[:scenario] or Scenario.new({}))
     @assessment_factory = opts[:assessment_factory]
     @attendance_factory = opts[:attendance_factory]
+    @gradebook_factory = opts[:gradebook_factory]
     @graduation_plans = opts[:graduation_plans]
-    @other_programs = opts[:programs]
-    @enrollment = []
-    @assessment = []
+    @section_factory = opts[:section_factory]
+    @plan = opts[:plan]
   end
 
   def build
@@ -116,25 +165,28 @@ class StudentWorkOrder
 
   def per_year_info
     generated = []
-    schools = [@edOrg['id']] + (@edOrg['feeds_to'] or [])
-    curr_type = GradeLevelType.school_type(@initial_grade)
-    @edOrg['sessions'].each{ |session|
-      year = (session['year'] or @initial_year + 1)
-      grade = GradeLevelType.increment(@initial_grade, year - @initial_year)
-      unless grade.nil?
-        if GradeLevelType.school_type(grade) != curr_type
-          curr_type = GradeLevelType.school_type(grade)
-          schools = schools.drop(1)
-        end
-        school = schools[0]
-        generated += generate_enrollment(school, curr_type, year, grade, session)
+    @plan.keys.sort.each do |year|
+      curr_type = @plan[year][:type]
+      grade     = @plan[year][:grade]
+      school    = @plan[year][:school]
+      programs  = @plan[year][:programs]
+      session   = find_session_in_year(@plan[year][:school]['sessions'], year)
+      school_id = DataUtility.get_school_id(school['id'], curr_type)
+
+      unless session.nil?
+        generated += generate_enrollment_and_gradebook_entries(school_id, curr_type, year, grade, session)
         generated += generate_grade_wide_assessment_info(grade, session)
-        generated += generate_program_associations(session, curr_type, schools[0])
-        generated += generate_cohorts(school, curr_type, session)
-        generated += generate_attendances(session, curr_type, school)
+        generated += generate_program_associations(session, curr_type, school, programs)
+        generated += generate_cohorts(school_id, curr_type, session)
+        generated += generate_attendances(session, curr_type, school_id)
       end
-    }
+    end
     generated
+  end
+
+  def find_session_in_year(sessions, year)
+    return sessions.detect { |session| session['year'] == year } unless sessions.nil?
+    return nil
   end
 
   # generates attendance events for the student in the specified session
@@ -144,52 +196,130 @@ class StudentWorkOrder
   end
 
   # generates student -> program associations for the specified 'session' at the current school of specified 'type'
-  # -> student will be involved in 0, 1, or 2 programs at their current school (currently, this is true only if student is at original school)
+  # -> student will be involved in 0, 1, or 2 programs at their current school
   # -> student will be involved in 1, 2, or 3 programs at education organizations above their school (local or state education agency level)
-  def generate_program_associations(session, type, current_school)
+  def generate_program_associations(session, type, school, programs)
     associations = []
-    interval   = session["interval"]
+    interval   = session['interval']
     begin_date = interval.get_begin_date unless interval.nil?
     end_date   = interval.get_end_date unless interval.nil?
 
-    # if student is currently enrolled at original school
-    # -> eventually add implementation to query world for new school's programs        
-    if current_school == @edOrg['id']
+    unless school['programs'].nil?
       num_school_programs = DataUtility.select_random_from_options(@rand, (0..2).to_a)
-      programs = DataUtility.select_num_from_options(@rand, num_school_programs, @edOrg['programs'])
-      programs.each do |program|
-        program_id = DataUtility.get_program_id(program[:id])
-        ed_org_id  = DataUtility.get_school_id(@edOrg['id'], type)
+      school_programs = DataUtility.select_num_from_options(@rand, num_school_programs, school['programs'])
+      school_programs.each do |school_program|
+        program_id = DataUtility.get_program_id(school_program[:id])
+        ed_org_id  = DataUtility.get_school_id(school['id'], type)
         associations << StudentProgramAssociation.new(@id, program_id, ed_org_id, begin_date, end_date)
       end
     end
     
     num_other_programs = DataUtility.select_random_from_options(@rand, (1..3).to_a)
-    other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, @other_programs)
-    other_programs.each do |program|
-      program_id = DataUtility.get_program_id(program[:id])
-      ed_org_id  = DataUtility.get_state_education_agency_id(program[:ed_org_id]) if program[:sponsor] == :STATE_EDUCATION_AGENCY
-      ed_org_id  = DataUtility.get_local_education_agency_id(program[:ed_org_id]) if program[:sponsor] == :LOCAL_EDUCATION_AGENCY
+    other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, programs)
+    other_programs.each do |other_program|
+      program_id = DataUtility.get_program_id(other_program[:id])
+      ed_org_id  = DataUtility.get_state_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :STATE_EDUCATION_AGENCY
+      ed_org_id  = DataUtility.get_local_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :LOCAL_EDUCATION_AGENCY
       associations << StudentProgramAssociation.new(@id, program_id, ed_org_id, begin_date, end_date)
     end
     associations
   end
 
-  def generate_enrollment(school_id, type, start_year, start_grade, session)
+  # creates student enrollment and gradebook entries:
+  # - StudentSchoolAssociation
+  # - StudentSectionAssociation
+  # - StudentGradebookEntry (as part of enrollment in section)
+  def generate_enrollment_and_gradebook_entries(school_id, type, year, grade, session)
     rval = []
-    rval << StudentSchoolAssociation.new(@id, school_id, start_year, start_grade, graduation_plan(type))
-    unless @section_factory.nil?
-      sections = @section_factory.sections(school_id, type.to_s, start_year, start_grade)
-      unless sections.nil?
-        #generate a section for each available course offering
-        sections.each{|course_offering, available_sections|
-          section = available_sections.to_a[id % available_sections.count]
-          rval << StudentSectionAssociation.new(@id, DataUtility.get_unique_section_id(section),
-                                                school_id, start_year, start_grade)
-        }
+    unless session.nil?
+      begin_date = session['interval'].get_begin_date
+      end_date   = session['interval'].get_end_date
+      holidays   = session['interval'].get_holidays
+
+      rval << StudentSchoolAssociation.new(@id, school_id, begin_date, grade, graduation_plan(type), end_date)
+
+      unless @section_factory.nil?
+        sections = @section_factory.sections(school_id, type.to_s, year, grade)
+        unless sections.nil?
+          sections.each{|course_offering, available_sections|
+            section    = available_sections[id % available_sections.count]
+            section_id = DataUtility.get_unique_section_id(section[:id])
+            rval       << StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
+
+            unless @gradebook_factory.nil? or section[:gbe].nil?
+              grades = {}
+              section[:gbe].each do |type, gbe_num|
+                grades[type] = []
+                gbe_orders   = @gradebook_factory.generate_entries_of_type(session, section, type, gbe_num)
+                @log.warn "section: #{section} calls for #{gbe_num} gbes (type:#{type}) --> actually created #{gbe_orders.size} gbe orders" if gbe_orders.size != gbe_num
+                gbe_orders.each do |gbe_order|
+                  sgbe         = get_student_gradebook_entry(gbe_order, school_id, section_id, session)
+                  grades[type] << sgbe.numeric_grade_earned
+                  rval         << sgbe
+                end
+              end
+              # compute final grade using breakdown --> need to look up breakdown from @scenario
+              rval << get_student_final_grade(grade, grades, school_id, section_id, session)
+            end
+          }
+        end
       end
     end
     rval
+  end
+
+  # creates a student gradebook entry, based on the input gradebook entry work order
+  # -> needs school, section, and session to fill out appropriate information
+  def get_student_gradebook_entry(gbe_order, school_id, section_id, session)
+    assigned        = gbe_order[:date_assigned]
+    fulfilled       = assigned + 1
+    association     = get_student_section_association(school_id, section_id, session['interval'].get_begin_date)
+    gradebook_entry = {:type => gbe_order[:gbe_type], :date_assigned => assigned, :ed_org_id => school_id, :unique_section_code => section_id}
+    letter, number  = get_grade_for_gradebook_entry
+    return StudentGradebookEntry.new(fulfilled, letter, number, association, gradebook_entry)
+  end
+
+  def get_student_final_grade(grade, grades, school_id, section_id, session)
+    numeric         = 0
+    grade_breakdown = @scenario['GRADEBOOK_ENTRIES_BY_GRADE'][GradeLevelType.to_string(grade)]
+    unless grade_breakdown.nil?
+      grades.each do |type, scores|
+        weight  = grade_breakdown[type]['weight'] / 100.0 unless grade_breakdown[type]['weight'].nil?
+        weight  = 1.0 / grade_breakdown.size if weight.nil?
+        average = scores.inject(:+) / scores.size
+        numeric += (weight * average).floor
+      end
+    end
+    return Grade.new(get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
+  end
+
+  # translates the attributes for the student section association into a map (with values that mustache templates will recognize/expect)
+  def get_student_section_association(school_id, section_id, begin_date)
+    {:student => @id, :ed_org_id => school_id, :unique_section_code => section_id, :begin_date => begin_date}
+  end
+
+  # generates a grade (letter and numeric) for a student gradebook entry
+  def get_grade_for_gradebook_entry
+    number = DataUtility.select_random_from_options(@rand, (55..100).to_a)
+    letter = get_letter_grade_from_number(number)
+    return letter, number
+  end
+
+  # translates the numeric grade into a letter grade
+  def get_letter_grade_from_number(number)
+    return "A+" if number >= 97
+    return "A"  if number >= 93
+    return "A-" if number >= 90
+    return "B+" if number >= 87
+    return "B"  if number >= 83
+    return "B-" if number >= 80
+    return "C+" if number >= 77
+    return "C"  if number >= 73
+    return "C-" if number >= 70
+    return "D+" if number >= 67
+    return "D"  if number >= 63
+    return "D-" if number >= 60
+    return "F"
   end
 
   def graduation_plan(school_type)

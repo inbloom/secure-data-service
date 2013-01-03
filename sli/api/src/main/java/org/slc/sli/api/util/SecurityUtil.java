@@ -177,6 +177,14 @@ public class SecurityUtil {
         }
         return null;
     }
+    
+    public static String getVendor() {
+    	SLIPrincipal principal = getSLIPrincipal();
+    	if (principal != null) {
+    		return principal.getVendor();
+    	}
+    	return null;
+    }
 
     public static SLIPrincipal getSLIPrincipal() {
         SLIPrincipal principal = null;
@@ -204,31 +212,6 @@ public class SecurityUtil {
         if (auth instanceof OAuth2Authentication
                 && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
             throw new InsufficientAuthenticationException("Login Required");
-        }
-    }
-
-    /**
-     * Hosted users are those who are hosted in the SLI's IDP.
-     * e.g. Developers, operators LEA/SEA admins
-     *
-     * @return true if the user is hosted, false otherwise
-     */
-    public static boolean isHostedUser(final Repository<Entity> repo, SLIPrincipal principal) {
-        final String realmId = principal.getRealm();
-
-        Entity entity = runWithAllTenants(new SecurityTask<Entity>() {
-
-            @Override
-            public Entity execute() {
-                return repo.findById("realm", realmId);
-            }
-        });
-
-        if (entity != null) {
-            Boolean admin = (Boolean) entity.getBody().get("admin");
-            return admin != null ? admin : false;
-        } else {
-            throw new IllegalArgumentException("Could not find realm " + realmId);
         }
     }
 
@@ -261,6 +244,10 @@ public class SecurityUtil {
 
         public String getUid() {
             return SecurityUtil.getUid();
+        }
+        
+        public String getVendor() {
+        	return SecurityUtil.getVendor();
         }
     }
 }

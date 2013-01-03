@@ -3,7 +3,7 @@ Feature: Ingestion Delta Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
- And I am using preconfigured Ingestion Landing Zone
+ And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 
 Scenario: Job report should report deltas when SDS is ingested twice
     Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
@@ -51,6 +51,7 @@ Scenario: Job report should report deltas when SDS is ingested twice
         | teacherSectionAssociation             |
 
     And zip file is scp to ingestion landing zone
+    And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
     And a batch job log has been created
     And zip file is scp to ingestion landing zone with name "Reingest-StoriedDataSet_IL_Daybreak.zip"
     And a batch job for file "Reingest-StoriedDataSet_IL_Daybreak.zip" is completed in database
@@ -163,7 +164,6 @@ And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
 And I post "Hyrule.zip" file as the payload of the ingestion job
 And zip file is scp to ingestion landing zone with name "Reingest-Hyrule.zip"
 And a batch job for file "Reingest-Hyrule.zip" is completed in database
-
 And I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 112                   | t                         | Midgar                  | string               |

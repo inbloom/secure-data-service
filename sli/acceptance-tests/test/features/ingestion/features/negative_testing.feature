@@ -318,6 +318,7 @@ Given I post "Error_Report1.zip" file as the payload of the ingestion job
      | courseOffering               |
      | competencyLevelDescriptor    |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "Error_Report1.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
@@ -345,9 +346,12 @@ Given I post "Error_Report2.zip" file as the payload of the ingestion job
      | courseOffering               |
      | competencyLevelDescriptor    |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "Error_Report2.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
      | attendance                   |   0     |
   And I should see "Processed 5 records." in the resulting batch job file
   And I should see "attendance events are not processed, because they are not within any school year" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance located between Line 4, Column 21 and Line 14, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance located between Line 16, Column 21 and Line 26, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"

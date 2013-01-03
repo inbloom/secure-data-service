@@ -37,11 +37,11 @@ import org.slf4j.LoggerFactory;
  * Zip File utility class.
  *
  */
-public class ZipFileUtil {
+public final class ZipFileUtil {
 
     private ZipFileUtil() {}
 
-    static Logger log = LoggerFactory.getLogger(ZipFileUtil.class);
+    static final Logger LOG = LoggerFactory.getLogger(ZipFileUtil.class);
 
     static final int BUFFER = 2048;
 
@@ -136,7 +136,7 @@ public class ZipFileUtil {
     public static File findCtlFile(File dir) {
 
         if (!dir.isDirectory()) {
-            log.info("Non-existent control file directory: " + dir.getAbsolutePath());
+            LOG.info("Non-existent control file directory: " + dir.getAbsolutePath());
             return null;
         }
         FilenameFilter filter = new FilenameFilter() {
@@ -152,9 +152,9 @@ public class ZipFileUtil {
         File[] fileList = dir.listFiles(filter);
         if (fileList.length > 0) {
             ctlFile = fileList[0];
-            log.info("Found control file: " + ctlFile.getName());
+            LOG.info("Found control file: " + ctlFile.getName());
         } else {
-            log.info("No control file found in " + dir.getAbsolutePath());
+            LOG.info("No control file found in " + dir.getAbsolutePath());
         }
 
         return ctlFile;

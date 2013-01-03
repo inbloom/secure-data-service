@@ -25,6 +25,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A RecordHash is calculated per entity, based on its fields in "neutral record" form,
  * early in the ingestion process -- prior to transformation -- to allow skipping of
@@ -51,6 +54,11 @@ public class RecordHash {
     private String tenantId; // Tenant ID, for purge purposes, will be un-needed when record hash
                              // store is moved to tenant Db
 
+    // Mode values for config property "duplicate-detection".  See AttributeType.java
+    public static final String RECORD_HASH_MODE_RESET			= "reset";
+    public static final String RECORD_HASH_MODE_DISABLE			= "disable";
+    public static final String RECORD_HASH_MODE_DEBUG_DROP		= "debugdrop";
+    
     public RecordHash() {
         this.id = "";
         this.hash = "";
@@ -166,11 +174,41 @@ public class RecordHash {
             LOG.warn("Cannot convert hex hash or ID to binary: '" + hexId + "'");
             LOG.warn(e.getMessage());
         }
-        return null;
+        byte[] null_result = null;
+        return null_result;
     }
 
-    /*
-     * Getters and setters
+    /**
+     * Converts RecordHash object to a Map which can then be serialized to MongoDB.
+     * @return A map containing the data members of the RecordHash that can then be serialized to MongoDB
+     */
+    public Map<String, Object> exportToSerializableMap() {
+        Map<String, Object> m = new HashMap<String, Object>();
+        m.put("id",         id);
+        m.put("hash",       hash);
+        m.put("created",    created);
+        m.put("updated",    updated);
+        m.put("version",    version);
+        m.put("tenantId",   tenantId);
+        return m;
+    }
+
+    /**
+     * Populates the data members of the RecordHash object using values from a Map.
+     * Facilitates serialization/deserialization from MongoDB
+     * @param m A map that will be used to populate the data members of the RecordHash
+     */
+    public void importFromSerializableMap(Map<String, Object> m) {
+        this.id                  = (String)m.get("id");
+        this.hash                = (String)m.get("hash");
+        this.created             = (Long)m.get("created");
+        this.updated             = (Long)m.get("updated");
+        this.version             = (Integer)m.get("version");
+        this.tenantId            = (String)m.get("tenantId");
+    }
+
+    /* Getters and setters
+     *
      */
     public String getId() {
         return id;

@@ -32,14 +32,18 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.handler.XmlFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.util.LogUtil;
 
 /**
@@ -55,12 +59,14 @@ public class SmooksCallable implements Callable<Boolean> {
     private SliSmooksFactory sliSmooksFactory;
 
     private final NewBatchJob newBatchJob;
+    private final XmlFileHandler handler;
     private final IngestionFileEntry fe;
     private final Stage stage;
 
-    public SmooksCallable(NewBatchJob newBatchJob, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO,
+    public SmooksCallable(NewBatchJob newBatchJob, XmlFileHandler handler, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO,
             SliSmooksFactory sliSmooksFactory) {
         this.newBatchJob = newBatchJob;
+        this.handler = handler;
         this.fe = fe;
         this.stage = stage;
         this.sliSmooksFactory = sliSmooksFactory;
@@ -74,6 +80,7 @@ public class SmooksCallable implements Callable<Boolean> {
     public boolean runSmooksFuture() {
         TenantContext.setJobId(newBatchJob.getId());
         TenantContext.setTenantId(newBatchJob.getTenantId());
+        TenantContext.setBatchProperties(newBatchJob.getBatchProperties());
 
         LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
@@ -90,6 +97,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
         TenantContext.setJobId(null);
         TenantContext.setTenantId(null);
+        TenantContext.setBatchProperties(null);
         return (fe.getReportStats().hasErrors());
     }
 
@@ -112,16 +120,22 @@ public class SmooksCallable implements Callable<Boolean> {
     private void doHandling(FileProcessStatus fileProcessStatus) {
         try {
 
-            generateNeutralRecord(fileProcessStatus);
+            handler.handle(fe, fe.getMessageReport(), fe.getReportStats());
+
+            if (!fe.getReportStats().hasErrors()) {
+                generateNeutralRecord(fileProcessStatus);
+            }
 
         } catch (IOException e) {
             LogUtil.error(LOG,
                     "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
                     e);
-            fe.getMessageReport().error(fe.getReportStats(), CoreMessageCode.CORE_0016);
+            Source source = new JobSource(fe.getBatchJobId(), fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName());
+            fe.getMessageReport().error(fe.getReportStats(), source, CoreMessageCode.CORE_0016);
         } catch (SAXException e) {
             LogUtil.error(LOG, "Could not instantiate smooks, problem parsing configuration file", e);
-            fe.getMessageReport().error(fe.getReportStats(), CoreMessageCode.CORE_0017);
+            Source source = new JobSource(fe.getBatchJobId(), fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName());
+            fe.getMessageReport().error(fe.getReportStats(), source, CoreMessageCode.CORE_0017);
         }
     }
 
@@ -139,7 +153,8 @@ public class SmooksCallable implements Callable<Boolean> {
 
         } catch (SmooksException se) {
             LogUtil.error(LOG, "smooks exception - encountered problem with " + fe.getFile().getName(), se);
-            fe.getMessageReport().error(fe.getReportStats(), CoreMessageCode.CORE_0020, fe.getFile().getName());
+            Source source = new JobSource(fe.getBatchJobId(), fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName());
+            fe.getMessageReport().error(fe.getReportStats(), source, CoreMessageCode.CORE_0020, fe.getFile().getName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }

@@ -38,14 +38,19 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.xml.sax.Locator;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
-import org.slc.sli.ingestion.reporting.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
@@ -89,7 +94,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     private AbstractMessageReport errorReport;
-    private AbstractReportStats reportStats;
+    private ReportStats reportStats;
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -103,7 +108,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     }
 
     private SmooksEdFiVisitor(String beanId, String batchJobId, AbstractMessageReport report,
-            AbstractReportStats reportStats, IngestionFileEntry fe) {
+            ReportStats reportStats, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
         this.errorReport = report;
@@ -115,7 +120,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, AbstractMessageReport report,
-            AbstractReportStats reportStats, IngestionFileEntry fe) {
+            ReportStats reportStats, IngestionFileEntry fe) {
         return new SmooksEdFiVisitor(beanId, batchJobId, report, reportStats, fe);
     }
 
@@ -138,10 +143,16 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
 
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver,
-                        errorReport, reportStats)) {
-                    queueNeutralRecordForWriting(neutralRecord);
+                // Handle record hash checking according to various modes.
+                String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+                boolean modeDisable = (null != rhMode) && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE);
+                boolean modeDebugDrop = (null != rhMode)
+                        && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
 
+                if (modeDisable
+                        || (!modeDebugDrop && !SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO,
+                                dIdStrategy, dIdResolver, errorReport, reportStats))) {
+                    queueNeutralRecordForWriting(neutralRecord);
                 } else {
                     String type = neutralRecord.getRecordType();
                     Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : Long.valueOf(0);
@@ -156,7 +167,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
 
             // Indicate Smooks Validation Failure
             if (errorReport != null) {
-                errorReport.error(reportStats, CoreMessageCode.CORE_0019, element.getName().toString());
+                // TODO: kludge refactor needed
+                NeutralRecordSource nrSource = new NeutralRecordSource(batchJobId, fe.getFileName(),
+                        BatchJobStageType.EDFI_PROCESSOR.getName(), element.getName().getLocalPart(),
+                        visitBeforeLineNumber, visitBeforeColumnNumber, visitAfterLineNumber, visitAfterColumnNumber);
+                errorReport.error(reportStats, nrSource, CoreMessageCode.CORE_0019, element.getName().toString());
             }
         }
     }

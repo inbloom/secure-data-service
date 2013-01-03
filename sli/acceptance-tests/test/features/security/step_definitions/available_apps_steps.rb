@@ -18,7 +18,7 @@ limitations under the License.
 
 Transform /endpoints for the role "([^\"]*)"/ do |arg1|
   array = ["Manage Developer Accounts", "Change Password"] if arg1 == "Sandbox Operator"
-  array = ["Approve Application Registration", "Approve Account", "Change Password", "Manage Administrator Accounts"] if arg1 == "Production Operator"
+  array = ["Approve Application Registration", "Change Password", "Manage Administrator Accounts"] if arg1 == "Production Operator"
   array = ["Register Application", "Change Password"] if arg1 == "Production Developer"
   array = ["Delegate Administration", "Authorize Applications", "Change Password", "Manage Administrator Accounts"] if arg1 == "LEA Admin"
   #NOTE: previous admin delegation tests delegate app auth to this SEA Admin

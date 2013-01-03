@@ -34,7 +34,9 @@ When /^I generate the 10 student data set in the (.*?) directory$/ do |gen_dir|
   generate("10students")   
 end
 
-When /^I generate the 10001 student data set$/ do
+When /^I generate the 10001 student data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for 10001 students"
   generate("10001students")    
 end
 
@@ -78,5 +80,5 @@ end
 
 Then /^the sli\-verify script completes successfully$/ do
   results = `bundle exec ruby #{@odin_working_path}sli-verify.rb #{@tenant_id} #{@manifest}`
-  assert(results == "All expected entities found\n", "verification script failed, results are #{results}")
+  assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
 end

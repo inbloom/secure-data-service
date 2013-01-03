@@ -16,7 +16,7 @@
 
 package org.slc.sli.ingestion.tool;
 
-import org.slc.sli.ingestion.reporting.LoggingMessageReport;
+import org.slc.sli.ingestion.reporting.impl.LoggingMessageReport;
 
 /**
  * Logging Message Report implementation that sets the logger for the validation tool

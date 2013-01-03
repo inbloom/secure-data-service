@@ -39,15 +39,21 @@ public class AuthRequestService {
      */
     public static class Request {
         private String realm;
+        private String developer;
         private final SamlRequest saml;
 
-        Request(String realm, SamlRequest saml) {
+        Request(String realm, String developer, SamlRequest saml) {
             this.realm = realm;
+            this.developer = (developer != null && developer.length() > 0) ? developer : null;
             this.saml = saml;
         }
 
         public String getRealm() {
             return realm;
+        }
+        
+        public String getDeveloper() {
+        	return developer;
         }
 
         public String getRequestId() {
@@ -67,11 +73,11 @@ public class AuthRequestService {
         }
     }
 
-    public Request processRequest(String encodedSamlRequest, String realm) {
+    public Request processRequest(String encodedSamlRequest, String realm, String developer) {
         if (encodedSamlRequest == null) {
             return null;
         }
         SamlRequest request = samlDecoder.decode(encodedSamlRequest);
-        return new Request(realm, request);
+        return new Request(realm, developer, request);
     }
 }

@@ -16,9 +16,12 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +35,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -79,6 +83,13 @@ public class ValidatorTestHelper {
         return generateSection(edorgId, null);
     }
     
+    public Entity generateSectionWithCourseOffering(String edorgId, String courseOfferingId) {
+        Map<String, Object> section = new HashMap<String, Object>();
+        section.put(ParameterConstants.SCHOOL_ID, edorgId);
+        section.put(ParameterConstants.COURSE_OFFERING_ID, courseOfferingId);
+        return repo.create(EntityNames.SECTION, section);
+    }
+    
     public Entity generateSection(String edorgId, String sessionId) {
         Map<String, Object> section = new HashMap<String, Object>();
         section.put(ParameterConstants.SCHOOL_ID, edorgId);
@@ -86,12 +97,12 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.SECTION, section);
     }
 
-    public void generateSSA(String studentId, String sectionId, boolean isExpired) {
+    public Entity generateSSA(String studentId, String sectionId, boolean isExpired) {
         Map<String, Object> ssaBody = new HashMap<String, Object>();
         ssaBody.put(ParameterConstants.SECTION_ID, sectionId);
         ssaBody.put(ParameterConstants.STUDENT_ID, studentId);
         expireAssociation(isExpired, ssaBody);
-        repo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
+        return repo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
     }
 
     private void expireAssociation(boolean isExpired, Map<String, Object> body) {
@@ -108,6 +119,12 @@ public class ValidatorTestHelper {
         tsaBody.put(ParameterConstants.SCHOOL_ID, edorgId);
 
         return repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
+    }
+    
+    public Entity generateCourse(String edorgId) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.SCHOOL_ID, edorgId);
+        return repo.create(EntityNames.COURSE, body);
     }
 
     public Entity generateTSA(String teacherId, String sectionId, boolean isExpired) {
@@ -252,6 +269,17 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
     }
     
+    public Entity generateDisciplineIncident(String schoolId, String ... staffIds) {
+        Map<String, Object> diBody = new HashMap<String, Object>();
+        diBody.put(ParameterConstants.SCHOOL_ID, schoolId);
+        HashSet<String> staffList = new HashSet<String>();
+        for (String staffId : staffIds) {
+            staffList.add(staffId);
+        }
+        diBody.put(ParameterConstants.STAFF_ID, staffList);
+        return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
+    }
+    
     public void generateStudentDisciplineIncidentAssociation(String studentId, String disciplineId) {
         Map<String, Object> sdia = new HashMap<String, Object>();
         sdia.put(ParameterConstants.STUDENT_ID, studentId);
@@ -273,6 +301,13 @@ public class ValidatorTestHelper {
         courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
         return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
     }
+    
+    public Entity generateCourseOffering(String schoolId, String courseId) {
+        Map<String, Object> courseOffering = new HashMap<String, Object>();
+        courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
+        courseOffering.put(ParameterConstants.COURSE_ID, courseId);
+        return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
+    }
 
     public Entity generateGradingPeriod() {
         return repo.create(EntityNames.GRADING_PERIOD, new HashMap<String, Object>());
@@ -289,6 +324,22 @@ public class ValidatorTestHelper {
         gradPlan.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
         return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, gradPlan);
     }
+    
+    public Entity generateGrade(String studentSectionAssociationId) {
+        Map<String, Object> grade = new HashMap<String, Object>();
+        grade.put("letterGradeEarned", "A");
+        grade.put("gradeType", "Exam");
+        grade.put("studentSectionAssociationId", studentSectionAssociationId);
+        return repo.create(EntityNames.GRADE, grade);
+    }
+    
+    public Entity generateStudentCompetency(String studentSectionAssociationId, String objectiveId) {
+        Map<String, Object> grade = new HashMap<String, Object>();
+        grade.put("diagnosticStatement", "blah");
+        grade.put("studentSectionAssociationId", studentSectionAssociationId);
+        grade.put("objectiveId", objectiveId);
+        return repo.create(EntityNames.STUDENT_COMPETENCY, grade);
+    }
 
     protected void setUpTeacherContext() {
         String user = "fake staff";
@@ -299,6 +350,18 @@ public class ValidatorTestHelper {
         Mockito.when(entity.getType()).thenReturn("teacher");
         Mockito.when(entity.getEntityId()).thenReturn(STAFF_ID);
         injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, ED_ORG_ID);
+    }
+    
+    protected void resetRepo() throws Exception {
+        Field[] fields = EntityNames.class.getDeclaredFields();
+
+        for (Field f : fields) {
+            if (f.getType() == String.class && Modifier.isStatic(f.getModifiers())) {
+                String ent = (String) f.get(null);
+                repo.deleteAll(ent, new NeutralQuery());
+            }
+        }
+
     }
 
 }

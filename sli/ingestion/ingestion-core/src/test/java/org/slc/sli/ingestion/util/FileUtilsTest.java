@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class FileUtilsTest {
 
-    private static final String testFileName = "FileUtilsTest.changetestfile.txt";
+    private static final String TEST_FILE_NAME = "FileUtilsTest.changetestfile.txt";
 
     private static class TestFileWriter implements Runnable {
         private static final long WRITE_TIME = 3000; // 3 secs
@@ -43,7 +43,7 @@ public class FileUtilsTest {
             FileWriter outputStream = null;
             try {
                 try {
-                    outputStream = new FileWriter(testFileName);
+                    outputStream = new FileWriter(TEST_FILE_NAME);
                     while (System.currentTimeMillis() < stopTime) {
                         // modify file size
                         outputStream.write("test");
@@ -75,7 +75,7 @@ public class FileUtilsTest {
         Thread t = new Thread(new TestFileWriter());
         t.start();
 
-        File testFile = new File(testFileName);
+        File testFile = new File(TEST_FILE_NAME);
         testFile.deleteOnExit();
 
         result = FileUtils.isFileDoneChanging(testFile, 500, 5000);
@@ -95,7 +95,7 @@ public class FileUtilsTest {
         Thread t = new Thread(new TestFileWriter());
         t.start();
 
-        File testFile = new File(testFileName);
+        File testFile = new File(TEST_FILE_NAME);
         testFile.deleteOnExit();
 
         result = FileUtils.isFileDoneChanging(testFile, 500, 2000);
@@ -115,7 +115,7 @@ public class FileUtilsTest {
         Thread t = new Thread(new TestFileWriter());
         t.start();
 
-        File testFile = new File(testFileName);
+        File testFile = new File(TEST_FILE_NAME);
         testFile.deleteOnExit();
 
         result = FileUtils.isFileDoneChanging(testFile, 200, 5000);

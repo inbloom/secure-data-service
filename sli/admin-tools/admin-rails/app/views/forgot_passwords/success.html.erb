@@ -1,0 +1,17 @@
+<div class="page-header">
+  <h1>Reset Password</h1>
+</div>
+<p></p>
+<% if notice != nil %>
+    <ul style="color:green">
+      <li id="successNotice"><%= notice %></li>
+    </ul>
+
+    <%= link_to 'Log in', APP_CONFIG["portal_url"] %>
+
+<% else if flash[:error] %>
+        <div id="error_explanation">
+          <%= flash[:error] %>
+        </div>
+    <% end %>
+<% end %>
