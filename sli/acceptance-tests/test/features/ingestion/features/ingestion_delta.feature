@@ -156,7 +156,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 
 When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
  And a batch job for file "Hyrule.zip" is completed in database
- And I check to find if record is in batch job collection:
+And I check to find if record is in collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 112                 | t                           | Midgar                  | string               |
 
@@ -164,7 +164,7 @@ And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
 And I post "Hyrule.zip" file as the payload of the ingestion job
 And zip file is scp to ingestion landing zone with name "Reingest-Hyrule.zip"
 And a batch job for file "Reingest-Hyrule.zip" is completed in database
-And I check to find if record is in batch job collection:
+And I check to find if record is in collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 112                   | t                         | Midgar                  | string               |
      | recordHash               | 112                   | t                         | Hyrule                  | string               |
