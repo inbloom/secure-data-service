@@ -32,10 +32,10 @@ public class ResponseTooLargeExceptionHandler implements ExceptionMapper<Respons
     
     @Override
     public Response toResponse(ResponseTooLargeException exception) {
-        Response.Status errorStatus = Response.Status.REQUEST_ENTITY_TOO_LARGE;
+        
         return Response
-                .status(errorStatus)
-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                .status(CustomStatus.ENTITY_TOO_LARGE)
+                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
                         "The request is too large to resolve.")).build();
     }
 }

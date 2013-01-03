@@ -213,9 +213,8 @@ describe "WorldBuilder" do
       end
       it "will give elementary schools a feeder middle school and high school" do
         elementary.each{|i|
-          i['feeds_to'].should  have(2).items
+          i['feeds_to'].should  have(1).items
           i['feeds_to'][0].should satisfy {|i| 9 <= i and i <= 12}
-          i['feeds_to'][1].should satisfy {|i| 13 <= i and i <= 14}
         }
       end
     end

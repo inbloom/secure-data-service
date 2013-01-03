@@ -255,6 +255,10 @@ public class UserResource {
             return badRequest("No uid");
         }
 
+        if (isSandboxAdministrator()) {
+        	user.setVendor(secUtil.getVendor());
+        }
+        
         updateUnmodifiableFields(user, null);
 
         return null;
@@ -600,6 +604,13 @@ public class UserResource {
     private boolean isLeaAdmin() {
         return secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR);
     }
+    
+    /*
+     * Determine if current logged in user is a Sandbox Administrator
+     */
+    private boolean isSandboxAdministrator() {
+    	return secUtil.hasRole(RoleInitializer.SANDBOX_ADMINISTRATOR);
+    }
 
     /*
      * Determines if the specified user has LEA permission
@@ -607,6 +618,7 @@ public class UserResource {
     private boolean isUserLeaAdmin(User user) {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
+    
 
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
             RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,

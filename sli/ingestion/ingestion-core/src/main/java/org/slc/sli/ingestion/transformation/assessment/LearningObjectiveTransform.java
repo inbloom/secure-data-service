@@ -169,7 +169,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                             parentLO.getRecordType(),
                             parentLO.getVisitBeforeLineNumber(), parentLO.getVisitBeforeColumnNumber(),
                             parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());
-                    super.reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0034, objective, academicSubject,
+                    reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0034, objective, academicSubject,
                             objectiveGradeLevel);
                 }
             }
@@ -190,7 +190,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     childLo.getRecordType(),
                     childLo.getVisitBeforeLineNumber(), childLo.getVisitBeforeColumnNumber(),
                     childLo.getVisitAfterLineNumber(), childLo.getVisitAfterColumnNumber());
-            super.reportError(childLo.getSourceFile(), source, CoreMessageCode.CORE_0030, childLearningObjRefs.toString());
+            reportError(childLo.getSourceFile(), source, CoreMessageCode.CORE_0030, childLearningObjRefs.toString());
         }
     }
 
@@ -211,7 +211,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                             parentLO.getRecordType(),
                             parentLO.getVisitBeforeLineNumber(), parentLO.getVisitBeforeColumnNumber(),
                             parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());
-                    super.reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0031,
+                    reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0031,
                             getByPath(LO_ID_CODE_PATH, parentLO.getAttributes()));
                 } else {
                     String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
