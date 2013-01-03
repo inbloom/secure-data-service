@@ -83,6 +83,13 @@ public class ValidatorTestHelper {
         return generateSection(edorgId, null);
     }
     
+    public Entity generateSectionWithCourseOffering(String edorgId, String courseOfferingId) {
+        Map<String, Object> section = new HashMap<String, Object>();
+        section.put(ParameterConstants.SCHOOL_ID, edorgId);
+        section.put(ParameterConstants.COURSE_OFFERING_ID, courseOfferingId);
+        return repo.create(EntityNames.SECTION, section);
+    }
+    
     public Entity generateSection(String edorgId, String sessionId) {
         Map<String, Object> section = new HashMap<String, Object>();
         section.put(ParameterConstants.SCHOOL_ID, edorgId);
@@ -112,6 +119,12 @@ public class ValidatorTestHelper {
         tsaBody.put(ParameterConstants.SCHOOL_ID, edorgId);
 
         return repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
+    }
+    
+    public Entity generateCourse(String edorgId) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.SCHOOL_ID, edorgId);
+        return repo.create(EntityNames.COURSE, body);
     }
 
     public Entity generateTSA(String teacherId, String sectionId, boolean isExpired) {
@@ -286,6 +299,13 @@ public class ValidatorTestHelper {
     public Entity generateCourseOffering(String schoolId) {
         Map<String, Object> courseOffering = new HashMap<String, Object>();
         courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
+        return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
+    }
+    
+    public Entity generateCourseOffering(String schoolId, String courseId) {
+        Map<String, Object> courseOffering = new HashMap<String, Object>();
+        courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
+        courseOffering.put(ParameterConstants.COURSE_ID, courseId);
         return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
     }
 
