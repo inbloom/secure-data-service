@@ -16,13 +16,17 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -44,12 +48,16 @@ import static org.junit.Assert.assertTrue;
 @TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class})
 @Component
-public class TeacherToStaffEdOrgAssociationValidatorTest {
+public class TransitiveTeacherToStaffEdOrgAssociationValidatorTest {
     @Autowired
-    TeacherToStaffEdOrgAssociationValidator validator;
+    TransitiveTeacherToStaffEdOrgAssociationValidator validator;
 
     @Autowired
     ValidatorTestHelper helper;
+
+    @Autowired
+    PagingRepositoryDelegate<Entity> repo;
+
 
     Set<String> edOrgAssociationIds;
 
@@ -59,10 +67,17 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
         edOrgAssociationIds = new HashSet<String>();
     }
 
+    @After
+    public void tearDown() throws Exception {
+        repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
+        SecurityContextHolder.clearContext();
+    }
+
+
     @Test
     public void testCanValidate() {
-        assertTrue(validator.canValidate(EntityNames.STAFF_ED_ORG_ASSOCIATION, false));
-        assertFalse(validator.canValidate(EntityNames.STAFF_ED_ORG_ASSOCIATION, true));
+        assertTrue(validator.canValidate(EntityNames.STAFF_ED_ORG_ASSOCIATION, true));
+        assertFalse(validator.canValidate(EntityNames.STAFF_ED_ORG_ASSOCIATION, false));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, true));
     }
@@ -70,14 +85,16 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
 
     @Test
     public void testCanValidateNonExpiredAssociation() {
-        Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, false);
+        helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, false);
+        Entity assoc = helper.generateStaffEdorg("staff2", helper.ED_ORG_ID, false);
         edOrgAssociationIds.add(assoc.getEntityId());
         assertTrue(validator.validate(EntityNames.SECTION, edOrgAssociationIds));
     }
 
     @Test
     public void testInvalidateExpiredAssociation() {
-        Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, true);
+        helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, true);
+        Entity assoc = helper.generateStaffEdorg("staff2", helper.ED_ORG_ID, false);
         edOrgAssociationIds.add(assoc.getEntityId());
         assertFalse(validator.validate(EntityNames.SECTION, edOrgAssociationIds));
     }
