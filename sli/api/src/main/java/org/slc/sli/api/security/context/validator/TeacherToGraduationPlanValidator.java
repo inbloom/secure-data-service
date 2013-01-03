@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -96,16 +97,24 @@ public class TeacherToGraduationPlanValidator extends AbstractContextValidator {
      * @return Boolean indicating teacher can access specified graduation plans.
      */
     private boolean validateThroughStudents(Set<String> ids) {
+        Set<String> idsToValidate = new HashSet<String>(ids);
         NeutralQuery studentSchoolAssociationQuery = new NeutralQuery(new NeutralCriteria("graduationPlanId",
                 NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> associations = getRepo().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
                 studentSchoolAssociationQuery);
-        Set<String> studentIds = new HashSet<String>();
 
         for (Entity association : associations) {
-            studentIds.add((String) association.getBody().get(ParameterConstants.STUDENT_ID));
+            if (idsToValidate.isEmpty()) {
+                break;
+            }
+
+            String studentId = (String) association.getBody().get(ParameterConstants.STUDENT_ID);
+            if (teacherToStudentValidator.validate(EntityNames.STUDENT, new HashSet<String>(Arrays.asList(studentId)))) {
+                String graduationPlanId = (String) association.getBody().get("graduationPlanId");
+                idsToValidate.remove(graduationPlanId);
+            }
         }
 
-        return teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds);
+        return idsToValidate.isEmpty();
     }
 }
