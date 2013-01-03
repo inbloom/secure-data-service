@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -47,7 +48,7 @@ public class ZipFileHandlerTest {
 
     @Test
     public void testZipHandling() {
-        File zip = new File("src/test/resources/zip/ValidZip.zip");
+        FileResource zip = new FileResource("src/test/resources/zip/ValidZip.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats(null, null, null);
@@ -61,7 +62,7 @@ public class ZipFileHandlerTest {
 
     @Test
     public void testAbsenceOfZipHandling() {
-        File zip = new File("src/test/resources/zip/NoControlFile.zip");
+        FileResource zip = new FileResource("src/test/resources/zip/NoControlFile.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats("", "", "");
@@ -74,7 +75,7 @@ public class ZipFileHandlerTest {
 
     @Test
     public void testIOExceptionHandling() {
-        File zip = new File("src/test/resources/zip/NoControlFile2.zip");
+        FileResource zip = new FileResource("src/test/resources/zip/NoControlFile2.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats(null, null, null);
