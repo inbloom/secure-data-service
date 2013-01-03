@@ -84,6 +84,13 @@ public class ValidatorTestHelper {
         return generateSection(edorgId, null);
     }
 
+    public Entity generateSectionWithCourseOffering(String edorgId, String courseOfferingId) {
+        Map<String, Object> section = new HashMap<String, Object>();
+        section.put(ParameterConstants.SCHOOL_ID, edorgId);
+        section.put(ParameterConstants.COURSE_OFFERING_ID, courseOfferingId);
+        return repo.create(EntityNames.SECTION, section);
+    }
+
     public Entity generateSection(String edorgId, String sessionId) {
         Map<String, Object> section = new HashMap<String, Object>();
         section.put(ParameterConstants.SCHOOL_ID, edorgId);
@@ -105,7 +112,6 @@ public class ValidatorTestHelper {
         }
     }
 
-
     public Entity generateTeacherSchool(String teacherId, String edorgId) {
         generateStaffEdorg(teacherId, edorgId, false);
         Map<String, Object> tsaBody = new HashMap<String, Object>();
@@ -113,6 +119,12 @@ public class ValidatorTestHelper {
         tsaBody.put(ParameterConstants.SCHOOL_ID, edorgId);
 
         return repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
+    }
+
+    public Entity generateCourse(String edorgId) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.SCHOOL_ID, edorgId);
+        return repo.create(EntityNames.COURSE, body);
     }
 
     public Entity generateTSA(String teacherId, String sectionId, boolean isExpired) {
@@ -145,7 +157,8 @@ public class ValidatorTestHelper {
         return generateStudentAndStudentSchoolAssociation(studentId, schoolId, null, isExpired);
     }
 
-    public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId, String graduationPlanId, boolean isExpired) {
+    public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId,
+            String graduationPlanId, boolean isExpired) {
         Map<String, Object> student = new HashMap<String, Object>();
         student.put("studentUniqueStateId", studentId);
         student.put("sex", "Female");
@@ -176,7 +189,8 @@ public class ValidatorTestHelper {
         return createdStudentId;
     }
 
-    public String generateStudentSchoolAssociation(String studentId, String schoolId, String graduationPlanId, boolean isExpired) {
+    public String generateStudentSchoolAssociation(String studentId, String schoolId, String graduationPlanId,
+            boolean isExpired) {
         Map<String, Object> association = new HashMap<String, Object>();
         association.put(ParameterConstants.STUDENT_ID, studentId);
         association.put(ParameterConstants.SCHOOL_ID, schoolId);
@@ -237,7 +251,6 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.STAFF, new HashMap<String, Object>());
     }
 
-
     public Entity generateStaffProgram(String teacherId, String programId, boolean isExpired, boolean studentAccess) {
         Map<String, Object> staffProgram = new HashMap<String, Object>();
         staffProgram.put(ParameterConstants.STAFF_ID, teacherId);
@@ -267,7 +280,7 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
     }
 
-    public Entity generateDisciplineIncident(String schoolId, String ... staffIds) {
+    public Entity generateDisciplineIncident(String schoolId, String... staffIds) {
         Map<String, Object> diBody = new HashMap<String, Object>();
         diBody.put(ParameterConstants.SCHOOL_ID, schoolId);
         HashSet<String> staffList = new HashSet<String>();
@@ -297,6 +310,13 @@ public class ValidatorTestHelper {
     public Entity generateCourseOffering(String schoolId) {
         Map<String, Object> courseOffering = new HashMap<String, Object>();
         courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
+        return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
+    }
+
+    public Entity generateCourseOffering(String schoolId, String courseId) {
+        Map<String, Object> courseOffering = new HashMap<String, Object>();
+        courseOffering.put(ParameterConstants.SCHOOL_ID, schoolId);
+        courseOffering.put(ParameterConstants.COURSE_ID, courseId);
         return repo.create(EntityNames.COURSE_OFFERING, courseOffering);
     }
 
