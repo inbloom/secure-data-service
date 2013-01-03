@@ -1,0 +1,3 @@
+# Overrides for base_scenario properties
+STUDENT_COUNT: 1000
+NUMBER_OF_YEARS: 1

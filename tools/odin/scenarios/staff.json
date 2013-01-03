@@ -49,6 +49,17 @@
     ]
   },
   {
+    "userId": "badmin",
+    "name": "Bruce Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "High School",
+        "association": "Daybreak Central High"
+      }
+    ]
+  },
+  {
     "userId": "sampleUser",
     "name": "Billy Admin",
     "edOrgs": [
