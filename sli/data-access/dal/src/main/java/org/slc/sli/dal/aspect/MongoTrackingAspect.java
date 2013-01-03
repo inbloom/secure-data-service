@@ -78,7 +78,7 @@ public class MongoTrackingAspect {
         enabled = Boolean.valueOf(enabledConfig);
     }
 
-    public static boolean isEnabled() {
+    private static boolean isEnabled() {
         return enabled;
     }
 
@@ -99,6 +99,7 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
+            dbCallTracker.addMetric(pjp.getSignature().toString(), end-start);
         }
 
         return result;
@@ -117,6 +118,8 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
+            LOG.debug("XYZ:    " + pjp.getSignature().toString() + "  :  " + (end-start)); 
+            dbCallTracker.addMetric(pjp.getSignature().toString(), end-start);
         }
         return result;
     }
@@ -132,6 +135,9 @@ public class MongoTrackingAspect {
 
     private void trackCallStatistics(String db, String function, String collection, long start, long elapsed) {
         String jobId = TenantContext.getJobId();
+        if (jobId == null) {
+            LOG.debug("JOBID_NULL"); 
+        }
         if (jobId != null) {
             long trackingInt = Long.valueOf(trackingInterval) * 1000;
             if (trackingInt <= 0) {

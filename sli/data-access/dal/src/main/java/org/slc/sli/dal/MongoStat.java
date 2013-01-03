@@ -16,6 +16,10 @@
 
 package org.slc.sli.dal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +36,8 @@ public class MongoStat {
 
 
     private int dbHitCount;
+    private List<List<Object>> stats = new ArrayList<List<Object>>(10000); 
+    private String requestId; 
 
     public MongoStat(int dbHitCount) {
         this.dbHitCount = dbHitCount;
@@ -53,5 +59,27 @@ public class MongoStat {
     }
     public void incrementHitCount() {
         dbHitCount++;
+    }
+    
+    public void startRequest(String reqestId) { 
+        dbHitCount = 0; 
+        requestId = requestId;
+        stats = new ArrayList<List<Object>>(1000);  
+    }
+    
+    public void addEvent(String eventId, Long timeStamp) {
+        stats.add(Arrays.asList((Object) "e", eventId, timeStamp)); 
+    }
+    
+    public void addMetric(String metricId, Long metric) {
+        stats.add(Arrays.asList((Object) "m", metricId, metric)); 
+    }
+    
+    public List<List<Object > > getStats() { 
+        return stats; 
+    }
+    
+    public String getRequestId() { 
+        return requestId; 
     }
 }
