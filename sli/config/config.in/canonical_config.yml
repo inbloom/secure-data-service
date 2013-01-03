@@ -131,6 +131,9 @@ default:
         sli.mongo.tracking: false
         sli.mongo.tracking.interval.seconds: 5
 
+        #migration strategy turn on
+        sli.migration.write.back: false
+
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE

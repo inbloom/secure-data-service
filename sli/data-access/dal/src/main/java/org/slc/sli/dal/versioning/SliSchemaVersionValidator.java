@@ -40,6 +40,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -75,6 +76,9 @@ public class SliSchemaVersionValidator {
     protected Resource migrationConfigResource;
 
     protected MongoTemplate mongoTemplate;
+
+    @Value("${sli.migration.write.back}")
+    private String writeBackToDb;
     
 
     private Map<String, Integer> entityTypesBeingMigrated;
@@ -206,7 +210,9 @@ public class SliSchemaVersionValidator {
                 }
                 
                 localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
-                repo.updateWithoutValidatingNaturalKeys(collectionName, localEntity);
+                if ("true".equals(writeBackToDb)) {
+                    repo.updateWithoutValidatingNaturalKeys(collectionName, localEntity);
+                }
             }
         }
 
