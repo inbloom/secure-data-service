@@ -74,7 +74,7 @@ When zip files are scped to the ingestion landing zone
         | session                     | 26    |
         | staff                       | 51    |
         | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 33 |
+        | staffEducationOrganizationAssociation| 50 |
         | staffProgramAssociation     | 7     |
         | student                     | 78    |
         | studentAcademicRecord       | 117   |

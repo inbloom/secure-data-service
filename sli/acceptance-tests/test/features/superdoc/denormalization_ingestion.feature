@@ -77,7 +77,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | session                               | 22    |
       | staff                                 | 14    |
       | staffCohortAssociation                | 3     |
-      | staffEducationOrganizationAssociation | 11    |
+      | staffEducationOrganizationAssociation | 13    |
       | staffProgramAssociation               | 7     |
       | student                               | 78    |
       | studentAcademicRecord                 | 117   |
