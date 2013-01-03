@@ -17,11 +17,13 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -30,50 +32,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Validate's teacher's context to course offering by looking your edorg lineage.
- * 
- * 
+ * Validates teachers accessing 'staffEdOrgAssociations' to traverse to other records. (not transitive)
+ * General rule is that you can see things through associations that have your id on them
  */
 @Component
-public class TeacherToCourseValidator extends AbstractContextValidator {
-    
+public class TeacherToStaffEdOrgAssociationValidator extends AbstractContextValidator {
+
     @Autowired
-    EdOrgHelper helper;
-    
+    private PagingRepositoryDelegate<Entity> repo;
+
+    @Autowired
+    DateHelper dateHelper;
+
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isTransitive && isTeacher() && EntityNames.COURSE.equals(entityType);
+        return EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType) && isTeacher() && !isTransitive;
     }
-    
+
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        if (!areParametersValid(EntityNames.COURSE, entityType, ids)) {
-            return false;
-        }
-        
-        return getValid(EntityNames.COURSE, ids).size() == ids.size();
-    }
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.principalId()));
+        Iterable<Entity> entities = this.repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
 
-    @Override
-    public Set<String> getValid(String entityType, Set<String> ids) {
-        
-        Set<String> validIds = new HashSet<String>();
-        
-        Set<String> schools = getTeacherEdorgLineage();
-        
-        if (schools.size() == 0) {
-            return validIds;
-        }
-        
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
-        nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, schools));
-        Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE, nq);
-        
+        Set<String> idsToValidate = new HashSet<String>(ids);
         for (Entity entity : entities) {
-            validIds.add(entity.getEntityId());
+            if (!dateHelper.isFieldExpired(entity.getBody(), ParameterConstants.END_DATE)) {
+                idsToValidate.remove(entity.getEntityId());
+            }
         }
 
-        return validIds;
+        return idsToValidate.isEmpty();
     }
-    
+
 }
