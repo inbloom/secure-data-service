@@ -90,6 +90,16 @@ public class ResourceUtil {
         LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.DISCIPLINE_ACTIONS + "assignmentSchoolId" + LINK,
                 "getDisciplineActionsAsAssignedSchool");
         LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.DISCIPLINE_ACTIONS + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS + ResourceNames.ASSESSMENTS
+                + "objectiveAssessment.assessmentItem.learningStandards" + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS + ResourceNames.ASSESSMENTS
+                + "objectiveAssessment.objectiveAssessments.assessmentItem.learningStandards" + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS + ResourceNames.ASSESSMENTS
+                + "assessmentItem.learningStandards" + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.ASSESSMENTS
+                + "objectiveAssessment.objectiveAssessments.learningObjectives" + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.ASSESSMENTS
+                + "objectiveAssessment.learningObjectives" + LINK, BLANK);
     }
     
     /**
