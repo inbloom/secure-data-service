@@ -1219,3 +1219,4 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffProgramAssociation     | 8                   | body.endDate                   | 2012-02-15              | string               |
         | staffProgramAssociation     | 10                  | body.studentRecordAccess       | true                    | boolean              |
         | staffProgramAssociation     | 1                   | body.studentRecordAccess       | false                   | boolean              |
+

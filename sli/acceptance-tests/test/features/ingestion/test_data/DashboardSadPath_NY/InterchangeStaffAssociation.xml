@@ -1,6 +1,6 @@
-<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeStaffAssociation xsi:schemaLocation='http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd' xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
 	<Teacher>
 		<StaffUniqueStateId>mario.sanchez</StaffUniqueStateId>
 		<Name>
@@ -33,34 +33,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
-	<StaffEducationOrgAssignmentAssociation>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>mario.sanchez</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000112</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
-		<BeginDate>2007-07-07</BeginDate>
-	</StaffEducationOrgAssignmentAssociation>
 	<!--Al Gibbs IT Support (IT Administrator) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>agibbs</StaffUniqueStateId>
-		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification='Life insurance policy'>
+		<Name Verification="Life insurance policy">
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Al</FirstName>
 			<LastSurname>Gibbs</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType='Work'>
+		<Address AddressType="Work">
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -69,10 +55,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType='Organization'>
+		<ElectronicMail EmailAddressType="Organization">
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
