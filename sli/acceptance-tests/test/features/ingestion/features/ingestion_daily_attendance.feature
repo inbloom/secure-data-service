@@ -98,6 +98,7 @@ Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the in
      | educationOrganization       |
      | session                     |
      | attendance                  |
+	| recordHash                  |
 When zip file is scp to ingestion landing zone
   And a batch job for file "DailyAttendanceInheritedSession.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
