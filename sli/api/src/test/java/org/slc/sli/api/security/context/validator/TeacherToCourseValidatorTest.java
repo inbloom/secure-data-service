@@ -94,13 +94,6 @@ public class TeacherToCourseValidatorTest {
     }
     
     @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.COURSE, null));
-        assertFalse(validator.validate(EntityNames.COURSE, new HashSet<String>()));
-    }
-    
-    @Test
     public void testValidCourse() {
         assertTrue(validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
         assertTrue(validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course3.getEntityId()))));

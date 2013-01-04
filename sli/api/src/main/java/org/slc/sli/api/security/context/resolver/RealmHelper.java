@@ -18,6 +18,7 @@ package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -73,7 +74,7 @@ public class RealmHelper {
     public List<String> getPreferredLoginRealmIds(Entity userEntity) {
         //If there's a realm directly associated with your edorg, we'll require that
         List<String> toReturn = new ArrayList<String>();
-        List<String> edOrgs = edorgHelper.getDirectEdOrgAssociations(userEntity);
+        Set<String> edOrgs = edorgHelper.getDirectEdorgs(userEntity);
         for (String edOrgId : edOrgs) {
             Entity edOrgEntity = repo.findById("educationOrganization", edOrgId);
             Entity realm = getRealm(edOrgEntity);
@@ -138,7 +139,7 @@ public class RealmHelper {
         }
 
         //There wasn't a preferred realm, so let's check other realms in the hierarchy
-        List<String> userEdorgs = edorgHelper.getDirectEdOrgAssociations(userEntity);
+        Set<String> userEdorgs = edorgHelper.getDirectEdorgs(userEntity);
         for (String id : userEdorgs) {
             Entity edorgEntity = repo.findById("educationOrganization", id);
 

@@ -53,6 +53,10 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
     
     @Override
     public boolean validate(String entityName, Set<String> staffIds) {
+        if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
+            return false;
+        }
+        
         //Query staff's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));

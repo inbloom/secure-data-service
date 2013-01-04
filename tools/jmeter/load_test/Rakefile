@@ -2,7 +2,8 @@ $:.unshift File.dirname(__FILE__)
 require 'jmeter_runner'
 
 API_LOAD_TEST_HOME = File.dirname(File.absolute_path(__FILE__))
-CONFIG_HOME = API_LOAD_TEST_HOME.split('/')[0..-2].join('/')
+CONFIG_HOME = API_LOAD_TEST_HOME.split('/')[0..-2].join('/') + "/attendance2"
+#IGNORED_JMX_FILES = ["oauth.jmx"]
 
 desc "Clean Result directory"
 task :clean do
@@ -22,11 +23,12 @@ task :verifyJmxFileLocal => [:checkJmeterHome, :checkServerProcesses] do
       {
           :jmeter_exec => @jmeter_exec,
           :max_threads => 0,
-          :result_dir => test_dir
+          :result_dir => test_dir,
+          :jmeter_prop => "#{CONFIG_HOME}/local.properties"
       }
   )
-  runner.collect_all_data("#{current_dir}/..", 0)
-  errors = runner.collect_all_errors("#{current_dir}/..")
+  runner.collect_all_data(CONFIG_HOME, [1])
+  errors = runner.collect_all_errors(CONFIG_HOME)
   contains_error = false
   errors.each do |scenario, scenario_errors|
     unless scenario_errors.empty?
@@ -42,16 +44,17 @@ task :verifyJmxFileLocal => [:checkJmeterHome, :checkServerProcesses] do
 end
 
 desc "Run Load Tests"
-task :runLoadTests => [:verifyJmxFileLocal] do
+task :runLoadTests => [:checkJmeterHome] do
   result_dir = "#{API_LOAD_TEST_HOME}/load_test_result/single_node"
   runner = ApiLoadTest::Runner.new(
       {
           :jmeter_exec => @jmeter_exec,
           :jmeter_prop => "#{CONFIG_HOME}/local.properties",
-          :result_dir => result_dir
+          :result_dir => result_dir,
+          :max_avg_elapsed_time => 300000
       }
   )
-  runner.collect_all_data(CONFIG_HOME, 20)
+  runner.collect_all_data(CONFIG_HOME, (0..20).collect{|x| 2**x})
   File.open("#{result_dir}/result.json", "w") do |f|
     f.write(runner.aggregate_all_result().to_json)
   end
@@ -66,10 +69,10 @@ task :runMultiNodesTests => [:checkJmeterHome] do
           :jmeter_prop => "#{CONFIG_HOME}/local.properties",
           :result_dir => result_dir,
           :remote => true,
-          :remote_servers => ["localhost"]
+          :remote_servers => ["parmongo01.slidev.org"]
       }
   )
-  #runner.collect_all_data(CONFIG_HOME, 20)
+  runner.collect_all_data(CONFIG_HOME, (0..20).collect{|x| 2**x})
   File.open("#{result_dir}/result.json", "w") do |f|
     f.write(runner.aggregate_all_result().to_json)
   end
@@ -105,3 +108,21 @@ END
 end
 
 task :default => :runLoadTests
+
+desc "Test"
+task :test do
+  get_jmx_files
+end
+
+private
+
+def get_jmx_files
+  file_to_scenario = {}
+  Dir.foreach CONFIG_HOME do |file|
+    if match_index = file =~ /[.]jmx$/
+      #next if IGNORED_JMX_FILES.include?(file)
+      file_to_scenario[File.join(CONFIG_HOME, file)] = file[0..(match_index - 1)]
+    end
+  end
+  p file_to_scenario
+end

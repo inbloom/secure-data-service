@@ -30,6 +30,8 @@ import org.slc.sli.ingestion.validation.Validator;
  */
 public class FileFormatValidator implements Validator<FileEntryDescriptor> {
 
+    private static final String STAGE_NAME = "File Format Validation";
+
     @Override
     public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
@@ -41,6 +43,11 @@ public class FileFormatValidator implements Validator<FileEntryDescriptor> {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

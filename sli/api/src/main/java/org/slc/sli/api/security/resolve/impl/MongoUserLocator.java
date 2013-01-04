@@ -17,13 +17,11 @@
 package org.slc.sli.api.security.resolve.impl;
 
 import java.util.HashMap;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -31,6 +29,10 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -43,6 +45,9 @@ public class MongoUserLocator implements UserLocator {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
+    
+    @Autowired
+    private EdOrgHelper edorgHelper;
 
     @Override
     public SLIPrincipal locate(String tenantId, String externalUserId) {
@@ -61,6 +66,11 @@ public class MongoUserLocator implements UserLocator {
 
         if (staff != null && staff.iterator().hasNext()) {
             Entity entity = staff.iterator().next();
+            Set<String> edorgs = edorgHelper.getDirectEdorgs(entity);
+            if (edorgs.size() == 0) {
+                warn("User {} is not currently associated to a school/edorg", user.getId());
+                throw new AccessDeniedException("User is not currently associated to a school/edorg");
+            }
             info("Matched user: {}@{} -> {}", new Object[] { externalUserId, tenantId, entity.getEntityId() });
             user.setEntity(entity);
         }

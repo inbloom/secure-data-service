@@ -45,11 +45,6 @@ public class TeacherToCohortValidatorTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIdList() {
-		val.validate(EntityNames.COHORT, new HashSet<String>());
-	}
-
-	@Test(expected = IllegalArgumentException.class)
 	public void testValidateWrongType() {
 		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
 	}
