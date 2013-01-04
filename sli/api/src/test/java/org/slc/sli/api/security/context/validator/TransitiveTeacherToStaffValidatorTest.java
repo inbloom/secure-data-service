@@ -142,9 +142,9 @@ public class TransitiveTeacherToStaffValidatorTest {
         repo.create("staffEducationOrganizationAssociation", body);
 
         body = new HashMap<String, Object>();
-        body.put("schoolId", school1.getEntityId());
-        body.put("teacherId", teacher1Myself.getEntityId());
-        repo.create("teacherSchoolAssociation", body);
+        body.put("educationOrganizationReference", school1.getEntityId());
+        body.put("staffReference", teacher1Myself.getEntityId());
+        repo.create("staffEducationOrganizationAssociation", body);
 
         injector.setCustomContext(user, fullName, "MERPREALM", roles, teacher1Myself, "111");
     }
