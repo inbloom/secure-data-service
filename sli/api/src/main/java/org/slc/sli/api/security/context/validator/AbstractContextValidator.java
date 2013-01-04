@@ -25,9 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -37,6 +34,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class that all context validators must extend.
@@ -50,7 +49,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected DateHelper dateHelper;
 
     @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
+    public PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
     private EdOrgHelper edorgHelper;
@@ -157,8 +156,8 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isTeacher() {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-
-    protected boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
+    
+    public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
 
@@ -276,15 +275,13 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected Set<String> getTeacherEdorgLineage() {
-        Iterable<Entity> tsas = getTeacherSchoolAssociations();
-        Set<String> edorgs = new HashSet<String>();
-        for(Entity tsa : tsas) {
-            if (!isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
-                edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-            }
-        }
+        Set<String> edorgs = getDirectEdorgs();
         edorgs = getEdorgLineage(edorgs);
         return edorgs;
+    }
+
+    protected Set<String> getDirectEdorgs() {
+        return edorgHelper.getDirectEdorgs();
     }
 
     /**

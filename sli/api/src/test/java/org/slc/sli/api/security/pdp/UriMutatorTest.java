@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.ws.rs.core.PathSegment;
@@ -83,8 +84,8 @@ public class UriMutatorTest {
         when(sectionHelper.getTeachersSections(teacher)).thenReturn(Arrays.asList("section123"));
 
         edOrgHelper = mock(EdOrgHelper.class);
-        when(edOrgHelper.getDirectEdOrgAssociations(teacher)).thenReturn(Arrays.asList("school123"));
-        when(edOrgHelper.getDirectEdOrgAssociations(staff)).thenReturn(Arrays.asList("edOrg123"));
+        when(edOrgHelper.getDirectEdorgs(teacher)).thenReturn(new HashSet<String>(Arrays.asList("school123")));
+        when(edOrgHelper.getDirectEdorgs(staff)).thenReturn(new HashSet<String>(Arrays.asList("edOrg123")));
 
         mutator.setSectionHelper(sectionHelper);
         mutator.setEdOrgHelper(edOrgHelper);
