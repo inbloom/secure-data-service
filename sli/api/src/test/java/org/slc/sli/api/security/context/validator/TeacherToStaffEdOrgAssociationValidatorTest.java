@@ -72,14 +72,14 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
     public void testCanValidateNonExpiredAssociation() {
         Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, false);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertTrue(validator.validate(EntityNames.SECTION, edOrgAssociationIds));
+        assertTrue(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds));
     }
 
     @Test
     public void testInvalidateExpiredAssociation() {
         Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, true);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertFalse(validator.validate(EntityNames.SECTION, edOrgAssociationIds));
+        assertFalse(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds));
     }
 
 
