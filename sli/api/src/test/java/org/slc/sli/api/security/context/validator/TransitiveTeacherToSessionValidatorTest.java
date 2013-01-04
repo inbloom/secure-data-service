@@ -87,7 +87,6 @@ public class TransitiveTeacherToSessionValidatorTest {
 
     @Test
     public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
         assertFalse(validator.validate(EntityNames.SESSION, null));
         assertFalse(validator.validate(EntityNames.SESSION, new HashSet<String>()));
     }
