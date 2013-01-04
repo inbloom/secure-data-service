@@ -293,7 +293,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             for (EntityBody body : results) {
                 if (body.containsKey(extractionKey)) {
-                    for (String id : body.getId(extractionKey)) {
+                    for (String id : body.getValues(extractionKey)) {
 
                         List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
@@ -410,7 +410,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         for (EntityBody body : entities) {
             if (body.containsKey(localKey)) {
-                ids.addAll(body.getId(localKey));
+                ids.addAll(body.getValues(localKey));
             }
         }
 

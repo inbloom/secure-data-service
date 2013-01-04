@@ -70,7 +70,7 @@ public class CollectionResponse extends LinkedList<CollectionResponse.EntityRefe
     }
     
     public void add(final String id, final String rel, final String type, final String href) {
-        this.add(new EntityReference(id, type, new EmbeddedLink(rel, type, href)));
+        this.add(new EntityReference(id, type, new EmbeddedLink(rel, href)));
     }
     
 }

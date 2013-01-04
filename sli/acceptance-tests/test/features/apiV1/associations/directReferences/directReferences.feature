@@ -198,3 +198,14 @@ Scenario Outline: Confirm all association generate one valid links that is imple
         | "studentProgramAssociation"             | "studentProgramAssociations"             | "studentId"                      | "student"               | "students"               | "getStudent"               | "getStudentProgramAssociations"             | "9b8cafdc-8fd5-11e1-86ec-0021701f543f_idb3f68907-8fd5-11e1-86ec-0021701f543f_id" | "0f0d9bac-0081-4900-af7c-d17915e02378_id" | "dd4068df-0bea-4280-bbac-fbc736eea54d_id" |
         | "studentProgramAssociation"             | "studentProgramAssociations"             | "programId"                      | "program"               | "programs"               | "getProgram"               | "getStudentProgramAssociations"             | "9b8c3aab-8fd5-11e1-86ec-0021701f543f_idb3f6fe38-8fd5-11e1-86ec-0021701f543f_id" | "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id" | "9b8cafdc-8fd5-11e1-86ec-0021701f543f_id" |
 
+Scenario Outline: Confirm direct references work
+   Given format "application/vnd.slc+json"
+    When I navigate to GET "/v1/<source resource>/<id>"
+    Then I get a link to "<target link name>"
+    When I navigate to that link
+    Then I should receive a return code of 200
+     And I should receive a collection with <count> elements
+     And each entity's "entityType" should be "<target entity type>"
+    Examples:
+        | source resource | target entity type | target link name                                | id                                   | count |
+        | assessments     | learningObjective  | objectiveAssessment.SAT-Math.learningObjectives | dd916592-7d7e-5d27-a87d-dfc7fcb12346 | 2     |

@@ -51,23 +51,23 @@ public class EntityBodyTest {
     public void testGetId() {
         EntityBody entityBody = new EntityBody(createTestMap());
 
-        List<String> list1 = entityBody.getId("key1");
+        List<String> list1 = entityBody.getValues("key1");
         assertNotNull("List should not be null", list1);
         assertEquals("List should have 1 value", list1.size(), 1);
         assertEquals("List value should be original id", list1.get(0), "stringValue1");
 
-        List<String> list2 = entityBody.getId("key2");
+        List<String> list2 = entityBody.getValues("key2");
         assertNotNull("List should not be null", list2);
         assertEquals("List should have 1 value", list2.size(), 1);
         assertEquals("List value should be original id", list2.get(0), "stringValue2");
 
-        List<String> list3 = entityBody.getId("key3");
+        List<String> list3 = entityBody.getValues("key3");
         assertNotNull("List should not be null", list3);
         assertEquals("List should have 2 values", list3.size(), 2);
         assertEquals("List value 1 should be original id", list3.get(0), "stringInList1");
         assertEquals("List value 2 should be original id", list3.get(1), "stringInList2");
 
-        List<String> list4 = entityBody.getId("key4");
+        List<String> list4 = entityBody.getValues("key4");
         assertNotNull("List should not be null", list4);
         assertEquals("List should have 0 values", list4.size(), 0);
     }
@@ -94,8 +94,8 @@ public class EntityBodyTest {
     
     @Test
     public void embeddedLinkTest() {
-        EmbeddedLink link1 = new EmbeddedLink("one", "two", "three");
-        EmbeddedLink link2 = new EmbeddedLink("one", "two", "three");
+        EmbeddedLink link1 = new EmbeddedLink("one", "three");
+        EmbeddedLink link2 = new EmbeddedLink("one", "three");
         assertEquals(link1, link2);
         assertEquals(link1.hashCode(), link2.hashCode());
         assertEquals(link1.toString(), link2.toString());
@@ -103,8 +103,8 @@ public class EntityBodyTest {
     
     @Test
     public void embeddedLinkTest2() {
-        EmbeddedLink link1 = new EmbeddedLink("one", "two", "three");
-        EmbeddedLink link2 = new EmbeddedLink("one", "two", null);
+        EmbeddedLink link1 = new EmbeddedLink("one", "three");
+        EmbeddedLink link2 = new EmbeddedLink("one", null);
         assertFalse(link1.equals(link2));
         assertFalse(link2.equals(link1));
         assertFalse(link1.hashCode() == link2.hashCode());
@@ -113,7 +113,7 @@ public class EntityBodyTest {
     
     @Test
     public void embeddedLinkTest3() {
-        EmbeddedLink link1 = new EmbeddedLink("one", "two", "three");
+        EmbeddedLink link1 = new EmbeddedLink("one", "three");
         Object o = new Object();
         assertFalse(link1.equals(o));
         assertFalse(link1.equals(null));
