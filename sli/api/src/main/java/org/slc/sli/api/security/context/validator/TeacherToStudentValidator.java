@@ -63,8 +63,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityName, Set<String> ids) {
-
-        if (ids.isEmpty()) {
+        if (!areParametersValid(EntityNames.STUDENT, entityName, ids)) {
             return false;
         }
 

@@ -16,11 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.annotation.Resource;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -53,7 +50,10 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidator extends AbstractC
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-
+        if (!areParametersValid(EntityNames.STAFF_ED_ORG_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
+        
         Set<String> requiredEdOrgs = new HashSet<String>();
         {
             Iterable<Entity> requestedAssociations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION,

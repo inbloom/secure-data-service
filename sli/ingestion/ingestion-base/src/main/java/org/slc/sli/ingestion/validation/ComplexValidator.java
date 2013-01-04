@@ -50,4 +50,9 @@ public class ComplexValidator<T> implements Validator<T> {
         return true;
     }
 
+    @Override
+    public String getStageName() {
+        return "Complex Validation";
+    }
+
 }

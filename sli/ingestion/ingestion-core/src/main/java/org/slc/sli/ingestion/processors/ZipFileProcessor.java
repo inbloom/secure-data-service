@@ -32,6 +32,7 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
+import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
@@ -79,10 +80,9 @@ public class ZipFileProcessor implements Processor {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = null;
-
         NewBatchJob newJob = null;
-
         ReportStats reportStats = null;
+        String resourceId = null;
 
         try {
             LOG.info("Received zip file: " + exchange.getIn());
@@ -91,12 +91,15 @@ public class ZipFileProcessor implements Processor {
 
             newJob = createNewBatchJob(zipFile);
 
+            FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
+            resourceId = zipFileResource.getResourceId();
+
             TenantContext.setTenantId(newJob.getTenantId());
             batchJobId = newJob.getId();
 
-            reportStats = new SimpleReportStats(batchJobId, zipFile.getName(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
+            reportStats = new SimpleReportStats(batchJobId, zipFileResource.getResourceId(), BATCH_JOB_STAGE.getName());
 
-            File ctlFile = zipFileHandler.handle(zipFile, databaseMessageReport, reportStats);
+            File ctlFile = zipFileHandler.handle(zipFileResource, databaseMessageReport, reportStats);
 
             createResourceEntryAndAddToJob(zipFile, newJob);
 
@@ -113,7 +116,7 @@ public class ZipFileProcessor implements Processor {
             }
 
         } catch (Exception exception) {
-            handleProcessingException(exchange, batchJobId, exception, reportStats);
+            handleProcessingException(exchange, batchJobId, resourceId, exception, reportStats);
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
@@ -138,13 +141,13 @@ public class ZipFileProcessor implements Processor {
         return newJob;
     }
 
-    private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception,
-            ReportStats reportStats) {
+    private void handleProcessingException(Exchange exchange, String batchJobId, String resourceId,
+            Exception exception, ReportStats reportStats) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Source source = new JobSource(batchJobId, reportStats.getResourceId(), BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
+            Source source = new JobSource(batchJobId, resourceId, BATCH_JOB_STAGE.getName());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0014, exception.toString());
         }
     }

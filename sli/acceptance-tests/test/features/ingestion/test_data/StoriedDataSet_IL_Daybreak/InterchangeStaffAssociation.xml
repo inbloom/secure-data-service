@@ -64,12 +64,12 @@
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+				<StaffUniqueStateId>cgray</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<StaffClassification>Teacher</StaffClassification>
@@ -160,12 +160,12 @@
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<StaffClassification>Teacher</StaffClassification>
