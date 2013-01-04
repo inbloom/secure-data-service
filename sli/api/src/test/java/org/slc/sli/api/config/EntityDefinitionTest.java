@@ -17,11 +17,15 @@
 
 package org.slc.sli.api.config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,10 +38,11 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.validation.schema.NeutralSchema;
+import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.ListSchema;
-import org.slc.sli.validation.schema.StringSchema;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
+import org.slc.sli.validation.schema.StringSchema;
 
 /**
  * Class to test methods of org.slc.sli.api.config.EntityDefinition.
@@ -64,13 +69,13 @@ public class EntityDefinitionTest {
 
     @Test
     public void testSetSchema() {
-        NeutralSchema mockSchema = new ListSchema();
+        NeutralSchema mockSchema = new ComplexSchema();
         populate(mockSchema);
         entityDefinition.setSchema(mockSchema);
 
         Map<String, ReferenceSchema> referenceFields = entityDefinition.getReferenceFields();
 
-        assertEquals("Expected map with two entries", referenceFields.size(), 2);
+        assertEquals("Expected map with two entries", 3, referenceFields.size());
 
         ReferenceSchema stringSchema = referenceFields.get("StringSchema1");
         assertNull("Expected null schema", stringSchema);
@@ -96,6 +101,10 @@ public class EntityDefinitionTest {
 
         List<NeutralSchema> schemaList = new ArrayList<NeutralSchema>();
         schemaList.add(getReferenceSchema("listReferenceTest"));
+
+        ComplexSchema complex = new ComplexSchema();
+        complex.addField("complexRef", getReferenceSchema("complexRefXsd"));
+        schemaList.add(complex);
 
         ListSchema listSchema = getListSchema("listSchema");
         listSchema.setList(schemaList);
