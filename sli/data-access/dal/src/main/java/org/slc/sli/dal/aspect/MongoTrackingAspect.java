@@ -99,7 +99,7 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
-            dbCallTracker.addMetric(pjp.getSignature().toString(), end-start);
+            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
         }
 
         return result;
@@ -118,9 +118,22 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
-            LOG.debug("XYZ:    " + pjp.getSignature().toString() + "  :  " + (end-start)); 
-            dbCallTracker.addMetric(pjp.getSignature().toString(), end-start);
+            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
         }
+        return result;
+    }
+    
+    @Around("call(* org.slc.sli.domain.Repository+.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
+
+        if (Boolean.valueOf(dbCallTracking)) {
+            dbCallTracker.addEvent("start:" + pjp.getSignature().getName(), System.currentTimeMillis());
+        }
+        Object result = pjp.proceed();
+        if (Boolean.valueOf(dbCallTracking)) {
+            dbCallTracker.addEvent("end:" + pjp.getSignature().getName(), System.currentTimeMillis());
+        }
+
         return result;
     }
 
