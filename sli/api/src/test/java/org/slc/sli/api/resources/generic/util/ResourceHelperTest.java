@@ -19,14 +19,18 @@ package org.slc.sli.api.resources.generic.util;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -120,5 +124,17 @@ public class ResourceHelperTest {
         resource = resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.UNVERSIONED_ONE_PART);
         assertEquals("sections", resource.getResourceType());
         assertEquals(null, resource.getNamespace());
+    }
+
+    @Test
+    public void testExtractVersion() {
+        PathSegment segment1 = mock(PathSegment.class);
+        when(segment1.getPath()).thenReturn("v1.1");
+
+        List<PathSegment> segmentList = new ArrayList<PathSegment>();
+        assertEquals("Should match", PathConstants.V1, resourceHelper.extractVersion(segmentList));
+
+        segmentList.add(segment1);
+        assertEquals("", "v1.1", resourceHelper.extractVersion(segmentList));
     }
 }

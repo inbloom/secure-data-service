@@ -372,7 +372,7 @@ public class DefaultResourceService implements ResourceService {
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
             if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
-                    && requestUri.getPath().matches("^/api/rest/v1/schools/[^/]+/studentSchoolAssociations/students")) {
+                    && requestUri.getPath().matches("^/api/rest/[^/]+/schools/[^/]+/studentSchoolAssociations/students")) {
                 apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
                         NeutralCriteria.CRITERIA_EXISTS, false)));
                 apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
@@ -381,7 +381,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
             for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
-                List<String> filteredIds = entityBody.getId(resourceKey);
+                List<String> filteredIds = entityBody.getValues(resourceKey);
                 if ((filteredIds == null) || (filteredIds.isEmpty())) {
                    key = resourceKey;
                    filteredIdList.addAll(valueList);

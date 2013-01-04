@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 Dir["../../Shared/EntityClasses/*.rb"].each {|file| require file }
 
 class EntityFactory
@@ -34,14 +35,14 @@ class EntityFactory
       #
 
       case [type]
-        when [SeaEducationOrganization]
-          rval << SeaEducationOrganization.new(@prnd, work_order[:id], work_order[:programs])
+        when [StateEducationAgency]
+          rval << StateEducationAgency.new(@prnd, work_order[:id], work_order[:programs])
 
-        when [LeaEducationOrganization]
-          rval << LeaEducationOrganization.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs])
+        when [LocalEducationAgency]
+          rval << LocalEducationAgency.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs])
 
-        when [SchoolEducationOrganization]
-          rval << SchoolEducationOrganization.new(work_order[:id], work_order[:parent], work_order[:classification], work_order[:programs])
+        when [School]
+          rval << School.new(work_order[:id], work_order[:parent], work_order[:classification], work_order[:programs])
 
         when [Program]
           rval << Program.new(@prnd, work_order[:id], work_order[:program_type], work_order[:sponsor])
@@ -82,6 +83,9 @@ class EntityFactory
 
         when [TeacherSectionAssociation]
           rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
+
+        when [GradebookEntry]
+          rval << GradebookEntry.new(work_order[:gbe_type], work_order[:date_assigned], work_order[:section])
 
         else
           puts "factory not found for #{work_order}"

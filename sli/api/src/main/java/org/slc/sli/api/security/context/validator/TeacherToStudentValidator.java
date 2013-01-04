@@ -63,8 +63,21 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityName, Set<String> ids) {
-        return ids.size() != 0 &&
-                (validatedWithSections(ids) || validatedWithCohorts(ids) || validatedWithPrograms(ids));
+        if (!areParametersValid(EntityNames.STUDENT, entityName, ids)) {
+            return false;
+        }
+
+        Set<String> idsToValidate = new HashSet<String>(ids);
+        idsToValidate.removeAll(getValidatedWithSections(idsToValidate));
+
+        if (!idsToValidate.isEmpty()) {
+            idsToValidate.removeAll(getValidatedWithPrograms(idsToValidate));
+            if (!idsToValidate.isEmpty()) {
+                idsToValidate.removeAll(getValidatedWithCohorts(idsToValidate));
+            }
+        }
+
+        return idsToValidate.isEmpty();
     }
     
     @Override
@@ -84,10 +97,6 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     	
 		return validated;
     }
-
-    private boolean validatedWithSections(Set<String> ids) {
-	    return ids.size() == getValidatedWithSections(ids).size();
-	}
 
     private Set<String> getValidatedWithSections(Set<String> ids) {
     	
@@ -123,10 +132,6 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     	return result;
     }
 
-	private boolean validatedWithCohorts(Set<String> ids) {
-		return getValidatedWithCohorts(ids).containsAll(ids);
-	}
-	
 	private Set<String> getValidatedWithCohorts(Set<String> ids) {
 		Set<String> staffCohortIds = getStaffCohortIds();
 		
@@ -148,10 +153,6 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 		return studentIds;
 	}
 
-	private boolean validatedWithPrograms(Set<String> ids) {
-		return ids.size() == getValidatedWithPrograms(ids).size();
-	}
-	
 	private Set<String> getValidatedWithPrograms(Set<String> ids) {
 		Set<String> result = new HashSet<String>();
 		

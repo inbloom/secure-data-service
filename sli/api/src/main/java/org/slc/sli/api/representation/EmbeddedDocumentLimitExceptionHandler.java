@@ -17,13 +17,11 @@
 package org.slc.sli.api.representation;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.selectors.doc.EmbeddedDocumentLimitException;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jstokes
@@ -35,8 +33,8 @@ public class EmbeddedDocumentLimitExceptionHandler implements ExceptionMapper<Em
     @Override
     public Response toResponse(EmbeddedDocumentLimitException e) {
         return Response
-                .status(Response.Status.REQUEST_ENTITY_TOO_LARGE)
-                .entity(new ErrorResponse(Status.REQUEST_ENTITY_TOO_LARGE.getStatusCode(), Status.REQUEST_ENTITY_TOO_LARGE.getReasonPhrase(),
+                .status(CustomStatus.ENTITY_TOO_LARGE)
+                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
                         e.getMessage())).build();
     }
 }

@@ -32,17 +32,17 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 end
 
 Transform /^\/([^"]*)$/ do |uri_placeholder|
-  uri = "/v1/" + Transform(uri_placeholder)
+  uri = "/v1.1/" + Transform(uri_placeholder)
   uri
 end
 
 Transform /^\/([^"]*)\/([^"]*)$/ do |uri_placeholder1, uri_placeholder2|
-  uri = "/v1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
+  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
   uri
 end
 
 Transform /^\/([^"]*)\/([^"]*)\/([^"]*)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3|
-  uri = "/v1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
+  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
   uri
 end
 
@@ -76,7 +76,7 @@ end
 
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  root = expectedUri.match(/v1\/(.+?)\/|$/)[1]
+  root = expectedUri.match(/v1.1\/(.+?)\/|$/)[1]
   actual = @headers["x-executedpath"][0]
 
   #First, make sure the paths of the URIs are the same
@@ -87,7 +87,7 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\//)[1]
+    idsString = actual.match(/v1.1\/[^\/]*\/([^\/]*)\//)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
@@ -119,7 +119,8 @@ $entityData = {
              "credit" => 4.0
         },
         "gradeType" => "Final",
-        "finalLetterGradeEarned" => "A"
+        "finalLetterGradeEarned" => "A",
+	"educationOrganizationReference" => ["92d6d5a0-852c-45f4-907a-912752831772"]
     },
     "staffCohortAssociation" => {
         "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",

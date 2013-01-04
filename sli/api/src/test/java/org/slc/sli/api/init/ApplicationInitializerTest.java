@@ -38,11 +38,13 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * 
  *
  */
+@DirtiesContext
 public class ApplicationInitializerTest {
     
     @InjectMocks

@@ -49,14 +49,14 @@ public class AuthRequestServiceTest {
         
         Mockito.when(samlDecoder.decode("samlRequest")).thenReturn(request);
         
-        Request processed = authService.processRequest("samlRequest", "myrealm");
+        Request processed = authService.processRequest("samlRequest", "myrealm", null);
         
         Mockito.verify(samlDecoder).decode("samlRequest");
         
         assertEquals("id", processed.getRequestId());
         assertEquals("myrealm", processed.getRealm());
         
-        assertEquals(null, authService.processRequest(null, null));
+        assertEquals(null, authService.processRequest(null, null, null));
     }
     
     @Test
@@ -67,13 +67,13 @@ public class AuthRequestServiceTest {
         Mockito.when(request.isForceAuthn()).thenReturn(true);
         Mockito.when(samlDecoder.decode("samlRequest")).thenReturn(request);
         
-        Request processed = authService.processRequest("samlRequest", "myrealm");
+        Request processed = authService.processRequest("samlRequest", "myrealm", null);
         
         Mockito.verify(samlDecoder).decode("samlRequest");
         
         assertEquals("id", processed.getRequestId());
         assertEquals("myrealm", processed.getRealm());
         assertEquals(true, processed.isForceAuthn());
-        assertEquals(null, authService.processRequest(null, null));
+        assertEquals(null, authService.processRequest(null, null, null));
     }
 }

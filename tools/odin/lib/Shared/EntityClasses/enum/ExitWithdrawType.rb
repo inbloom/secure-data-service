@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of exit withdrawals. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="ExitWithdrawType">
 #   <xs:annotation>

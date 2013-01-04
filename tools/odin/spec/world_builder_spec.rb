@@ -38,15 +38,15 @@ describe "WorldBuilder" do
 
       it "education organization interchange will contain a single state education agency" do
         @world["seas"].length.should eq(1)
-        @queue.count(SeaEducationOrganization).should eq(1)
+        @queue.count(StateEducationAgency).should eq(1)
       end
       it "education organization interchange will contain a single local education agency" do
         @world["leas"].length.should eq(1)
-        @queue.count(LeaEducationOrganization).should eq(1)
+        @queue.count(LocalEducationAgency).should eq(1)
       end
       it "education organization interchange contains 3 schools" do
         # check individual types of schools below.
-        @queue.count(SchoolEducationOrganization).should eq(3)
+        @queue.count(School).should eq(3)
       end
       it "education organization interchange will contain a single elementary school" do
         @world["elementary"].length.should eq(1)
@@ -129,15 +129,15 @@ describe "WorldBuilder" do
 
       it "education organization interchange will contain a single state education agency" do
         @world["seas"].length.should eq(1)
-        @queue.count(SeaEducationOrganization).should eq(1)
+        @queue.count(StateEducationAgency).should eq(1)
       end
       it "education organization interchange will contain multiple local education agencies" do
         @world["leas"].length.should be_> 2
-        @queue.count(LeaEducationOrganization).should be_> 2
+        @queue.count(LocalEducationAgency).should be_> 2
       end
       it "education organization interchange contains many schools" do
         # check individual types of schools below.
-        @queue.count(SchoolEducationOrganization).should be_ > 6
+        @queue.count(School).should be_ > 6
       end
       it "education organization interchange will contain many elementary schools" do
         @world["elementary"].length.should be_> 2
@@ -213,9 +213,8 @@ describe "WorldBuilder" do
       end
       it "will give elementary schools a feeder middle school and high school" do
         elementary.each{|i|
-          i['feeds_to'].should  have(2).items
+          i['feeds_to'].should  have(1).items
           i['feeds_to'][0].should satisfy {|i| 9 <= i and i <= 12}
-          i['feeds_to'][1].should satisfy {|i| 13 <= i and i <= 14}
         }
       end
     end

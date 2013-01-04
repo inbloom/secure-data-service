@@ -69,6 +69,60 @@ DAILY_ATTENDANCE_PERCENTAGES: {
   "high": {"absent": 8, "tardy": 3}
 }
 
+# Gradebook Entry information
+GRADEBOOK_ENTRIES_BY_GRADE: {
+  "Kindergarten": {
+    "Homework": {"min": 2, "max": 4}
+  },
+  "First grade": {
+    "Homework": {"min": 4, "max": 8}
+  },
+  "Second grade": {
+    "Homework": {"min": 4, "max": 8, "weight": 90},
+    "Quiz": {"min": 1, "max": 2, "weight": 10}
+  },
+  "Third grade": {
+    "Homework": {"min": 4, "max": 8, "weight": 90},
+    "Quiz": {"min": 1, "max": 2, "weight": 10}
+  },
+  "Fourth grade": {
+    "Homework": {"min": 4, "max": 8, "weight": 90},
+    "Quiz": {"min": 1, "max": 2, "weight": 10}
+  },
+  "Fifth grade": {
+    "Homework": {"min": 4, "max": 8, "weight": 90},
+    "Quiz": {"min": 1, "max": 2, "weight": 10}
+  },
+  "Sixth grade": {
+    "Homework": {"min": 8, "max": 16, "weight": 80},
+    "Quiz": {"min": 3, "max": 6, "weight": 20}
+  },
+  "Seventh grade": {
+    "Homework": {"min": 8, "max": 16, "weight": 80},
+    "Quiz": {"min": 3, "max": 6, "weight": 20}
+  },
+  "Eighth grade": {
+    "Homework": {"min": 8, "max": 16, "weight": 80},
+    "Quiz": {"min": 3, "max": 6, "weight": 20}
+  },
+  "Ninth grade": {
+    "Homework": {"min": 12, "max": 24, "weight": 75},
+    "Quiz": {"min": 4, "max": 8, "weight": 25}
+  },
+  "Tenth grade": {
+    "Homework": {"min": 12, "max": 24, "weight": 75},
+    "Quiz": {"min": 4, "max": 8, "weight": 25}
+  },
+  "Eleventh grade": {
+    "Homework": {"min": 12, "max": 24, "weight": 75},
+    "Quiz": {"min": 4, "max": 8, "weight": 25}
+  },
+  "Twelfth grade": {
+    "Homework": {"min": 12, "max": 24, "weight": 75},
+    "Quiz": {"min": 4, "max": 8, "weight": 25}
+  }
+}
+
 #Graduation plans
 GRADUATION_PLANS: {
   "Distinguished": {"English Language and Literature": 12, "Mathematics": 15, "Science": 15, "Social Sciences and History": 12}, 

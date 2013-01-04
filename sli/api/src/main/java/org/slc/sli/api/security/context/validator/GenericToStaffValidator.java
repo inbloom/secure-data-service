@@ -39,6 +39,10 @@ public class GenericToStaffValidator extends AbstractContextValidator {
     
     @Override
     public boolean validate(String entityName, Set<String> staffIds) {
+        if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
+            return false;
+        }
+        
         String myself = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
         
         if (staffIds.size() == 0) {

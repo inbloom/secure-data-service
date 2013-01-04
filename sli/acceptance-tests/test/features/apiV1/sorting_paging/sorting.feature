@@ -300,4 +300,23 @@ Scenario: Sorting Collections routed to Elastic Search
   Then I should receive a collection
    And the link at index 0 should have "objective" equal to "Learn to read"
 
-               
+Scenario: Paging collections routed to elastic search
+  Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+  And format "application/json"
+  Given format "application/json"
+  And parameter "q" is "use"
+  And parameter "offset" is "0"
+  And parameter "limit" is "2"
+  When I navigate to GET "/v1/search"
+  Then I should receive a collection with 2 unique elements
+  #This total count is due to an approximation algorithm for search paging
+  And the header "TotalCount" equals 4
+  And the a next link exists with offset equal to 2 and limit equal to 2
+  Given parameter "offset" is "5"
+  And parameter "limit" is "2"
+  And parameter "q" is "use"
+  When I navigate to GET "/v1/search"
+  Then I should receive a collection with 1 unique elements
+  And the header "TotalCount" equals 1
+  And the a previous link exists with offset equal to 3 and limit equal to 2
+  And the a next link should not exist

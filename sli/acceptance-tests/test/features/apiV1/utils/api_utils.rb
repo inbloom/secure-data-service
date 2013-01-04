@@ -25,37 +25,37 @@ include REXML
 require File.expand_path("../../../utils/common", __FILE__)
 
 Transform /^\/(<[^"]*>)$/ do |uri_placeholder|
-  uri = "/v1/" + Transform(uri_placeholder)
+  uri = "/v1.1/" + Transform(uri_placeholder)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
-  uri = "/v1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
+  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/([^"<>]*)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
-  uri = "/v1/" + uri_placeholder1 + "/" + Transform(uri_placeholder2)
+  uri = "/v1.1/" + uri_placeholder1 + "/" + Transform(uri_placeholder2)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3|
-  uri = "/v1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
+  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4|
-  uri = "/v1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4)
+  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4, uri_placeholder5|
-  uri = "/v1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5)
+  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5)
   #puts "URI = #{uri}"
   uri
 end
@@ -146,7 +146,7 @@ end
 Then /^I should receive a collection with (\d+) elements$/ do |count|;
   count = convert(count)
   assert(@result != nil, "Response contains no data")
-  assert(@result.is_a?(Array), "Expected array of links")
+  assert(@result.is_a?(Array), "Expected array of links, got #{@result}")
   @result.length.should == count
 end
 

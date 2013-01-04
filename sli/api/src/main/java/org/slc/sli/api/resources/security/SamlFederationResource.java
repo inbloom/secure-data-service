@@ -23,7 +23,6 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,9 +50,9 @@ import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -248,10 +247,15 @@ public class SamlFederationResource {
 
         SLIPrincipal principal;
         String tenant;
+        String sandboxTenant = null; //for developers coming from developer realm
         String realmTenant = (String) realm.getBody().get("tenantId");
         String samlTenant = attributes.getFirst("tenant");
-        Object temp = realm.getBody().get("admin");
-        Boolean isAdminRealm = temp == null ? false : (Boolean) temp;
+        
+        Boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
+        isAdminRealm = (isAdminRealm != null) ? isAdminRealm : Boolean.FALSE;
+        
+        Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
+        isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
         if (isAdminRealm && sandboxEnabled) {
             // Sandbox mode using the SimpleIDP
             //reset isAdminRealm based on the value of the saml isAdmin attribute
@@ -269,19 +273,30 @@ public class SamlFederationResource {
                     throw new AccessDeniedException("Invalid user configuration."); 
                 }
             }
-        }else if(isAdminRealm){
+        } else if(isAdminRealm){
             //Prod mode, admin login
             tenant = null;
-        }else {
+        } else if (isDevRealm) {
+            //Prod mode, developer login
+            tenant = null;
+            sandboxTenant = samlTenant; 
+            samlTenant = null;
+        } else {
             //regular IDP login
             tenant = realmTenant;
         }
+
         debug("Authenticating user is an admin: " + isAdminRealm);
         principal = users.locate(tenant, attributes.getFirst("userId"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
             principal.setName(userName);
         } else {
+            if (isAdminRealm || isDevRealm) {
+                principal.setFirstName(attributes.getFirst("givenName"));
+                principal.setLastName(attributes.getFirst("sn"));
+                principal.setVendor(attributes.getFirst("vendor"));
+            }
             principal.setName(attributes.getFirst("userName"));
         }
 
@@ -295,14 +310,13 @@ public class SamlFederationResource {
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
 
-
-        if ("-133".equals(principal.getEntity().getEntityId()) && !isAdminRealm) {
+        if ("-133".equals(principal.getEntity().getEntityId()) && !(isAdminRealm || isDevRealm)) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we
             // have no valid user
             throw new AccessDeniedException("Invalid user.");
         }
 
-        if (!isAdminRealm && !realmHelper.isUserAllowedLoginToRealm(principal.getEntity(), realm)) {
+        if (!(isAdminRealm || isDevRealm) && !realmHelper.isUserAllowedLoginToRealm(principal.getEntity(), realm)) {
             throw new AccessDeniedException("User is not associated with realm.");
         }
 
@@ -318,7 +332,7 @@ public class SamlFederationResource {
         }
         principal.setRoles(sliRoleList);
         principal.setAdminUser(isAdminUser);
-        principal.setAdminRealmAuthenticated(isAdminRealm);
+        principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
 
         if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
@@ -340,6 +354,10 @@ public class SamlFederationResource {
                 debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(),
                         principal.getTenantId());
             }
+        }
+        
+        if (sandboxTenant != null && isDevRealm) {
+            principal.setSandboxTenant(sandboxTenant);
         }
 
         TenantContext.setIsSystemCall(true);
@@ -383,7 +401,7 @@ public class SamlFederationResource {
 
             boolean runningSsl = uriInfo.getRequestUri().getScheme().equals("https");
             URI redirect = builder.build();
-            return Response.status(Response.Status.FOUND)
+            return Response.status(CustomStatus.FOUND)
                     .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", -1, runningSsl))
                     .location(redirect).build();
         }

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.elasticsearch.common.settings.loader.SettingsLoader.Helper;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -35,6 +36,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -70,6 +72,10 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
     private PagingRepositoryDelegate<Entity> mockRepo;
     private StaffToStudentValidator staffToStudentValidator;
     private Set<String> studentIds;
+    
+    @Autowired
+    ValidatorTestHelper helper;
+    
 
     @SuppressWarnings("unchecked")
     @Before
@@ -126,8 +132,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
                 .minusDays(3));
         Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
 
-        Map<String, Object> grade = buildGrade(studentSectionAssociation.getEntityId());
-        Entity gradeEntity = new MongoEntity(EntityNames.GRADE, grade);
+        Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
         studentIds.add("student123");
 
@@ -149,8 +154,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
                 .minusDays(3));
         Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
 
-        Map<String, Object> grade = buildGrade(studentSectionAssociation.getEntityId());
-        Entity gradeEntity = new MongoEntity(EntityNames.GRADE, grade);
+        Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
         studentIds.add("student123");
 
@@ -171,9 +175,8 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         Map<String, Object> association = buildStudentSectionAssociation("student123", "section123", DateTime.now()
                 .minusDays(3));
         Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
-
-        Map<String, Object> grade = buildGrade(studentSectionAssociation.getEntityId());
-        Entity gradeEntity = new MongoEntity(EntityNames.GRADE, grade);
+;
+        Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
 
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
@@ -189,8 +192,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
                 .minusDays(3));
         Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
 
-        Map<String, Object> grade = buildGrade(studentSectionAssociation.getEntityId());
-        Entity gradeEntity = new MongoEntity(EntityNames.GRADE, grade);
+        Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
 
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
@@ -209,13 +211,5 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         association.put("sectionId", section);
         association.put("beginDate", validator.getDateTimeString(begin));
         return association;
-    }
-
-    private Map<String, Object> buildGrade(String studentSectionAssociationId) {
-        Map<String, Object> grade = new HashMap<String, Object>();
-        grade.put("letterGradeEarned", "A");
-        grade.put("gradeType", "Exam");
-        grade.put("studentSectionAssociationId", studentSectionAssociationId);
-        return grade;
     }
 }

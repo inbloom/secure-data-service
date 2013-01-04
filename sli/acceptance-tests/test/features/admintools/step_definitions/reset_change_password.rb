@@ -66,6 +66,10 @@ Then /^I am redirected to the Forgot Password page$/ do
   assertWithWait("Failed to navigate to the Forgot Password page")  {@driver.page_source.index("Reset Password") != nil}
 end
 
+Then /^I see change password is disabled for production developers$/ do
+    assertWithWait("Failed to navigate to the disabled Change Password page") {@driver.page_source.index("Change password operation is disabled for application developers.") != nil}
+end
+
 When /^I am forced to change password$/ do
   assertWithWait("Failed to navigate to the Reset Password page")  {@driver.page_source.index("Reset Password") != nil}
 end

@@ -79,8 +79,8 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
-        user_info = APP_LDAP_CLIENT.read_user(@app.metaData.createdBy)
-        ApplicationMailer.notify_developer(@app, user_info[:first]).deliver
+        dev_name = @app.author_first_name != nil ? @app.author_first_name : @app.metaData.createdBy
+        ApplicationMailer.notify_developer(@app, dev_name).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -131,9 +131,8 @@ class AppsController < ApplicationController
     @app = App.new(params[:app])
     # Want to read the created_by on the @app, which is stamped during the created.
     # Tried @app.reload and it didn't work
-    creator_email = session[:email]
-    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
-    @app.vendor = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
+    dev_info = get_user_info(session[:external_id])
+    @app.vendor = dev_info[:vendor]
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
     logger.debug{"Application is valid? #{@app.valid?}"}
@@ -168,9 +167,8 @@ class AppsController < ApplicationController
     @app.load(params[:app])
     # Want to read the created_by on the @app, which is stamped during the created.
     # Tried @app.reload and it didn't work
-    creator_email = session[:email]
-    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
-    @app.vendor = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
+    dev_info = get_user_info(session[:external_id])
+    @app.vendor = dev_info[:vendor]
     @app.attributes.delete :image_url unless params[:app].include? :image_url
     @app.attributes.delete :administration_url unless params[:app].include? :administration_url
     @app.attributes.delete :application_url unless params[:app].include? :application_url
@@ -268,5 +266,17 @@ class AppsController < ApplicationController
     end
     return cur
 
+  end
+
+  def get_user_info(uid)
+    dev_info = APP_LDAP_CLIENT.read_user(uid)
+    if dev_info == nil
+        dev_info = Hash.new
+        dev_info[:first] = session[:first_name]
+        dev_info[:last] = session[:last_name]
+        dev_info[:vendor] = session[:vendor]
+    end
+    dev_info[:vendor] = (dev_info.has_key?(:vendor) and dev_info[:vendor]) || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
+    return dev_info
   end
 end

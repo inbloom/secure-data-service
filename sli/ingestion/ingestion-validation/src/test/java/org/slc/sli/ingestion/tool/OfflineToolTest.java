@@ -39,8 +39,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.AbstractReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * Unit test for OfflineTool main
@@ -106,7 +107,8 @@ public class OfflineToolTest {
         reset();
         toolTest("zipFile/Session1.zip", "processing is complete.");
 
-        Mockito.verify(messageReport, Mockito.never()).error(Mockito.any(AbstractReportStats.class), Mockito.any(MessageCode.class));
+        Mockito.verify(messageReport, Mockito.never()).error(Mockito.any(ReportStats.class),
+                Matchers.any(Source.class), Mockito.any(MessageCode.class));
         Mockito.verify(cntlr, Mockito.times(1)).doValidation((File) Mockito.any());
 
     }
@@ -118,21 +120,24 @@ public class OfflineToolTest {
         reset();
         String[] args = new String[2];
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args.getClass()}, new Object[]{args});
-        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(AbstractReportStats.class), Matchers.eq(ValidationMessageCode.VALIDATION_0011), Matchers.eq("validationTool"));
+        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0011), Matchers.eq("validationTool"));
 
         // Testing nonexistent file
         reset();
         String[] args4 = new String[1];
         args4[0] = "/invalid/nonExist.ctl";
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args4.getClass()}, new Object[]{args4});
-        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(AbstractReportStats.class), Matchers.eq(ValidationMessageCode.VALIDATION_0014), Matchers.eq(args4[0]));
+        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0014), Matchers.eq(args4[0]));
 
         // Passing a directory
         reset();
         Resource fileResource = new ClassPathResource("invalid/");
         args4[0] = fileResource.getFile().toString();
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args4.getClass()}, new Object[]{args4});
-        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(AbstractReportStats.class), Matchers.eq(ValidationMessageCode.VALIDATION_0013));
+        Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0013));
     }
 
 }

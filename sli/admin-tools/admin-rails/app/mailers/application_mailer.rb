@@ -91,6 +91,13 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
 
+  def notify_operator_on_acct_creation(user_created)
+    @user = user_created
+    support_email = APP_CONFIG["support_email"]
+    Rails.logger.debug {"Mailing to: #{support_email} on sandbox creation"}
+    mail(:to => support_email, :subject => 'SLC Sandbox - New sandbox creation')
+  end
+
   def notify_developer(app, first_name)
     Rails.logger.debug {"Mailing to: #{app.metaData.createdBy}"}
     @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"

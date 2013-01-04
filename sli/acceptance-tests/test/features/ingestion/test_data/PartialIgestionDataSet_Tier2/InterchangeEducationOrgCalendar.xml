@@ -5020,49 +5020,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2010-08-23</BeginDate>
 		<EndDate>2010-10-03</EndDate>
-		<TotalInstructionalDays>29</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Second Six Weeks</GradingPeriod>
@@ -5074,42 +5042,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2010-10-04</BeginDate>
 		<EndDate>2010-11-07</EndDate>
-		<TotalInstructionalDays>25</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Third Six Weeks</GradingPeriod>
@@ -5121,56 +5064,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2010-11-08</BeginDate>
 		<EndDate>2011-01-09</EndDate>
-		<TotalInstructionalDays>27</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Fourth Six Weeks</GradingPeriod>
@@ -5182,49 +5086,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2011-01-10</BeginDate>
 		<EndDate>2011-02-20</EndDate>
-		<TotalInstructionalDays>33</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
@@ -5236,56 +5108,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2011-02-21</BeginDate>
 		<EndDate>2011-04-10</EndDate>
-		<TotalInstructionalDays>29</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Sixth Six Weeks</GradingPeriod>
@@ -5297,54 +5130,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2011-04-11</BeginDate>
 		<EndDate>2011-05-27</EndDate>
-		<TotalInstructionalDays>34</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
@@ -5356,8 +5152,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2011-05-27</BeginDate>
 		<EndDate>2011-05-27</EndDate>
-		<TotalInstructionalDays>0</TotalInstructionalDays>
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
@@ -5369,8 +5174,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2010-05-27</BeginDate>
 		<EndDate>2010-05-27</EndDate>
-		<TotalInstructionalDays>0</TotalInstructionalDays>
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
@@ -5382,8 +5196,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2009-05-27</BeginDate>
 		<EndDate>2009-05-27</EndDate>
-		<TotalInstructionalDays>0</TotalInstructionalDays>
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
@@ -5395,8 +5218,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2008-05-27</BeginDate>
 		<EndDate>2008-05-27</EndDate>
-		<TotalInstructionalDays>0</TotalInstructionalDays>
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>End of Year</GradingPeriod>
@@ -5408,8 +5240,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2007-05-27</BeginDate>
 		<EndDate>2007-05-27</EndDate>
-		<TotalInstructionalDays>0</TotalInstructionalDays>
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<!-- GradingPeriods for the 2011-2012 school year -->
 	<GradingPeriod>
@@ -5422,56 +5263,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2011-08-22</BeginDate>
 		<EndDate>2011-10-09</EndDate>
-		<TotalInstructionalDays>34</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Second Six Weeks</GradingPeriod>
@@ -5483,56 +5285,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2011-10-10</BeginDate>
 		<EndDate>2011-11-27</EndDate>
-		<TotalInstructionalDays>33</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Third Six Weeks</GradingPeriod>
@@ -5544,63 +5307,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2011-11-28</BeginDate>
 		<EndDate>2012-01-22</EndDate>
-		<TotalInstructionalDays>31</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Fourth Six Weeks</GradingPeriod>
@@ -5612,49 +5329,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2012-01-23</BeginDate>
 		<EndDate>2012-03-04</EndDate>
-		<TotalInstructionalDays>30</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
@@ -5666,49 +5351,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2012-03-05</BeginDate>
 		<EndDate>2012-04-15</EndDate>
-		<TotalInstructionalDays>30</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<GradingPeriod>
 		<GradingPeriod>Sixth Six Weeks</GradingPeriod>
@@ -5720,47 +5373,17 @@
 		</EducationOrganizationReference>
 		<BeginDate>2012-04-16</BeginDate>
 		<EndDate>2012-05-25</EndDate>
-		<TotalInstructionalDays>30</TotalInstructionalDays>
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
-		<CalendarDateReference />
+		<TotalInstructionalDays>1</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2012-05-25</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
 	</GradingPeriod>
 	<Session>
 		<SessionName>Fall 2010 East Daybreak Junior High</SessionName>

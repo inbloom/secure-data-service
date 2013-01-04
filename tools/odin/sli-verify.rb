@@ -18,11 +18,16 @@ limitations under the License.
 =end
 
 require 'digest/sha1'
-require 'mongo'
 require 'json'
+require 'logger'
+require 'mongo'
+
+$stdout.sync = true
+@log = Logger.new($stdout)
+@log.level = Logger::INFO
 
 if ARGV.length != 2
-  puts "Usage: sli-verify.rb {tenant id} {path to manifest}"
+  @log.error "Usage: sli-verify.rb {tenant id} {path to manifest}"
   exit 0
 end
 
@@ -38,32 +43,34 @@ def where_stored(entity_type)
     {collection: 'assessment', subdoc: ['body', 'assessmentItem']}
   when "AttendanceEvent"
     {collection: 'attendance', subdoc: ['body', 'schoolYearAttendance', :*, 'attendanceEvent']}
-  when "StateEducationAgency"
-    {collection: 'educationOrganization', query: {type: 'stateEducationAgency'}}
+  when "GradebookEntry"
+    {collection: 'section', subdoc: ['gradebookEntry']}
   when "LocalEducationAgency"
     {collection: 'educationOrganization', query: {type: 'localEducationAgency'}}
   when "School"
     {collection: 'educationOrganization', query: {type: 'school'}}
   when "Staff"
     {collection: 'staff', query: {type: 'staff'}}
-  when "Teacher"
-    {collection: 'staff', query: {type: 'teacher'}}
   when 'StaffEducationOrgAssignmentAssociation'
     {collection: 'staffEducationOrganizationAssociation'}
-  when 'TeacherSectionAssociation'
-    {collection: 'section', subdoc: ['teacherSectionAssociation']}
-  when 'StudentSectionAssociation'
-    {collection: 'section', subdoc: ['studentSectionAssociation']}
+  when "StateEducationAgency"
+    {collection: 'educationOrganization', query: {type: 'stateEducationAgency'}}
   when 'StudentAssessment'
     {collection: 'student', subdoc: ['studentAssessment']}
   when 'StudentAssessmentItem'
     {collection: 'student', subdoc: ['studentAssessment', :*, 'body', 'studentAssessmentItems']}
-  when 'StudentProgramAssociation'
-    {collection: 'program', subdoc: ['studentProgramAssociation']}
-  when 'StudentParentAssociation'
-    {collection: 'student', subdoc: ['studentParentAssociation']}
   when 'StudentCohortAssociation'
     {collection: 'cohort', subdoc: ['studentCohortAssociation']}
+  when 'StudentParentAssociation'
+    {collection: 'student', subdoc: ['studentParentAssociation']}
+  when 'StudentProgramAssociation'
+    {collection: 'program', subdoc: ['studentProgramAssociation']}
+  when 'StudentSectionAssociation'
+    {collection: 'section', subdoc: ['studentSectionAssociation']}
+  when "Teacher"
+    {collection: 'staff', query: {type: 'teacher'}}
+  when 'TeacherSectionAssociation'
+    {collection: 'section', subdoc: ['teacherSectionAssociation']}
   else
     sli_entity = String.new entity_type
     sli_entity[0] = sli_entity[0].downcase
@@ -102,7 +109,7 @@ File.open(@manifest){ |file|
     entity_count = count(entity)
     unless entity_count.nil?
       if entity_count != count then
-        puts "Expected #{count} #{entity} entities to be ingested, found #{entity_count}"
+        @log.warn "Expected #{count} #{entity} entities to be ingested, found #{entity_count}"
         passed = false
       end
     end
@@ -110,9 +117,9 @@ File.open(@manifest){ |file|
 }
 
 if passed
-  puts "All expected entities found"
+  @log.info "All expected entities found"
   exit 0
 else
-  puts "The entities above were not found"
+  @log.warn "The entities above were not found --> ingestion failed."
   exit 1
 end

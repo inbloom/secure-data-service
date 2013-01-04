@@ -43,16 +43,4 @@ class CohortScopeType
   CohortScopeType.define :SCHOOL, "School"
   CohortScopeType.define :STATEWIDE, "Statewide"
   CohortScopeType.define :TEACHER, "Teacher"
-
-  # translates the specified Symbol into the ed-fi compliant String representation of the cohort scope type
-  # -> returns nil if the Symbol doesn't exist
-  def self.get(key)
-    const_get(key)
-  end
-
-  # translates the specified String representation of the cohort scope type into a Symbol
-  # -> returns nil if the String representation doesn't map to a Symbol
-  def self.to_symbol(value)
-    get_key(value)
-  end
 end

@@ -58,7 +58,7 @@ public class StudentObjectiveAssessmentTest {
             + "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
             + "<Result>12</Result>"
             + "</ScoreResults>"
-            + "<StudentAssessmentReference ref=\"STA-TAKS-Reading-8-2011-604844\"></StudentAssessmentReference>"
+            + "<StudentAssessmentReference></StudentAssessmentReference>"
             + "<ObjectiveAssessmentReference>"
             + "<ObjectiveAssessmentIdentity>"
             + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
@@ -108,7 +108,6 @@ public class StudentObjectiveAssessmentTest {
         Assert.assertTrue(scoreResult != null);
         Assert.assertEquals("12", scoreResult.get("result").toString());
         Assert.assertEquals("Raw score", scoreResult.get("assessmentReportingMethod"));
-//        Assert.assertEquals("STA-TAKS-Reading-8-2011-604844", entity.get("studentAssessmentRef"));
         Assert.assertEquals("TAKSReading8-1", entity.get("objectiveAssessmentRef"));
     }
 }

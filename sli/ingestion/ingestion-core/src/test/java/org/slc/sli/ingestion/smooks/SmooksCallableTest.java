@@ -36,6 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.handler.XmlFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -52,6 +53,9 @@ import org.slc.sli.ingestion.service.IngestionExecutor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SmooksCallableTest {
+
+    @Autowired
+    XmlFileHandler xmlFileHandler;
 
     @Autowired
     SliSmooksFactory sliSmooksFactory;
@@ -85,7 +89,7 @@ public class SmooksCallableTest {
 
         List<FutureTask<Boolean>> smooksOfTheFutureList = new ArrayList<FutureTask<Boolean>>();
         for (int i = 0; i < 3; i++) {
-            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, fe, stage, batchJobDAO, sliSmooksFactory);
+            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, xmlFileHandler, fe, stage, batchJobDAO, sliSmooksFactory);
 
             FutureTask<Boolean> smooksOfTheFuture = IngestionExecutor.execute(smooksCallabe);
 

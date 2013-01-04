@@ -70,7 +70,7 @@ public abstract class NeutralSchema {
     private String readConverter = null;
     private String writeConverter = null;
 
-    Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
+    private Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
 
     public NeutralSchema(String type) {
         this.type = type;
@@ -94,11 +94,13 @@ public abstract class NeutralSchema {
     }
 
     @JsonIgnore
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract") // Default value for subclasses.  Could be refactored, but not worth the added complexity.
     public boolean isPrimitive() {
         return true;
     }
 
     @JsonIgnore
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract") // Default value for subclasses.  Could be refactored, but not worth the added complexity.
     public boolean isSimple() {
         return true;
     }

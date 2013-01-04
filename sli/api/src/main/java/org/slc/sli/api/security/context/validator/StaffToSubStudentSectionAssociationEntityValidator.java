@@ -45,6 +45,10 @@ public class StaffToSubStudentSectionAssociationEntityValidator extends Abstract
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(SUB_ENTITIES_OF_STUDENT_SECTION, entityType, ids)) {
+            return false;
+        }
+        
         List<String> studentSectionAssociationIds = getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(
                 ids), ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
         if (studentSectionAssociationIds.isEmpty()) {

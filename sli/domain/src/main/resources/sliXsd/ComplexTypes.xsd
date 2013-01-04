@@ -307,6 +307,9 @@
 						or institution by a school, school system, a state, or other
 						agency or entity.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="itemCategory" type="itemCategoryType">
@@ -4030,6 +4033,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			 <xs:element name="educationOrganizationReference" type="reference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The educational organization associated with the CourseTranscript
+					</xs:documentation>
+				<xs:appinfo>
+					<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+				</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="studentAcademicRecordId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Association to the student academic record for the current course transcript.
@@ -5855,8 +5867,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="calendarDateReference" type="reference"
-				minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="calendarDateReference" type="reference" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Days associated with the grading period.
 					</xs:documentation>

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model;
 
 import java.util.Date;
@@ -22,7 +21,7 @@ import java.util.Date;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *
@@ -72,22 +71,23 @@ public final class Error {
     }
 
     // TODO: too many params. refactor.
+    @SuppressWarnings("PMD.CustomAvoidThrowingRawExceptionTypes") // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
     public static Error createIngestionError(String ingestionJobId, String resourceId, String stageName,
             String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
             String errorDetail) {
 
         String theSourceIp = sourceIp;
         if (theSourceIp == null) {
-            theSourceIp = BatchJobUtils2.getHostAddress();
+            theSourceIp = BatchJobUtils.getHostAddress();
         }
 
         String theHostname = hostname;
         if (theHostname == null) {
-            theHostname = BatchJobUtils2.getHostName();
+            theHostname = BatchJobUtils.getHostName();
         }
 
-        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,	// NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
-                BatchJobUtils2.getCurrentTimeStamp(), severity, errorType, errorDetail);
+        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
+                BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
         return error;
     }

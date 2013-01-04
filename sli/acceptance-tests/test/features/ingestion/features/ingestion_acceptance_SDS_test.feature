@@ -27,6 +27,7 @@
 @RALLY_US4398
 @RALLY_DE2150
 @RALLY_DE2218
+@RALLY_DE2227
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -106,7 +107,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 22    |
         | staff                       | 14    |
         | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 11 |
+        | staffEducationOrganizationAssociation| 13 |
         | staffProgramAssociation     | 7     |
         | student                     | 78    |
         | studentAcademicRecord       | 117   |
@@ -503,6 +504,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objectiveGradeLevel             | Third grade |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.learningStandards               | 62b9f6af06aa6a931b0e5e47b5a3356849db0724_id |
     | learningStandard                     | 84a2dbad54ca44b613728cdfbe92d2e9a3bbcd9f_id | body.learningStandardId.identificationCode | 9DB2617F615743cfA8D225346AC4CB4D |
+And I check that multiple educationOrganization ids were generated properly:
+     | collectionName                      | deterministicId                             | field                                                  | value                                       |
+     | courseTranscript                    | 0a5dd745aecf511780b1bcef48194d93602e1aae_id | body.educationOrganizationReference                    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id,352e8570bd1116d11a72755b987902440045d346_id,a13489364c2eb015c219172d561c62350f0453f3_id |
 
 @smoke
 Scenario: Verify references were resolved correctly
@@ -635,7 +639,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 23    |
         | staff                       | 21    |
         | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 18 |
+        | staffEducationOrganizationAssociation| 20 |
         | staffProgramAssociation     | 7     |
         | student                     | 183   |
         | studentAssessment| 203   |
@@ -748,7 +752,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | staff                       | 37    |
         | staffCohortAssociation      | 0     |
-        | staffEducationOrganizationAssociation| 22 |
+        | staffEducationOrganizationAssociation| 37 |
         | staffProgramAssociation     | 0     |
         | student                     | 8     |
         | studentAssessment| 0     |
@@ -1134,7 +1138,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | staff                       | 37    |
         | staffCohortAssociation      | 0     |
-        | staffEducationOrganizationAssociation| 22 |
+        | staffEducationOrganizationAssociation| 37 |
         | staffProgramAssociation     | 0     |
         | student                     | 8     |
         | studentAcademicRecord       | 0     |
@@ -1215,3 +1219,4 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffProgramAssociation     | 8                   | body.endDate                   | 2012-02-15              | string               |
         | staffProgramAssociation     | 10                  | body.studentRecordAccess       | true                    | boolean              |
         | staffProgramAssociation     | 1                   | body.studentRecordAccess       | false                   | boolean              |
+

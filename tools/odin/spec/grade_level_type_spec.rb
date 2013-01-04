@@ -23,7 +23,7 @@ describe "GradeLevelType" do
   describe "Correctly translates grades into strings" do
   	describe "for symbol that identifies Kindergarten" do
   	  it "will return the string representation for Kindergarten" do
-  	  	GradeLevelType.get(:KINDERGARTEN).should match("Kindergarten")
+  	  	GradeLevelType.to_string(:KINDERGARTEN).should match("Kindergarten")
   	  end
     end
   end

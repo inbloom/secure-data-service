@@ -35,6 +35,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -96,6 +97,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming assessment data");
+        builder.setAbstractTransformationStrategy(this);
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : assessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
@@ -121,6 +123,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                     } else {
                         LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
                                 familyHierarchyName);
+                        builder.reportAggregatedWarnings(CoreMessageCode.CORE_0045, getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef, familyHierarchyName);
                     }
                 }
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);

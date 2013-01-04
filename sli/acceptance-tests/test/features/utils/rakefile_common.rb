@@ -24,6 +24,19 @@ def cleanUpLdapUser(user_email)
                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
 
+  cleanUpUser(user_email, ldap)
+end
+
+def cleanUpMiniSandboxLdapUser(user_email)
+  ldap = LDAPStorage.new(PropLoader.getProps['minisb_ldap_hostname'], PropLoader.getProps['minisb_ldap_port'],
+                         PropLoader.getProps['minisb_ldap_base'], PropLoader.getProps['minisb_ldap_admin_user'],
+                         PropLoader.getProps['minisb_ldap_admin_pass'], PropLoader.getProps['minisb_ldap_use_ssl'])
+
+  cleanUpUser(user_email, ldap)
+
+end
+
+def cleanUpUser(user_email, ldap)
   ldap.get_user_groups(user_email).each do |group_id|
     ldap.remove_user_group(user_email, group_id)
   end 

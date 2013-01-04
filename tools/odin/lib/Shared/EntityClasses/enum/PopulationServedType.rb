@@ -49,9 +49,4 @@ class PopulationServedType
   PopulationServedType.define :MIGRANT_STUDENTS, "Migrant Students"
   PopulationServedType.define :REGULAR_STUDENTS, "Regular Students"
   PopulationServedType.define :SPECIAL_EDUCATION_STUDENTS, "Special Education Students"
-
-  # returns the ed-fi compliant string representation for a population served type
-  def self.to_string(type)
-    const_get(key)
-  end
 end

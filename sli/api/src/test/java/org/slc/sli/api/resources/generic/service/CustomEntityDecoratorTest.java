@@ -15,6 +15,13 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.config.EntityDefinition;
@@ -30,13 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  *
@@ -54,7 +55,7 @@ public class CustomEntityDecoratorTest {
 
     @Test
     public void testDecoratorNonParam() {
-        MultivaluedMap<String, String> map = new MultivaluedHashMap<String, String>();
+        MultivaluedMap<String, String> map = new MultivaluedMapImpl();
         map.add(ParameterConstants.INCLUDE_CUSTOM, String.valueOf(false));
 
         EntityBody body = createTestEntity();
@@ -66,7 +67,7 @@ public class CustomEntityDecoratorTest {
 
     @Test
     public void testDecoratorWithParam() {
-        MultivaluedMap<String, String> map = new MultivaluedHashMap<String, String>();
+        MultivaluedMap<String, String> map = new MultivaluedMapImpl();
         map.add(ParameterConstants.INCLUDE_CUSTOM, String.valueOf(true));
 
         EntityBody custom = createCustomEntity();

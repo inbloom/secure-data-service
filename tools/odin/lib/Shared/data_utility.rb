@@ -72,7 +72,7 @@ class DataUtility
 
   # get course title
   def self.get_course_title(grade, subject)
-    GradeLevelType.get(grade) + " " + subject
+    GradeLevelType.to_string(grade) + " " + subject
   end
 
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------
@@ -166,7 +166,7 @@ class DataUtility
     subset = []
     while subset.size < num
       choice = select_random_from_options(prng, choices)
-      subset << choice if !subset.include? choice
+      subset << choice unless subset.include?(choice)
     end
     subset
   end

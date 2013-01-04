@@ -64,7 +64,11 @@ class Odin
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-    output             = scenarioYAML['DATA_OUTPUT']
+    output = scenarioYAML['DATA_OUTPUT']
+    @log.info "-------------------------------------------------------"
+    @log.info " ODIN: Offline Data Interchange Nexus"
+    @log.info "-------------------------------------------------------"
+    @log.info "Simulation will use scenario: #{scenario}"
 
     if output == "xml"
       @log.info "XML output specified --> Generating ed-fi xml interchanges."
@@ -161,7 +165,7 @@ class Odin
     end
     if displayed_title
       @log.info "To guarantee that all members of the staff catalog be created, It is recommended that you:"
-      @log.info " -> increase the number of students in the scenario (property in yaml: numStudents)"
+      @log.info " -> increase the number of students in the scenario (property in yaml: STUDENT_COUNT)"
       @log.info " -> increase the number of years in the scenario (property in yaml: NUMBER_OF_YEARS)"
       @log.info " -> tune the cardinality of entities (there are several properties to control this)"
     end

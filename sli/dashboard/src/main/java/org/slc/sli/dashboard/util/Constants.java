@@ -69,6 +69,8 @@ public final class Constants {
     public static final String ATTR_ROOT = "root";
     public static final String ATTR_AUTHENTICATED = "authenticated";
     public static final String ATTR_AUTH_FULL_NAME = "full_name";
+    public static final String ATTR_ADMIN_USER = "isAdminUser";
+    public static final String ATTR_USER_TYPE = "userType";
     public static final String ATTR_AUTH_ROLES = "sliRoles";
     public static final String ATTR_SELECTED_POPULATION = "selectedPopulation";
     public static final String ATTR_COURSES = "courses";
@@ -282,7 +284,8 @@ public final class Constants {
     public static final String ROLE_IT_ADMINISTRATOR = "IT Administrator";
     public static final String ROLE_EDUCATOR = "Educator";
     public static final String ROLE_LEADER = "Leader";
-    
+    public static final String ROLE_TEACHER = "teacher";
+    public static final String ROLE_ADMIN = "ADMIN";
     // Ed-org types
     public static final String ATTR_ED_ORG = "edOrg";
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";

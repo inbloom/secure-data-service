@@ -37,16 +37,6 @@ public class TeacherToTeacherValidatorTest {
 		injector.setEducatorContext(USER_ID);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIdList() {
-		val.validate(EntityNames.TEACHER, new HashSet<String>());
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testValidateWrongType() {
-		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
-	}
-
 	@Test
 	public void testSuccess() {
 		Assert.assertTrue(val.validate(EntityNames.TEACHER, Collections.singleton(USER_ID)));
