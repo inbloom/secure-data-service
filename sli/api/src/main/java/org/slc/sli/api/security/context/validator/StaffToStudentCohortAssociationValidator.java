@@ -38,9 +38,6 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
         
     @Autowired
     private StaffToStudentValidator studentValidator;
-    
-    @Autowired
-    private StaffToCohortValidator cohortValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -53,6 +50,9 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.STUDENT_COHORT_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
         Set<String> associations = new HashSet<String>();
         // See the student
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,

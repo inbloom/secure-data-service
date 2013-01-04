@@ -38,6 +38,10 @@ public class StaffToSectionValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
+            return false;
+        }
+        
         Set<String> edorgLineage = getStaffEdOrgLineage();
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));

@@ -45,7 +45,8 @@ public class HateoasLink {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
-    private List<String> disallowedLinks = Arrays.asList(".+/assessments/.+/studentAssessments/students", ".+/courses/.+/courseStranscripts/students");
+    private List<String> disallowedLinks = Arrays.asList(".+/assessments/.+/studentAssessments/students",
+            ".+/courses/.+/courseStranscripts/students");
 
     public List<EntityBody> add(final String resource, List<EntityBody> entities, final UriInfo uriInfo) {
 

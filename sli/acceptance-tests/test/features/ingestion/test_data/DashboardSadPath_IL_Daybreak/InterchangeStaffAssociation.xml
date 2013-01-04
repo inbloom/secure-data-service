@@ -64,12 +64,12 @@
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>ejane</StaffUniqueStateId>
+				<StaffUniqueStateId>cgray</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<StaffClassification>Teacher</StaffClassification>
@@ -161,12 +161,12 @@
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>ejane</StaffUniqueStateId>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<StaffClassification>Teacher</StaffClassification>
@@ -291,12 +291,12 @@
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>ejane</StaffUniqueStateId>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<StaffClassification>Teacher</StaffClassification>
@@ -463,12 +463,12 @@
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>ejane</StaffUniqueStateId>
+				<StaffUniqueStateId>mgonzales</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<StaffClassification>Teacher</StaffClassification>

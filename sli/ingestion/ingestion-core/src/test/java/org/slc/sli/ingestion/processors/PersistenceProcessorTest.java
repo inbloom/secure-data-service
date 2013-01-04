@@ -190,10 +190,10 @@ public class PersistenceProcessorTest {
 		recordHashTestPreConfiguration();
 
     	processor.upsertRecordHash(originalRecord);
-    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class));
+    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class), any(String.class));
 
     	processor.upsertRecordHash(addRecordHashMetadata(originalRecord));
-    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(RecordHash.class), any(String.class));
+    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(String.class), any(RecordHash.class), any(String.class));
 	}
 
     private  NeutralRecord addRecordHashMetadata(NeutralRecord originalRecord) {

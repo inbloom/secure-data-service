@@ -57,17 +57,10 @@ import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 @Component
 public class XsdValidator implements Validator<IngestionFileEntry> {
 
-    private Map<String, Resource> xsd;
-
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
+    private static final String STAGE_NAME = "XSD Validation";
 
-    public Map<String, Resource> getXsd() {
-        return xsd;
-    }
-
-    public void setXsd(Map<String, Resource> xsd) {
-        this.xsd = xsd;
-    }
+    private Map<String, Resource> xsd;
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
@@ -120,6 +113,19 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         validator.validate(sc);
 
         return is;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
+    }
+
+    public Map<String, Resource> getXsd() {
+        return xsd;
+    }
+
+    public void setXsd(Map<String, Resource> xsd) {
+        this.xsd = xsd;
     }
 
     /**
@@ -178,8 +184,8 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
                 File parseFile = new File(fullParsefilePathname);
                 String publicId = (ex.getPublicId() == null) ? "" : ex.getPublicId();
 
-                Source source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
-                        reportStats.getStageName(), publicId, ex.getLineNumber(), ex.getColumnNumber());
+                Source source = new NeutralRecordSource(reportStats.getBatchJobId(), parseFile.getName(), STAGE_NAME,
+                        publicId, ex.getLineNumber(), ex.getColumnNumber());
 
                 report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
             }

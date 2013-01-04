@@ -45,13 +45,9 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
 
 	@Override
 	public boolean validate(String entityType, Set<String> ids) {
-		if (!this.canValidate(entityType, true)) {
-			throw new IllegalArgumentException(String.format("Asked to validate %s->%s[%s]", SecurityUtil.getSLIPrincipal().getEntity().getType(), entityType, false));
-		}
-
-		if (ids == null || ids.size() == 0) {
-			throw new IllegalArgumentException("Incoming list of ids cannot be null");
-		}
+        if (!areParametersValid(EntityNames.TEACHER, entityType, ids)) {
+            return false;
+        }
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, "=", SecurityUtil
                 .getSLIPrincipal().getEntity().getEntityId()));

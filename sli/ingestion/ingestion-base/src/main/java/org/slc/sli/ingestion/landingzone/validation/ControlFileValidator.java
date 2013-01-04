@@ -37,6 +37,8 @@ import org.slc.sli.ingestion.validation.Validator;
  */
 public class ControlFileValidator implements Validator<ControlFileDescriptor> {
 
+    private static final String STAGE_NAME = "Control File Validation";
+
     private List<Validator<FileEntryDescriptor>> ingestionFileValidators;
 
     private static boolean hasPathInName(String fileName) {
@@ -108,6 +110,11 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
         }
 
         return true;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }
