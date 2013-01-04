@@ -31,6 +31,8 @@ import org.slc.sli.ingestion.reporting.Source;
  */
 public class MongoValidator extends ComplexValidator<Object> {
 
+    private static final String STAGE_NAME = "Mongo Validation";
+
     private MongoTemplate mongoTemplate;
 
     @Override
@@ -58,6 +60,11 @@ public class MongoValidator extends ComplexValidator<Object> {
      */
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

@@ -32,20 +32,6 @@ public interface ReportStats {
     String getBatchJobId();
 
     /**
-     *
-     * @return resourceId
-     */
-    // FIXME: This should not be here. It belongs in Source.
-    String getResourceId();
-
-    /**
-     *
-     * @return stageName
-     */
-    // FIXME: This should not be here. It belongs in Source.
-    String getStageName();
-
-    /**
      * Increase the error count by one.
      */
     void incError();
