@@ -42,9 +42,9 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
 
 	@Override
 	public boolean validate(String entityType, Set<String> ids) {
-		if (!this.canValidate(entityType, false)) {
-			throw new IllegalArgumentException(String.format("Asked to validate %s->%s[%s]", SecurityUtil.getSLIPrincipal().getEntity().getType(),entityType,false));
-		}
+        if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
+            return false;
+        }
 		
 		if(ids==null || ids.size()==0) {
 			throw new IllegalArgumentException("Incoming list of ids cannot be null");

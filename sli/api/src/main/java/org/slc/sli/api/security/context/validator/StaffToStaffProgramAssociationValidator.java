@@ -51,7 +51,10 @@ public class StaffToStaffProgramAssociationValidator extends AbstractContextVali
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-
+        if (!areParametersValid(EntityNames.STAFF_PROGRAM_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
+        
         //Get the ones based on staffIds (Including me)
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         

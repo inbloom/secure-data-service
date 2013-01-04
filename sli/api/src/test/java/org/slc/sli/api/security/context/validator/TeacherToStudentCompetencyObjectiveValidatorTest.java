@@ -87,14 +87,7 @@ public class TeacherToStudentCompetencyObjectiveValidatorTest {
         assertTrue(validator.canValidate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, false));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
-    
-    @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, null));
-        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, new HashSet<String>()));
-    }
-    
+
     @Test
     public void testValidSCOs() {
         assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, new HashSet<String>(Arrays.asList(sco1.getEntityId()))));
