@@ -221,11 +221,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 List<NeutralRecord> schools = getSchoolsForStudent(studentId);
                 if (schools.size() == 0) {
                     LOG.error("Student with id: {} is not associated to any schools.", studentId);
-                    super.reportError(attendances.values().iterator().next().getSourceFile(),
+                    super.reportWarnings(attendances.values().iterator().next().getSourceFile(),
                             getAggregatedSource(), CoreMessageCode.CORE_0049, studentId);
                 } else if (schools.size() > 1) {
                     LOG.error("Student with id: {} is associated to more than one school.", studentId);
-                    super.reportError(attendances.values().iterator().next().getSourceFile(),
+                    super.reportWarnings(attendances.values().iterator().next().getSourceFile(),
                             getAggregatedSource(), CoreMessageCode.CORE_0050, studentId);
                 } else {
                     NeutralRecord school = schools.get(0);
