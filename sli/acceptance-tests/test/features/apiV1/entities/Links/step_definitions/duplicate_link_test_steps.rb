@@ -81,7 +81,7 @@ def find_duplicate(res)
     else
       notFound = false
     end
-    assert(notFound,"Response contains duplicate link for " + rel +"With links "+ href +"And "+ linkHash[rel])
+    assert(notFound,"Response contains duplicate link for #{rel} With links #{href} And #{linkHash[rel]}")
   end
 
 end

@@ -47,6 +47,10 @@ public class DateHelper {
         return now.minusDays(numDays);
     }
 
+    public boolean isFieldExpired(Map<String, Object> body, String fieldName) {
+        return isFieldExpired(body, fieldName, false);
+    }
+
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         DateTime expirationDate = DateTime.now();
         if (useGracePeriod) {
