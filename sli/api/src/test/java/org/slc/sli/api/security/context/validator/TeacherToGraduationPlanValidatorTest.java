@@ -79,15 +79,6 @@ public class TeacherToGraduationPlanValidatorTest {
     public void testCanValidate() {
         assertTrue(validator.canValidate(EntityNames.GRADUATION_PLAN, false));
         assertFalse(validator.canValidate(EntityNames.GRADUATION_PLAN, true));
-        assertFalse(validator.canValidate(EntityNames.ATTENDANCE, true));
-        assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
-    }
-
-    @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.GRADUATION_PLAN, null));
-        assertFalse(validator.validate(EntityNames.GRADUATION_PLAN, new HashSet<String>()));
     }
 
     @Test
