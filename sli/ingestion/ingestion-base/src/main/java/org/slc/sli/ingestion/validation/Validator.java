@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion.validation;
 
+import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -28,7 +29,7 @@ import org.slc.sli.ingestion.reporting.Source;
  * @param <T>
  *            Type of the object being validated
  */
-public interface Validator<T> {
+public interface Validator<T> extends BatchJobStage {
 
     /**
      * Validates the object.

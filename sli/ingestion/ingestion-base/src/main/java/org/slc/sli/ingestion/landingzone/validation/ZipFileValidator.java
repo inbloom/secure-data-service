@@ -45,6 +45,7 @@ import org.slc.sli.ingestion.validation.Validator;
 public class ZipFileValidator implements Validator<File> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ZipFileValidator.class);
+    private static final String STAGE_NAME = "Zip File Validation";
 
     // how long to wait for the file to become valid before giving up
     @Value("${sli.ingestion.file.timeout:600000}")
@@ -149,5 +150,10 @@ public class ZipFileValidator implements Validator<File> {
         }
 
         return false;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

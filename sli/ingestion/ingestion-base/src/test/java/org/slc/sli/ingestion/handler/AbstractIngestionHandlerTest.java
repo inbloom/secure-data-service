@@ -27,6 +27,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -42,7 +43,7 @@ import org.slc.sli.ingestion.validation.Validator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AbstractIngestionHandlerTest {
 
-    AbstractIngestionHandler<Object, Object> handler;
+    AbstractIngestionHandler<Resource, Object> handler;
 
     @SuppressWarnings("unchecked")
     @Test
@@ -51,37 +52,37 @@ public class AbstractIngestionHandlerTest {
 
         Mockito.doCallRealMethod()
                 .when(handler)
-                .handle(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
+                .handle(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
         Mockito.doCallRealMethod()
                 .when(handler)
-                .handle(Mockito.any(), Mockito.any(AbstractMessageReport.class),
+                .handle(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(ReportStats.class), Mockito.any(FileProcessStatus.class));
         Mockito.doCallRealMethod().when(handler)
-                .pre(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
+                .pre(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
         Mockito.doCallRealMethod().when(handler)
-                .post(Mockito.any(), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
+                .post(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class), Mockito.any(ReportStats.class));
         Mockito.doCallRealMethod().when(handler).setPreValidators(Mockito.anyList());
         Mockito.doCallRealMethod().when(handler).setPostValidators(Mockito.anyList());
 
-        Validator<Object> preValidator = Mockito.mock(Validator.class);
+        Validator<Resource> preValidator = Mockito.mock(Validator.class);
         Mockito.when(
-                preValidator.isValid(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
+                preValidator.isValid(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(ReportStats.class), Mockito.any(Source.class))).thenReturn(true);
-        List<Validator<Object>> preValidators = new ArrayList<Validator<Object>>();
+        List<Validator<Resource>> preValidators = new ArrayList<Validator<Resource>>();
         preValidators.add(preValidator);
         handler.setPreValidators(preValidators);
 
-        Validator<Object> postValidator = Mockito.mock(Validator.class);
+        Validator<Resource> postValidator = Mockito.mock(Validator.class);
         Mockito.when(
-                postValidator.isValid(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
+                postValidator.isValid(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(ReportStats.class), Mockito.any(Source.class))).thenReturn(true);
-        List<Validator<Object>> postValidators = new ArrayList<Validator<Object>>();
+        List<Validator<Resource>> postValidators = new ArrayList<Validator<Resource>>();
         postValidators.add(postValidator);
         handler.setPostValidators(postValidators);
 
-        Object ife = Mockito.mock(Object.class);
+        Resource ife = Mockito.mock(Resource.class);
         Mockito.when(
-                handler.doHandling(Mockito.any(Object.class), Mockito.any(AbstractMessageReport.class),
+                handler.doHandling(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(ReportStats.class), Mockito.any(FileProcessStatus.class))).thenReturn(ife);
 
         AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
