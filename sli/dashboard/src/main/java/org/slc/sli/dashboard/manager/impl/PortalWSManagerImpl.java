@@ -24,6 +24,7 @@ import org.slc.sli.dashboard.manager.PortalWSManager;
 import org.slc.sli.dashboard.util.Constants;
 
 import com.google.gson.JsonSyntaxException;
+import org.springframework.web.client.ResourceAccessException;
 
 /**
  * Retrieves header and footer from Portal WS
@@ -58,6 +59,8 @@ public class PortalWSManagerImpl implements PortalWSManager {
         } catch (JsonSyntaxException ex) {
             return StringUtils.EMPTY;
         } catch (IllegalArgumentException iae) {
+            return StringUtils.EMPTY;
+        } catch (ResourceAccessException rae) {
             return StringUtils.EMPTY;
         }
     }
