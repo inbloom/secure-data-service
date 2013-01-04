@@ -42,8 +42,8 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
     
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        if (!canValidate(entityType, true)) {
-            throw new IllegalArgumentException("Asked to validate incorrect entity type: " + entityType);
+        if (!areParametersValid(EntityNames.STAFF_ED_ORG_ASSOCIATION, entityType, ids)) {
+            return false;
         }
         
         info("Validating {}'s access to staffEducationOrganizationAssoc: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);

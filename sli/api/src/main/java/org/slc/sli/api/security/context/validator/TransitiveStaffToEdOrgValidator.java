@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import org.slc.sli.api.constants.EntityNames;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -36,6 +37,10 @@ public class TransitiveStaffToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
+            return false;
+        }
+        
         return ids.size() > 0;
     }
 

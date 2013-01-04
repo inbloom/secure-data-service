@@ -89,9 +89,8 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|db49239e-4813-44d6-98b1-da29eba0f47f|
  	    |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|26a4a0fc-fad4-45f4-a00d-285acd1f83eb|
  	    |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|
- 	    
  
- Scenario Outline: Validate CSL where user has access to one ID but not two
+ Scenario Outline: Validate CSL where staff has access to one ID but not two
       Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
       When I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>"
       Then I should receive a return code of 200
@@ -101,8 +100,7 @@ Feature: As an SLI application, I want to return the right order of entities.
       Then I should receive a return code of 403
       And I should see a total of 0 entities
       Examples:
-      | ENDPOINT                  | GOOD_ID                                | BAD_ID                                |
-#      |assessments                |dd916592-7d7e-5d27-a87d-dfc7fcb12346|abc16592-7d7e-5d27-a87d-dfc7fcb12346| - Bad data
+      | ENDPOINT                  | GOOD_ID                            | BAD_ID                             |
       |attendances                |530f0704-c240-4ed9-0a64-55c0308f91ee|9953166a-9722-447c-094a-bfcce701c2c9|
       |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|7e9915ed-ea6f-4e6b-b8b0-aeae20a25826_id|
       |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|e31f7583-417e-4c42-bd55-0bbe7518edf8|
@@ -111,8 +109,6 @@ Feature: As an SLI application, I want to return the right order of entities.
 #      |gradebookEntries           |0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id|706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id|
 #      |grades                     |708c4e08-9942-11e1-a8a9-68a86d21d918|ef42e2a2-9942-11e1-a8a9-68a86d21d918|
 #      |gradingPeriods             |ef72b883-90fa-40fa-afc2-4cb1ae17623b|b40a7eb5-dd74-4666-a5b9-5c3f4425f130|
-#      |learningObjectives         |df9165f2-653e-df27-a86c-bfc5f4b7577d|df9165f2-65fe-de27-a82c-bfc5f4b7577c|
-#      |learningStandards          |dd9165f2-65fe-7d27-a8ec-bdc5f77757f7|dd9165f2-65be-6e27-a8ac-bec5f4a757ba|
       |parents                    |eb4d7e1b-7bed-890a-cddf-cdb25a29fc2d|047e428a-336a-43c2-8944-d57204cabcd7|
       |programs                   |9b8cafdc-8fd5-11e1-86ec-0021701f543f_id|242b5d92-e69a-416e-b964-6ceb8756fd33_id|
 #      |reportCards                |cf0ca1c6-a9db-4180-bf23-8276c4e2624c|8770da5b-dca5-4ced-bf3b-5fa17bc0001d| - Bad data
@@ -137,4 +133,47 @@ Feature: As an SLI application, I want to return the right order of entities.
       |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4| 
       |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
       |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|58c9ef19-c172-4798-8e6e-c73e68ffb5a3_id12f25c0f-75d7-4e45-8f36-af1bcc342871_id|
-      
+
+Scenario Outline: Validate CSL where teacher has access to one ID but not two
+      Given I am logged in using "cgray" "cgray1234" to realm "IL"
+      When I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>"
+      Then I should receive a return code of 200
+      When I navigate to GET "/v1/<ENDPOINT>/<BAD_ID>"
+      Then I should receive a return code of 403
+      When I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>,<BAD_ID>"
+      Then I should receive a return code of 403
+      And I should see a total of 0 entities
+      Examples:
+      | ENDPOINT                  | GOOD_ID                            | BAD_ID                             |
+      |attendances                |4beb72d4-0f76-4071-92b4-61982dba7a7b|530f0704-c240-4ed9-0a64-55c0308f91ee|
+      |cohorts                    |9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id|b40926af-8fd5-11e1-86ec-0021701f543f_id|
+      |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|731a70cb-86e4-48ce-bfb9-1675f874ded1|
+#      |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|0e26de6c-225b-9f67-9281-7213ad50a03b|
+      |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-226a-5d67-9201-5113ad50a03b|
+      |gradebookEntries           |0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id|706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id|
+      |grades                     |ef42e2a2-9942-11e1-7919-201211130001|708c4e08-9942-11e1-a8a9-68a86d21d918|
+#      |gradingPeriods             |b40a7eb5-dd74-4666-a5b9-5c3f4425f130|ef72b883-90fa-40fa-afc2-4cb1ae17623b|
+      |parents                    |9b8f7237-ce8e-4dff-7919-201211130040|eb4d7e1b-7bed-890a-cddf-cdb25a29fc2d|
+#DEFECTIVE      |programs                   |9b8cafdc-8fd5-11e1-86ec-0021701f543f_id|cb292c7d-3503-414a-92a2-dc76a1585d79_id|
+      |reportCards                |8770da5b-dca5-4ced-bf3b-5fa17bc0001d|cf0ca1c6-a9db-4180-bf23-8276c4e2624c|
+      |sections                   |a00c740c-8753-4190-90ad-9fc026a65d53_id|14c68439-62c1-461a-a178-ad8ac9404f95_id|
+      |staff                      |04f708bc-928b-420d-a440-f1592a5d1073|e59d9991-9d8f-48ab-8790-59df9bcf9bc7|
+      |students                   |0c2756fd-6a30-4010-af79-488d6ef2735a_id|766519bf-31f2-4140-97ec-295297bc045e_id|
+      |studentAcademicRecords     |56afc8d4-6c91-48f9-8a11-de527c1131b7|3a0cc576-fe7f-40bd-b86c-ca861244db12|
+      |studentGradebookEntries    |20120613-5434-f906-e51b-d63ef970ef8f|2713b97a-5632-44a5-8e04-031074bcb326|
+      |studentCompetencies        |b57643e4-9acf-11e1-7919-201211130002|b57643e4-9acf-11e1-89a7-68a86d21d918|
+      |teachers                   |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|bcfcc33f-f4a6-488f-baee-b92fbd062e8d| 
+      # Associations
+      |courseOfferings                        |01ba881f-ae39-4b76-920e-42bc7e8769d7|5ed994e9-5bf4-4d6e-a0ad-bc44c0112940|
+      |courseTranscripts                      |36aeeabf-ee9b-46e6-7919-201311130015|f11a2a30-d4fd-4400-ae18-353c00d581a2|
+      |staffCohortAssociations                |2e1b42be-ff75-4e74-b9f1-cdcd9164b183|b41338da-8fd5-11e1-86ec-0021701f543f|
+      |staffEducationOrgAssignmentAssociations|a29e3113-316d-bfd1-4b00-b9121b8fdfd3|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|
+      |staffProgramAssociations               |971638e0-03a8-43df-b4d3-a577fa5ff59c|9bf7591b-8fd5-11e1-86ec-0021701f543f|
+      |studentAssessments                     |0c2756fd-6a30-4010-af79-488d6ef2735a_ide5e13e61-01aa-066b-efe0-710f7a011115_id|034e6e7f-9da2-454a-b67c-b95bd9f36433_idc8672d3b-0953-4ad7-a1b5-d5395bc0150a_id|
+      |studentCohortAssociations              |9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id9f916af2-c178-49ca-b9c4-e52fc2f629ed_id|b40926af-8fd5-11e1-86ec-0021701f543f_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|
+      |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|714c1304-8a04-4e23-b043-4ad80eb60992_id0e26de6c-225b-9f67-8621-5113ad50a03b_id|
+      |studentParentAssociations              |0c2756fd-6a30-4010-af79-488d6ef2735a_idc5aa1969-492a-5150-8479-71bfc4d87984_id|74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|
+      |studentProgramAssociations             |9b8cafdc-8fd5-11e1-86ec-0021701f543f_idb3f4db53-8fd5-11e1-86ec-0021701f543f_id|9b8c3aab-8fd5-11e1-86ec-0021701f543f_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|
+      |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4|
+      |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
+      |teacherSectionAssociations             |15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|

@@ -40,14 +40,10 @@ public class TeacherToStaffCohortAssociationValidator extends AbstractContextVal
 
 	@Override
 	public boolean validate(String entityType, Set<String> ids) {
-		if (!this.canValidate(entityType, false)) {
-			throw new IllegalArgumentException(String.format("Asked to validate %s->%s[%s]", SecurityUtil.getSLIPrincipal().getEntity().getType(),entityType,false));
-		}
+        if (!areParametersValid(EntityNames.STAFF_COHORT_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
 		
-		if(ids==null || ids.size()==0) {
-			throw new IllegalArgumentException("Incoming list of ids cannot be null");
-		}
- 
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("staffId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
 		nq.addCriteria(new NeutralCriteria("_id", "in", ids));
 		long result = getRepo().count(EntityNames.STAFF_COHORT_ASSOCIATION, nq);

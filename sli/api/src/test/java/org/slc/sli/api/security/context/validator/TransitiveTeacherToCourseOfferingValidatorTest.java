@@ -89,13 +89,6 @@ public class TransitiveTeacherToCourseOfferingValidatorTest {
 	}
 
 	@Test
-	public void testCanNotValidateBadInputs() {
-		assertFalse(validator.validate(null, null));
-		assertFalse(validator.validate(EntityNames.COURSE_OFFERING, null));
-		assertFalse(validator.validate(EntityNames.COURSE_OFFERING, new HashSet<String>()));
-	}
-
-	@Test
 	public void testCanNotValidateInvalidCourseOffering() {
 		Entity edorg = helper.generateEdorgWithParent(null);
 		helper.generateTeacherSchool(ValidatorTestHelper.STAFF_ID, edorg.getEntityId());

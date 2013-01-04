@@ -39,6 +39,10 @@ public class StaffToGraduationPlanValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> graduationIds) {
+        if (!areParametersValid(EntityNames.GRADUATION_PLAN, entityType, graduationIds)) {
+            return false;
+        }
+        
         Set<String> lineage = this.getStaffEdOrgLineage();
         lineage.addAll(this.getStaffEdOrgParents());
         

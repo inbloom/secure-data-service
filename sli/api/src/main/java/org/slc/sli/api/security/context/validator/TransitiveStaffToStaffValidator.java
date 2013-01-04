@@ -54,8 +54,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     @SuppressWarnings("unchecked")
     @Override
     public boolean validate(String entityName, Set<String> staffIds) {
-        
-        if (staffIds == null || staffIds.isEmpty()) {
+        if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
             return false;
         }
         

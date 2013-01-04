@@ -17,6 +17,8 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,19 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected DateTime getNowMinusGracePeriod() {
         return dateHelper.getNowMinusGracePeriod();
     }
+    
+    protected static final Set<String> SUB_ENTITIES_OF_STUDENT = new HashSet<String>(Arrays.asList(
+            EntityNames.ATTENDANCE, 
+            EntityNames.COURSE_TRANSCRIPT, 
+            EntityNames.DISCIPLINE_ACTION, 
+            EntityNames.STUDENT_ACADEMIC_RECORD,
+            EntityNames.STUDENT_ASSESSMENT,
+            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_PARENT_ASSOCIATION,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_ASSOCIATION,
+            EntityNames.REPORT_CARD));
 
     /**
      * Determines if the specified type is a sub-entity of student.
@@ -67,15 +82,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if the entity hangs off of student, false otherwise.
      */
     protected boolean isSubEntityOfStudent(String type) {
-        return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
-                || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
-                || EntityNames.STUDENT_ASSESSMENT.equals(type)
-                || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
-                || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type)
-                || EntityNames.REPORT_CARD.equals(type);
+        return SUB_ENTITIES_OF_STUDENT.contains(type);
     }
     
     protected void addEndDateToQuery(NeutralQuery query, boolean useGracePeriod) {
@@ -83,6 +90,11 @@ public abstract class AbstractContextValidator implements IContextValidator {
         query.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
         query.addOrQuery(new NeutralQuery(endDateCriteria));
     }
+    
+    protected static final Set<String> SUB_ENTITIES_OF_STUDENT_SECTION = new HashSet<String>(Arrays.asList(
+            EntityNames.GRADE, 
+            EntityNames.STUDENT_COMPETENCY));
+
 
     /**
      * Determines if the specified type is a sub-entity of student section association.
@@ -91,7 +103,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if the entity hangs off of student section association, false otherwise.
      */
     protected boolean isSubEntityOfStudentSectionAssociation(String type) {
-        return EntityNames.GRADE.equals(type) || EntityNames.STUDENT_COMPETENCY.equals(type);
+        return SUB_ENTITIES_OF_STUDENT_SECTION.contains(type);
     }
 
     /**
@@ -238,8 +250,25 @@ public abstract class AbstractContextValidator implements IContextValidator {
         this.repo = repo;
     }
 
+    /**
+     * Validate that the id list isn't null, contains at least one id, and that the entity types match.
+     * 
+     * @param correctEntityType
+     * @param inputEntityType
+     * @param ids
+     * @return true if the parameters are valid, false otherwise
+     * @throws IllegalArgumentException if the types don't match
+     */
     protected boolean areParametersValid(String correctEntityType, String inputEntityType, Set<String> ids) {
-        if (ids == null || ids.size() == 0 || !correctEntityType.equals(inputEntityType)) {
+        return areParametersValid(Arrays.asList(correctEntityType), inputEntityType, ids);
+    }
+    
+    protected boolean areParametersValid(Collection<String> correctEntityTypes, String inputEntityType, Set<String> ids) {
+        if (!correctEntityTypes.contains(inputEntityType)) {
+            throw new IllegalArgumentException(this.getClass() + " cannot validate type " + inputEntityType);
+        }
+        
+        if (ids == null || ids.size() == 0) {
             return false;
         }
         return true;
