@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mongodb.DBCollection;
+import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,7 +157,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public void setWriteConcern(String writeConcern) {
-        // To change body of implemented methods use File | Settings | File Templates.
+        perfDbtemplate.setWriteConcern(WriteConcern.valueOf(writeConcern));
     }
 
     @Override

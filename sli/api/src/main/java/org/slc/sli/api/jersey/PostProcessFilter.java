@@ -59,35 +59,35 @@ public class PostProcessFilter implements ContainerResponseFilter {
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
     private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
     
-    private static LinkedBlockingQueue<Map<String, Object>> writeQueue =  new LinkedBlockingQueue<Map<String, Object>>();
-    private static Thread writeThread; 
-    
-    @Autowired
-    @Qualifier("performanceRepo")
-    private static Repository<Entity> perfRepo;
-    
-    static {
-        writeThread = new Thread(new Runnable() {
-            public void run() {
-                while(true) {
-                    try {
-                        if (null != perfRepo) {
-                          Map<String, Object> body = writeQueue.take();
-                          perfRepo.create("apiResponse", body, "apiResponse");
-                        }
-                        else {
-                            Thread.sleep(100); 
-                        }
-                    } catch (InterruptedException ignore) {} 
-                }
-            }
-        });
-        writeThread.start();
-    }
+//    private static LinkedBlockingQueue<Map<String, Object>> writeQueue =  new LinkedBlockingQueue<Map<String, Object>>();
+//    private static Thread writeThread; 
+//        
+//    static {
+//        writeThread = new Thread(new Runnable() {
+//            public void run() {
+//                while(true) {
+//                    try {
+//                        if (null != perfRepo) {
+//                          Map<String, Object> body = writeQueue.take();
+//                          perfRepo.create("apiResponse", body, "apiResponse");
+//                        }
+//                        else {
+//                            Thread.sleep(100); 
+//                        }
+//                    } catch (InterruptedException ignore) {} 
+//                }
+//            }
+//        });
+//        writeThread.start();
+//    }
 
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
 
+    @Autowired
+    @Qualifier("performanceRepo")
+    private Repository<Entity> perfRepo;    
+    
     @Value("${sli.application.buildTag}")
     private String buildTag;
 
@@ -203,7 +203,8 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
             body.put("stats", mongoStat.getStats()); 
-            writeQueue.add(body); 
+            perfRepo.setWriteConcern(WriteConcern.SAFE.toString()); 
+            perfRepo.create("apiResponse", body, "apiResponse");
         }
 
     }

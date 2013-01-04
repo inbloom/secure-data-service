@@ -68,15 +68,15 @@ public class MongoStat {
     }
     
     public void addEvent(String eventId, Long timeStamp) {
-        stats.add(Arrays.asList((Object) "e", eventId, timeStamp)); 
+        stats.add(Arrays.asList((Object) "e", Thread.currentThread().getId() +  eventId, timeStamp)); 
     }
     
     public void addMetric(String metricId, Long metric) {
-        stats.add(Arrays.asList((Object) "m", metricId, metric)); 
+        stats.add(Arrays.asList((Object) "m", Thread.currentThread().getId() +  metricId, metric)); 
     }
     
-    public List<List<Object > > getStats() { 
-        return stats; 
+    public List<List<Object > > getStats() {
+        return new ArrayList<List<Object>>(stats); 
     }
     
     public String getRequestId() { 
