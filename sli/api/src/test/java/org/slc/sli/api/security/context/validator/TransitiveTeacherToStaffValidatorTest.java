@@ -81,8 +81,9 @@ public class TransitiveTeacherToStaffValidatorTest {
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
 
 
-        repo.deleteAll("educationOrganization", null);
         repo.deleteAll("staff", null);
+        repo.deleteAll("educationOrganization", null);
+        repo.deleteAll("staffEducationOrganizationAssociation", null);
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff1");
