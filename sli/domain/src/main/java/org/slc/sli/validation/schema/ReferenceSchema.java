@@ -53,12 +53,21 @@ public class ReferenceSchema extends NeutralSchema {
     }
 
     /**
-     * Identifies what resource this schema references.
+     * Identifies what entity type this schema references.
      *
-     * @return a collection/resource name this reference refers to
+     * @return a entity type/collection name this reference refers to
      */
-    public String getResourceName() {
-        return getCollectionName();
+    public String getEntityType() {
+        String collectionName = getAppInfo().getReferenceType();
+
+        if (schemaRepository != null) {
+            if (schemaRepository.getSchema(collectionName).getAppInfo() != null
+                    && schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType() != null) {
+                collectionName = schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType();
+            }
+        }
+
+        return collectionName;
     }
 
     @Override
@@ -89,7 +98,7 @@ public class ReferenceSchema extends NeutralSchema {
         }
 
         boolean found = false;
-        String collectionType = getCollectionName();
+        String collectionType = getEntityType();
 
         try {
             // try to find an entity with the given id
@@ -119,19 +128,6 @@ public class ReferenceSchema extends NeutralSchema {
         }
 
         return false;
-    }
-
-    private String getCollectionName() {
-        String collectionName = getAppInfo().getReferenceType();
-
-        if (schemaRepository != null) {
-            if (schemaRepository.getSchema(collectionName).getAppInfo() != null
-                    && schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType() != null) {
-                collectionName = schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType();
-            }
-        }
-
-        return collectionName;
     }
 
 }

@@ -142,6 +142,9 @@ Then /^no performance regressions should be found/ do
   assert(superRegressionMap.size == 0, "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}")
 end
 
+Then /^I only check "(.*?)" for performance regression$/ do |lbNames|
+  @arrayOfLb = lbNames.split(';')
+end
 
 def checkForRegression(testName)
   puts "Checking #{testName} for regression"
@@ -200,12 +203,14 @@ def parseJtlForTimings(doc)
   # could cause issues if a root element isn't httpSample
   doc.root.elements.each do |sample|
     label = sample.attributes["lb"]
-    timings = map[label]
-    if timings.nil?
-      timings = Array.new
-      map[label] = timings
+    if (@arrayOfLb.nil? || @arrayOfLb.include?(label))
+      timings = map[label]
+      if timings.nil?
+        timings = Array.new
+        map[label] = timings
+      end
+      timings << sample.attributes["t"]
     end
-    timings << sample.attributes["t"]
   end
 
   return map
