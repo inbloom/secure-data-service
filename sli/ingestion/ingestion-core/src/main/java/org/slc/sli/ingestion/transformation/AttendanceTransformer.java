@@ -142,10 +142,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                         "StudentReference.StudentIdentity.StudentUniqueStateId");
             } catch (IllegalAccessException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+                super.reportError(attendances.values().iterator().next().getSourceFile(),
+                        getAggregatedSource(), CoreMessageCode.CORE_0048, e.toString());
             } catch (InvocationTargetException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+                super.reportError(attendances.values().iterator().next().getSourceFile(),
+                        getAggregatedSource(), CoreMessageCode.CORE_0048, e.toString());
             } catch (NoSuchMethodException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+                super.reportError(attendances.values().iterator().next().getSourceFile(),
+                        getAggregatedSource(), CoreMessageCode.CORE_0048, e.toString());
             }
 
             if (attributes.containsKey(SCHOOL_ID)) {
@@ -215,8 +221,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 List<NeutralRecord> schools = getSchoolsForStudent(studentId);
                 if (schools.size() == 0) {
                     LOG.error("Student with id: {} is not associated to any schools.", studentId);
+                    super.reportError(attendances.values().iterator().next().getSourceFile(),
+                            getAggregatedSource(), CoreMessageCode.CORE_0049, studentId);
                 } else if (schools.size() > 1) {
                     LOG.error("Student with id: {} is associated to more than one school.", studentId);
+                    super.reportError(attendances.values().iterator().next().getSourceFile(),
+                            getAggregatedSource(), CoreMessageCode.CORE_0050, studentId);
                 } else {
                     NeutralRecord school = schools.get(0);
                     String schoolId = (String) school.getAttributes().get("stateOrganizationId");
