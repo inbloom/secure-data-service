@@ -1264,6 +1264,7 @@ desc "Import Sandbox Test Data"
 task :importZorkSandboxData do
   testHash = Hash[
     "educationOrganization" => "educationOrganization_fixture_zork.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_zork.json",
     "staff" => "staff_fixture_zork.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json",
 
