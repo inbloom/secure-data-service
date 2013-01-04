@@ -69,8 +69,13 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
     /**
      * Determines if the teacher can see the set of entities specified by 'ids'.
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
+            return false;
+        }
+        
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
@@ -78,20 +83,10 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
         if (entities != null) {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
-                if (entityType.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) && body.containsKey("exitWithdrawDate")) {
-                    if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("exitWithdrawDate")))) {
-                        students.add((String) body.get(ParameterConstants.STUDENT_ID));
-                    }
-                } else if (entityType.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) && body.containsKey("endDate")) {
-                    if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("endDate")))) {
-                        students.add((String) body.get(ParameterConstants.STUDENT_ID));
-                    }
-                } else {
-                    if (body.get(ParameterConstants.STUDENT_ID) instanceof String) {
-                        students.add((String) body.get(ParameterConstants.STUDENT_ID));
-                    } else if (body.get(ParameterConstants.STUDENT_ID) instanceof List) {
-                        students.addAll((List) body.get(ParameterConstants.STUDENT_ID));
-                    }
+                if (body.get(ParameterConstants.STUDENT_ID) instanceof String) {
+                    students.add((String) body.get(ParameterConstants.STUDENT_ID));
+                } else if (body.get(ParameterConstants.STUDENT_ID) instanceof List) {
+                    students.addAll((List<String>) body.get(ParameterConstants.STUDENT_ID));
                 }
             }
         }

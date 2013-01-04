@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -41,6 +42,10 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
+            return false;
+        }
+        
         List<String> schools = helper.getDirectEdOrgAssociations(SecurityUtil.getSLIPrincipal().getEntity());
         
         //TODO: currently adding districts so that teachers can update school entities without the

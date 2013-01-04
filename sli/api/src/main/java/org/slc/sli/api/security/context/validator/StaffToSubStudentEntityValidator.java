@@ -59,6 +59,10 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
+            return false;
+        }
+        
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(ids)));

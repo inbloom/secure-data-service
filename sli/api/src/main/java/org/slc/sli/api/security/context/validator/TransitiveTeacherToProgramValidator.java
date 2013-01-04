@@ -53,7 +53,9 @@ public class TransitiveTeacherToProgramValidator extends AbstractContextValidato
 	
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-
+        if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
+            return false;
+        }
         int validCount = 0;
 
         for (String programId : ids) {

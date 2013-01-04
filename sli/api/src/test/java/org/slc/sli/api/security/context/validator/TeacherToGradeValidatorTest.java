@@ -91,14 +91,7 @@ public class TeacherToGradeValidatorTest {
         assertTrue(validator.canValidate(EntityNames.GRADE, false));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
-    
-    @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.GRADE, null));
-        assertFalse(validator.validate(EntityNames.GRADE, new HashSet<String>()));
-    }
-    
+        
     @Test
     public void testValidGrades() {
         assertTrue(validator.validate(EntityNames.GRADE, new HashSet<String>(Arrays.asList(grade1.getEntityId()))));
