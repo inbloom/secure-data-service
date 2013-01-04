@@ -114,7 +114,7 @@ public class CardinalityStrategy implements MigrationStrategy {
         this.fieldName = parameters.get(FIELD_NAME).toString();
         this.minCount = parameters.get(MIN_COUNT).toString();
         this.maxCount = parameters.get(MAX_COUNT).toString();
-        this.defaultValue = parameters.get(DEFAULT_VALUE);
+        this.defaultValue = DEFAULT_VALUE;
     }
 
 }
