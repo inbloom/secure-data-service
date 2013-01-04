@@ -87,7 +87,7 @@ Then I should see following map of entry counts in the corresponding collections
      | session                                  |                  1|
      | student                                  |                  1|
      | studentSchoolAssociation                 |                  1|
-    And I should see "Processed 7 records." in the resulting batch job file
+    And I should see "Processed 8 records." in the resulting batch job file
     And I should not see an error log file created
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
