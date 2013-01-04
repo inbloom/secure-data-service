@@ -230,7 +230,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      */
     private void transformAndPersistAttendanceEvents(String studentId, String schoolId,
             List<Map<String, Object>> attendance) {
-        Map<Object, NeutralRecord> sessions = getSessions(schoolId, new HashSet<String>());
+        Map<Object, NeutralRecord> sessions = getSessions(schoolId);
 
         LOG.debug("For student with id: {} in school: {}", studentId, schoolId);
         LOG.debug("  Found {} associated sessions.", sessions.size());
@@ -412,22 +412,22 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      *
      * @param studentId
      *            StudentUniqueStateId for student.
-     * @param edOrgId
+     * @param schoolId
      *            StateOrganizationId for school.
      * @return Map of Sessions for student-school pair.
      */
-    private Map<Object, NeutralRecord> getSessions(String edOrgId, Set<String> edOrgsSoFar) {
-    	edOrgsSoFar.add(edOrgId);
+    private Map<Object, NeutralRecord> getSessions(String schoolId) {
         Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
+
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.schoolId").is(edOrgId));
+        query.addCriteria(Criteria.where("body.schoolId").is(schoolId));
 
         Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SESSION, query);
 
         //get sessions of the school from SLI db
-        Iterable<NeutralRecord> sliSessions = getSliSessions(edOrgId);
+        Iterable<NeutralRecord> sliSessions = getSliSessions(schoolId);
 
         queriedSessions = concat((List<NeutralRecord>) queriedSessions, (List<NeutralRecord>) sliSessions);
 
@@ -441,9 +441,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
         }
 
-        String parentEdOrg = getParentEdOrg(edOrgId);
-        if (parentEdOrg != null && !edOrgsSoFar.contains(parentEdOrg)) {
-            sessions.putAll(getSessions(parentEdOrg, edOrgsSoFar));
+        String parentEducationAgency = getParentEdOrg(schoolId);
+        if (parentEducationAgency != null) {
+            sessions.putAll(getSessions(parentEducationAgency));
         }
 
         return sessions;
@@ -452,15 +452,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     /**
      * Gets the Parent Education Organization associated with a specific school
      *
-     * @param edOrgId
+     * @param schoolId
      *            The StateOrganizationid for the school
      * @return The Id of the Parent Education Organization
      */
     @SuppressWarnings("unchecked")
-    private String getParentEdOrg(String edOrgId) {
+    private String getParentEdOrg(String schoolId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(edOrgId));
+        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(schoolId));
 
         Iterable<NeutralRecord> queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SCHOOL, schoolQuery);
@@ -476,7 +476,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 }
             }
         } else {
-            Entity school = getSliSchool(edOrgId);
+            Entity school = getSliSchool(schoolId);
             if (school != null) {
                 String parentEducationAgencyID = (String) school.getBody().get("parentEducationAgencyReference");
                 if (parentEducationAgencyID != null) {
