@@ -218,8 +218,7 @@ end
 
 
 def print_response(namespace, endpoint, response)
-  ns_endpoint = namespace + endpoint
-  endpoint_id = "ex-" + ns_endpoint.gsub("/", "-").gsub("{", "").gsub("}", "").gsub(".", "_")
+  endpoint_id = "ex-" + namespace + endpoint.gsub("/", "-").gsub("{", "").gsub("}", "").gsub(".", "_")
   url = $base_url_replace + "/" + namespace + endpoint
   printf($template, endpoint_id, endpoint, "GET " + url, response)
 end
