@@ -150,6 +150,7 @@
 
   <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeEducationOrganization/StateEducationAgency">
+    <jb:wiring property="awesomeWrapper" beanIdRef="stateEducationAgency_awesomeWrapper" />
     <jb:value property="stateOrganizationId" data="StateEducationAgency/StateOrganizationId" />
     <jb:wiring property="educationOrgIdentificationCode" beanIdRef="stateEducationAgency_educationOrgIdentificationCodeTypeArray" />
     <jb:value property="nameOfInstitution" data="StateEducationAgency/NameOfInstitution" />
@@ -171,6 +172,12 @@
     createOnElement="InterchangeEducationOrganization/StateEducationAgency/EducationOrgIdentificationCode">
     <jb:value property="identificationSystem" data="StateEducationAgency/EducationOrgIdentificationCode/@IdentificationSystem" />
     <jb:value property="ID" data="StateEducationAgency/EducationOrgIdentificationCode/Id" />
+  </jb:bean>
+
+  <jb:bean beanId="stateEducationAgency_awesomeWrapper" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/StateEducationAgency/AwesomeWrapper">
+    <jb:value property="CoolHTTPMethod" data="StateEducationAgency/AwesomeWrapper/@CoolHTTPMethod" />
+    <jb:value property="Cascade" data="StateEducationAgency/AwesomeWrapper/@Cascade" />
   </jb:bean>
 
   <jb:bean beanId="stateEducationAgency_educationOrganizationCategoryTypeArray" class="java.util.ArrayList"

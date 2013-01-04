@@ -2,9 +2,68 @@
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" xmlns:sli="http://slc-sli/ed-org/0.1" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:include schemaLocation="../edfiXsd/Ed-Fi-Core.xsd"/>
+
 	<xs:annotation>
-		<xs:documentation>===== Domain Entities =====</xs:documentation>
+		<xs:documentation>===== Base SLI Interchange Entity =====</xs:documentation>
 	</xs:annotation>
+
+	<xs:simpleType name="CoolHTTPMethodType">
+		<xs:annotation>
+			<xs:documentation>HTTP like method for update operation</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="POST"/>
+			<xs:enumeration value="PUT"/>
+			<xs:enumeration value="DELETE"/>
+			<xs:enumeration value="MOVE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AwesomeWrapperType">
+	  <xs:annotation>
+	    <xs:documentation>This is the element with attributes for keyed (having ID) entity elements are extended.</xs:documentation>
+	  </xs:annotation>
+	  <xs:attribute name="CoolHTTPMethod" type="CoolHTTPMethodType" use="optional">
+	    <xs:annotation><xs:documentation>The HTTP method indicating the type of operation being done on the object.</xs:documentation></xs:annotation>
+	  </xs:attribute>
+	  <xs:attribute name="Cascade" type="xs:boolean" use="optional">
+	    <xs:annotation><xs:documentation>Whether to cascade update or delete operation.</xs:documentation></xs:annotation>
+	  </xs:attribute>
+	</xs:complexType>
+	
+	<!-- We extend the Ed-Fi ComplexObjectType to include the SLI interchange data -->
+	<xs:complexType name="AwesomeComplexObjectType" abstract="true">
+	  <xs:annotation>
+	    <xs:documentation>This is the base SLI type from which all keyed (having ID) entity elements are extended.</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexContent>
+	    <xs:extension base="ComplexObjectType">
+	      <xs:sequence>
+		<xs:element name="AwesomeWrapper" type="AwesomeWrapperType" minOccurs="0" maxOccurs="1">
+		  <xs:annotation><xs:documentation>Optional wrapper for keyed entity.</xs:documentation></xs:annotation>
+		</xs:element>
+	      </xs:sequence>
+	    </xs:extension>
+	  </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:annotation>
+	  <xs:documentation>===== Domain Entities =====</xs:documentation>
+	</xs:annotation>
+	
+	<xs:complexType name="SLC-Student">
+	  <xs:annotation><xs:documentation>Ed-Fi Student plus the wrapper.</xs:documentation></xs:annotation>
+	  <xs:complexContent>
+	    <xs:extension base="Student">
+	      <xs:sequence>
+		<xs:element name="AwesomeWrapper" type="AwesomeWrapperType" minOccurs="0" maxOccurs="1">
+		  <xs:annotation><xs:documentation>Optional wrapper for keyed entity.</xs:documentation></xs:annotation>
+		</xs:element>
+	      </xs:sequence>
+	    </xs:extension>
+	  </xs:complexContent>
+	</xs:complexType>
+	
 	<xs:complexType name="SLC-AcademicWeek">
 		<xs:annotation>
 			<xs:documentation>Changed type of CalendarDateReference to SLC reference type.</xs:documentation>
@@ -317,7 +376,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="AwesomeComplexObjectType">
 				<xs:sequence>
 					<xs:element name="StateOrganizationId" type="IdentificationCode"/>
 					<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
