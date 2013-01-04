@@ -39,6 +39,10 @@ public class StaffToSessionValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> entityIds) {
+        if (!areParametersValid(EntityNames.SESSION, entityType, entityIds)) {
+            return false;
+        }
+        
         Set<String> lineage = this.getStaffEdOrgLineage();
         lineage.addAll(this.getStaffEdOrgParents());
         

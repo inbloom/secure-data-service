@@ -125,7 +125,7 @@ public class StaffToStudentCohortAssociationValidatorTest {
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }
-        assertTrue(validator.validate(null, cohortIds));
+        assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
     }
     
     @Test
@@ -135,7 +135,7 @@ public class StaffToStudentCohortAssociationValidatorTest {
         Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.any(Set.class))).thenReturn(
                 true);
         cohortIds.add(helper.generateStudentCohort("Boop", "Beep", true).getEntityId());
-        assertFalse(validator.validate(null, cohortIds));
+        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
     }
     
     @Test
@@ -147,6 +147,6 @@ public class StaffToStudentCohortAssociationValidatorTest {
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }
-        assertFalse(validator.validate(null, cohortIds));
+        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
     }
 }

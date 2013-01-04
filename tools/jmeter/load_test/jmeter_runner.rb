@@ -5,6 +5,7 @@ IGNORED_JMX_FILES = ["oauth.jmx"]
 IGNORED_REQUESTS = ["/api/oauth/sso", "simple-idp", "IDP Login HTTP Request", "/api/rest/saml/sso/post", "/api/oauth/token"]
 JTL_FILE_PREFIX = "test"
 TOTAL_LABEL = "total"
+ERROR_LABEL = "error"
 
 module ApiLoadTest
   class Sample
@@ -37,7 +38,7 @@ module ApiLoadTest
       @remote_servers = config[:remote_servers]
       @result_dir = config[:result_dir]
       @jmeter_exec = config[:jmeter_exec]
-      @max_avg_elapsed_time = config[:max_avg_elapsed_time] || 30000
+      @max_avg_elapsed_time = config[:max_avg_elapsed_time] || 300000
       @jmeter_prop = config[:jmeter_prop]
     end
 
@@ -86,29 +87,33 @@ module ApiLoadTest
 
       scenario_result = {}
       average_total = 0
+      error_count = 0
       request_to_sample_array.each do |request, samples|
         total_elapsed_time = 0
         samples.each do |sample|
-          total_elapsed_time += sample.elapsed_time
+          if sample.success_flag
+            total_elapsed_time += sample.elapsed_time
+          else
+            error_count += 1
+          end
         end
         scenario_result[request] = @remote ? (total_elapsed_time * 1.0 / thread_count / @remote_servers.size).ceil :
             (total_elapsed_time * 1.0 / thread_count).ceil
         average_total += scenario_result[request]
       end
       scenario_result[TOTAL_LABEL] = average_total
+      scenario_result[ERROR_LABEL] = error_count
       scenario_result
     end
 
-    def collect_all_data(config_dir, max_threads)
-      Dir.mkdir(@result_dir) unless Dir.exists?(@result_dir)
+    def collect_all_data(config_dir, thread_count_array)
+      FileUtils.mkdir_p(@result_dir)
       Dir.foreach(config_dir) do |file|
         next if IGNORED_JMX_FILES.include? file
         if match_index = file =~ /[.]jmx$/
           full_path = File.join(@result_dir, file[0..(match_index - 1)])
-          Dir.mkdir(full_path) unless Dir.exists?(full_path)
-          # TODO: does not make sense to iterate here. Move it out!
-          (0..max_threads).each do |n|
-            thread_count = 2 ** n
+          FileUtils.mkdir_p(full_path)
+          thread_count_array.each do |thread_count|
             jtl_file = File.join(full_path, "#{JTL_FILE_PREFIX}#{thread_count}.jtl")
             run_jmeter(File.join(config_dir, file), jtl_file, thread_count) unless File.exists?(jtl_file)
             break if build_scenario_result(thread_count, jtl_file)[TOTAL_LABEL] > @max_avg_elapsed_time

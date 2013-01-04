@@ -45,6 +45,9 @@ public class StaffToProgramValidator extends AbstractContextValidator {
     @Override
     @SuppressWarnings("unchecked")
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
+            return false;
+        }
         return validateWithStudentAccess(entityType, ids, false);
     }
 
