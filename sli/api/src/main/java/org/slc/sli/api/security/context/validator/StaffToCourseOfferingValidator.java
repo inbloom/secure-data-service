@@ -42,8 +42,8 @@ public class StaffToCourseOfferingValidator extends AbstractContextValidator {
     
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        if (!canValidate(entityType, true)) {
-            throw new IllegalArgumentException("Asked to validate incorrect entity type: " + entityType);
+        if (!areParametersValid(EntityNames.COURSE_OFFERING, entityType, ids)) {
+            return false;
         }
         
         info("Validating {}'s access to courseOfferings: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);

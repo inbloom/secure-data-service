@@ -48,6 +48,10 @@ public class StaffToCohortValidator extends AbstractContextValidator {
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
+            return false;
+        }
+        
         return validateWithStudentAccess(entityType, ids, false);
     }
     

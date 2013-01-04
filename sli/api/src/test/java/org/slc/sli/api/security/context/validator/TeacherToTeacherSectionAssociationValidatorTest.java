@@ -61,11 +61,6 @@ public class TeacherToTeacherSectionAssociationValidatorTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIdList() {
-		val.validate(CORRECT_ENTITY_TYPE, new HashSet<String>());
-	}
-
-	@Test(expected = IllegalArgumentException.class)
 	public void testValidateWrongType() {
 		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
 	}
