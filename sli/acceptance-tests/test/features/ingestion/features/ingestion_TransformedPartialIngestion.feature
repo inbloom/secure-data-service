@@ -28,7 +28,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | collectionName                            |
      | assessment                                |
      | student                                   |
-     | studentAssessment              |
+     | studentAssessment                         |
+     | recordHash                                |
 When zip file is scp to ingestion landing zone
     And a batch job for file "StudentAssessmentFull.zip" is completed in database
     And a batch job log has been created
@@ -58,6 +59,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
      | collectionName                            |
      | attendance                                |
+     | recordHash                                |
 When zip file is scp to ingestion landing zone
   And a batch job for file "AttendancePartialUnHappy.zip" is completed in database
   And a batch job log has been created
@@ -78,6 +80,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | session                                   |
      | student                                   |
      | studentSchoolAssociation                  |
+     |recordHash                                 |
 When zip file is scp to ingestion landing zone
     And a batch job for file "AttendanceFull.zip" is completed in database
     And a batch job log has been created
@@ -134,6 +137,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | recordHash                                |
 
 When zip file is scp to ingestion landing zone
   And a batch job for file "AssessmentPartial.zip" is completed in database
@@ -152,6 +156,7 @@ Then I should see following map of entry counts in the corresponding collections
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | recordHash                                |
 
 When zip file is scp to ingestion landing zone
   And a batch job for file "AssessmentFull.zip" is completed in database

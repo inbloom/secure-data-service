@@ -48,6 +48,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | courseOffering              |
         | studentAcademicRecord       |
         | graduationPlan              |
+        | recordHash                  |
   When zip file is scp to ingestion landing zone
   And a batch job for file "PartialIgestionDataSet_Tier0.zip" is completed in database
   And a batch job log has been created

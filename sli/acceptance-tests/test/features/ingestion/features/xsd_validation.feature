@@ -13,6 +13,7 @@ Scenario: Student Ed-Fi XSD Validation
     And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
+        | recordHash                  |
     When zip file is scp to ingestion landing zone
     And a batch job for file "XsdValidation.zip" is completed in database
     And a batch job log has been created
@@ -62,6 +63,7 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
 	  | gradingPeriod               |
       | session                     |
       | studentGradebookEntry       |
+      | recordHash                  |
     When zip file is scp to ingestion landing zone
     And a batch job for file "StudentGradeXsdValidation.zip" is completed in database
     And a batch job log has been created
