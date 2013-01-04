@@ -296,7 +296,7 @@ public class PersistenceProcessor implements Processor {
                     if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
                             || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
 
-                        SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job),
+                        SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
                                 reportStatsForCollection);
 
                         if (xformedEntity != null) {
@@ -379,7 +379,7 @@ public class PersistenceProcessor implements Processor {
             returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), stageName);
             Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
-            SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job), returnValue);
+            SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job, returnValue);
 
             if (xformedEntity != null) {
                 try {
@@ -481,12 +481,14 @@ public class PersistenceProcessor implements Processor {
         return null;
     }
 
-    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, ReportStats reportStats) {
+    private SimpleEntity transformNeutralRecord(NeutralRecord record, Job job, ReportStats reportStats) {
         LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
+        String tenantId = getTenantId(job);
         record.setRecordType(record.getRecordType().replaceFirst("_transformed", ""));
         record.setSourceId(tenantId);
 
+        transformer.setBatchJobId(job.getId());
         List<SimpleEntity> transformed = transformer.handle(record, databaseMessageReport, reportStats);
 
         if (transformed == null || transformed.isEmpty()) {

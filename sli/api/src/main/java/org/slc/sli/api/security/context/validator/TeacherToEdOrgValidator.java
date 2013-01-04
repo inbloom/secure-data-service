@@ -17,7 +17,6 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -45,8 +44,8 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
         if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
             return false;
         }
-        
-        List<String> schools = helper.getDirectEdOrgAssociations(SecurityUtil.getSLIPrincipal().getEntity());
+
+        Set<String> schools = getDirectEdorgs();
         
         //TODO: currently adding districts so that teachers can update school entities without the
         //parent edorg ref causing problems.  Once ed-org write restrictions are in place,

@@ -1,0 +1,48 @@
+# Welcome to the SLC Databrowser! #
+
+In a nutshell, this application is used to traverse the SLC Api to see all of the data available to you.
+You can explore the data by clicking on the links that the Api shows, or you can even explicitly tell
+the Databrowser what part of the Api to visit.
+
+## Configuration And Setup ##
+The SLC Databrowser is a fairly simple Ruby on Rails application, but there are a few customizations and
+configuration files to be aware of.
+
+Once you've prepped the Databrowser by installing the pre-requisite gems using bundler, you should take
+a look in the `config/config.yml` file. This file contains the most important areas to configure. You will
+find configuration on a per-environment basis.
+
+First and foremost, are the url to the Api, `callback`, `client_id`, and `client_secret`. The first is the url
+needed to actually access the SLC Api. Second, is the callback. You will want to replace everything before
+`/callback` with the url to where you have the SLC Databrowser running. Finally the `client_id` and
+client_secret are the two pieces of information you need to complete OAuth with this app. You can get these
+values by going through the application registration process with the SLC. Once you have completed these
+steps you can fill in the appropriate values. You'll also find we use an OAuth library to help with some
+of the internals. You can find it in the lib directory.
+
+There are also some other configurations that you can use to make the application a little more friendly.
+First up is the standard i18n translations available in config/locals that we use to help make the
+not-so-friendly API names a bit more understandable. You can customize this by adding and changing
+the entries in there (And actually localize!).
+
+Also, in the config directory there is a `views.yml` file which will indicate on a per-entity basis what
+rows to display in the table of entities. If you don't specify anything it will default to taking the
+first 4 or 5 items it finds in the entities themselves. This particular configuration file also has
+some interesting things. Once you find the type of data like `student` you'll notice there are entries
+like `name/firstName`. These indicate where in the data to look for the actual values to put into the
+table cell.
+
+##Running the App##
+There are two ways you can run the application. First, is the common "rails server". Second, is to use thin.
+To run thin you can also specify a configuration file which is located in /config/thin.yml. To make use
+of it you can do something like: `bundle exec thin -C config/thin.yml start`
+
+##Testing##
+There are unit tests packaged in the test directory which can be started with the standard, "bundle exec rake".
+We also use cucumber to do behavior tests.
+
+##Localization##
+We make use of the localization in the config/locales directory to translate some of the fields that the Api
+Would return. Simple things like 'firstName' would be translated to 'First Name', and so on.
+
+
