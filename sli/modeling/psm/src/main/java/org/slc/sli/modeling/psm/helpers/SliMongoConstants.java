@@ -32,6 +32,7 @@ public final class SliMongoConstants {
     public static final QName SLI_COLLECTION_NAME = new QName(NAMESPACE_SLI, "CollectionType");
     public static final QName SLI_NATURAL_KEY = new QName(NAMESPACE_SLI, "naturalKey");
     public static final QName SLI_APPLY_NATURAL_KEYS = new QName(NAMESPACE_SLI, "applyNaturalKeys");
+    public static final QName SLI_SELF_REFERENCE = new QName(NAMESPACE_SLI, "SelfReference");
     public static final QName SLI_PII = new QName(NAMESPACE_SLI, "PersonallyIdentifiableInfo");
     public static final QName SLI_READ_ENFORCEMENT = new QName(NAMESPACE_SLI, "ReadEnforcement");
     public static final QName SLI_REFERENCE_TYPE = new QName(NAMESPACE_SLI, "ReferenceType");
