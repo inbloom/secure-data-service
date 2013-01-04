@@ -47,6 +47,7 @@ public class AppInfo extends Annotation {
     protected static final String RESTRICTED_ELEMENT_NAME = "RestrictedForLogging";
     protected static final String NATURAL_KEY = "naturalKey";
     protected static final String APPLY_NATURAL_KEYS = "applyNaturalKeys";
+    protected static final String SELF_REFERENCE = "SelfReference";
     public static final String SCHEMA_VERSION = "schemaVersion";
 
     public static final int NOT_VERSIONED = -1;
@@ -296,6 +297,15 @@ public class AppInfo extends Annotation {
         boolean rval = false;
         if (values.containsKey(APPLY_NATURAL_KEYS)) {
             rval = Boolean.parseBoolean(values.get(APPLY_NATURAL_KEYS));
+        }
+
+        return rval;
+    }
+
+    public boolean isSelfReference() {
+        boolean rval = false;
+        if (values.containsKey(SELF_REFERENCE)) {
+            rval = Boolean.parseBoolean(values.get(SELF_REFERENCE));
         }
 
         return rval;
