@@ -16,7 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,31 +48,19 @@ public class TeacherToSessionValidator extends AbstractContextValidator {
         if (!areParametersValid(EntityNames.SESSION, entityType, ids)) {
             return false;
         }
-
-        return getValid(entityType, ids).containsAll(ids);
-    }
-
-    @Override
-    public Set<String> getValid(String entityType, Set<String> ids) {
-        Set<String> validSessions = new HashSet<String>();
-
-        {
-            Set<String> edOrgs = getTeacherEdorgLineage();
-
-            Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION,
-                    new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids)));
-
-            for( Entity session : sessions) {
-                if (edOrgs.contains(session.getBody().get(ParameterConstants.SCHOOL_ID))) {
-                    validSessions.add(session.getEntityId());
-                }
+        NeutralQuery basicQuery;
+        Set<String> edorgs = getTeacherEdorgLineage();
+        
+        basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
+        Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, basicQuery);
+        Set<String> sessionIds = new HashSet<String>();
+        for(Entity session : sessions) {
+            if (edorgs.contains(session.getBody().get(ParameterConstants.SCHOOL_ID))) {
+                sessionIds.add(session.getEntityId());
             }
-
         }
-
-        return validSessions;
+        return sessionIds.size() == ids.size();
     }
-
-
+    
     
 }
