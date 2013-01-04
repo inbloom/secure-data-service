@@ -116,7 +116,10 @@ public class PersistenceProcessor implements Processor {
     // Paths for id field and ref fields for self-referencing entities (for DE1950)
     // TODO: make it work for entities with multiple field keys.
     // TODO: make it configurable. From schema, maybe.
-    // represents the configuration of a self-referencing entity schema
+    /**
+     * represents the configuration of a self-referencing entity schema
+     *
+     */
     static class SelfRefEntityConfig {
         private String idPath;              // path to the id field
         // Exactly one of the following fields can be non-null:
