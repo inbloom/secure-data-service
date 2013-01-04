@@ -533,8 +533,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public void removeRecordHashByTenant(String tenantId) {
         Query searchTenantId = new Query();
-        searchTenantId.addCriteria(Criteria.where(RECORD_HASH_TENANT_FIELD).is(tenantId));
-        sliMongo.remove(searchTenantId, RECORD_HASH);
+        sliMongo.remove(new Query(), RECORD_HASH);
     }
 
     @Override

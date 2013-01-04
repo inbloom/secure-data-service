@@ -45,6 +45,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         |staffEducationOrganizationAssociation|
+        | recordHash                  |
     And I post "StoriedDataSet_IL_Daybreak.zip" and "StoriedDataSet_NY.zip" files as the payload of two ingestion jobs
 When zip files are scped to the ingestion landing zone
   And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
