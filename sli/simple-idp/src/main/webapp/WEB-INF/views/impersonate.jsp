@@ -63,11 +63,11 @@ $(document).ready(function() {
 <div class="container">
 	<div class="row">
 		<div class="span12">
-			<div class="brandContainer sandBanner">
+			<div class="brandContainer">
 				<div class="row">
-					<div class="span2"> <img src="resources/inBloom_logo.png"> </div>
+					<div class="span2"> <img src="resources/inBloomSandbox.png"> </div>
 					<div class="span8">
-						<h1>Developer Sandbox</h1>
+						<h1></h1>
 					</div>
 				</div>
 			</div>

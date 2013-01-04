@@ -21,16 +21,12 @@
 .buttonDiv {
 	padding-top: 50px;
 }
-.brandContainer {
-    background-color: #FFFFFF;
-    border-color: #5DC8DF #3E98D2 #3E98D2 #5DC8DF;
-    border-left: 3px solid #5DC8DF;
-    border-radius: 6px 6px 6px 6px;
-    border-style: solid;
-    border-width: 3px;
+.brandContainer{
+	background-color: #000000;
     margin-bottom: 30px;
     padding: 30px;
     margin-top: 60px;
+    color: #fff;
 	-webkit-border-radius: 6px 6px 6px 6px;
    	   -moz-border-radius: 6px 6px 6px 6px;
             border-radius: 6px 6px 6px 6px;
@@ -56,10 +52,10 @@
 	     <div class="brandContainer">
 	    	<div class="row">
 	    	    <div class="span2">
-		            <img src="<c:url value="/resources/inBloom_logo.png"/>">
+		            <img src="<c:url value="/resources/inBloomSandbox.png"/>">
 		        </div>
 		        <div class="span8">
-		            <h1>Developer Sandbox</h1>
+		            <h1></h1>
 		        </div>
 		    </div>
 	    </div>
