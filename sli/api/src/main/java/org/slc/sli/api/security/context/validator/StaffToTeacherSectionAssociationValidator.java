@@ -49,7 +49,7 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
 
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        if (ids == null || ids.isEmpty()) {
+        if (!areParametersValid(EntityNames.TEACHER_SECTION_ASSOCIATION, entityType, ids)) {
             return false;
         }
 

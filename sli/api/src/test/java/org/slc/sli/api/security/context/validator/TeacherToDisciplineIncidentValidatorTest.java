@@ -105,14 +105,7 @@ public class TeacherToDisciplineIncidentValidatorTest {
         assertTrue(validator.canValidate(EntityNames.DISCIPLINE_INCIDENT, false));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
-    
-    @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, null));
-        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, new HashSet<String>()));
-    }
-    
+        
     @Test
     public void testValidIncident() {
         assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident1.getEntityId())));

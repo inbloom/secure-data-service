@@ -151,17 +151,17 @@ public class StaffToCohortValidatorTest {
         Entity cohort = helper.generateCohort(lea.getEntityId());
         // cohortIds.add(cohort.getEntityId());
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
-        assertFalse(validator.validate(null, cohortIds));
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
 
         repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), true, true);
-        assertFalse(validator.validate(null, cohortIds));
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
         
         repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, false);
-        assertFalse(validator.validate(null, cohortIds));
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
 
     }
     
@@ -177,7 +177,7 @@ public class StaffToCohortValidatorTest {
         }
         Entity cohort = helper.generateCohort(lea.getEntityId());
         cohortIds.add(cohort.getEntityId());
-        assertTrue(validator.validate(null, cohortIds));
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
 
         for (int i = 0; i < 5; ++i) {
             cohort = helper.generateCohort(sea.getEntityId());
@@ -185,7 +185,7 @@ public class StaffToCohortValidatorTest {
             cohortIds.add(cohort.getEntityId());
         }
         
-        assertTrue(validator.validate(null, cohortIds));
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
 
         
     }

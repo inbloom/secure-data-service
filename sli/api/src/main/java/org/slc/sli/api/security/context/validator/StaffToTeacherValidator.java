@@ -47,8 +47,11 @@ public class StaffToTeacherValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityName, Set<String> teacherIds) {
-
+    public boolean validate(String entityName, Set<String> teacherIds) { 
+        if (!areParametersValid(EntityNames.TEACHER, entityName, teacherIds)) {
+            return false;
+        }
+        
         // Query teacher's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.CRITERIA_IN,

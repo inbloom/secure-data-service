@@ -74,14 +74,7 @@ public class TransitiveTeacherToCourseValidatorTest {
         assertTrue(validator.canValidate(EntityNames.COURSE, true));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
-    
-    @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.COURSE, null));
-        assertFalse(validator.validate(EntityNames.COURSE, new HashSet<String>()));
-    }
-    
+
     @Test
     public void testValidateThroughEdorgs() {
         

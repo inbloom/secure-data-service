@@ -72,6 +72,10 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
     @SuppressWarnings("unchecked")
 	@Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
+            return false;
+        }
+        
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
