@@ -7,7 +7,7 @@ common: &common
     recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
     # update me when password policy changes
     password_policy: ["password must satisfy password policy"]
-    support_email: support@slidev.org
+    support_email: sup01.wgen@gmail.com
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
