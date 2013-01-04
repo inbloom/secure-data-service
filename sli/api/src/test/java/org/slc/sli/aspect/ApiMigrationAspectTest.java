@@ -20,7 +20,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -47,10 +46,6 @@ import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class ApiMigrationAspectTest {
-
-    @Before
-    public void setup()throws Exception {
-    }
 
     @Test
     public void testDownTransform() {
