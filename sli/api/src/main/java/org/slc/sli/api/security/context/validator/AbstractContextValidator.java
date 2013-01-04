@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -34,17 +37,15 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class that all context validators must extend.
  */
 public abstract class AbstractContextValidator implements IContextValidator {
-    
+
     @Value("${sli.security.gracePeriod}")
     String gracePeriod;
-    
+
     @Autowired
     protected DateHelper dateHelper;
 
@@ -84,7 +85,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isSubEntityOfStudent(String type) {
         return SUB_ENTITIES_OF_STUDENT.contains(type);
     }
-    
+
     protected void addEndDateToQuery(NeutralQuery query, boolean useGracePeriod) {
         NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate(useGracePeriod));
         query.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
@@ -156,11 +157,11 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isTeacher() {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-    
+
     protected boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
-    
+
 
     protected Repository<Entity> getRepo() {
         return this.repo;
@@ -181,7 +182,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         edOrgLineage.addAll(edorgHelper.getChildEdOrgs(edOrgLineage));
         return edOrgLineage;
     }
-    
+
     protected Set<String> getEdorgLineage(Set<String> directEdorgs) {
         Set<String> ancestors = new HashSet<String>();
         Set<String> descendants = new HashSet<String>(directEdorgs);
@@ -191,7 +192,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         descendants = getEdorgDescendents(descendants);
         descendants.addAll(ancestors);
         return descendants;
-        
+
     }
 
     protected  Set<String> getStaffCurrentAssociatedEdOrgs() {
@@ -275,9 +276,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected Set<String> getTeacherEdorgLineage() {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        Iterable<Entity> tsas = getTeacherSchoolAssociations();
         Set<String> edorgs = new HashSet<String>();
         for(Entity tsa : tsas) {
             if (!isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
@@ -286,6 +285,17 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         edorgs = getEdorgLineage(edorgs);
         return edorgs;
+    }
+
+    /**
+     * Gets all staff -> education organization assignment associations for the teacher.
+     *
+     * @return Iterable set of Entities representing StaffEducationOrgAssociation.
+     */
+    protected Iterable<Entity> getTeacherSchoolAssociations() {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        return repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
     }
 
     @Override
