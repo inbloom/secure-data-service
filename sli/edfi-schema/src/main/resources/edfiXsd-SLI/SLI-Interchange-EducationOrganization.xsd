@@ -20,6 +20,8 @@
 				<xs:element name="Course" type="SLC-Course"/>
 				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="Program" type="SLC-Program"/>
+
+				<xs:element name="AwesomeWrapper" type="AwesomeWrapperType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
