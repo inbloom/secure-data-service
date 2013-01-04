@@ -123,6 +123,10 @@ public class MongoTrackingAspect {
         return result;
     }
     
+    /**
+     * Track calls in the various implementation of the Repository interface. 
+     */
+    
     @Around("call(* org.slc.sli.domain.Repository+.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
 
