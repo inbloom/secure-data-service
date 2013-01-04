@@ -27,6 +27,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -180,19 +182,19 @@ public class EdOrgHelperTest {
         repo.create("staffEducationOrganizationAssociation", body);
 
         body = new HashMap<String, Object>();
-        body.put("schoolId", school1.getEntityId());
-        body.put("teacherId", teacher1.getEntityId());
-        repo.create("teacherSchoolAssociation", body);
+        body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, school1.getEntityId());
+        body.put(ParameterConstants.STAFF_REFERENCE, teacher1.getEntityId());
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
 
         body = new HashMap<String, Object>();
-        body.put("schoolId", school2.getEntityId());
-        body.put("teacherId", teacher2.getEntityId());
-        repo.create("teacherSchoolAssociation", body);
+        body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, school2.getEntityId());
+        body.put(ParameterConstants.STAFF_REFERENCE, teacher2.getEntityId());
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
 
         body = new HashMap<String, Object>();
-        body.put("schoolId", school3.getEntityId());
-        body.put("teacherId", teacher3.getEntityId());
-        repo.create("teacherSchoolAssociation", body);
+        body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, school3.getEntityId());
+        body.put(ParameterConstants.STAFF_REFERENCE, teacher3.getEntityId());
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
     }
 
 

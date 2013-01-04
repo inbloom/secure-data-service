@@ -1,8 +1,11 @@
 #!/bin/bash
 
-DEFAULT_CHECK_SLI_CONF="../config/properties/sli.properties"
-DEFAULT_CHECK_KEYSTORE="../data-access/dal/keyStore/ciKeyStore.jks"
-DEFAULT_SEARCH_INDEXER_JAR="target/search-indexer-1.0-SNAPSHOT.jar"
+PRG="$0"
+PRGDIR=`dirname "$PRG"`
+ROOT="$PRGDIR/.."
+DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
+DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
+DEFAULT_SEARCH_INDEXER_JAR="$ROOT/target/search-indexer-1.0-SNAPSHOT.jar"
 DEFAULT_MAX_MEMORY="1024m"
 DEFAULT_MIN_MEMORY="1024m"
 DEFAULT_REMOTE_COMMAND_PORT=10024

@@ -16,6 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -29,6 +31,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PublicEntityValidator extends AbstractContextValidator {
+       
+    protected static final Set<String> PUBLIC_RESOURCE = new HashSet<String>(Arrays.asList(
+            EntityNames.ASSESSMENT, 
+            EntityNames.LEARNING_OBJECTIVE, 
+            EntityNames.LEARNING_STANDARD, 
+            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR));
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
@@ -37,15 +45,13 @@ public class PublicEntityValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> entityIds) {
-
-        /* Minor guard to prevent calling this on non-public entities */
-        if (!this.canValidate(entityType, true)) {
-            throw new IllegalArgumentException("This resolver should not have been called for entityType " + entityType);
+        if (!areParametersValid(PUBLIC_RESOURCE, entityType, entityIds)) {
+            return false;
         }
-
         return true;
     }
-    
+
+
     /**
      * Determines if the entity type is public.
      *
@@ -53,9 +59,7 @@ public class PublicEntityValidator extends AbstractContextValidator {
      * @return True if the entity is public, false otherwise.
      */
     protected boolean isPublic(String type) {
-        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
-                || type.equals(EntityNames.LEARNING_STANDARD)
- || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
+        return PUBLIC_RESOURCE.contains(type);
     }
 
 }

@@ -41,6 +41,10 @@ public class StaffToCourseValidator extends AbstractContextValidator {
     
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.COURSE, entityType, ids)) {
+            return false;
+        }
+        
         Set<String> lineage = this.getStaffEdOrgLineage();
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));

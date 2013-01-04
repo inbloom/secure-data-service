@@ -19,7 +19,6 @@ package org.slc.sli.api.security.context.validator;
 import java.util.Collections;
 import java.util.Set;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;

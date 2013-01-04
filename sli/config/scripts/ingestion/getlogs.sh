@@ -4,10 +4,13 @@
 #
 #set -x
 
-if [ $# -lt 1 ] ; then
-  echo "Usage: getlogs RUN_NAME [FILE DATABASE]"
+if [ $# -lt 2 ] ; then
+  echo "Usage: getlogs NUMBER_OF_SERVERS RUN_NAME [FILE DATABASE]"
   exit 1
 fi
+
+NUMBER_OF_SERVERS=$1
+NAME=$2
 
 if [ -n "`hostname | grep slirp`" ] ; then
   # SLIRP
@@ -26,10 +29,23 @@ if [ -z "$ING_LOG_DIR" ] ; then
   ING_LOG_DIR=/opt/logs
 fi
 if [ -z "$LZ" ] ; then
-  LZ=/opt/lz
+  LZ=/ingestion/lz
 fi
 
-NAME=$1
+###################
+
+# GetSeconds token file num
+function GetSeconds {
+  DATE=`grep $1 $2 | head -n $3 | tail -n 1 | sed -e 's/^.*ISODate("\(.*\)\..*$/\1/' -e 's/T/ /'`
+  if [ -f /mach_kernel ] ; then
+    ABS=`date -j -f "%d %b %Y %H:%M:%S" "$DATE" +%s`
+  else
+    ABS=`date -d "$DATE" +%s`
+  fi
+  echo $ABS
+}
+
+###################
 
 echo "******************************************************************************"
 echo "**  Getting logs to $NAME at `date`"
@@ -46,34 +62,41 @@ mkdir $NAME
 #
 echo "Job Start/Stop..."
 mongo --quiet $STAGING/ingestion_batch_job --eval 'db.newBatchJob.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})' > $NAME/time
-mongo --quiet $STAGING/ingestion_batch_job --eval 'db.error.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})' > $NAME/error
+NUM_JOBS=`grep jobStartTimestamp $NAME/time | wc -l`
+for (( NUM=1; $NUM<=$NUM_JOBS; NUM++ )) ; do
+  START=`GetSeconds jobStartTimestamp $NAME/time $NUM`
+  STOP=`GetSeconds jobStopTimestamp $NAME/time $NUM`
+  let "SECONDS = $STOP - $START"
+  let "MINUTES = $SECONDS / 60"
+  let "REM_SECONDS = $SECONDS - $MINUTES * 60"
+  let "HOURS = $MINUTES / 60"
+  let "REM_MINUTES = $MINUTES - $HOURS * 60"
+  echo "${HOURS}h, ${REM_MINUTES}m, ${REM_SECONDS}s ($SECONDS seconds)" >> $NAME/time
+done
+cat $NAME/time
 
 #
-# Get start/stop time TO SCREEN
+# Get errors
 #
+mongo --quiet $STAGING/ingestion_batch_job --eval 'db.error.find({}, {"jobStartTimestamp":1,"jobStopTimestamp":1}).forEach(function(x){printjson(x);})' > $NAME/error
 mongo --quiet $STAGING/ingestion_batch_job --eval '"Errors: " + db.error.count()'
-cat $NAME/time
 
 #
 # Copy GC log
 #
 if [ -n "`hostname | grep slirp`" ] ; then
-  cp /opt/logs/gc.out $NAME
+  if [ "$1" == "1" ] ; then
+    echo " ***** Copying GC log"
+    cp /opt/logs/gc.log $NAME
+    $SCRIPTS/parse_gc_log.sh $NAME/gc.log > $NAME/gc_summary
+  else
+    for (( NUM=1; NUM<=$NUMBER_OF_SERVERS; NUM++ )) ; do
+      echo " ***** Copying GC log from $NUM"
+      scp slirpingest0$NUM:/opt/logs/gc.log $NAME/gc$NUM.log
+      $SCRIPTS/parse_gc_log.sh $NAME/gc$NUM.log > $NAME/gc${NUM}_summary
+    done
+  fi
 fi
-
-#
-# Verify
-#
-ALL_DBS=""
-while [ $# -gt 2 ] ; do
-  FILE=$2
-  DATABASE=$3
-  ALL_DBS="$ALL_DBS $DATABASE"
-  shift
-  shift
-  $SCRIPTS/verify_ingestion.sh $FILE $DATABASE > $NAME/verification
-  cat $NAME/verification
-done
 
 #
 # Get stats
@@ -103,14 +126,35 @@ done
 # Copy ingestion logs
 #
 echo "Copy logs..."
-cp -f $ING_LOG_DIR/ingestion.log $LZ/inbound/*/job* $NAME
-if [ -z "`grep 'Zip file detected' $NAME/ingestion.log`" ] ; then
-  # get previous day's log 
-  PREV=`ls -t $ING_LOG_DIR/ingestion-* | head -n 1`
-  cat $PREV $NAME/ingestion.log > $NAME/tmp
-  mv $NAME/tmp $NAME/ingestion.log
+if [ "$NUMBER_OF_SERVERS" == "1" ] ; then
+  cp -f $ING_LOG_DIR/ingestion.log $LZ/inbound/*/job* $NAME
+  if [ -z "`grep 'Zip file detected' $NAME/ingestion.log`" ] ; then
+    # get previous day's log 
+    PREV=`ls -t $ING_LOG_DIR/ingestion-* | head -n 1`
+    cat $PREV $NAME/ingestion.log > $NAME/tmp
+    mv $NAME/tmp $NAME/ingestion.log
+  fi
+else
+  for (( NUM=1; NUM<=$NUMBER_OF_SERVERS; NUM++ )) ; do
+    scp slirpingest0$NUM:/$ING_LOG_DIR/ingestion.log $NAME/ingestion$NUM.log
+  done
+  cat $NAME/ingestion*.log | sort -n > $NAME/ingestion.log
 fi
-$SCRIPTS/parse_ingestion_log.sh $NAME/ingestion.log > $NAME/ingestion_summary
+$SCRIPTS/parse_ingestion_log.sh $NAME/ingestion.log $NUMBER_OF_SERVERS > $NAME/ingestion_summary
+
+#
+# Verify
+#
+ALL_DBS=""
+while [ $# -gt 3 ] ; do
+  FILE=$3
+  DATABASE=$4
+  ALL_DBS="$ALL_DBS $DATABASE"
+  shift
+  shift
+  $SCRIPTS/verify_ingestion.sh $FILE $DATABASE > $NAME/verification
+  cat $NAME/verification
+done
 
 #
 # Crerate zip file

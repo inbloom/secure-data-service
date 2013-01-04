@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+<?xml version='1.0' encoding='UTF-8'?>
+<InterchangeStaffAssociation xsi:schemaLocation='http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd' xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
     <TeacherSectionAssociation>
         <TeacherReference>
             <StaffIdentity>

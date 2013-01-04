@@ -33,6 +33,7 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.BatchJobStage;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
@@ -75,6 +76,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     private Repository<Entity> entityRepository;
 
+    private String batchJobId;
+
     @Autowired
     private SchemaRepository schemaRepository;
 
@@ -101,6 +104,11 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return Collections.emptyList();
         }
 
+        Source source = new NeutralRecordSource(batchJobId, item.getSourceFile(),
+                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(), item.getRecordType(),
+                item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(), item.getVisitAfterLineNumber(),
+                item.getVisitAfterColumnNumber());
+
         if (transformed != null && !transformed.isEmpty()) {
 
             for (SimpleEntity entity : transformed) {
@@ -117,6 +125,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     matchEntity(entity, report, reportStats);
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception in matchEntity", darfe);
+                    report.error(reportStats, source, CoreMessageCode.CORE_0046, darfe);
                 }
 
                 if (reportStats.hasErrors()) {
@@ -125,6 +134,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             }
         } else {
             LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
+            report.error(reportStats, source, CoreMessageCode.CORE_0047);
         }
 
         return transformed;
@@ -317,6 +327,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     public void setDIdResolver(DeterministicIdResolver dIdResolver) {
         this.dIdResolver = dIdResolver;
+    }
+
+    public void setBatchJobId(String batchJobId) {
+        this.batchJobId = batchJobId;
     }
 
     public EntityConfigFactory getEntityConfigurations() {

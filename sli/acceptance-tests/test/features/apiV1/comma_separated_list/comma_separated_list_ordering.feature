@@ -154,7 +154,7 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       |grades                     |ef42e2a2-9942-11e1-7919-201211130001|708c4e08-9942-11e1-a8a9-68a86d21d918|
 #      |gradingPeriods             |b40a7eb5-dd74-4666-a5b9-5c3f4425f130|ef72b883-90fa-40fa-afc2-4cb1ae17623b|
       |parents                    |9b8f7237-ce8e-4dff-7919-201211130040|eb4d7e1b-7bed-890a-cddf-cdb25a29fc2d|
-#DEFECTIVE      |programs                   |9b8cafdc-8fd5-11e1-86ec-0021701f543f_id|cb292c7d-3503-414a-92a2-dc76a1585d79_id|
+      |programs                   |9b8cafdc-8fd5-11e1-86ec-0021701f543f_id|cb292c7d-3503-414a-92a2-dc76a1585d79_id|
       |reportCards                |8770da5b-dca5-4ced-bf3b-5fa17bc0001d|cf0ca1c6-a9db-4180-bf23-8276c4e2624c|
       |sections                   |a00c740c-8753-4190-90ad-9fc026a65d53_id|14c68439-62c1-461a-a178-ad8ac9404f95_id|
       |staff                      |04f708bc-928b-420d-a440-f1592a5d1073|e59d9991-9d8f-48ab-8790-59df9bcf9bc7|

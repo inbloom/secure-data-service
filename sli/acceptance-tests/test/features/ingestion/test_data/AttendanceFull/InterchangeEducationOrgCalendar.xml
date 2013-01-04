@@ -1,5 +1,14 @@
 <?xml version="1.0" ?>
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
+    <CalendarDate>
+        <Date>2011-09-22</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
+    </CalendarDate>
     <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
@@ -11,6 +20,16 @@
         <BeginDate>2012-05-27</BeginDate>
         <EndDate>2012-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-09-22</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <Session>
         <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
