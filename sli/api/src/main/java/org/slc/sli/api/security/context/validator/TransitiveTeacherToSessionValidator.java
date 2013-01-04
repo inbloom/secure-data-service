@@ -31,9 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Validates access to sections that you are both directly associated to and that you have
- * access THROUGH your students to.
- *
+ * Validates teacher access to sessions are associated by school/edOrg or that are accessible THROUGH students.
  */
 @Component
 public class TransitiveTeacherToSessionValidator extends AbstractContextValidator {
@@ -67,7 +65,7 @@ public class TransitiveTeacherToSessionValidator extends AbstractContextValidato
         Set<String> sessionsToValidate = new HashSet<String>(ids);
         sessionsToValidate.removeAll(validSessions);
 
-        if(!sessionsToValidate.isEmpty()) {
+        if (!sessionsToValidate.isEmpty()) {
 
             Iterable<Entity> sections = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, new NeutralQuery(
                     new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, studentHelper.getStudentIds())));
@@ -89,16 +87,14 @@ public class TransitiveTeacherToSessionValidator extends AbstractContextValidato
     }
 
     /**
-     * @param sessionValidator
-     *            the sessionValidator to set
+     * @param sessionValidator the sessionValidator to set
      */
     public void setSectionValidator(TeacherToSessionValidator sessionValidator) {
         this.sessionValidator = sessionValidator;
     }
 
     /**
-     * @param studentHelper
-     *            the studentHelper to set
+     * @param studentHelper the studentHelper to set
      */
     public void setStudentHelper(StudentValidatorHelper studentHelper) {
         this.studentHelper = studentHelper;
