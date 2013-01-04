@@ -13,7 +13,7 @@ data : {
     root: "students",
     
     items: [
-    {id: "col1", name: "Student", align: "left", width: 220, field: "name.fullName", formatter: restLink, params: {link:'student', target:"_self"}},
+    {id: "col1", name: "Student", align: "left", width: 220, field: "name.fullName", formatter: searchNameResults, params: {link:'student', target:"_self"}},
     {id: "col2", name: "Grade", align: "left", type: "FIELD", datatype: "string", field: "gradeLevelCode", width: 220},
     {id: "col3", name: "School", align: "left", type:"FIELD", datatype: "string", field: "currentSchoolName", width: 250}
     ]
