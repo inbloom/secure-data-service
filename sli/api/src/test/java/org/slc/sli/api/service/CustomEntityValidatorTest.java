@@ -17,7 +17,8 @@
 package org.slc.sli.api.service;
 
 import java.util.HashMap;
-import java.util.ListIterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,11 +27,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
 /**
+ * Unit test for CustomEntityValidator class.
  *
  * @author tshewchuk
  *
@@ -42,100 +44,24 @@ public class CustomEntityValidatorTest {
     @Autowired
     private CustomEntityValidator customEntityValidator;
 
-    private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
-
-    @Test(expected = EntityValidationException.class)
-    public void testInvalidFieldNameConsistingOfNullChar() {
-        String invalidCustomEntityId = "invalidCustomEntity1";
-        EntityBody invalidCustomEntity = new EntityBody();
-        invalidCustomEntity.put("ID", invalidCustomEntityId);
-        invalidCustomEntity.put("\u0000", "goodFieldValue");
-
-        customEntityValidator.validate(invalidCustomEntityId, CUSTOM_ENTITY_COLLECTION, invalidCustomEntity);
-    }
-
-    @Test(expected = EntityValidationException.class)
-    public void testInvalidFieldNameConsistingOfNullString() {
-        String invalidCustomEntityId = "invalidCustomEntity1";
-        EntityBody invalidCustomEntity = new EntityBody();
-        invalidCustomEntity.put("ID", invalidCustomEntityId);
-        invalidCustomEntity.put("\\x00", "goodFieldValue");
-
-        customEntityValidator.validate(invalidCustomEntityId, CUSTOM_ENTITY_COLLECTION, invalidCustomEntity);
-    }
-
-    @Test(expected = EntityValidationException.class)
-    public void testInvalidFieldNameContainingNullChar() {
-        String invalidCustomEntityId = "invalidCustomEntity2";
-        EntityBody invalidCustomEntity = new EntityBody();
-        invalidCustomEntity.put("ID", invalidCustomEntityId);
-        invalidCustomEntity.put("bad\u0000FieldName", "goodFieldValue");
-
-        customEntityValidator.validate(invalidCustomEntityId, CUSTOM_ENTITY_COLLECTION, invalidCustomEntity);
-    }
-
-    @Test(expected = EntityValidationException.class)
-    public void testInvalidFieldNameContainingNullString() {
-        String invalidCustomEntityId = "invalidCustomEntity2";
-        EntityBody invalidCustomEntity = new EntityBody();
-        invalidCustomEntity.put("ID", invalidCustomEntityId);
-        invalidCustomEntity.put("bad\\x00FieldName", "goodFieldValue");
-
-        customEntityValidator.validate(invalidCustomEntityId, CUSTOM_ENTITY_COLLECTION, invalidCustomEntity);
-    }
-
-    @SuppressWarnings("serial")
-    @Test(expected = EntityValidationException.class)
-    public void testInvalidNestedFieldNameContainingNullChar() {
-        final String invalidCustomEntityId = "invalidCustomEntity3";
-        EntityBody invalidCustomEntity = new EntityBody() {
-            {
-                put("ID", invalidCustomEntityId);
-                put("nestedField", new HashMap<String, Object>() {
-                    {
-                        put("fieldId", "goodIdValue");
-                        put("bad\u0011FieldName", "goodFieldValue");
-                    }
-                });
-            }
-
-        };
-
-        customEntityValidator.validate(invalidCustomEntityId, CUSTOM_ENTITY_COLLECTION, invalidCustomEntity);
-    }
-
-    @SuppressWarnings("serial")
     @Test
-    public void testMultipleInvalidFieldNamesAndErrors() {
-        final String invalidCustomEntityId = "invalidCustomEntity3";
-        EntityBody invalidCustomEntity = new EntityBody() {
-            {
-                put("ID", invalidCustomEntityId);
-                put("FSCommand = DEL", "goodFieldValue");
-                put("nestedField", new HashMap<String, Object>() {
-                    {
-                        put("fieldId", "goodIdValue");
-                        put("bad\u0011FieldName", "goodFieldValue");
-                    }
-                });
-            }
-        };
+    public void testEmptyEntity() {
+        String emptyCustomEntityId = "emptyCustomEntity";
+        EntityBody emptyCustomEntity = new EntityBody();
 
-        try {
-            customEntityValidator.validate(invalidCustomEntityId, CUSTOM_ENTITY_COLLECTION, invalidCustomEntity);
-            Assert.fail("Expected EntityValidationException");
-        } catch (EntityValidationException eve) {
-            Assert.assertEquals("Mismatched entity ID in EntityValidationException", eve.getEntityId(), invalidCustomEntityId);
-            Assert.assertEquals("Mismatched entity type in EntityValidationException", eve.getEntityType(), CUSTOM_ENTITY_COLLECTION);
-            ListIterator<ValidationError> validationErrors = eve.getValidationErrors().listIterator();
-            Assert.assertEquals("Should be 2 validation errors", 2, eve.getValidationErrors().size());
-            ValidationError ve1 = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_CONTENT,
-                    "FSCommand = DEL", "FSCommand = DEL", null);
-            Assert.assertEquals("Mismatched validation error", validationErrors.next().toString(), ve1.toString());
-            ValidationError ve2 = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_CONTENT,
-                    "bad\u0011FieldName", "bad\u0011FieldName", null);
-            Assert.assertEquals("Mismatched validation error", validationErrors.next().toString(), ve2.toString());
-        }
+        List<ValidationError> validationErrors = customEntityValidator.validate(emptyCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, emptyCustomEntity);
+        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
+    }
+
+    @Test
+    public void testNonCustomEntity() {
+        String nonCustomEntityId = "nonCustomEntity";
+        EntityBody nonCustomEntity = new EntityBody();
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(nonCustomEntityId,
+                PathConstants.STUDENTS, nonCustomEntity);
+        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
     }
 
     @Test
@@ -145,7 +71,9 @@ public class CustomEntityValidatorTest {
         validCustomEntity.put("ID", validCustomEntityId);
         validCustomEntity.put("goodFieldName", "goodFieldValue");
 
-        customEntityValidator.validate(validCustomEntityId, CUSTOM_ENTITY_COLLECTION, validCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, validCustomEntity);
+        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
     }
 
     @Test
@@ -155,6 +83,208 @@ public class CustomEntityValidatorTest {
         validCustomEntity.put("ID", validCustomEntityId);
         validCustomEntity.put("<goodFieldName>", "goodFieldValue");
 
-        customEntityValidator.validate(validCustomEntityId, CUSTOM_ENTITY_COLLECTION, validCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, validCustomEntity);
+        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
+    }
+
+    @SuppressWarnings("serial")
+    @Test
+    public void testMultipleNestedValidFieldNames() {
+        final String validCustomEntityId = "validCustomEntity3";
+        EntityBody validCustomEntity = new EntityBody() {
+            {
+                put("ID", validCustomEntityId);
+                put("goodFieldName1", "goodFieldValue");
+                put("goodFieldName2", new HashMap<String, Object>() {
+                    {
+                        put("goodSubFieldName1", "goodFieldValue");
+                        put("goodSubFieldName2", "goodFieldValue");
+                        put("goodSubFieldName3", new LinkedList<HashMap<String, Object>>() {
+                            {
+                                add(new HashMap<String, Object>() {
+                                    {
+                                        put("goodSubFieldName1", "goodFieldValue");
+                                    }
+                                });
+                                add(new HashMap<String, Object>() {
+                                    {
+                                        put("goodSubFieldName1", "goodFieldValue");
+                                        put("goodSubFieldName2", new HashMap[] { new HashMap<String, Object>() {
+                                            {
+                                                put("goodSubFieldName1", "goodFieldValue");
+                                            }
+                                        }, new HashMap<String, Object>() {
+                                            {
+                                                put("goodSubFieldName1", "goodFieldValue");
+                                                put("goodSubFieldName2", "goodFieldValue");
+                                            }
+                                        } });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, validCustomEntity);
+        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
+    }
+
+    @Test
+    public void testInvalidFieldNameConsistingOfNullChar() {
+        String invalidCustomEntityId = "invalidCustomEntity1";
+        EntityBody invalidCustomEntity = new EntityBody();
+        invalidCustomEntity.put("ID", invalidCustomEntityId);
+        invalidCustomEntity.put("\u0000", "goodFieldValue");
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
+        ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "\u0000", "\u0000",
+                null);
+        Assert.assertEquals("Mismatched validation error", ve.toString(), validationErrors.get(0).toString());
+    }
+
+    @Test
+    public void testInvalidFieldNameConsistingOfNullString() {
+        String invalidCustomEntityId = "invalidCustomEntity2";
+        EntityBody invalidCustomEntity = new EntityBody();
+        invalidCustomEntity.put("ID", invalidCustomEntityId);
+        invalidCustomEntity.put("\\x00", "goodFieldValue");
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
+        ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "\\x00", "\\x00",
+                null);
+        Assert.assertEquals("Mismatched validation error", ve.toString(), validationErrors.get(0).toString());
+    }
+
+    @Test
+    public void testInvalidFieldNameContainingNullChar() {
+        String invalidCustomEntityId = "invalidCustomEntity3";
+        EntityBody invalidCustomEntity = new EntityBody();
+        invalidCustomEntity.put("ID", invalidCustomEntityId);
+        invalidCustomEntity.put("bad\u0000FieldName", "goodFieldValue");
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
+        ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "bad\u0000FieldName",
+                "bad\u0000FieldName", null);
+        Assert.assertEquals("Mismatched validation error", ve.toString(), validationErrors.get(0).toString());
+    }
+
+    @Test
+    public void testInvalidFieldNameContainingNullString() {
+        String invalidCustomEntityId = "invalidCustomEntity4";
+        EntityBody invalidCustomEntity = new EntityBody();
+        invalidCustomEntity.put("ID", invalidCustomEntityId);
+        invalidCustomEntity.put("bad\\x00FieldName", "goodFieldValue");
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
+        ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "bad\\x00FieldName",
+                "bad\\x00FieldName", null);
+        Assert.assertEquals("Mismatched validation error", ve.toString(), validationErrors.get(0).toString());
+    }
+
+    @SuppressWarnings("serial")
+    @Test
+    public void testInvalidNestedFieldNameInMap() {
+        final String invalidCustomEntityId = "invalidCustomEntity5";
+        EntityBody invalidCustomEntity = new EntityBody() {
+            {
+                put("ID", invalidCustomEntityId);
+                put("nestedFieldName", new HashMap<String, Object>() {
+                    {
+                        put("goodFieldName", "goodFieldValue");
+                        put("bad\u0011FieldName", "goodFieldValue");
+                    }
+                });
+            }
+
+        };
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
+        ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "bad\u0011FieldName",
+                "bad\u0011FieldName", null);
+        Assert.assertEquals("Mismatched validation error", ve.toString(), validationErrors.get(0).toString());
+    }
+
+    @SuppressWarnings("serial")
+    @Test
+    public void testMultipleNestedInvalidFieldNames() {
+        final String invalidCustomEntityId = "invalidCustomEntity6";
+        EntityBody invalidCustomEntity = new EntityBody() {
+            {
+                put("ID", invalidCustomEntityId);
+                put("FSCommand = DEL", "goodFieldValue");
+                put("nestedField", new HashMap<String, Object>() {
+                    {
+                        put("goodFieldName1", "goodFieldValue");
+                        put("bad\u0000FieldName2", "goodFieldValue");
+                        put("goodFieldName2", new LinkedList<HashMap<String, Object>>() {
+                            {
+                                add(new HashMap<String, Object>() {
+                                    {
+                                        put("goodSubFieldName1", "goodFieldValue");
+                                    }
+                                });
+                                add(new HashMap<String, Object>() {
+                                    {
+                                        put("goodSubFieldName2", "goodFieldValue");
+                                        put("bad\\x00FieldName3", new HashMap[] {
+                                            new HashMap<String, Object>() {
+                                                {
+                                                    put("goodSubFieldName", "goodFieldValue");
+                                                }
+                                            }, new HashMap<String, Object>() {
+                                                {
+                                                    put("goodSubFieldName3", "goodFieldValue");
+                                                    put("bad\u007FFieldName4", "goodFieldValue");
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
+                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        Assert.assertEquals("Should be 4 validation errors", 4, validationErrors.size());
+        ValidationError ve1 = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "FSCommand = DEL",
+                "FSCommand = DEL", null);
+        ValidationError ve2 = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME,
+                "bad\u0000FieldName2", "bad\u0000FieldName2", null);
+        ValidationError ve3 = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "bad\\x00FieldName3",
+                "bad\\x00FieldName3", null);
+        ValidationError ve4 = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME,
+                "bad\u007FFieldName4", "bad\u007FFieldName4", null);
+        assertValidationErrorIsInList(validationErrors, ve1);
+        assertValidationErrorIsInList(validationErrors, ve2);
+        assertValidationErrorIsInList(validationErrors, ve3);
+        assertValidationErrorIsInList(validationErrors, ve4);
+    }
+
+    private void assertValidationErrorIsInList(List<ValidationError> validationErrors, ValidationError validationError) {
+        for (ValidationError ve : validationErrors) {
+            if (validationError.toString().equals(ve.toString())) {
+                return;
+            }
+        }
+        Assert.fail("Mismatched validation error");
     }
 }

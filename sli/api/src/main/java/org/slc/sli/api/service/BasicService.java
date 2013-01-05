@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +40,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -58,6 +60,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -441,7 +445,7 @@ public class BasicService implements EntityService {
     }
 
     @Override
-    public void createOrUpdateCustom(String id, EntityBody customEntity) {
+    public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
         checkAccess(writeRight, id);
 
         String clientId = getClientId();
@@ -460,7 +464,12 @@ public class BasicService implements EntityService {
         }
 
         // Verify field names contain no blacklisted components.
-        customEntityValidator.validate(id, CUSTOM_ENTITY_COLLECTION, customEntity);
+        List<ValidationError> errorList = customEntityValidator.validate(id, PathConstants.CUSTOM_ENTITIES, customEntity);
+        if (!errorList.isEmpty()) {
+            // TODO: Not sure if this error call belongs....
+            error("Blacklist validation failed for custom entity {}\nErrors:\n{}", id, StringUtils.join(errorList, "\n"));
+            throw new EntityValidationException(id, PathConstants.CUSTOM_ENTITIES, errorList);
+        }
 
         EntityBody clonedEntity = new EntityBody(customEntity);
 
