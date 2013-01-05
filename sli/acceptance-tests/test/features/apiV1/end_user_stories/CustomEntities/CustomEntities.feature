@@ -311,14 +311,14 @@ Scenario:  As an IT Admin, I want to add custom entitiy with invalid/blacklisted
     Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
     And the clientID is "demoClient"
     And I am authenticated on "IL"
-   
+
     Given format "application/json"
     And a valid entity json object for a "educationOrganizations"
     And I navigate to DELETE "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     And I add a key value pair "Bad\x00Name" : "<?xml version=1.0?><DisplayName>StateTest Reading Results</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 400
-	
+
 	Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
     And the clientID is "demoClient"
     And I am authenticated on "IL"

@@ -178,7 +178,8 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         String entityId = "";
-        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(entityId, content), createMetadata(), collectionName);
+        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(entityId, content), createMetadata(),
+                collectionName);
         if (entity != null) {
             entityId = entity.getEntityId();
         }
@@ -451,20 +452,23 @@ public class BasicService implements EntityService {
 
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
 
-        EntityBody sanitized = sanitizeEntityBody(id, customEntity);
-        if (entity != null && entity.getBody().equals(sanitized)) {
+        if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
                     new Object[] { getEntityDefinition().getType(), id, clientId });
 
             return;
         }
 
+        // Verify field names contain no blacklisted components.
+        customEntityValidator.validate(id, CUSTOM_ENTITY_COLLECTION, customEntity);
+
+        EntityBody clonedEntity = new EntityBody(customEntity);
+
         if (entity != null) {
             debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[] {
-
-            getEntityDefinition().getType(), id, clientId });
+                    getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
-            entity.getBody().putAll(sanitized);
+            entity.getBody().putAll(clonedEntity);
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[] {
@@ -476,7 +480,7 @@ public class BasicService implements EntityService {
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
             metaData.put(CUSTOM_ENTITY_ENTITY_ID, id);
             metaData.put("tenantId", principal.getTenantId());
-            getRepo().create(CUSTOM_ENTITY_COLLECTION, sanitized, metaData, CUSTOM_ENTITY_COLLECTION);
+            getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
         }
     }
 
@@ -612,11 +616,7 @@ public class BasicService implements EntityService {
      * @return
      */
     private EntityBody sanitizeEntityBody(String id, EntityBody content) {
-        // Verify field names contain no blacklisted components.
-        customEntityValidator.validate(id, CUSTOM_ENTITY_COLLECTION, content);
-
         EntityBody sanitized = new EntityBody(content);
-
         for (Treatment treatment : treatments) {
             sanitized = treatment.toStored(sanitized, defn);
         }
