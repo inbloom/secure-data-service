@@ -306,3 +306,21 @@ Scenario:  As an IT Admin, I want to add a truncated (thus faulty) large custom 
     When I navigate to a truncated, faulty POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     Then I should receive a return code of 400
 
+Scenario:  As an IT Admin, I want to add custom entitiy with invalid/blacklisted characters and get a 400 server error
+    #create a new custom entity for demoClient
+    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+   
+    Given format "application/json"
+    And a valid entity json object for a "educationOrganizations"
+    And I navigate to DELETE "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+    And I add a key value pair "Bad\x00Name" : "<?xml version=1.0?><DisplayName>StateTest Reading Results</DisplayName>" to the object
+	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+	Then I should receive a return code of 400
+	
+	Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+    Then I should receive a return code of 404
