@@ -50,6 +50,10 @@ public class StaffToGradingPeriodValidator extends AbstractContextValidator {
     @SuppressWarnings("unchecked")
     @Override
     public boolean validate(String entityType, Set<String> entityIds) {
+        if (!areParametersValid(EntityNames.GRADING_PERIOD, entityType, entityIds)) {
+            return false;
+        }
+        
         Set<String> toResolve = new HashSet<String>(entityIds);
         
         /*

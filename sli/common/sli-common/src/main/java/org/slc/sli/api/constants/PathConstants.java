@@ -105,6 +105,7 @@ public class PathConstants {
      * the resource name. This resource name is then mapped to the new camel case name using this
      * map.
      */
+    @Deprecated
     public static final Map<String, String> TEMP_MAP = new HashMap<String, String>();
     static {
         TEMP_MAP.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, STUDENT_SCHOOL_ASSOCIATIONS);

@@ -17,19 +17,19 @@
 
 package org.slc.sli.validation.schema;
 
-import java.util.Map;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -82,7 +82,7 @@ public class ListSchema extends NeutralSchema {
     public boolean isSimple() {
         return false;
     }
-    
+
     /**
      * This is a temp hack to fix a bug.
      * Annotations do not inherit from list to it's members
@@ -199,10 +199,12 @@ public class ListSchema extends NeutralSchema {
 
         return isValid;
     }
-    
+
+    @Override
     protected Annotation getAnnotation(Annotation.AnnotationType type) {
-        if (annotations.containsKey(type)) {
-            return annotations.get(type);
+        Annotation annotation = super.getAnnotation(type);
+        if (annotation != null) {
+            return annotation;
         }
         return list.get(0).getAnnotation(type);
     }

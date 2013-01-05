@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 
@@ -29,7 +30,7 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  * metainformation.
  *
  */
-public class IngestionFileEntry implements Serializable {
+public class IngestionFileEntry implements Serializable, Resource {
 
     private static final long serialVersionUID = 8326156381009199389L;
 
@@ -228,6 +229,11 @@ public class IngestionFileEntry implements Serializable {
      */
     public void setMessageReport(AbstractMessageReport databaseMessageReport) {
         this.errorReport = databaseMessageReport;
+    }
+
+    @Override
+    public String getResourceId() {
+        return fileName;
     }
 
 }

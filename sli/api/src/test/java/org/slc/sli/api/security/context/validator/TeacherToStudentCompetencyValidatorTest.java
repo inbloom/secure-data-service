@@ -94,13 +94,6 @@ public class TeacherToStudentCompetencyValidatorTest {
     }
     
     @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, null));
-        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>()));
-    }
-    
-    @Test
     public void testValidComps() {
         assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(sComp1.getEntityId()))));
         assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(sComp2.getEntityId()))));

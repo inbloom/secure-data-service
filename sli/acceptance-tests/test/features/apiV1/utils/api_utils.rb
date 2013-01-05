@@ -146,7 +146,7 @@ end
 Then /^I should receive a collection with (\d+) elements$/ do |count|;
   count = convert(count)
   assert(@result != nil, "Response contains no data")
-  assert(@result.is_a?(Array), "Expected array of links")
+  assert(@result.is_a?(Array), "Expected array of links, got #{@result}")
   @result.length.should == count
 end
 

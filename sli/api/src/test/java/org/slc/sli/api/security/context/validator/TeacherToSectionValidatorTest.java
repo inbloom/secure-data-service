@@ -85,13 +85,6 @@ public class TeacherToSectionValidatorTest {
     }
     
     @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.SECTION, null));
-        assertFalse(validator.validate(EntityNames.SECTION, new HashSet<String>()));
-    }
-    
-    @Test
     public void testCanValidateSingleSection() {
         helper.generateTeacherSchool(helper.STAFF_ID, helper.ED_ORG_ID);
         Entity section = helper.generateSection(helper.ED_ORG_ID);
