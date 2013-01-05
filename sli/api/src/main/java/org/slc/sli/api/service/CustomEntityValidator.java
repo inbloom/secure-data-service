@@ -114,7 +114,7 @@ public class CustomEntityValidator {
             for (Object elem : (Collection<Object>) object) {
                 entityBody = createEntityBody(elem);
             }
-        }
+        }  // Else, string or special type.  Search no more!
 
         return entityBody;
     }
