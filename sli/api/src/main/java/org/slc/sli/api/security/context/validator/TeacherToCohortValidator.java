@@ -45,10 +45,6 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
         if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
             return false;
         }
-		
-		if(ids==null || ids.size()==0) {
-			throw new IllegalArgumentException("Incoming list of ids cannot be null");
-		}
  
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("staffId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
 		nq.addCriteria(new NeutralCriteria("cohortId", "in", ids));
