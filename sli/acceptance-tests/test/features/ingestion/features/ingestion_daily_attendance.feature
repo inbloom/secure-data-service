@@ -37,7 +37,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 
   And I should see "Processed 281 records." in the resulting batch job file
-  And I should not see an error log file created
   And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
