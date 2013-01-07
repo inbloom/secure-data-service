@@ -45,6 +45,7 @@ public enum CoreMessageCode implements MessageCode {
     CORE_0018,
     CORE_0019,
     CORE_0020,
+    CORE_0021,
     CORE_0027,
     CORE_0028,
     CORE_0029,
