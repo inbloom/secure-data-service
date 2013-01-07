@@ -1282,6 +1282,7 @@ desc "Import Sandbox Test Data"
 task :importChaosSandboxData do
   testHash = Hash[
     "educationOrganization" => "educationOrganization_fixture_chaos.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
     "staff" => "staff_fixture_chaos.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json",
 

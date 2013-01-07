@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
@@ -54,22 +55,15 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
         }
         
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
-        query.setIncludeFields(Arrays.asList("sectionId", "_id"));
+        query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
+        query.setIncludeFields(Arrays.asList(ParameterConstants.SECTION_ID));
         Iterable<Entity> ents = repo.findAll(EntityNames.GRADEBOOK_ENTRY, query);
 
         Set<String> sectionIds = new HashSet<String>();
-        Set<String> gbeIds = new HashSet<String>();
 
         for (Entity gbe : ents) {
-            String id = (String) gbe.getEntityId();
             String sectionId = (String) gbe.getBody().get("sectionId");
-            gbeIds.add(id);
             sectionIds.add(sectionId);
-        }
-
-        if (gbeIds.size() != ids.size() || ids.size() == 0) {
-            return false;
         }
 
         return validatorStore.findValidator(EntityNames.SECTION, true).validate(EntityNames.SECTION, sectionIds);
