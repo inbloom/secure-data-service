@@ -149,11 +149,11 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       |cohorts                    |9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id|b40926af-8fd5-11e1-86ec-0021701f543f_id|
       |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|731a70cb-86e4-48ce-bfb9-1675f874ded1|
 #      |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|0e26de6c-225b-9f67-9281-7213ad50a03b|
-      |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-226a-5d67-9201-5113ad50a03b|
+      |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-22ea-5d67-9201-5113ad50a03b|
       |gradebookEntries           |0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id|706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id|
       |grades                     |ef42e2a2-9942-11e1-7919-201211130001|708c4e08-9942-11e1-a8a9-68a86d21d918|
 #      |gradingPeriods             |b40a7eb5-dd74-4666-a5b9-5c3f4425f130|ef72b883-90fa-40fa-afc2-4cb1ae17623b|
-      |parents                    |9b8f7237-ce8e-4dff-7919-201211130040|eb4d7e1b-7bed-890a-cddf-cdb25a29fc2d|
+      |parents                    |9b8f7237-ce8e-4dff-7919-201211130040|056dce8e-ec68-4df6-add0-a4243bddca9a|
       |programs                   |9b8cafdc-8fd5-11e1-86ec-0021701f543f_id|cb292c7d-3503-414a-92a2-dc76a1585d79_id|
       |reportCards                |8770da5b-dca5-4ced-bf3b-5fa17bc0001d|cf0ca1c6-a9db-4180-bf23-8276c4e2624c|
       |sections                   |a00c740c-8753-4190-90ad-9fc026a65d53_id|14c68439-62c1-461a-a178-ad8ac9404f95_id|

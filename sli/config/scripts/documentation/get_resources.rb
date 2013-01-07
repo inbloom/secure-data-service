@@ -57,16 +57,16 @@ $known_ids = {
 $template_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 
 <!DOCTYPE chapter [
-<!ENTITY % slc_entities SYSTEM \"../../common/docbook_entities-slc.ent\">
-%slc_entities;
+<!ENTITY % entities SYSTEM \"../../common/entities.ent\">
+%entities;
 ]>
 
-<chapter xml:id=\"doc-5c19acd4-a267-4d0d-96b5-2e4fcf804a63\"
+<chapter xml:id=\"%%XMLID%%\"
     xmlns=\"http://docbook.org/ns/docbook\"
     xmlns:xi=\"http://www.w3.org/2001/XInclude\"
     xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"5.0\">
 
-    <title>&RESTAPI; Example Requests &amp; Responses</title>
+    <title>Example Requests &amp; Responses for &RESTAPI; %%NAMESPACE%%</title>
 
     <para>
         This contents of this chapter are the sample requests and responses generated
@@ -140,7 +140,7 @@ def get_namespace_file(namespace)
     ns_file = File.new(ns_filename, "w")
     $namespace_files[namespace] = ns_file
 
-    ns_file.puts($template_header)
+    ns_file.puts($template_header.gsub("%%XMLID%%", ns_filename.gsub(".xml", "")).gsub("%%NAMESPACE%%", namespace))
   end
 
   ns_file
