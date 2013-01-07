@@ -248,6 +248,7 @@ When I navigate to the API token endpoint with my client ID, secret, authorizati
 Then I should receive a json response containing my authorization token
 And I should be able to use the token to make valid API calls
 
+@wip
 Scenario: Educator performs student search
 Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
@@ -271,6 +272,7 @@ And I see the following search results at index 0:
  Then I should receive a return code of 200
  Then I should receive a collection with 0 elements
 
+@wip
 Scenario: Staff performs student search
 Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
@@ -300,7 +302,8 @@ And I see the following search results at index 0:
  And I see the following search results at index 0:
  |Field              |Value                                           |
  |name.lastSurname   |Tran                                            |
-  
+
+@wip
  Scenario: School Level searching for student not in school
   Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
