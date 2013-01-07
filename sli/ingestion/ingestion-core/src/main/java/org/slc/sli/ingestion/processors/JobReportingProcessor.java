@@ -272,6 +272,11 @@ public class JobReportingProcessor implements Processor {
                     warningsCountPerInterchange);
         }
 
+        //It is possible that some errors dont have resourceId.
+        //Reporting such errors.
+        hasErrors |= writeErrors(job, landingZone, null, FaultType.TYPE_ERROR,
+                ERROR_FILE_TYPE, errorsCountPerInterchange);
+
         return hasErrors;
     }
 
