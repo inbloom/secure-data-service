@@ -219,9 +219,9 @@ And Student Enrollment History has the following entries:
 When I enter "robbie" into the student search box
 And I click the search button
 And "1" results are returned in the page
-#And the search results include:
-# |Student          	|Grade     |School                      |
-# |Roberta Jones     	|11        |Sunset Central High School  |
+And the search results include:
+ |Student          	              |Grade     |School                      |
+ |Roberta Jones(Robbie Jones)    	|11        |Sunset Central High School  |
 And I click on student "Roberta Jones"
 And I view its student profile
 And their name shown in profile is "Roberta Jones (Robbie Jones)"

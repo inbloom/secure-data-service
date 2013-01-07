@@ -42,7 +42,7 @@ end
 
 Then /^the search results has the following entries:$/ do |table|
   mapping = {
-    "Student" => "fullName",
+    "Student" => ["fullName", "title"],
     "Grade" => "gradeLevel",
     "School" => "currentSchoolName"
   }
@@ -51,7 +51,7 @@ end
 
 Then /^the search results include:$/ do |table|
   mapping = {
-    "Student" => "fullName",
+    "Student" => ["fullName", "title"],
     "Grade" => "gradeLevel",
     "School" => "currentSchoolName"
   }
