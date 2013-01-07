@@ -16,8 +16,9 @@
     </context:component-scan>
     
     <context:component-scan base-package="org.slc.sli.common">
+            <context:exclude-filter type="regex"
+            expression=".*LdapServiceImpl" />
     </context:component-scan>
-    <bean id="entityValidator" class="org.slc.sli.validation.AvroEntityValidator" />
 
     <import resource="validation.xml" />
 </beans>

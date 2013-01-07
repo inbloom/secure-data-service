@@ -30,7 +30,6 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
 /**
  * @author ablum
@@ -91,16 +90,11 @@ public class SelfReferenceValidator {
                 LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
                 uid = UUID.randomUUID().toString();
             } else {
-                if (NaturalKeyExtractor.useDeterministicIds()) {
-                    if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-                        // generate a truly random id
-                        uid = uuidGeneratorStrategy.generateId();
-                    } else {
-                        uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
-                    }
-                } else {
+                if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
                     // generate a truly random id
                     uid = uuidGeneratorStrategy.generateId();
+                } else {
+                    uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
                 }
             }
 
