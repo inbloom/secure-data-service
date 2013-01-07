@@ -205,7 +205,7 @@ When zip file is scp to ingestion landing zone
      | collectionName              | count |
 	| error                       | 1     |
     And I should see "INFO  Processed 0 records." in the resulting batch job file
-    And I should see "ERROR  No valid files specified in control file." in the resulting error log file
+    And I should see "No valid files specified in control file." in the resulting error log file
 
 
 Scenario: Post a Zip File containing a control file with directory pathnames
@@ -281,7 +281,7 @@ Scenario: Post a Zip File containing a control file with checksum error
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
-Then I should see "ERROR  File Session2.xml: Checksum validation failed. Possible file corruption." in the resulting error log file
+Then I should see "File Session2.xml: Checksum validation failed. Possible file corruption." in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a zip file with bad control file
@@ -298,7 +298,7 @@ Scenario: Post an zip file where the control file has extra properties
         | session                     |
   When zip file is scp to ingestion landing zone
   And a batch job for file "ControlFileHasExtraProperty.zip" is completed in database
-  And I should see "ERROR  Failed to parse ctl file. Invalid control file entry at line number" in the resulting error log file
+  And I should see "Failed to parse ctl file. Invalid control file entry at line number" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a zip file containing error CalendarDate with ID References job: Clean Database
@@ -355,5 +355,5 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                   |   0     |
   And I should see "Processed 5 records." in the resulting batch job file
   And I should see "attendance events are not processed, because they are not within any school year" in the resulting warning log file for "StudentAttendanceEvents.xml"
-  And I should see "attendance located between Line 4, Column 21 and Line 14, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"
-  And I should see "attendance located between Line 16, Column 21 and Line 26, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "Element:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "Element:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"

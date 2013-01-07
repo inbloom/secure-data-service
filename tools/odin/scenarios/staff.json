@@ -49,6 +49,17 @@
     ]
   },
   {
+    "userId": "badmin",
+    "name": "Bruce Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
     "userId": "sampleUser",
     "name": "Billy Admin",
     "edOrgs": [
