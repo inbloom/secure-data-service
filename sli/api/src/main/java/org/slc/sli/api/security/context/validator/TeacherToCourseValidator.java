@@ -59,10 +59,6 @@ public class TeacherToCourseValidator extends AbstractContextValidator {
         
         Set<String> schools = getTeacherEdorgLineage();
         
-        if (schools.size() == 0) {
-            return validIds;
-        }
-        
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
         nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, schools));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE, nq);

@@ -55,7 +55,7 @@ public class CustomEntityValidator {
      */
     public List<ValidationError> validate(String entityId, String entitytype, EntityBody entityBody) {
         List<ValidationError> errorList = new ArrayList<ValidationError>();
-        if ((entitytype == PathConstants.CUSTOM_ENTITIES) && !entityBody.isEmpty()) {
+        if ((entitytype.equals(PathConstants.CUSTOM_ENTITIES)) && !entityBody.isEmpty()) {
             validate(entityId, entitytype, entityBody, errorList);
         }
         return errorList;
