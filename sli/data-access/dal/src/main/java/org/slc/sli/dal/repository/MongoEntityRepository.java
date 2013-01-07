@@ -240,19 +240,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Assert.notNull(body, "The given entity must not be null!");
         Map<String, Object> metaData = origMetaData == null ? new HashMap<String, Object>() : origMetaData;
 
-        if (id != null && collectionName.equals("educationOrganization")) {
-            if (metaData.containsKey("edOrgs")) {
-                @SuppressWarnings("unchecked")
-                List<String> edOrgs = (List<String>) metaData.get("edOrgs");
-                edOrgs.add(id);
-                metaData.put("edOrgs", edOrgs);
-            } else {
-                List<String> edOrgs = new ArrayList<String>();
-                edOrgs.add(id);
-                metaData.put("edOrgs", edOrgs);
-            }
-        }
-
         MongoEntity entity = new MongoEntity(type, id, body, metaData);
         validator.validateNaturalKeys(entity, true);
         validator.validate(entity);

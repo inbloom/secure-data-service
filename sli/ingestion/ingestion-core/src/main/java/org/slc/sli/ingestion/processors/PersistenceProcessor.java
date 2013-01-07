@@ -653,6 +653,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
+    @SuppressWarnings({ "unchecked" })
     void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
 
         /*
@@ -675,7 +676,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         }
 
         String tenantId = TenantContext.getTenantId();
-        @SuppressWarnings("unchecked")
+
         List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
 
         for (Map<String, Object> rhDataElement : rhData) {
