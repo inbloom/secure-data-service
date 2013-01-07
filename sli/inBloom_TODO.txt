@@ -1,7 +1,9 @@
 - Admin welcome page welcome message (above system tool links)
-- API Bootstrap app names: dashboard, databrowser
+- API bootstrap app names: dashboard, databrowser (canonical_config.yml)
+- SLC(Dev) Realm name (canonical_config.yml)
+- Databrowser heading name
+- Vendor name in application-fixture.json
 - Name and role name of SLC Operator
-- SLC Realm name
 - "The inBloom" sounds awkward. It's better to just use "inBloom", unless it is referring to a specific inBloom component (e.g. The inBloom sandbox environment)
 - Copyright header in ruby and java source files
 - The following files contain the word "SLC", but mostly in comments, variable names and properties names:
