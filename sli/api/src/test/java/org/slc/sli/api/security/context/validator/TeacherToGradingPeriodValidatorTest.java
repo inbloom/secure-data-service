@@ -110,13 +110,6 @@ public class TeacherToGradingPeriodValidatorTest {
     }
     
     @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.GRADING_PERIOD, null));
-        assertFalse(validator.validate(EntityNames.GRADING_PERIOD, new HashSet<String>()));
-    }
-    
-    @Test
     public void testValidGradingPeriods() {
         assertTrue(validator.validate(EntityNames.GRADING_PERIOD, list(gradingPeriod1.getEntityId())));
         assertTrue(validator.validate(EntityNames.GRADING_PERIOD, list(gradingPeriod11.getEntityId())));

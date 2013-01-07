@@ -104,7 +104,7 @@ public class SearchResourceService {
 
     // keep parameters for ElasticSearch
     // "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
-    private static final List<String> WHITE_LIST_PARAMETERS = Arrays.asList(new String[]{ "q" });
+    private static final List<String> WHITE_LIST_PARAMETERS = Arrays.asList(new String[] { "q" });
 
     @PostConstruct
     public void init() {
@@ -117,12 +117,13 @@ public class SearchResourceService {
 
     /**
      * Main entry point for retrieving search results
-     *
+     * 
      * @param resource
      * @param resourcesToSearch
      * @param queryUri
-     * @param routeToDefaultApp - get ids via search app and route the request to the default
-     *                          app, attaching the ids
+     * @param routeToDefaultApp
+     *            - get ids via search app and route the request to the default
+     *            app, attaching the ids
      * @return
      */
     public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri, boolean routeToDefaultApp) {
@@ -130,7 +131,8 @@ public class SearchResourceService {
         Boolean moreEntities;
         // set up query criteria, make query
         try {
-            Pair<? extends List<EntityBody>, Boolean> resultPair = retrieveResults(prepareQuery(resource, resourcesToSearch, queryUri));
+            Pair<? extends List<EntityBody>, Boolean> resultPair = retrieveResults(prepareQuery(resource,
+                    resourcesToSearch, queryUri));
             finalEntities = resultPair.getLeft();
             moreEntities = resultPair.getRight();
             if (routeToDefaultApp) {
@@ -177,7 +179,7 @@ public class SearchResourceService {
     /**
      * Takes an ApiQuery and retrieve results. Includes logic for pagination and
      * calls methods to filter by security context.
-     *
+     * 
      * @param definition
      * @param apiQuery
      * @return
@@ -187,7 +189,8 @@ public class SearchResourceService {
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
         if (limit > maxFilteredSearchResultCount) {
-            throw new PreConditionFailedException("Limit on search is " + maxFilteredSearchResultCount);
+            throw new PreConditionFailedException("Invalid condition, limit [" + limit
+                    + "] cannot be greater than maxFilteredResults [" + maxFilteredSearchResultCount + "] on search");
         }
         if (limit == 0) {
             limit = SEARCH_RESULT_LIMIT;
@@ -244,7 +247,7 @@ public class SearchResourceService {
 
     /**
      * Replace entity type 'search' with the real entity types
-     *
+     * 
      * @param entities
      */
     private void setRealEntityTypes(List<EntityBody> entities) {
@@ -258,7 +261,7 @@ public class SearchResourceService {
      * Prepare an ApiQuery to send to the search repository. Creates the
      * ApiQuery from the query URI, sets query criteria and security context
      * criteria.
-     *
+     * 
      * @param resourcesToSearch
      * @param queryUri
      * @return
@@ -276,7 +279,7 @@ public class SearchResourceService {
 
     /**
      * Given string of resource names, get corresponding string of entity types
-     *
+     * 
      * @param resourceNames
      * @return
      */
@@ -297,10 +300,12 @@ public class SearchResourceService {
      * Return list of accessible entities, filtered through the security
      * context. Original list may by cross-collection. Retains the original
      * order of entities.
-     *
+     * 
      * @param entities
-     * @param offset   -
-     * @param limit    - total requested
+     * @param offset
+     *            -
+     * @param limit
+     *            - total requested
      * @return
      */
     public Collection<EntityBody> filterResultsBySecurity(List<EntityBody> entityBodies, int offset, int limit) {
@@ -347,7 +352,7 @@ public class SearchResourceService {
 
     /**
      * Get entities table by type, by ids
-     *
+     * 
      * @param entityList
      * @return
      */
@@ -361,7 +366,7 @@ public class SearchResourceService {
 
     /**
      * Filter id set to get accessible ids
-     *
+     * 
      * @param toType
      * @param ids
      * @return
@@ -379,7 +384,7 @@ public class SearchResourceService {
 
     /**
      * NeutralCriteria filter. Keep NeutralCriteria only on the White List
-     *
+     * 
      * @param apiQuery
      */
     public void filterCriteria(ApiQuery apiQuery) {
@@ -409,7 +414,7 @@ public class SearchResourceService {
     /**
      * Apply default query pattern for ElasticSearch. Query strategy -
      * start-of-word match on each query token
-     *
+     * 
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
@@ -430,7 +435,7 @@ public class SearchResourceService {
      * determined by the user's accessible schools. The list of accessible
      * school ids is added to the query, and records in Elasticsearch must match
      * an id in order to be returned.
-     *
+     * 
      * @param apiQuery
      */
     private void addSecurityContext(ApiQuery apiQuery) {
@@ -451,7 +456,7 @@ public class SearchResourceService {
 
     /**
      * Run an embedded ElasticSearch instance, if enabled by configuration.
-     *
+     * 
      * @author dwu
      */
     @Component
@@ -481,7 +486,7 @@ public class SearchResourceService {
                 Settings settings = ImmutableSettings.settingsBuilder().put("node.http.enabled", true)
                         .put("http.port", this.elasticSearchHttpPort)
                         .put("path.data", elasticsearchDir.getAbsolutePath() + "/data").put("gateway.type", "none")
-                                // .put("index.store.type", "memory")
+                        // .put("index.store.type", "memory")
                         .put("index.number_of_shards", 1).put("index.number_of_replicas", 1).build();
 
                 node = NodeBuilder.nodeBuilder().local(true).settings(settings).node();

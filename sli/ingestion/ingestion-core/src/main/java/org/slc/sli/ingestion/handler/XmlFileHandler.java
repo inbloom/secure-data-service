@@ -31,12 +31,15 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  *
  */
 public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
+
     public static final Logger LOG = LoggerFactory.getLogger(XmlFileHandler.class);
+    private static final String STAGE_NAME = "XML File Processing";
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // We don't really do any handling here.  This is just a placeholder for the XML file validators.
+        // We don't really do any handling here. This is just a placeholder for the XML file
+        // validators.
         return fileEntry;
     }
 
@@ -45,5 +48,10 @@ public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // Blank instantiation of this (never-called) method.
         return null;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

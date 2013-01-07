@@ -50,6 +50,10 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.STUDENT_PROGRAM_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
+        
         boolean match = false;
         // See the program && see the edorg
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,

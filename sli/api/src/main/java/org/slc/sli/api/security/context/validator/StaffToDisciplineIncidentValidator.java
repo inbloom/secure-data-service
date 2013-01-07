@@ -55,6 +55,10 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.DISCIPLINE_INCIDENT, entityType, ids)) {
+            return false;
+        }
+        
         boolean match = false;
         //Set<String> diIds = new HashSet<String>();
         

@@ -17,12 +17,10 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -60,10 +58,6 @@ public class TeacherToCourseValidator extends AbstractContextValidator {
         Set<String> validIds = new HashSet<String>();
         
         Set<String> schools = getTeacherEdorgLineage();
-        
-        if (schools.size() == 0) {
-            return validIds;
-        }
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
         nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, schools));

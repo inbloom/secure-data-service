@@ -36,6 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
+import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -114,11 +115,9 @@ public class ValidationControllerTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testProcessZip() throws IOException, NoSuchFieldException, IllegalAccessException {
-        Handler<File, File> handler = Mockito.mock(Handler.class);
+        Handler<org.slc.sli.ingestion.Resource, File> handler = Mockito.mock(Handler.class);
 
-        Source source = Mockito.mock(Source.class);
         ReportStats rs = Mockito.mock(ReportStats.class);
-//        Mockito.when(rs.getSource()).thenReturn(source);
         Mockito.when(rs.hasErrors()).thenReturn(false);
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
@@ -126,31 +125,29 @@ public class ValidationControllerTest {
         PrivateAccessor.setField(validationController, "reportStats", rs);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        Resource zipFileResource = new ClassPathResource(zipFileName);
-        File zipFile = zipFileResource.getFile();
+        File zipFile = (new ClassPathResource(zipFileName)).getFile();
+        FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
 
         ValidationController vc = Mockito.spy(validationController);
-        Mockito.doNothing().when(vc).processControlFile((File) Mockito.any());
-        Mockito.doReturn(zipFile).when(handler).handle(zipFile, messageReport, rs);
+        Mockito.doNothing().when(vc).processControlFile((FileResource) Mockito.any());
+        Mockito.doReturn(zipFile).when(handler).handle(zipFileResource, messageReport, rs);
 
         vc.setZipFileHandler(handler);
-        vc.processZip(zipFile);
-        Mockito.verify(handler, Mockito.atLeastOnce()).handle(zipFile, messageReport, rs);
+        vc.processZip(zipFileResource);
+        Mockito.verify(handler, Mockito.atLeastOnce()).handle(zipFileResource, messageReport, rs);
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testProcessInvalidZip() throws IOException, NoSuchFieldException, IllegalAccessException {
 
-        Handler<File, File> handler = Mockito.mock(Handler.class);
+        Handler<org.slc.sli.ingestion.Resource, File> handler = Mockito.mock(Handler.class);
 
-        Source source = Mockito.mock(Source.class);
         ReportStats reportStats = Mockito.mock(ReportStats.class);
-//        Mockito.when(reportStats.getSource()).thenReturn(source);
         Mockito.when(reportStats.hasErrors()).thenReturn(true);
 
-        Resource zipFileResource = new ClassPathResource(zipFileName);
-        File zipFile = zipFileResource.getFile();
+        File zipFile = (new ClassPathResource(zipFileName)).getFile();
+        FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
 
         ValidationController vc = Mockito.spy(validationController);
 
@@ -159,9 +156,9 @@ public class ValidationControllerTest {
         PrivateAccessor.setField(validationController, "reportStats", reportStats);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        Mockito.doReturn(zipFile).when(handler).handle(zipFile, messageReport, reportStats);
-        vc.processZip(zipFile);
-        Mockito.verify(vc, Mockito.never()).processControlFile(zipFile);
+        Mockito.doReturn(zipFile).when(handler).handle(zipFileResource, messageReport, reportStats);
+        vc.processZip(zipFileResource);
+        Mockito.verify(vc, Mockito.never()).processControlFile(zipFileResource);
     }
 
     @Test
@@ -222,9 +219,7 @@ public class ValidationControllerTest {
 
         ValidationController vc = Mockito.spy(validationController);
 
-        Source source = Mockito.mock(Source.class);
         ReportStats reportStats = Mockito.mock(ReportStats.class);
-//        Mockito.when(reportStats.getSource()).thenReturn(source);
         Mockito.when(reportStats.hasErrors()).thenReturn(false);
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);

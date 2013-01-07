@@ -218,7 +218,11 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                             LOG.error(e.getMessage());
                         } catch (IOException e) {
                             LOG.error(e.getMessage());
+                        } catch (NumberFormatException e) {
+                        	LOG.info("Failed to decrypt cookie with value: " + c.getValue());
+                        	return false;
                         }
+                        
                         JsonObject json = restClient.sessionCheck(decryptedCookie);
 
                         // If user is not authenticated, expire the cookie, else set OAUTH_TOKEN to

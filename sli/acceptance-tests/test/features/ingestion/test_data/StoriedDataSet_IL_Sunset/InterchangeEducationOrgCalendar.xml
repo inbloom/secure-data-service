@@ -21,7 +21,16 @@
         <BeginDate>2011-09-01</BeginDate>
         <EndDate>2011-12-01</EndDate>
         <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-09-22</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <Session>
         <SessionName>Fall 2011 Sunset Central High School</SessionName>
