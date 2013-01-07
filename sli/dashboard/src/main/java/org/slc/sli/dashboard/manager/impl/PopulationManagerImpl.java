@@ -202,13 +202,28 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         }
 
     }
+    
+    /**
+     * Create an attribute for the full student name (first name + last name)
+     *
+     * @param student
+     */
+    public void addFullName(GenericEntity student) {
+
+        Map name = (Map) student.get(Constants.ATTR_NAME);
+        if (name != null) {
+            String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " "
+                    + (String) name.get(Constants.ATTR_LAST_SURNAME);
+            name.put(Constants.ATTR_FULL_NAME, fullName);
+        }
+    }
 
     /**
      * Create an attribute for the full student name (first name + last name)
      * 
      * @param student
      */
-    public void addFullName(GenericEntity student) {
+    public void addFullNameWithMiddleName(GenericEntity student) {
 
         StringBuilder fullName = new StringBuilder();
         Map name = (Map) student.get(Constants.ATTR_NAME);
@@ -1244,7 +1259,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             GenericEntity school;
             for (GenericEntity student : students) {
                 student = entityManager.getStudent(token, student.getId());
-                addFullName(student);
+                addFullNameWithMiddleName(student);
                 String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
                 if (schoolId != null && !schoolId.equals("")) {
                     if (retrievedSchools.containsKey(schoolId)) {
