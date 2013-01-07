@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
@@ -203,7 +205,7 @@ public class AttendanceTransformerTest {
 
         String[] args = new String[1];
         args[0] = "schoolId1";
-        Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class}, new Object[]{stateOrganizationId});
+        Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class, Set.class}, new Object[]{stateOrganizationId, new HashSet<String>()});
 
         Assert.assertEquals(res.get("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff").getAttributes().get("body.schoolId"), "schoolId2");
     }
