@@ -109,14 +109,19 @@ def wait_for_api
 
   # wait up to 180s for the API to come up
   while retry_count < 60 and api_status != 200
+    retry_count += 1
     begin
       headers = {:content_type => "application/json", :accept => "application/json", :Authorization => "bearer " + $token}
-      response = RestClient.get(url, headers){|response, request, result| response }
-      api_status = response.code
+      res = RestClient.get(url, headers){|response, request, result| response }
+      api_status = res.code
     rescue Exception => e
       # ignore exception
     end
     sleep(3)
+  end
+  if api_status != 200
+    $stderr.puts("Can't connect to API.")
+    exit(1)
   end
 end
 
