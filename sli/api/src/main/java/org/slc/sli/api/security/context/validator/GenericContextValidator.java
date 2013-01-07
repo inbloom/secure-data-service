@@ -75,8 +75,8 @@ public class GenericContextValidator implements IContextValidator {
             EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION,
             EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.GRADE, EntityNames.STUDENT_COMPETENCY_OBJECTIVE,
             EntityNames.STUDENT_COMPETENCY, EntityNames.GRADING_PERIOD, EntityNames.DISCIPLINE_INCIDENT,
-            EntityNames.GRADEBOOK_ENTRY, EntityNames.COURSE, EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-            EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.SESSION);
+            EntityNames.GRADEBOOK_ENTRY, EntityNames.COURSE, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION,
+            EntityNames.GRADUATION_PLAN);
 
     @Override
     public boolean canValidate(String entityType, boolean through) {

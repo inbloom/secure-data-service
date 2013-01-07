@@ -78,7 +78,7 @@ public class TeacherToGraduationPlanValidatorTest {
     @Test
     public void testCanValidate() {
         assertTrue(validator.canValidate(EntityNames.GRADUATION_PLAN, false));
-        assertFalse(validator.canValidate(EntityNames.GRADUATION_PLAN, true));
+        assertTrue(validator.canValidate(EntityNames.GRADUATION_PLAN, true));
     }
 
     @Test
