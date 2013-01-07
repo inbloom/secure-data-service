@@ -74,11 +74,13 @@ public class JobReportingProcessorTest {
 
     private static final String BATCHJOBID = "test.ctl-11111111111111111";
     private static final String RESOURCEID = "InterchangeStudentParent.xml";
+    private static final String NULLRESOURCEID = null;
     private static final int RECORDS_CONSIDERED = 50;
     private static final int RECORDS_FAILED = 5;
     private static final int RECORDS_PASSED = RECORDS_CONSIDERED - RECORDS_FAILED;
     private static final String RECORDID = "recordIdentifier";
     private static final String ERRORDETAIL = "errorDetail";
+    private static final String NULLERRORDETAIL = "null errorDetail";
 
     private static PrintStream printOut = new PrintStream(System.out);
 
@@ -147,6 +149,10 @@ public class JobReportingProcessorTest {
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
         Mockito.when(
+                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String)Matchers.isNull(),
+                        Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
+
+        Mockito.when(
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_WARNING), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
@@ -186,6 +192,7 @@ public class JobReportingProcessorTest {
         fr = new FileReader(TEMP_DIR + errorFileName);
         br = new BufferedReader(fr);
         assertTrue(br.readLine().contains("ERROR  " + ERRORDETAIL));
+        assertTrue(br.readLine().contains("ERROR  " + NULLERRORDETAIL));
 
         fr.close();
     }
@@ -227,6 +234,12 @@ public class JobReportingProcessorTest {
                 "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(), "errorType", ERRORDETAIL);
         errors.add(error);
+
+        Error nullError = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), NULLRESOURCEID,
+                "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
+                FaultType.TYPE_ERROR.getName(), "errorType", NULLERRORDETAIL);
+        errors.add(nullError);
+
         return errors;
     }
 
