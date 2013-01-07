@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -50,12 +51,12 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidator extends Abstra
             return false;
         }
         
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> tsa = getRepo().findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
         
         Set<String> teachers = new HashSet<String>();
         for (Entity e : tsa) {
-            teachers.add((String) e.getBody().get("teacherId"));
+            teachers.add((String) e.getBody().get(ParameterConstants.TEACHER_ID));
         }
         
         return val.validate(EntityNames.TEACHER, teachers);

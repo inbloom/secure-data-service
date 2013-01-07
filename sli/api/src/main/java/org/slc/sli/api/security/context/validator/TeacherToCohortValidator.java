@@ -16,15 +16,16 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Validates teacher's access to given cohorts
@@ -46,14 +47,16 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
             return false;
         }
  
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("staffId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-		nq.addCriteria(new NeutralCriteria("cohortId", "in", ids));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
+                .getSLIPrincipal().getEntity().getEntityId()));
+        nq.addCriteria(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, ids));
 
         Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
 
         Set<String> validIds = new HashSet<String>();
         for (Entity entity : entities) {
-            validIds.add((String) entity.getBody().get("cohortId"));
+            validIds.add((String) entity.getBody().get(ParameterConstants.COHORT_ID));
         }
 
         return validIds.containsAll(ids);
