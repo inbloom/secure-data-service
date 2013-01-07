@@ -42,10 +42,6 @@ public class TeacherToTeacherValidator extends AbstractContextValidator {
             return false;
         }
 
-		if (ids == null || ids.size() == 0) {
-			throw new IllegalArgumentException("Incoming list of ids cannot be null");
-		}
-
 		return ids.size() == 1 && ids.contains(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
 	}
 

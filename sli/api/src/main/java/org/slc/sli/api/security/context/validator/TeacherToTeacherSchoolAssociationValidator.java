@@ -56,10 +56,6 @@ public class TeacherToTeacherSchoolAssociationValidator extends AbstractContextV
             return false;
         }
 
-		if (ids == null || ids.size() == 0) {
-			throw new IllegalArgumentException("Incoming list of ids cannot be null");
-		}
-
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("teacherId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
 		Iterable<Entity> it = this.repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
 		

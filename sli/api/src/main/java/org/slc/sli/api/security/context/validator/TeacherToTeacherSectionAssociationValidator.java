@@ -45,10 +45,6 @@ public class TeacherToTeacherSectionAssociationValidator extends AbstractContext
             return false;
         }
 
-		if (ids == null || ids.size() == 0) {
-			throw new IllegalArgumentException("Incoming list of ids cannot be null");
-		}
-
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("teacherId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
 		nq.addCriteria(new NeutralCriteria("_id", "in", ids));
 		
