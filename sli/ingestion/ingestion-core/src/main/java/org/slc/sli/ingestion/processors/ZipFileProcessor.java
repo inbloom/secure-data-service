@@ -95,6 +95,7 @@ public class ZipFileProcessor implements Processor {
             resourceId = zipFileResource.getResourceId();
 
             TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(newJob.getId());
             batchJobId = newJob.getId();
 
             reportStats = new SimpleReportStats();

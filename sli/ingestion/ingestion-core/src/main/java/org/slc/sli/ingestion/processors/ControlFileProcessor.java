@@ -119,6 +119,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(batchJobId);
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
