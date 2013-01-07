@@ -61,7 +61,7 @@ Scenario: Verify Small Sample Dataset was Successfully Preloaded
          | sessionCourseAssociation                 |                  0|
          | staff                                    |                 14|
          | staffCohortAssociation                   |                  3|
-         | staffEducationOrganizationAssociation    |                 11|
+         | staffEducationOrganizationAssociation    |                 13|
          | staffProgramAssociation                  |                  7|
          | student                                  |                 78|
          | studentAcademicRecord                    |                117|
