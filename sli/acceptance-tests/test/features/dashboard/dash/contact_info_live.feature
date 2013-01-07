@@ -16,7 +16,7 @@ When I select section "8th Grade English - Sec 6"
 
 @RALLY_US198  @RALLY_US147
 Scenario: Student has 1 email, 1 address, 1 phone
-Given I click on student "Imelda Lindsey"
+Given I click on student "Imelda Sydnee Lindsey"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "1" phone numbers
@@ -35,7 +35,7 @@ And the lozenges count is "0"
 
 @RALLY_US198  @RALLY_US147
 Scenario: Student has 2 phone numbers, 3 emails, 2 addresses
-Given I click on student "Brielle Klein"
+Given I click on student "Brielle W Klein"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "2" phone numbers
@@ -68,14 +68,14 @@ And there are "0" email addresses
 
 @RALLY_US198  @RALLY_US147
 Scenario: Student has no addresses
-Given I click on student "Matt Sollars"
+Given I click on student "Matt D Sollars"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "0" addresses
 
 @RALLY_US198  @RALLY_US147
 Scenario: Address has buildingSiteNumber
-Given I click on student "Rhonda Delgado"
+Given I click on student "Rhonda Shannon Delgado"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "2" addresses
@@ -95,7 +95,7 @@ CA
 @wip
 Scenario:  An address with countryCode other than US
 #bundled in the test above
-Given I click on student "Rhonda Delgado"
+Given I click on student "Rhonda Shannon Delgado"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "2" addresses
@@ -108,7 +108,7 @@ CA
 
 @RALLY_US198  @RALLY_US147
 Scenario:  primaryTelephoneNumber is not present
-Given I click on student "Nicholas Burks"
+Given I click on student "Nicholas A Burks"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "1" phone numbers

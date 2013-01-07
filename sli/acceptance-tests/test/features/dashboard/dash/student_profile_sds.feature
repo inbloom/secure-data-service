@@ -33,7 +33,7 @@ When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
-And I click on student "Roberta Jones (Robbie Jones)"
+And I click on student "Roberta Jones"
 And I view its student profile
 And their name shown in profile is "Roberta Jones (Robbie Jones)"
 And their id shown in proflie is "1000000000"

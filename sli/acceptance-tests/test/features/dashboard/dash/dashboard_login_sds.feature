@@ -23,11 +23,11 @@ Then I should be redirected to the Dashboard landing page
 When I access "/simon"
 And I am informed that "the page that you were looking for could not be found"
 
-@integration @wip
+@wip @integration
 Scenario: Invalid user login
 
 When I navigate to the Dashboard home page
-When I select "New York Realm" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
 Then I am informed that "Invalid User Name or password"
@@ -219,10 +219,10 @@ And Student Enrollment History has the following entries:
 When I enter "robbie" into the student search box
 And I click the search button
 And "1" results are returned in the page
-And the search results include:
- |Student          		  		   |Grade     |School                      |
- |Roberta Jones (Robbie Jones)     |11        |Sunset Central High School  |
-And I click on student "Roberta Jones (Robbie Jones)"
+#And the search results include:
+# |Student          	|Grade     |School                      |
+# |Roberta Jones     	|11        |Sunset Central High School  |
+And I click on student "Roberta Jones"
 And I view its student profile
 And their name shown in profile is "Roberta Jones (Robbie Jones)"
 And their id shown in proflie is "1000000000"

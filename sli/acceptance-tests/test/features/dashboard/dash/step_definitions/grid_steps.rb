@@ -66,6 +66,14 @@ def getAttributeByName(tr, attribute, name)
   return td.attribute(name)
 end
 
+def getAttributeByTitle(tr, attribute)
+  assert(!tr.nil?, "Row is empty")
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  td = tr.find_element(:css, searchText)
+  puts value.text 
+  return td.attribute(title)
+end
+
 def getAttribute(tr, attribute)
   assert(!tr.nil?, "Row is empty")
   searchText = "td[aria-describedby*='" + attribute + "']"
@@ -138,14 +146,14 @@ def checkGridEntries(panel, table, mapping, isExactRowsMatch = true, gridNumber 
            td = getTdBasedOnAttribute(tr,mapping[header][0])
            value = row[header]
            verifier = mapping[header][1].downcase
-
+           
            if (verifier == "fuelgauge")
             testFuelGauge(td, value)
            end
         else
           value = getAttribute(tr, mapping[header])
           if (value == row[header] || (value.strip == "" && row[header]=="<empty>"))
-            found = true
+          found = true
           else
             found = false
             break

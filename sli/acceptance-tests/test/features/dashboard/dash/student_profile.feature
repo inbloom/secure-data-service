@@ -17,10 +17,10 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 #Lozenges check
-And the following students have "ELL" lozenges: "Matt Joseph Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
+And the following students have "ELL" lozenges: "Matt D Sollars;Odysseus Merrill;Hoyt Hicks;Brielle W Klein;Patricia Harper"
 # Lozenges check on LOS
 Then there is no lozenges for student "Jeanette Graves"
-And I click on student "Kimberley Pennington"
+And I click on student "Kimberley Yuli Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
 And their id shown in proflie is "437680177"
