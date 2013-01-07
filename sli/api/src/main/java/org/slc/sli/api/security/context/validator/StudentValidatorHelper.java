@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -33,18 +36,16 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component
 public class StudentValidatorHelper {
-    
+
     @Autowired
     private DateHelper dateHelper;
-    
+
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
+
     @Autowired
     private AssociativeContextHelper helper;
 
@@ -53,21 +54,21 @@ public class StudentValidatorHelper {
     public List<String> getStudentIds() {
         Entity principal = SecurityUtil.getSLIPrincipal().getEntity();
         Set<String> ids = new TreeSet<String>();
-        
+
         ids.addAll(findAccessibleThroughSection(principal));
         ids.addAll(findAccessibleThroughCohort(principal));
         ids.addAll(findAccessibleThroughProgram(principal));
-        
+
         return new ArrayList<String>(ids);
     }
     public List<String> getTeachersSectionIds(Entity teacher) {
         List<String> sectionIds = new ArrayList<String>();
-        
+
         // teacher -> teacherSectionAssociation
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, teacher.getEntityId()));
         Iterable<Entity> teacherSectionAssociations = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, query);
-        
+
         for (Entity assoc : teacherSectionAssociations) {
             if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
@@ -75,23 +76,23 @@ public class StudentValidatorHelper {
         }
         return sectionIds;
     }
-    
+
     private List<String> findAccessibleThroughSection(Entity principal) {
-        
+
         List<String> sectionIds = getTeachersSectionIds(principal);
-        
+
         NeutralQuery query = new NeutralQuery();
         query.setLimit(0);
         query.setOffset(0);
         query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, sectionIds));
         query.setEmbeddedFields(Arrays.asList(EntityNames.STUDENT_SECTION_ASSOCIATION));
-        
+
         Iterable<Entity> sections = repo.findAll(EntityNames.SECTION, query);
-        
+
         List<Entity> studentSectionAssociations = new ArrayList<Entity>();
         for (Entity section : sections) {
             Map<String, List<Entity>> embeddedData = section.getEmbeddedData();
-            
+
             if (embeddedData != null) {
                 List<Entity> associations = embeddedData.get(EntityNames.STUDENT_SECTION_ASSOCIATION);
                 if (associations != null) {
@@ -99,7 +100,7 @@ public class StudentValidatorHelper {
                 }
             }
         }
-        
+
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentSectionAssociations) {
@@ -107,36 +108,37 @@ public class StudentValidatorHelper {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
-        
+
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(sectionIds);
-        
+
         return returnIds;
     }
-    
+
     private List<String> findAccessibleThroughProgram(Entity principal) {
-        
+
         // teacher -> staffProgramAssociation
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
         Iterable<Entity> staffProgramAssociations = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, query);
-        
+
         // filter on end_date to get list of programIds
         List<String> programIds = new ArrayList<String>();
         for (Entity assoc : staffProgramAssociations) {
-            if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
+            Object studentRecordAccess = assoc.getBody().get(STUDENT_RECORD_ACCESS);
+            if (studentRecordAccess != null && (Boolean)studentRecordAccess) {
                 if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, false)) {
                     programIds.add((String) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
                 }
             }
         }
-        
+
         // program -> studentProgramAssociation
         query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN,
                 programIds));
         Iterable<Entity> studentProgramAssociations = repo.findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
-        
+
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentProgramAssociations) {
@@ -144,21 +146,21 @@ public class StudentValidatorHelper {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
-        
+
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(programIds);
-        
+
         return returnIds;
     }
-    
+
     private List<String> findAccessibleThroughCohort(Entity principal) {
-        
+
         // teacher -> staffCohortAssociation
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
         Iterable<Entity> staffCohortAssociations = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, query);
-        
+
         List<String> cohortIds = new ArrayList<String>();
         for (Entity assoc : staffCohortAssociations) {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
@@ -167,11 +169,11 @@ public class StudentValidatorHelper {
                 }
             }
         }
-        
+
         // cohort -> studentCohortAssociation
         Iterable<Entity> studentList = helper.getEntitiesWithDenormalizedReference(EntityNames.STUDENT, COHORT_REF,
                 cohortIds);
-        
+
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
         for (Entity student : studentList) {
@@ -184,13 +186,13 @@ public class StudentValidatorHelper {
                     break;
                 }
             }
-            
+
         }
-        
+
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(cohortIds);
-        
+
         return returnIds;
     }
 }
