@@ -46,7 +46,7 @@ public class TransitiveTeacherToSectionValidator extends AbstractContextValidato
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isStaff() && EntityNames.SECTION.equals(entityType) && isTransitive;
+        return isTeacher() && EntityNames.SECTION.equals(entityType) && isTransitive;
     }
     
     @Override
