@@ -44,13 +44,13 @@ default:
         bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
-        bootstrap.admin.realm.name: Shared Learning Collaborative
+        bootstrap.admin.realm.name: inBloom
         bootstrap.admin.realm.tenantId: SLI
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
         # Used to bootstrap the developer realm for unified accounts
-        bootstrap.developer.realm.name: Shared Learning Collaborative App Developers
+        bootstrap.developer.realm.name: inBloom App Developers
         bootstrap.developer.realm.uniqueId: DeveloperIDP
         bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
         bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
@@ -271,24 +271,24 @@ default:
         bootstrap.app.keys: admin,databrowser,dashboard,sif,portal
         bootstrap.app.admin.template: applications/admin.json
         bootstrap.app.admin.name: Admin Apps
-        bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
+        bootstrap.app.admin.description: The inBloom Administration Application allows you to change a variety of system settings.
         bootstrap.app.admin.version: 0.0
         bootstrap.app.admin.authorized_for_all_edorgs: true
         bootstrap.app.admin.allowed_for_all_edorgs: true
         bootstrap.app.databrowser.template: applications/databrowser.json
-        bootstrap.app.databrowser.name: SLC Data Browser
-        bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the SLC datastore.
+        bootstrap.app.databrowser.name: inBloom Data Browser
+        bootstrap.app.databrowser.description: The inBloom Data Browser allows developers and administrators to access all available information in the inBloom datastore.
         bootstrap.app.databrowser.version: 0.0
         bootstrap.app.databrowser.authorized_for_all_edorgs: false
         bootstrap.app.databrowser.allowed_for_all_edorgs: true
-        bootstrap.app.dashboard.name: SLC Dashboards
-        bootstrap.app.dashboard.description: The SLC Dashboards allow you to see information about students in lists and profiles.
+        bootstrap.app.dashboard.name: inBloom Dashboards
+        bootstrap.app.dashboard.description: The inBloom Dashboards allow you to see information about students in lists and profiles.
         bootstrap.app.dashboard.template: applications/dashboard.json
         bootstrap.app.dashboard.version: A.0
         bootstrap.app.dashboard.authorized_for_all_edorgs: false
         bootstrap.app.dashboard.allowed_for_all_edorgs: true
         bootstrap.app.portal.name: Portal
-        bootstrap.app.portal.description: The SLC Portal application is the primary access portal.
+        bootstrap.app.portal.description: The inBloom Portal application is the primary access portal.
         bootstrap.app.portal.version: 0.0
         bootstrap.app.portal.template: applications/portal.json
         bootstrap.app.portal.url: http://local.slidev.org:7000/portal
@@ -310,7 +310,7 @@ default:
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
 
-        bootstrap.app.vendor: SLC
+        bootstrap.app.vendor: inBloom
 
     misc: &MISC-DEFAULT
         # keystore password (used in common, data-access, and dashboard)
@@ -1001,12 +1001,12 @@ local-acceptance-tests:
     api:
         <<: *API-LOCAL
         # Used to bootstrap the admin realm
-        bootstrap.admin.realm.name: Shared Learning Collaborative
+        bootstrap.admin.realm.name: inBloom
         bootstrap.admin.realm.tenantId: SLI
         bootstrap.admin.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
 
-        bootstrap.developer.realm.name: Shared Learning Collaborative App Developer
+        bootstrap.developer.realm.name: inBloom App Developer
         bootstrap.developer.realm.uniqueId: DeveloperIDP
         bootstrap.developer.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
         bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true

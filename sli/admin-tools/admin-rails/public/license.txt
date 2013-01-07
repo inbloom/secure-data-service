@@ -1,5 +1,4 @@
-Welcome. You are requesting access to the production environment of the inBloom. 
-By using this portion of the developer website (the “Site”) and accessing the inBloom production environment, 
-you represent that you will follow the responsibilities and 
-conditions outlined in the <a style="text-decoration:underline;font-style: italic" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and <a style="text-decoration:underline;font-style: italic" href=<%= APP_CONFIG['privacy_policy_url']%> target="_blank">Privacy Policy</a> for the site, 
+Welcome. You are requesting access to the production environment of inBloom. 
+By using this portion of the inBloom website (the “Site”) and accessing the inBloom production environment, 
+you acknowledge and agree that you are bound by the terms and conditions outlined in the <a style="text-decoration:underline;font-style: italic" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and <a style="text-decoration:underline;font-style: italic" href=<%= APP_CONFIG['privacy_policy_url']%> target="_blank">Privacy Policy</a> for the site, 
 inclusive of production usage. Be good.

@@ -2,7 +2,7 @@
 <% custom_ed_org_text = "I will upload my own data" %>
 <% standard_ed_org_text = "Autoload inBloom sample data" %>
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
-<% rsaKey_error_text = "Your key was not recognized. The inBloom uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format." %>
+<% rsaKey_error_text = "Your key was not recognized. inBloom uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format." %>
 <div class="provision">
   <div class="page-header">
 	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
@@ -12,7 +12,7 @@
         <p>To configure the landing zone, select one of the following:</p>
         <p>&nbsp;</p>
 	<%else%>
-		<p>A landing zone is a directory on the inBloom's server that stores and processes your organization's data.</p><p>After you have created a landing zone, you will be able to access it using a SFTP client. We will send you an email with information how to upload your data for ingestion into the inBloom. Please click Create to continue. </p>
+		<p>A landing zone is a directory on inBloom's server that stores and processes your organization's data.</p><p>After you have created a landing zone, you will be able to access it using a SFTP client. We will send you an email with information how to upload your data for ingestion into inBloom. Please click Create to continue. </p>
 	<% end %>
 	
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>

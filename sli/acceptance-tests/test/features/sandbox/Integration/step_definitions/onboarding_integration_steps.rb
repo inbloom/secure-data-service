@@ -365,7 +365,7 @@ end
 
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
   if(@prod)
-    approval_email_subject = "Welcome to the inBloom"
+    approval_email_subject = "Welcome to inBloom"
     @email_content = check_email({:subject_substring => approval_email_subject}) do
       @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
       @driver.switch_to().alert().accept()

@@ -20,7 +20,7 @@ limitations under the License.
 class ApplicationMailer < ActionMailer::Base
   default from: "#{APP_CONFIG['email_sender_name']} <#{APP_CONFIG['email_sender_address']}>"
 
-  WELCOME_EMAIL_SUBJECT_PROD = "Welcome to the inBloom"
+  WELCOME_EMAIL_SUBJECT_PROD = "Welcome to inBloom"
   WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the inBloom Developer Sandbox"
   VERIFY_EMAIL_SUBJECT_SANDBOX ="inBloom Developer Sandbox Account - Email Confirmation"
   VERIFY_EMAIL_SUBJECT_PROD = "inBloom Developer Account - Email Confirmation"
