@@ -90,7 +90,7 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 0" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="limit" elementType="HTTPArgument">
@@ -102,7 +102,7 @@
               </elementProp>
               <elementProp name="offset" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${offset}</stringProp>
+                <stringProp name="Argument.value">0</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">offset</stringProp>
@@ -141,19 +141,509 @@
             <stringProp name="filename"></stringProp>
             <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
 vars.put(&quot;studentID&quot;, resp[0].id);
-</stringProp>
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
           </BSFPostProcessor>
           <hashTree/>
-          <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
-            <stringProp name="CounterConfig.start">0</stringProp>
-            <stringProp name="CounterConfig.end">100</stringProp>
-            <stringProp name="CounterConfig.incr">10</stringProp>
-            <stringProp name="CounterConfig.name">offset</stringProp>
-            <stringProp name="CounterConfig.format"></stringProp>
-            <boolProp name="CounterConfig.per_user">false</boolProp>
-          </CounterConfig>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 10" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
           <hashTree/>
         </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 20" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">20</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 30" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">30</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 40" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">40</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 50" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">50</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 60" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">60</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 70" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">70</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 80" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">80</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Students 90" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+              <elementProp name="offset" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">90</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">offset</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(hostname)}</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/rest/v1/students</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="parse studentId from response" enabled="true">
+            <stringProp name="scriptLanguage">javascript</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">eval(&apos;var resp = &apos; + prev.getResponseDataAsString());
+vars.put(&quot;studentID&quot;, resp[0].id);
+log.info(&quot;requested : &quot; + prev.getUrlAsString())</stringProp>
+          </BSFPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+          <intProp name="groupSize">0</intProp>
+        </SyncTimer>
+        <hashTree/>
       </hashTree>
     </hashTree>
   </hashTree>
