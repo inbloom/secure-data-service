@@ -16,9 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -55,7 +52,7 @@ public class TeacherToStudentCompetencyObjectiveValidator extends AbstractContex
             return false;
         }
         
-        List<String> myEdOrgIds = helper.getDirectEdOrgAssociations(SecurityUtil.getSLIPrincipal().getEntity());
+        Set<String> myEdOrgIds = helper.getDirectEdorgs(SecurityUtil.getSLIPrincipal().getEntity());
         
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));

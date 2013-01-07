@@ -35,6 +35,8 @@ import org.slc.sli.ingestion.validation.Validator;
  */
 public class FileTypeValidator implements Validator<FileEntryDescriptor> {
 
+    private static final String STAGE_NAME = "File Type Validation";
+
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
@@ -75,6 +77,11 @@ public class FileTypeValidator implements Validator<FileEntryDescriptor> {
         }
 
         return isNotXML;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

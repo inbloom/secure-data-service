@@ -108,7 +108,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 22    |
         | staff                       | 14    |
         | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 11 |
+        | staffEducationOrganizationAssociation| 13 |
         | staffProgramAssociation     | 7     |
         | student                     | 78    |
         | studentAcademicRecord       | 117   |
@@ -640,7 +640,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 23    |
         | staff                       | 21    |
         | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 18 |
+        | staffEducationOrganizationAssociation| 20 |
         | staffProgramAssociation     | 7     |
         | student                     | 183   |
         | studentAssessment| 203   |
@@ -754,7 +754,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | staff                       | 37    |
         | staffCohortAssociation      | 0     |
-        | staffEducationOrganizationAssociation| 22 |
+        | staffEducationOrganizationAssociation| 37 |
         | staffProgramAssociation     | 0     |
         | student                     | 8     |
         | studentAssessment| 0     |
@@ -1145,7 +1145,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | staff                       | 37    |
         | staffCohortAssociation      | 0     |
-        | staffEducationOrganizationAssociation| 22 |
+        | staffEducationOrganizationAssociation| 37 |
         | staffProgramAssociation     | 0     |
         | student                     | 8     |
         | studentAcademicRecord       | 0     |

@@ -54,13 +54,15 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
+    private static final String STAGE_NAME = "Smooks File Parsing";
+
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        Source source = new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName());
+        Source source = new JobSource(reportStats.getBatchJobId(), item.getResourceId(), getStageName());
         try {
 
             generateNeutralRecord(item, report, reportStats, source, fileProcessStatus);
@@ -75,7 +77,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     }
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
-            ReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+            ReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException,
+            SAXException {
 
         // create instance of Smooks (with visitors already added)
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
@@ -103,5 +106,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

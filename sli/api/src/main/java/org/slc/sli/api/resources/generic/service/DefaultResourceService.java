@@ -381,7 +381,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
             for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
-                List<String> filteredIds = entityBody.getId(resourceKey);
+                List<String> filteredIds = entityBody.getValues(resourceKey);
                 if ((filteredIds == null) || (filteredIds.isEmpty())) {
                    key = resourceKey;
                    filteredIdList.addAll(valueList);

@@ -83,13 +83,6 @@ public class TeacherToSessionValidatorTest {
     }
     
     @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.SESSION, null));
-        assertFalse(validator.validate(EntityNames.SESSION, new HashSet<String>()));
-    }
-    
-    @Test
     public void testCanValidateSingleSession() {
         Entity edorg = helper.generateEdorgWithParent(null);
         helper.generateTeacherSchool(helper.STAFF_ID, edorg.getEntityId());

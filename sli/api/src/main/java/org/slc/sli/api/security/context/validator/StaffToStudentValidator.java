@@ -61,7 +61,9 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> studentIds) {
-
+        if (!areParametersValid(EntityNames.STUDENT, entityType, studentIds)) {
+            return false;
+        }
         return validateStaffToStudentContextThroughSharedEducationOrganization(studentIds);
     }
 

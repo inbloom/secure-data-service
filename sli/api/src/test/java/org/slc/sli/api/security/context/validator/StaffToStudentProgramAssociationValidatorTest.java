@@ -117,7 +117,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
         for (int i = 0; i < 10; ++i) {
             programIds.add(helper.generateStudentProgram("Boop", "" + i, false).getEntityId());
         }
-        assertTrue(validator.validate(null, programIds));
+        assertTrue(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds));
     }
     
     @Test
@@ -127,7 +127,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
                 .thenReturn(
                 true);
         programIds.add(helper.generateStudentProgram("Boop", "Beep", true).getEntityId());
-        assertFalse(validator.validate(null, programIds));
+        assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds));
     }
     
     @Test
@@ -141,11 +141,11 @@ public class StaffToStudentProgramAssociationValidatorTest {
         for (int i = 0; i < 10; ++i) {
             programIds.add(helper.generateStudentProgram("Boop", "" + i, school.getEntityId(), false).getEntityId());
         }
-        assertTrue(validator.validate(null, programIds));
+        assertTrue(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds));
         
         // Add one to a different school and it should fail
         programIds.add(helper.generateStudentProgram("Boop", "Merp", school2.getEntityId(), false).getEntityId());
-        assertFalse(validator.validate(null, programIds));
+        assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds));
     }
     
     @Test
@@ -157,7 +157,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
         for (int i = 0; i < 10; ++i) {
             programIds.add(helper.generateStudentProgram("Boop", "" + i, false).getEntityId());
         }
-        assertFalse(validator.validate(null, programIds));
+        assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds));
     }
 
 }
