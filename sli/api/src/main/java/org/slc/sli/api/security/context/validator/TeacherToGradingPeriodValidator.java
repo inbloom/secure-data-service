@@ -56,15 +56,17 @@ public class TeacherToGradingPeriodValidator extends AbstractContextValidator {
 
         Set<String> edorgs = getTeacherEdorgLineage();
 
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("gradingPeriodReference", NeutralCriteria.CRITERIA_IN, ids));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.GRADING_PERIOD_REFERENCE,
+                NeutralCriteria.CRITERIA_IN, ids));
 		nq.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN, edorgs));
-		nq.setIncludeFields(Arrays.asList("gradingPeriodReference"));
+        nq.setIncludeFields(Arrays.asList(ParameterConstants.GRADING_PERIOD_REFERENCE));
 		Iterable<Entity> entities = getRepo().findAll(EntityNames.SESSION, nq);
 
 		Set<String> validGradingPeriods = new HashSet<String>();
 		
 		for (Entity session : entities) {
-		    validGradingPeriods.addAll((Collection<String>) session.getBody().get("gradingPeriodReference"));
+            validGradingPeriods.addAll((Collection<String>) session.getBody().get(
+                    ParameterConstants.GRADING_PERIOD_REFERENCE));
 		}
 
 		return validGradingPeriods.containsAll(ids);

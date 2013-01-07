@@ -20,14 +20,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a teacher to see the requested set of graduation plan
@@ -98,7 +97,8 @@ public class TeacherToGraduationPlanValidator extends AbstractContextValidator {
      */
     private boolean validateThroughStudents(Set<String> ids) {
         Set<String> idsToValidate = new HashSet<String>(ids);
-        NeutralQuery studentSchoolAssociationQuery = new NeutralQuery(new NeutralCriteria("graduationPlanId",
+        NeutralQuery studentSchoolAssociationQuery = new NeutralQuery(new NeutralCriteria(
+                ParameterConstants.GRADUATION_PLAN_ID,
                 NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> associations = getRepo().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
                 studentSchoolAssociationQuery);
@@ -110,7 +110,7 @@ public class TeacherToGraduationPlanValidator extends AbstractContextValidator {
 
             String studentId = (String) association.getBody().get(ParameterConstants.STUDENT_ID);
             if (teacherToStudentValidator.validate(EntityNames.STUDENT, new HashSet<String>(Arrays.asList(studentId)))) {
-                String graduationPlanId = (String) association.getBody().get("graduationPlanId");
+                String graduationPlanId = (String) association.getBody().get(ParameterConstants.GRADUATION_PLAN_ID);
                 idsToValidate.remove(graduationPlanId);
             }
         }
