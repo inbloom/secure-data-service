@@ -20,22 +20,22 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+
 /**
+ * Validates the context of a teacher to see the requested set of grade entities.
+ * Returns true if the teacher member can see ALL of the entities, and false otherwise.
  */
 @Component
 public class TeacherToGradeValidator extends AbstractContextValidator {
-    
-    @Autowired PagingRepositoryDelegate<Entity> repo;
-    
+
     @Autowired
     TeacherToSubStudentEntityValidator sectionAssocValidator;
 
@@ -43,21 +43,20 @@ public class TeacherToGradeValidator extends AbstractContextValidator {
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isTeacher() && EntityNames.GRADE.equals(entityType);
     }
-    
+
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         if (!areParametersValid(EntityNames.GRADE, entityType, ids)) {
             return false;
         }
+
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
-        Iterable<Entity> grades = repo.findAll(EntityNames.GRADE, query);
+        Iterable<Entity> grades = getRepo().findAll(EntityNames.GRADE, query);
         Set<String> secAssocIds = new HashSet<String>();
         for(Entity grade : grades) {
             secAssocIds.add((String) grade.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
         }
         return sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIds);
     }
-    
-    
 }
