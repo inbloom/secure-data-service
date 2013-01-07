@@ -174,7 +174,6 @@ end
 
 
 def final_entity(s)
-# TODO map childLearningObjectives, parentLearningObjectives to learningObjectives
   mapped_url = map_entity(s)
 
   last_slash = s.rindex("/")
@@ -193,8 +192,6 @@ def get_response(url)
   if response.code == 200
     entity_json = JSON.parse response.gsub($base_url, $base_url_replace)
 
-    # to account for DE2172
-    # this should always be an array
     if entity_json.is_a?(Array)
       entity_json = entity_json[0]
     end
