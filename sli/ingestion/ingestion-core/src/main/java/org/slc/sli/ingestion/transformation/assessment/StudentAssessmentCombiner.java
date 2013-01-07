@@ -119,10 +119,9 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), neutralRecord.getSourceFile(),
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    neutralRecord.getRecordType(),
-                    neutralRecord.getVisitBeforeLineNumber(), neutralRecord.getVisitBeforeColumnNumber(),
+            NeutralRecordSource source = new NeutralRecordSource(neutralRecord.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    neutralRecord.getVisitBeforeLineNumber(),
+                    neutralRecord.getVisitBeforeColumnNumber(),
                     neutralRecord.getVisitAfterLineNumber(), neutralRecord.getVisitAfterColumnNumber());
 
             String studentId = null;
@@ -268,10 +267,9 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                 String assessmentItemIdentificatonCode = (String) sai.getLocalParentIds().get(
                         "assessmentItemIdentificatonCode");
-                NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), sai.getSourceFile(),
-                        BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                        sai.getRecordType(),
-                        sai.getVisitBeforeLineNumber(), sai.getVisitBeforeColumnNumber(),
+                NeutralRecordSource source = new NeutralRecordSource(sai.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        sai.getVisitBeforeLineNumber(),
+                        sai.getVisitBeforeColumnNumber(),
                         sai.getVisitAfterLineNumber(), sai.getVisitAfterColumnNumber());
 
                 if (assessmentItemIdentificatonCode != null) {

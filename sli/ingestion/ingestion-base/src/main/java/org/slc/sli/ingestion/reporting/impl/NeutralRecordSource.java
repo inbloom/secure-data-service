@@ -18,7 +18,6 @@ package org.slc.sli.ingestion.reporting.impl;
 
 import java.text.MessageFormat;
 
-
 /**
  *
  * @author slee
@@ -26,38 +25,35 @@ import java.text.MessageFormat;
  */
 public class NeutralRecordSource extends JobSource {
 
-    private final String neutralRecordType;
     private int visitBeforeLineNumber;
     private int visitBeforeColumnNumber;
     private int visitAfterLineNumber;
     private int visitAfterColumnNumber;
 
-    public NeutralRecordSource(String batchJobId, String resourceId, String stageName, String neutralRecordType) {
-        super(batchJobId, resourceId, stageName);
-        this.neutralRecordType = neutralRecordType;
+    public NeutralRecordSource(String resourceId, String stageName) {
+        super(resourceId, stageName);
     }
 
-    public NeutralRecordSource(String batchJobId, String resourceId, String stageName, String neutralRecordType,
-            int visitBeforeLineNumber, int visitBeforeColumnNumber) {
+    public NeutralRecordSource(String resourceId, String stageName, int visitBeforeLineNumber,
+            int visitBeforeColumnNumber) {
 
-        this(batchJobId, resourceId, stageName, neutralRecordType);
+        this(resourceId, stageName);
         this.visitBeforeLineNumber = visitBeforeLineNumber;
         this.visitBeforeColumnNumber = visitBeforeColumnNumber;
     }
 
-    public NeutralRecordSource(String batchJobId, String resourceId, String stageName, String neutralRecordType,
-            int visitBeforeLineNumber, int visitBeforeColumnNumber,
-            int visitAfterLineNumber, int visitAfterColumnNumber) {
+    public NeutralRecordSource(String resourceId, String stageName, int visitBeforeLineNumber,
+            int visitBeforeColumnNumber, int visitAfterLineNumber, int visitAfterColumnNumber) {
 
-        this(batchJobId, resourceId, stageName, neutralRecordType);
+        this(resourceId, stageName);
         this.visitBeforeLineNumber = visitBeforeLineNumber;
         this.visitBeforeColumnNumber = visitBeforeColumnNumber;
         this.visitAfterLineNumber = visitAfterLineNumber;
         this.visitAfterColumnNumber = visitAfterColumnNumber;
     }
 
-    public void updateSourceLocation(int visitBeforeLineNumber, int visitBeforeColumnNumber,
-            int visitAfterLineNumber, int visitAfterColumnNumber) {
+    public void updateSourceLocation(int visitBeforeLineNumber, int visitBeforeColumnNumber, int visitAfterLineNumber,
+            int visitAfterColumnNumber) {
 
         this.visitBeforeLineNumber = visitBeforeLineNumber;
         this.visitBeforeColumnNumber = visitBeforeColumnNumber;
@@ -67,18 +63,11 @@ public class NeutralRecordSource extends JobSource {
 
     @Override
     public String getUserFriendlyMessage() {
-        Object[] arguments = {
-            new Integer(visitBeforeLineNumber),
-            new Integer(visitBeforeColumnNumber),
-            new Integer(visitAfterLineNumber),
-            new Integer(visitAfterColumnNumber)
-        };
-        return MessageFormat.format(
-                "Element:" +
-                "line-{0,number,integer}," +
-                "column-{1,number,integer}",
-                arguments);
-    }
 
+        Object[] arguments = { new Integer(visitBeforeLineNumber), new Integer(visitBeforeColumnNumber),
+                new Integer(visitAfterLineNumber), new Integer(visitAfterColumnNumber) };
+
+        return MessageFormat.format("Element:" + "line-{0,number,integer}," + "column-{1,number,integer}", arguments);
+    }
 
 }

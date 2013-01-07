@@ -62,7 +62,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        Source source = new JobSource(reportStats.getBatchJobId(), item.getResourceId(), getStageName());
+        Source source = new JobSource(item.getResourceId(), getStageName());
         try {
 
             generateNeutralRecord(item, report, reportStats, source, fileProcessStatus);

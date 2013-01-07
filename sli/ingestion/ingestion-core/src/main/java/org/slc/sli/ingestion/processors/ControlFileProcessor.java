@@ -127,8 +127,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new JobSource(newJob.getId(), cf.getFileName(),
-                    BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
+            Source source = new JobSource(cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
 
             if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
                     && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {

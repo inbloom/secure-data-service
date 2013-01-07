@@ -126,7 +126,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
-            source = new JobSource(batchJobId, controlFileName, BATCH_JOB_STAGE.getName());
+            source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
