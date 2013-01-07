@@ -172,27 +172,6 @@ Scenario: Post a zip file where the the edfi input has attributes/strings/enums 
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
 
-Scenario: Post a zip file and then post it again and make sure the updated date changes but the created date stays the same
-  Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-        | collectionName              |
-        | student                     |
-  When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job for file "stringOrEnumContainsWhitespace.zip" is completed in database
-  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
-  And verify that "metaData.created" is equal to "metaData.updated"
-  Given I am using preconfigured Ingestion Landing Zone
-  And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
-  And the following collections are empty in batch job datastore:
-        | collectionName              |
-        | recordHash                  |
-  When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
-  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
-  And verify that "metaData.created" is unequal to "metaData.updated"
-
 #Background: zip file contains a .txt and .rtf files, which should fail ingestion
 Scenario: Post a minimal zip file as a payload of the ingestion job: No Valid Files Test
 Given I post "NoValidFilesInCtlFile.zip" file as the payload of the ingestion job
@@ -203,7 +182,7 @@ When zip file is scp to ingestion landing zone
      | collectionName              | count |
 	| error                       | 1     |
     And I should see "INFO  Processed 0 records." in the resulting batch job file
-    And I should see "ERROR  No valid files specified in control file." in the resulting error log file
+    And I should see "No valid files specified in control file." in the resulting error log file
 
 
 Scenario: Post a Zip File containing a control file with directory pathnames
@@ -279,7 +258,7 @@ Scenario: Post a Zip File containing a control file with checksum error
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
-Then I should see "ERROR  File Session2.xml: Checksum validation failed. Possible file corruption." in the resulting error log file
+Then I should see "File Session2.xml: Checksum validation failed. Possible file corruption." in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a zip file with bad control file
@@ -296,7 +275,7 @@ Scenario: Post an zip file where the control file has extra properties
         | session                     |
   When zip file is scp to ingestion landing zone
   And a batch job for file "ControlFileHasExtraProperty.zip" is completed in database
-  And I should see "ERROR  Failed to parse ctl file. Invalid control file entry at line number" in the resulting error log file
+  And I should see "Failed to parse ctl file. Invalid control file entry at line number" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a zip file containing error CalendarDate with ID References job: Clean Database
@@ -353,5 +332,27 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                   |   0     |
   And I should see "Processed 5 records." in the resulting batch job file
   And I should see "attendance events are not processed, because they are not within any school year" in the resulting warning log file for "StudentAttendanceEvents.xml"
-  And I should see "attendance located between Line 4, Column 21 and Line 14, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"
-  And I should see "attendance located between Line 16, Column 21 and Line 26, Column 22" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "Element:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "Element:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+
+Scenario: Post a zip file and then post it again and make sure the updated date changes but the created date stays the same
+  Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 30 seconds for ingestion to complete
+  And a batch job for file "stringOrEnumContainsWhitespace.zip" is completed in database
+  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
+  And verify that "metaData.created" is equal to "metaData.updated"
+  Given I am using preconfigured Ingestion Landing Zone
+  And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  And the following collections are empty in batch job datastore:
+        | collectionName              |
+        | recordHash                  |
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 30 seconds for ingestion to complete
+  And a batch job log has been created
+  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
+  And verify that "metaData.created" is unequal to "metaData.updated"
+

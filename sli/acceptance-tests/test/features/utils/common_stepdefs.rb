@@ -190,6 +190,7 @@ end
 
 Then /^I navigate to that link$/ do
   restHttpGetAbs(@link)
+  @result = JSON.parse(@res.body)
 end
 
 Given /^that dashboard has been authorized for all ed orgs$/ do
@@ -212,9 +213,10 @@ Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
   @result = JSON.parse(@res.body)
   found = false
   @result = [@result] unless @result.is_a? Array
+  links = @result.map{|entity| entity["links"]}.flatten
   @result.each do |entity|
     #puts entity
-    assert(entity.has_key?("links"), "Response contains no links")
+    assert(entity.has_key?("links"), "Response #{entity} contains no links")
     entity["links"].each do |link|
       if link["rel"] == arg1
         @the_link.push link['href']
@@ -223,7 +225,7 @@ Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
       end
     end
   end
-  assert(found, "Link not found rel=#{arg1}")  
+  assert(found, "Link not found rel=#{arg1} only found #{links.map{|l| l['rel']}}")
 end
 
 Then /^in an entity "([^"]*)", I should receive a link named "([^"]*)"$/ do |id, arg1|

@@ -96,6 +96,7 @@
         <value>\bimg\b</value>
         <value>\bsrc\b</value>
         <value>FSCommand\s*=</value>
+        <value>\\x00</value>
       </list>
     </constructor-arg>
   </bean>
@@ -109,6 +110,7 @@
         <value>&lt;script\b</value>
         <value>&lt;iframe\b</value>
         <value>&lt;frame\b</value>
+        <value>\\x00</value>
       </list>
     </constructor-arg>
   </bean>

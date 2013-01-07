@@ -70,7 +70,7 @@ public abstract class NeutralSchema {
     private String readConverter = null;
     private String writeConverter = null;
 
-    Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
+    private Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
 
     public NeutralSchema(String type) {
         this.type = type;

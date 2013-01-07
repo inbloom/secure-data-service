@@ -57,12 +57,11 @@ public class TeacherToTeacherSchoolAssociationValidatorTest {
 
 	@Before
 	public void init() {
+        try {
+            vth.resetRepo();
+        } catch (Exception e) {
+        }
 		injector.setEducatorContext(USER_ID);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIdList() {
-		val.validate(CORRECT_ENTITY_TYPE, new HashSet<String>());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

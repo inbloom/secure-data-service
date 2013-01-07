@@ -40,6 +40,8 @@ import org.slc.sli.ingestion.validation.Validator;
  */
 public class XmlFileValidator implements Validator<IngestionFileEntry> {
 
+    private static final String STAGE_NAME = "XML File Validation";
+
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
@@ -84,6 +86,11 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
         }
 
         return isEmpty;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

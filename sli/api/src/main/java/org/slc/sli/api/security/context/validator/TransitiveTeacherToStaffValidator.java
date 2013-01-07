@@ -53,6 +53,10 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
     
     @Override
     public boolean validate(String entityName, Set<String> staffIds) {
+        if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
+            return false;
+        }
+        
         //Query staff's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
@@ -67,14 +71,8 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
         populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
 
         //Query current teacher's schools
-        basicQuery = new NeutralQuery(new NeutralCriteria("teacherId", NeutralCriteria.OPERATOR_EQUAL,
-                SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        basicQuery.setIncludeFields(Arrays.asList("schoolId"));
-        Iterable<Entity> schoolAssoc = repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, basicQuery);
-        List<String> schools = new ArrayList<String>();
-        for (Entity assoc : schoolAssoc) {
-            schools.add((String) assoc.getBody().get("schoolId"));
-        }
+        Set<String> schools = new HashSet<String>();
+        schools.addAll(getDirectEdorgs());
 
         for (List<String> edorgs : staffEdorgMap.values()) {
             HashSet<String> tmpSchools = new HashSet<String>(schools);

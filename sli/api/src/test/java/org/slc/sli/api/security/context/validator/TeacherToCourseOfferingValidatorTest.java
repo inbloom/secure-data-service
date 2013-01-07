@@ -82,13 +82,6 @@ public class TeacherToCourseOfferingValidatorTest {
     }
     
     @Test
-    public void testCanNotValidateBadInputs() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(EntityNames.COURSE_OFFERING, null));
-        assertFalse(validator.validate(EntityNames.COURSE_OFFERING, new HashSet<String>()));
-    }
-    
-    @Test
     public void testCanValidateSingleCourseOffering() {
         Entity edorg = helper.generateEdorgWithParent(null);
         helper.generateTeacherSchool(helper.STAFF_ID, edorg.getEntityId());
