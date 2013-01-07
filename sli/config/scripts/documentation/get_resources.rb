@@ -3,6 +3,8 @@
 require 'json'
 require 'rest-client'
 
+$namespace_files = {}
+
 # use $known_ids to tell the script to get a specific ID instead of the 1-part
 # URL. This is for the context re-writing.
 # Jenkins is currently setup to use SDS data set.
@@ -119,6 +121,40 @@ def wait_for_api
 end
 
 
+def get_namespace_file(namespace)
+  ns_file = $namespace_files[namespace]
+
+  if !ns_file
+    #if file exists, delete it
+    ns_filename = get_namespace_filename(namespace)
+    if File.exists?(ns_filename)
+      File.delete(ns_filename)
+    end
+
+    #open file, add to hash
+    ns_file = File.new(ns_filename, "w")
+    $namespace_files[namespace] = ns_file
+
+    ns_file.puts($template_header)
+  end
+
+  ns_file
+end
+
+
+def get_namespace_filename(namespace)
+  return "ch-examples-#{namespace}.xml"
+end
+
+
+def close_all_namespace_files()
+  $namespace_files.each do |k, v|
+    v.puts($template_footer)
+    v.close()
+  end
+end
+
+
 def map_entity(s)
   s.gsub('childLearningObjectives', 'learningObjectives').gsub('parentLearningObjectives', 'learningObjectives')
 end
@@ -220,7 +256,9 @@ end
 def print_response(namespace, endpoint, response)
   endpoint_id = "ex-" + namespace + endpoint.gsub("/", "-").gsub("{", "").gsub("}", "").gsub(".", "_")
   url = $base_url_replace + "/" + namespace + endpoint
-  printf($template, endpoint_id, endpoint, "GET " + url, response)
+  output = $template % [endpoint_id, endpoint, "GET " + url, response]
+
+  get_namespace_file(namespace).puts(output)
 end
 
 
@@ -288,7 +326,6 @@ def main(sli_resources_path)
   # read in the v1 resources file
   sli_resource_namespaces = JSON.parse File.read(sli_resources_path)
 
-  puts($template_header)
   sli_resource_namespaces.each do |resource_namespace|
     # hit all the 1-part (or 2-part for $known_ids) endpoints, getting
     # a sample entity response for each one. it will be used to generate
@@ -297,7 +334,6 @@ def main(sli_resources_path)
 
     print_namespace_responses(resource_namespace, entity_responses)
   end # for each namespace
-  puts($template_footer)
 end
 
 
@@ -316,4 +352,7 @@ if __FILE__ == $PROGRAM_NAME
   main(
     sli_resources_path
     )
+
+  close_all_namespace_files
+
 end
