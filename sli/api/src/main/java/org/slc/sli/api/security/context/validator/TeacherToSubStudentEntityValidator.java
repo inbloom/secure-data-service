@@ -62,8 +62,7 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
      */
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER)
-                && isSubEntityOfStudent(entityType);
+        return isTeacher() && isSubEntityOfStudent(entityType);
     }
 
     /**
@@ -80,14 +79,17 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = repo.findAll(entityType, query);
-        if (entities != null) {
-            for (Entity entity : entities) {
-                Map<String, Object> body = entity.getBody();
-                if (body.get(ParameterConstants.STUDENT_ID) instanceof String) {
-                    students.add((String) body.get(ParameterConstants.STUDENT_ID));
-                } else if (body.get(ParameterConstants.STUDENT_ID) instanceof List) {
-                    students.addAll((List<String>) body.get(ParameterConstants.STUDENT_ID));
-                }
+
+        for (Entity entity : entities) {
+            Map<String, Object> body = entity.getBody();
+            if (body.get(ParameterConstants.STUDENT_ID) instanceof String) {
+                students.add((String) body.get(ParameterConstants.STUDENT_ID));
+            } else if (body.get(ParameterConstants.STUDENT_ID) instanceof List) {
+                students.addAll((List<String>) body.get(ParameterConstants.STUDENT_ID));
+            } else {
+            	//Student ID was not a string or a list of strings, this is unexpected
+            	warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
+            	return false;
             }
         }
 
