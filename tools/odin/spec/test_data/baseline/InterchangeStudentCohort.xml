@@ -463,7 +463,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>badmin</StaffUniqueStateId>
+        <StaffUniqueStateId>20</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -623,7 +623,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>28</StaffUniqueStateId>
+        <StaffUniqueStateId>20</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
