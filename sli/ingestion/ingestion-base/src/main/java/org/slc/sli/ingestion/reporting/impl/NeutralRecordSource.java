@@ -63,11 +63,11 @@ public class NeutralRecordSource extends JobSource {
 
     @Override
     public String getUserFriendlyMessage() {
-
         Object[] arguments = { new Integer(visitBeforeLineNumber), new Integer(visitBeforeColumnNumber),
                 new Integer(visitAfterLineNumber), new Integer(visitAfterColumnNumber) };
 
-        return MessageFormat.format("Element:" + "line-{0,number,integer}," + "column-{1,number,integer}", arguments);
+        return (visitBeforeLineNumber == 0 && visitBeforeColumnNumber == 0) ? "" : MessageFormat.format("Element:"
+                + "line-{0,number,integer}," + "column-{1,number,integer}", arguments);
     }
 
 }
