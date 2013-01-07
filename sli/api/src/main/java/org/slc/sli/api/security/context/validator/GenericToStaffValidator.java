@@ -43,19 +43,20 @@ public class GenericToStaffValidator extends AbstractContextValidator {
             return false;
         }
         
-        String myself = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        
-        if (staffIds.size() == 0) {
+        if (staffIds.size() > 1) {
             return false;
         }
         
+        String myself = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
+        
+        //will only be one staffId in the list
         for (String staffId : staffIds) {
-            if (!staffId.equals(myself)) {
-                return false;
+            if (staffId.equals(myself)) {
+                return true;
             }
         }
         
-        return true;
+        return false;
         
     }
 }

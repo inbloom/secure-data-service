@@ -38,6 +38,12 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
 @log = Logger.new(STDOUT)
 
 @db = connection[database]
+if @db[:realm].remove({'body.uniqueIdentifier' => 'SandboxIDP'})
+  @log.info "Deleted old SandboxIDP realm"
+else
+  "Failed to delete old SandboxIDP realm."
+end
+
 realm = @db[:realm].find_one({'body.uniqueIdentifier' => 'Shared Learning Collaborative'})
 realm_id = realm['_id']
 
