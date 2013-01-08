@@ -17,7 +17,9 @@
 package org.slc.sli.dal.aspect;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
@@ -99,7 +101,7 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
-//            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
+            // dbCallTracker.addMetric("t", pjp.getSignature().toShortString(), end-start);
         }
 
         return result;
@@ -118,7 +120,7 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
-//            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
+            // dbCallTracker.addMetric("t", pjp.getSignature().toShortString(), end-start);
         }
         return result;
     }
@@ -130,15 +132,21 @@ public class MongoTrackingAspect {
     @Around("call(* org.slc.sli.domain.Repository+.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
 
+        Object result; 
         if (Boolean.valueOf(dbCallTracking)) {
-            StackTraceElement st = Thread.currentThread().getStackTrace()[2];  
-            String calling = st.getClassName()+":"+st.getMethodName(); 
-            dbCallTracker.addEvent("start:" + pjp.getSignature() + ":" + calling, System.currentTimeMillis());
+            dbCallTracker.addEvent("start", pjp.getSignature().toString(), System.currentTimeMillis(), null);
+            result = pjp.proceed();
+            long end = System.currentTimeMillis(); 
+            // capture the arguments
+            Object[] callArgs = pjp.getArgs(); 
+            List<String> args = new ArrayList<String>(callArgs.length); 
+            for(Object ca : callArgs) {
+                args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
+            }
+            dbCallTracker.addEvent("end", pjp.getSignature().toString(), end, args);
         }
-        Object result = pjp.proceed();
-        if (Boolean.valueOf(dbCallTracking)) {
-            
-            dbCallTracker.addEvent("end:" + pjp.getSignature(), System.currentTimeMillis());
+        else {
+            result = pjp.proceed(); 
         }
 
         return result;
