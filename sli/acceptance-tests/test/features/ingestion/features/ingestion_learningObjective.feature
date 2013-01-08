@@ -61,6 +61,9 @@ Then I should see following map of entry counts in the corresponding collections
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "learningObjective_Partial_Unhappy.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+     | collectionName              |
+	| recordHash                  |
 When zip file is scp to ingestion landing zone
   And a batch job for file "learningObjective_Partial_Unhappy.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:

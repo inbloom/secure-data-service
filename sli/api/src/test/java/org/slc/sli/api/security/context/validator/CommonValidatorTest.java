@@ -33,6 +33,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,23 +48,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-
 /**
  * Tests common.
  * 
  * @author kmyers
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+        DirtiesContextTestExecutionListener.class })
 public class CommonValidatorTest {
 
     @Autowired
@@ -118,8 +117,8 @@ public class CommonValidatorTest {
                 }
 
                 if (numValidators != 1) {
-                    messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
-                            + numValidators + "). ");
+                    messages.add("Incorrect number of validators found for entity: " + entity
+                            + ", (expected:1, actual:" + numValidators + "). ");
                 }
             }
         }
@@ -156,8 +155,8 @@ public class CommonValidatorTest {
                 }
 
                 if (numValidators != 1) {
-                    messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
-                            + numValidators + "). ");
+                    messages.add("Incorrect number of validators found for entity: " + entity
+                            + ", (expected:1, actual:" + numValidators + "). ");
                 }
             }
         }
@@ -173,25 +172,24 @@ public class CommonValidatorTest {
 
     /**
      * Validate that an {@link IllegalArgumentException} is thrown when the entity type is null
+     * 
      * @throws Exception
      */
     @Test
     public void testNullParms() throws Exception {
         List<String> entities = getEntityNames();
         for (String entity : entities) {
-            for (String type : new String[] {"teacher", "staff"}) {
+            for (String type : new String[] { "teacher", "staff" }) {
                 setupCurrentUser(new MongoEntity(type, new HashMap<String, Object>()));
-                for (Boolean isTransitive : new Boolean[] {true, false}) {
+                for (Boolean isTransitive : new Boolean[] { true, false }) {
                     for (IContextValidator validator : validators) {
-                        if (validator instanceof GenericContextValidator) {
-                            continue;
-                        }
                         if (validator.canValidate(entity, isTransitive)) {
                             try {
                                 validator.validate(null, new HashSet<String>(Arrays.asList("blah")));
-                                Assert.fail("Expected IllegalArgumentException for " + validator + " validating " + entity);
+                                Assert.fail("Expected IllegalArgumentException for " + validator + " validating "
+                                        + entity);
                             } catch (IllegalArgumentException e) {
-                                //expected
+                                // expected
                             }
                         }
                     }
@@ -203,25 +201,24 @@ public class CommonValidatorTest {
     /**
      * Validate that an {@link IllegalArgumentException} is thrown if the entity type
      * is wrong.
+     * 
      * @throws Exception
      */
     @Test
     public void testNonMatchingTypeParms() throws Exception {
         List<String> entities = getEntityNames();
         for (String entity : entities) {
-            for (String type : new String[] {"teacher", "staff"}) {
+            for (String type : new String[] { "teacher", "staff" }) {
                 setupCurrentUser(new MongoEntity(type, new HashMap<String, Object>()));
-                for (Boolean isTransitive : new Boolean[] {true, false}) {
+                for (Boolean isTransitive : new Boolean[] { true, false }) {
                     for (IContextValidator validator : validators) {
-                        if (validator instanceof GenericContextValidator) {
-                            continue;
-                        }
                         if (validator.canValidate(entity, isTransitive)) {
                             try {
                                 validator.validate("fakeEntity", new HashSet<String>(Arrays.asList("blah")));
-                                Assert.fail("Expected IllegalArgumentException for " + validator + " validating incorrect entity type.");
+                                Assert.fail("Expected IllegalArgumentException for " + validator
+                                        + " validating incorrect entity type.");
                             } catch (IllegalArgumentException e) {
-                                //expected
+                                // expected
                             }
                         }
                     }
@@ -232,22 +229,22 @@ public class CommonValidatorTest {
     
     /**
      * Validate that a validator returns false if the id list is empty or null
+     * 
      * @throws Exception
      */
     @Test
     public void testEmptyIdList() throws Exception {
         List<String> entities = getEntityNames();
         for (String entity : entities) {
-            for (String type : new String[] {"teacher", "staff"}) {
+            for (String type : new String[] { "teacher", "staff" }) {
                 setupCurrentUser(new MongoEntity(type, new HashMap<String, Object>()));
-                for (Boolean isTransitive : new Boolean[] {true, false}) {
+                for (Boolean isTransitive : new Boolean[] { true, false }) {
                     for (IContextValidator validator : validators) {
-                        if (validator instanceof GenericContextValidator) {
-                            continue;
-                        }
                         if (validator.canValidate(entity, isTransitive)) {
-                            Assert.assertFalse(validator + " must return false for null IDs", validator.validate(entity, null));
-                            Assert.assertFalse(validator + " must return false for empty IDs", validator.validate(entity, new HashSet<String>()));
+                            Assert.assertFalse(validator + " must return false for null IDs",
+                                    validator.validate(entity, null));
+                            Assert.assertFalse(validator + " must return false for empty IDs",
+                                    validator.validate(entity, new HashSet<String>()));
                         }
                     }
                 }
@@ -257,7 +254,7 @@ public class CommonValidatorTest {
     
     /**
      * Set up the principal
-     *
+     * 
      * @param staff
      */
     protected void setupCurrentUser(Entity staff) {
@@ -269,7 +266,7 @@ public class CommonValidatorTest {
 
     /**
      * Get all the available entity names
-     *
+     * 
      * @return
      * @throws Exception
      */

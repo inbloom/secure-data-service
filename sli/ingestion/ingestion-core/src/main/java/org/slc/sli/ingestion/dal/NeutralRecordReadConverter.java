@@ -132,8 +132,8 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         }
         for (String key : toRemove) {
             Object value = map.remove(key);
-            key = key.replaceAll("%DELIM%", ".");
-            map.put(key, value);
+            String newKey = key.replace("%DELIM%", ".");
+            map.put(newKey, value);
         }
     }
 

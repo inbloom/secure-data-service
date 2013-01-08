@@ -501,7 +501,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      * @return Map of Sessions for student-school pair.
      */
     private Map<Object, NeutralRecord> getSessions(String edOrgId, Set<String> edOrgsSoFar) {
-    	edOrgsSoFar.add(edOrgId);
+        edOrgsSoFar.add(edOrgId);
         Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));

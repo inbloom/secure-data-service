@@ -42,6 +42,10 @@ import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
+/**
+ * Unit tests for the SmooksEdFilVisitor.
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SmooksEdiFiVisitorTest {
