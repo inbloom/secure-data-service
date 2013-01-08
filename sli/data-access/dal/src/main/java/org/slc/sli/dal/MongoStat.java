@@ -68,12 +68,12 @@ public class MongoStat {
         stats = new ArrayList<List<Object>>(1000);  
     }
     
-    public void addEvent(String eventId, Long timeStamp) {
-        stats.add(Arrays.asList((Object) "e", Thread.currentThread().getId() + ": " +  eventId, timeStamp)); 
+    public void addEvent(String eventType, String eventId, Long timeStamp, List<String> args) {
+        stats.add(Arrays.asList((Object) "e", eventType, eventId, timeStamp, args)); 
     }
     
-    public void addMetric(String metricId, Long metric) {
-        stats.add(Arrays.asList((Object) "m", Thread.currentThread().getId() + ": " +  metricId, metric)); 
+    public void addMetric(String metricType, String metricId, Long metric) {
+        stats.add(Arrays.asList((Object) "m", metricType, metricId, metric)); 
     }
     
     public List<List<Object > > getStats() {
