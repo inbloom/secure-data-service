@@ -27,7 +27,8 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
-  "tools/odin" => "odin"
+  "tools/odin" => ["odin"],
+  "sli/search-indexer" => ["search-indexer"]
 }
 
 @testIdToUrlMap = {
