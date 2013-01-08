@@ -62,6 +62,10 @@ And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
 And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "0"
 And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-darkgreen"
+When I select filter "Section 504"
+Then I should see a student named "Archie Forker"
+When I select filter "Food Services Eligibility"
+Then I should see a student named "Brandon Suzuki"
 And I copy my current URL
 And I click on student "Mi-Ha Tran"
 And I view its student profile
